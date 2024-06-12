@@ -1,0 +1,1405 @@
+{
+  "codeSystems" : [
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/FHIR-version",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "FHIRVersion",
+      "title" : "FHIRVersion",
+      "description" : "All published FHIR Versions.",
+      "systems" : ["http://hl7.org/fhir/FHIR-version"],
+      "oids" : ["2.16.840.1.113883.4.642.3.1309"],
+      "sources" : ["2.16.840.1.113883.4.642.3.1309"],
+      "uses" : {
+      },
+      "StructureDefinition-SGImplementationGuide.html" : "SGImplementationGuide",
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/action-cardinality-behavior",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ActionCardinalityBehavior",
+      "title" : "Action Cardinality Behavior",
+      "description" : "Defines behavior for an action or a group for how many times that item may be repeated.",
+      "systems" : ["http://hl7.org/fhir/action-cardinality-behavior"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.807",
+        "2.16.840.1.113883.4.642.3.790"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.807",
+        "2.16.840.1.113883.4.642.3.790"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/action-code",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ActionCode",
+      "title" : "Action Code",
+      "description" : "Provides examples of actions to be performed.",
+      "systems" : ["http://hl7.org/fhir/action-code"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3051"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3051"],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/action-condition-kind",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ActionConditionKind",
+      "title" : "Action Condition Kind",
+      "description" : "Defines the kinds of conditions that can appear on actions.",
+      "systems" : ["http://hl7.org/fhir/action-condition-kind"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.798",
+        "2.16.840.1.113883.4.642.3.815"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.798",
+        "2.16.840.1.113883.4.642.3.815"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/action-grouping-behavior",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ActionGroupingBehavior",
+      "title" : "Action Grouping Behavior",
+      "description" : "Defines organization behavior of a group.",
+      "systems" : ["http://hl7.org/fhir/action-grouping-behavior"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.782",
+        "2.16.840.1.113883.4.642.3.799"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.782",
+        "2.16.840.1.113883.4.642.3.799"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/action-participant-function",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ActionParticipantFunction",
+      "title" : "Action Participant Function",
+      "description" : "The function performed by the participant for the action.",
+      "systems" : ["http://hl7.org/fhir/action-participant-function"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3052"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3052"],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/action-participant-type",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ActionParticipantType",
+      "title" : "Action Participant Type",
+      "description" : "The type of participant for the action.",
+      "systems" : ["http://hl7.org/fhir/action-participant-type"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.794",
+        "2.16.840.1.113883.4.642.3.811"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.794",
+        "2.16.840.1.113883.4.642.3.811"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/action-precheck-behavior",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ActionPrecheckBehavior",
+      "title" : "Action Precheck Behavior",
+      "description" : "Defines selection frequency behavior for an action or group.",
+      "systems" : ["http://hl7.org/fhir/action-precheck-behavior"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.788",
+        "2.16.840.1.113883.4.642.3.805"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.788",
+        "2.16.840.1.113883.4.642.3.805"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/action-reason-code",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ActionReasonCode",
+      "title" : "Action Reason Code",
+      "description" : "Provides examples of reasons for actions to be performed.",
+      "systems" : ["http://hl7.org/fhir/action-reason-code"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3053"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3053"],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/action-relationship-type",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ActionRelationshipType",
+      "title" : "Action Relationship Type",
+      "description" : "Defines the types of relationships between actions.",
+      "systems" : ["http://hl7.org/fhir/action-relationship-type"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.796",
+        "2.16.840.1.113883.4.642.3.813"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.796",
+        "2.16.840.1.113883.4.642.3.813"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/action-required-behavior",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ActionRequiredBehavior",
+      "title" : "Action Required Behavior",
+      "description" : "Defines expectations around whether an action or action group is required.",
+      "systems" : ["http://hl7.org/fhir/action-required-behavior"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.786",
+        "2.16.840.1.113883.4.642.3.803"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.786",
+        "2.16.840.1.113883.4.642.3.803"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/action-selection-behavior",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ActionSelectionBehavior",
+      "title" : "Action Selection Behavior",
+      "description" : "Defines selection behavior of a group.",
+      "systems" : ["http://hl7.org/fhir/action-selection-behavior"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.784",
+        "2.16.840.1.113883.4.642.3.801"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.784",
+        "2.16.840.1.113883.4.642.3.801"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/action-type",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ActionType",
+      "title" : "Action Type",
+      "description" : "The type of action to be performed.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/action-type"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.809",
+        "2.16.840.1.113883.4.642.3.792"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.809",
+        "2.16.840.1.113883.4.642.3.792"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/additional-binding-purpose",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "AdditionalBindingPurposeVS",
+      "title" : "Additional Binding Purpose ValueSet",
+      "description" : "Additional Binding Purpose",
+      "systems" : ["http://hl7.org/fhir/CodeSystem/additional-binding-purpose"],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/all-languages",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "AllLanguages",
+      "title" : "All Languages",
+      "description" : "This value set includes all possible codes from BCP-47 (see http://tools.ietf.org/html/bcp47)",
+      "systems" : ["urn:ietf:bcp:47"],
+      "oids" : ["2.16.840.1.113883.4.642.3.21"],
+      "sources" : ["2.16.840.1.113883.4.642.3.21"],
+      "uses" : {
+      },
+      "StructureDefinition-SGCodeSystem.html" : "SGCodeSystem",
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation",
+      "StructureDefinition-SGTransactionDefinition.html" : "SGTransactionDefinition",
+      "StructureDefinition-SGPersona.html" : "SGPersona",
+      "StructureDefinition-SGActor.html" : "SGActor",
+      "StructureDefinition-SGImplementationGuide.html" : "SGImplementationGuide",
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess",
+      "StructureDefinition-SGValueSet.html" : "SGValueSet",
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel",
+      "StructureDefinition-SGMeasure.html" : "SGMeasure",
+      "StructureDefinition-SGGraphDefinition.html" : "SGGraphDefinition"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/all-resource-types",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "AllResourceTypes",
+      "title" : "All Resource Types",
+      "description" : "All fhir resource types (including abstract resources)",
+      "systems" : ["http://hl7.org/fhir/fhir-types"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3294"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3294"],
+      "uses" : {
+      },
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation",
+      "StructureDefinition-SGTransactionDefinition.html" : "SGTransactionDefinition",
+      "StructureDefinition-SGGraphDefinition.html" : "SGGraphDefinition"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/binding-strength",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "BindingStrength",
+      "title" : "BindingStrength",
+      "description" : "Indication of the degree of conformance expectations associated with a binding.",
+      "systems" : ["http://hl7.org/fhir/binding-strength"],
+      "oids" : ["2.16.840.1.113883.4.642.3.43"],
+      "sources" : ["2.16.840.1.113883.4.642.3.43"],
+      "uses" : {
+      },
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation",
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/clinical-findings",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "SNOMEDCTClinicalFindings",
+      "title" : "SNOMED CT Clinical Findings",
+      "description" : "This value set includes all the \"Clinical finding\" [SNOMED CT](http://snomed.info/sct) codes - concepts where concept is-a 404684003 (Clinical finding (finding)).",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.232",
+        "2.16.840.1.113883.4.642.3.227",
+        "2.16.840.1.113883.4.642.2.115"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.232",
+        "2.16.840.1.113883.4.642.3.227",
+        "2.16.840.1.113883.4.642.2.115"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/codesystem-content-mode",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "CodeSystemContentMode",
+      "title" : "Code System Content Mode",
+      "description" : "The extent of the content of the code system (the concepts and codes it defines) are represented in a code system resource.",
+      "systems" : ["http://hl7.org/fhir/codesystem-content-mode"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.782",
+        "2.16.840.1.113883.4.642.3.765"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.782",
+        "2.16.840.1.113883.4.642.3.765"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGCodeSystem.html" : "SGCodeSystem"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "CodeSystemHierarchyMeaning",
+      "title" : "Code System Hierarchy Meaning",
+      "description" : "The meaning of the hierarchy of concepts in a code system.",
+      "systems" : ["http://hl7.org/fhir/codesystem-hierarchy-meaning"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.784",
+        "2.16.840.1.113883.4.642.3.767"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.784",
+        "2.16.840.1.113883.4.642.3.767"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGCodeSystem.html" : "SGCodeSystem"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/compartment-type",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "CompartmentType",
+      "title" : "Compartment Type",
+      "description" : "Which type a compartment definition describes.",
+      "systems" : ["http://hl7.org/fhir/compartment-type"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.786",
+        "2.16.840.1.113883.4.642.3.769"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.786",
+        "2.16.840.1.113883.4.642.3.769"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGTransactionDefinition.html" : "SGTransactionDefinition",
+      "StructureDefinition-SGGraphDefinition.html" : "SGGraphDefinition"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/composite-measure-scoring",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "CompositeMeasureScoring",
+      "title" : "Composite Measure Scoring",
+      "description" : "The composite scoring method of the measure.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/composite-measure-scoring"
+      ],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.773",
+        "2.16.840.1.113883.4.642.3.757"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.773",
+        "2.16.840.1.113883.4.642.3.757"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/concept-property-type",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "PropertyType",
+      "title" : "Property Type",
+      "description" : "The type of a property value.",
+      "systems" : ["http://hl7.org/fhir/concept-property-type"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.763",
+        "2.16.840.1.113883.4.642.3.780"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.763",
+        "2.16.840.1.113883.4.642.3.780"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGCodeSystem.html" : "SGCodeSystem"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/condition-code",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ConditionProblemDiagnosisCodes",
+      "title" : "Condition/Problem/Diagnosis Codes",
+      "description" : "Example value set for Condition/Problem/Diagnosis codes.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.161",
+        "2.16.840.1.113883.4.642.2.72",
+        "2.16.840.1.113883.4.642.3.152"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.161",
+        "2.16.840.1.113883.4.642.2.72",
+        "2.16.840.1.113883.4.642.3.152"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/constraint-severity",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "ConstraintSeverity",
+      "title" : "ConstraintSeverity",
+      "description" : "SHALL applications comply with this constraint?",
+      "systems" : ["http://hl7.org/fhir/constraint-severity"],
+      "oids" : ["2.16.840.1.113883.4.642.3.81"],
+      "sources" : ["2.16.840.1.113883.4.642.3.81"],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/definition-topic",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "DefinitionTopic",
+      "title" : "Definition Topic",
+      "description" : "High-level categorization of the definition, used for searching, sorting, and filtering.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/definition-use",
+        "http://terminology.hl7.org/CodeSystem/definition-topic"
+      ],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.794",
+        "2.16.840.1.113883.4.642.3.777"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.794",
+        "2.16.840.1.113883.4.642.3.777"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGCodeSystem.html" : "SGCodeSystem",
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess",
+      "StructureDefinition-SGValueSet.html" : "SGValueSet",
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/definition-use",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "DefinitionUseCodes",
+      "title" : "Structure Definition Use Codes / Keywords",
+      "description" : "Structure Definition Use Codes / Keywords",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/definition-use"],
+      "oids" : ["2.16.840.1.113883.4.642.3.1190"],
+      "sources" : ["2.16.840.1.113883.4.642.3.1190"],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/designation-use",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "DesignationUse",
+      "title" : "Designation Use",
+      "description" : "Details of how a designation would be used",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.259",
+        "2.16.840.1.113883.4.642.3.264",
+        "2.16.840.1.113883.4.642.2.281"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.259",
+        "2.16.840.1.113883.4.642.3.264",
+        "2.16.840.1.113883.4.642.2.281"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGCodeSystem.html" : "SGCodeSystem",
+      "StructureDefinition-SGValueSet.html" : "SGValueSet"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/discriminator-type",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "DiscriminatorType",
+      "title" : "DiscriminatorType",
+      "description" : "How an element value is interpreted when discrimination is evaluated.",
+      "systems" : ["http://hl7.org/fhir/discriminator-type"],
+      "oids" : ["2.16.840.1.113883.4.642.3.91"],
+      "sources" : ["2.16.840.1.113883.4.642.3.91"],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/elementdefinition-types",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "ElementDefinitionTypes",
+      "title" : "Element Definition Types",
+      "description" : "Allowed types for FHIR elements in ElementDefinition.type.code",
+      "systems" : [
+        "http://hl7.org/fhir/CodeSystem/fhirpath-types",
+        "http://hl7.org/fhir/fhir-types"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.3298"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3298"],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/examplescenario-actor-type",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "ExampleScenarioActorType",
+      "title" : "Example Scenario Actor Type",
+      "description" : "The type of actor - system or human.",
+      "systems" : ["http://hl7.org/fhir/examplescenario-actor-type"],
+      "oids" : ["2.16.840.1.113883.4.642.3.858"],
+      "sources" : ["2.16.840.1.113883.4.642.3.858"],
+      "uses" : {
+      },
+      "StructureDefinition-SGPersona.html" : "SGPersona",
+      "StructureDefinition-SGActor.html" : "SGActor"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/extension-context-type",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "ExtensionContextType",
+      "title" : "Extension Context Type",
+      "description" : "How an extension context is interpreted.",
+      "systems" : ["http://hl7.org/fhir/extension-context-type"],
+      "oids" : ["2.16.840.1.113883.4.642.3.1012"],
+      "sources" : ["2.16.840.1.113883.4.642.3.1012"],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/fhir-types",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "FHIRTypes",
+      "title" : "All FHIR Types",
+      "description" : "All FHIR types",
+      "systems" : ["http://hl7.org/fhir/fhir-types"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3299"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3299"],
+      "uses" : {
+      },
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation",
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel",
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/filter-operator",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "FilterOperator",
+      "title" : "Filter Operator",
+      "description" : "The kind of operation to perform as a part of a property based filter.",
+      "systems" : ["http://hl7.org/fhir/filter-operator"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.478",
+        "2.16.840.1.113883.4.642.2.280",
+        "2.16.840.1.113883.4.642.3.471"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.478",
+        "2.16.840.1.113883.4.642.2.280",
+        "2.16.840.1.113883.4.642.3.471"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGCodeSystem.html" : "SGCodeSystem",
+      "StructureDefinition-SGValueSet.html" : "SGValueSet"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/goal-category",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "GoalCategory",
+      "title" : "Goal Category",
+      "description" : "Example codes for grouping goals to use for filtering or presentation.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/goal-category"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.2.411",
+        "2.16.840.1.113883.4.642.3.270",
+        "2.16.840.1.113883.4.642.3.275"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.2.411",
+        "2.16.840.1.113883.4.642.3.270",
+        "2.16.840.1.113883.4.642.3.275"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/goal-priority",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "GoalPriority",
+      "title" : "Goal Priority",
+      "description" : "Indicates the level of importance associated with reaching or sustaining a goal.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/goal-priority"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.268",
+        "2.16.840.1.113883.4.642.3.273",
+        "2.16.840.1.113883.4.642.2.151"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.268",
+        "2.16.840.1.113883.4.642.3.273",
+        "2.16.840.1.113883.4.642.2.151"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/goal-start-event",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "GoalStartEvent",
+      "title" : "Goal Start Event",
+      "description" : "Identifies types of events that might trigger the start of a goal.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.2.413",
+        "2.16.840.1.113883.4.642.3.279",
+        "2.16.840.1.113883.4.642.3.274"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.2.413",
+        "2.16.840.1.113883.4.642.3.279",
+        "2.16.840.1.113883.4.642.3.274"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/graph-compartment-rule",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "GraphCompartmentRule",
+      "title" : "Graph Compartment Rule",
+      "description" : "How a compartment must be linked.",
+      "systems" : ["http://hl7.org/fhir/graph-compartment-rule"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.280",
+        "2.16.840.1.113883.4.642.3.275"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.280",
+        "2.16.840.1.113883.4.642.3.275"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGTransactionDefinition.html" : "SGTransactionDefinition",
+      "StructureDefinition-SGGraphDefinition.html" : "SGGraphDefinition"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/graph-compartment-use",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "GraphCompartmentUse",
+      "title" : "Graph Compartment Use",
+      "description" : "Defines how a compartment rule is used.",
+      "systems" : ["http://hl7.org/fhir/graph-compartment-use"],
+      "oids" : ["2.16.840.1.113883.4.642.3.282"],
+      "sources" : ["2.16.840.1.113883.4.642.3.282"],
+      "uses" : {
+      },
+      "StructureDefinition-SGTransactionDefinition.html" : "SGTransactionDefinition",
+      "StructureDefinition-SGGraphDefinition.html" : "SGGraphDefinition"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/guide-page-generation",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "GuidePageGeneration",
+      "title" : "Guide Page Generation",
+      "description" : "A code that indicates how the page is generated.",
+      "systems" : ["http://hl7.org/fhir/guide-page-generation"],
+      "oids" : ["2.16.840.1.113883.4.642.3.998"],
+      "sources" : ["2.16.840.1.113883.4.642.3.998"],
+      "uses" : {
+      },
+      "StructureDefinition-SGImplementationGuide.html" : "SGImplementationGuide"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/guide-parameter-code",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "GuideParameterCode",
+      "title" : "Guide Parameter Code",
+      "description" : "Codes used to define implementation guide parameters",
+      "systems" : ["http://hl7.org/fhir/guide-parameter-code"],
+      "oids" : ["2.16.840.1.113883.4.642.3.996"],
+      "sources" : ["2.16.840.1.113883.4.642.3.996"],
+      "uses" : {
+      },
+      "StructureDefinition-SGImplementationGuide.html" : "SGImplementationGuide"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/identifier-type",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "IdentifierTypeCodes",
+      "title" : "Identifier Type Codes",
+      "description" : "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/v2-0203"],
+      "oids" : ["2.16.840.1.113883.4.642.3.45"],
+      "sources" : ["2.16.840.1.113883.4.642.3.45"],
+      "uses" : {
+      },
+      "StructureDefinition-sg-groupdefinition.html" : "WHO SMART Guidelines Group Definition"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/identifier-use",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "IdentifierUse",
+      "title" : "IdentifierUse",
+      "description" : "Identifies the purpose for this identifier, if known .",
+      "systems" : ["http://hl7.org/fhir/identifier-use"],
+      "oids" : ["2.16.840.1.113883.4.642.3.57"],
+      "sources" : ["2.16.840.1.113883.4.642.3.57"],
+      "uses" : {
+      },
+      "StructureDefinition-sg-groupdefinition.html" : "WHO SMART Guidelines Group Definition"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/jurisdiction",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "JurisdictionValueSet",
+      "title" : "Jurisdiction ValueSet",
+      "description" : "This value set defines a base set of codes for country, country subdivision and region    for indicating where a resource is intended to be used.   \r\n   \r\n   Note: The codes for countries and country subdivisions are taken from    [ISO 3166](https://www.iso.org/iso-3166-country-codes.html)    while the codes for \"supra-national\" regions are from    [UN Standard country or area codes for statistical use (M49)](http://unstats.un.org/unsd/methods/m49/m49.htm).",
+      "systems" : [
+        "http://unstats.un.org/unsd/methods/m49/m49.htm",
+        "urn:iso:std:iso:3166",
+        "urn:iso:std:iso:3166:-2"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.48"],
+      "sources" : ["2.16.840.1.113883.4.642.3.48"],
+      "uses" : {
+      },
+      "StructureDefinition-SGCodeSystem.html" : "SGCodeSystem",
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation",
+      "StructureDefinition-SGTransactionDefinition.html" : "SGTransactionDefinition",
+      "StructureDefinition-SGPersona.html" : "SGPersona",
+      "StructureDefinition-SGActor.html" : "SGActor",
+      "StructureDefinition-SGImplementationGuide.html" : "SGImplementationGuide",
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess",
+      "StructureDefinition-SGValueSet.html" : "SGValueSet",
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel",
+      "StructureDefinition-SGMeasure.html" : "SGMeasure",
+      "StructureDefinition-SGGraphDefinition.html" : "SGGraphDefinition"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/languages",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "CommonLanguages",
+      "title" : "Common Languages",
+      "description" : "This value set includes common codes from BCP-47 (see http://tools.ietf.org/html/bcp47)",
+      "systems" : ["urn:ietf:bcp:47"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.891",
+        "2.16.840.1.113883.4.642.3.20"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.891",
+        "2.16.840.1.113883.4.642.3.20"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGCodeSystem.html" : "SGCodeSystem",
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation",
+      "StructureDefinition-SGTransactionDefinition.html" : "SGTransactionDefinition",
+      "StructureDefinition-SGPersona.html" : "SGPersona",
+      "StructureDefinition-SGActor.html" : "SGActor",
+      "StructureDefinition-SGImplementationGuide.html" : "SGImplementationGuide",
+      "StructureDefinition-sg-groupdefinition.html" : "WHO SMART Guidelines Group Definition",
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess",
+      "StructureDefinition-SGValueSet.html" : "SGValueSet",
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel",
+      "StructureDefinition-SGMeasure.html" : "SGMeasure",
+      "StructureDefinition-SGGraphDefinition.html" : "SGGraphDefinition"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/measure-aggregate-method",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "MeasureAggregateMethod",
+      "title" : "Measure Aggregate Method",
+      "description" : "Aggregation method for a measure (e.g. sum, average, median, minimum, maximum, count)",
+      "systems" : ["http://hl7.org/fhir/CodeSystem/measure-aggregate-method"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3192"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3192"],
+      "uses" : {
+      },
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/measure-data-usage",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "MeasureDataUsage",
+      "title" : "Measure Data Usage",
+      "description" : "The intended usage for supplemental data elements in the measure.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/measure-data-usage"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.771",
+        "2.16.840.1.113883.4.642.3.755"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.771",
+        "2.16.840.1.113883.4.642.3.755"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/measure-definition-example",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "MeasureDefinitionExample",
+      "title" : "Measure Definition Example",
+      "description" : "Example Measure Definitions for the Measure Resource.",
+      "systems" : ["http://hl7.org/fhir/measure-definition-example"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3190"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3190"],
+      "uses" : {
+      },
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/measure-group-example",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "MeasureGroupExample",
+      "title" : "Measure Group Example",
+      "description" : "Example Measure Groups for the Measure Resource.",
+      "systems" : ["http://hl7.org/fhir/measure-group-example"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3191"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3191"],
+      "uses" : {
+      },
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/measure-improvement-notation",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "MeasureImprovementNotation",
+      "title" : "Measure Improvement Notation",
+      "description" : "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/measure-improvement-notation"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.1236"],
+      "sources" : ["2.16.840.1.113883.4.642.3.1236"],
+      "uses" : {
+      },
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/measure-population",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "MeasurePopulationType",
+      "title" : "Measure Population Type",
+      "description" : "The type of population.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/measure-population"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.765",
+        "2.16.840.1.113883.4.642.3.749"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.765",
+        "2.16.840.1.113883.4.642.3.749"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/measure-scoring-unit",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "MeasureScoringUnit",
+      "title" : "Measure Scoring Unit",
+      "description" : "This is an example value set illustrating some typical scoring units used in quality measure specifications.",
+      "systems" : ["http://unitsofmeasure.org"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3188"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3188"],
+      "uses" : {
+      },
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/measure-stratifier-example",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "MeasureStratifierExample",
+      "title" : "Measure Stratifier Example",
+      "description" : "Identifier subgroups in a population for measuring purposes.",
+      "systems" : ["http://hl7.org/fhir/measure-stratifier-example"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3187"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3187"],
+      "uses" : {
+      },
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/measure-supplemental-data-example",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "MeasureSupplementalDataExample",
+      "title" : "Measure Supplemental Data Example",
+      "description" : "Supplemental data in a population for measuring purposes.",
+      "systems" : ["http://hl7.org/fhir/measure-supplemental-data-example"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3189"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3189"],
+      "uses" : {
+      },
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/measure-type",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "MeasureType",
+      "title" : "Measure Type",
+      "description" : "The type of measure (includes codes from 2.16.840.1.113883.1.11.20368).",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/measure-type"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.753",
+        "2.16.840.1.113883.4.642.3.769"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.753",
+        "2.16.840.1.113883.4.642.3.769"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/medication-as-needed-reason",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "SNOMEDCTMedicationAsNeededReasonCodes",
+      "title" : "SNOMED CT Medication As Needed Reason Codes",
+      "description" : "This value set includes all clinical findings from SNOMED CT - provided as an exemplar value set.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.89", "2.16.840.1.113883.4.642.3.96"],
+      "sources" : ["2.16.840.1.113883.4.642.3.89", "2.16.840.1.113883.4.642.3.96"],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/mimetypes",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "MimeTypes",
+      "title" : "Mime Types",
+      "description" : "This value set includes all possible codes from BCP-13 (see http://tools.ietf.org/html/bcp13)",
+      "systems" : ["urn:ietf:bcp:13"],
+      "oids" : ["2.16.840.1.113883.4.642.3.1024"],
+      "sources" : ["2.16.840.1.113883.4.642.3.1024"],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/observation-codes",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "LOINCCodes",
+      "title" : "LOINC Codes",
+      "description" : "This value set includes all LOINC codes",
+      "systems" : ["http://loinc.org"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.2.216",
+        "2.16.840.1.113883.4.642.3.396",
+        "2.16.840.1.113883.4.642.3.383"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.2.216",
+        "2.16.840.1.113883.4.642.3.396",
+        "2.16.840.1.113883.4.642.3.383"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/operation-kind",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "OperationKind",
+      "title" : "Operation Kind",
+      "description" : "Whether an operation is a normal operation or a query.",
+      "systems" : ["http://hl7.org/fhir/operation-kind"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.499",
+        "2.16.840.1.113883.4.642.3.506",
+        "2.16.840.1.113883.4.642.2.297"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.499",
+        "2.16.840.1.113883.4.642.3.506",
+        "2.16.840.1.113883.4.642.2.297"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/operation-parameter-scope",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "OperationParameterScope",
+      "title" : "Operation Parameter Scope",
+      "description" : "Indicates that a parameter applies when the operation is being invoked at the specified level",
+      "systems" : ["http://hl7.org/fhir/operation-parameter-scope"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3206"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3206"],
+      "uses" : {
+      },
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/operation-parameter-use",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "OperationParameterUse",
+      "title" : "Operation Parameter Use",
+      "description" : "Whether an operation parameter is an input or an output parameter.",
+      "systems" : ["http://hl7.org/fhir/operation-parameter-use"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.501",
+        "2.16.840.1.113883.4.642.2.298",
+        "2.16.840.1.113883.4.642.3.508"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.501",
+        "2.16.840.1.113883.4.642.2.298",
+        "2.16.840.1.113883.4.642.3.508"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/participant-resource-types",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "ParticipantResourceTypes",
+      "title" : "Participant Resource Types",
+      "description" : "All Resource Types that represent participant resources",
+      "systems" : ["http://hl7.org/fhir/fhir-types"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3301"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3301"],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess",
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/plan-definition-type",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "PlanDefinitionType",
+      "title" : "Plan Definition Type",
+      "description" : "The type of PlanDefinition.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/plan-definition-type"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.797",
+        "2.16.840.1.113883.4.642.3.780"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.797",
+        "2.16.840.1.113883.4.642.3.780"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/property-representation",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "PropertyRepresentation",
+      "title" : "PropertyRepresentation",
+      "description" : "How a property is represented when serialized.",
+      "systems" : ["http://hl7.org/fhir/property-representation"],
+      "oids" : ["2.16.840.1.113883.4.642.3.87"],
+      "sources" : ["2.16.840.1.113883.4.642.3.87"],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/publication-status",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "PublicationStatus",
+      "title" : "PublicationStatus",
+      "description" : "The lifecycle status of an artifact.",
+      "systems" : ["http://hl7.org/fhir/publication-status"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3"],
+      "uses" : {
+      },
+      "StructureDefinition-SGCodeSystem.html" : "SGCodeSystem",
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation",
+      "StructureDefinition-SGTransactionDefinition.html" : "SGTransactionDefinition",
+      "StructureDefinition-SGPersona.html" : "SGPersona",
+      "StructureDefinition-SGActor.html" : "SGActor",
+      "StructureDefinition-SGImplementationGuide.html" : "SGImplementationGuide",
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess",
+      "StructureDefinition-SGValueSet.html" : "SGValueSet",
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel",
+      "StructureDefinition-SGMeasure.html" : "SGMeasure",
+      "StructureDefinition-SGGraphDefinition.html" : "SGGraphDefinition"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/reference-version-rules",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "ReferenceVersionRules",
+      "title" : "ReferenceVersionRules",
+      "description" : "Whether a reference needs to be version specific or version independent, or whether either can be used.",
+      "systems" : ["http://hl7.org/fhir/reference-version-rules"],
+      "oids" : ["2.16.840.1.113883.4.642.3.89"],
+      "sources" : ["2.16.840.1.113883.4.642.3.89"],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/request-priority",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "RequestPriority",
+      "title" : "RequestPriority",
+      "description" : "Identifies the level of importance to be assigned to actioning the request.",
+      "systems" : ["http://hl7.org/fhir/request-priority"],
+      "oids" : ["2.16.840.1.113883.4.642.3.115"],
+      "sources" : ["2.16.840.1.113883.4.642.3.115"],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/resource-aggregation-mode",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "AggregationMode",
+      "title" : "AggregationMode",
+      "description" : "How resource references can be aggregated.",
+      "systems" : ["http://hl7.org/fhir/resource-aggregation-mode"],
+      "oids" : ["2.16.840.1.113883.4.642.3.85"],
+      "sources" : ["2.16.840.1.113883.4.642.3.85"],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/resource-slicing-rules",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "SlicingRules",
+      "title" : "SlicingRules",
+      "description" : "How slices are interpreted when evaluating an instance.",
+      "systems" : ["http://hl7.org/fhir/resource-slicing-rules"],
+      "oids" : ["2.16.840.1.113883.4.642.3.83"],
+      "sources" : ["2.16.840.1.113883.4.642.3.83"],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/resource-types",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "ResourceType",
+      "title" : "Resource Types",
+      "description" : "Concrete FHIR Resource Types",
+      "systems" : ["http://hl7.org/fhir/fhir-types"],
+      "oids" : ["2.16.840.1.113883.4.642.3.27"],
+      "sources" : ["2.16.840.1.113883.4.642.3.27"],
+      "uses" : {
+      },
+      "StructureDefinition-SGImplementationGuide.html" : "SGImplementationGuide"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/search-param-type",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "SearchParamType",
+      "title" : "SearchParamType",
+      "description" : "Data types allowed to be used for search parameters.",
+      "systems" : ["http://hl7.org/fhir/search-param-type"],
+      "oids" : ["2.16.840.1.113883.4.642.3.11"],
+      "sources" : ["2.16.840.1.113883.4.642.3.11"],
+      "uses" : {
+      },
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/spdx-license",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "SPDXLicense",
+      "title" : "S P D X License",
+      "description" : "The license that applies to an Implementation Guide (using an SPDX license Identifiers, or 'not-open-source'). The binding is required but new SPDX license Identifiers are allowed to be used (https://spdx.org/licenses/).",
+      "systems" : ["http://hl7.org/fhir/spdx-license"],
+      "oids" : ["2.16.840.1.113883.4.642.3.1026"],
+      "sources" : ["2.16.840.1.113883.4.642.3.1026"],
+      "uses" : {
+      },
+      "StructureDefinition-SGImplementationGuide.html" : "SGImplementationGuide"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/structure-definition-kind",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "StructureDefinitionKind",
+      "title" : "Structure Definition Kind",
+      "description" : "Defines the type of structure that a definition is describing.",
+      "systems" : ["http://hl7.org/fhir/structure-definition-kind"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.2.348",
+        "2.16.840.1.113883.4.642.3.668",
+        "2.16.840.1.113883.4.642.3.654"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.2.348",
+        "2.16.840.1.113883.4.642.3.668",
+        "2.16.840.1.113883.4.642.3.654"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/type-derivation-rule",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "TypeDerivationRule",
+      "title" : "Type Derivation Rule",
+      "description" : "How a type relates to its baseDefinition.",
+      "systems" : ["http://hl7.org/fhir/type-derivation-rule"],
+      "oids" : [
+        "2.16.840.1.113883.4.642.3.673",
+        "2.16.840.1.113883.4.642.3.659"
+      ],
+      "sources" : [
+        "2.16.840.1.113883.4.642.3.673",
+        "2.16.840.1.113883.4.642.3.659"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/version-algorithm",
+      "version" : "5.0.0",
+      "status" : "draft",
+      "name" : "VersionAlgorithm",
+      "title" : "Version Algorithm",
+      "description" : "Indicates the mechanism used to compare versions to determine which is more current.",
+      "systems" : ["http://hl7.org/fhir/version-algorithm"],
+      "oids" : ["2.16.840.1.113883.4.642.3.3103"],
+      "sources" : ["2.16.840.1.113883.4.642.3.3103"],
+      "uses" : {
+      },
+      "StructureDefinition-SGCodeSystem.html" : "SGCodeSystem",
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation",
+      "StructureDefinition-SGTransactionDefinition.html" : "SGTransactionDefinition",
+      "StructureDefinition-SGPersona.html" : "SGPersona",
+      "StructureDefinition-SGActor.html" : "SGActor",
+      "StructureDefinition-SGImplementationGuide.html" : "SGImplementationGuide",
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess",
+      "StructureDefinition-SGValueSet.html" : "SGValueSet",
+      "StructureDefinition-SGLogicalModel.html" : "SGLogicalModel",
+      "StructureDefinition-SGMeasure.html" : "SGMeasure",
+      "StructureDefinition-SGGraphDefinition.html" : "SGGraphDefinition"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/version-independent-all-resource-types",
+      "version" : "5.0.0",
+      "status" : "active",
+      "name" : "VersionIndependentResourceTypesAll",
+      "title" : "Version Independent Resource Types (All)",
+      "description" : "Current and past FHIR resource types (deleted or renamed), including abstract types",
+      "systems" : [
+        "http://hl7.org/fhir/fhir-types",
+        "http://hl7.org/fhir/fhir-old-types"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.4.3324"],
+      "sources" : ["2.16.840.1.113883.4.642.4.3324"],
+      "uses" : {
+      },
+      "StructureDefinition-SGTransactionOperation.html" : "SGTransactionOperation",
+      "StructureDefinition-SGTransactionDefinition.html" : "SGTransactionDefinition",
+      "StructureDefinition-SGGraphDefinition.html" : "SGGraphDefinition"
+    },
+    {
+      "url" : "http://terminology.hl7.org/ValueSet/action-participant-role",
+      "version" : "1.0.0",
+      "status" : "draft",
+      "name" : "ActionParticipantRole",
+      "title" : "Action Participant Role",
+      "description" : "Either a practitioner role or a relationship type.  Note from UTG import - may have been a temporary entry that subsequently disappeared from the FHIR source; unable to locate.   Version set to 0.1.0",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+        "http://terminology.hl7.org/CodeSystem/v2-0131",
+        "http://terminology.hl7.org/CodeSystem/practitioner-role",
+        "http://snomed.info/sct",
+        "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-SGBusinessProcess.html" : "SGBusinessProcess"
+    },
+    {
+      "url" : "http://terminology.hl7.org/ValueSet/measure-scoring",
+      "version" : "1.0.0",
+      "status" : "draft",
+      "name" : "MeasureScoring",
+      "title" : "MeasureScoring",
+      "description" : "The scoring type of the measure.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/measure-scoring"],
+      "oids" : ["2.16.840.1.113883.4.642.3.767"],
+      "sources" : ["2.16.840.1.113883.4.642.3.767"],
+      "uses" : {
+      },
+      "StructureDefinition-SGMeasure.html" : "SGMeasure"
+    }
+  ]
+}
