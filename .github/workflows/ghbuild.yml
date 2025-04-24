@@ -104,6 +104,10 @@ jobs:
           name: qa-json-artifact
           path: ./output/qa.json  # Adjust the path based on where qa.json is located
 
+      - name: Remove files larger than 100MB from output
+        run: |
+          echo "Removing files > 100MB from ./output"
+          find ./output -type f -size +100M -print -delete
 
       - name: Get branch name
         run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
