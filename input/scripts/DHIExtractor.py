@@ -1,10 +1,12 @@
 """
 DHI (Digital Health Interventions) Extractor Module
-This module extracts classifications and interventions from text files to generate
-FHIR CodeSystems, ValueSets, and ConceptMaps for digital health interventions.
+This module extracts classifications and interventions from text files to
+generate FHIR CodeSystems, ValueSets, and ConceptMaps for digital health
+interventions.
 The script processes two primary data files:
 1. system_categories.txt - Contains system categories (A-Z format)
-2. dhi_v1.txt - Contains hierarchical digital health interventions (numerical codes)
+2. dhi_v1.txt - Contains hierarchical digital health interventions
+   (numerical codes)
 The extracted data is used to generate:
 - FHIR CodeSystems for both classifications and interventions
 - FHIR ValueSets for both data sets
@@ -19,12 +21,15 @@ Example:
 from typing import List, Dict, Any
 import installer
 from extractor import extractor
+
+
 class DHIExtractor(extractor):
     """
-    Digital Health Interventions extractor for processing classification and intervention data.
-    This class extends the base extractor to handle DHI-specific data processing,
-    generating FHIR CodeSystems, ValueSets, and ConceptMaps from text-based
-    classification files.
+    Digital Health Interventions extractor for processing classification and
+    intervention data.
+    This class extends the base extractor to handle DHI-specific data
+    processing, generating FHIR CodeSystems, ValueSets, and ConceptMaps from
+    text-based classification files.
     Attributes:
         Standard attributes inherited from the extractor base class.
     """
@@ -36,25 +41,30 @@ class DHIExtractor(extractor):
                       Includes system categories and interventions files.
         """
         return ['input/data/system_categories.txt', 'input/data/dhi_v1.txt']
-    def extract_to_resources(self, inputfile_name: str, resources: Dict[str, Any]) -> None:
+
+    def extract_to_resources(self, inputfile_name: str,
+                             resources: Dict[str, Any]) -> None:
         """
         Route file processing based on input filename.
         Determines which extraction method to use based on the input file name
         and delegates to the appropriate processing function.
         Args:
             inputfile_name (str): Path to the input file being processed
-            resources (Dict[str, Any]): Dictionary to store generated FHIR resources
-                                      organized by resource type (codesystems, valuesets, etc.)
+            resources (Dict[str, Any]): Dictionary to store generated FHIR
+                                      resources organized by resource type
+                                      (codesystems, valuesets, etc.)
         """
         if inputfile_name == 'input/data/system_categories.txt':
             self.extract_classifications(inputfile_name, resources)
         if inputfile_name == 'input/data/dhi_v1.txt':
             self.extract_interventions(inputfile_name, resources)
-    def extract_classifications(self, filename: str, resources: Dict[str, Any]) -> None:
+
+    def extract_classifications(self, filename: str,
+                                resources: Dict[str, Any]) -> None:
         """
         Extract system classifications from the system categories file.
-        Processes system_categories.txt which contains system categories in format:
-        "A. Category Name" where A-Z are the classification codes.
+        Processes system_categories.txt which contains system categories in
+        format: "A. Category Name" where A-Z are the classification codes.
         Args:
             filename (str): Path to the system categories input file
             resources (Dict[str, Any]): Dictionary to store generated FHIR resources
@@ -74,11 +84,12 @@ class DHIExtractor(extractor):
             categories[code] = category
         # Generate CodeSystem and ValueSet from the extracted categories
         self.installer.generate_cs_and_vs_from_dict(
-            cdhsc_id, 
-            'Classification of Digital Health System Categories v1', 
-            categories, 
+            cdhsc_id,
+            'Classification of Digital Health System Categories v1',
+            categories,
             resources
         )
+
     def extract_interventions(self, filename: str, resources: Dict[str, Any]) -> None:
         """
         Extract digital health interventions from the interventions file.
@@ -87,7 +98,7 @@ class DHIExtractor(extractor):
         Also generates a ConceptMap to represent the hierarchical relationships
         between intervention codes.
         Args:
-            filename (str): Path to the interventions input file  
+            filename (str): Path to the interventions input file
             resources (Dict[str, Any]): Dictionary to store generated FHIR resources
         """
         # Resource identifiers
@@ -110,15 +121,15 @@ class DHIExtractor(extractor):
             # Map child to parent for hierarchy (only if parent exists)
             if parent_code:
                 parent_map[code] = parent_code
-        # Generate CodeSystem and ValueSet from the extracted interventions        
+        # Generate CodeSystem and ValueSet from the extracted interventions
         self.installer.generate_cs_and_vs_from_dict(
-            cdhi_id, 
-            'Classification of Digital Health Interventions v1', 
-            interventions, 
+            cdhi_id,
+            'Classification of Digital Health Interventions v1',
+            interventions,
             resources
         )
         # Generate ConceptMap for hierarchical relationships if any exist
-        if len(parent_map) > 0: 
+        if len(parent_map) > 0:
             title = "Hierarchy of the Classification of Digital Health Interventions v1"
             cm = "Instance:  " + self.escape(cm_id) + '\n'
             cm += "InstanceOf:   ConceptMap\n"
