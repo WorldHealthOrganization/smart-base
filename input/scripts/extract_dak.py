@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Data and Knowledge (DAK) Multi-Extractor Pipeline
+WHO SMART Guidleines Digital Adaptation Kit (DAK) Multi-Extractor Pipeline
 
 This command-line script orchestrates the extraction of multiple types of
 data and knowledge assets for the SMART guidelines system. It coordinates

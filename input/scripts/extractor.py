@@ -79,7 +79,7 @@ class extractor(object):
             self.logger.info('IF=' + inputfile_name)
             self.inputfile_name = inputfile_name
             self.extract_file()
-            return True
+        return True
 
     def get_aliases(self) -> List[str]:
         """

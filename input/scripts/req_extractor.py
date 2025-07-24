@@ -49,14 +49,6 @@ class req_extractor(extractor):
         #   print("--help|h : print this information")
         #   sys.exit(2)
 
-    def get_aliases(self):
-        return [
-            'Alias: $pubStatus = http://hl7.org/fhir/publication-status',
-            'Alias: $actorType = http://hl7.org/fhir/examplescenario-actor-type',
-            'Alias: $SGActor = http://smart.who.int/base/StructureDefinition/SGActor',
-            'Alias: $DHIClassificationv1 = http://smart.who.int/base/CodeSystem/DHIv1',
-            'Alias: $DHIClassificationv2 = http://smart.who.int/base/CodeSystem/DHIv2']
-
     def extract_file(self):
         try:
             self.extract_resources()
@@ -66,6 +58,8 @@ class req_extractor(extractor):
                 self.inputfile_name +
                 "\n")
             self.logger.info(f"\tError: {e}")
+            return False
+        return True
 
     def extract_resources(self):
         functional_column_maps = {
@@ -84,10 +78,6 @@ class req_extractor(extractor):
                 "Could not extract functional requirements from: " +
                 self.inputfile_name)
             return False
-        else:
-            self.logger.info(
-                "Could not find functional requirements in:" +
-                self.inputfile_name)
 
         nonfunctional_column_maps = {
             'reqid': [
@@ -110,11 +100,6 @@ class req_extractor(extractor):
                 "Could not extract non-functional requirements from: " +
                 self.inputfile_name)
             return False
-        else:
-            self.logger.info(
-                "Could not find non-functional requirements in:" +
-                self.inputfile_name)
-
         return True
 
     def extract_nonfunctional_requirements_to_resources(
