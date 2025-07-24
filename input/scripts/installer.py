@@ -16,14 +16,13 @@ The installer serves as the central orchestrator for:
 Author: SMART Guidelines Team
 """
 import lxml.etree as ET
-from typing import Union, Dict, Any, Optional
+from typing import Union, Dict, List, Optional, Any
 from typing_extensions import TypedDict
 import glob
 import re
 import os
 import shutil
 import yaml
-from typing import List
 from pathlib import Path
 import pprint
 import sys
@@ -35,28 +34,25 @@ import logging
 
 class SushiConfigDict(TypedDict, total=False):
     """Type definition for SUSHI configuration dictionary."""
-    id: str
     canonical: str
     name: str
     title: str
+    id: str
     version: str
-    publisher: str
-    dependencies: Dict[str, str]
-    parameters: Dict[str, Any]
 
 
 class ResourceCollectionDict(TypedDict, total=False):
-    """Type definition for resource collection dictionary structure."""
-    requirements: Dict[str, str]
-    codesystems: Dict[str, str]
-    valuesets: Dict[str, str]
-    rulesets: Dict[str, str]
-    actors: Dict[str, str]
-    instances: Dict[str, str]
-    libraries: Dict[str, str]
-    profiles: Dict[str, str]
-    plandefinitions: Dict[str, str]
-    activitydefinitions: Dict[str, str]
+    """Type definition for resource collection dictionaries."""
+    requirements: Dict[str, Any]
+    codesystems: Dict[str, Any]
+    valuesets: Dict[str, Any]
+    rulesets: Dict[str, Any]
+    actors: Dict[str, Any]
+    instances: Dict[str, Any]
+    libraries: Dict[str, Any]
+    profiles: Dict[str, Any]
+    plandefinitions: Dict[str, Any]
+    activitydefinitions: Dict[str, Any]
 
 class installer(object):
 
@@ -102,7 +98,7 @@ class installer(object):
     #self.add_rulesets()
 
     
-  def load_multifile_schema(self) -> bool:
+  def load_multifile_schema(self):
     """
         Loads and parses the multifile XML XSD, storing it as self.multifile_schema.
         """
@@ -119,11 +115,11 @@ class installer(object):
       return False
     return True
  
-  def get_base_dir(self) -> str:
+  def get_base_dir(self):
     return os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-  def register_transformer(self, key: str, xsl_file: Union[str, Path], namespaces: Dict[str, str] = {}) -> bool:
+  def register_transformer(self,key:str,xsl_file: Union[str,Path],namespaces:dict = {}):
     try:
       script_directory = self.get_base_dir() + "/input/scripts" 
       xsl_file = script_directory + "/" +  xsl_file
@@ -165,16 +161,16 @@ class installer(object):
       return "Self Published"
     return self.sushi_config['publisher']['name']
   
-  def get_ig_canonical(self):
+  def get_ig_canonical(self) -> str:
     return self.sushi_config['canonical']
 
-  def get_ig_name(self):
+  def get_ig_name(self) -> str:
     return self.sushi_config['name']
 
-  def get_ig_title(self):
+  def get_ig_title(self) -> str:
     return self.sushi_config['title']
 
-  def get_ig_id(self):
+  def get_ig_id(self) -> str:
     return self.sushi_config['id']
 
   def get_ig_version(self):
@@ -459,29 +455,29 @@ class installer(object):
 
 
   
-  def add_resource(self, dir: str, id: str, resource: str) -> bool:
+  def add_resource(self,dir,id,resource:str):
     self.resources[dir][id]=resource
     return True
 
 
-  def get_resource(self, dir: str, id: str) -> Optional[str]:
+  def get_resource(self,dir,id):
     if self.has_resource(dir,id):
       return self.resources[dir][id]
     return None
 
-  def has_resource(self, dir: str, id: str) -> bool:
+  def has_resource(self,dir,id):
     return  dir in self.resources and id in self.resources[dir]
 
-  def add_cql(self, id: str, cql: str) -> bool:
+  def add_cql(self,id,cql:str):
     self.cqls[id]=cql
     return True
 
-  def add_page(self, id: str, page: str) -> bool:
+  def add_page(self,id,page:str):
     self.pages[id]=page
     return True
 
 
-  def create_cql_library(self, lib_name: str, cql_codes: Dict[str, Any] = {}, properties: Dict[str, str] = {}) -> None:
+  def create_cql_library(self,lib_name,cql_codes:dict ={}, properties:dict = {}):
     lib_id = stringer.name_to_id(lib_name)
     cql =  "/*\n"
     cql += "@libname: " + lib_name + "\n"
