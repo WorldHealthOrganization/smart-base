@@ -544,168 +544,239 @@ class installer(object):
             return False
 
         return True
-  
-  def transform_xml(self,prefix:str,xml:Union[str,ET.ElementTree],out_path:Union[str,Path,bool] = False , process_multiline = False):
-    if not prefix in self.xslts:
-      logging.getLogger(self.__class__.__name__).info("trying to transform unregistered thing "  + prefix)
-      return False
-    if isinstance(xml,ET._ElementTree) or isinstance(xml,ET._Element):
-      xml_tree = xml
-    elif isinstance(xml,str):
-      xml = re.sub(r'<\?xml[^>]+\?>', '', xml)
-      try:        
-        xml_tree = ET.XML(xml)
-        ET.indent(xml_tree)
-      except BaseException as e:
-        logging.getLogger(self.__class__.__name__).info("ERROR: Generated invalid XML for " + prefix + "\n" +  f"\tError: {e}\n" )
-        return False
-    else:
-      logging.getLogger(self.__class__.__name__).info("invalid xml sent to transformer=" + str(xml))
-      return False
 
-    
-    try:
-      out = self.xslts[prefix](xml_tree)
-      if out_path:
-        logging.getLogger(self.__class__.__name__).info("Transforming " + prefix + " to " + str(out_path))
-        out = str(ET.tostring(out.getroot() , encoding="unicode",pretty_print = True, doctype=None))
-        out_file = open(out_path, "w")
-        out_file.write(out)
-        out_file.close()
-      elif process_multiline:
-        return self.process_multifile_xml(out)
-      else:
-        return out
-    except BaseException as e:
-      logging.getLogger(self.__class__.__name__).info("Could not process " + prefix + " in " + str(xml_tree))
-      logging.getLogger(self.__class__.__name__).info(f"\tError: {e}")
-      return False
-    
-    return True
+    def transform_xml(self, prefix: str, xml: Union[str, ET.ElementTree], out_path: Union[str, Path, bool] = False, process_multiline: bool = False) -> Union[bool, ET.ElementTree]:
+        """
+        Transform XML using registered XSLT transformers.
+        
+        Args:
+            prefix: Transformer key to use
+            xml: XML content to transform (string or ElementTree)
+            out_path: Output file path, or False to return result
+            process_multiline: Whether to process as multifile XML
+            
+        Returns:
+            Transformation result or boolean indicating success
+        """
+        if not prefix in self.xslts:
+            logging.getLogger(self.__class__.__name__).info("trying to transform unregistered thing "  + prefix)
+            return False
+        if isinstance(xml, ET._ElementTree) or isinstance(xml, ET._Element):
+            xml_tree = xml
+        elif isinstance(xml, str):
+            xml = re.sub(r'<\?xml[^>]+\?>', '', xml)
+            try:        
+                xml_tree = ET.XML(xml)
+                ET.indent(xml_tree)
+            except BaseException as e:
+                logging.getLogger(self.__class__.__name__).info("ERROR: Generated invalid XML for " + prefix + "\n" +  f"\tError: {e}\n" )
+                return False
+        else:
+            logging.getLogger(self.__class__.__name__).info("invalid xml sent to transformer=" + str(xml))
+            return False
 
-
-  
-  def install_dmn(self,id,dmn:str):
-    try:
-      dmn_tree = ET.XML(dmn)
-      ET.indent(dmn_tree)
-    except BaseException as e:
-      logging.getLogger(self.__class__.__name__).info("ERROR: Generated invalid XML for DMN id " + id +"\n" +  f"\tError: {e}\n" )
-      return False
-    
-    try:
-      dmn_path = Path("input/dmn/") /  f"{id}.dmn"
-      dmn_file = open(dmn_path,"w")
-      #logging.getLogger(self.__class__.__name__).info(ET.tostring(dmn_tree,encoding="unicode"))
-      dmn_file.write(ET.tostring(dmn_tree,encoding="unicode"))
-      #print(ET.tostring(dmn_tree,encoding="unicode"),file=dmn_file)
-      dmn_file.close()
-      logging.getLogger(self.__class__.__name__).info("Installed " + str(dmn_path))
-    except IOError as e:
-      logging.getLogger(self.__class__.__name__).info("Could not save DMN with id: " + id + "\n")
-      log(f"\tERROR: {e}")
-      return False
-
-    html_path = Path("input/pagecontent/") / f"{id}.xml"
-    return self.transform_xml("dmn",dmn_tree,out_path = html_path )
-    
-      
-  
-  def install_resources(self):
-    result = True
-    for directory, instances in self.resources.items() :
-      for id,resource in instances.items() :
         try:
-          file_path = "input/fsh/" + directory + "/" + id + ".fsh"
-          Path("input/fsh/" + directory).mkdir(exist_ok = True, parents = True)
-          file = open(file_path,"w")
-          print(resource,file=file)
-          file.close()
-          logging.getLogger(self.__class__.__name__).info("Installed " + file_path)
+            out = self.xslts[prefix](xml_tree)
+            if out_path:
+                logging.getLogger(self.__class__.__name__).info("Transforming " + prefix + " to " + str(out_path))
+                out = str(ET.tostring(out.getroot() , encoding="unicode",pretty_print = True, doctype=None))
+                out_file = open(out_path, "w")
+                out_file.write(out)
+                out_file.close()
+            elif process_multiline:
+                return self.process_multifile_xml(out)
+            else:
+                return out
+        except BaseException as e:
+            logging.getLogger(self.__class__.__name__).info("Could not process " + prefix + " in " + str(xml_tree))
+            logging.getLogger(self.__class__.__name__).info(f"\tError: {e}")
+            return False
+        
+        return True
+
+    def install_dmn(self, id: str, dmn: str) -> bool:
+        """
+        Install a DMN decision table to the file system.
+        
+        Args:
+            id: DMN table identifier
+            dmn: DMN table content in XML format
+            
+        Returns:
+            True if DMN table installed successfully
+        """
+        try:
+            dmn_tree = ET.XML(dmn)
+            ET.indent(dmn_tree)
+        except BaseException as e:
+            logging.getLogger(self.__class__.__name__).info("ERROR: Generated invalid XML for DMN id " + id +"\n" +  f"\tError: {e}\n" )
+            return False
+        
+        try:
+            dmn_path = Path("input/dmn/") /  f"{id}.dmn"
+            dmn_file = open(dmn_path,"w")
+            #logging.getLogger(self.__class__.__name__).info(ET.tostring(dmn_tree,encoding="unicode"))
+            dmn_file.write(ET.tostring(dmn_tree,encoding="unicode"))
+            #print(ET.tostring(dmn_tree,encoding="unicode"),file=dmn_file)
+            dmn_file.close()
+            logging.getLogger(self.__class__.__name__).info("Installed " + str(dmn_path))
         except IOError as e:
-          result = False
-          logging.getLogger(self.__class__.__name__).info("Could not save resource of type: " + directory + "  with id: " + id + "\n")
-          logging.getLogger(self.__class__.__name__).info(f"\tError: {e}")
-    return result
+            logging.getLogger(self.__class__.__name__).info("Could not save DMN with id: " + id + "\n")
+            logging.getLogger(self.__class__.__name__).info(f"\tERROR: {e}")
+            return False
+
+        html_path = Path("input/pagecontent/") / f"{id}.xml"
+        return self.transform_xml("dmn", dmn_tree, out_path = html_path)
+
+    def install_resources(self) -> bool:
+        """
+        Install all FHIR resources to the file system.
+        
+        Returns:
+            True if all resources installed successfully
+        """
+        result = True
+        for directory, instances in self.resources.items():
+            for id, resource in instances.items():
+                try:
+                    file_path = "input/fsh/" + directory + "/" + id + ".fsh"
+                    Path("input/fsh/" + directory).mkdir(exist_ok = True, parents = True)
+                    file = open(file_path,"w")
+                    print(resource, file=file)
+                    file.close()
+                    logging.getLogger(self.__class__.__name__).info("Installed " + file_path)
+                except IOError as e:
+                    result = False
+                    logging.getLogger(self.__class__.__name__).info("Could not save resource of type: " + directory + "  with id: " + id + "\n")
+                    logging.getLogger(self.__class__.__name__).info(f"\tError: {e}")
+        return result
 
 
 
 
+    def add_resource(self, dir: str, id: str, resource: str) -> bool:
+        """
+        Add a FHIR resource to the collection.
+        
+        Args:
+            dir: Resource directory/type
+            id: Resource identifier
+            resource: Resource content
+            
+        Returns:
+            True if resource added successfully
+        """
+        self.resources[dir][id] = resource
+        return True
 
+    def get_resource(self, dir: str, id: str) -> Optional[str]:
+        """
+        Get a FHIR resource from the collection.
+        
+        Args:
+            dir: Resource directory/type
+            id: Resource identifier
+            
+        Returns:
+            Resource content if found, None otherwise
+        """
+        if self.has_resource(dir, id):
+            return self.resources[dir][id]
+        return None
 
+    def has_resource(self, dir: str, id: str) -> bool:
+        """
+        Check if a FHIR resource exists in the collection.
+        
+        Args:
+            dir: Resource directory/type
+            id: Resource identifier
+            
+        Returns:
+            True if resource exists
+        """
+        return dir in self.resources and id in self.resources[dir]
 
-  
-  def add_resource(self,dir,id,resource:str):
-    self.resources[dir][id]=resource
-    return True
+    def add_cql(self, id: str, cql: str) -> bool:
+        """
+        Add a CQL library to the collection.
+        
+        Args:
+            id: CQL library identifier
+            cql: CQL library content
+            
+        Returns:
+            True if CQL library added successfully
+        """
+        self.cqls[id] = cql
+        return True
 
+    def add_page(self, id: str, page: str) -> bool:
+        """
+        Add a documentation page to the collection.
+        
+        Args:
+            id: Page identifier
+            page: Page content
+            
+        Returns:
+            True if page added successfully
+        """
+        self.pages[id] = page
+        return True
 
-  def get_resource(self,dir,id):
-    if self.has_resource(dir,id):
-      return self.resources[dir][id]
-    return None
+    def create_cql_library(self, lib_name: str, cql_codes: Dict[str, Any] = {}, properties: Dict[str, str] = {}) -> None:
+        """
+        Create a CQL library with the specified codes and properties.
+        
+        Args:
+            lib_name: Name of the CQL library
+            cql_codes: Dictionary of code definitions
+            properties: Dictionary of library properties
+        """
+        lib_id = stringer.name_to_id(lib_name)
+        cql =  "/*\n"
+        cql += "@libname: " + lib_name + "\n"
+        cql += "@libid: " + lib_id + "\n"
+        for k, v in properties.items():
+            cql += '@' + k + ': ' + v + "\n"
+        cql += "*/\n"
+        cql += "library " + lib_id + "\n"
+        #cql += "using FHIR version '4.0.1'\n"
+        #cql += "include FHIRHelpers version '4.0.1'\n" #do we want to include some common libraries?
+        cql += "\ncontext Patient\n"
 
-  def has_resource(self,dir,id):
-    return  dir in self.resources and id in self.resources[dir]
-
-  def add_cql(self,id,cql:str):
-    self.cqls[id]=cql
-    return True
-
-  def add_page(self,id,page:str):
-    self.pages[id]=page
-    return True
-
-
-  def create_cql_library(self,lib_name,cql_codes:dict ={}, properties:dict = {}):
-    lib_id = stringer.name_to_id(lib_name)
-    cql =  "/*\n"
-    cql += "@libname: " + lib_name + "\n"
-    cql += "@libid: " + lib_id + "\n"
-    for k,v in properties.items():
-      cql += '@' + k + ': ' + v + "\n"
-    cql += "*/\n"
-    cql += "library " + lib_id + "\n"
-    #cql += "using FHIR version '4.0.1'\n"
-    #cql += "include FHIRHelpers version '4.0.1'\n" #do we want to include some common libraries?
-    cql += "\ncontext Patient\n"
-
-    if not isinstance(cql_codes,dict):
-      logging.getLogger(self.__class__.__name__).info("Invalid CQL code definitions for " + lib_name)
-      sys.exit()
-      return False
-    
-    for name,val in cql_codes.items():
-      if isinstance(val,str):
-        cql += "\n/*\n"
-        cql += "@name: " + name + "\n"
-        cql += "@pseudocode: " + val + "\n"
-        cql += " */\n"
-        cql += "define \"" + stringer.escape(name) + "\":\n"
-        cql += "  //CQL AUTHORS: you need to insert stuff here\n"
-      elif isinstance(val,dict):
-        cql += "\n/*\n"
-        cql += "Autogenerated documentation from DAK\n"
-        cql += "@name: " + name + "\n"
-        for k,v in val.items():
-          cql += "@" + k + ": " + str(v) + "\n"            
-        cql += " */\n"
-        cql += "define \"" + stringer.escape(name) + "\":\n"
-        cql += "  //CQL AUTHORS: you need to insert stuff here\n"
-        if 'pseudocode' in val:
-          cql += "  // " + "\n   // ".join(val['pseudocode'].splitlines(True)) + "\n"
-          
-    self.add_cql(lib_id,cql)
-    
-    library = "Instance: " + lib_id + "\n"
-    library += "InstanceOf: Library\n"
-    library += "Title: \"" + stringer.escape(lib_name) + "\"\n"
-    library += "Description: \"This library defines context-independent elements for "  + lib_name + "\"\n"
-    library += "Usage: #definition\n"
-    library += "* insert LogicLibrary( " + lib_id + " )\n"    
-    self.add_resource("libraries",lib_id,library)
-
-
-
-
-    
+        if not isinstance(cql_codes, dict):
+            logging.getLogger(self.__class__.__name__).info("Invalid CQL code definitions for " + lib_name)
+            sys.exit()
+            return
+        
+        for name, val in cql_codes.items():
+            if isinstance(val, str):
+                cql += "\n/*\n"
+                cql += "@name: " + name + "\n"
+                cql += "@pseudocode: " + val + "\n"
+                cql += " */\n"
+                cql += "define \"" + stringer.escape(name) + "\":\n"
+                cql += "  //CQL AUTHORS: you need to insert stuff here\n"
+            elif isinstance(val, dict):
+                cql += "\n/*\n"
+                cql += "Autogenerated documentation from DAK\n"
+                cql += "@name: " + name + "\n"
+                for k, v in val.items():
+                    cql += "@" + k + ": " + str(v) + "\n"            
+                cql += " */\n"
+                cql += "define \"" + stringer.escape(name) + "\":\n"
+                cql += "  //CQL AUTHORS: you need to insert stuff here\n"
+                if 'pseudocode' in val:
+                    cql += "  // " + "\n   // ".join(val['pseudocode'].splitlines(True)) + "\n"
+                  
+        self.add_cql(lib_id, cql)
+        
+        library = "Instance: " + lib_id + "\n"
+        library += "InstanceOf: Library\n"
+        library += "Title: \"" + stringer.escape(lib_name) + "\"\n"
+        library += "Description: \"This library defines context-independent elements for "  + lib_name + "\"\n"
+        library += "Usage: #definition\n"
+        library += "* insert LogicLibrary( " + lib_id + " )\n"    
+        self.add_resource("libraries", lib_id, library)
