@@ -13,6 +13,11 @@ The extractor processes two main types of files:
 Author: SMART Guidelines Team
 """
 import installer
+import logging
+import stringer
+from typing import List, Dict, Optional
+from extractor import extractor
+
 
 class DHIExtractror(extractor):
     """

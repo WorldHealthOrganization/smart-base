@@ -14,6 +14,7 @@ Author: SMART Guidelines Team
 import logging
 import sys
 import glob as glob
+from typing import List, Dict
 from extractor import extractor 
 from installer import installer
 
@@ -29,12 +30,12 @@ class bpmn_extractor(extractor):
     
     Attributes:
         xslt_file (str): Path to the XSLT transformation file for BPMN to FSH conversion
-        namespaces (dict): XML namespaces used in BPMN files
+        namespaces (Dict[str, str]): XML namespaces used in BPMN files
     """
-    xslt_file  = "includes/bpmn2fhirfsh.xsl"
-    namespaces = {'bpmn':"http://www.omg.org/spec/BPMN/20100524/MODEL"}
+    xslt_file: str = "includes/bpmn2fhirfsh.xsl"
+    namespaces: Dict[str, str] = {'bpmn':"http://www.omg.org/spec/BPMN/20100524/MODEL"}
     
-    def __init__(self,installer:installer):
+    def __init__(self, installer: installer) -> None:
         """
         Initialize the BPMN extractor with transformer registration.
         
@@ -45,11 +46,11 @@ class bpmn_extractor(extractor):
             installer: The installer instance for managing FHIR resources
         """
         super().__init__(installer)        
-        self.installer.register_transformer("bpmn",self.xslt_file,self.namespaces)
+        self.installer.register_transformer("bpmn", self.xslt_file, self.namespaces)
 
 
 
-    def find_files(self):
+    def find_files(self) -> List[str]:
         """
         Find all BPMN files in the business processes directory.
         
@@ -62,7 +63,7 @@ class bpmn_extractor(extractor):
         return glob.glob("input/business-processes/*bpmn")
         
 
-    def extract_file(self):
+    def extract_file(self) -> bool:
         """
         Process a single BPMN file through XML transformation.
         
@@ -74,7 +75,7 @@ class bpmn_extractor(extractor):
         """
         with open(self.inputfile_name, 'r') as file:
             bpmn = str(file.read())
-            if not self.installer.transform_xml("bpmn",bpmn,process_multiline=True):
+            if not self.installer.transform_xml("bpmn", bpmn, process_multiline=True):
                 logging.getLogger(self.__class__.__name__).info("Could not transform bpmn on " + self.inputfile_name)
                 return False
         return True

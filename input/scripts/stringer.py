@@ -17,9 +17,10 @@ Author: SMART Guidelines Team
 import hashlib
 import logging
 import re
+from typing import Any, Optional
 
 
-def to_hash(input:str,len:int):
+def to_hash(input: str, len: int) -> str:
   """
   Generate a truncated string with hash suffix for long identifiers.
   
@@ -39,7 +40,7 @@ def to_hash(input:str,len:int):
   
 
 
-def xml_escape(input):
+def xml_escape(input: Any) -> str:
   """
   Escape special characters for XML/HTML content.
   
@@ -52,7 +53,7 @@ def xml_escape(input):
   Returns:
       XML-safe string with escaped characters
   """
-  if ( not (isinstance(input,str))):
+  if not isinstance(input, str):
     return ""
   # see https://stackoverflow.com/questions/1546717/escaping-strings-for-use-in-xml
   return input.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&apos;")    

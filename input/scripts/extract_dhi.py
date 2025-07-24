@@ -20,6 +20,10 @@ Author: SMART Guidelines Team
 import installer
 import DHIExtractor
 import logging
+import getopt
+import sys
+from typing import List
+
 
 class extract_dhi:
     """
@@ -30,10 +34,7 @@ class extract_dhi:
     into FHIR resources through the installer system.
     """
 
-
-    
-
-    def usage():
+    def usage(self) -> None:
         """
         Display usage information for the DHI extraction script.
         
@@ -47,7 +48,7 @@ class extract_dhi:
         sys.exit(2)
 
 
-    def extract():
+    def extract(self) -> bool:
         """
         Execute the DHI extraction process.
         
@@ -58,16 +59,16 @@ class extract_dhi:
             True if extraction and installation successful, False otherwise
         """
         try: 
-            ins = installer()
-            if not DHIExtractor(ins).extract():
-                logging.getLogger(self.__class__.__name__).info(f"ERROR: Could not extract: {e}")
+            ins = installer.installer()
+            if not DHIExtractor.DHIExtractror(ins).extract():
+                logging.getLogger(self.__class__.__name__).info("ERROR: Could not extract DHI data")
                 return False
             return ins.install()
         except Exception as e:
             logging.getLogger(self.__class__.__name__).info(f"ERROR: Could not extract: {e}")
             return False
 
-    def main():
+    def main(self) -> bool:
         """
         Main entry point for the DHI extraction script.
         
@@ -78,9 +79,9 @@ class extract_dhi:
             True if successful, calls sys.exit(1) on failure
         """
         try:
-            opts,args = getopt.getopt(sys.argv[1:], "h", ["help"])
+            opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
         except getopt.GetoptError:
-            usage()
+            self.usage()
 
         if not self.extract():
             sys.exit(1)
