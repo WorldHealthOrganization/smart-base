@@ -23,6 +23,20 @@ import os
 import pandas as pd
 from installer import installer
 import logging
+from typing import Dict, List, Optional, Any
+from typing_extensions import TypedDict
+
+
+class ColumnMappingDict(TypedDict):
+    """Type definition for column mapping configuration."""
+    # Maps desired column names to lists of possible source column names
+    # Example: {'reqid': ['Requirement ID', 'Req ID'], 'description': ['Description', 'Desc']}
+
+
+class ExtractorAliasDict(TypedDict, total=False):
+    """Type definition for extractor alias configuration."""
+    name: str
+    url: str
 
 
 class extractor(object):
@@ -44,11 +58,11 @@ class extractor(object):
       installer: Instance of the installer for resource management
   """
 
-  inputfile_name = ""
-  class_cs = "http://smart.who.int/base/CodeSystem/CDHIv1"
+  inputfile_name: str = ""
+  class_cs: str = "http://smart.who.int/base/CodeSystem/CDHIv1"
   
   
-  def find_files(self):
+  def find_files(self) -> List[str]:
     """
     Discover files to be processed by this extractor.
     
@@ -60,7 +74,7 @@ class extractor(object):
     """
     return []
   
-  def extract(self):
+  def extract(self) -> bool:
     """
     Main extraction workflow that processes all discovered files.
     
@@ -76,7 +90,7 @@ class extractor(object):
       self.extract_file()
     return True
     
-  def get_aliases(self):
+  def get_aliases(self) -> List[str]:
     """
     Provide additional aliases for FHIR resource generation.
     
@@ -84,12 +98,12 @@ class extractor(object):
     aliases needed for their resource generation.
     
     Returns:
-        List of alias definitions
+        List of alias definitions as strings
     """
     return []
 
   
-  def __init__(self,installer:installer):
+  def __init__(self, installer: installer) -> None:
     """
     Initialize the extractor with an installer instance.
     
@@ -106,7 +120,7 @@ class extractor(object):
     self.installer.add_aliases(aliases)
 
 
-  def extract_file(self):
+  def extract_file(self) -> None:
     """
     Process a single input file.
     
@@ -118,7 +132,7 @@ class extractor(object):
     
 
   # see https://www.youtube.com/watch?v=EnSu9hHGq5o&t=1184s&ab_channel=NextDayVideo
-  def generate_pairs_from_lists(self,lista,listb):
+  def generate_pairs_from_lists(self, lista: List[Any], listb: List[Any]):
     """
     Generate all possible pairs from two lists.
     
@@ -134,9 +148,9 @@ class extractor(object):
     """
     for a in lista:
       for b in listb:
-        yield a,b
+        yield a, b
 
-  def generate_pairs_from_column_maps(self,column_maps:dict):
+  def generate_pairs_from_column_maps(self, column_maps: Dict[str, List[str]]):
     """
     Generate column name pairs from mapping configuration.
     
@@ -149,11 +163,11 @@ class extractor(object):
     Yields:
         Tuples of (desired_name, possible_name)
     """
-    for desired_column_name,possible_column_names in column_maps.items():
+    for desired_column_name, possible_column_names in column_maps.items():
       for possible_column_name in possible_column_names:
-        yield str(desired_column_name),str(possible_column_name)
+        yield str(desired_column_name), str(possible_column_name)
 
-  def retrieve_data_frame_by_headers(self,column_maps,sheet_names,header_offsets = [0,1,2]):
+  def retrieve_data_frame_by_headers(self, column_maps: Dict[str, List[str]], sheet_names: List[str], header_offsets: List[int] = [0, 1, 2]) -> Optional[pd.DataFrame]:
     """
     Intelligently load Excel data with flexible column and sheet matching.
     
@@ -195,7 +209,7 @@ class extractor(object):
     #     'so-that':["So that"]
     #     }
     logging.getLogger(self.__class__.__name__).info("Looking at sheets:" +  " ".join(sheet_names))
-    for sheet_name, header_row in self.generate_pairs_from_lists(sheet_names,header_offsets):
+    for sheet_name, header_row in self.generate_pairs_from_lists(sheet_names, header_offsets):
       logging.getLogger(self.__class__.__name__).info("Checking sheetname/header row #: " + sheet_name +  "/"+ str(header_row))
       try:
         data_frame = pd.read_excel(self.inputfile_name, sheet_name=sheet_name, header=header_row)
@@ -204,13 +218,13 @@ class extractor(object):
         logging.getLogger(self.__class__.__name__).info(e)
         continue
 
-      true_column_map = {} #this is where we will map current column names to canonicalized/normalied column names
+      true_column_map: Dict[str, str] = {} #this is where we will map current column names to canonicalized/normalied column names
       for column_name in list(data_frame):
         if stringer.is_blank(column_name):
           continue
         column_id = stringer.name_to_lower_id(column_name)
 
-        for desired_column_name,possible_column_name in self.generate_pairs_from_column_maps(column_maps):          
+        for desired_column_name, possible_column_name in self.generate_pairs_from_column_maps(column_maps):          
           possible_column_id = stringer.name_to_lower_id(possible_column_name)
           if (possible_column_id == column_id):
             #we found what we needed
@@ -220,7 +234,7 @@ class extractor(object):
         if not column_name in true_column_map:
           #we dont need this input/source data frame column
           #we get rid of it to help normalize for downstream processing
-          data_frame.drop(column_name,axis='columns', inplace=True)
+          data_frame.drop(column_name, axis='columns', inplace=True)
           logging.getLogger(self.__class__.__name__).info("Dropped: " + str(column_name))
           continue
                                           
@@ -237,7 +251,7 @@ class extractor(object):
     return None
 
 
-  def log(self,*statements):
+  def log(self, *statements: Any) -> None:
     """
     Enhanced logging with file context information.
     
@@ -253,7 +267,7 @@ class extractor(object):
       self.installer.log( prefix + statement )
       prefix = "\t"
 
-  def qa(self,msg):
+  def qa(self, msg: str) -> None:
     """
     Report quality assurance issues.
     
