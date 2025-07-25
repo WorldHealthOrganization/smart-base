@@ -1,8 +1,8 @@
-# Personas Extractor (extractpr.py) Documentation
+# Personas Extractor (pdf_extractor.py) Documentation
 
 ## Overview
 
-The `extractpr.py` script extracts SMART Guidelines DAK Component 2 (personas/actors) content from PDF files containing WHO SMART Guidelines documentation. It processes Generic Personas and Related Personas tables, converting them into FHIR ActorDefinition resources.
+The `pdf_extractor.py` script extracts SMART Guidelines DAK Component 2 (personas/actors) content from PDF files containing WHO SMART Guidelines documentation. It processes Generic Personas and Related Personas tables, converting them into FHIR ActorDefinition resources.
 
 ## Usage
 
@@ -10,7 +10,7 @@ The `extractpr.py` script extracts SMART Guidelines DAK Component 2 (personas/ac
 
 ```bash
 cd /path/to/smart-base
-python3 input/scripts/extractpr.py
+python3 input/scripts/pdf_extractor.py
 ```
 
 ### As part of DAK extraction pipeline
@@ -86,7 +86,7 @@ Expected table format:
 
 ### File Locations
 - Generated FSH files: `input/fsh/actordefinitions/`
-- Log files: `temp/extractpr.py.log`
+- Log files: `temp/pdf_extractor.py.log`
 
 ## Extraction Process
 

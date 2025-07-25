@@ -32,7 +32,7 @@ from extractor import extractor
 from installer import installer
 
 
-class extractpr(extractor):
+class pdf_extractor(extractor):
     """
     Extractor for personas/actors processing from PDF files.
 
@@ -512,7 +512,7 @@ if __name__ == "__main__":
     
     try:
         ins = installer()
-        extractor = extractpr(ins)
+        extractor = pdf_extractor(ins)
         
         if extractor.extract():
             print("Personas extraction completed successfully")

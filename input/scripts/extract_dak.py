@@ -32,7 +32,7 @@ from req_extractor import req_extractor
 from bpmn_extractor import bpmn_extractor
 from dt_extractor import dt_extractor
 from svg_extractor import svg_extractor
-from extractpr import extractpr
+from pdf_extractor import pdf_extractor
 from extractor import extractor
 import getopt
 import sys
@@ -63,7 +63,7 @@ class extract_dak:
     def extract(self) -> bool:
         try:
             ins = installer()
-            extractors: List[Type[extractor]] = [dd_extractor,bpmn_extractor,svg_extractor,req_extractor,dt_extractor,extractpr]
+            extractors: List[Type[extractor]] = [dd_extractor,bpmn_extractor,svg_extractor,req_extractor,dt_extractor,pdf_extractor]
             for extractor_class in extractors:
                 self.logger.info("Initializing extractor " + extractor_class.__name__)
                 ext = extractor_class(ins)
