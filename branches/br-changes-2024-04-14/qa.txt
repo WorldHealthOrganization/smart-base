@@ -1,0 +1,42 @@
+SMARTBase : Validation Results
+=========================================
+
+err = 3, warn = 16, info = 0
+IG Publisher Version: 1.6.4
+Generated Mon Apr 15 03:23:00 UTC 2024. FHIR version 4.0.1 for who.base#0.1.0 (canonical = http://smart.who.int/base)
+ Build Errors : 0 / 9 / 0
+ /github/workspace/fsh-generated/resources/ImplementationGuide-who.base : 1 / 1 / 1
+ /github/workspace/fsh-generated/resources/StructureDefinition-SGCodeSystem : 0 / 1 / 1
+ /github/workspace/fsh-generated/resources/StructureDefinition-SGImplementationGuide : 0 / 1 / 1
+ /github/workspace/fsh-generated/resources/StructureDefinition-SGLogicalModel : 0 / 1 / 1
+ /github/workspace/fsh-generated/resources/StructureDefinition-SGMeasure : 0 / 1 / 1
+ /github/workspace/fsh-generated/resources/StructureDefinition-SGValueSet : 0 / 1 / 1
+ /github/workspace/input/profiles/structuredefinition-sg-groupdefinition : 2 / 1 / 1
+</table>
+== n/a ==
+WARNING: Unable to find ImplementationGuide.definition.resource.description for the resource StructureDefinition/SGCodeSystem.  Descriptions are strongly encouraged if they cannot be inferred from the resource to allow proper population of the artifact list.
+WARNING: Unable to find ImplementationGuide.definition.resource.description for the resource StructureDefinition/SGImplementationGuide.  Descriptions are strongly encouraged if they cannot be inferred from the resource to allow proper population of the artifact list.
+WARNING: Unable to find ImplementationGuide.definition.resource.description for the resource StructureDefinition/SGLogicalModel.  Descriptions are strongly encouraged if they cannot be inferred from the resource to allow proper population of the artifact list.
+WARNING: Unable to find ImplementationGuide.definition.resource.description for the resource StructureDefinition/SGMeasure.  Descriptions are strongly encouraged if they cannot be inferred from the resource to allow proper population of the artifact list.
+WARNING: Unable to find ImplementationGuide.definition.resource.description for the resource StructureDefinition/SGValueSet.  Descriptions are strongly encouraged if they cannot be inferred from the resource to allow proper population of the artifact list.
+WARNING: 1: The HTML fragment 'ip-statements.xhtml' is not included anywhere in the produced implementation guide
+WARNING: 2: An HTML fragment from the set [cross-version-analysis.xhtml, cross-version-analysis-inline.xhtml] is not included anywhere in the produced implementation guide
+WARNING: 3: An HTML fragment from the set [dependency-table.xhtml, dependency-table-short.xhtml] is not included anywhere in the produced implementation guide
+WARNING: 4: The HTML fragment 'globals-table.xhtml' is not included anywhere in the produced implementation guide
+== fsh-generated/resources/ImplementationGuide-who.base.json ==
+ERROR: ImplementationGuide/who.base: ImplementationGuide.meta.profile[0]: Canonical URLs must be absolute URLs if they are not fragment references (SGImplementationGuide)
+WARNING: ImplementationGuide/who.base: ImplementationGuide.meta.profile[0]: Profile reference 'SGImplementationGuide' has not been checked because it could not be found, and the validator is set to not fetch unknown profiles
+== fsh-generated/resources/StructureDefinition-SGCodeSystem.json ==
+WARNING: StructureDefinition.where(url = 'http://smart.who.int/base/StructureDefinition/SGCodeSystem'): The Implementation Guide contains no examples for this profile
+== fsh-generated/resources/StructureDefinition-SGImplementationGuide.json ==
+WARNING: StructureDefinition.where(url = 'http://smart.who.int/base/StructureDefinition/SGImplementationGuide'): The Implementation Guide contains no examples for this profile
+== fsh-generated/resources/StructureDefinition-SGLogicalModel.json ==
+WARNING: StructureDefinition.where(url = 'http://smart.who.int/base/StructureDefinition/SGLogicalModel'): The Implementation Guide contains no examples for this profile
+== fsh-generated/resources/StructureDefinition-SGMeasure.json ==
+WARNING: StructureDefinition.where(url = 'http://smart.who.int/base/StructureDefinition/SGMeasure'): The Implementation Guide contains no examples for this profile
+== fsh-generated/resources/StructureDefinition-SGValueSet.json ==
+WARNING: StructureDefinition.where(url = 'http://smart.who.int/base/StructureDefinition/SGValueSet'): The Implementation Guide contains no examples for this profile
+== input/profiles/structuredefinition-sg-groupdefinition.json ==
+ERROR: StructureDefinition.where(url = 'http://worldhealthorganization.github.io/smart-base/StructureDefinition/sg-groupdefinition'): Conformance resource /github/workspace/input/profiles/structuredefinition-sg-groupdefinition.json - the canonical URL (http://smart.who.int/base/StructureDefinition/sg-groupdefinition) does not match the URL (http://worldhealthorganization.github.io/smart-base/StructureDefinition/sg-groupdefinition)
+WARNING: StructureDefinition.where(url = 'http://worldhealthorganization.github.io/smart-base/StructureDefinition/sg-groupdefinition'): The Implementation Guide contains no examples for this profile
+ERROR: /github/workspace/input/profiles/structuredefinition-sg-groupdefinition: URL Mismatch http://smart.who.int/base/StructureDefinition/sg-groupdefinition vs http://worldhealthorganization.github.io/smart-base/StructureDefinition/sg-groupdefinition
