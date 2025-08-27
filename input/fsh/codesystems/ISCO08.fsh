@@ -19,67 +19,66 @@ Description: "ISCO-08 codes from the International Labour Organization official 
 * #2 "Professionals"
   * ^property[=].code = #definition
   * ^property[=].valueString = "Professionals increase the existing stock of knowledge; apply scientific or artistic concepts and theories; teach about the foregoing in a systematic manner; or engage in any combination of these activities."
-* #3 "Technicians and Associate Professionals"
-  * ^property[=].code = #definition
-  * ^property[=].valueString = "Technicians and associate professionals perform mostly technical and related tasks connected with research and the application of scientific or artistic concepts and operational methods, and government or business regulations."
 * #11 "Chief Executives, Senior Officials and Legislators"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Chief executives, senior officials and legislators formulate government policy, exercise governmental functions, direct the activities of enterprises and organizations, and act as representatives of the people."
 * #12 "Administrative and Commercial Managers"
-* #21 "Science and Engineering Professionals"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Administrative and commercial managers plan, direct, coordinate and evaluate the overall activities of enterprises, governments and other organizations."
 * #22 "Health Professionals"
-* #32 "Health Associate Professionals"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Health professionals conduct research, improve or develop concepts, theories and operational methods, and apply knowledge of medicine, nursing, dentistry, pharmacy and health promotion to diagnose, treat and prevent illness, disease, injury and other physical and mental impairments in humans."
 * #111 "Legislators and Senior Officials"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Legislators and senior officials formulate government policy, laws, and regulations; oversee their implementation; and represent the people as elected representatives."
 * #112 "Managing Directors and Chief Executives"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Managing directors and chief executives plan, direct, coordinate and evaluate the overall activities of enterprises, governments and other organizations."
 * #121 "Business Services and Administration Managers"
-* #211 "Physical and Earth Science Professionals"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Business services and administration managers plan, direct, coordinate and evaluate business services and administration activities."
 * #221 "Medical Doctors"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Medical doctors study, diagnose, treat and prevent illness, disease, injury and other physical and mental impairments in humans through the application of the principles and procedures of modern medicine."
 * #222 "Nursing and Midwifery Professionals"
-* #223 "Traditional and Complementary Medicine Professionals"
-* #224 "Paramedical Practitioners"
-* #225 "Veterinarians"
-* #226 "Other Health Professionals"
-* #321 "Medical and Pharmaceutical Technicians"
-* #322 "Nursing and Midwifery Associate Professionals"
-* #325 "Other Health Associate Professionals"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Nursing and midwifery professionals plan, manage, provide and evaluate nursing and midwifery care services for patients and the community."
 * #1111 "Legislators"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Legislators research, draft, debate and vote on the enactment of laws and policy; represent the electorate and perform related tasks."
 * #1112 "Senior Government Officials"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Senior government officials formulate and administer government policy and regulations; ensure their implementation and advise government; and represent government in negotiations and at official functions."
 * #1113 "Traditional Chiefs and Heads of Villages"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Traditional chiefs and heads of villages lead and represent communities according to traditional custom and practice; act as custodians of traditional culture and values."
 * #1114 "Senior Officials of Special-Interest Organizations"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Senior officials of special-interest organizations formulate and administer the policies and programs of special-interest organizations."
 * #1120 "Managing Directors and Chief Executives"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Managing directors and chief executives plan, direct, coordinate and evaluate the overall activities of enterprises, governments and other organizations."
 * #1211 "Finance Managers"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Finance managers plan, direct and coordinate financial activities and services within an organization."
 * #1212 "Human Resource Managers"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Human resource managers plan, direct and coordinate human resource management activities within an organization."
 * #1213 "Policy and Planning Managers"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Policy and planning managers plan, direct and coordinate policy development and strategic planning activities within an organization."
 * #1219 "Business Services and Administration Managers Not Elsewhere Classified"
-* #2111 "Physicists and Astronomers"
-* #2112 "Meteorologists"
-* #2113 "Chemists"
-* #2114 "Geologists and Geophysicists"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "This unit group covers Business Services and Administration Managers not elsewhere classified in Minor Group 121 Business Services and Administration Managers."
 * #2211 "Generalist Medical Practitioners"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Generalist medical practitioners diagnose, treat and prevent illness, disease, injury and other physical and mental impairments in humans."
 * #2212 "Specialist Medical Practitioners"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Specialist medical practitioners diagnose, treat and prevent illness, disease, injury and other physical and mental impairments in humans, using specialized knowledge and skills in a particular area of medicine."
 * #2221 "Nursing Professionals"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Nursing professionals provide treatment, support and care services for people who are in need of nursing care due to the effects of ageing, injury, illness or other physical or mental impairment, or potential risks to health."
 * #2222 "Midwifery Professionals"
-* #2230 "Traditional and Complementary Medicine Professionals"
-* #2240 "Paramedical Practitioners"
-* #2250 "Veterinarians"
-* #2261 "Dentists"
-* #2262 "Pharmacists"
-* #2263 "Environmental and Occupational Health and Hygiene Professionals"
-* #2264 "Physiotherapists"
-* #2265 "Dietitians and Nutritionists"
-* #2266 "Audiologists and Speech Therapists"
-* #2267 "Optometrists and Ophthalmic Opticians"
-* #2269 "Health Professionals Not Elsewhere Classified"
-* #3211 "Medical Imaging and Therapeutic Equipment Technicians"
-* #3212 "Medical and Pathology Laboratory Technicians"
-* #3213 "Pharmaceutical Technicians and Assistants"
-* #3214 "Medical and Dental Prosthetic Technicians"
-* #3221 "Nursing Associate Professionals"
-* #3222 "Midwifery Associate Professionals"
-* #3251 "Dental Assistants and Therapists"
-* #3252 "Medical Records and Health Information Technicians"
-* #3253 "Community Health Workers"
-* #3254 "Dispensing Opticians"
-* #3255 "Physiotherapy Technicians and Assistants"
-* #3256 "Medical Assistants"
-* #3257 "Environmental and Occupational Health Inspectors and Associates"
-* #3258 "Ambulance Workers"
-* #3259 "Health Associate Professionals Not Elsewhere Classified"
+  * ^property[=].code = #definition
+  * ^property[=].valueString = "Midwifery professionals plan, manage, provide and evaluate midwifery care services before, during and after pregnancy and childbirth."

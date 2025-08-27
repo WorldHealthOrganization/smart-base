@@ -12,7 +12,7 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
 
 // 9 DAK Components with cardinality 0..*
 * healthInterventions 0..* Reference(DublinCore) "Health Interventions and Recommendations" "Overview of the health interventions and WHO, regional or national recommendations included within the DAK"
-* personas 0..* Reference(Persona) "Generic Personas" "Depiction of the human and system actors"
+* personas 0..* Reference(GenericPersona) "Generic Personas" "Depiction of the human and system actors"
 * userScenarios 0..* Reference(UserScenario) "User Scenarios" "Narratives that describe how the different personas may interact with each other"
 * businessProcesses 0..* Reference(BusinessProcessWorkflow) "Generic Business Processes and Workflows" "Business processes and workflows for achieving health programme objectives"
 * dataElements 0..* Reference(CoreDataElement) "Core Data Elements" "Data elements required throughout the different points of a workflow"

@@ -3,15 +3,19 @@
 ISCO-08 Extractor for SMART Guidelines
 
 This module extracts ISCO-08 (International Standard Classification of Occupations 2008)
-codes from XML source files and generates FHIR CodeSystem definitions.
+codes from Excel source files and generates FHIR CodeSystem definitions.
 
-The extractor processes the official ILO ISCO-08 classification structure and converts
-it into a FHIR-compatible CodeSystem for use in clinical decision support implementations.
+The extractor processes the official ILO ISCO-08 Excel file with columns:
+- "ISCO 08 Code": The official ISCO-08 code
+- "Title EN": English title/display name 
+- "Definition": Official definition of the occupation
+
+Source: https://webapps.ilo.org/ilostat-files/ISCO/newdocs-08-2021/ISCO-08/ISCO-08%20EN%20Structure%20and%20definitions.xlsx
 
 Author: SMART Guidelines Team
 """
 
-import xml.etree.ElementTree as ET
+import pandas as pd
 import os
 import sys
 from typing import Dict, List, Tuple
@@ -21,7 +25,7 @@ class ISCO08Extractor:
     """
     Extractor for ISCO-08 classification codes.
     
-    This extractor processes ISCO-08 XML source files and generates FHIR CodeSystem
+    This extractor processes ISCO-08 Excel source files and generates FHIR CodeSystem
     definitions for use in SMART Guidelines implementations.
     """
 
@@ -29,75 +33,51 @@ class ISCO08Extractor:
         self.codes = {}
         self.output_path = "input/fsh/codesystems"
         
-    def extract_from_xml(self, xml_file_path: str) -> bool:
+    def extract_from_excel(self, excel_file_path: str, sheet_name: str = 'ISCO-08') -> bool:
         """
-        Extract ISCO-08 codes from XML file.
+        Extract ISCO-08 codes from Excel file.
         
         Args:
-            xml_file_path: Path to the ISCO-08 XML source file
+            excel_file_path: Path to the ISCO-08 Excel source file
+            sheet_name: Name of the Excel sheet containing the data
             
         Returns:
             bool: True if extraction successful, False otherwise
         """
         try:
-            tree = ET.parse(xml_file_path)
-            root = tree.getroot()
+            # Read Excel file
+            df = pd.read_excel(excel_file_path, sheet_name=sheet_name)
             
-            # Extract major groups (1-digit codes)
-            for major_group in root.findall('major_group'):
-                code = major_group.get('code')
-                title = major_group.get('title')
-                definition_elem = major_group.find('definition')
-                definition = definition_elem.text if definition_elem is not None else title
+            # Validate required columns
+            required_columns = ['ISCO 08 Code', 'Title EN', 'Definition']
+            missing_columns = [col for col in required_columns if col not in df.columns]
+            if missing_columns:
+                print(f"Error: Missing required columns: {missing_columns}")
+                print(f"Available columns: {list(df.columns)}")
+                return False
+            
+            # Process each row
+            for _, row in df.iterrows():
+                code = str(row['ISCO 08 Code']).strip()
+                title = str(row['Title EN']).strip()
+                definition = str(row['Definition']).strip()
                 
+                # Skip empty rows
+                if not code or code == 'nan':
+                    continue
+                    
                 self.codes[code] = {
                     'display': title,
-                    'definition': definition
+                    'definition': definition if definition != 'nan' else title
                 }
                 
-                # Extract sub-major groups (2-digit codes)
-                for sub_major in major_group.findall('sub_major_group'):
-                    sub_code = sub_major.get('code')
-                    sub_title = sub_major.get('title')
-                    sub_definition_elem = sub_major.find('definition')
-                    sub_definition = sub_definition_elem.text if sub_definition_elem is not None else sub_title
-                    
-                    self.codes[sub_code] = {
-                        'display': sub_title,
-                        'definition': sub_definition
-                    }
-                    
-                    # Extract minor groups (3-digit codes)
-                    for minor in sub_major.findall('minor_group'):
-                        minor_code = minor.get('code')
-                        minor_title = minor.get('title')
-                        minor_definition_elem = minor.find('definition')
-                        minor_definition = minor_definition_elem.text if minor_definition_elem is not None else minor_title
-                        
-                        self.codes[minor_code] = {
-                            'display': minor_title,
-                            'definition': minor_definition
-                        }
-                        
-                        # Extract unit groups (4-digit codes)
-                        for unit in minor.findall('unit_group'):
-                            unit_code = unit.get('code')
-                            unit_title = unit.get('title')
-                            unit_definition_elem = unit.find('definition')
-                            unit_definition = unit_definition_elem.text if unit_definition_elem is not None else unit_title
-                            
-                            self.codes[unit_code] = {
-                                'display': unit_title,
-                                'definition': unit_definition
-                            }
-                            
             return True
             
-        except ET.ParseError as e:
-            print(f"Error parsing XML file {xml_file_path}: {e}")
+        except FileNotFoundError:
+            print(f"Error: Excel file {excel_file_path} not found")
             return False
         except Exception as e:
-            print(f"Error processing XML file {xml_file_path}: {e}")
+            print(f"Error processing Excel file {excel_file_path}: {e}")
             return False
 
     def escape_string(self, text: str) -> str:
@@ -142,8 +122,8 @@ class ISCO08Extractor:
         fsh_content.append("* ^property[=].description = \"Definition of the ISCO-08 code\"")
         fsh_content.append("")
         
-        # Sort codes by numeric value for logical ordering
-        sorted_codes = sorted(self.codes.items(), key=lambda x: int(x[0]))
+        # Sort codes by length first (to maintain hierarchy), then by numeric value
+        sorted_codes = sorted(self.codes.items(), key=lambda x: (len(x[0]), int(x[0]) if x[0].isdigit() else float('inf'), x[0]))
         
         # Add concepts
         for code, data in sorted_codes:
@@ -181,25 +161,26 @@ class ISCO08Extractor:
             print(f"Error saving CodeSystem to {output_file}: {e}")
             return False
 
-    def extract_and_generate(self, xml_file_path: str, output_file: str = None) -> bool:
+    def extract_and_generate(self, excel_file_path: str, output_file: str = None, sheet_name: str = 'ISCO-08') -> bool:
         """
         Main method to extract ISCO-08 codes and generate FHIR CodeSystem.
         
         Args:
-            xml_file_path: Path to the ISCO-08 XML source file
+            excel_file_path: Path to the ISCO-08 Excel source file
             output_file: Optional output file path
+            sheet_name: Name of the Excel sheet containing the data
             
         Returns:
             bool: True if successful, False otherwise
         """
-        print(f"Extracting ISCO-08 codes from {xml_file_path}")
+        print(f"Extracting ISCO-08 codes from {excel_file_path}")
         
-        if not os.path.exists(xml_file_path):
-            print(f"Error: Source file {xml_file_path} does not exist")
+        if not os.path.exists(excel_file_path):
+            print(f"Error: Source file {excel_file_path} does not exist")
             return False
             
-        if not self.extract_from_xml(xml_file_path):
-            print("Failed to extract codes from XML file")
+        if not self.extract_from_excel(excel_file_path, sheet_name):
+            print("Failed to extract codes from Excel file")
             return False
             
         print(f"Extracted {len(self.codes)} ISCO-08 codes")
@@ -214,16 +195,17 @@ class ISCO08Extractor:
 def main():
     """Main entry point for the ISCO-08 extractor script."""
     if len(sys.argv) < 2:
-        print("Usage: python isco08_extractor.py <xml_file_path> [output_file]")
-        print("Example: python isco08_extractor.py input/data/isco08.xml")
+        print("Usage: python isco08_extractor.py <excel_file_path> [output_file] [sheet_name]")
+        print("Example: python isco08_extractor.py input/data/ISCO-08_EN_Structure_and_definitions.xlsx")
         sys.exit(1)
     
-    xml_file_path = sys.argv[1]
+    excel_file_path = sys.argv[1]
     output_file = sys.argv[2] if len(sys.argv) > 2 else None
+    sheet_name = sys.argv[3] if len(sys.argv) > 3 else 'ISCO-08'
     
     extractor = ISCO08Extractor()
     
-    if extractor.extract_and_generate(xml_file_path, output_file):
+    if extractor.extract_and_generate(excel_file_path, output_file, sheet_name):
         print("ISCO-08 extraction completed successfully")
         sys.exit(0)
     else:
