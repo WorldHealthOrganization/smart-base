@@ -96,6 +96,10 @@ class installer(object):
         self.codesystem_manager = codesystem_manager.codesystem_manager(
             publisher, version)
 
+        # Register DMN transformer for converting DMN XML to HTML
+        dmn_namespaces = {'dmn': "https://www.omg.org/spec/DMN/20240513/MODEL/"}
+        self.register_transformer("dmn", "../includes/dmn2html.xslt", dmn_namespaces)
+
         # self.add_rulesets()
 
     def load_multifile_schema(self) -> bool:
