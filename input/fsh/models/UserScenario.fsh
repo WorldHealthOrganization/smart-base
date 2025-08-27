@@ -4,5 +4,5 @@ Description: "Logical Model for representing User Scenarios from a DAK. Narrativ
 
 * ^status = #active
 * title 1..1 string "Title" "Title of the user scenario"
-* id 1..1 SGid "Scenario ID" "An identifier for the user scenario"
+* id 1..1 id "Scenario ID" "An identifier for the user scenario"
 * personas 0..* SGid "Personas" "References to persona IDs that participate in this scenario"
