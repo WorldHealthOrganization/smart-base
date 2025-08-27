@@ -390,9 +390,7 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
             schemas_generated += 1
             schema_files.append(schema_path)
     
-    # Generate index.html
-    if schema_files:
-        generate_index_html(schema_files, output_dir)
+
     
     logger.info(f"Generated {schemas_generated} ValueSet schemas")
     return schemas_generated
