@@ -241,13 +241,12 @@ def save_schema(schema: Dict[str, Any], output_dir: str, valueset_id: str) -> Op
     logger = logging.getLogger(__name__)
     
     try:
-        # Create schema subdirectory under output directory
-        schema_dir = os.path.join(output_dir, "schema")
-        Path(schema_dir).mkdir(parents=True, exist_ok=True)
+        # Ensure output directory exists
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
         
         # Create filename
         filename = f"{valueset_id}.schema.json"
-        filepath = os.path.join(schema_dir, filename)
+        filepath = os.path.join(output_dir, filename)
         
         # Save schema
         with open(filepath, 'w', encoding='utf-8') as f:
@@ -275,11 +274,10 @@ def generate_index_html(schema_files: List[str], output_dir: str) -> bool:
     logger = logging.getLogger(__name__)
     
     try:
-        # Create schema subdirectory for index (same as where schemas are stored)
-        schema_dir = os.path.join(output_dir, "schema")
-        Path(schema_dir).mkdir(parents=True, exist_ok=True)
+        # Ensure output directory exists
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
         
-        index_path = os.path.join(schema_dir, "index.html")
+        index_path = os.path.join(output_dir, "index.html")
         
         # Generate HTML content
         html_content = """<!DOCTYPE html>
@@ -408,10 +406,10 @@ def main():
     if len(sys.argv) < 2:
         # Default paths
         expansions_path = "output/expansions.json"
-        output_dir = "output"  # Schemas will be saved to output/schema/ directory
+        output_dir = "output"  # Schemas will be saved directly to output/ directory
     elif len(sys.argv) == 2:
         expansions_path = sys.argv[1]
-        output_dir = "output"  # Schemas will be saved to output/schema/ directory
+        output_dir = "output"  # Schemas will be saved directly to output/ directory
     else:
         expansions_path = sys.argv[1]
         output_dir = sys.argv[2]
