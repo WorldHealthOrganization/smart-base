@@ -241,12 +241,13 @@ def save_schema(schema: Dict[str, Any], output_dir: str, valueset_id: str) -> Op
     logger = logging.getLogger(__name__)
     
     try:
-        # Ensure output directory exists
-        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        # Create schema subdirectory under output directory
+        schema_dir = os.path.join(output_dir, "schema")
+        Path(schema_dir).mkdir(parents=True, exist_ok=True)
         
         # Create filename
         filename = f"{valueset_id}.schema.json"
-        filepath = os.path.join(output_dir, filename)
+        filepath = os.path.join(schema_dir, filename)
         
         # Save schema
         with open(filepath, 'w', encoding='utf-8') as f:
@@ -274,11 +275,11 @@ def generate_index_html(schema_files: List[str], output_dir: str) -> bool:
     logger = logging.getLogger(__name__)
     
     try:
-        # Create schemas subdirectory for index (inside the output directory)
-        index_dir = os.path.join(output_dir, "schemas")
-        Path(index_dir).mkdir(parents=True, exist_ok=True)
+        # Create schema subdirectory for index (same as where schemas are stored)
+        schema_dir = os.path.join(output_dir, "schema")
+        Path(schema_dir).mkdir(parents=True, exist_ok=True)
         
-        index_path = os.path.join(index_dir, "index.html")
+        index_path = os.path.join(schema_dir, "index.html")
         
         # Generate HTML content
         html_content = """<!DOCTYPE html>
@@ -308,11 +309,10 @@ def generate_index_html(schema_files: List[str], output_dir: str) -> bool:
         # Add links for each schema file
         for file_path in sorted(schema_files):
             filename = os.path.basename(file_path)
-            # Create relative path from schemas/ to parent directory where schemas are stored
-            relative_path = f"../{filename}"
+            # Schema files are now in the same directory as index.html
             valueset_name = filename.replace('.schema.json', '')
             
-            html_content += f'        <li><a href="{relative_path}" class="schema-link">{valueset_name}.schema.json</a></li>\n'
+            html_content += f'        <li><a href="{filename}" class="schema-link">{valueset_name}.schema.json</a></li>\n'
         
         html_content += """    </ul>
     
@@ -408,10 +408,10 @@ def main():
     if len(sys.argv) < 2:
         # Default paths
         expansions_path = "output/expansions.json"
-        output_dir = "output"  # Changed to output schemas directly to output/ directory
+        output_dir = "output"  # Schemas will be saved to output/schema/ directory
     elif len(sys.argv) == 2:
         expansions_path = sys.argv[1]
-        output_dir = "output"  # Changed default
+        output_dir = "output"  # Schemas will be saved to output/schema/ directory
     else:
         expansions_path = sys.argv[1]
         output_dir = sys.argv[2]

@@ -176,8 +176,8 @@ python input/scripts/generate_valueset_schemas.py path/to/expansions.json path/t
 ```
 
 **Output:**
-- Creates one JSON schema file per ValueSet in the output directory: `{valueset-id}.schema.json`
-- Creates an index.html file at `output/schemas/index.html` with links to all generated schemas
+- Creates one JSON schema file per ValueSet in the output/schema directory: `{valueset-id}.schema.json`
+- Creates an index.html file at `output/schema/index.html` with links to all generated schemas
 - Each schema uses enum to constrain values to the expanded codes
 - Includes FHIR metadata (ValueSet URL, expansion timestamp, etc.)
 
