@@ -96,10 +96,6 @@ class installer(object):
         self.codesystem_manager = codesystem_manager.codesystem_manager(
             publisher, version)
 
-        # Register DMN transformer for converting DMN XML to HTML
-        dmn_namespaces = {'dmn': "https://www.omg.org/spec/DMN/20240513/MODEL/"}
-        self.register_transformer("dmn", "../includes/dmn2html.xslt", dmn_namespaces)
-
         # self.add_rulesets()
 
     def load_multifile_schema(self) -> bool:
@@ -462,8 +458,7 @@ class installer(object):
             log(f"\tERROR: {e}")
             return False
 
-        html_path = Path("input/pagecontent/") / f"{id}.xml"
-        return self.transform_xml("dmn", dmn_tree, out_path=html_path)
+        return True
 
     def install_resources(self):
         result = True

@@ -91,6 +91,19 @@ jobs:
           entrypoint: /bin/sh
           args: -c "mkdir -p ./fhir-package-cache && chown 1001:127 ./fhir-package-cache"
 
+      - name: Transform DMN files to HTML
+        run: |
+          echo "Transforming DMN files to HTML before IG publisher runs..."
+          if [ -f "input/scripts/transform_dmn.py" ]; then
+            # Install Python dependencies
+            if [ -f "input/scripts/requirements.txt" ]; then
+              pip install -r input/scripts/requirements.txt
+            fi
+            python3 input/scripts/transform_dmn.py
+          else
+            echo "DMN transformation script not found, skipping DMN transformation"
+          fi
+
 
       - name: Run the IG publisher
         uses: docker://hl7fhir/ig-publisher-base:latest
