@@ -134,7 +134,7 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes: List[str]) ->
     return schema
 
 
-def save_schema(schema: Dict[str, Any], output_dir: str, valueset_id: str) -> bool:
+def save_schema(schema: Dict[str, Any], output_dir: str, valueset_id: str) -> Optional[str]:
     """
     Save a JSON schema to a file.
     
@@ -144,7 +144,7 @@ def save_schema(schema: Dict[str, Any], output_dir: str, valueset_id: str) -> bo
         valueset_id: ValueSet ID for filename
         
     Returns:
-        True if saved successfully, False otherwise
+        Filepath if saved successfully, None otherwise
     """
     logger = logging.getLogger(__name__)
     
@@ -161,10 +161,84 @@ def save_schema(schema: Dict[str, Any], output_dir: str, valueset_id: str) -> bo
             json.dump(schema, f, indent=2, ensure_ascii=False)
         
         logger.info(f"Saved schema for ValueSet {valueset_id} to {filepath}")
-        return True
+        return filepath
         
     except Exception as e:
         logger.error(f"Error saving schema for ValueSet {valueset_id}: {e}")
+        return None
+
+
+def generate_index_html(schema_files: List[str], output_dir: str) -> bool:
+    """
+    Generate an index.html file listing all generated schemas.
+    
+    Args:
+        schema_files: List of schema file paths
+        output_dir: Directory where schemas are saved
+        
+    Returns:
+        True if index generated successfully, False otherwise
+    """
+    logger = logging.getLogger(__name__)
+    
+    try:
+        # Create schemas subdirectory for index (inside the output directory)
+        index_dir = os.path.join(output_dir, "schemas")
+        Path(index_dir).mkdir(parents=True, exist_ok=True)
+        
+        index_path = os.path.join(index_dir, "index.html")
+        
+        # Generate HTML content
+        html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FHIR ValueSet JSON Schemas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 10px 0; }
+        a { text-decoration: none; color: #0066cc; }
+        a:hover { text-decoration: underline; }
+        .schema-link { display: block; padding: 8px; background: #f5f5f5; border-radius: 4px; }
+        .generated-info { color: #666; font-size: 0.9em; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>FHIR ValueSet JSON Schemas</h1>
+    <p>This page contains links to all generated JSON schemas for FHIR ValueSets.</p>
+    
+    <ul>
+"""
+        
+        # Add links for each schema file
+        for file_path in sorted(schema_files):
+            filename = os.path.basename(file_path)
+            # Create relative path from schemas/ to parent directory where schemas are stored
+            relative_path = f"../{filename}"
+            valueset_name = filename.replace('.schema.json', '')
+            
+            html_content += f'        <li><a href="{relative_path}" class="schema-link">{valueset_name}.schema.json</a></li>\n'
+        
+        html_content += """    </ul>
+    
+    <div class="generated-info">
+        <p><em>Generated automatically by the FHIR ValueSet JSON Schema Generator</em></p>
+    </div>
+</body>
+</html>"""
+        
+        # Save index file
+        with open(index_path, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        
+        logger.info(f"Generated index.html with {len(schema_files)} schema links at {index_path}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error generating index.html: {e}")
         return False
 
 
@@ -192,6 +266,7 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
         return 0
     
     schemas_generated = 0
+    schema_files = []
     
     # Process each entry
     for entry in expansions_data['entry']:
@@ -220,8 +295,14 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
         schema = generate_json_schema(resource, codes)
         
         # Save schema
-        if save_schema(schema, output_dir, valueset_id):
+        schema_path = save_schema(schema, output_dir, valueset_id)
+        if schema_path:
             schemas_generated += 1
+            schema_files.append(schema_path)
+    
+    # Generate index.html
+    if schema_files:
+        generate_index_html(schema_files, output_dir)
     
     logger.info(f"Generated {schemas_generated} ValueSet schemas")
     return schemas_generated
@@ -235,10 +316,10 @@ def main():
     if len(sys.argv) < 2:
         # Default paths
         expansions_path = "output/expansions.json"
-        output_dir = "output/schemas"
+        output_dir = "output"  # Changed to output schemas directly to output/ directory
     elif len(sys.argv) == 2:
         expansions_path = sys.argv[1]
-        output_dir = "output/schemas"
+        output_dir = "output"  # Changed default
     else:
         expansions_path = sys.argv[1]
         output_dir = sys.argv[2]
