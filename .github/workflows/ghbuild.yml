@@ -94,14 +94,67 @@ jobs:
       - name: Transform DMN files to HTML
         run: |
           echo "Transforming DMN files to HTML before IG publisher runs..."
-          if [ -f "input/scripts/transform_dmn.py" ]; then
-            # Install Python dependencies
-            if [ -f "input/scripts/requirements.txt" ]; then
-              pip install -r input/scripts/requirements.txt
+          
+          # Check if DMN transformation files exist locally
+          if [ ! -f "input/scripts/transform_dmn.py" ] || [ ! -f "input/includes/dmn2html.xslt" ] || [ ! -f "input/includes/dmn.css" ]; then
+            echo "DMN transformation files not found locally, downloading from smart-base repository..."
+            
+            # Create directories if they don't exist
+            mkdir -p input/scripts input/includes
+            
+            # Function to download a file with fallback branches
+            download_file() {
+              local file_path="$1"
+              local output_path="$2"
+              
+              # Try main branch first
+              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/$file_path" 2>/dev/null; then
+                echo "Downloaded $file_path from main branch"
+                return 0
+              fi
+              
+              # Fallback to copilot/fix-24 branch (temporary)
+              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/copilot/fix-24/$file_path" 2>/dev/null; then
+                echo "Downloaded $file_path from copilot/fix-24 branch"
+                return 0
+              fi
+              
+              echo "Failed to download $file_path from any branch"
+              return 1
+            }
+            
+            # Download transformation files from smart-base repository
+            download_success=true
+            
+            if ! download_file "input/scripts/transform_dmn.py" "input/scripts/transform_dmn.py"; then
+              download_success=false
             fi
+            
+            if ! download_file "input/includes/dmn2html.xslt" "input/includes/dmn2html.xslt"; then
+              download_success=false
+            fi
+            
+            if ! download_file "input/includes/dmn.css" "input/includes/dmn.css"; then
+              download_success=false
+            fi
+            
+            if [ "$download_success" = true ]; then
+              echo "Successfully downloaded all DMN transformation files"
+            else
+              echo "Failed to download some DMN transformation files"
+            fi
+          else
+            echo "Using local DMN transformation files"
+          fi
+          
+          # Install required Python dependencies for DMN transformation
+          pip install lxml
+          
+          # Run DMN transformation if script is available
+          if [ -f "input/scripts/transform_dmn.py" ]; then
             python3 input/scripts/transform_dmn.py
           else
-            echo "DMN transformation script not found, skipping DMN transformation"
+            echo "DMN transformation script not available, skipping DMN transformation"
           fi
 
 
