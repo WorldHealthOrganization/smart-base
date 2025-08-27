@@ -206,7 +206,7 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes: List[str]) ->
     
     schema = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": f"{valueset_url}/schema" if valueset_url else f"#{valueset_id}-schema",
+        "$id": f"{valueset_url}.schema.json" if valueset_url else f"#{valueset_id}-schema",
         "title": f"{valueset_title} Schema",
         "description": f"JSON Schema for {valueset_title} ValueSet codes. Generated from FHIR expansions.",
         "type": "string",
