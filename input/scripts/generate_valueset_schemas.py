@@ -204,9 +204,22 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes: List[str]) ->
     valueset_title = valueset_resource.get('title', valueset_resource.get('name', 'Unknown ValueSet'))
     valueset_url = valueset_resource.get('url', '')
     
+    # Construct schema $id based on ValueSet canonical URL pattern
+    if valueset_url:
+        # Extract base URL from canonical URL
+        # e.g., http://smart.who.int/base/ValueSet/DecisionTableActions -> http://smart.who.int/base
+        if '/ValueSet/' in valueset_url:
+            base_url = valueset_url.split('/ValueSet/')[0]
+            schema_id = f"{base_url}/ValueSet-{valueset_id}.schema.json"
+        else:
+            # Fallback if URL doesn't follow expected pattern
+            schema_id = f"{valueset_url}-{valueset_id}.schema.json"
+    else:
+        schema_id = f"#ValueSet-{valueset_id}-schema"
+    
     schema = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": f"{valueset_url}.schema.json" if valueset_url else f"#{valueset_id}-schema",
+        "$id": schema_id,
         "title": f"{valueset_title} Schema",
         "description": f"JSON Schema for {valueset_title} ValueSet codes. Generated from FHIR expansions.",
         "type": "string",
@@ -244,8 +257,8 @@ def save_schema(schema: Dict[str, Any], output_dir: str, valueset_id: str) -> Op
         # Ensure output directory exists
         Path(output_dir).mkdir(parents=True, exist_ok=True)
         
-        # Create filename
-        filename = f"{valueset_id}.schema.json"
+        # Create filename with ValueSet- prefix
+        filename = f"ValueSet-{valueset_id}.schema.json"
         filepath = os.path.join(output_dir, filename)
         
         # Save schema
