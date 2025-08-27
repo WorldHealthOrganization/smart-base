@@ -63,12 +63,101 @@ def load_expansions_json(file_path: str) -> Optional[Dict[str, Any]]:
         return None
 
 
-def extract_valueset_codes(valueset_resource: Dict[str, Any]) -> List[str]:
+def extract_valueset_id_from_entry(entry: Dict[str, Any]) -> str:
+    """
+    Extract the ValueSet ID from a Bundle entry and its resource.
+    
+    Args:
+        entry: Bundle entry containing a ValueSet resource
+        
+    Returns:
+        ValueSet ID or 'unknown' if cannot be determined
+    """
+    valueset_resource = entry.get('resource', {})
+    
+    # Try different sources for the ID in order of preference
+    
+    # 1. Direct 'id' field in resource
+    if 'id' in valueset_resource and valueset_resource['id'] != 'unknown':
+        return valueset_resource['id']
+    
+    # 2. Extract from resource 'url' field (canonical URL)
+    if 'url' in valueset_resource:
+        url = valueset_resource['url']
+        # Extract the last part of the URL after the last '/'
+        if '/' in url:
+            return url.split('/')[-1]
+    
+    # 3. Extract from Bundle entry 'fullUrl' field
+    if 'fullUrl' in entry:
+        full_url = entry['fullUrl']
+        # Extract the last part of the URL after the last '/'
+        if '/' in full_url:
+            return full_url.split('/')[-1]
+    
+    # 4. Use 'name' field if available
+    if 'name' in valueset_resource and valueset_resource['name']:
+        return valueset_resource['name']
+    
+    # 5. Extract from title if it's in a recognizable format
+    if 'title' in valueset_resource:
+        title = valueset_resource['title']
+        # If title contains common patterns, try to extract ID
+        # This is a fallback for cases where title might contain the logical name
+        words = title.replace(' ', '').replace('-', '').replace('_', '')
+        if words and not words.lower().startswith('unknown'):
+            return words
+    
+    return 'unknown'
+
+
+def extract_valueset_id(valueset_resource: Dict[str, Any]) -> str:
+    """
+    Extract the ValueSet ID from various possible sources.
+    (Legacy function - kept for backwards compatibility)
+    
+    Args:
+        valueset_resource: FHIR ValueSet resource
+        
+    Returns:
+        ValueSet ID or 'unknown' if cannot be determined
+    """
+    # Try different sources for the ID in order of preference
+    
+    # 1. Direct 'id' field
+    if 'id' in valueset_resource and valueset_resource['id'] != 'unknown':
+        return valueset_resource['id']
+    
+    # 2. Extract from 'url' field (canonical URL)
+    if 'url' in valueset_resource:
+        url = valueset_resource['url']
+        # Extract the last part of the URL after the last '/'
+        if '/' in url:
+            return url.split('/')[-1]
+    
+    # 3. Use 'name' field if available
+    if 'name' in valueset_resource and valueset_resource['name']:
+        return valueset_resource['name']
+    
+    # 4. Extract from title if it's in a recognizable format
+    if 'title' in valueset_resource:
+        title = valueset_resource['title']
+        # If title contains common patterns, try to extract ID
+        # This is a fallback for cases where title might contain the logical name
+        words = title.replace(' ', '').replace('-', '').replace('_', '')
+        if words and not words.lower().startswith('unknown'):
+            return words
+    
+    return 'unknown'
+
+
+def extract_valueset_codes(valueset_resource: Dict[str, Any], valueset_id: str = None) -> List[str]:
     """
     Extract codes from a ValueSet resource's expansion.
     
     Args:
         valueset_resource: FHIR ValueSet resource with expansion
+        valueset_id: Optional ValueSet ID for logging (if not provided, will be extracted)
         
     Returns:
         List of codes from the expansion
@@ -76,16 +165,19 @@ def extract_valueset_codes(valueset_resource: Dict[str, Any]) -> List[str]:
     logger = logging.getLogger(__name__)
     codes = []
     
+    if valueset_id is None:
+        valueset_id = extract_valueset_id(valueset_resource)
+    
     # Check if resource has expansion
     if 'expansion' not in valueset_resource:
-        logger.warning(f"ValueSet {valueset_resource.get('id', 'unknown')} has no expansion")
+        logger.warning(f"ValueSet {valueset_id} has no expansion")
         return codes
     
     expansion = valueset_resource['expansion']
     
     # Check if expansion has contains
     if 'contains' not in expansion:
-        logger.warning(f"ValueSet {valueset_resource.get('id', 'unknown')} expansion has no contains")
+        logger.warning(f"ValueSet {valueset_id} expansion has no contains")
         return codes
     
     # Extract codes from contains array
@@ -93,7 +185,7 @@ def extract_valueset_codes(valueset_resource: Dict[str, Any]) -> List[str]:
         if 'code' in item:
             codes.append(item['code'])
     
-    logger.info(f"Extracted {len(codes)} codes from ValueSet {valueset_resource.get('id', 'unknown')}")
+    logger.info(f"Extracted {len(codes)} codes from ValueSet {valueset_id}")
     return codes
 
 
@@ -108,7 +200,7 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes: List[str]) ->
     Returns:
         JSON schema dictionary
     """
-    valueset_id = valueset_resource.get('id', 'unknown')
+    valueset_id = extract_valueset_id(valueset_resource)
     valueset_title = valueset_resource.get('title', valueset_resource.get('name', 'Unknown ValueSet'))
     valueset_url = valueset_resource.get('url', '')
     
@@ -281,11 +373,11 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
             logger.debug(f"Skipping non-ValueSet resource: {resource.get('resourceType')}")
             continue
         
-        valueset_id = resource.get('id', 'unknown')
+        valueset_id = extract_valueset_id_from_entry(entry)
         logger.info(f"Processing ValueSet: {valueset_id}")
         
         # Extract codes from expansion
-        codes = extract_valueset_codes(resource)
+        codes = extract_valueset_codes(resource, valueset_id)
         
         if not codes:
             logger.warning(f"No codes found for ValueSet {valueset_id}, skipping schema generation")
