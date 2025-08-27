@@ -15,3 +15,4 @@ Alias: $pubStatus = http://hl7.org/fhir/publication-status
 Alias: $CPGCR = http://hl7.org/fhir/uv/cpg/StructureDefinition/cpg-communicationactivity
 Alias: $CPGKC = http://hl7.org/fhir/uv/cpg/StructureDefinition/cpg-knowledgeCapability
 Alias: $SGPersonaTypes = http://smart.who.int/base/CodeSystem/SGPersonaTypes
+Alias: SGid = http://smart.who.int/base/StructureDefinition/SGid
