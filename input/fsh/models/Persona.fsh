@@ -1,11 +1,12 @@
 Logical:       Persona
 Title:	       "Persona (DAK)"
-Description:   "Logical Model for representing Generic Personas from a DAK. Depiction of the human and system actors."
+Description:   "Logical Model for representing Personas from a DAK"
 
 * ^status = #active
-* title 1..1 string "Title" "Title of the persona"
-* id 1..1 id "Persona ID" "An identifier for the persona"
+* id 1..1 id "Requirement ID" "An identifier or code for the requirement"
+* name 1..1 string "Name" "Name"
 * description 1..1 string "Description" "Description of the persona"
-* otherNames 0..* string "Other Names/Examples" "Other names or examples for the persona"
-* iscoCode 0..* code "ISCO Code" "ISCO-08 codes for the persona"
-* iscoCode from ISCO08ValueSet (extensible)
+* ISCO 0..* CodeableConcept "ISCO Code" "ISCO Code"
+* type 1..1 code "Type of Persona" "Persona Types: Key/Related/System/Hardware Device"
+* type from SGPersonaTypesVS
+* ISCO from urn:oid:2.16.840.1.113883.2.9.6.2.7
