@@ -1,0 +1,20 @@
+Logical: DublinCore
+Title: "Dublin Core Metadata Element Set"
+Description: "Logical Model representing Dublin Core metadata elements as defined at https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
+
+* ^status = #active
+* title 0..1 string "Title" "A name given to the resource"
+* creator 0..* string "Creator" "An entity responsible for making the resource"
+* subject 0..* string "Subject" "The topic of the resource"
+* description 0..1 string "Description" "An account of the resource"
+* publisher 0..1 string "Publisher" "An entity responsible for making the resource available"
+* contributor 0..* string "Contributor" "An entity responsible for making contributions to the resource"
+* date 0..1 date "Date" "A point or period of time associated with an event in the lifecycle of the resource"
+* type 0..* string "Type" "The nature or genre of the resource"
+* format 0..1 string "Format" "The file format, physical medium, or dimensions of the resource"
+* identifier 0..* string "Identifier" "An unambiguous reference to the resource within a given context"
+* source 0..1 string "Source" "A related resource from which the described resource is derived"
+* language 0..1 string "Language" "A language of the resource"
+* relation 0..* string "Relation" "A related resource"
+* coverage 0..1 string "Coverage" "The spatial or temporal topic of the resource"
+* rights 0..1 string "Rights" "Information about rights held in and over the resource"
