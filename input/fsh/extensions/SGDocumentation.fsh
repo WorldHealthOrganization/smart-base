@@ -13,6 +13,6 @@ Description: "Smart Guidelines markdown extension"
 
 Extension: SGRequirementExt
 Description: "Smart Guidelines Requirements extension"
-* value[x] only Reference(Requirements)
+* value[x] only Reference(SGRequirements)
 
 
