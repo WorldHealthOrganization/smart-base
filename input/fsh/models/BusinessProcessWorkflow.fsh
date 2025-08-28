@@ -4,7 +4,7 @@ Description: "Logical Model for representing Generic Business Processes and Work
 
 * ^status = #active
 * source 1..1 uri "Source" "Link to a BPMN file containing the workflow definition"
-* scenario 0..* string "Scenario" "References to user scenario IDs related to this workflow"
+* scenario 0..* id "Scenario" "References to user scenario IDs related to this workflow"
 * objectives 1..1 markdown "Objectives" "Description of the objectives of the workflow"
 * task 0..* BackboneElement "Task" "Tasks within the business process workflow"
   * id 1..1 id "Task ID" "Identifier for the task"
