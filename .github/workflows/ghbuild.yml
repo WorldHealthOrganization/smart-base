@@ -119,6 +119,30 @@ jobs:
             -w /work \
             hl7fhir/ig-publisher-base:latest \
             sh -c "$CMD"
+
+      - name: Generate ValueSet JSON Schemas
+        run: |
+          echo "Generating ValueSet schemas from expansions.json..."
+          if [ -f "./output/expansions.json" ]; then
+            # Check if script exists locally first
+            if [ -f "./input/scripts/generate_valueset_schemas.py" ]; then
+              echo "Using local ValueSet schema generator..."
+              python3 input/scripts/generate_valueset_schemas.py
+            else
+              echo "Downloading ValueSet schema generator..."
+              mkdir -p ./input/scripts
+              curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_valueset_schemas.py \
+                -o ./input/scripts/generate_valueset_schemas.py
+              if [ -f "./input/scripts/generate_valueset_schemas.py" ]; then
+                python3 input/scripts/generate_valueset_schemas.py
+                echo "✅ ValueSet schemas generated successfully"
+              else
+                echo "⚠️  Failed to download schema generator, skipping"
+              fi
+            fi
+          else
+            echo "⚠️  expansions.json not found, skipping schema generation"
+          fi
      
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
