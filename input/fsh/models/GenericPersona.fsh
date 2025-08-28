@@ -8,4 +8,4 @@ Description: "Logical Model for representing Generic Personas from a DAK. Depict
 * description 1..1 string "Description" "Description of the persona"
 * otherNames 0..* string "Other Names/Examples" "Other names or examples for the persona"
 * iscoCode 0..* code "ISCO Code" "ISCO-08 codes for occupation classification"
-* iscoCode from ISCO08ValueSet (extensible)
+  * from ISCO08ValueSet (extensible)
