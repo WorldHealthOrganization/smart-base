@@ -458,8 +458,7 @@ class installer(object):
             log(f"\tERROR: {e}")
             return False
 
-        html_path = Path("input/pagecontent/") / f"{id}.xml"
-        return self.transform_xml("dmn", dmn_tree, out_path=html_path)
+        return True
 
     def install_resources(self):
         result = True
