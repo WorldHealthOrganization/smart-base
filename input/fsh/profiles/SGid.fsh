@@ -5,7 +5,8 @@ Description: "A SMART Guidelines ID (sgid) is an FHIR primitive id data type whi
 * ^status = #active
 * . ^short = "SMART Guidelines identifier"
 * . ^definition = "A SMART Guidelines ID (sgid) that can only contain letters, numbers, hyphens and periods, with length 1-64 characters"
+* . obeys sgid-1
 * . ^constraint[+].key = "sgid-1"
-* . ^constraint[=].severity = #error
-* . ^constraint[=].human = "SGid must only contain letters, numbers, hyphens and periods and be 1-64 characters long"
-* . ^constraint[=].expression = "matches('[A-Za-z0-9\\-\\.]{1,64}')"
+* . ^constraint[+].severity = #error
+* . ^constraint[+].human = "SGid must only contain letters, numbers, hyphens and periods and be 1-64 characters long"
+* . ^constraint[+].expression = "matches('[A-Za-z0-9\\-\\.]{1,64}')"
