@@ -117,6 +117,7 @@ The extraction will process DAK content from the current directory and generate 
 
 #### Post-Processing Scripts
 - `generate_valueset_schemas.py` - JSON Schema generation from IG publisher expansions.json output
+- `generate_logical_model_schemas.py` - JSON Schema generation from FSH Logical Model definitions
 
 ### Schema and Validation Files
 
@@ -192,6 +193,53 @@ python input/scripts/generate_valueset_schemas.py path/to/expansions.json path/t
   "enum": ["code1", "code2", "code3"],
   "fhir:valueSet": "http://smart.who.int/base/ValueSet/example",
   "fhir:expansionTimestamp": "2023-01-01T00:00:00Z"
+}
+```
+
+#### Logical Model Schema Generation
+
+The `generate_logical_model_schemas.py` script processes FSH files containing FHIR Logical Model definitions and generates JSON schemas for each Logical Model with support for ValueSet bindings.
+
+**Usage:**
+```bash
+# Using default paths (input/fsh -> output/)
+python input/scripts/generate_logical_model_schemas.py
+
+# Specifying input directory only (output dir defaults to output/)
+python input/scripts/generate_logical_model_schemas.py input/fsh/models
+
+# Specifying both input and output paths
+python input/scripts/generate_logical_model_schemas.py input/fsh/models output/schemas
+```
+
+**Features:**
+- Parses FSH files to identify Logical Model definitions (starting with `Logical:`)
+- Maps FHIR datatypes to JSON Schema types (string, boolean, integer, etc.)
+- Handles cardinality mapping (1..1 → required, 0..1 → optional, 0..* → array)
+- Supports choice types with `oneOf` constraints
+- Detects ValueSet bindings and creates `$ref` references to ValueSet schemas
+- Generates canonical `$id` URLs following FHIR patterns
+
+**Output:**
+- Creates one JSON schema file per Logical Model: `{model-name}.schema.json`
+- Schema `$id` follows pattern: `http://smart.who.int/base/StructureDefinition/{model-name}.schema.json`
+- Includes FHIR metadata and references to ValueSet schemas where applicable
+
+**Example generated schema:**
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition/Animal.schema.json",
+  "title": "Animal",
+  "description": "Logical Model for representing animals",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "species": { "$ref": "ValueSet-AnimalSpeciesVS.schema.json" },
+    "age": { "type": "integer" }
+  },
+  "required": ["name", "species"],
+  "fhir:logicalModel": "http://smart.who.int/base/StructureDefinition/Animal"
 }
 ```
 

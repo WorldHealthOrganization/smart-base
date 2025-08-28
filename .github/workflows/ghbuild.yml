@@ -209,6 +209,27 @@ jobs:
           else
             echo "⚠️  expansions.json not found, skipping schema generation"
           fi
+
+      - name: Generate Logical Model JSON Schemas
+        run: |
+          echo "Generating Logical Model schemas from FSH files..."
+          # Check if script exists locally first
+          if [ -f "./input/scripts/generate_logical_model_schemas.py" ]; then
+            echo "Using local Logical Model schema generator..."
+            python3 input/scripts/generate_logical_model_schemas.py input/fsh output
+            echo "✅ Logical Model schemas generated successfully"
+          else
+            echo "Downloading Logical Model schema generator..."
+            mkdir -p ./input/scripts
+            curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_logical_model_schemas.py \
+              -o ./input/scripts/generate_logical_model_schemas.py
+            if [ -f "./input/scripts/generate_logical_model_schemas.py" ]; then
+              python3 input/scripts/generate_logical_model_schemas.py input/fsh output
+              echo "✅ Logical Model schemas generated successfully"
+            else
+              echo "⚠️  Failed to download Logical Model schema generator, skipping"
+            fi
+          fi
      
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
