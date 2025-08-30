@@ -295,6 +295,14 @@ class SchemaGenerator:
                 "description": f"Reference to {fhir_type}"
             }
         
+        # Handle StructureDefinition URLs - these should reference other logical model schemas
+        if fhir_type.startswith('http') and '/StructureDefinition/' in fhir_type:
+            # Extract the StructureDefinition name from the URL
+            structure_def_name = fhir_type.split('/StructureDefinition/')[-1]
+            return {
+                "$ref": f"{structure_def_name}.schema.json"
+            }
+        
         # Handle ValueSet bindings
         if valueset:
             if fhir_type == 'code':
