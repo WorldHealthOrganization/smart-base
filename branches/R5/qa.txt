@@ -1,0 +1,100 @@
+﻿SMARTBase : Validation Results
+=========================================
+
+err = 1, warn = 19, info = 55
+IG Publisher Version: 1.4.14
+Generated Fri Oct 13 15:22:01 UTC 2023. FHIR version 5.0.0 for who.fhir.smart-base#0.1.0 (canonical = http://smart.who.int/ig/smart-base)
+ Build Errors : 0 / 10 / 0
+ /github/workspace/fsh-generated/resources/ImplementationGuide-who.fhir.smart-base : 1 / 1 / 1
+ /github/workspace/fsh-generated/resources/StructureDefinition-SGBusinessProcess : 0 / 1 / 3
+ /github/workspace/fsh-generated/resources/StructureDefinition-SGCodeSystem : 0 / 1 / 16
+ /github/workspace/fsh-generated/resources/StructureDefinition-SGImplementationGuide : 0 / 1 / 2
+ /github/workspace/fsh-generated/resources/StructureDefinition-SGLogicalModel : 0 / 2 / 13
+ /github/workspace/fsh-generated/resources/StructureDefinition-SGMeasure : 0 / 1 / 4
+ /github/workspace/fsh-generated/resources/StructureDefinition-SGPersona : 0 / 1 / 3
+ /github/workspace/fsh-generated/resources/StructureDefinition-SGValueSet : 0 / 1 / 21
+</table>
+== n/a ==
+WARNING: Unable to find ImplementationGuide.definition.resource.description for the resource StructureDefinition/SGBusinessProcess.  Descriptions are strongly encouraged if they cannot be inferred from the resource to allow proper population of the artifact list.
+WARNING: Unable to find ImplementationGuide.definition.resource.description for the resource StructureDefinition/SGCodeSystem.  Descriptions are strongly encouraged if they cannot be inferred from the resource to allow proper population of the artifact list.
+WARNING: Unable to find ImplementationGuide.definition.resource.description for the resource StructureDefinition/SGImplementationGuide.  Descriptions are strongly encouraged if they cannot be inferred from the resource to allow proper population of the artifact list.
+WARNING: Unable to find ImplementationGuide.definition.resource.description for the resource StructureDefinition/SGLogicalModel.  Descriptions are strongly encouraged if they cannot be inferred from the resource to allow proper population of the artifact list.
+WARNING: Unable to find ImplementationGuide.definition.resource.description for the resource StructureDefinition/SGMeasure.  Descriptions are strongly encouraged if they cannot be inferred from the resource to allow proper population of the artifact list.
+WARNING: Unable to find ImplementationGuide.definition.resource.description for the resource StructureDefinition/SGPersona.  Descriptions are strongly encouraged if they cannot be inferred from the resource to allow proper population of the artifact list.
+WARNING: Unable to find ImplementationGuide.definition.resource.description for the resource StructureDefinition/SGValueSet.  Descriptions are strongly encouraged if they cannot be inferred from the resource to allow proper population of the artifact list.
+WARNING: 1: The HTML fragment 'ip-statements.xhtml' is not included anywhere in the produced implementation guide
+WARNING: 3: An HTML fragment from the set [dependency-table.xhtml, dependency-table-short.xhtml] is not included anywhere in the produced implementation guide
+WARNING: 4: The HTML fragment 'globals-table.xhtml' is not included anywhere in the produced implementation guide
+== fsh-generated/resources/ImplementationGuide-who.fhir.smart-base.json ==
+ERROR: ImplementationGuide/who.fhir.smart-base: ImplementationGuide.meta.profile[0]: Canonical URLs must be absolute URLs if they are not fragment references (SGImplementationGuide)
+WARNING: ImplementationGuide/who.fhir.smart-base: ImplementationGuide.meta.profile[0]: Profile reference 'SGImplementationGuide' has not been checked because it is unknown, and the validator is set to not fetch unknown profiles
+== fsh-generated/resources/StructureDefinition-SGBusinessProcess.json ==
+INFORMATION: StructureDefinition/SGBusinessProcess: StructureDefinition.snapshot.element[25].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGBusinessProcess: StructureDefinition.snapshot.element[33].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+WARNING: StructureDefinition.where(url = 'http://smart.who.int/ig/smart-base/StructureDefinition/SGBusinessProcess'): The Implementation Guide contains no examples for this profile
+== fsh-generated/resources/StructureDefinition-SGCodeSystem.json ==
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[12].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[21].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[22].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[25].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[26].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[27].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[28].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[29].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[30].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[31].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[32].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[33].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[34].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[41].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGCodeSystem: StructureDefinition.snapshot.element[72].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+WARNING: StructureDefinition.where(url = 'http://smart.who.int/ig/smart-base/StructureDefinition/SGCodeSystem'): The Implementation Guide contains no examples for this profile
+== fsh-generated/resources/StructureDefinition-SGImplementationGuide.json ==
+INFORMATION: StructureDefinition/SGImplementationGuide: StructureDefinition.snapshot.element[22].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+WARNING: StructureDefinition.where(url = 'http://smart.who.int/ig/smart-base/StructureDefinition/SGImplementationGuide'): The Implementation Guide contains no examples for this profile
+== fsh-generated/resources/StructureDefinition-SGLogicalModel.json ==
+WARNING: StructureDefinition/SGLogicalModel: StructureDefinition.snapshot.element[0].constraint[17].human: value should not start or finish with whitespace 'If there's a base definition, there must be a derivation '
+INFORMATION: StructureDefinition/SGLogicalModel: StructureDefinition.snapshot.element[12].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGLogicalModel: StructureDefinition.snapshot.element[21].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGLogicalModel: StructureDefinition.snapshot.element[22].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGLogicalModel: StructureDefinition.snapshot.element[25].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGLogicalModel: StructureDefinition.snapshot.element[26].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGLogicalModel: StructureDefinition.snapshot.element[64].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGLogicalModel: StructureDefinition.snapshot.element[66].slicing.discriminator[0].type: The code 'pattern' is valid but is deprecated
+INFORMATION: StructureDefinition/SGLogicalModel: StructureDefinition.snapshot.element[192].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGLogicalModel: StructureDefinition.snapshot.element[196].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGLogicalModel: StructureDefinition.snapshot.element[197].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGLogicalModel: StructureDefinition.snapshot.element[208].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGLogicalModel: StructureDefinition.differential.element[4].slicing.discriminator[0].type: The code 'pattern' is valid but is deprecated
+WARNING: StructureDefinition.where(url = 'http://smart.who.int/ig/smart-base/StructureDefinition/SGLogicalModel'): The Implementation Guide contains no examples for this profile
+== fsh-generated/resources/StructureDefinition-SGMeasure.json ==
+INFORMATION: StructureDefinition/SGMeasure: StructureDefinition.snapshot.element[25].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGMeasure: StructureDefinition.snapshot.element[33].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGMeasure: StructureDefinition.snapshot.element[56].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+WARNING: StructureDefinition.where(url = 'http://smart.who.int/ig/smart-base/StructureDefinition/SGMeasure'): The Implementation Guide contains no examples for this profile
+== fsh-generated/resources/StructureDefinition-SGPersona.json ==
+INFORMATION: StructureDefinition/SGPersona: StructureDefinition.snapshot.element[21].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGPersona: StructureDefinition.snapshot.element[22].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+WARNING: StructureDefinition.where(url = 'http://smart.who.int/ig/smart-base/StructureDefinition/SGPersona'): The Implementation Guide contains no examples for this profile
+== fsh-generated/resources/StructureDefinition-SGValueSet.json ==
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[12].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[21].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[22].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[26].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[27].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[28].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[29].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[30].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[31].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[32].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[33].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[34].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[35].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[60].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[70].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[72].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[78].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[88].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[105].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+INFORMATION: StructureDefinition/SGValueSet: StructureDefinition.snapshot.element[118].extension[0].value.ofType(code): Reference to draft item http://hl7.org/fhir/standards-status|1.0.0
+WARNING: StructureDefinition.where(url = 'http://smart.who.int/ig/smart-base/StructureDefinition/SGValueSet'): The Implementation Guide contains no examples for this profile
