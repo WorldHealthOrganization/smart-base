@@ -78,4 +78,3 @@ Usage: #definition
   * answerOption[0].valueString = "Client is clinically well"
   * answerOption[1].valueString = "Client is not clinically well"
 
-
