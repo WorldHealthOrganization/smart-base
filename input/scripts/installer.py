@@ -47,7 +47,8 @@ class installer(object):
         'libraries': {},
         'profiles': {},
         'plandefinitions': {},
-        'activitydefinitions': {}}
+        'activitydefinitions': {},
+        'questionnaires': {}}
     cqls: Dict[str, str] = {}
     pages: Dict[str, str] = {}
     sushi_config: Dict = {}

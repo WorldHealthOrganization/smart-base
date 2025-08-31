@@ -23,6 +23,7 @@ import urllib.parse
 from extractor import extractor
 from installer import installer
 from pathlib import Path
+from dmn_questionnaire_generator import DMNQuestionnaireGenerator
 
 
 class dt_extractor(extractor):
@@ -43,6 +44,8 @@ class dt_extractor(extractor):
         super().__init__(installer)
         self.installer.register_transformer(
             "dmn", self.xslt_file, self.namespaces)
+        # Initialize questionnaire generator
+        self.questionnaire_generator = DMNQuestionnaireGenerator(self.logger)
 
     def find_files(self) -> List[str]:
         return glob.glob("input/decision-logic/*xlsx")
@@ -52,7 +55,51 @@ class dt_extractor(extractor):
 
     def extract(self) -> bool:
         super().extract()
+        # Generate questionnaires from existing DMN files
+        self.generate_questionnaires_from_dmn()
         return self.generate_decision_table_page()
+
+    def generate_questionnaires_from_dmn(self) -> bool:
+        """
+        Generate FHIR Questionnaire FSH files from existing DMN files.
+        
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            dmn_dir = Path("input/dmn")
+            if not dmn_dir.exists():
+                self.logger.info("No DMN directory found - skipping questionnaire generation")
+                return True
+            
+            dmn_files = list(dmn_dir.glob("*.dmn"))
+            if not dmn_files:
+                self.logger.info("No DMN files found - skipping questionnaire generation")
+                return True
+            
+            self.logger.info(f"Generating questionnaires for {len(dmn_files)} DMN files")
+            
+            success_count = 0
+            for dmn_file in dmn_files:
+                dmn_data = self.questionnaire_generator.parse_dmn_file(dmn_file)
+                if dmn_data:
+                    fsh_content = self.questionnaire_generator.generate_questionnaire_fsh(dmn_data)
+                    
+                    # Add the questionnaire FSH content as a resource via installer
+                    questionnaire_id = f"{dmn_data['decision_id']}Questionnaire"
+                    self.installer.add_resource("questionnaires", questionnaire_id, fsh_content)
+                    
+                    self.logger.info(f"Generated questionnaire: {questionnaire_id}")
+                    success_count += 1
+                else:
+                    self.logger.warning(f"Failed to process DMN file: {dmn_file}")
+            
+            self.logger.info(f"Successfully generated {success_count} questionnaire FSH resources")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to generate questionnaires from DMN files: {e}")
+            return False
 
     def generate_decision_table_page(self) -> bool:
         page_id = "decision-logic"
