@@ -7,6 +7,6 @@ Description: "Logical Model for representing Generic Business Processes and Work
 * scenario 0..* id "Scenario" "References to user scenario IDs related to this workflow"
 * objectives 1..1 markdown "Objectives" "Description of the objectives of the workflow"
 * task 0..* BackboneElement "Task" "Tasks within the business process workflow"
-  * id 1..1 id "Task ID" "Identifier for the task"
+  * identifier 1..1 id "Task ID" "Identifier for the task"
   * name 1..1 string "Task Name" "Name of the task"
   * description 1..1 string "Task Description" "Description of what the task involves"

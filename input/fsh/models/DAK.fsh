@@ -6,7 +6,7 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
 
 // Metadata element with cardinality 1..1
 * metadata 1..1 BackboneElement "Metadata" "Metadata for the DAK"
-  * id 1..1 id "DAK ID" "Identifier for the DAK"
+  * identifier 1..1 id "DAK ID" "Identifier for the DAK"
   * canonical 1..1 canonical "Canonical URL" "Canonical URL for the DAK"
   * name 1..1 string "Name" "Name of the DAK"
 
