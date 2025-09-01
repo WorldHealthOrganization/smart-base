@@ -47,7 +47,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Get branch name
-        run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+        run: |
+          if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
+            # For pull requests, use the source branch name and replace slashes with hyphens
+            BRANCH_NAME=$(echo "$GITHUB_HEAD_REF" | sed 's|/|-|g')
+          else
+            # For push events, use the branch name
+            BRANCH_NAME=${GITHUB_REF##*/}
+          fi
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
 
       - name: Echo branch name and check if it's the default branch
         run: |
@@ -267,9 +275,6 @@ jobs:
         run: |
           echo "Removing files over 100 MB from ./output..."
           find ./output -type f -size +100M -print -delete
-
-      - name: Get branch name
-        run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
       - name: Deploy candidate
         uses: JamesIves/github-pages-deploy-action@v4.4.2
