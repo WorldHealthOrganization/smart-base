@@ -8,45 +8,26 @@
   "fhirVersion": "4.0.1",
   "kind": "resource",
   "abstract": false,
-  "type": "ActorDefinition",
-  "baseDefinition": "http://smart.who.int/base/StructureDefinition/ActorDefinition",
+  "type": "Basic",
+  "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Basic",
   "derivation": "constraint",
   "differential": {
     "element": [
       {
-        "id": "ActorDefinition.identifier",
-        "path": "ActorDefinition.identifier",
+        "id": "Basic.identifier",
+        "path": "Basic.identifier",
         "min": 1
       },
       {
-        "id": "ActorDefinition.name",
-        "path": "ActorDefinition.name",
-        "min": 1
-      },
-      {
-        "id": "ActorDefinition.title",
-        "path": "ActorDefinition.title",
-        "min": 1
-      },
-      {
-        "id": "ActorDefinition.status",
-        "path": "ActorDefinition.status",
+        "id": "Basic.code",
+        "path": "Basic.code",
+        "min": 1,
         "mustSupport": true
       },
       {
-        "id": "ActorDefinition.experimental",
-        "path": "ActorDefinition.experimental",
-        "min": 1
-      },
-      {
-        "id": "ActorDefinition.description",
-        "path": "ActorDefinition.description",
-        "min": 1
-      },
-      {
-        "id": "ActorDefinition.type",
-        "path": "ActorDefinition.type",
-        "mustSupport": true
+        "id": "Basic.subject",
+        "path": "Basic.subject",
+        "max": "0"
       }
     ]
   }

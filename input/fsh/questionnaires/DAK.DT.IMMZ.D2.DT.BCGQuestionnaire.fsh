@@ -13,7 +13,7 @@ Usage: #definition
 * description = "This questionnaire supports the decision logic for: IMMZ.D2 Determine required vaccination(s) if any"
 
 // Required extensions for SGQuestionnaire profile
-* extension[actor].valueReference = Reference(HealthcareWorkerActor)
+* extension[actor].valueReference = Reference(HealthcareWorkerActor)  
 * extension[task].valueCoding = $SGTasks#userTask
 
 * item[+]
