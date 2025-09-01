@@ -256,17 +256,137 @@ class ReDocRenderer:
             padding: 2rem 0;
             margin: -2rem -2rem 2rem -2rem;
             text-align: center;
+            position: relative;
         }}
         
         .header h1 {{
             margin: 0;
             font-size: 2rem;
             font-weight: 400;
+            cursor: pointer;
+        }}
+        
+        .header h1:hover {{
+            text-decoration: underline;
         }}
         
         .header p {{
             margin: 0.5rem 0 0 0;
             opacity: 0.9;
+        }}
+        
+        .breadcrumb {{
+            position: absolute;
+            top: 1rem;
+            left: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }}
+        
+        .breadcrumb a {{
+            color: white;
+            text-decoration: none;
+        }}
+        
+        .breadcrumb a:hover {{
+            text-decoration: underline;
+        }}
+        
+        .schema-actions {{
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            align-items: center;
+        }}
+        
+        .action-btn {{
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }}
+        
+        .action-btn:hover {{
+            background: #004a99;
+            color: white;
+        }}
+        
+        .action-btn svg {{
+            width: 16px;
+            height: 16px;
+        }}
+        
+        .schema-id-link {{
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }}
+        
+        .schema-id-link:hover {{
+            text-decoration: underline;
+        }}
+        
+        .fhir-page-link {{
+            color: #0066cc;
+            text-decoration: none;
+        }}
+        
+        .fhir-page-link:hover {{
+            text-decoration: underline;
+        }}
+        
+        .data-type-link {{
+            color: #6f42c1;
+            text-decoration: none;
+        }}
+        
+        .data-type-link:hover {{
+            text-decoration: underline;
+        }}
+        
+        .show-more-btn {{
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            color: #0066cc;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }}
+        
+        .show-more-btn:hover {{
+            background: #e9ecef;
+        }}
+        
+        .hidden-values {{
+            display: none;
+        }}
+        
+        .toast {{
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: #28a745;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }}
+        
+        .toast.show {{
+            opacity: 1;
         }}
         
         .section {{
@@ -362,11 +482,69 @@ class ReDocRenderer:
             font-size: 0.9rem;
         }}
     </style>
+    
+    <script>
+        function downloadSchema() {{
+            const schemaData = {json.dumps(spec_data.get('components', {}).get('schemas', {}))};
+            const schemaName = Object.keys(schemaData)[0];
+            const blob = new Blob([JSON.stringify(schemaData[schemaName], null, 2)], {{type: 'application/json'}});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = schemaName + '.schema.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }}
+        
+        function copyToClipboard() {{
+            const schemaData = {json.dumps(spec_data.get('components', {}).get('schemas', {}))};
+            const schemaName = Object.keys(schemaData)[0];
+            const schemaText = JSON.stringify(schemaData[schemaName], null, 2);
+            navigator.clipboard.writeText(schemaText).then(() => {{
+                showToast('Schema copied to clipboard!');
+            }}).catch(() => {{
+                showToast('Failed to copy to clipboard', true);
+            }});
+        }}
+        
+        function showToast(message, isError = false) {{
+            const toast = document.createElement('div');
+            toast.className = 'toast' + (isError ? ' error' : '');
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {{
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }}, 3000);
+        }}
+        
+        function toggleEnumValues() {{
+            const hiddenValues = document.querySelector('.hidden-values');
+            const button = document.querySelector('.show-more-btn');
+            if (hiddenValues.style.display === 'none' || !hiddenValues.style.display) {{
+                hiddenValues.style.display = 'inline';
+                button.textContent = 'Show less';
+            }} else {{
+                hiddenValues.style.display = 'none';
+                button.textContent = 'Show more (' + hiddenValues.children.length + ' additional values)';
+            }}
+        }}
+        
+        function goToHub() {{
+            window.location.href = 'dak-api.html';
+        }}
+    </script>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>{title}</h1>
+            <div class="breadcrumb">
+                <a href="dak-api.html">← Back to DAK API Hub</a>
+            </div>
+            <h1 onclick="goToHub()">{title}</h1>
             <p>Generated from: {openapi_filename}</p>
         </div>
 """
@@ -429,20 +607,69 @@ class ReDocRenderer:
 """
                 
                 for schema_name, schema_def in schemas.items():
+                    # Get schema ID and create links
+                    schema_id = schema_def.get('$id', '')
+                    schema_title = schema_def.get('title', schema_name)
+                    
+                    # Create FHIR page link
+                    fhir_page_url = schema_id.replace('.schema.json', '.html') if schema_id else '#'
+                    
                     html_content += f"""
-                <h3>{schema_name}</h3>
-                <p><strong>Description:</strong> {schema_def.get('description', 'No description')}</p>
-                <p><strong>Type:</strong> <span class="property-type">{schema_def.get('type', 'unknown')}</span></p>
-"""
+                <h3>{schema_title}</h3>
+                
+                <div class="schema-actions">
+                    <button class="action-btn" onclick="downloadSchema()">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
+                        </svg>
+                        Download Schema
+                    </button>
+                    <button class="action-btn" onclick="copyToClipboard()">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
+                        </svg>
+                        Copy to Clipboard
+                    </button>
+                </div>
+                
+                <p><strong>Description:</strong> {schema_def.get('description', 'No description')}</p>"""
+                    
+                    if schema_id:
+                        html_content += f'''
+                <p><strong>Schema ID:</strong> <a href="{schema_id}" class="schema-id-link" title="{schema_id}" target="_blank">{schema_id}</a></p>'''
+                    
+                    if fhir_page_url != '#':
+                        html_content += f'''
+                <p><strong>FHIR Definition:</strong> <a href="{fhir_page_url}" class="fhir-page-link" target="_blank">View full definition at corresponding FHIR page</a></p>'''
+                    
+                    # Add type with link to JSON Schema documentation
+                    schema_type = schema_def.get('type', 'unknown')
+                    type_url = f"https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model"
+                    html_content += f'''
+                <p><strong>Type:</strong> <a href="{type_url}" class="data-type-link" target="_blank">{schema_type}</a></p>'''
                     
                     # Handle enum values for ValueSets
                     if 'enum' in schema_def:
+                        enum_values = sorted(schema_def['enum'])  # Alphabetize the values
+                        visible_values = enum_values[:40]  # Show first 40
+                        hidden_values = enum_values[40:]   # Remaining values
+                        
                         html_content += """
                 <div class="enum-values">
                     <strong>Allowed values:</strong><br>
 """
-                        for enum_value in schema_def['enum']:
+                        # Show first 40 values
+                        for enum_value in visible_values:
                             html_content += f'                    <span class="enum-value">{enum_value}</span>\n'
+                        
+                        # Add hidden values if there are more than 40
+                        if hidden_values:
+                            html_content += '                    <span class="hidden-values">\n'
+                            for enum_value in hidden_values:
+                                html_content += f'                        <span class="enum-value">{enum_value}</span>\n'
+                            html_content += '                    </span>\n'
+                            html_content += f'                    <br><button class="show-more-btn" onclick="toggleEnumValues()">Show more ({len(hidden_values)} additional values)</button>\n'
+                            
                         html_content += """
                 </div>
 """
@@ -452,11 +679,15 @@ class ReDocRenderer:
                         html_content += """
                 <h4>Properties:</h4>
 """
-                        for prop_name, prop_def in schema_def['properties'].items():
+                        # Sort properties alphabetically
+                        sorted_properties = sorted(schema_def['properties'].items())
+                        for prop_name, prop_def in sorted_properties:
+                            prop_type = prop_def.get('type', 'unknown')
+                            type_url = f"https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model"
                             html_content += f"""
                 <div class="property">
                     <span class="property-name">{prop_name}</span>
-                    <span class="property-type">({prop_def.get('type', 'unknown')})</span>
+                    <span class="property-type">(<a href="{type_url}" class="data-type-link" target="_blank">{prop_type}</a>)</span>
                     <div class="property-description">{prop_def.get('description', 'No description')}</div>
                 </div>
 """
@@ -701,7 +932,8 @@ class DAKApiHubGenerator:
             <div class="section-content">
                 <div class="doc-grid">
 """
-                for doc in schema_docs['valueset']:
+                # Sort alphabetically by title
+                for doc in sorted(schema_docs['valueset'], key=lambda x: x['title']):
                     html_content += f"""
                     <div class="doc-card">
                         <div class="schema-type valueset">ValueSet</div>
@@ -726,7 +958,8 @@ class DAKApiHubGenerator:
             <div class="section-content">
                 <div class="doc-grid">
 """
-                for doc in schema_docs['logical_model']:
+                # Sort alphabetically by title
+                for doc in sorted(schema_docs['logical_model'], key=lambda x: x['title']):
                     html_content += f"""
                     <div class="doc-card">
                         <div class="schema-type logical-model">Logical Model</div>
@@ -751,7 +984,8 @@ class DAKApiHubGenerator:
             <div class="section-content">
                 <div class="doc-grid">
 """
-                for doc in openapi_docs:
+                # Sort alphabetically by title
+                for doc in sorted(openapi_docs, key=lambda x: x['title']):
                     html_content += f"""
                     <div class="doc-card">
                         <div class="schema-type openapi">OpenAPI</div>
