@@ -2,7 +2,7 @@ Profile: SGActor
 Parent: ActorDefinition
 Description: "Smart Guidelines Actor"
 
-//* identifier 1..*
+* identifier 1..*
 * status MS
 * name 1..1 
 * title 1..1

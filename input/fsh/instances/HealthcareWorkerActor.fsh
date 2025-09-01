@@ -4,6 +4,8 @@ Title: "Healthcare Worker Actor"
 Description: "Generic healthcare worker actor for SMART Guidelines questionnaires"
 Usage: #definition
 
+* identifier.system = "http://smart.who.int/base/actor"
+* identifier.value = "healthcare-worker"
 * status = #active
 * name = "HealthcareWorkerActor"
 * title = "Healthcare Worker"
