@@ -11,7 +11,7 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
   * name 1..1 string "Name" "Name of the DAK"
 
 // 9 DAK Components with cardinality 0..*
-* healthInterventions 0..* id "Health Interventions and Recommendations" "Overview of the health interventions and WHO, regional or national recommendations included within the DAK"
+* healthInterventions 0..* HealthInterventions "Health Interventions and Recommendations" "Overview of the health interventions and WHO, regional or national recommendations included within the DAK"
 * personas 0..* GenericPersona "Generic Personas" "Depiction of the human and system actors"
 * userScenarios 0..* UserScenario "User Scenarios" "Narratives that describe how the different personas may interact with each other"
 * businessProcesses 0..* BusinessProcessWorkflow "Generic Business Processes and Workflows" "Business processes and workflows for achieving health programme objectives"
