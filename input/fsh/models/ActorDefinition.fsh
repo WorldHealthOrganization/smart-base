@@ -1,4 +1,5 @@
 Logical: ActorDefinition
+Id: ActorDefinition
 Parent: Base
 Title: "Actor Definition"
 Description: "Logical model defining the structure for actors in SMART Guidelines"

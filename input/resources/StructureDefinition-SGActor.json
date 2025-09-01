@@ -9,10 +9,15 @@
   "kind": "resource",
   "abstract": false,
   "type": "ActorDefinition",
-  "baseDefinition": "http://hl7.org/fhir/StructureDefinition/ActorDefinition",
+  "baseDefinition": "http://smart.who.int/base/StructureDefinition/ActorDefinition",
   "derivation": "constraint",
   "differential": {
     "element": [
+      {
+        "id": "ActorDefinition.identifier",
+        "path": "ActorDefinition.identifier",
+        "min": 1
+      },
       {
         "id": "ActorDefinition.name",
         "path": "ActorDefinition.name",
