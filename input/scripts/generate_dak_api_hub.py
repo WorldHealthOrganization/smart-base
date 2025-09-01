@@ -194,6 +194,93 @@ class OpenAPIWrapper:
         except Exception as e:
             self.logger.error(f"Error creating OpenAPI wrapper for {schema_path}: {e}")
             return None
+    
+    def create_enumeration_wrapper(self, enum_schema_path: str, schema_type: str, output_dir: str) -> Optional[str]:
+        """
+        Create an OpenAPI 3.0 wrapper for an enumeration schema.
+        
+        Args:
+            enum_schema_path: Path to the enumeration schema file
+            schema_type: Type of schema ('valueset' or 'logical_model')
+            output_dir: Directory to save the OpenAPI wrapper
+            
+        Returns:
+            Path to the generated OpenAPI wrapper file, or None if failed
+        """
+        try:
+            # Load the enumeration schema
+            with open(enum_schema_path, 'r', encoding='utf-8') as f:
+                enum_schema = json.load(f)
+            
+            enum_filename = os.path.basename(enum_schema_path)
+            
+            # Determine the endpoint details
+            if schema_type == 'valueset':
+                endpoint_path = "/ValueSets.json.schema"
+                api_title = "ValueSets Enumeration API"
+                api_description = "API endpoint providing an enumeration of all available ValueSet schemas"
+                summary = "Get enumeration of all ValueSet schemas"
+                description = "Returns a list of all available ValueSet schemas with metadata"
+            else:  # logical_model
+                endpoint_path = "/LogicalModels.schema"
+                api_title = "LogicalModels Enumeration API"
+                api_description = "API endpoint providing an enumeration of all available Logical Model schemas"
+                summary = "Get enumeration of all Logical Model schemas"
+                description = "Returns a list of all available Logical Model schemas with metadata"
+            
+            # Create OpenAPI wrapper for the enumeration
+            openapi_spec = {
+                "openapi": "3.0.3",
+                "info": {
+                    "title": api_title,
+                    "description": api_description,
+                    "version": "1.0.0"
+                },
+                "paths": {
+                    endpoint_path: {
+                        "get": {
+                            "summary": summary,
+                            "description": description,
+                            "responses": {
+                                "200": {
+                                    "description": f"Successfully retrieved {schema_type} enumeration",
+                                    "content": {
+                                        "application/json": {
+                                            "schema": {
+                                                "$ref": f"#/components/schemas/EnumerationResponse"
+                                            },
+                                            "example": enum_schema.get('example', {})
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "components": {
+                    "schemas": {
+                        "EnumerationResponse": enum_schema
+                    }
+                }
+            }
+            
+            # Save OpenAPI wrapper
+            if schema_type == 'valueset':
+                wrapper_filename = "ValueSets-enumeration.openapi.yaml"
+            else:
+                wrapper_filename = "LogicalModels-enumeration.openapi.yaml"
+                
+            wrapper_path = os.path.join(output_dir, wrapper_filename)
+            
+            with open(wrapper_path, 'w', encoding='utf-8') as f:
+                yaml.dump(openapi_spec, f, default_flow_style=False, sort_keys=False)
+            
+            self.logger.info(f"Created enumeration OpenAPI wrapper: {wrapper_path}")
+            return wrapper_path
+            
+        except Exception as e:
+            self.logger.error(f"Error creating enumeration OpenAPI wrapper for {enum_schema_path}: {e}")
+            return None
 
 
 class ReDocRenderer:
@@ -505,7 +592,152 @@ class DAKApiHubGenerator:
     def __init__(self, logger: logging.Logger):
         self.logger = logger
     
-    def generate_hub(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict]) -> bool:
+    def create_enumeration_schema(self, schema_type: str, schema_files: List[str], output_dir: str) -> Optional[str]:
+        """
+        Create an enumeration schema file that lists all schemas of a given type.
+        
+        Args:
+            schema_type: Type of schema ('valueset' or 'logical_model')  
+            schema_files: List of schema file paths
+            output_dir: Directory to save the enumeration schema
+            
+        Returns:
+            Path to the generated enumeration schema file, or None if failed
+        """
+        try:
+            # Create enumeration data by reading each schema file
+            schemas_list = []
+            
+            for schema_path in schema_files:
+                try:
+                    with open(schema_path, 'r', encoding='utf-8') as f:
+                        schema = json.load(f)
+                    
+                    schema_filename = os.path.basename(schema_path)
+                    schema_entry = {
+                        "filename": schema_filename,
+                        "id": schema.get('$id', ''),
+                        "title": schema.get('title', schema_filename),
+                        "description": schema.get('description', ''),
+                        "url": f"./{schema_filename}"
+                    }
+                    
+                    # Add type-specific metadata
+                    if schema_type == 'valueset':
+                        if 'fhir:valueSet' in schema:
+                            schema_entry['valueSetUrl'] = schema['fhir:valueSet']
+                        if 'enum' in schema:
+                            schema_entry['codeCount'] = len(schema['enum'])
+                    elif schema_type == 'logical_model':
+                        if 'fhir:logicalModel' in schema:
+                            schema_entry['logicalModelUrl'] = schema['fhir:logicalModel']
+                        if 'properties' in schema:
+                            schema_entry['propertyCount'] = len(schema['properties'])
+                    
+                    schemas_list.append(schema_entry)
+                    
+                except Exception as e:
+                    self.logger.warning(f"Error reading schema {schema_path}: {e}")
+                    continue
+            
+            # Create the enumeration schema
+            if schema_type == 'valueset':
+                enum_filename = "ValueSets.json.schema"
+                enum_title = "ValueSet Enumeration Schema"
+                enum_description = "JSON Schema defining the structure of the ValueSet enumeration endpoint response"
+            else:  # logical_model
+                enum_filename = "LogicalModels.schema"
+                enum_title = "Logical Model Enumeration Schema"  
+                enum_description = "JSON Schema defining the structure of the Logical Model enumeration endpoint response"
+            
+            enumeration_schema = {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "$id": f"#/{enum_filename}",
+                "title": enum_title,
+                "description": enum_description,
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "const": schema_type,
+                        "description": f"The type of schemas enumerated ({schema_type})"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "description": "Total number of schemas available"
+                    },
+                    "schemas": {
+                        "type": "array",
+                        "description": "Array of available schemas",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "filename": {
+                                    "type": "string",
+                                    "description": "Schema filename"
+                                },
+                                "id": {
+                                    "type": "string",
+                                    "description": "Schema $id"
+                                },
+                                "title": {
+                                    "type": "string", 
+                                    "description": "Schema title"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "description": "Schema description"
+                                },
+                                "url": {
+                                    "type": "string",
+                                    "description": "Relative URL to the schema file"
+                                }
+                            },
+                            "required": ["filename", "title", "url"]
+                        }
+                    }
+                },
+                "required": ["type", "count", "schemas"],
+                "example": {
+                    "type": schema_type,
+                    "count": len(schemas_list),
+                    "schemas": schemas_list
+                }
+            }
+            
+            # Add type-specific properties to schema items
+            if schema_type == 'valueset':
+                enumeration_schema["properties"]["schemas"]["items"]["properties"]["valueSetUrl"] = {
+                    "type": "string",
+                    "description": "FHIR canonical URL of the ValueSet"
+                }
+                enumeration_schema["properties"]["schemas"]["items"]["properties"]["codeCount"] = {
+                    "type": "integer", 
+                    "description": "Number of codes in the ValueSet"
+                }
+            elif schema_type == 'logical_model':
+                enumeration_schema["properties"]["schemas"]["items"]["properties"]["logicalModelUrl"] = {
+                    "type": "string",
+                    "description": "FHIR canonical URL of the Logical Model"
+                }
+                enumeration_schema["properties"]["schemas"]["items"]["properties"]["propertyCount"] = {
+                    "type": "integer",
+                    "description": "Number of properties in the Logical Model"  
+                }
+            
+            # Save enumeration schema
+            enum_path = os.path.join(output_dir, enum_filename)
+            with open(enum_path, 'w', encoding='utf-8') as f:
+                json.dump(enumeration_schema, f, indent=2, ensure_ascii=False)
+            
+            self.logger.info(f"Created enumeration schema: {enum_path}")
+            return enum_path
+            
+        except Exception as e:
+            self.logger.error(f"Error creating enumeration schema for {schema_type}: {e}")
+            return None
+    
+    def generate_hub(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None) -> bool:
         """
         Generate the unified dak-api.html hub page.
         
@@ -513,11 +745,14 @@ class DAKApiHubGenerator:
             output_dir: Directory to save the hub file
             schema_docs: Dictionary with schema documentation info
             openapi_docs: List of OpenAPI documentation info
+            enumeration_docs: List of enumeration endpoint documentation info
             
         Returns:
             True if successful, False otherwise
         """
         try:
+            if enumeration_docs is None:
+                enumeration_docs = []
             hub_path = os.path.join(output_dir, "dak-api.html")
             
             # Generate HTML content
@@ -663,6 +898,18 @@ class DAKApiHubGenerator:
             background-color: #fd7e14;
         }
         
+        .schema-type.enumeration-valueset {
+            background-color: #e91e63;
+        }
+        
+        .schema-type.enumeration-logicalmodel {
+            background-color: #9c27b0;
+        }
+        
+        .schema-type.enumeration {
+            background-color: #607d8b;
+        }
+        
         .no-content {
             text-align: center;
             color: #6c757d;
@@ -689,6 +936,42 @@ class DAKApiHubGenerator:
     </div>
     
     <div class="container">
+"""
+            
+            # Add enumeration endpoints section
+            if enumeration_docs:
+                html_content += """
+        <div class="section">
+            <div class="section-header">
+                <h2>API Enumeration Endpoints</h2>
+            </div>
+            <div class="section-content">
+                <div class="doc-grid">
+"""
+                for doc in enumeration_docs:
+                    # Determine icon type
+                    if doc.get('type') == 'enumeration-valueset':
+                        schema_type_class = "enumeration-valueset"
+                        type_label = "ValueSets Enum"
+                    elif doc.get('type') == 'enumeration-logicalmodel':
+                        schema_type_class = "enumeration-logicalmodel"
+                        type_label = "LogicalModels Enum"
+                    else:
+                        schema_type_class = "enumeration"
+                        type_label = "Enumeration"
+                    
+                    html_content += f"""
+                    <div class="doc-card">
+                        <div class="schema-type {schema_type_class}">{type_label}</div>
+                        <h3>{doc['title']}</h3>
+                        <p>{doc['description']}</p>
+                        <a href="{doc['html_file']}" target="_blank">View Documentation</a>
+                    </div>
+"""
+                html_content += """
+                </div>
+            </div>
+        </div>
 """
             
             # Add ValueSet schemas section
@@ -767,7 +1050,7 @@ class DAKApiHubGenerator:
 """
             
             # Add empty state if no documentation
-            if not schema_docs.get('valueset') and not schema_docs.get('logical_model') and not openapi_docs:
+            if not schema_docs.get('valueset') and not schema_docs.get('logical_model') and not openapi_docs and not enumeration_docs:
                 html_content += """
         <div class="section">
             <div class="section-content">
@@ -894,11 +1177,50 @@ def main():
         except Exception as e:
             logger.error(f"Error processing OpenAPI file {openapi_path}: {e}")
     
+    # Create enumeration endpoints for ValueSets and LogicalModels
+    enumeration_docs = []
+    
+    # Create ValueSets enumeration endpoint if we have ValueSet schemas
+    if schemas['valueset']:
+        valueset_enum_path = hub_generator.create_enumeration_schema('valueset', schemas['valueset'], output_dir)
+        if valueset_enum_path:
+            # Create OpenAPI wrapper for ValueSets enumeration
+            valueset_enum_wrapper = openapi_wrapper.create_enumeration_wrapper(valueset_enum_path, 'valueset', output_dir)
+            if valueset_enum_wrapper:
+                # Generate ReDoc HTML for ValueSets enumeration
+                valueset_enum_html = redoc_renderer.generate_redoc_html(valueset_enum_wrapper, output_dir,
+                                                                       "ValueSets Enumeration API Documentation")
+                if valueset_enum_html:
+                    enumeration_docs.append({
+                        'title': 'ValueSets.json.schema',
+                        'description': 'Enumeration of all available ValueSet schemas',
+                        'html_file': os.path.basename(valueset_enum_html),
+                        'type': 'enumeration-valueset'
+                    })
+    
+    # Create LogicalModels enumeration endpoint if we have LogicalModel schemas  
+    if schemas['logical_model']:
+        logicalmodel_enum_path = hub_generator.create_enumeration_schema('logical_model', schemas['logical_model'], output_dir)
+        if logicalmodel_enum_path:
+            # Create OpenAPI wrapper for LogicalModels enumeration
+            logicalmodel_enum_wrapper = openapi_wrapper.create_enumeration_wrapper(logicalmodel_enum_path, 'logical_model', output_dir)
+            if logicalmodel_enum_wrapper:
+                # Generate ReDoc HTML for LogicalModels enumeration
+                logicalmodel_enum_html = redoc_renderer.generate_redoc_html(logicalmodel_enum_wrapper, output_dir,
+                                                                           "LogicalModels Enumeration API Documentation")
+                if logicalmodel_enum_html:
+                    enumeration_docs.append({
+                        'title': 'LogicalModels.schema',
+                        'description': 'Enumeration of all available Logical Model schemas',
+                        'html_file': os.path.basename(logicalmodel_enum_html),
+                        'type': 'enumeration-logicalmodel'
+                    })
+    
     # Generate the unified hub
-    success = hub_generator.generate_hub(output_dir, schema_docs, openapi_docs)
+    success = hub_generator.generate_hub(output_dir, schema_docs, openapi_docs, enumeration_docs)
     
     if success:
-        total_docs = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(openapi_docs)
+        total_docs = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(openapi_docs) + len(enumeration_docs)
         logger.info(f"Successfully generated DAK API hub with {total_docs} documentation pages")
         sys.exit(0)
     else:
