@@ -230,6 +230,30 @@ jobs:
               echo "⚠️  Failed to download Logical Model schema generator, skipping"
             fi
           fi
+
+      - name: Generate DAK API Documentation Hub
+        run: |
+          echo "Generating DAK API Documentation Hub..."
+          # Install required Python dependencies
+          pip install pyyaml
+          
+          # Check if script exists locally first
+          if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
+            echo "Using local DAK API hub generator..."
+            python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
+            echo "✅ DAK API hub generated successfully"
+          else
+            echo "Downloading DAK API hub generator..."
+            mkdir -p ./input/scripts
+            curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_api_hub.py \
+              -o ./input/scripts/generate_dak_api_hub.py
+            if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
+              python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
+              echo "✅ DAK API hub generated successfully"
+            else
+              echo "⚠️  Failed to download DAK API hub generator, skipping"
+            fi
+          fi
      
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
