@@ -1,13 +1,13 @@
-# DAK API Link Integration Approaches
+# DAK API Link Integration
 
-This document outlines the different ways to add a `dak-api.html` link to the FHIR IG footer/navigation.
+This document outlines how the DAK API link has been integrated into the FHIR IG.
 
 ## Current Implementation
 
-The repository now includes **multiple approaches** for integrating the DAK API link:
+The DAK API link is integrated using a **simplified, reliable approach** that avoids custom template complexity:
 
-### 1. Menu Navigation Link (Already Existed)
-**Location**: `sushi-config.yaml` lines 62-64
+### 1. Menu Navigation Link
+**Location**: `sushi-config.yaml` under menu > Indices
 ```yaml
 menu:
   Home: index.html 
@@ -16,117 +16,67 @@ menu:
     Artifact Index: artifacts.html
     DAK API: dak-api.html
 ```
-**Pros**: 
+**Benefits**: 
 - Standard FHIR IG navigation approach
 - Integrated with IG menu system
 - No template customization required
+- Reliable and maintainable
 
-**Cons**:
-- May not be as prominent as footer link
-- Requires dak-api.html to exist during build
-
-### 2. Footer Link (Newly Added)
-**Location**: `local-template/package/includes/_append.fragment-footer.html`
-```html
-<div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #dee2e6;">
-    <p style="color: #6c757d; font-size: 0.9rem;">
-        <a href="dak-api.html" style="color: #0066cc; text-decoration: none;">📋 DAK API Documentation Hub</a>
-    </p>
-</div>
-```
-**Pros**:
-- Appears on every page footer
-- More prominent and visible
-- Consistent with footer placement request
-
-**Cons**:
-- Requires local template activation
-- Custom template maintenance
-
-### 3. Page Configuration (Newly Added)
+### 2. Page Configuration
 **Location**: `sushi-config.yaml` pages section
 ```yaml
 pages:
-  # ... other pages ...
   dak-api.html:
     title: DAK API Documentation Hub
 ```
-**Pros**:
-- Ensures page is properly included in IG
-- Provides proper page metadata
-- Integrates with IG page management
+**Benefits**:
+- Ensures proper IG integration
+- Provides metadata for the page
+- Standard FHIR IG approach
 
-**Cons**:
-- Requires file to exist during build
-
-### 4. Build Integration (Newly Added)
+### 3. Build Integration
 **Location**: `build-with-dak-api.sh`
 ```bash
 # Generate DAK API documentation hub
 python3 input/scripts/generate_dak_api_hub.py output
 ```
-**Pros**:
-- Ensures dak-api.html is generated before IG build
-- Automated as part of build process
-- Prevents broken links
+**Benefits**:
+- Ensures `dak-api.html` exists before IG build
+- Prevents broken links during build process
+- Automated generation of API documentation hub
 
-**Cons**:
-- Requires build process modification
+## Template Configuration
 
-## Template Configuration Changes
-
-To enable the footer link approach, the template configuration was changed:
-
-**File**: `ig.ini`
+The implementation uses the standard WHO template:
 ```ini
-# Changed from:
-# template = who.template.root#current
-# To:
-template = #local-template
+template = who.template.root#current
 ```
 
-This activates the local template which includes the footer fragment.
+This avoids the complexity and potential build issues of custom template modifications while still providing reliable access to the DAK API documentation.
 
-## Recommended Approach
+## Usage
 
-**Use all approaches together** for maximum compatibility:
+Users can access the DAK API documentation through:
 
-1. **Menu link** - for standard navigation
-2. **Footer link** - for prominence and accessibility  
-3. **Page configuration** - for proper IG integration
-4. **Build integration** - for automated generation
+1. **Main Navigation**: Indices → DAK API 
+2. **Direct URL**: `{ig-base-url}/dak-api.html`
 
-## Alternative Approaches Not Implemented
-
-### 5. Template Override
-Could override the entire footer template instead of using fragment append.
-
-### 6. CSS-based Injection
-Could use CSS content injection to add the link.
-
-### 7. JavaScript-based Addition
-Could use client-side JavaScript to add the link dynamically.
-
-### 8. WHO Template Extension
-Could extend the WHO template to include the link in their base template.
-
-## Build Instructions
-
-To build the IG with DAK API integration:
+## Build Process
 
 ```bash
-# Option 1: Use the integrated build script
+# Build IG with DAK API integration
 ./build-with-dak-api.sh
 
-# Option 2: Manual steps
-mkdir -p output
+# Or manually generate DAK API hub then build
 python3 input/scripts/generate_dak_api_hub.py output
 ./_genonce.sh
 ```
 
-## Testing the Implementation
+## Architecture Decision
 
-1. Ensure `dak-api.html` is generated in the output directory
-2. Check that the menu link appears in the "Indices" section
-3. Check that the footer link appears at the bottom of each page
-4. Verify both links navigate to the correct API documentation hub
+This simplified approach was chosen over footer template modifications because:
+
+- **Reliability**: Uses standard WHO template without custom dependencies
+- **Maintainability**: No custom template files to maintain
+- **Build Stability**: Avoids template dependency issues
+- **User Access**: Menu navigation provides clear, discoverable access
