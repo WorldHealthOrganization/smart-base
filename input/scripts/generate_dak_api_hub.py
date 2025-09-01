@@ -485,7 +485,7 @@ class ReDocRenderer:
 </html>"""
             
             # Save HTML file
-            html_filename = f"{spec_name}.html"
+            html_filename = f"{spec_name}.openapi.html"
             html_path = os.path.join(output_dir, html_filename)
             
             with open(html_path, 'w', encoding='utf-8') as f:
