@@ -14,7 +14,7 @@ Usage: #definition
 
 // Required extensions for SGQuestionnaire profile
 * extension[actor].valueReference = Reference(HealthcareWorkerActor)
-* extension[task].valueCoding = $SGTasks#userTask "User Task"
+* extension[task].valueCoding = $SGTasks#userTask
 
 * item[+]
   * linkId = "input.DAK.DT.IMMZ.D2.DT.BCG.NumberofBCGprimaryseriesdosesadministered"
