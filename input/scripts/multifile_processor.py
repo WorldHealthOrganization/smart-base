@@ -18,6 +18,12 @@ import subprocess
 import xml.etree.ElementTree as ET
 import logging
 
+# Handle imports for both script and module usage
+try:
+    from .stringer import issue_to_branch_name
+except ImportError:
+    from stringer import issue_to_branch_name
+
 class MultifileProcessor:
     """
     Processor for handling multiple files with Git integration.
@@ -35,6 +41,8 @@ class MultifileProcessor:
     branch: Optional[str]
     commit_message: Optional[str]
     files: List[Dict[str, str]]
+    issue_number: Optional[str]
+    issue_title: Optional[str]
     
     @property
     def logger(self) -> logging.Logger:
@@ -53,6 +61,8 @@ class MultifileProcessor:
         self.branch = None
         self.commit_message = None
         self.files = []
+        self.issue_number = None
+        self.issue_title = None
 
     def is_git_repo(self) -> bool:
         """Check if the current directory is part of a Git repository."""
@@ -102,7 +112,19 @@ class MultifileProcessor:
             tree = ET.parse(self.xml_path)
             root = tree.getroot()
             self.repo = root.attrib.get("repo")
-            self.branch = root.attrib.get("branch", "main")
+            self.issue_number = root.attrib.get("issue")
+            self.issue_title = root.attrib.get("issueTitle")
+            
+            # Generate branch name from issue if not explicitly provided
+            explicit_branch = root.attrib.get("branch")
+            if explicit_branch:
+                self.branch = explicit_branch
+            elif self.issue_number:
+                self.branch = issue_to_branch_name(self.issue_number, self.issue_title)
+                self.logger.info(f"Generated branch name from issue #{self.issue_number}: '{self.branch}'")
+            else:
+                self.branch = "main"
+            
             meta = root.find("meta")
             if meta is not None:
                 commit_elem = meta.find("commit")
@@ -185,7 +207,7 @@ class MultifileProcessor:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        self.logger.info("Usage: python multifile_processor.py <path_to_multifile.xml>")
+        print("Usage: python multifile_processor.py <path_to_multifile.xml>")
         sys.exit(1)
     xml_path = sys.argv[1]
     processor = MultifileProcessor(xml_path)

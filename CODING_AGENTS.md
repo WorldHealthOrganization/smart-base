@@ -54,12 +54,22 @@ A few key behviours required are:
 6. **Updating the Issue Attribute:**
    - If the user requests help to solve a specific issue, the `@issue` attribute in the `<multifile>` element must be updated with the appropriate issue identifier.
    - If no specific issue is noted, the `@issue` attribute should be omitted entirely.
+   - **Consistent Branch Naming**: When the `@issue` attribute is present, the system will automatically generate a consistent branch name following the pattern `issue-{number}` or `issue-{number}-{safe_title}` if an `@issueTitle` attribute is also provided.
+   - If an explicit `@branch` attribute is provided, it will override the automatic branch name generation.
 
-7. **Ensuring File Content Consistency:**
+7. **Branch Name Generation:**
+   - **Automatic Generation**: When `@issue` is specified without an explicit `@branch`, the system generates branch names using the pattern:
+     - `issue-{issue_number}` for simple cases
+     - `issue-{issue_number}-{safe_title}` when `@issueTitle` is provided
+   - **Manual Override**: Explicitly setting `@branch` will override automatic generation
+   - **Fallback**: If neither `@issue` nor `@branch` is provided, defaults to `main`
+   - This ensures consistent naming patterns across all issue-based development work.
+
+8. **Ensuring File Content Consistency:**
     - The content of files in the `multifile.xml` must always match the content of files in the workbench.
     - When updating the `multifile.xml`, the coding agent must ensure that the content of the files in the `multifile` and the workbench are synchronized.
 
-8. **Keeping the `<conversation/>` Element Updated:**
+9. **Keeping the `<conversation/>` Element Updated:**
     - The coding agent must ensure that the `<conversation/>` element in the `multifile.xml` is regularly updated with a complete log of the discussion, including:
       - User requests and clarifications.
       - The agent's responses and explanations.
