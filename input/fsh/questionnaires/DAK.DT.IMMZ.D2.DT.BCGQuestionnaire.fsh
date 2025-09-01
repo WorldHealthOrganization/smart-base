@@ -6,10 +6,15 @@ Usage: #definition
 
 * name = "DAK.DT.IMMZ.D2.DT.BCGQuestionnaire"
 * title = "IMMZ.D2 Determine required vaccination(s) if any"
+* version = "1.0.0"
 * status = #draft
 * experimental = true
 * publisher = "World Health Organization (WHO)"
 * description = "This questionnaire supports the decision logic for: IMMZ.D2 Determine required vaccination(s) if any"
+
+// Required extensions for SGQuestionnaire profile
+* extension[actor].valueReference = Reference(HealthcareWorkerActor)
+* extension[task].valueCoding = $SGTasks#userTask "User Task"
 
 * item[+]
   * linkId = "input.DAK.DT.IMMZ.D2.DT.BCG.NumberofBCGprimaryseriesdosesadministered"

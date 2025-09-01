@@ -133,10 +133,15 @@ Usage: #definition
 
 * name = "{decision_id}Questionnaire"
 * title = "{business_rule}"
+* version = "1.0.0"
 * status = #draft
 * experimental = true
 * publisher = "World Health Organization (WHO)"
 * description = "This questionnaire supports the decision logic for: {business_rule}"
+
+// Required extensions for SGQuestionnaire profile
+* extension[actor].valueReference = Reference(HealthcareWorkerActor)
+* extension[task].valueCoding = $SGTasks#userTask "User Task"
 
 """
         
