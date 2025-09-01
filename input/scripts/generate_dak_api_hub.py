@@ -324,36 +324,118 @@ class ReDocRenderer:
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+        
+        /* WHO SMART Trust inspired styling */
+        :root {{
+            --navbar-bg-color: #00477d;
+            --ig-header-color: #f6f7f9;
+            --footer-bg-color: #505050;
+            --footer-container-bg-color: #00477d;
+            --btn-hover-color: #0070A1;
+            --toc-box-border: navy;
+            --toc-box-bg-color: #f6f7f9;
+        }}
+        
         body {{
+            font-family: 'Noto Sans', sans-serif !important;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #fafafa;
+            background-color: var(--toc-box-bg-color) !important;
+            color: #000 !important;
+            height: fit-content !important;
         }}
         
         .container {{
+            width: 100% !important;
+            max-width: none !important;
+            background-color: var(--toc-box-bg-color) !important;
+            color: #000 !important;
+            padding: 0 20px;
+        }}
+        
+        @media (min-width: 2200px) {{
+            .container {{
+                max-width: 1980px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }}
+        }}
+        
+        /* Header segment matching SMART Trust */
+        #segment-header {{
+            display: block;
+        }}
+        
+        #segment-navbar {{
+            background-color: var(--navbar-bg-color) !important;
+        }}
+        
+        #segment-navbar .container {{
+            background-color: var(--navbar-bg-color) !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            min-height: 50px;
+        }}
+        
+        #project-nav {{
+            flex: 0 0 auto;
+            margin-right: auto;
+            line-height: 50px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            color: #808080;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 20px;
+        }}
+        
+        #project-nav a {{
+            color: #e6e6e6;
+            text-decoration: none;
+            font-weight: 500;
+        }}
+        
+        #project-nav a:hover {{
+            color: #ffffff;
+        }}
+        
+        .header-container {{
+            background-color: var(--ig-header-color) !important;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0px 6px 8px rgba(130, 130, 13, 0.1) !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }}
+        
+        #ig-status {{
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }}
+        
+        #ig-status p {{
+            background-color: white;
+            padding: 10px 17px;
+            border-radius: 5px;
+            position: relative;
+            z-index: 2;
+            margin: 0;
+        }}
+        
+        .content-container {{
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-        }}
-        
-        .header {{
-            background: linear-gradient(135deg, #0066cc 0%, #004a99 100%);
-            color: white;
-            padding: 2rem 0;
-            margin: -2rem -2rem 2rem -2rem;
-            text-align: center;
-        }}
-        
-        .header h1 {{
-            margin: 0;
-            font-size: 2rem;
-            font-weight: 400;
-        }}
-        
-        .header p {{
-            margin: 0.5rem 0 0 0;
-            opacity: 0.9;
         }}
         
         .section {{
@@ -372,8 +454,9 @@ class ReDocRenderer:
         
         .section-header h2 {{
             margin: 0;
-            color: #0066cc;
-            font-size: 1.3rem;
+            color: #00477d;
+            font-size: 1.5rem;
+            font-weight: 500;
         }}
         
         .section-content {{
@@ -417,12 +500,12 @@ class ReDocRenderer:
         
         .property-name {{
             font-weight: 600;
-            color: #0066cc;
+            color: #00477d;
         }}
         
         .property-type {{
             color: #6f42c1;
-            font-family: monospace;
+            font-family: 'Noto Sans', monospace;
         }}
         
         .property-description {{
@@ -440,22 +523,46 @@ class ReDocRenderer:
         
         .enum-value {{
             display: inline-block;
-            background-color: #0066cc;
+            background-color: #00477d;
             color: white;
             padding: 0.2rem 0.5rem;
             border-radius: 3px;
             margin: 0.2rem;
-            font-family: monospace;
+            font-family: 'Noto Sans', monospace;
             font-size: 0.9rem;
+        }}
+        
+        h1, h2, h3, h4, h5, h6 {{
+            font-family: 'Noto Sans', sans-serif !important;
+            color: #000 !important;
+        }}
+        
+        td, p, li {{
+            font-family: 'Noto Sans', sans-serif !important;
         }}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>{title}</h1>
-            <p>Generated from: {openapi_filename}</p>
+    <div id="segment-header" class="segment">
+        <div id="segment-navbar" class="segment">
+            <div class="container">
+                <div id="project-nav">
+                    <a href="../index.html">Return to SMART Guideline</a>
+                </div>
+            </div>
         </div>
+        
+        <div class="container header-container">
+            <div id="ig-status">
+                <p><span style="font-size:12pt;font-weight:bold">{title}</span>
+                    <br/>
+                    <span style="display:inline-block;">Generated from: {openapi_filename}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content-container">
 """
             
             # Add API info
@@ -763,41 +870,118 @@ class DAKApiHubGenerator:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DAK API Documentation Hub</title>
     <style>
-        /* FHIR IG-inspired styling */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+        
+        /* WHO SMART Trust inspired styling */
+        :root {
+            --navbar-bg-color: #00477d;
+            --ig-header-color: #f6f7f9;
+            --footer-bg-color: #505050;
+            --footer-container-bg-color: #00477d;
+            --btn-hover-color: #0070A1;
+            --toc-box-border: navy;
+            --toc-box-bg-color: #f6f7f9;
+        }
+        
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Noto Sans', sans-serif !important;
             margin: 0; 
             padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
+            background-color: var(--toc-box-bg-color) !important;
+            color: #000 !important;
+            height: fit-content !important;
         }
         
         .container {
+            width: 100% !important;
+            max-width: none !important;
+            background-color: var(--toc-box-bg-color) !important;
+            color: #000 !important;
+            padding: 0 20px;
+        }
+        
+        @media (min-width: 2200px) {
+            .container {
+                max-width: 1980px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+        }
+        
+        /* Header segment matching SMART Trust */
+        #segment-header {
+            display: block;
+        }
+        
+        #segment-navbar {
+            background-color: var(--navbar-bg-color) !important;
+        }
+        
+        #segment-navbar .container {
+            background-color: var(--navbar-bg-color) !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            min-height: 50px;
+        }
+        
+        #project-nav {
+            flex: 0 0 auto;
+            margin-right: auto;
+            line-height: 50px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            color: #808080;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 20px;
+        }
+        
+        #project-nav a {
+            color: #e6e6e6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        #project-nav a:hover {
+            color: #ffffff;
+        }
+        
+        .header-container {
+            background-color: var(--ig-header-color) !important;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0px 6px 8px rgba(130, 130, 13, 0.1) !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        #ig-status {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        #ig-status p {
+            background-color: white;
+            padding: 10px 17px;
+            border-radius: 5px;
+            position: relative;
+            z-index: 2;
+            margin: 0;
+        }
+        
+        .content-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #0066cc 0%, #004a99 100%);
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .header h1 { 
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 300;
-            text-align: center;
-        }
-        
-        .header p {
-            margin: 0.5rem 0 0 0;
-            font-size: 1.1rem;
-            text-align: center;
-            opacity: 0.9;
         }
         
         .section {
@@ -816,7 +1000,7 @@ class DAKApiHubGenerator:
         
         .section-header h2 { 
             margin: 0;
-            color: #0066cc; 
+            color: #00477d; 
             font-size: 1.5rem;
             font-weight: 500;
         }
@@ -840,14 +1024,14 @@ class DAKApiHubGenerator:
         }
         
         .doc-card:hover {
-            border-color: #0066cc;
+            border-color: #00477d;
             background: white;
-            box-shadow: 0 2px 8px rgba(0,102,204,0.1);
+            box-shadow: 0 2px 8px rgba(0,71,125,0.1);
         }
         
         .doc-card h3 {
             margin: 0 0 0.5rem 0;
-            color: #0066cc;
+            color: #00477d;
             font-size: 1.1rem;
         }
         
@@ -860,17 +1044,17 @@ class DAKApiHubGenerator:
         
         .doc-card a {
             display: inline-block;
-            color: #0066cc;
+            color: #00477d;
             text-decoration: none;
             font-weight: 500;
             padding: 0.5rem 1rem;
-            border: 1px solid #0066cc;
+            border: 1px solid #00477d;
             border-radius: 4px;
             transition: all 0.2s ease;
         }
         
         .doc-card a:hover {
-            background-color: #0066cc;
+            background-color: #00477d;
             color: white;
         }
         
@@ -928,14 +1112,26 @@ class DAKApiHubGenerator:
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="container">
-            <h1>DAK API Documentation Hub</h1>
-            <p>WHO SMART Guideline Digital Adaptation Kit - API and Schema Documentation</p>
+    <div id="segment-header" class="segment">
+        <div id="segment-navbar" class="segment">
+            <div class="container">
+                <div id="project-nav">
+                    <a href="index.html">Return to SMART Guideline</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container header-container">
+            <div id="ig-status">
+                <p><span style="font-size:12pt;font-weight:bold">DAK API Documentation Hub</span>
+                    <br/>
+                    <span style="display:inline-block;">WHO SMART Guideline Digital Adaptation Kit - API and Schema Documentation</span>
+                </p>
+            </div>
         </div>
     </div>
     
-    <div class="container">
+    <div class="content-container">
 """
             
             # Add enumeration endpoints section
