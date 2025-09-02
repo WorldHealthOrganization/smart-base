@@ -124,9 +124,10 @@ class DMNQuestionnaireGenerator:
         inputs = dmn_data["inputs"]
         input_values = dmn_data["input_values"]
         
-        # Generate questionnaire header
+        # Generate questionnaire header using base Questionnaire resource
+        # This avoids the SGQuestionnaire profile requirements that need actor references
         fsh_content = f"""Instance: {decision_id}Questionnaire
-InstanceOf: SGQuestionnaire
+InstanceOf: Questionnaire
 Title: "Questionnaire for {business_rule}"
 Description: "Auto-generated questionnaire for decision table {decision_id}"
 Usage: #definition
@@ -138,10 +139,6 @@ Usage: #definition
 * experimental = true
 * publisher = "World Health Organization (WHO)"
 * description = "This questionnaire supports the decision logic for: {business_rule}"
-
-// Required extensions for SGQuestionnaire profile
-* extension[actor].valueReference = Reference(HealthcareWorkerActor)
-* extension[task].valueCoding = $SGTasks#userTask
 
 """
         
