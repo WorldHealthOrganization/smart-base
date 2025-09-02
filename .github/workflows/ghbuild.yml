@@ -40,7 +40,7 @@ jobs:
     permissions:
       contents: write
       pages: write
-      id-token: write
+#      id-token: write
       pull-requests: write
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
