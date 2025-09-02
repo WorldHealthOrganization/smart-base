@@ -37,8 +37,11 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     permissions:
-      contents: write
+      contents: read
       pages: write
       id-token: write
       pull-requests: write
@@ -301,30 +304,32 @@ jobs:
       - name: Get branch name
         run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
-      - name: Deploy candidate
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        if: env.IS_DEFAULT_BRANCH == 'true'
+
+      - name: Upload Pages artifact for main branch
+        uses: actions/upload-pages-artifact@v3
+        if: env.IS_DEFAULT_BRANCH == 'true'
+        with:
+          path: ./output
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        if: env.IS_DEFAULT_BRANCH == 'true'
+
+      - name: Deploy candidate branch to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4.4.2
         if: env.IS_DEFAULT_BRANCH == 'false'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages # The branch the action should deploy to.
-          folder: ./output # The folder the action should deploy.
+          branch: gh-pages
+          folder: ./output
           commit-message: Deploy candidate branch
           target-folder: branches/${{ env.BRANCH_NAME }}
           single-commit: true
-          clean: false 
-
-      - name: Deploy main
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
-        if: env.IS_DEFAULT_BRANCH == 'true'
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages # The branch the action should deploy to.
-          folder: ./output # The folder the action should deploy.
-          commit-message: Deploy main branch
-          single-commit: true
-          clean-exclude: |
-            branches
-            sitepreview
+          clean: false
 
       - name: Comment on PR - Build Complete
         if: github.event_name == 'pull_request' && always()
