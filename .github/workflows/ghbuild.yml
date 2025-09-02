@@ -271,27 +271,9 @@ jobs:
       - name: Get branch name
         run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
-      - name: Check if commit is from copilot/bot
-        run: |
-          echo "Checking commit author: ${{ github.actor }}"
-          echo "Commit author email: ${{ github.event.head_commit.author.email }}"
-          echo "Commit author name: ${{ github.event.head_commit.author.name }}"
-          
-          # Check if commit is from GitHub Actions bot, copilot, or noreply email
-          if [[ "${{ github.actor }}" == "github-actions[bot]" ]] || \
-             [[ "${{ github.event.head_commit.author.email }}" == *"noreply.github.com" ]] || \
-             [[ "${{ github.event.head_commit.author.name }}" == *"copilot"* ]] || \
-             [[ "${{ github.event.head_commit.author.name }}" == "github-actions[bot]" ]]; then
-            echo "This commit appears to be from copilot/bot - skipping automatic deployment"
-            echo "IS_COPILOT_COMMIT=true" >> $GITHUB_ENV
-          else
-            echo "This commit is from a regular user - allowing automatic deployment"
-            echo "IS_COPILOT_COMMIT=false" >> $GITHUB_ENV
-          fi
-
-      - name: Deploy candidate (non-copilot commits)
+      - name: Deploy candidate
         uses: JamesIves/github-pages-deploy-action@v4.4.2
-        if: env.IS_DEFAULT_BRANCH == 'false' && env.IS_COPILOT_COMMIT == 'false'
+        if: env.IS_DEFAULT_BRANCH == 'false'
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.
@@ -300,9 +282,9 @@ jobs:
           single-commit: true
           clean: false 
 
-      - name: Deploy main (non-copilot commits)
+      - name: Deploy main
         uses: JamesIves/github-pages-deploy-action@v4.4.2
-        if: env.IS_DEFAULT_BRANCH == 'true' && env.IS_COPILOT_COMMIT == 'false'
+        if: env.IS_DEFAULT_BRANCH == 'true'
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.
@@ -311,12 +293,3 @@ jobs:
           clean-exclude: |
             branches
             sitepreview
-
-      - name: Notify about copilot commit (requires manual approval)
-        if: env.IS_COPILOT_COMMIT == 'true'
-        run: |
-          echo "🤖 This commit was made by copilot/bot and will not be automatically deployed."
-          echo "📋 To deploy this build, a maintainer must manually approve and run the deployment."
-          echo "🔗 The build artifacts are ready and can be deployed using the manual deployment workflow."
-          echo "📁 Branch: ${{ env.BRANCH_NAME }}"
-          echo "📁 Is default branch: ${{ env.IS_DEFAULT_BRANCH }}"

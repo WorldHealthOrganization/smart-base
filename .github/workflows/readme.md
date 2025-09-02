@@ -6,8 +6,6 @@ This GitHub Action automatically builds and publishes FHIR Implementation Guides
 
 - Default branch is published in `https://<owner>.github.io/<repo>`. Branches are published in `https://<owner>.github.io/<repo>/branches/<branch>`
 - Automatically uses the latest versions of sushi and IG publisher
-- **Copilot/Bot Commit Protection**: Commits made by copilot or GitHub Actions bots are built but not automatically deployed
-- **Manual Deployment Approval**: Copilot/bot builds require manual approval through the "Manual Deployment" workflow
 
 ## Prerequisites
 
@@ -46,39 +44,9 @@ The action is configured to run on push or pull requests to any branch except th
 ### Workflow Triggers
 
 - **Push to `main` branch**: When commits are pushed to the `main` branch, the IG Publisher is run, and the output is published to the root of the GitHub Pages site.
-- **Push to other branches**: When commits are pushed to branches other than `main`, the output is published to a subdirectory named after the branch - branches/<branch_name>
+- **Push to other branches**: When commits are pushed to branches other than `main`, the output is published to a subdirectory named after the branch - branches/<vranch_name>
 - **Pull Request**: The action will run to ensure that the IG Publisher can build the IG from the pull request, but will not deploy to GitHub Pages.
 - **Manual Trigger**: You can manually trigger the workflow from the GitHub Actions tab if needed.
-
-### Copilot/Bot Commit Handling
-
-When commits are made by copilot or GitHub Actions bots:
-- The build process runs normally (IG Publisher, schema generation, etc.)
-- **Automatic deployment is skipped** to prevent permission issues
-- A notification is displayed indicating manual approval is required
-- Maintainers can use the "Manual Deployment (Approval Required)" workflow to deploy after review
-
-### Manual Deployment Workflow
-
-For copilot/bot commits that require manual deployment:
-
-1. Go to the **Actions** tab in your repository
-2. Select **"Manual Deployment (Approval Required)"** workflow
-3. Click **"Run workflow"** and provide:
-   - **Branch to deploy**: The branch name (e.g., `copilot/fix-69`)
-   - **Is default branch**: Check if deploying the main/default branch
-   - **Commit SHA**: (Optional) Specific commit to deploy
-4. The workflow will require approval if you have set up the environment protection rules
-5. Once approved, the deployment will proceed normally
-
-#### Setting Up Manual Approval (Optional)
-
-To require approval for manual deployments:
-
-1. Go to **Settings** → **Environments** in your repository
-2. Create a new environment named `manual-deployment-approval`
-3. Add **Required reviewers** (maintainers who can approve deployments)
-4. Save the environment settings
 
 ### What the Workflow Does
 
