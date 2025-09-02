@@ -93,20 +93,20 @@ jobs:
             });
 
 
-#      - name: Create gh-pages branch if it doesn't exist
-#        run: |
-#          git fetch origin
-#          exists=`git show-ref refs/heads/gh-pages`
-#          if [ -n "$exists" ]; then
-#            echo 'gh-pages branch exists';
-#          else
-#            echo 'gh-pages branch does not exist, creating it';
-#            git checkout --orphan gh-pages
-#            git reset --hard
-#            git commit --allow-empty -m "Initializing gh-pages branch"
-#            git push origin gh-pages
-#            git checkout ${GITHUB_REF##*/}
-#          fi
+      - name: Create gh-pages branch if it doesn't exist
+        run: |
+          git fetch origin
+          exists=`git show-ref refs/heads/gh-pages`
+          if [ -n "$exists" ]; then
+            echo 'gh-pages branch exists';
+          else
+            echo 'gh-pages branch does not exist, creating it';
+            git checkout --orphan gh-pages
+            git reset --hard
+            git commit --allow-empty -m "Initializing gh-pages branch"
+            git push origin gh-pages
+            git checkout ${GITHUB_REF##*/}
+          fi
 
       - name: Update the image to the latest publisher
         uses: docker://hl7fhir/ig-publisher-base:latest
@@ -305,6 +305,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.4.2
         if: env.IS_DEFAULT_BRANCH == 'false'
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.
           commit-message: Deploy candidate branch
@@ -316,6 +317,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.4.2
         if: env.IS_DEFAULT_BRANCH == 'true'
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.
           commit-message: Deploy main branch
