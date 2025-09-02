@@ -1,9 +1,12 @@
 Instance: HealthcareWorkerActor
 InstanceOf: SGActor
 Title: "Healthcare Worker Actor"
-Description: "Generic healthcare worker actor for SMART Guidelines questionnaires"
+Description: "Actor representing a healthcare worker"
 Usage: #definition
 
-* identifier.system = "http://smart.who.int/base/actor"
-* identifier.value = "healthcare-worker"
-* code = $SGPersonaTypes#key "Healthcare Worker"
+* name = "HealthcareWorker"
+* title = "Healthcare Worker"
+* status = #active
+* experimental = false
+* description = "Healthcare worker responsible for patient care and data collection"
+* type = #person
