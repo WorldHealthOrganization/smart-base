@@ -96,9 +96,9 @@ jobs:
       - name: Create gh-pages branch if it doesn't exist
         run: |
           git fetch origin
-          exists=`git show-ref refs/heads/gh-pages`
-          if [ -n "$exists" ]; then
-            echo 'gh-pages branch exists';
+          # Check if gh-pages branch exists remotely
+          if git ls-remote --exit-code --heads origin gh-pages > /dev/null 2>&1; then
+            echo 'gh-pages branch exists remotely';
           else
             echo 'gh-pages branch does not exist, creating it';
             git checkout --orphan gh-pages
