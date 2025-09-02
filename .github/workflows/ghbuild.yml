@@ -283,26 +283,20 @@ jobs:
           find ./output -type f -size +100M -print -delete
 
       - name: Deploy candidate
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
+        uses: peaceiris/actions-gh-pages@v3
         if: env.IS_DEFAULT_BRANCH == 'false'
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages # The branch the action should deploy to.
-          folder: ./output # The folder the action should deploy.
-          commit-message: Deploy candidate branch
-          target-folder: branches/${{ env.BRANCH_NAME }}
-          single-commit: true
-          clean: false 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
+          destination_dir: branches/${{ env.BRANCH_NAME }}
+          keep_files: true
+          force_orphan: false
 
       - name: Deploy main
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
+        uses: peaceiris/actions-gh-pages@v3
         if: env.IS_DEFAULT_BRANCH == 'true'
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages # The branch the action should deploy to.
-          folder: ./output # The folder the action should deploy.
-          commit-message: Deploy main branch
-          single-commit: true
-          clean-exclude: |
-            branches
-            sitepreview
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
+          keep_files: true
+          force_orphan: false
