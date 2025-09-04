@@ -216,13 +216,13 @@ class OpenAPIWrapper:
             
             # Determine the endpoint details
             if schema_type == 'valueset':
-                endpoint_path = "/ValueSets.json.schema"
+                endpoint_path = "/ValueSets.schema.json"
                 api_title = "ValueSets Enumeration API"
                 api_description = "API endpoint providing an enumeration of all available ValueSet schemas"
                 summary = "Get enumeration of all ValueSet schemas"
                 description = "Returns a list of all available ValueSet schemas with metadata"
             else:  # logical_model
-                endpoint_path = "/LogicalModels.schema"
+                endpoint_path = "/LogicalModels.schema.json"
                 api_title = "LogicalModels Enumeration API"
                 api_description = "API endpoint providing an enumeration of all available Logical Model schemas"
                 summary = "Get enumeration of all Logical Model schemas"
@@ -749,11 +749,11 @@ class DAKApiHubGenerator:
             
             # Create the enumeration schema
             if schema_type == 'valueset':
-                enum_filename = "ValueSets.json.schema"
+                enum_filename = "ValueSets.schema.json"
                 enum_title = "ValueSet Enumeration Schema"
                 enum_description = "JSON Schema defining the structure of the ValueSet enumeration endpoint response"
             else:  # logical_model
-                enum_filename = "LogicalModels.schema"
+                enum_filename = "LogicalModels.schema.json"
                 enum_title = "Logical Model Enumeration Schema"  
                 enum_description = "JSON Schema defining the structure of the Logical Model enumeration endpoint response"
             
@@ -1388,7 +1388,7 @@ def main():
                                                                        "ValueSets Enumeration API Documentation")
                 if valueset_enum_html:
                     enumeration_docs.append({
-                        'title': 'ValueSets.json.schema',
+                        'title': 'ValueSets.schema.json',
                         'description': 'Enumeration of all available ValueSet schemas',
                         'html_file': os.path.basename(valueset_enum_html),
                         'type': 'enumeration-valueset'
@@ -1406,7 +1406,7 @@ def main():
                                                                            "LogicalModels Enumeration API Documentation")
                 if logicalmodel_enum_html:
                     enumeration_docs.append({
-                        'title': 'LogicalModels.schema',
+                        'title': 'LogicalModels.schema.json',
                         'description': 'Enumeration of all available Logical Model schemas',
                         'html_file': os.path.basename(logicalmodel_enum_html),
                         'type': 'enumeration-logicalmodel'
