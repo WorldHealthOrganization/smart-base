@@ -58,6 +58,9 @@ jobs:
           else
             echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
           fi
+          # Sanitize branch name for URLs and file paths
+          SANITIZED_BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9._-]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
+          echo "SANITIZED_BRANCH_NAME=$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
 
       - name: Echo branch name and check if it's the default branch
         run: |
@@ -71,7 +74,7 @@ jobs:
           else
             echo "This is NOT the default branch."
             echo "IS_DEFAULT_BRANCH=false" >> $GITHUB_ENV
-            echo "DEPLOY_URL=https://worldhealthorganization.github.io/smart-base/branches/$BRANCH_NAME" >> $GITHUB_ENV
+            echo "DEPLOY_URL=https://worldhealthorganization.github.io/smart-base/branches/$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
           fi
 
       - name: Comment on PR - Build Started
@@ -361,6 +364,9 @@ jobs:
           else
             echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
           fi
+          # Sanitize branch name for URLs and file paths
+          SANITIZED_BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9._-]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
+          echo "SANITIZED_BRANCH_NAME=$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
 
       - name: Deploy candidate
         uses: JamesIves/github-pages-deploy-action@v4.4.2
@@ -370,7 +376,7 @@ jobs:
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.
           commit-message: Deploy candidate branch
-          target-folder: branches/${{ env.BRANCH_NAME }}
+          target-folder: branches/${{ env.SANITIZED_BRANCH_NAME }}
           single-commit: true
           clean: false 
 
