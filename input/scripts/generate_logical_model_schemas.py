@@ -202,10 +202,19 @@ class SchemaGenerator:
         """Generate JSON schema for a logical model."""
         # Use the URL from the StructureDefinition if available, otherwise construct one
         model_url = logical_model.get('url', '')
+        model_name = logical_model['name']
+        
         if model_url:
-            schema_id = f"{model_url}.schema.json"
+            # Extract base URL from canonical URL and use StructureDefinition-{name} pattern
+            # e.g., http://smart.who.int/base/StructureDefinition/Animal -> http://smart.who.int/base/StructureDefinition-Animal.schema.json
+            if '/StructureDefinition/' in model_url:
+                base_url = model_url.split('/StructureDefinition/')[0]
+                schema_id = f"{base_url}/StructureDefinition-{model_name}.schema.json"
+            else:
+                # Fallback if URL doesn't follow expected pattern
+                schema_id = f"{model_url}-{model_name}.schema.json"
         else:
-            schema_id = f"{self.canonical_base}/StructureDefinition/{logical_model['name']}.schema.json"
+            schema_id = f"{self.canonical_base}/StructureDefinition-{model_name}.schema.json"
         
         schema = {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -221,7 +230,7 @@ class SchemaGenerator:
         if model_url:
             schema["fhir:logicalModel"] = model_url
         else:
-            schema["fhir:logicalModel"] = f"{self.canonical_base}/StructureDefinition/{logical_model['name']}"
+            schema["fhir:logicalModel"] = f"{self.canonical_base}/StructureDefinition/{model_name}"
         
         if logical_model.get('parent'):
             schema["fhir:parent"] = logical_model['parent']
@@ -297,9 +306,11 @@ class SchemaGenerator:
         
         # Handle StructureDefinition URLs - these should reference other logical model schemas
         if fhir_type.startswith('http') and '/StructureDefinition/' in fhir_type:
-            # Use the full canonical URI for the $ref
+            # Extract model name and create reference using StructureDefinition-{name} pattern
+            model_name = fhir_type.split('/StructureDefinition/')[-1]
+            base_url = fhir_type.split('/StructureDefinition/')[0]
             return {
-                "$ref": f"{fhir_type}.schema.json"
+                "$ref": f"{base_url}/StructureDefinition-{model_name}.schema.json"
             }
         
         # Handle ValueSet bindings
@@ -337,8 +348,8 @@ class SchemaGenerator:
             # Ensure output directory exists
             Path(output_dir).mkdir(parents=True, exist_ok=True)
             
-            # Create filename
-            filename = f"{model_name}.schema.json"
+            # Create filename with StructureDefinition- prefix to match FHIR canonicals
+            filename = f"StructureDefinition-{model_name}.schema.json"
             filepath = os.path.join(output_dir, filename)
             
             # Save schema

@@ -221,15 +221,15 @@ python input/scripts/generate_logical_model_schemas.py output/StructureDefinitio
 - Uses canonical URLs from StructureDefinition for schema `$id`
 
 **Output:**
-- Creates one JSON schema file per Logical Model: `{model-name}.schema.json`
-- Schema `$id` uses the StructureDefinition URL with `.schema.json` suffix
+- Creates one JSON schema file per Logical Model: `StructureDefinition-{model-name}.schema.json`
+- Schema `$id` uses the base URL with `StructureDefinition-{model-name}.schema.json` pattern to match FHIR canonicals
 - Includes FHIR metadata and references to ValueSet schemas where applicable
 
 **Example generated schema:**
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "http://smart.who.int/base/StructureDefinition/Animal.schema.json",
+  "$id": "http://smart.who.int/base/StructureDefinition-Animal.schema.json",
   "title": "Animal",
   "description": "Logical Model for representing animals",
   "type": "object",
