@@ -132,7 +132,7 @@ class ISCO08Extractor:
             
             fsh_content.append(f"* #{code} \"{escaped_display}\"")
             if data['definition'] != data['display']:
-                fsh_content.append(f"  * ^property[=].code = #definition")
+                fsh_content.append(f"  * ^property[+].code = #definition")
                 fsh_content.append(f"  * ^property[=].valueString = \"{escaped_definition}\"")
         
         return "\n".join(fsh_content)
