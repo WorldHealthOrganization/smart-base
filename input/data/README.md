@@ -4,7 +4,7 @@ This directory contains source data files for ISCO-08 (International Standard Cl
 
 ## Files
 
-- `ISCO-08_EN_Structure_and_definitions.xlsx` - Excel file containing ISCO-08 classification with codes, titles, and definitions from the International Labour Organization (ILO)
+- `ISCO-08_EN_Structure_and_definitions.xlsx` - Excel file containing comprehensive ISCO-08 classification with codes, titles, and definitions from the International Labour Organization (ILO). Contains 182 codes across all levels: major groups (1-digit), sub-major groups (2-digit), minor groups (3-digit), and unit groups (4-digit).
 
 ## Processing
 
