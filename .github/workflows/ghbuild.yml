@@ -121,6 +121,57 @@ jobs:
           entrypoint: /bin/sh
           args: -c "mkdir -p ./fhir-package-cache && chown 1001:127 ./fhir-package-cache"
 
+      - name: Generate DMN Questionnaires
+        run: |
+          echo "Generating FHIR Questionnaires from DMN files before IG publisher runs..."
+          
+          # Check if questionnaire generation files exist locally
+          if [ ! -f "input/scripts/dmn_questionnaire_generator.py" ]; then
+            echo "DMN questionnaire generator not found locally, downloading from smart-base repository..."
+            
+            # Create directories if they don't exist
+            mkdir -p input/scripts
+            
+            # Function to download a file with fallback branches
+            download_file() {
+              local file_path="$1"
+              local output_path="$2"
+              
+              # Try main branch first
+              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/$file_path" 2>/dev/null; then
+                echo "Downloaded $file_path from main branch"
+                return 0
+              fi
+              
+              # Fallback to current branch (for testing)
+              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/${GITHUB_REF##*/}/$file_path" 2>/dev/null; then
+                echo "Downloaded $file_path from ${GITHUB_REF##*/} branch"
+                return 0
+              fi
+              
+              echo "Failed to download $file_path from any branch"
+              return 1
+            }
+            
+            # Download questionnaire generator from smart-base repository
+            if ! download_file "input/scripts/dmn_questionnaire_generator.py" "input/scripts/dmn_questionnaire_generator.py"; then
+              echo "Failed to download questionnaire generator, skipping questionnaire generation"
+            fi
+          else
+            echo "Using local DMN questionnaire generator"
+          fi
+          
+          # Install required Python dependencies for questionnaire generation
+          pip install lxml
+          
+          # Run questionnaire generation if script is available
+          if [ -f "input/scripts/dmn_questionnaire_generator.py" ]; then
+            python3 input/scripts/dmn_questionnaire_generator.py
+            echo "✅ Questionnaires generated successfully"
+          else
+            echo "⚠️ DMN questionnaire generator not available, skipping questionnaire generation"
+          fi
+
       - name: Transform DMN files to HTML
         run: |
           echo "Transforming DMN files to HTML before IG publisher runs..."
