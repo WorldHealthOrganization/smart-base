@@ -16,15 +16,15 @@ Description: "ISCO-08 codes from the International Labour Organization official 
 * #0 "Armed Forces Occupations"
   * ^property[+].code = #definition
   * ^property[=].valueString = "Armed forces occupations include all jobs held by members of the armed forces."
-* #1 "Commissioned Armed Forces Officers"
+* #1 "Managers"
   * ^property[+].code = #definition
-  * ^property[=].valueString = "Commissioned armed forces officers are responsible for the overall operational effectiveness of military units and for the execution of military operations."
-* #2 "Non-commissioned Armed Forces Officers"
+  * ^property[=].valueString = "Managers plan, direct, coordinate and evaluate the overall activities of enterprises, governments and other organizations, or of organizational units within them, and formulate and review their policies, laws, rules and regulations."
+* #2 "Professionals"
   * ^property[+].code = #definition
-  * ^property[=].valueString = "Non-commissioned armed forces officers provide leadership to military units and supervise and coordinate the activities of armed forces, other than commissioned officers."
-* #3 "Armed Forces Occupations, Other Ranks"
+  * ^property[=].valueString = "Professionals increase the existing stock of knowledge; apply scientific or artistic concepts and theories; teach about the foregoing in a systematic manner; or engage in any combination of these activities."
+* #3 "Technicians and Associate Professionals"
   * ^property[+].code = #definition
-  * ^property[=].valueString = "Armed forces occupations, other ranks, perform a variety of tasks in support of the overall military operations of the armed forces."
+  * ^property[=].valueString = "Technicians and associate professionals perform mostly technical and related tasks connected with research and the application of scientific or artistic concepts and operational methods, and government or business regulations."
 * #4 "Clerical Support Workers"
   * ^property[+].code = #definition
   * ^property[=].valueString = "Clerical support workers record, organise, store, compute and retrieve information, and perform a number of clerical duties."
