@@ -194,6 +194,93 @@ class OpenAPIWrapper:
         except Exception as e:
             self.logger.error(f"Error creating OpenAPI wrapper for {schema_path}: {e}")
             return None
+    
+    def create_enumeration_wrapper(self, enum_schema_path: str, schema_type: str, output_dir: str) -> Optional[str]:
+        """
+        Create an OpenAPI 3.0 wrapper for an enumeration schema.
+        
+        Args:
+            enum_schema_path: Path to the enumeration schema file
+            schema_type: Type of schema ('valueset' or 'logical_model')
+            output_dir: Directory to save the OpenAPI wrapper
+            
+        Returns:
+            Path to the generated OpenAPI wrapper file, or None if failed
+        """
+        try:
+            # Load the enumeration schema
+            with open(enum_schema_path, 'r', encoding='utf-8') as f:
+                enum_schema = json.load(f)
+            
+            enum_filename = os.path.basename(enum_schema_path)
+            
+            # Determine the endpoint details
+            if schema_type == 'valueset':
+                endpoint_path = "/ValueSets.schema.json"
+                api_title = "ValueSets Enumeration API"
+                api_description = "API endpoint providing an enumeration of all available ValueSet schemas"
+                summary = "Get enumeration of all ValueSet schemas"
+                description = "Returns a list of all available ValueSet schemas with metadata"
+            else:  # logical_model
+                endpoint_path = "/LogicalModels.schema.json"
+                api_title = "LogicalModels Enumeration API"
+                api_description = "API endpoint providing an enumeration of all available Logical Model schemas"
+                summary = "Get enumeration of all Logical Model schemas"
+                description = "Returns a list of all available Logical Model schemas with metadata"
+            
+            # Create OpenAPI wrapper for the enumeration
+            openapi_spec = {
+                "openapi": "3.0.3",
+                "info": {
+                    "title": api_title,
+                    "description": api_description,
+                    "version": "1.0.0"
+                },
+                "paths": {
+                    endpoint_path: {
+                        "get": {
+                            "summary": summary,
+                            "description": description,
+                            "responses": {
+                                "200": {
+                                    "description": f"Successfully retrieved {schema_type} enumeration",
+                                    "content": {
+                                        "application/json": {
+                                            "schema": {
+                                                "$ref": f"#/components/schemas/EnumerationResponse"
+                                            },
+                                            "example": enum_schema.get('example', {})
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "components": {
+                    "schemas": {
+                        "EnumerationResponse": enum_schema
+                    }
+                }
+            }
+            
+            # Save OpenAPI wrapper
+            if schema_type == 'valueset':
+                wrapper_filename = "ValueSets-enumeration.openapi.yaml"
+            else:
+                wrapper_filename = "LogicalModels-enumeration.openapi.yaml"
+                
+            wrapper_path = os.path.join(output_dir, wrapper_filename)
+            
+            with open(wrapper_path, 'w', encoding='utf-8') as f:
+                yaml.dump(openapi_spec, f, default_flow_style=False, sort_keys=False)
+            
+            self.logger.info(f"Created enumeration OpenAPI wrapper: {wrapper_path}")
+            return wrapper_path
+            
+        except Exception as e:
+            self.logger.error(f"Error creating enumeration OpenAPI wrapper for {enum_schema_path}: {e}")
+            return None
 
 
 class ReDocRenderer:
@@ -237,156 +324,118 @@ class ReDocRenderer:
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+        
+        /* WHO SMART Trust inspired styling */
+        :root {{
+            --navbar-bg-color: #00477d;
+            --ig-header-color: #f6f7f9;
+            --footer-bg-color: #505050;
+            --footer-container-bg-color: #00477d;
+            --btn-hover-color: #0070A1;
+            --toc-box-border: navy;
+            --toc-box-bg-color: #f6f7f9;
+        }}
+        
         body {{
+            font-family: 'Noto Sans', sans-serif !important;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #fafafa;
+            background-color: var(--toc-box-bg-color) !important;
+            color: #000 !important;
+            height: fit-content !important;
         }}
         
         .container {{
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
+            width: 100% !important;
+            max-width: none !important;
+            background-color: var(--toc-box-bg-color) !important;
+            color: #000 !important;
+            padding: 0 20px;
         }}
         
-        .header {{
-            background: linear-gradient(135deg, #0066cc 0%, #004a99 100%);
-            color: white;
-            padding: 2rem 0;
-            margin: -2rem -2rem 2rem -2rem;
-            text-align: center;
-            position: relative;
+        @media (min-width: 2200px) {{
+            .container {{
+                max-width: 1980px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }}
         }}
         
-        .header h1 {{
-            margin: 0;
-            font-size: 2rem;
-            font-weight: 400;
-            cursor: pointer;
+        /* Header segment matching SMART Trust */
+        #segment-header {{
+            display: block;
         }}
         
-        .header h1:hover {{
-            text-decoration: underline;
+        #segment-navbar {{
+            background-color: var(--navbar-bg-color) !important;
         }}
         
-        .header p {{
-            margin: 0.5rem 0 0 0;
-            opacity: 0.9;
-        }}
-        
-        .breadcrumb {{
-            position: absolute;
-            top: 1rem;
-            left: 2rem;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }}
-        
-        .breadcrumb a {{
-            color: white;
-            text-decoration: none;
-        }}
-        
-        .breadcrumb a:hover {{
-            text-decoration: underline;
-        }}
-        
-        .schema-actions {{
+        #segment-navbar .container {{
+            background-color: var(--navbar-bg-color) !important;
             display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
+            justify-content: space-between;
             align-items: center;
+            padding: 0 20px;
+            min-height: 50px;
         }}
         
-        .action-btn {{
-            display: inline-flex;
+        #project-nav {{
+            flex: 0 0 auto;
+            margin-right: auto;
+            line-height: 50px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            color: #808080;
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: #0066cc;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: background-color 0.2s;
+            justify-content: flex-start;
+            padding: 0 20px;
         }}
         
-        .action-btn:hover {{
-            background: #004a99;
-            color: white;
-        }}
-        
-        .action-btn svg {{
-            width: 16px;
-            height: 16px;
-        }}
-        
-        .schema-id-link {{
-            color: #0066cc;
+        #project-nav a {{
+            color: #e6e6e6;
             text-decoration: none;
             font-weight: 500;
         }}
         
-        .schema-id-link:hover {{
-            text-decoration: underline;
+        #project-nav a:hover {{
+            color: #ffffff;
         }}
         
-        .fhir-page-link {{
-            color: #0066cc;
-            text-decoration: none;
+        .header-container {{
+            background-color: var(--ig-header-color) !important;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0px 6px 8px rgba(130, 130, 13, 0.1) !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
         }}
         
-        .fhir-page-link:hover {{
-            text-decoration: underline;
+        #ig-status {{
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
         }}
         
-        .data-type-link {{
-            color: #6f42c1;
-            text-decoration: none;
+        #ig-status p {{
+            background-color: white;
+            padding: 10px 17px;
+            border-radius: 5px;
+            position: relative;
+            z-index: 2;
+            margin: 0;
         }}
         
-        .data-type-link:hover {{
-            text-decoration: underline;
-        }}
-        
-        .show-more-btn {{
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            color: #0066cc;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-        }}
-        
-        .show-more-btn:hover {{
-            background: #e9ecef;
-        }}
-        
-        .hidden-values {{
-            display: none;
-        }}
-        
-        .toast {{
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            background: #28a745;
-            color: white;
-            padding: 1rem;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }}
-        
-        .toast.show {{
-            opacity: 1;
+        .content-container {{
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }}
         
         .section {{
@@ -405,8 +454,9 @@ class ReDocRenderer:
         
         .section-header h2 {{
             margin: 0;
-            color: #0066cc;
-            font-size: 1.3rem;
+            color: #00477d;
+            font-size: 1.5rem;
+            font-weight: 500;
         }}
         
         .section-content {{
@@ -450,12 +500,12 @@ class ReDocRenderer:
         
         .property-name {{
             font-weight: 600;
-            color: #0066cc;
+            color: #00477d;
         }}
         
         .property-type {{
             color: #6f42c1;
-            font-family: monospace;
+            font-family: 'Noto Sans', monospace;
         }}
         
         .property-description {{
@@ -473,80 +523,46 @@ class ReDocRenderer:
         
         .enum-value {{
             display: inline-block;
-            background-color: #0066cc;
+            background-color: #00477d;
             color: white;
             padding: 0.2rem 0.5rem;
             border-radius: 3px;
             margin: 0.2rem;
-            font-family: monospace;
+            font-family: 'Noto Sans', monospace;
             font-size: 0.9rem;
         }}
+        
+        h1, h2, h3, h4, h5, h6 {{
+            font-family: 'Noto Sans', sans-serif !important;
+            color: #000 !important;
+        }}
+        
+        td, p, li {{
+            font-family: 'Noto Sans', sans-serif !important;
+        }}
     </style>
-    
-    <script>
-        function downloadSchema() {{
-            const schemaData = {json.dumps(spec_data.get('components', {}).get('schemas', {}))};
-            const schemaName = Object.keys(schemaData)[0];
-            const blob = new Blob([JSON.stringify(schemaData[schemaName], null, 2)], {{type: 'application/json'}});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = schemaName + '.schema.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }}
-        
-        function copyToClipboard() {{
-            const schemaData = {json.dumps(spec_data.get('components', {}).get('schemas', {}))};
-            const schemaName = Object.keys(schemaData)[0];
-            const schemaText = JSON.stringify(schemaData[schemaName], null, 2);
-            navigator.clipboard.writeText(schemaText).then(() => {{
-                showToast('Schema copied to clipboard!');
-            }}).catch(() => {{
-                showToast('Failed to copy to clipboard', true);
-            }});
-        }}
-        
-        function showToast(message, isError = false) {{
-            const toast = document.createElement('div');
-            toast.className = 'toast' + (isError ? ' error' : '');
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.classList.add('show'), 100);
-            setTimeout(() => {{
-                toast.classList.remove('show');
-                setTimeout(() => document.body.removeChild(toast), 300);
-            }}, 3000);
-        }}
-        
-        function toggleEnumValues() {{
-            const hiddenValues = document.querySelector('.hidden-values');
-            const button = document.querySelector('.show-more-btn');
-            if (hiddenValues.style.display === 'none' || !hiddenValues.style.display) {{
-                hiddenValues.style.display = 'inline';
-                button.textContent = 'Show less';
-            }} else {{
-                hiddenValues.style.display = 'none';
-                button.textContent = 'Show more (' + hiddenValues.children.length + ' additional values)';
-            }}
-        }}
-        
-        function goToHub() {{
-            window.location.href = 'dak-api.html';
-        }}
-    </script>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="breadcrumb">
-                <a href="dak-api.html">← Back to DAK API Hub</a>
+    <div id="segment-header" class="segment">
+        <div id="segment-navbar" class="segment">
+            <div class="container">
+                <div id="project-nav">
+                    <a href="../index.html">Return to SMART Guideline</a>
+                </div>
             </div>
-            <h1 onclick="goToHub()">{title}</h1>
-            <p>Generated from: {openapi_filename}</p>
         </div>
+        
+        <div class="container header-container">
+            <div id="ig-status">
+                <p><span style="font-size:12pt;font-weight:bold">{title}</span>
+                    <br/>
+                    <span style="display:inline-block;">Generated from: {openapi_filename}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content-container">
 """
             
             # Add API info
@@ -607,69 +623,20 @@ class ReDocRenderer:
 """
                 
                 for schema_name, schema_def in schemas.items():
-                    # Get schema ID and create links
-                    schema_id = schema_def.get('$id', '')
-                    schema_title = schema_def.get('title', schema_name)
-                    
-                    # Create FHIR page link
-                    fhir_page_url = schema_id.replace('.schema.json', '.html') if schema_id else '#'
-                    
                     html_content += f"""
-                <h3>{schema_title}</h3>
-                
-                <div class="schema-actions">
-                    <button class="action-btn" onclick="downloadSchema()">
-                        <svg fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
-                        </svg>
-                        Download Schema
-                    </button>
-                    <button class="action-btn" onclick="copyToClipboard()">
-                        <svg fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
-                        </svg>
-                        Copy to Clipboard
-                    </button>
-                </div>
-                
-                <p><strong>Description:</strong> {schema_def.get('description', 'No description')}</p>"""
-                    
-                    if schema_id:
-                        html_content += f'''
-                <p><strong>Schema ID:</strong> <a href="{schema_id}" class="schema-id-link" title="{schema_id}" target="_blank">{schema_id}</a></p>'''
-                    
-                    if fhir_page_url != '#':
-                        html_content += f'''
-                <p><strong>FHIR Definition:</strong> <a href="{fhir_page_url}" class="fhir-page-link" target="_blank">View full definition at corresponding FHIR page</a></p>'''
-                    
-                    # Add type with link to JSON Schema documentation
-                    schema_type = schema_def.get('type', 'unknown')
-                    type_url = f"https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model"
-                    html_content += f'''
-                <p><strong>Type:</strong> <a href="{type_url}" class="data-type-link" target="_blank">{schema_type}</a></p>'''
+                <h3>{schema_name}</h3>
+                <p><strong>Description:</strong> {schema_def.get('description', 'No description')}</p>
+                <p><strong>Type:</strong> <span class="property-type">{schema_def.get('type', 'unknown')}</span></p>
+"""
                     
                     # Handle enum values for ValueSets
                     if 'enum' in schema_def:
-                        enum_values = sorted(schema_def['enum'])  # Alphabetize the values
-                        visible_values = enum_values[:40]  # Show first 40
-                        hidden_values = enum_values[40:]   # Remaining values
-                        
                         html_content += """
                 <div class="enum-values">
                     <strong>Allowed values:</strong><br>
 """
-                        # Show first 40 values
-                        for enum_value in visible_values:
+                        for enum_value in schema_def['enum']:
                             html_content += f'                    <span class="enum-value">{enum_value}</span>\n'
-                        
-                        # Add hidden values if there are more than 40
-                        if hidden_values:
-                            html_content += '                    <span class="hidden-values">\n'
-                            for enum_value in hidden_values:
-                                html_content += f'                        <span class="enum-value">{enum_value}</span>\n'
-                            html_content += '                    </span>\n'
-                            html_content += f'                    <br><button class="show-more-btn" onclick="toggleEnumValues()">Show more ({len(hidden_values)} additional values)</button>\n'
-                            
                         html_content += """
                 </div>
 """
@@ -679,15 +646,11 @@ class ReDocRenderer:
                         html_content += """
                 <h4>Properties:</h4>
 """
-                        # Sort properties alphabetically
-                        sorted_properties = sorted(schema_def['properties'].items())
-                        for prop_name, prop_def in sorted_properties:
-                            prop_type = prop_def.get('type', 'unknown')
-                            type_url = f"https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model"
+                        for prop_name, prop_def in schema_def['properties'].items():
                             html_content += f"""
                 <div class="property">
                     <span class="property-name">{prop_name}</span>
-                    <span class="property-type">(<a href="{type_url}" class="data-type-link" target="_blank">{prop_type}</a>)</span>
+                    <span class="property-type">({prop_def.get('type', 'unknown')})</span>
                     <div class="property-description">{prop_def.get('description', 'No description')}</div>
                 </div>
 """
@@ -736,7 +699,152 @@ class DAKApiHubGenerator:
     def __init__(self, logger: logging.Logger):
         self.logger = logger
     
-    def generate_hub(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict]) -> bool:
+    def create_enumeration_schema(self, schema_type: str, schema_files: List[str], output_dir: str) -> Optional[str]:
+        """
+        Create an enumeration schema file that lists all schemas of a given type.
+        
+        Args:
+            schema_type: Type of schema ('valueset' or 'logical_model')  
+            schema_files: List of schema file paths
+            output_dir: Directory to save the enumeration schema
+            
+        Returns:
+            Path to the generated enumeration schema file, or None if failed
+        """
+        try:
+            # Create enumeration data by reading each schema file
+            schemas_list = []
+            
+            for schema_path in schema_files:
+                try:
+                    with open(schema_path, 'r', encoding='utf-8') as f:
+                        schema = json.load(f)
+                    
+                    schema_filename = os.path.basename(schema_path)
+                    schema_entry = {
+                        "filename": schema_filename,
+                        "id": schema.get('$id', ''),
+                        "title": schema.get('title', schema_filename),
+                        "description": schema.get('description', ''),
+                        "url": f"./{schema_filename}"
+                    }
+                    
+                    # Add type-specific metadata
+                    if schema_type == 'valueset':
+                        if 'fhir:valueSet' in schema:
+                            schema_entry['valueSetUrl'] = schema['fhir:valueSet']
+                        if 'enum' in schema:
+                            schema_entry['codeCount'] = len(schema['enum'])
+                    elif schema_type == 'logical_model':
+                        if 'fhir:logicalModel' in schema:
+                            schema_entry['logicalModelUrl'] = schema['fhir:logicalModel']
+                        if 'properties' in schema:
+                            schema_entry['propertyCount'] = len(schema['properties'])
+                    
+                    schemas_list.append(schema_entry)
+                    
+                except Exception as e:
+                    self.logger.warning(f"Error reading schema {schema_path}: {e}")
+                    continue
+            
+            # Create the enumeration schema
+            if schema_type == 'valueset':
+                enum_filename = "ValueSets.schema.json"
+                enum_title = "ValueSet Enumeration Schema"
+                enum_description = "JSON Schema defining the structure of the ValueSet enumeration endpoint response"
+            else:  # logical_model
+                enum_filename = "LogicalModels.schema.json"
+                enum_title = "Logical Model Enumeration Schema"  
+                enum_description = "JSON Schema defining the structure of the Logical Model enumeration endpoint response"
+            
+            enumeration_schema = {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "$id": f"#/{enum_filename}",
+                "title": enum_title,
+                "description": enum_description,
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "const": schema_type,
+                        "description": f"The type of schemas enumerated ({schema_type})"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "description": "Total number of schemas available"
+                    },
+                    "schemas": {
+                        "type": "array",
+                        "description": "Array of available schemas",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "filename": {
+                                    "type": "string",
+                                    "description": "Schema filename"
+                                },
+                                "id": {
+                                    "type": "string",
+                                    "description": "Schema $id"
+                                },
+                                "title": {
+                                    "type": "string", 
+                                    "description": "Schema title"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "description": "Schema description"
+                                },
+                                "url": {
+                                    "type": "string",
+                                    "description": "Relative URL to the schema file"
+                                }
+                            },
+                            "required": ["filename", "title", "url"]
+                        }
+                    }
+                },
+                "required": ["type", "count", "schemas"],
+                "example": {
+                    "type": schema_type,
+                    "count": len(schemas_list),
+                    "schemas": schemas_list
+                }
+            }
+            
+            # Add type-specific properties to schema items
+            if schema_type == 'valueset':
+                enumeration_schema["properties"]["schemas"]["items"]["properties"]["valueSetUrl"] = {
+                    "type": "string",
+                    "description": "FHIR canonical URL of the ValueSet"
+                }
+                enumeration_schema["properties"]["schemas"]["items"]["properties"]["codeCount"] = {
+                    "type": "integer", 
+                    "description": "Number of codes in the ValueSet"
+                }
+            elif schema_type == 'logical_model':
+                enumeration_schema["properties"]["schemas"]["items"]["properties"]["logicalModelUrl"] = {
+                    "type": "string",
+                    "description": "FHIR canonical URL of the Logical Model"
+                }
+                enumeration_schema["properties"]["schemas"]["items"]["properties"]["propertyCount"] = {
+                    "type": "integer",
+                    "description": "Number of properties in the Logical Model"  
+                }
+            
+            # Save enumeration schema
+            enum_path = os.path.join(output_dir, enum_filename)
+            with open(enum_path, 'w', encoding='utf-8') as f:
+                json.dump(enumeration_schema, f, indent=2, ensure_ascii=False)
+            
+            self.logger.info(f"Created enumeration schema: {enum_path}")
+            return enum_path
+            
+        except Exception as e:
+            self.logger.error(f"Error creating enumeration schema for {schema_type}: {e}")
+            return None
+    
+    def generate_hub(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None) -> bool:
         """
         Generate the unified dak-api.html hub page.
         
@@ -744,11 +852,14 @@ class DAKApiHubGenerator:
             output_dir: Directory to save the hub file
             schema_docs: Dictionary with schema documentation info
             openapi_docs: List of OpenAPI documentation info
+            enumeration_docs: List of enumeration endpoint documentation info
             
         Returns:
             True if successful, False otherwise
         """
         try:
+            if enumeration_docs is None:
+                enumeration_docs = []
             hub_path = os.path.join(output_dir, "dak-api.html")
             
             # Generate HTML content
@@ -759,41 +870,118 @@ class DAKApiHubGenerator:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DAK API Documentation Hub</title>
     <style>
-        /* FHIR IG-inspired styling */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+        
+        /* WHO SMART Trust inspired styling */
+        :root {
+            --navbar-bg-color: #00477d;
+            --ig-header-color: #f6f7f9;
+            --footer-bg-color: #505050;
+            --footer-container-bg-color: #00477d;
+            --btn-hover-color: #0070A1;
+            --toc-box-border: navy;
+            --toc-box-bg-color: #f6f7f9;
+        }
+        
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Noto Sans', sans-serif !important;
             margin: 0; 
             padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
+            background-color: var(--toc-box-bg-color) !important;
+            color: #000 !important;
+            height: fit-content !important;
         }
         
         .container {
+            width: 100% !important;
+            max-width: none !important;
+            background-color: var(--toc-box-bg-color) !important;
+            color: #000 !important;
+            padding: 0 20px;
+        }
+        
+        @media (min-width: 2200px) {
+            .container {
+                max-width: 1980px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+        }
+        
+        /* Header segment matching SMART Trust */
+        #segment-header {
+            display: block;
+        }
+        
+        #segment-navbar {
+            background-color: var(--navbar-bg-color) !important;
+        }
+        
+        #segment-navbar .container {
+            background-color: var(--navbar-bg-color) !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            min-height: 50px;
+        }
+        
+        #project-nav {
+            flex: 0 0 auto;
+            margin-right: auto;
+            line-height: 50px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            color: #808080;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 20px;
+        }
+        
+        #project-nav a {
+            color: #e6e6e6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        #project-nav a:hover {
+            color: #ffffff;
+        }
+        
+        .header-container {
+            background-color: var(--ig-header-color) !important;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0px 6px 8px rgba(130, 130, 13, 0.1) !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        #ig-status {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        #ig-status p {
+            background-color: white;
+            padding: 10px 17px;
+            border-radius: 5px;
+            position: relative;
+            z-index: 2;
+            margin: 0;
+        }
+        
+        .content-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #0066cc 0%, #004a99 100%);
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .header h1 { 
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 300;
-            text-align: center;
-        }
-        
-        .header p {
-            margin: 0.5rem 0 0 0;
-            font-size: 1.1rem;
-            text-align: center;
-            opacity: 0.9;
         }
         
         .section {
@@ -812,7 +1000,7 @@ class DAKApiHubGenerator:
         
         .section-header h2 { 
             margin: 0;
-            color: #0066cc; 
+            color: #00477d; 
             font-size: 1.5rem;
             font-weight: 500;
         }
@@ -836,14 +1024,14 @@ class DAKApiHubGenerator:
         }
         
         .doc-card:hover {
-            border-color: #0066cc;
+            border-color: #00477d;
             background: white;
-            box-shadow: 0 2px 8px rgba(0,102,204,0.1);
+            box-shadow: 0 2px 8px rgba(0,71,125,0.1);
         }
         
         .doc-card h3 {
             margin: 0 0 0.5rem 0;
-            color: #0066cc;
+            color: #00477d;
             font-size: 1.1rem;
         }
         
@@ -856,17 +1044,17 @@ class DAKApiHubGenerator:
         
         .doc-card a {
             display: inline-block;
-            color: #0066cc;
+            color: #00477d;
             text-decoration: none;
             font-weight: 500;
             padding: 0.5rem 1rem;
-            border: 1px solid #0066cc;
+            border: 1px solid #00477d;
             border-radius: 4px;
             transition: all 0.2s ease;
         }
         
         .doc-card a:hover {
-            background-color: #0066cc;
+            background-color: #00477d;
             color: white;
         }
         
@@ -894,6 +1082,18 @@ class DAKApiHubGenerator:
             background-color: #fd7e14;
         }
         
+        .schema-type.enumeration-valueset {
+            background-color: #e91e63;
+        }
+        
+        .schema-type.enumeration-logicalmodel {
+            background-color: #9c27b0;
+        }
+        
+        .schema-type.enumeration {
+            background-color: #607d8b;
+        }
+        
         .no-content {
             text-align: center;
             color: #6c757d;
@@ -912,14 +1112,62 @@ class DAKApiHubGenerator:
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="container">
-            <h1>DAK API Documentation Hub</h1>
-            <p>WHO SMART Guideline Digital Adaptation Kit - API and Schema Documentation</p>
+    <div id="segment-header" class="segment">
+        <div id="segment-navbar" class="segment">
+            <div class="container">
+                <div id="project-nav">
+                    <a href="index.html">Return to SMART Guideline</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container header-container">
+            <div id="ig-status">
+                <p><span style="font-size:12pt;font-weight:bold">DAK API Documentation Hub</span>
+                    <br/>
+                    <span style="display:inline-block;">WHO SMART Guideline Digital Adaptation Kit - API and Schema Documentation</span>
+                </p>
+            </div>
         </div>
     </div>
     
-    <div class="container">
+    <div class="content-container">
+"""
+            
+            # Add enumeration endpoints section
+            if enumeration_docs:
+                html_content += """
+        <div class="section">
+            <div class="section-header">
+                <h2>API Enumeration Endpoints</h2>
+            </div>
+            <div class="section-content">
+                <div class="doc-grid">
+"""
+                for doc in enumeration_docs:
+                    # Determine icon type
+                    if doc.get('type') == 'enumeration-valueset':
+                        schema_type_class = "enumeration-valueset"
+                        type_label = "ValueSets Enum"
+                    elif doc.get('type') == 'enumeration-logicalmodel':
+                        schema_type_class = "enumeration-logicalmodel"
+                        type_label = "LogicalModels Enum"
+                    else:
+                        schema_type_class = "enumeration"
+                        type_label = "Enumeration"
+                    
+                    html_content += f"""
+                    <div class="doc-card">
+                        <div class="schema-type {schema_type_class}">{type_label}</div>
+                        <h3>{doc['title']}</h3>
+                        <p>{doc['description']}</p>
+                        <a href="{doc['html_file']}" target="_blank">View Documentation</a>
+                    </div>
+"""
+                html_content += """
+                </div>
+            </div>
+        </div>
 """
             
             # Add ValueSet schemas section
@@ -932,8 +1180,7 @@ class DAKApiHubGenerator:
             <div class="section-content">
                 <div class="doc-grid">
 """
-                # Sort alphabetically by title
-                for doc in sorted(schema_docs['valueset'], key=lambda x: x['title']):
+                for doc in schema_docs['valueset']:
                     html_content += f"""
                     <div class="doc-card">
                         <div class="schema-type valueset">ValueSet</div>
@@ -958,8 +1205,7 @@ class DAKApiHubGenerator:
             <div class="section-content">
                 <div class="doc-grid">
 """
-                # Sort alphabetically by title
-                for doc in sorted(schema_docs['logical_model'], key=lambda x: x['title']):
+                for doc in schema_docs['logical_model']:
                     html_content += f"""
                     <div class="doc-card">
                         <div class="schema-type logical-model">Logical Model</div>
@@ -984,8 +1230,7 @@ class DAKApiHubGenerator:
             <div class="section-content">
                 <div class="doc-grid">
 """
-                # Sort alphabetically by title
-                for doc in sorted(openapi_docs, key=lambda x: x['title']):
+                for doc in openapi_docs:
                     html_content += f"""
                     <div class="doc-card">
                         <div class="schema-type openapi">OpenAPI</div>
@@ -1001,7 +1246,7 @@ class DAKApiHubGenerator:
 """
             
             # Add empty state if no documentation
-            if not schema_docs.get('valueset') and not schema_docs.get('logical_model') and not openapi_docs:
+            if not schema_docs.get('valueset') and not schema_docs.get('logical_model') and not openapi_docs and not enumeration_docs:
                 html_content += """
         <div class="section">
             <div class="section-content">
@@ -1128,11 +1373,50 @@ def main():
         except Exception as e:
             logger.error(f"Error processing OpenAPI file {openapi_path}: {e}")
     
+    # Create enumeration endpoints for ValueSets and LogicalModels
+    enumeration_docs = []
+    
+    # Create ValueSets enumeration endpoint if we have ValueSet schemas
+    if schemas['valueset']:
+        valueset_enum_path = hub_generator.create_enumeration_schema('valueset', schemas['valueset'], output_dir)
+        if valueset_enum_path:
+            # Create OpenAPI wrapper for ValueSets enumeration
+            valueset_enum_wrapper = openapi_wrapper.create_enumeration_wrapper(valueset_enum_path, 'valueset', output_dir)
+            if valueset_enum_wrapper:
+                # Generate ReDoc HTML for ValueSets enumeration
+                valueset_enum_html = redoc_renderer.generate_redoc_html(valueset_enum_wrapper, output_dir,
+                                                                       "ValueSets Enumeration API Documentation")
+                if valueset_enum_html:
+                    enumeration_docs.append({
+                        'title': 'ValueSets.schema.json',
+                        'description': 'Enumeration of all available ValueSet schemas',
+                        'html_file': os.path.basename(valueset_enum_html),
+                        'type': 'enumeration-valueset'
+                    })
+    
+    # Create LogicalModels enumeration endpoint if we have LogicalModel schemas  
+    if schemas['logical_model']:
+        logicalmodel_enum_path = hub_generator.create_enumeration_schema('logical_model', schemas['logical_model'], output_dir)
+        if logicalmodel_enum_path:
+            # Create OpenAPI wrapper for LogicalModels enumeration
+            logicalmodel_enum_wrapper = openapi_wrapper.create_enumeration_wrapper(logicalmodel_enum_path, 'logical_model', output_dir)
+            if logicalmodel_enum_wrapper:
+                # Generate ReDoc HTML for LogicalModels enumeration
+                logicalmodel_enum_html = redoc_renderer.generate_redoc_html(logicalmodel_enum_wrapper, output_dir,
+                                                                           "LogicalModels Enumeration API Documentation")
+                if logicalmodel_enum_html:
+                    enumeration_docs.append({
+                        'title': 'LogicalModels.schema.json',
+                        'description': 'Enumeration of all available Logical Model schemas',
+                        'html_file': os.path.basename(logicalmodel_enum_html),
+                        'type': 'enumeration-logicalmodel'
+                    })
+    
     # Generate the unified hub
-    success = hub_generator.generate_hub(output_dir, schema_docs, openapi_docs)
+    success = hub_generator.generate_hub(output_dir, schema_docs, openapi_docs, enumeration_docs)
     
     if success:
-        total_docs = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(openapi_docs)
+        total_docs = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(openapi_docs) + len(enumeration_docs)
         logger.info(f"Successfully generated DAK API hub with {total_docs} documentation pages")
         sys.exit(0)
     else:

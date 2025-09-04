@@ -31,6 +31,11 @@ on:
         description: 'Optional Custom terminology server URL'
         required: false
 
+# Prevent concurrent deployments to avoid race conditions when updating gh-pages branch
+concurrency:
+  group: github-pages-deployment
+  cancel-in-progress: false
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -53,14 +58,14 @@ jobs:
 
       - name: Get branch name
         run: |
-          if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
-            # For pull requests, use the source branch name and replace slashes with hyphens
-            BRANCH_NAME=$(echo "$GITHUB_HEAD_REF" | sed 's|/|-|g')
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
           else
-            # For push events, use the branch name
-            BRANCH_NAME=${GITHUB_REF##*/}
+            echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
           fi
-          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          # Sanitize branch name for URLs and file paths
+          SANITIZED_BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9._-]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
+          echo "SANITIZED_BRANCH_NAME=$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
 
       - name: Echo branch name and check if it's the default branch
         run: |
@@ -74,7 +79,7 @@ jobs:
           else
             echo "This is NOT the default branch."
             echo "IS_DEFAULT_BRANCH=false" >> $GITHUB_ENV
-            echo "DEPLOY_URL=https://worldhealthorganization.github.io/smart-base/branches/$BRANCH_NAME" >> $GITHUB_ENV
+            echo "DEPLOY_URL=https://worldhealthorganization.github.io/smart-base/branches/$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
           fi
 
       - name: Comment on PR - Build Started
@@ -113,7 +118,7 @@ jobs:
             git reset --hard
             git commit --allow-empty -m "Initializing gh-pages branch"
             git push origin gh-pages
-            git checkout ${GITHUB_REF##*/}
+            git checkout $BRANCH_NAME
           fi
 
       - name: Update the image to the latest publisher
@@ -152,8 +157,8 @@ jobs:
               fi
               
               # Fallback to current branch (for testing)
-              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/${GITHUB_REF##*/}/$file_path" 2>/dev/null; then
-                echo "Downloaded $file_path from ${GITHUB_REF##*/} branch"
+              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/$BRANCH_NAME/$file_path" 2>/dev/null; then
+                echo "Downloaded $file_path from $BRANCH_NAME branch"
                 return 0
               fi
               
@@ -357,6 +362,7 @@ jobs:
           echo "Removing files over 100 MB from ./output..."
           find ./output -type f -size +100M -print -delete
 
+
       - name: Deploy candidate
         uses: JamesIves/github-pages-deploy-action@v4.4.2
         if: env.IS_DEFAULT_BRANCH == 'false'
@@ -365,7 +371,7 @@ jobs:
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.
           commit-message: Deploy candidate branch
-          target-folder: branches/${{ env.BRANCH_NAME }}
+          target-folder: branches/${{ env.SANITIZED_BRANCH_NAME }}
           single-commit: true
           clean: false 
 
