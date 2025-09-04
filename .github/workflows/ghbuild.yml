@@ -52,7 +52,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Get branch name
-        run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+          else
+            echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          fi
 
       - name: Echo branch name and check if it's the default branch
         run: |
@@ -105,7 +110,7 @@ jobs:
             git reset --hard
             git commit --allow-empty -m "Initializing gh-pages branch"
             git push origin gh-pages
-            git checkout ${GITHUB_REF##*/}
+            git checkout $BRANCH_NAME
           fi
 
       - name: Update the image to the latest publisher
@@ -144,8 +149,8 @@ jobs:
               fi
               
               # Fallback to current branch (for testing)
-              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/${GITHUB_REF##*/}/$file_path" 2>/dev/null; then
-                echo "Downloaded $file_path from ${GITHUB_REF##*/} branch"
+              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/$BRANCH_NAME/$file_path" 2>/dev/null; then
+                echo "Downloaded $file_path from $BRANCH_NAME branch"
                 return 0
               fi
               
@@ -350,7 +355,12 @@ jobs:
           find ./output -type f -size +100M -print -delete
 
       - name: Get branch name
-        run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+          else
+            echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          fi
 
       - name: Deploy candidate
         uses: JamesIves/github-pages-deploy-action@v4.4.2
