@@ -52,7 +52,8 @@ python input/scripts/generate_dak_api_hub.py
 
 ### JSON Schemas
 - ValueSet schemas: Files matching pattern `ValueSet-*.schema.json`
-- Logical Model schemas: Other `*.schema.json` files (excluding ValueSet and CodeSystem)
+- Logical Model schemas: Files matching pattern `StructureDefinition-*.schema.json`
+- Other schemas: Any remaining `*.schema.json` files (excluding ValueSet and CodeSystem)
 - Must be valid JSON Schema files with `$schema`, `$id`, `title`, and `description` fields
 
 ### OpenAPI Files
