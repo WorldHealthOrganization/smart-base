@@ -31,14 +31,17 @@ on:
         description: 'Optional Custom terminology server URL'
         required: false
 
-
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      # id-token: write
+      pull-requests: write
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -61,32 +64,57 @@ jobs:
 
       - name: Echo branch name and check if it's the default branch
         run: |
-          echo "Current Branch: $BRANCH_NAME"
+          echo "🔨 Building branch: $BRANCH_NAME"
           DEFAULT_BRANCH=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
           echo "Default Branch: $DEFAULT_BRANCH"
           if [ "$BRANCH_NAME" == "$DEFAULT_BRANCH" ]; then
             echo "This is the default branch."
             echo "IS_DEFAULT_BRANCH=true" >> $GITHUB_ENV
+            echo "DEPLOY_URL=https://worldhealthorganization.github.io/smart-base" >> $GITHUB_ENV
           else
             echo "This is NOT the default branch."
             echo "IS_DEFAULT_BRANCH=false" >> $GITHUB_ENV
+            echo "DEPLOY_URL=https://worldhealthorganization.github.io/smart-base/branches/$BRANCH_NAME" >> $GITHUB_ENV
           fi
 
+      - name: Comment on PR - Build Started
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branchName = process.env.BRANCH_NAME;
+            const deployUrl = process.env.DEPLOY_URL;
+            const isDefault = process.env.IS_DEFAULT_BRANCH === 'true';
+            
+            const message = `🚀 **Build Started** for branch \`${branchName}\`
+            
+            ${isDefault ? '📍 **Main branch build** - will deploy to:' : '🌿 **Feature branch build** - will deploy to:'}
+            ${deployUrl}
+            
+            ⏳ Build in progress... This comment will be updated when complete.`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
 
-#      - name: Create gh-pages branch if it doesn't exist
-#        run: |
-#          git fetch origin
-#          exists=`git show-ref refs/heads/gh-pages`
-#          if [ -n "$exists" ]; then
-#            echo 'gh-pages branch exists';
-#          else
-#            echo 'gh-pages branch does not exist, creating it';
-#            git checkout --orphan gh-pages
-#            git reset --hard
-#            git commit --allow-empty -m "Initializing gh-pages branch"
-#            git push origin gh-pages
-#            git checkout ${GITHUB_REF##*/}
-#          fi
+
+      - name: Create gh-pages branch if it doesn't exist
+        run: |
+          git fetch origin
+          # Check if gh-pages branch exists remotely
+          if git ls-remote --exit-code --heads origin gh-pages > /dev/null 2>&1; then
+            echo 'gh-pages branch exists remotely';
+          else
+            echo 'gh-pages branch does not exist, creating it';
+            git checkout --orphan gh-pages
+            git reset --hard
+            git commit --allow-empty -m "Initializing gh-pages branch"
+            git push origin gh-pages
+            git checkout ${GITHUB_REF##*/}
+          fi
 
       - name: Update the image to the latest publisher
         uses: docker://hl7fhir/ig-publisher-base:latest
@@ -282,17 +310,19 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.4.2
         if: env.IS_DEFAULT_BRANCH == 'false'
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.
           commit-message: Deploy candidate branch
           target-folder: branches/${{ env.BRANCH_NAME }}
           single-commit: true
-          clean: false
+          clean: false 
 
       - name: Deploy main
         uses: JamesIves/github-pages-deploy-action@v4.4.2
         if: env.IS_DEFAULT_BRANCH == 'true'
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.
           commit-message: Deploy main branch
@@ -300,3 +330,48 @@ jobs:
           clean-exclude: |
             branches
             sitepreview
+
+      - name: Comment on PR - Build Complete
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branchName = process.env.BRANCH_NAME;
+            const deployUrl = process.env.DEPLOY_URL;
+            const isDefault = process.env.IS_DEFAULT_BRANCH === 'true';
+            const jobStatus = '${{ job.status }}';
+            
+            let statusIcon, statusText, statusColor;
+            if (jobStatus === 'success') {
+              statusIcon = '✅';
+              statusText = 'Successful';
+              statusColor = '🟢';
+            } else if (jobStatus === 'failure') {
+              statusIcon = '❌';
+              statusText = 'Failed';
+              statusColor = '🔴';
+            } else if (jobStatus === 'cancelled') {
+              statusIcon = '⏹️';
+              statusText = 'Cancelled';
+              statusColor = '🟡';
+            } else {
+              statusIcon = '⚠️';
+              statusText = 'Completed with issues';
+              statusColor = '🟡';
+            }
+            
+            const message = `${statusIcon} **Build ${statusText}** for branch \`${branchName}\`
+            
+            ${jobStatus === 'success' ? 
+              `${statusColor} **Deployment successful!** Site is available at: ${deployUrl}` :
+              `${statusColor} **Deployment ${statusText.toLowerCase()}** - please check the workflow logs for details.`
+            }
+            
+            🔗 [View workflow run](${context.payload.repository.html_url}/actions/runs/${context.runId})`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
