@@ -362,17 +362,6 @@ jobs:
           echo "Removing files over 100 MB from ./output..."
           find ./output -type f -size +100M -print -delete
 
-      - name: Get branch name
-        run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
-          else
-            echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
-          fi
-          # Sanitize branch name for URLs and file paths
-          SANITIZED_BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9._-]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
-          echo "SANITIZED_BRANCH_NAME=$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
-
       - name: Deploy candidate
         uses: JamesIves/github-pages-deploy-action@v4.4.2
         if: env.IS_DEFAULT_BRANCH == 'false'
