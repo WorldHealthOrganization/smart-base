@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAK API Documentation Hub</title>
+    <style>
+        /* FHIR IG-inspired styling */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0066cc 0%, #004a99 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 { 
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-align: center;
+        }
+        
+        .header p {
+            margin: 0.5rem 0 0 0;
+            font-size: 1.1rem;
+            text-align: center;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background-color: #e9ecef;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .section-header h2 { 
+            margin: 0;
+            color: #0066cc; 
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        
+        .section-content {
+            padding: 1.5rem;
+        }
+        
+        .doc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        
+        .doc-card {
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 1rem;
+            background: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+        
+        .doc-card:hover {
+            border-color: #0066cc;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,102,204,0.1);
+        }
+        
+        .doc-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: #0066cc;
+            font-size: 1.1rem;
+        }
+        
+        .doc-card p {
+            margin: 0 0 1rem 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .doc-card a {
+            display: inline-block;
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: 1px solid #0066cc;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .doc-card a:hover {
+            background-color: #0066cc;
+            color: white;
+        }
+        
+        .schema-type {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        
+        .schema-type.valueset {
+            background-color: #17a2b8;
+        }
+        
+        .schema-type.logical-model {
+            background-color: #6f42c1;
+        }
+        
+        .schema-type.openapi {
+            background-color: #fd7e14;
+        }
+        
+        .no-content {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 2rem;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>DAK API Documentation Hub</h1>
+            <p>WHO SMART Guideline Digital Adaptation Kit - API and Schema Documentation</p>
+        </div>
+    </div>
+    
+    <div class="container">
+
+        <div class="section">
+            <div class="section-header">
+                <h2>ValueSet Schemas</h2>
+            </div>
+            <div class="section-content">
+                <div class="doc-grid">
+
+                    <div class="doc-card">
+                        <div class="schema-type valueset">ValueSet</div>
+                        <h3>Smart Guidelines Decision Table Actions Schema</h3>
+                        <p>JSON Schema for Smart Guidelines Decision Table Actions ValueSet codes. Generated from FHIR expansions.</p>
+                        <a href="ValueSet-DecisionTableActions.openapi.html" target="_blank">View Documentation</a>
+                    </div>
+
+                    <div class="doc-card">
+                        <div class="schema-type valueset">ValueSet</div>
+                        <h3>Classification of Digital Health System Categories v1 Schema</h3>
+                        <p>JSON Schema for Classification of Digital Health System Categories v1 ValueSet codes. Generated from FHIR expansions.</p>
+                        <a href="ValueSet-CDSCv1.openapi.html" target="_blank">View Documentation</a>
+                    </div>
+
+                    <div class="doc-card">
+                        <div class="schema-type valueset">ValueSet</div>
+                        <h3>Classification of Digital Health Interventions v1 Schema</h3>
+                        <p>JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions.</p>
+                        <a href="ValueSet-CDHIv1.openapi.html" target="_blank">View Documentation</a>
+                    </div>
+
+                    <div class="doc-card">
+                        <div class="schema-type valueset">ValueSet</div>
+                        <h3>Smart Guidelines Persona Types Value Set Schema</h3>
+                        <p>JSON Schema for Smart Guidelines Persona Types Value Set ValueSet codes. Generated from FHIR expansions.</p>
+                        <a href="ValueSet-SGPersonaTypesVS.openapi.html" target="_blank">View Documentation</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Logical Model Schemas</h2>
+            </div>
+            <div class="section-content">
+                <div class="doc-grid">
+
+                    <div class="doc-card">
+                        <div class="schema-type logical-model">Logical Model</div>
+                        <h3>Functional Requirement (DAK)</h3>
+                        <p>Logical Model for representing functional requirement from a DAK</p>
+                        <a href="FunctionalRequirement.openapi.html" target="_blank">View Documentation</a>
+                    </div>
+
+                    <div class="doc-card">
+                        <div class="schema-type logical-model">Logical Model</div>
+                        <h3>Non-Functional Requirement (DAK)</h3>
+                        <p>Logical Model for representing non-functional requirement from a DAK</p>
+                        <a href="NonFunctionalRequirement.openapi.html" target="_blank">View Documentation</a>
+                    </div>
+
+                    <div class="doc-card">
+                        <div class="schema-type logical-model">Logical Model</div>
+                        <h3>Persona (DAK)</h3>
+                        <p>Logical Model for representing Personas from a DAK</p>
+                        <a href="Persona.openapi.html" target="_blank">View Documentation</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Generated automatically by the DAK API Documentation Hub Generator</p>
+        </div>
+    </div>
+</body>
+</html>

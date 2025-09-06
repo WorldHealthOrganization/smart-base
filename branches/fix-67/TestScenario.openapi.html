@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Scenario (DAK) Documentation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #fafafa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0066cc 0%, #004a99 100%);
+            color: white;
+            padding: 2rem 0;
+            margin: -2rem -2rem 2rem -2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 400;
+            cursor: pointer;
+        }
+        
+        .header h1:hover {
+            text-decoration: underline;
+        }
+        
+        .header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .breadcrumb {
+            position: absolute;
+            top: 1rem;
+            left: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .schema-actions {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            align-items: center;
+        }
+        
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: #004a99;
+            color: white;
+        }
+        
+        .action-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .schema-id-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .schema-id-link:hover {
+            text-decoration: underline;
+        }
+        
+        .fhir-page-link {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        .fhir-page-link:hover {
+            text-decoration: underline;
+        }
+        
+        .data-type-link {
+            color: #6f42c1;
+            text-decoration: none;
+        }
+        
+        .data-type-link:hover {
+            text-decoration: underline;
+        }
+        
+        .show-more-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            color: #0066cc;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .show-more-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .hidden-values {
+            display: none;
+        }
+        
+        .toast {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: #28a745;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            color: #0066cc;
+            font-size: 1.3rem;
+        }
+        
+        .section-content {
+            padding: 1.5rem;
+        }
+        
+        .endpoint {
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .endpoint-header {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            font-family: monospace;
+        }
+        
+        .endpoint-content {
+            padding: 1rem;
+        }
+        
+        .schema-display {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .property {
+            margin-bottom: 0.5rem;
+        }
+        
+        .property-name {
+            font-weight: 600;
+            color: #0066cc;
+        }
+        
+        .property-type {
+            color: #6f42c1;
+            font-family: monospace;
+        }
+        
+        .property-description {
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        
+        .enum-values {
+            background-color: #e7f3ff;
+            border: 1px solid #b8daff;
+            border-radius: 4px;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .enum-value {
+            display: inline-block;
+            background-color: #0066cc;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            margin: 0.2rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+    
+    <script>
+        function downloadSchema() {
+            const schemaData = {"TestScenario": {"$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "http://smart.who.int/base/StructureDefinition/TestScenario.schema.json", "title": "Test Scenario (DAK)", "description": "Logical Model for representing Test Scenarios from a DAK. A set of test scenarios to validate an implementation of the DAK.", "type": "object", "properties": {"feature": {"type": "string", "format": "uri", "description": "Link to a feature file containing the test scenarios"}}, "required": ["feature"], "fhir:logicalModel": "http://smart.who.int/base/StructureDefinition/TestScenario", "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"}};
+            const schemaName = Object.keys(schemaData)[0];
+            const blob = new Blob([JSON.stringify(schemaData[schemaName], null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = schemaName + '.schema.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function copyToClipboard() {
+            const schemaData = {"TestScenario": {"$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "http://smart.who.int/base/StructureDefinition/TestScenario.schema.json", "title": "Test Scenario (DAK)", "description": "Logical Model for representing Test Scenarios from a DAK. A set of test scenarios to validate an implementation of the DAK.", "type": "object", "properties": {"feature": {"type": "string", "format": "uri", "description": "Link to a feature file containing the test scenarios"}}, "required": ["feature"], "fhir:logicalModel": "http://smart.who.int/base/StructureDefinition/TestScenario", "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"}};
+            const schemaName = Object.keys(schemaData)[0];
+            const schemaText = JSON.stringify(schemaData[schemaName], null, 2);
+            navigator.clipboard.writeText(schemaText).then(() => {
+                showToast('Schema copied to clipboard!');
+            }).catch(() => {
+                showToast('Failed to copy to clipboard', true);
+            });
+        }
+        
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast' + (isError ? ' error' : '');
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        }
+        
+        function toggleEnumValues() {
+            const hiddenValues = document.querySelector('.hidden-values');
+            const button = document.querySelector('.show-more-btn');
+            if (hiddenValues.style.display === 'none' || !hiddenValues.style.display) {
+                hiddenValues.style.display = 'inline';
+                button.textContent = 'Show less';
+            } else {
+                hiddenValues.style.display = 'none';
+                button.textContent = 'Show more (' + hiddenValues.children.length + ' additional values)';
+            }
+        }
+        
+        function goToHub() {
+            window.location.href = 'dak-api.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="breadcrumb">
+                <a href="dak-api.html">← Back to DAK API Hub</a>
+            </div>
+            <h1 onclick="goToHub()">Test Scenario (DAK) Documentation</h1>
+            <p>Generated from: TestScenario.openapi.yaml</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>API Information</h2>
+            </div>
+            <div class="section-content">
+                <h3>Test Scenario (DAK) API</h3>
+                <p>Logical Model for representing Test Scenarios from a DAK. A set of test scenarios to validate an implementation of the DAK.</p>
+                <p><strong>Version:</strong> 1.0.0</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Endpoints</h2>
+            </div>
+            <div class="section-content">
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        GET /TestScenario.schema.json
+                    </div>
+                    <div class="endpoint-content">
+                        <h4>JSON Schema definition for the Logical Model TestScenario</h4>
+                        <p>This endpoint serves the JSON Schema definition for the Logical Model TestScenario.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Schema Definition</h2>
+            </div>
+            <div class="section-content">
+
+                <h3>Test Scenario (DAK)</h3>
+                
+                <div class="schema-actions">
+                    <button class="action-btn" onclick="downloadSchema()">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
+                        </svg>
+                        Download Schema
+                    </button>
+                    <button class="action-btn" onclick="copyToClipboard()">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
+                        </svg>
+                        Copy to Clipboard
+                    </button>
+                </div>
+                
+                <p><strong>Description:</strong> Logical Model for representing Test Scenarios from a DAK. A set of test scenarios to validate an implementation of the DAK.</p>
+                <p><strong>Schema ID:</strong> <a href="http://smart.who.int/base/StructureDefinition/TestScenario.schema.json" class="schema-id-link" title="http://smart.who.int/base/StructureDefinition/TestScenario.schema.json" target="_blank">http://smart.who.int/base/StructureDefinition/TestScenario.schema.json</a></p>
+                <p><strong>FHIR Definition:</strong> <a href="http://smart.who.int/base/StructureDefinition/TestScenario.html" class="fhir-page-link" target="_blank">View full definition at corresponding FHIR page</a></p>
+                <p><strong>Type:</strong> <a href="https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model" class="data-type-link" target="_blank">object</a></p>
+                <h4>Properties:</h4>
+
+                <div class="property">
+                    <span class="property-name">feature</span>
+                    <span class="property-type">(<a href="https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model" class="data-type-link" target="_blank">string</a>)</span>
+                    <div class="property-description">Link to a feature file containing the test scenarios</div>
+                </div>
+
+                <p><strong>Required fields:</strong> feature</p>
+
+                <h4>Full Schema:</h4>
+                <div class="schema-display">{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition/TestScenario.schema.json",
+  "title": "Test Scenario (DAK)",
+  "description": "Logical Model for representing Test Scenarios from a DAK. A set of test scenarios to validate an implementation of the DAK.",
+  "type": "object",
+  "properties": {
+    "feature": {
+      "type": "string",
+      "format": "uri",
+      "description": "Link to a feature file containing the test scenarios"
+    }
+  },
+  "required": [
+    "feature"
+  ],
+  "fhir:logicalModel": "http://smart.who.int/base/StructureDefinition/TestScenario",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}</div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
