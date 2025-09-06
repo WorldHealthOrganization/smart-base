@@ -69,30 +69,6 @@ jobs:
             echo "DEPLOY_URL=https://worldhealthorganization.github.io/smart-base/branches/$BRANCH_NAME" >> $GITHUB_ENV
           fi
 
-      - name: Comment on PR - Build Started
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const branchName = process.env.BRANCH_NAME;
-            const deployUrl = process.env.DEPLOY_URL;
-            const isDefault = process.env.IS_DEFAULT_BRANCH === 'true';
-            
-            const message = `🚀 **Build Started** for branch \`${branchName}\`
-            
-            ${isDefault ? '📍 **Main branch build** - will deploy to:' : '🌿 **Feature branch build** - will deploy to:'}
-            ${deployUrl}
-            
-            ⏳ Build in progress... This comment will be updated when complete.`;
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: message
-            });
-
-
       - name: Create gh-pages branch if it doesn't exist
         run: |
           git fetch origin
@@ -216,74 +192,6 @@ jobs:
             hl7fhir/ig-publisher-base:latest \
             sh -c "$CMD"
 
-      - name: Generate ValueSet JSON Schemas
-        run: |
-          echo "Generating ValueSet schemas from expansions.json..."
-          if [ -f "./output/expansions.json" ]; then
-            # Check if script exists locally first
-            if [ -f "./input/scripts/generate_valueset_schemas.py" ]; then
-              echo "Using local ValueSet schema generator..."
-              python3 input/scripts/generate_valueset_schemas.py
-            else
-              echo "Downloading ValueSet schema generator..."
-              mkdir -p ./input/scripts
-              curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_valueset_schemas.py \
-                -o ./input/scripts/generate_valueset_schemas.py
-              if [ -f "./input/scripts/generate_valueset_schemas.py" ]; then
-                python3 input/scripts/generate_valueset_schemas.py
-                echo "✅ ValueSet schemas generated successfully"
-              else
-                echo "⚠️  Failed to download schema generator, skipping"
-              fi
-            fi
-          else
-            echo "⚠️  expansions.json not found, skipping schema generation"
-          fi
-
-      - name: Generate Logical Model JSON Schemas
-        run: |
-          echo "Generating Logical Model schemas from StructureDefinition JSON files..."
-          # Check if script exists locally first
-          if [ -f "./input/scripts/generate_logical_model_schemas.py" ]; then
-            echo "Using local Logical Model schema generator..."
-            python3 input/scripts/generate_logical_model_schemas.py output output
-            echo "✅ Logical Model schemas generated successfully"
-          else
-            echo "Downloading Logical Model schema generator..."
-            mkdir -p ./input/scripts
-            curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_logical_model_schemas.py \
-              -o ./input/scripts/generate_logical_model_schemas.py
-            if [ -f "./input/scripts/generate_logical_model_schemas.py" ]; then
-              python3 input/scripts/generate_logical_model_schemas.py output output
-              echo "✅ Logical Model schemas generated successfully"
-            else
-              echo "⚠️  Failed to download Logical Model schema generator, skipping"
-            fi
-          fi
-
-      - name: Generate DAK API Documentation Hub
-        run: |
-          echo "Generating DAK API Documentation Hub..."
-          # Install required Python dependencies
-          pip install pyyaml
-          
-          # Check if script exists locally first
-          if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
-            echo "Using local DAK API hub generator..."
-            python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
-            echo "✅ DAK API hub generated successfully"
-          else
-            echo "Downloading DAK API hub generator..."
-            mkdir -p ./input/scripts
-            curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_api_hub.py \
-              -o ./input/scripts/generate_dak_api_hub.py
-            if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
-              python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
-              echo "✅ DAK API hub generated successfully"
-            else
-              echo "⚠️  Failed to download DAK API hub generator, skipping"
-            fi
-          fi
      
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
@@ -325,48 +233,3 @@ jobs:
           clean-exclude: |
             branches
             sitepreview
-
-      - name: Comment on PR - Build Complete
-        if: github.event_name == 'pull_request' && always()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const branchName = process.env.BRANCH_NAME;
-            const deployUrl = process.env.DEPLOY_URL;
-            const isDefault = process.env.IS_DEFAULT_BRANCH === 'true';
-            const jobStatus = '${{ job.status }}';
-            
-            let statusIcon, statusText, statusColor;
-            if (jobStatus === 'success') {
-              statusIcon = '✅';
-              statusText = 'Successful';
-              statusColor = '🟢';
-            } else if (jobStatus === 'failure') {
-              statusIcon = '❌';
-              statusText = 'Failed';
-              statusColor = '🔴';
-            } else if (jobStatus === 'cancelled') {
-              statusIcon = '⏹️';
-              statusText = 'Cancelled';
-              statusColor = '🟡';
-            } else {
-              statusIcon = '⚠️';
-              statusText = 'Completed with issues';
-              statusColor = '🟡';
-            }
-            
-            const message = `${statusIcon} **Build ${statusText}** for branch \`${branchName}\`
-            
-            ${jobStatus === 'success' ? 
-              `${statusColor} **Deployment successful!** Site is available at: ${deployUrl}` :
-              `${statusColor} **Deployment ${statusText.toLowerCase()}** - please check the workflow logs for details.`
-            }
-            
-            🔗 [View workflow run](${context.payload.repository.html_url}/actions/runs/${context.runId})`;
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: message
-            });
