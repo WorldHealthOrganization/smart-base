@@ -26,9 +26,16 @@
     --footer-link: #0066cc;
   }
   
-  /* Dark mode */
+  /* Dark mode - align with WHO template theming */
+  [data-theme="dark"] {
+    --footer-border: #30363d;
+    --footer-text: #8b949e;
+    --footer-link: #4db8e8;
+  }
+  
+  /* Fallback for system preference when no explicit theme */
   @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not([data-theme]) {
       --footer-border: #30363d;
       --footer-text: #8b949e;
       --footer-link: #4db8e8;

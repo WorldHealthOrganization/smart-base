@@ -1,83 +1,92 @@
-/* WHO color palette: Light and Dark mode support */
+/* 
+ * Decision Table Enhancements for SMART Guidelines
+ * Complements the WHO template dark/light mode theming
+ * Focuses on DMN-specific styling and WHO color integration
+ */
+
+/* Decision table specific WHO color palette */
 :root {
-  /* Light mode colors */
-  --who-blue: #0093d0;
-  --who-header: #f0f9fc;
-  --who-table-border: #007ab7;
-  --who-bg-primary: #ffffff;
-  --who-bg-secondary: #f7fafc;
-  --who-bg-tertiary: #f6fafd;
-  --who-text-primary: #222;
-  --who-text-secondary: #555;
-  --who-input-bg: #e5f4fa;
-  --who-output-bg: #dff7ea;
-  --who-annotation-bg: #fffbe5;
+  --dmn-who-blue: #0093d0;
+  --dmn-input-bg: #e5f4fa;
+  --dmn-output-bg: #dff7ea;
+  --dmn-annotation-bg: #fffbe5;
+  --dmn-header-bg: #f0f9fc;
+  --dmn-border-color: #007ab7;
+  --dmn-row-label-bg: #f6fafd;
+  --dmn-row-label-text: #555555;
+  --dmn-table-stripe: #f9f9f9;
 }
 
-/* Dark mode colors */
+/* Decision table dark mode colors */
+[data-theme="dark"] {
+  --dmn-input-bg: #2c5282;
+  --dmn-output-bg: #2f855a;
+  --dmn-annotation-bg: #744210;
+  --dmn-header-bg: #1a2332;
+  --dmn-border-color: #4a90a4;
+  --dmn-row-label-bg: #2d3748;
+  --dmn-row-label-text: #cbd5e0;
+  --dmn-table-stripe: #2a2a2a;
+}
+
+/* Apply dark mode based on system preference if no explicit theme is set */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --who-blue: #4db8e8;
-    --who-header: #1a2332;
-    --who-table-border: #4db8e8;
-    --who-bg-primary: #0d1117;
-    --who-bg-secondary: #161b22;
-    --who-bg-tertiary: #21262d;
-    --who-text-primary: #e6edf3;
-    --who-text-secondary: #8b949e;
-    --who-input-bg: #0d2538;
-    --who-output-bg: #0f2419;
-    --who-annotation-bg: #2d2a1f;
+  :root:not([data-theme]) {
+    --dmn-input-bg: #2c5282;
+    --dmn-output-bg: #2f855a;
+    --dmn-annotation-bg: #744210;
+    --dmn-header-bg: #1a2332;
+    --dmn-border-color: #4a90a4;
+    --dmn-row-label-bg: #2d3748;
+    --dmn-row-label-text: #cbd5e0;
+    --dmn-table-stripe: #2a2a2a;
   }
 }
 
+/* DMN Decision Table Specific Styling */
 table.decision {
   border-collapse: collapse;
   width: 100%;
   margin: 2em 0;
   font-family: Arial, sans-serif;
-  background-color: var(--who-bg-primary);
-  color: var(--who-text-primary);
 }
 
 table.decision tr.decision-header {
-  background: var(--who-blue);
+  background: var(--dmn-who-blue);
   color: white;
   font-weight: bold;
 }
 
 table.decision tr.io-row {
-  background: var(--who-header);
-  color: var(--who-text-primary);
+  background: var(--dmn-header-bg);
   font-weight: 600;
 }
 
 table.decision td, table.decision th {
-  border: 1px solid var(--who-table-border);
+  border: 1px solid var(--dmn-border-color);
   padding: 0.5em 1em;
 }
 
+/* Decision table cell types with WHO color coding */
 .row-label {
   font-weight: bold;
-  background: var(--who-bg-tertiary);
-  color: var(--who-text-secondary);
+  background: var(--dmn-row-label-bg);
+  color: var(--dmn-row-label-text);
 }
 
 .input, .inputEntry {
-  background: var(--who-input-bg);
-  color: var(--who-text-primary);
+  background: var(--dmn-input-bg);
 }
 
 .output, .outputEntry {
-  background: var(--who-output-bg);
-  color: var(--who-text-primary);
+  background: var(--dmn-output-bg);
 }
 
 .annotation, .annotationEntry {
-  background: var(--who-annotation-bg);
-  color: var(--who-text-primary);
+  background: var(--dmn-annotation-bg);
 }
 
+/* Alternating row styling for decision tables */
 tr.rule:nth-child(even) {
-  background: var(--who-bg-secondary);
+  background: var(--dmn-table-stripe);
 }
