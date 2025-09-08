@@ -59,12 +59,31 @@ jobs:
       - name: Get branch name
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+            BRANCH_NAME="${{ github.head_ref }}"
           else
-            echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+            BRANCH_NAME="${GITHUB_REF##*/}"
           fi
+          
+          # Validate that branch name is not empty
+          if [ -z "$BRANCH_NAME" ]; then
+            echo "❌ Error: Branch name is empty or could not be determined"
+            echo "Event: ${{ github.event_name }}"
+            echo "GITHUB_REF: ${GITHUB_REF:-'(not set)'}"
+            echo "github.head_ref: ${{ github.head_ref }}"
+            exit 1
+          fi
+          
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           # Sanitize branch name for URLs and file paths
           SANITIZED_BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9._-]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
+          
+          # Validate that sanitized branch name is not empty
+          if [ -z "$SANITIZED_BRANCH_NAME" ]; then
+            echo "❌ Error: Sanitized branch name is empty after processing"
+            echo "Original branch name: $BRANCH_NAME"
+            exit 1
+          fi
+          
           echo "SANITIZED_BRANCH_NAME=$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
 
       - name: Echo branch name and check if it's the default branch
