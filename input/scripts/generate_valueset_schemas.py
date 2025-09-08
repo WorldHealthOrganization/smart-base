@@ -222,10 +222,10 @@ def extract_valueset_codes_with_display(valueset_resource: Dict[str, Any], value
     for item in expansion['contains']:
         if 'code' in item:
             code_entry = {'code': item['code']}
-            if 'display' in item:
+            if 'display' in item and item['display'].strip():
                 code_entry['display'] = item['display']
             else:
-                # Fallback to code if no display is available
+                # Fallback to code if no display is available or display is empty
                 code_entry['display'] = item['code']
             codes_with_display.append(code_entry)
     
