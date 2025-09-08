@@ -240,7 +240,7 @@ def extract_valueset_codes_with_display(valueset_resource: Dict[str, Any], value
 
 def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: List[Dict[str, str]]) -> Dict[str, Any]:
     """
-    Generate a JSON schema for a ValueSet using enum constraints with metadata for display values and system URIs.
+    Generate a JSON schema for a ValueSet using enum constraints with reference to separate display file.
     
     Args:
         valueset_resource: FHIR ValueSet resource
@@ -260,29 +260,19 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
         if '/ValueSet/' in valueset_url:
             base_url = valueset_url.split('/ValueSet/')[0]
             schema_id = f"{base_url}/ValueSet-{valueset_id}.schema.json"
+            display_reference = f"{base_url}/ValueSet-{valueset_id}.displays.json"
         else:
             # Fallback if URL doesn't follow expected pattern
             schema_id = f"{valueset_url}-{valueset_id}.schema.json"
+            display_reference = f"{valueset_url}-{valueset_id}.displays.json"
     else:
         schema_id = f"#ValueSet-{valueset_id}-schema"
+        display_reference = f"ValueSet-{valueset_id}.displays.json"
     
-    # Extract codes, displays, and systems for metadata
+    # Extract codes for validation
     codes = []
-    displays = {}
-    systems = {}
-    unique_systems = set()
-    
     for item in codes_with_display:
-        code = item['code']
-        display = item['display']
-        system = item.get('system', '')
-        
-        codes.append(code)
-        displays[code] = display
-        
-        if system:
-            systems[code] = system
-            unique_systems.add(system)
+        codes.append(item['code'])
     
     schema = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -293,17 +283,8 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
         "enum": codes
     }
     
-    # Add display values as metadata for translation tools
-    if displays:
-        schema["fhir:displays"] = displays
-    
-    # Add system URIs as metadata
-    if len(unique_systems) == 1:
-        # If all codes are from the same system, use a single system property
-        schema["fhir:system"] = list(unique_systems)[0]
-    elif systems:
-        # If codes are from multiple systems, use a mapping
-        schema["fhir:systems"] = systems
+    # Reference to display file
+    schema["fhir:displays"] = display_reference
     
     # Add metadata if available
     if valueset_url:
@@ -316,6 +297,76 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
         schema["fhir:expansionTimestamp"] = valueset_resource['expansion']['timestamp']
     
     return schema
+
+
+def generate_display_file(valueset_resource: Dict[str, Any], codes_with_display: List[Dict[str, str]]) -> Dict[str, Any]:
+    """
+    Generate a display file for a ValueSet containing display values and system URIs.
+    
+    Args:
+        valueset_resource: FHIR ValueSet resource
+        codes_with_display: List of dictionaries with 'code', 'display', and optionally 'system' keys
+        
+    Returns:
+        Display file dictionary
+    """
+    valueset_id = extract_valueset_id(valueset_resource)
+    valueset_title = valueset_resource.get('title', valueset_resource.get('name', 'Unknown ValueSet'))
+    valueset_url = valueset_resource.get('url', '')
+    
+    # Construct display file $id based on ValueSet canonical URL pattern
+    if valueset_url:
+        if '/ValueSet/' in valueset_url:
+            base_url = valueset_url.split('/ValueSet/')[0]
+            display_id = f"{base_url}/ValueSet-{valueset_id}.displays.json"
+        else:
+            display_id = f"{valueset_url}-{valueset_id}.displays.json"
+    else:
+        display_id = f"#ValueSet-{valueset_id}-displays"
+    
+    # Extract displays and systems
+    displays = {}
+    systems = {}
+    unique_systems = set()
+    
+    for item in codes_with_display:
+        code = item['code']
+        display = item['display']
+        system = item.get('system', '')
+        
+        displays[code] = display
+        
+        if system:
+            systems[code] = system
+            unique_systems.add(system)
+    
+    display_file = {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": display_id,
+        "title": f"{valueset_title} Display Values",
+        "description": f"Display values and system URIs for {valueset_title} ValueSet codes. Generated from FHIR expansions.",
+        "fhir:displays": displays
+    }
+    
+    # Add system URIs
+    if len(unique_systems) == 1:
+        # If all codes are from the same system, use a single system property
+        display_file["fhir:system"] = list(unique_systems)[0]
+    elif systems:
+        # If codes are from multiple systems, use a mapping
+        display_file["fhir:systems"] = systems
+    
+    # Add metadata if available
+    if valueset_url:
+        display_file["fhir:valueSet"] = valueset_url
+    
+    if 'version' in valueset_resource:
+        display_file["fhir:version"] = valueset_resource['version']
+    
+    if 'expansion' in valueset_resource and 'timestamp' in valueset_resource['expansion']:
+        display_file["fhir:expansionTimestamp"] = valueset_resource['expansion']['timestamp']
+    
+    return display_file
 
 
 def save_schema(schema: Dict[str, Any], output_dir: str, valueset_id: str) -> Optional[str]:
@@ -349,6 +400,40 @@ def save_schema(schema: Dict[str, Any], output_dir: str, valueset_id: str) -> Op
         
     except Exception as e:
         logger.error(f"Error saving schema for ValueSet {valueset_id}: {e}")
+        return None
+
+
+def save_display_file(display_file: Dict[str, Any], output_dir: str, valueset_id: str) -> Optional[str]:
+    """
+    Save a display file to a file.
+    
+    Args:
+        display_file: Display file dictionary
+        output_dir: Directory to save display files
+        valueset_id: ValueSet ID for filename
+        
+    Returns:
+        Filepath if saved successfully, None otherwise
+    """
+    logger = logging.getLogger(__name__)
+    
+    try:
+        # Ensure output directory exists
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        
+        # Create filename with ValueSet- prefix
+        filename = f"ValueSet-{valueset_id}.displays.json"
+        filepath = os.path.join(output_dir, filename)
+        
+        # Save display file
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(display_file, f, indent=2, ensure_ascii=False)
+        
+        logger.info(f"Saved display file for ValueSet {valueset_id} to {filepath}")
+        return filepath
+        
+    except Exception as e:
+        logger.error(f"Error saving display file for ValueSet {valueset_id}: {e}")
         return None
 
 
@@ -476,11 +561,20 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
         # Generate schema
         schema = generate_json_schema(resource, codes_with_display)
         
+        # Generate display file
+        display_file = generate_display_file(resource, codes_with_display)
+        
         # Save schema
         schema_path = save_schema(schema, output_dir, valueset_id)
         if schema_path:
-            schemas_generated += 1
             schema_files.append(schema_path)
+        
+        # Save display file
+        display_path = save_display_file(display_file, output_dir, valueset_id)
+        
+        # Count as successful if both files are saved
+        if schema_path and display_path:
+            schemas_generated += 1
     
 
     
