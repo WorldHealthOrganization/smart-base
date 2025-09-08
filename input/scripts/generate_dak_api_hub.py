@@ -528,6 +528,54 @@ class ReDocRenderer:
             padding: 0.2rem 0.5rem;
             border-radius: 3px;
             margin: 0.2rem;
+            font-size: 0.9rem;
+        }}
+        
+        .enum-truncated {{
+            margin-top: 0.5rem;
+            font-style: italic;
+            color: #6c757d;
+        }}
+        
+        .schema-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }}
+        
+        .schema-actions {{
+            display: flex;
+            gap: 0.5rem;
+        }}
+        
+        .action-btn {{
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #495057;
+        }}
+        
+        .action-btn:hover {{
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }}
+        
+        .action-btn svg {{
+            display: block;
+        }}
+        
+        .property-type a {{
+            color: #0066cc;
+            text-decoration: none;
+        }}
+        
+        .property-type a:hover {{
+            text-decoration: underline;
+        }}
             font-family: 'Noto Sans', monospace;
             font-size: 0.9rem;
         }}
@@ -548,6 +596,8 @@ class ReDocRenderer:
             <div class="container">
                 <div id="project-nav">
                     <a href="../index.html">Return to SMART Guideline</a>
+                    <span style="margin: 0 10px; color: #808080;">|</span>
+                    <a href="dak-api.html">Return to DAK API Hub</a>
                 </div>
             </div>
         </div>
@@ -623,20 +673,53 @@ class ReDocRenderer:
 """
                 
                 for schema_name, schema_def in schemas.items():
+                    schema_id = schema_def.get('$id', '')
+                    schema_json_str = json.dumps(schema_def, indent=2)
+                    
                     html_content += f"""
-                <h3>{schema_name}</h3>
+                <div class="schema-header">
+                    <h3>{schema_name}</h3>
+                    <div class="schema-actions">
+                        <button class="action-btn copy-btn" onclick="copySchemaToClipboard('{schema_name}', {json.dumps(schema_json_str)})" title="Copy schema to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
                 <p><strong>Description:</strong> {schema_def.get('description', 'No description')}</p>
-                <p><strong>Type:</strong> <span class="property-type">{schema_def.get('type', 'unknown')}</span></p>
+                <p><strong>Type:</strong> <span class="property-type"><a href="https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model" target="_blank" title="JSON Schema {schema_def.get('type', 'unknown')} type definition">{schema_def.get('type', 'unknown')}</a></span></p>"""
+                    
+                    # Add schema ID as link if available
+                    if schema_id:
+                        # Convert schema ID to corresponding FHIR page
+                        fhir_url = schema_id.replace('.schema.json', '.html')
+                        html_content += f"""
+                <p><strong>Schema ID:</strong> <a href="{schema_id}" title="{schema_id}" target="_blank">{schema_id}</a></p>
+                <p><strong>FHIR Page:</strong> <a href="{fhir_url}" title="View full FHIR definition at {fhir_url}" target="_blank">{fhir_url}</a></p>"""
+                    
+                    html_content += """
 """
                     
                     # Handle enum values for ValueSets
                     if 'enum' in schema_def:
+                        # Sort enum values alphabetically and truncate after 40 entries
+                        enum_values = sorted(schema_def['enum'])
+                        displayed_values = enum_values[:40]
+                        truncated = len(enum_values) > 40
+                        
                         html_content += """
                 <div class="enum-values">
                     <strong>Allowed values:</strong><br>
 """
-                        for enum_value in schema_def['enum']:
+                        for enum_value in displayed_values:
                             html_content += f'                    <span class="enum-value">{enum_value}</span>\n'
+                        
+                        if truncated:
+                            remaining_count = len(enum_values) - 40
+                            html_content += f'                    <div class="enum-truncated">... and {remaining_count} more values</div>\n'
+                        
                         html_content += """
                 </div>
 """
@@ -647,10 +730,14 @@ class ReDocRenderer:
                 <h4>Properties:</h4>
 """
                         for prop_name, prop_def in schema_def['properties'].items():
+                            prop_type = prop_def.get('type', 'unknown')
+                            # Create link to JSON Schema definition for type
+                            type_link = f'<a href="https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model" target="_blank" title="JSON Schema {prop_type} type definition">{prop_type}</a>'
+                            
                             html_content += f"""
                 <div class="property">
                     <span class="property-name">{prop_name}</span>
-                    <span class="property-type">({prop_def.get('type', 'unknown')})</span>
+                    <span class="property-type">({type_link})</span>
                     <div class="property-description">{prop_def.get('description', 'No description')}</div>
                 </div>
 """
@@ -676,6 +763,40 @@ class ReDocRenderer:
             html_content += """
     </div>
 </body>
+<script>
+function copySchemaToClipboard(schemaName, schemaJson) {
+    navigator.clipboard.writeText(schemaJson).then(function() {
+        // Show temporary feedback
+        const btn = event.target.closest('.copy-btn');
+        const originalTitle = btn.title;
+        btn.title = 'Copied!';
+        btn.style.backgroundColor = '#28a745';
+        btn.style.borderColor = '#28a745';
+        btn.style.color = 'white';
+        
+        setTimeout(() => {
+            btn.title = originalTitle;
+            btn.style.backgroundColor = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
+        }, 2000);
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+        alert('Failed to copy to clipboard');
+    });
+}
+
+// Make title bar clickable to return to DAK API hub
+document.addEventListener('DOMContentLoaded', function() {
+    const igStatus = document.getElementById('ig-status');
+    if (igStatus) {
+        igStatus.style.cursor = 'pointer';
+        igStatus.addEventListener('click', function() {
+            window.location.href = 'dak-api.html';
+        });
+    }
+});
+</script>
 </html>"""
             
             # Save HTML file
@@ -1136,6 +1257,8 @@ class DAKApiHubGenerator:
             
             # Add enumeration endpoints section
             if enumeration_docs:
+                # Sort enumeration docs alphabetically by title
+                sorted_enumeration_docs = sorted(enumeration_docs, key=lambda x: x['title'])
                 html_content += """
         <div class="section">
             <div class="section-header">
@@ -1144,7 +1267,7 @@ class DAKApiHubGenerator:
             <div class="section-content">
                 <div class="doc-grid">
 """
-                for doc in enumeration_docs:
+                for doc in sorted_enumeration_docs:
                     # Determine icon type
                     if doc.get('type') == 'enumeration-valueset':
                         schema_type_class = "enumeration-valueset"
@@ -1172,6 +1295,8 @@ class DAKApiHubGenerator:
             
             # Add ValueSet schemas section
             if schema_docs.get('valueset'):
+                # Sort ValueSet schemas alphabetically by title
+                sorted_valueset_docs = sorted(schema_docs['valueset'], key=lambda x: x['title'])
                 html_content += """
         <div class="section">
             <div class="section-header">
@@ -1180,7 +1305,7 @@ class DAKApiHubGenerator:
             <div class="section-content">
                 <div class="doc-grid">
 """
-                for doc in schema_docs['valueset']:
+                for doc in sorted_valueset_docs:
                     html_content += f"""
                     <div class="doc-card">
                         <div class="schema-type valueset">ValueSet</div>
@@ -1197,6 +1322,8 @@ class DAKApiHubGenerator:
             
             # Add Logical Model schemas section
             if schema_docs.get('logical_model'):
+                # Sort Logical Model schemas alphabetically by title
+                sorted_logical_model_docs = sorted(schema_docs['logical_model'], key=lambda x: x['title'])
                 html_content += """
         <div class="section">
             <div class="section-header">
@@ -1205,7 +1332,7 @@ class DAKApiHubGenerator:
             <div class="section-content">
                 <div class="doc-grid">
 """
-                for doc in schema_docs['logical_model']:
+                for doc in sorted_logical_model_docs:
                     html_content += f"""
                     <div class="doc-card">
                         <div class="schema-type logical-model">Logical Model</div>
@@ -1222,6 +1349,8 @@ class DAKApiHubGenerator:
             
             # Add OpenAPI specifications section
             if openapi_docs:
+                # Sort OpenAPI docs alphabetically by title
+                sorted_openapi_docs = sorted(openapi_docs, key=lambda x: x['title'])
                 html_content += """
         <div class="section">
             <div class="section-header">
@@ -1230,7 +1359,7 @@ class DAKApiHubGenerator:
             <div class="section-content">
                 <div class="doc-grid">
 """
-                for doc in openapi_docs:
+                for doc in sorted_openapi_docs:
                     html_content += f"""
                     <div class="doc-card">
                         <div class="schema-type openapi">OpenAPI</div>
@@ -1263,6 +1392,19 @@ class DAKApiHubGenerator:
         </div>
     </div>
 </body>
+<script>
+// Make title bar clickable - this is the main hub so it just refreshes the page
+document.addEventListener('DOMContentLoaded', function() {
+    const igStatus = document.getElementById('ig-status');
+    if (igStatus) {
+        igStatus.style.cursor = 'pointer';
+        igStatus.addEventListener('click', function() {
+            window.location.reload();
+        });
+        igStatus.title = 'Click to refresh DAK API Hub';
+    }
+});
+</script>
 </html>"""
             
             # Save hub file
