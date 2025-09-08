@@ -680,13 +680,6 @@ class ReDocRenderer:
                 <div class="schema-header">
                     <h3>{schema_name}</h3>
                     <div class="schema-actions">
-                        <button class="action-btn download-btn" onclick="downloadSchema('{schema_name}', {json.dumps(schema_json_str)})" title="Download schema as JSON file">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7,10 12,15 17,10"/>
-                                <line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                        </button>
                         <button class="action-btn copy-btn" onclick="copySchemaToClipboard('{schema_name}', {json.dumps(schema_json_str)})" title="Copy schema to clipboard">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
@@ -771,18 +764,6 @@ class ReDocRenderer:
     </div>
 </body>
 <script>
-function downloadSchema(schemaName, schemaJson) {
-    const blob = new Blob([schemaJson], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = schemaName + '.schema.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
-
 function copySchemaToClipboard(schemaName, schemaJson) {
     navigator.clipboard.writeText(schemaJson).then(function() {
         // Show temporary feedback
