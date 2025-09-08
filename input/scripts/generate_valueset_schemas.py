@@ -240,7 +240,7 @@ def extract_valueset_codes_with_display(valueset_resource: Dict[str, Any], value
 
 def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: List[Dict[str, str]]) -> Dict[str, Any]:
     """
-    Generate a JSON schema for a ValueSet using oneOf constraints with descriptions that include system URIs.
+    Generate a JSON schema for a ValueSet using enum constraints with metadata for display values and system URIs.
     
     Args:
         valueset_resource: FHIR ValueSet resource
@@ -266,26 +266,23 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
     else:
         schema_id = f"#ValueSet-{valueset_id}-schema"
     
-    # Create oneOf array with const + description (including system) for each code
-    one_of_options = []
-    systems = set()
+    # Extract codes, displays, and systems for metadata
+    codes = []
+    displays = {}
+    systems = {}
+    unique_systems = set()
     
     for item in codes_with_display:
         code = item['code']
         display = item['display']
         system = item.get('system', '')
         
-        # Include system URI in description if available
-        if system:
-            description = f"{display} (system: {system})"
-            systems.add(system)
-        else:
-            description = display
+        codes.append(code)
+        displays[code] = display
         
-        one_of_options.append({
-            "const": code,
-            "description": description
-        })
+        if system:
+            systems[code] = system
+            unique_systems.add(system)
     
     schema = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -293,8 +290,20 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
         "title": f"{valueset_title} Schema",
         "description": f"JSON Schema for {valueset_title} ValueSet codes. Generated from FHIR expansions.",
         "type": "string",
-        "oneOf": one_of_options
+        "enum": codes
     }
+    
+    # Add display values as metadata for translation tools
+    if displays:
+        schema["fhir:displays"] = displays
+    
+    # Add system URIs as metadata
+    if len(unique_systems) == 1:
+        # If all codes are from the same system, use a single system property
+        schema["fhir:system"] = list(unique_systems)[0]
+    elif systems:
+        # If codes are from multiple systems, use a mapping
+        schema["fhir:systems"] = systems
     
     # Add metadata if available
     if valueset_url:
@@ -305,10 +314,6 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
     
     if 'expansion' in valueset_resource and 'timestamp' in valueset_resource['expansion']:
         schema["fhir:expansionTimestamp"] = valueset_resource['expansion']['timestamp']
-    
-    # Add system URIs metadata for reference
-    if systems:
-        schema["fhir:systems"] = sorted(list(systems))
     
     return schema
 
