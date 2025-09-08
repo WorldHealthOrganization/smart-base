@@ -191,14 +191,14 @@ def extract_valueset_codes(valueset_resource: Dict[str, Any], valueset_id: str =
 
 def extract_valueset_codes_with_display(valueset_resource: Dict[str, Any], valueset_id: str = None) -> List[Dict[str, str]]:
     """
-    Extract codes with their display values from a ValueSet resource's expansion.
+    Extract codes with their display values and system URIs from a ValueSet resource's expansion.
     
     Args:
         valueset_resource: FHIR ValueSet resource with expansion
         valueset_id: Optional ValueSet ID for logging (if not provided, will be extracted)
         
     Returns:
-        List of dictionaries containing 'code' and 'display' keys
+        List of dictionaries containing 'code', 'display', and 'system' keys
     """
     logger = logging.getLogger(__name__)
     codes_with_display = []
@@ -218,7 +218,7 @@ def extract_valueset_codes_with_display(valueset_resource: Dict[str, Any], value
         logger.warning(f"ValueSet {valueset_id} expansion has no contains")
         return codes_with_display
     
-    # Extract codes and displays from contains array
+    # Extract codes, displays, and systems from contains array
     for item in expansion['contains']:
         if 'code' in item:
             code_entry = {'code': item['code']}
@@ -227,19 +227,24 @@ def extract_valueset_codes_with_display(valueset_resource: Dict[str, Any], value
             else:
                 # Fallback to code if no display is available or display is empty
                 code_entry['display'] = item['code']
+            
+            # Include system URI if available
+            if 'system' in item:
+                code_entry['system'] = item['system']
+            
             codes_with_display.append(code_entry)
     
-    logger.info(f"Extracted {len(codes_with_display)} codes with displays from ValueSet {valueset_id}")
+    logger.info(f"Extracted {len(codes_with_display)} codes with displays and systems from ValueSet {valueset_id}")
     return codes_with_display
 
 
 def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: List[Dict[str, str]]) -> Dict[str, Any]:
     """
-    Generate a JSON schema for a ValueSet using oneOf constraints with titles for display values.
+    Generate a JSON schema for a ValueSet using oneOf constraints with descriptions that include system URIs.
     
     Args:
         valueset_resource: FHIR ValueSet resource
-        codes_with_display: List of dictionaries with 'code' and 'display' keys
+        codes_with_display: List of dictionaries with 'code', 'display', and optionally 'system' keys
         
     Returns:
         JSON schema dictionary
@@ -261,14 +266,25 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
     else:
         schema_id = f"#ValueSet-{valueset_id}-schema"
     
-    # Create oneOf array with const + title for each code
+    # Create oneOf array with const + description (including system) for each code
     one_of_options = []
+    systems = set()
+    
     for item in codes_with_display:
         code = item['code']
         display = item['display']
+        system = item.get('system', '')
+        
+        # Include system URI in description if available
+        if system:
+            description = f"{display} (system: {system})"
+            systems.add(system)
+        else:
+            description = display
+        
         one_of_options.append({
             "const": code,
-            "title": display
+            "description": description
         })
     
     schema = {
@@ -289,6 +305,10 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
     
     if 'expansion' in valueset_resource and 'timestamp' in valueset_resource['expansion']:
         schema["fhir:expansionTimestamp"] = valueset_resource['expansion']['timestamp']
+    
+    # Add system URIs metadata for reference
+    if systems:
+        schema["fhir:systems"] = sorted(list(systems))
     
     return schema
 
