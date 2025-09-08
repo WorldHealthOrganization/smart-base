@@ -189,13 +189,57 @@ def extract_valueset_codes(valueset_resource: Dict[str, Any], valueset_id: str =
     return codes
 
 
-def generate_json_schema(valueset_resource: Dict[str, Any], codes: List[str]) -> Dict[str, Any]:
+def extract_valueset_codes_with_display(valueset_resource: Dict[str, Any], valueset_id: str = None) -> List[Dict[str, str]]:
     """
-    Generate a JSON schema for a ValueSet using enum constraints.
+    Extract codes with their display values from a ValueSet resource's expansion.
+    
+    Args:
+        valueset_resource: FHIR ValueSet resource with expansion
+        valueset_id: Optional ValueSet ID for logging (if not provided, will be extracted)
+        
+    Returns:
+        List of dictionaries containing 'code' and 'display' keys
+    """
+    logger = logging.getLogger(__name__)
+    codes_with_display = []
+    
+    if valueset_id is None:
+        valueset_id = extract_valueset_id(valueset_resource)
+    
+    # Check if resource has expansion
+    if 'expansion' not in valueset_resource:
+        logger.warning(f"ValueSet {valueset_id} has no expansion")
+        return codes_with_display
+    
+    expansion = valueset_resource['expansion']
+    
+    # Check if expansion has contains
+    if 'contains' not in expansion:
+        logger.warning(f"ValueSet {valueset_id} expansion has no contains")
+        return codes_with_display
+    
+    # Extract codes and displays from contains array
+    for item in expansion['contains']:
+        if 'code' in item:
+            code_entry = {'code': item['code']}
+            if 'display' in item:
+                code_entry['display'] = item['display']
+            else:
+                # Fallback to code if no display is available
+                code_entry['display'] = item['code']
+            codes_with_display.append(code_entry)
+    
+    logger.info(f"Extracted {len(codes_with_display)} codes with displays from ValueSet {valueset_id}")
+    return codes_with_display
+
+
+def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: List[Dict[str, str]]) -> Dict[str, Any]:
+    """
+    Generate a JSON schema for a ValueSet using oneOf constraints with titles for display values.
     
     Args:
         valueset_resource: FHIR ValueSet resource
-        codes: List of valid codes for the enum
+        codes_with_display: List of dictionaries with 'code' and 'display' keys
         
     Returns:
         JSON schema dictionary
@@ -217,13 +261,23 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes: List[str]) ->
     else:
         schema_id = f"#ValueSet-{valueset_id}-schema"
     
+    # Create oneOf array with const + title for each code
+    one_of_options = []
+    for item in codes_with_display:
+        code = item['code']
+        display = item['display']
+        one_of_options.append({
+            "const": code,
+            "title": display
+        })
+    
     schema = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": schema_id,
         "title": f"{valueset_title} Schema",
         "description": f"JSON Schema for {valueset_title} ValueSet codes. Generated from FHIR expansions.",
         "type": "string",
-        "enum": codes
+        "oneOf": one_of_options
     }
     
     # Add metadata if available
@@ -387,15 +441,15 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
         valueset_id = extract_valueset_id_from_entry(entry)
         logger.info(f"Processing ValueSet: {valueset_id}")
         
-        # Extract codes from expansion
-        codes = extract_valueset_codes(resource, valueset_id)
+        # Extract codes with displays from expansion
+        codes_with_display = extract_valueset_codes_with_display(resource, valueset_id)
         
-        if not codes:
+        if not codes_with_display:
             logger.warning(f"No codes found for ValueSet {valueset_id}, skipping schema generation")
             continue
         
         # Generate schema
-        schema = generate_json_schema(resource, codes)
+        schema = generate_json_schema(resource, codes_with_display)
         
         # Save schema
         schema_path = save_schema(schema, output_dir, valueset_id)
