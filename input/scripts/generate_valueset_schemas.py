@@ -423,7 +423,9 @@ def main():
         output_dir = "output"  # Schemas will be saved directly to output/ directory
     else:
         expansions_path = sys.argv[1]
-        output_dir = sys.argv[2]
+        # ValueSet schemas should always be deployed to the root of the deployment folder
+        # regardless of any additional command line arguments
+        output_dir = "output"  # Schemas will be saved directly to output/ directory
     
     logger.info(f"Processing expansions from: {expansions_path}")
     logger.info(f"Output directory: {output_dir}")
