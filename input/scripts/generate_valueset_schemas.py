@@ -328,13 +328,19 @@ def generate_display_file(valueset_resource: Dict[str, Any], codes_with_display:
     else:
         display_id = f"#ValueSet-{valueset_id}-displays"
     
-    # Extract displays only (no system URIs)
+    # Extract displays with multilingual structure support (no system URIs)
     displays = {}
     
     for item in codes_with_display:
         code = item['code']
         display = item['display']
-        displays[code] = display
+        
+        # Structure displays to support multiple languages
+        # For now, use 'en' as the default language since FHIR expansions typically contain English text
+        # This structure allows for easy addition of other languages later
+        displays[code] = {
+            "en": display
+        }
     
     display_file = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
