@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-CDHIv1.system.json",
+  "title": "Classification of Digital Health Interventions v1 System URIs",
+  "description": "System URI mappings for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions.",
+  "type": "object",
+  "properties": {
+    "fhir:systems": {
+      "type": "object",
+      "description": "Mapping of ValueSet codes to their corresponding system URIs",
+      "patternProperties": {
+        "^[a-zA-Z0-9._-]+$": {
+          "type": "string",
+          "format": "uri",
+          "description": "System URI for the corresponding code"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["fhir:systems"],
+  "additionalProperties": true,
+  "fhir:systems": {
+    "1.0": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.1.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.1.2": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.1.3": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.1.4": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.2": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.2.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.2.2": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.3": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.3.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.4": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.4.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.4.2": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.4.3": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.5": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.5.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.5.2": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.6": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.6.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.7": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.7.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.7.2": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "1.7.3": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.0": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.1.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.1.2": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.2": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.2.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.2.2": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.2.3": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.2.4": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.3": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.3.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.3.2": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.3.3": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.4": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.4.1": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.4.2": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.4.3": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.4.4": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.5": "http://smart.who.int/base/CodeSystem/CDHIv1",
+    "2.5.1": "http://smart.who.int/base/CodeSystem/CDHIv1"
+  },
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/CDHIv1",
+  "fhir:version": "0.3.0"
+}

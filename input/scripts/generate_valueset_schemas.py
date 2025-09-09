@@ -266,9 +266,18 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
     else:
         schema_id = f"#ValueSet-{valueset_id}-schema"
     
-    # Use relative file references instead of absolute URLs for local files
-    display_reference = f"ValueSet-{valueset_id}.displays.json"
-    system_reference = f"ValueSet-{valueset_id}.system.json"
+    # Use absolute URLs for file references  
+    if valueset_url:
+        if '/ValueSet/' in valueset_url:
+            base_url = valueset_url.split('/ValueSet/')[0]
+            display_reference = f"{base_url}/ValueSet-{valueset_id}.displays.json"
+            system_reference = f"{base_url}/ValueSet-{valueset_id}.system.json"
+        else:
+            display_reference = f"{valueset_url}-{valueset_id}.displays.json"
+            system_reference = f"{valueset_url}-{valueset_id}.system.json"
+    else:
+        display_reference = f"ValueSet-{valueset_id}.displays.json"
+        system_reference = f"ValueSet-{valueset_id}.system.json"
     
     # Extract codes for validation
     codes = []
@@ -283,6 +292,12 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
         "type": "string",
         "enum": codes
     }
+    
+    # Add narrative that includes links to display and system files
+    narrative_text = f"This schema validates codes for the {valueset_title} ValueSet. "
+    narrative_text += f"Display values are available at {display_reference}. "
+    narrative_text += f"System URI mappings are available at {system_reference}."
+    schema["narrative"] = narrative_text
     
     # References to separate files
     schema["fhir:displays"] = display_reference
@@ -345,6 +360,35 @@ def generate_display_file(valueset_resource: Dict[str, Any], codes_with_display:
         "$id": display_id,
         "title": f"{valueset_title} Display Values",
         "description": f"Display values for {valueset_title} ValueSet codes. Generated from FHIR expansions.",
+        "type": "object",
+        "properties": {
+            "fhir:displays": {
+                "type": "object",
+                "description": "Multilingual display values for ValueSet codes",
+                "patternProperties": {
+                    "^[a-zA-Z0-9._-]+$": {
+                        "type": "object",
+                        "description": "Display values for a specific code by language",
+                        "properties": {
+                            "en": {
+                                "type": "string",
+                                "description": "English display value"
+                            }
+                        },
+                        "patternProperties": {
+                            "^[a-z]{2}(-[A-Z]{2})?$": {
+                                "type": "string",
+                                "description": "Display value in the specified language (ISO 639-1 code)"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "required": ["fhir:displays"],
+        "additionalProperties": true,
         "fhir:displays": displays
     }
     
@@ -401,6 +445,23 @@ def generate_system_file(valueset_resource: Dict[str, Any], codes_with_display: 
         "$id": system_id,
         "title": f"{valueset_title} System URIs",
         "description": f"System URI mappings for {valueset_title} ValueSet codes. Generated from FHIR expansions.",
+        "type": "object",
+        "properties": {
+            "fhir:systems": {
+                "type": "object",
+                "description": "Mapping of ValueSet codes to their corresponding system URIs",
+                "patternProperties": {
+                    "^[a-zA-Z0-9._-]+$": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "System URI for the corresponding code"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "required": ["fhir:systems"],
+        "additionalProperties": true,
         "fhir:systems": systems
     }
     
