@@ -260,17 +260,15 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
         if '/ValueSet/' in valueset_url:
             base_url = valueset_url.split('/ValueSet/')[0]
             schema_id = f"{base_url}/ValueSet-{valueset_id}.schema.json"
-            display_reference = f"{base_url}/ValueSet-{valueset_id}.displays.json"
-            system_reference = f"{base_url}/ValueSet-{valueset_id}.system.json"
         else:
             # Fallback if URL doesn't follow expected pattern
             schema_id = f"{valueset_url}-{valueset_id}.schema.json"
-            display_reference = f"{valueset_url}-{valueset_id}.displays.json"
-            system_reference = f"{valueset_url}-{valueset_id}.system.json"
     else:
         schema_id = f"#ValueSet-{valueset_id}-schema"
-        display_reference = f"ValueSet-{valueset_id}.displays.json"
-        system_reference = f"ValueSet-{valueset_id}.system.json"
+    
+    # Use relative file references instead of absolute URLs for local files
+    display_reference = f"ValueSet-{valueset_id}.displays.json"
+    system_reference = f"ValueSet-{valueset_id}.system.json"
     
     # Extract codes for validation
     codes = []
