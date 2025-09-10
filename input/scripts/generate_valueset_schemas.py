@@ -281,7 +281,19 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
         "title": f"{valueset_title} Schema",
         "description": f"JSON Schema for {valueset_title} ValueSet codes. Generated from FHIR expansions.",
         "type": "string",
-        "enum": codes
+        "enum": codes,
+        "properties": {
+            "fhir:displays": {
+                "type": "string",
+                "format": "uri-reference",
+                "description": "Reference to the display values file containing multilingual display strings for the ValueSet codes"
+            },
+            "fhir:system": {
+                "type": "string", 
+                "format": "uri-reference",
+                "description": "Reference to the system file containing code-to-system URI mappings for the ValueSet codes"
+            }
+        }
     }
     
     # Add narrative that includes links to display and system files
