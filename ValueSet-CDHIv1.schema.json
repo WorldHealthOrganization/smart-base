@@ -9,18 +9,6 @@
     "1.1",
     "2.0"
   ],
-  "properties": {
-    "fhir:displays": {
-      "type": "string",
-      "format": "uri-reference",
-      "description": "Reference to the display values file containing multilingual display strings for the ValueSet codes"
-    },
-    "fhir:system": {
-      "type": "string",
-      "format": "uri-reference",
-      "description": "Reference to the system file containing code-to-system URI mappings for the ValueSet codes"
-    }
-  },
   "narrative": "This schema validates codes for the Classification of Digital Health Interventions v1 ValueSet. Display values are available at ValueSet-CDHIv1.displays.json. System URI mappings are available at ValueSet-CDHIv1.system.json.",
   "fhir:displays": "ValueSet-CDHIv1.displays.json",
   "fhir:system": "ValueSet-CDHIv1.system.json",
