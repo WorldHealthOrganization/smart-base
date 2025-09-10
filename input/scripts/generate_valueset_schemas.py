@@ -266,18 +266,9 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
     else:
         schema_id = f"#ValueSet-{valueset_id}-schema"
     
-    # Use absolute URLs for file references  
-    if valueset_url:
-        if '/ValueSet/' in valueset_url:
-            base_url = valueset_url.split('/ValueSet/')[0]
-            display_reference = f"{base_url}/ValueSet-{valueset_id}.displays.json"
-            system_reference = f"{base_url}/ValueSet-{valueset_id}.system.json"
-        else:
-            display_reference = f"{valueset_url}-{valueset_id}.displays.json"
-            system_reference = f"{valueset_url}-{valueset_id}.system.json"
-    else:
-        display_reference = f"ValueSet-{valueset_id}.displays.json"
-        system_reference = f"ValueSet-{valueset_id}.system.json"
+    # Use relative URLs for file references as requested by user
+    display_reference = f"ValueSet-{valueset_id}.displays.json"
+    system_reference = f"ValueSet-{valueset_id}.system.json"
     
     # Extract codes for validation
     codes = []
@@ -381,14 +372,14 @@ def generate_display_file(valueset_resource: Dict[str, Any], codes_with_display:
                                 "description": "Display value in the specified language (ISO 639-1 code)"
                             }
                         },
-                        "additionalProperties": false
+                        "additionalProperties": False
                     }
                 },
-                "additionalProperties": false
+                "additionalProperties": False
             }
         },
         "required": ["fhir:displays"],
-        "additionalProperties": true,
+        "additionalProperties": True,
         "fhir:displays": displays
     }
     
@@ -457,11 +448,11 @@ def generate_system_file(valueset_resource: Dict[str, Any], codes_with_display: 
                         "description": "System URI for the corresponding code"
                     }
                 },
-                "additionalProperties": false
+                "additionalProperties": False
             }
         },
         "required": ["fhir:systems"],
-        "additionalProperties": true,
+        "additionalProperties": True,
         "fhir:systems": systems
     }
     
