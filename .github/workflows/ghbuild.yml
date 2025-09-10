@@ -145,13 +145,24 @@ jobs:
           
           # Determine final values (inputs override defaults)
           # Use input if explicitly provided, otherwise use default
+          # Note: For automatic triggers (push/PR), inputs are empty strings
+          # For manual workflow_dispatch, boolean inputs are "true" or "false"
           ENABLE_DMN_QUESTIONNAIRES="${{ inputs.generate_dmn_questionnaires }}"
           ENABLE_TRANSFORM_DMN="${{ inputs.transform_dmn_files }}"
           ENABLE_VALUESET_SCHEMAS="${{ inputs.generate_valueset_schemas }}"
           ENABLE_LOGICAL_MODEL_SCHEMAS="${{ inputs.generate_logical_model_schemas }}"
           ENABLE_DAK_API_HUB="${{ inputs.generate_dak_api_hub }}"
           
-          # Use input if provided, otherwise use default
+          echo "Raw input values:"
+          echo "  generate_dmn_questionnaires: '$ENABLE_DMN_QUESTIONNAIRES'"
+          echo "  transform_dmn_files: '$ENABLE_TRANSFORM_DMN'"
+          echo "  generate_valueset_schemas: '$ENABLE_VALUESET_SCHEMAS'"
+          echo "  generate_logical_model_schemas: '$ENABLE_LOGICAL_MODEL_SCHEMAS'"
+          echo "  generate_dak_api_hub: '$ENABLE_DAK_API_HUB'"
+          
+          # Use input if explicitly provided, otherwise use default
+          # For automatic triggers, inputs will be empty strings, so use defaults
+          # For manual triggers, only override defaults if input is explicitly "true" or "false"
           if [ -z "$ENABLE_DMN_QUESTIONNAIRES" ]; then
             ENABLE_DMN_QUESTIONNAIRES="$DEFAULT_GENERATE_DMN_QUESTIONNAIRES"
           fi
