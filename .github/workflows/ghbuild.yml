@@ -124,60 +124,62 @@ jobs:
       - name: Set feature defaults based on repository owner
         run: |
           REPO_OWNER="${{ github.repository_owner }}"
+          TRIGGER_TYPE="${{ github.event_name }}"
           echo "Repository owner: $REPO_OWNER"
+          echo "Trigger type: $TRIGGER_TYPE"
           
           # Set defaults based on repository owner (enabled for WHO, disabled for others)
           if [ "$REPO_OWNER" == "WorldHealthOrganization" ]; then
             echo "WHO repository detected - enabling features by default"
-            echo "DEFAULT_GENERATE_DMN_QUESTIONNAIRES=true" >> $GITHUB_ENV
-            echo "DEFAULT_TRANSFORM_DMN_FILES=true" >> $GITHUB_ENV
-            echo "DEFAULT_GENERATE_VALUESET_SCHEMAS=true" >> $GITHUB_ENV
-            echo "DEFAULT_GENERATE_LOGICAL_MODEL_SCHEMAS=true" >> $GITHUB_ENV
-            echo "DEFAULT_GENERATE_DAK_API_HUB=true" >> $GITHUB_ENV
+            DEFAULT_ENABLE="true"
           else
             echo "Non-WHO repository detected - disabling features by default"
-            echo "DEFAULT_GENERATE_DMN_QUESTIONNAIRES=false" >> $GITHUB_ENV
-            echo "DEFAULT_TRANSFORM_DMN_FILES=false" >> $GITHUB_ENV
-            echo "DEFAULT_GENERATE_VALUESET_SCHEMAS=false" >> $GITHUB_ENV
-            echo "DEFAULT_GENERATE_LOGICAL_MODEL_SCHEMAS=false" >> $GITHUB_ENV
-            echo "DEFAULT_GENERATE_DAK_API_HUB=false" >> $GITHUB_ENV
+            DEFAULT_ENABLE="false"
           fi
           
-          # Determine final values (inputs override defaults)
-          # Use input if explicitly provided, otherwise use default
-          # Note: For automatic triggers (push/PR), inputs are empty strings
-          # For manual workflow_dispatch, boolean inputs are "true" or "false"
-          ENABLE_DMN_QUESTIONNAIRES="${{ inputs.generate_dmn_questionnaires }}"
-          ENABLE_TRANSFORM_DMN="${{ inputs.transform_dmn_files }}"
-          ENABLE_VALUESET_SCHEMAS="${{ inputs.generate_valueset_schemas }}"
-          ENABLE_LOGICAL_MODEL_SCHEMAS="${{ inputs.generate_logical_model_schemas }}"
-          ENABLE_DAK_API_HUB="${{ inputs.generate_dak_api_hub }}"
+          echo "Default feature setting: $DEFAULT_ENABLE"
           
-          echo "Raw input values:"
-          echo "  generate_dmn_questionnaires: '$ENABLE_DMN_QUESTIONNAIRES'"
-          echo "  transform_dmn_files: '$ENABLE_TRANSFORM_DMN'"
-          echo "  generate_valueset_schemas: '$ENABLE_VALUESET_SCHEMAS'"
-          echo "  generate_logical_model_schemas: '$ENABLE_LOGICAL_MODEL_SCHEMAS'"
-          echo "  generate_dak_api_hub: '$ENABLE_DAK_API_HUB'"
+          # Normalize input handling for different trigger types
+          # Function to normalize boolean values
+          normalize_boolean() {
+            local input_value="$1"
+            local default_value="$2"
+            
+            # For automatic triggers (push/pull_request), inputs are empty
+            if [ "$TRIGGER_TYPE" != "workflow_dispatch" ]; then
+              echo "$default_value"
+              return
+            fi
+            
+            # For manual triggers, handle explicit boolean values
+            case "$input_value" in
+              "true")  echo "true" ;;
+              "false") echo "false" ;;
+              "")      echo "$default_value" ;;
+              *)       echo "$default_value" ;;
+            esac
+          }
           
-          # Use input if explicitly provided, otherwise use default
-          # For automatic triggers, inputs will be empty strings, so use defaults
-          # For manual triggers, only override defaults if input is explicitly "true" or "false"
-          if [ -z "$ENABLE_DMN_QUESTIONNAIRES" ]; then
-            ENABLE_DMN_QUESTIONNAIRES="$DEFAULT_GENERATE_DMN_QUESTIONNAIRES"
-          fi
-          if [ -z "$ENABLE_TRANSFORM_DMN" ]; then
-            ENABLE_TRANSFORM_DMN="$DEFAULT_TRANSFORM_DMN_FILES"
-          fi
-          if [ -z "$ENABLE_VALUESET_SCHEMAS" ]; then
-            ENABLE_VALUESET_SCHEMAS="$DEFAULT_GENERATE_VALUESET_SCHEMAS"
-          fi
-          if [ -z "$ENABLE_LOGICAL_MODEL_SCHEMAS" ]; then
-            ENABLE_LOGICAL_MODEL_SCHEMAS="$DEFAULT_GENERATE_LOGICAL_MODEL_SCHEMAS"
-          fi
-          if [ -z "$ENABLE_DAK_API_HUB" ]; then
-            ENABLE_DAK_API_HUB="$DEFAULT_GENERATE_DAK_API_HUB"
-          fi
+          # Get raw input values
+          RAW_DMN_QUESTIONNAIRES="${{ inputs.generate_dmn_questionnaires }}"
+          RAW_TRANSFORM_DMN="${{ inputs.transform_dmn_files }}"
+          RAW_VALUESET_SCHEMAS="${{ inputs.generate_valueset_schemas }}"
+          RAW_LOGICAL_MODEL_SCHEMAS="${{ inputs.generate_logical_model_schemas }}"
+          RAW_DAK_API_HUB="${{ inputs.generate_dak_api_hub }}"
+          
+          echo "Raw input values (trigger: $TRIGGER_TYPE):"
+          echo "  generate_dmn_questionnaires: '$RAW_DMN_QUESTIONNAIRES'"
+          echo "  transform_dmn_files: '$RAW_TRANSFORM_DMN'"
+          echo "  generate_valueset_schemas: '$RAW_VALUESET_SCHEMAS'"
+          echo "  generate_logical_model_schemas: '$RAW_LOGICAL_MODEL_SCHEMAS'"
+          echo "  generate_dak_api_hub: '$RAW_DAK_API_HUB'"
+          
+          # Normalize all values
+          ENABLE_DMN_QUESTIONNAIRES=$(normalize_boolean "$RAW_DMN_QUESTIONNAIRES" "$DEFAULT_ENABLE")
+          ENABLE_TRANSFORM_DMN=$(normalize_boolean "$RAW_TRANSFORM_DMN" "$DEFAULT_ENABLE")
+          ENABLE_VALUESET_SCHEMAS=$(normalize_boolean "$RAW_VALUESET_SCHEMAS" "$DEFAULT_ENABLE")
+          ENABLE_LOGICAL_MODEL_SCHEMAS=$(normalize_boolean "$RAW_LOGICAL_MODEL_SCHEMAS" "$DEFAULT_ENABLE")
+          ENABLE_DAK_API_HUB=$(normalize_boolean "$RAW_DAK_API_HUB" "$DEFAULT_ENABLE")
           
           echo "ENABLE_DMN_QUESTIONNAIRES=$ENABLE_DMN_QUESTIONNAIRES" >> $GITHUB_ENV
           echo "ENABLE_TRANSFORM_DMN=$ENABLE_TRANSFORM_DMN" >> $GITHUB_ENV
