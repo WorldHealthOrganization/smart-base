@@ -190,11 +190,39 @@ jobs:
           echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
           
           echo "Final feature settings:"
-          echo "  Generate DMN Questionnaires: $ENABLE_DMN_QUESTIONNAIRES"
-          echo "  Transform DMN files: $ENABLE_TRANSFORM_DMN"
-          echo "  Generate ValueSet schemas: $ENABLE_VALUESET_SCHEMAS"
-          echo "  Generate Logical Model schemas: $ENABLE_LOGICAL_MODEL_SCHEMAS"
-          echo "  Generate DAK API hub: $ENABLE_DAK_API_HUB"
+          echo "  Generate DMN Questionnaires: $ENABLE_DMN_QUESTIONNAIRES (condition: env.ENABLE_DMN_QUESTIONNAIRES == 'true')"
+          echo "  Transform DMN files: $ENABLE_TRANSFORM_DMN (condition: env.ENABLE_TRANSFORM_DMN == 'true')"
+          echo "  Generate ValueSet schemas: $ENABLE_VALUESET_SCHEMAS (condition: env.ENABLE_VALUESET_SCHEMAS == 'true')"
+          echo "  Generate Logical Model schemas: $ENABLE_LOGICAL_MODEL_SCHEMAS (condition: env.ENABLE_LOGICAL_MODEL_SCHEMAS == 'true')"
+          echo "  Generate DAK API hub: $ENABLE_DAK_API_HUB (condition: env.ENABLE_DAK_API_HUB == 'true')"
+          
+          # Additional debugging - show what conditions will evaluate to
+          echo "Step condition evaluations:"
+          if [ "$ENABLE_DMN_QUESTIONNAIRES" == "true" ]; then
+            echo "  ✅ DMN Questionnaires step WILL run"
+          else
+            echo "  ❌ DMN Questionnaires step will NOT run (value: '$ENABLE_DMN_QUESTIONNAIRES')"
+          fi
+          if [ "$ENABLE_TRANSFORM_DMN" == "true" ]; then
+            echo "  ✅ Transform DMN step WILL run"
+          else
+            echo "  ❌ Transform DMN step will NOT run (value: '$ENABLE_TRANSFORM_DMN')"
+          fi
+          if [ "$ENABLE_VALUESET_SCHEMAS" == "true" ]; then
+            echo "  ✅ ValueSet schemas step WILL run"
+          else
+            echo "  ❌ ValueSet schemas step will NOT run (value: '$ENABLE_VALUESET_SCHEMAS')"
+          fi
+          if [ "$ENABLE_LOGICAL_MODEL_SCHEMAS" == "true" ]; then
+            echo "  ✅ Logical Model schemas step WILL run"
+          else
+            echo "  ❌ Logical Model schemas step will NOT run (value: '$ENABLE_LOGICAL_MODEL_SCHEMAS')"
+          fi
+          if [ "$ENABLE_DAK_API_HUB" == "true" ]; then
+            echo "  ✅ DAK API hub step WILL run"
+          else
+            echo "  ❌ DAK API hub step will NOT run (value: '$ENABLE_DAK_API_HUB')"
+          fi
 
       - name: Comment on PR - Build Started
         if: github.event_name == 'pull_request'
