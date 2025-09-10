@@ -144,6 +144,7 @@ jobs:
           fi
           
           # Determine final values (inputs override defaults)
+          # Use input if explicitly provided, otherwise use default
           ENABLE_DMN_QUESTIONNAIRES="${{ inputs.generate_dmn_questionnaires }}"
           ENABLE_TRANSFORM_DMN="${{ inputs.transform_dmn_files }}"
           ENABLE_VALUESET_SCHEMAS="${{ inputs.generate_valueset_schemas }}"
@@ -151,19 +152,19 @@ jobs:
           ENABLE_DAK_API_HUB="${{ inputs.generate_dak_api_hub }}"
           
           # Use input if provided, otherwise use default
-          if [ "$ENABLE_DMN_QUESTIONNAIRES" == "" ]; then
+          if [ -z "$ENABLE_DMN_QUESTIONNAIRES" ]; then
             ENABLE_DMN_QUESTIONNAIRES="$DEFAULT_GENERATE_DMN_QUESTIONNAIRES"
           fi
-          if [ "$ENABLE_TRANSFORM_DMN" == "" ]; then
+          if [ -z "$ENABLE_TRANSFORM_DMN" ]; then
             ENABLE_TRANSFORM_DMN="$DEFAULT_TRANSFORM_DMN_FILES"
           fi
-          if [ "$ENABLE_VALUESET_SCHEMAS" == "" ]; then
+          if [ -z "$ENABLE_VALUESET_SCHEMAS" ]; then
             ENABLE_VALUESET_SCHEMAS="$DEFAULT_GENERATE_VALUESET_SCHEMAS"
           fi
-          if [ "$ENABLE_LOGICAL_MODEL_SCHEMAS" == "" ]; then
+          if [ -z "$ENABLE_LOGICAL_MODEL_SCHEMAS" ]; then
             ENABLE_LOGICAL_MODEL_SCHEMAS="$DEFAULT_GENERATE_LOGICAL_MODEL_SCHEMAS"
           fi
-          if [ "$ENABLE_DAK_API_HUB" == "" ]; then
+          if [ -z "$ENABLE_DAK_API_HUB" ]; then
             ENABLE_DAK_API_HUB="$DEFAULT_GENERATE_DAK_API_HUB"
           fi
           
