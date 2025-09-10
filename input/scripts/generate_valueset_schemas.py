@@ -754,8 +754,8 @@ def main():
         logger.info(f"Successfully generated {schemas_count} ValueSet schemas in {output_dir}")
         sys.exit(0)
     else:
-        logger.error("No schemas were generated")
-        sys.exit(1)
+        logger.info("No ValueSet schemas were generated (no ValueSets found in expansions)")
+        sys.exit(0)
 
 
 if __name__ == "__main__":
