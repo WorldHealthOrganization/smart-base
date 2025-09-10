@@ -266,9 +266,15 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
     else:
         schema_id = f"#ValueSet-{valueset_id}-schema"
     
-    # Use relative URLs for file references as requested by user
-    display_reference = f"ValueSet-{valueset_id}.displays.json"
-    system_reference = f"ValueSet-{valueset_id}.system.json"
+    # Use absolute URLs for file references
+    if valueset_url and '/ValueSet/' in valueset_url:
+        base_url = valueset_url.split('/ValueSet/')[0]
+        display_reference = f"{base_url}/ValueSet-{valueset_id}.displays.json"
+        system_reference = f"{base_url}/ValueSet-{valueset_id}.system.json"
+    else:
+        # Fallback to relative URLs if we can't determine base URL
+        display_reference = f"ValueSet-{valueset_id}.displays.json"
+        system_reference = f"ValueSet-{valueset_id}.system.json"
     
     # Extract codes for validation
     codes = []
@@ -284,10 +290,11 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
         "enum": codes
     }
     
-    # Add narrative that includes links to display and system files
+    # Add narrative that includes links to display and system files and ValueSet listing
     narrative_text = f"This schema validates codes for the {valueset_title} ValueSet. "
     narrative_text += f"Display values are available at {display_reference}. "
-    narrative_text += f"System URI mappings are available at {system_reference}."
+    narrative_text += f"System URI mappings are available at {system_reference}. "
+    narrative_text += f"For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets."
     schema["narrative"] = narrative_text
     
     # References to separate files

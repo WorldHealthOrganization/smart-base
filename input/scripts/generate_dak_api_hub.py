@@ -289,7 +289,49 @@ class ReDocRenderer:
     def __init__(self, logger: logging.Logger):
         self.logger = logger
     
-    def generate_redoc_html(self, openapi_path: str, output_dir: str, title: str = None) -> Optional[str]:
+    def get_codesystem_anchors(self, codesystem_url: str, output_dir: str) -> Dict[str, str]:
+        """
+        Attempt to find anchor mappings for codes in a CodeSystem HTML file.
+        
+        Args:
+            codesystem_url: The canonical URL of the CodeSystem
+            output_dir: Directory where HTML files are located
+            
+        Returns:
+            Dictionary mapping codes to their anchor names
+        """
+        anchor_map = {}
+        
+        try:
+            # Extract CodeSystem ID from URL
+            if '/CodeSystem/' in codesystem_url:
+                codesystem_id = codesystem_url.split('/CodeSystem/')[-1]
+                html_filename = f"CodeSystem-{codesystem_id}.html"
+                html_path = os.path.join(output_dir, html_filename)
+                
+                if os.path.exists(html_path):
+                    with open(html_path, 'r', encoding='utf-8') as f:
+                        html_content = f.read()
+                    
+                    # Look for anchor patterns like id="CDHIv1-2.461.462" or similar
+                    import re
+                    # Pattern to find id attributes that likely correspond to codes
+                    anchor_pattern = rf'id="({re.escape(codesystem_id)}-[^"]+)"'
+                    matches = re.findall(anchor_pattern, html_content)
+                    
+                    for match in matches:
+                        # Extract the code part after the codesystem ID
+                        if '-' in match:
+                            code_part = match.split('-', 1)[1]
+                            anchor_map[code_part] = match
+                
+                self.logger.info(f"Found {len(anchor_map)} anchor mappings for CodeSystem {codesystem_id}")
+        except Exception as e:
+            self.logger.warning(f"Could not load CodeSystem anchors for {codesystem_url}: {e}")
+        
+        return anchor_map
+    
+    def generate_redoc_html(self, openapi_path: str, output_dir: str, title: str = None, schema_type: str = None) -> Optional[str]:
         """
         Generate a self-contained HTML file for an OpenAPI specification.
         
@@ -297,6 +339,7 @@ class ReDocRenderer:
             openapi_path: Path to the OpenAPI spec file
             output_dir: Directory to save the HTML file
             title: Optional title for the HTML page
+            schema_type: Optional schema type ('valueset' or 'logical_model')
             
         Returns:
             Path to the generated HTML file, or None if failed
@@ -304,6 +347,15 @@ class ReDocRenderer:
         try:
             openapi_filename = os.path.basename(openapi_path)
             spec_name = openapi_filename.replace('.openapi.yaml', '').replace('.yaml', '').replace('.yml', '').replace('.json', '')
+            
+            # Determine schema type if not provided
+            if schema_type is None:
+                if spec_name.startswith('ValueSet-'):
+                    schema_type = 'valueset'
+                elif spec_name.startswith('LogicalModel-') or spec_name.startswith('StructureDefinition-'):
+                    schema_type = 'logical_model'
+                else:
+                    schema_type = 'unknown'
             
             if title is None:
                 title = f"{spec_name} API Documentation"
@@ -529,6 +581,13 @@ class ReDocRenderer:
             border-radius: 3px;
             margin: 0.2rem;
             font-size: 0.9rem;
+            text-decoration: none;
+        }}
+        
+        .enum-value:hover {{
+            background-color: #0070A1;
+            color: white;
+            text-decoration: none;
         }}
         
         .enum-truncated {{
@@ -689,7 +748,7 @@ class ReDocRenderer:
                     </div>
                 </div>
                 <p><strong>Description:</strong> {schema_def.get('description', 'No description')}</p>
-                <p><strong>Type:</strong> <span class="property-type"><a href="https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model" target="_blank" title="JSON Schema {schema_def.get('type', 'unknown')} type definition">{schema_def.get('type', 'unknown')}</a></span></p>"""
+                <p><strong>Type:</strong> <span class="property-type"><a href="https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model" title="JSON Schema {schema_def.get('type', 'unknown')} type definition">{schema_def.get('type', 'unknown')}</a></span></p>"""
                     
                     # Add schema ID as link if available
                     if schema_id:
@@ -699,10 +758,18 @@ class ReDocRenderer:
                             filename = schema_id.split('/')[-1]
                         else:
                             filename = schema_id
-                        fhir_url = filename.replace('.schema.json', '.html')
+                        
+                        # Determine the correct FHIR page link based on schema type
+                        if filename.startswith('ValueSet-'):
+                            fhir_url = "artifacts.html#terminology-value-sets"
+                        elif schema_type == 'logical_model':
+                            fhir_url = "artifacts.html#structures-logical-models"
+                        else:
+                            fhir_url = filename.replace('.schema.json', '.html')
+                        
                         html_content += f"""
-                <p><strong>Schema ID:</strong> <a href="{schema_id}" title="{schema_id}" target="_blank">{schema_id}</a></p>
-                <p><strong>FHIR Page:</strong> <a href="{fhir_url}" title="View full FHIR definition at {fhir_url}" target="_blank">{fhir_url}</a></p>"""
+                <p><strong>Schema ID:</strong> <a href="{schema_id}" title="{schema_id}">{schema_id}</a></p>
+                <p><strong>FHIR Page:</strong> <a href="{fhir_url}" title="View full FHIR definition at {fhir_url}">{fhir_url}</a></p>"""
                     
                     html_content += """
 """
@@ -714,12 +781,45 @@ class ReDocRenderer:
                         displayed_values = enum_values[:40]
                         truncated = len(enum_values) > 40
                         
+                        # Check if we can link to CodeSystem definitions
+                        codesystem_anchors = {}
+                        if schema_type == 'valueset' and schema_id:
+                            # Try to load system mapping to find CodeSystem
+                            try:
+                                if '/' in schema_id:
+                                    base_url = '/'.join(schema_id.split('/')[:-1])
+                                    system_filename = f"{schema_name}.system.json"
+                                    system_path = os.path.join(output_dir, system_filename)
+                                    
+                                    if os.path.exists(system_path):
+                                        with open(system_path, 'r', encoding='utf-8') as f:
+                                            system_data = json.load(f)
+                                        
+                                        # Get system URIs for codes
+                                        fhir_systems = system_data.get('fhir:systems', {})
+                                        if fhir_systems:
+                                            # Check if any system is from the same IG
+                                            for code, system_uri in fhir_systems.items():
+                                                if system_uri and base_url in system_uri:
+                                                    # This is a local CodeSystem, try to get anchors
+                                                    codesystem_anchors = self.get_codesystem_anchors(system_uri, output_dir)
+                                                    break
+                            except Exception as e:
+                                self.logger.warning(f"Could not load system mappings for {schema_name}: {e}")
+                        
                         html_content += """
                 <div class="enum-values">
                     <strong>Allowed values:</strong><br>
 """
                         for enum_value in displayed_values:
-                            html_content += f'                    <span class="enum-value">{enum_value}</span>\n'
+                            if enum_value in codesystem_anchors:
+                                # Create link to CodeSystem anchor
+                                anchor = codesystem_anchors[enum_value]
+                                codesystem_id = anchor.split('-')[0]
+                                link_url = f"CodeSystem-{codesystem_id}.html#{anchor}"
+                                html_content += f'                    <a href="{link_url}" class="enum-value" title="View definition in CodeSystem">{enum_value}</a>\n'
+                            else:
+                                html_content += f'                    <span class="enum-value">{enum_value}</span>\n'
                         
                         if truncated:
                             remaining_count = len(enum_values) - 40
@@ -737,7 +837,7 @@ class ReDocRenderer:
                         for prop_name, prop_def in schema_def['properties'].items():
                             prop_type = prop_def.get('type', 'unknown')
                             # Create link to JSON Schema definition for type
-                            type_link = f'<a href="https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model" target="_blank" title="JSON Schema {prop_type} type definition">{prop_type}</a>'
+                            type_link = f'<a href="https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model" title="JSON Schema {prop_type} type definition">{prop_type}</a>'
                             
                             html_content += f"""
                 <div class="property">
@@ -1289,7 +1389,7 @@ class DAKApiHubGenerator:
                         <div class="schema-type {schema_type_class}">{type_label}</div>
                         <h3>{doc['title']}</h3>
                         <p>{doc['description']}</p>
-                        <a href="{doc['html_file']}" target="_blank">View Documentation</a>
+                        <a href="{doc['html_file']}">View Documentation</a>
                     </div>
 """
                 html_content += """
@@ -1316,7 +1416,7 @@ class DAKApiHubGenerator:
                         <div class="schema-type valueset">ValueSet</div>
                         <h3>{doc['title']}</h3>
                         <p>{doc['description']}</p>
-                        <a href="{doc['html_file']}" target="_blank">View Documentation</a>
+                        <a href="{doc['html_file']}">View Documentation</a>
                     </div>
 """
                 html_content += """
@@ -1343,7 +1443,7 @@ class DAKApiHubGenerator:
                         <div class="schema-type logical-model">Logical Model</div>
                         <h3>{doc['title']}</h3>
                         <p>{doc['description']}</p>
-                        <a href="{doc['html_file']}" target="_blank">View Documentation</a>
+                        <a href="{doc['html_file']}">View Documentation</a>
                     </div>
 """
                 html_content += """
@@ -1370,7 +1470,7 @@ class DAKApiHubGenerator:
                         <div class="schema-type openapi">OpenAPI</div>
                         <h3>{doc['title']}</h3>
                         <p>{doc['description']}</p>
-                        <a href="{doc['html_file']}" target="_blank">View Documentation</a>
+                        <a href="{doc['html_file']}">View Documentation</a>
                     </div>
 """
                 html_content += """
@@ -1473,7 +1573,7 @@ def main():
             if wrapper_path:
                 # Generate ReDoc HTML
                 html_path = redoc_renderer.generate_redoc_html(wrapper_path, output_dir, 
-                                                             f"{schema.get('title', 'ValueSet')} Documentation")
+                                                             f"{schema.get('title', 'ValueSet')} Documentation", 'valueset')
                 if html_path:
                     schema_docs['valueset'].append({
                         'title': schema.get('title', os.path.basename(schema_path)),
@@ -1495,7 +1595,7 @@ def main():
             if wrapper_path:
                 # Generate ReDoc HTML
                 html_path = redoc_renderer.generate_redoc_html(wrapper_path, output_dir,
-                                                             f"{schema.get('title', 'Logical Model')} Documentation")
+                                                             f"{schema.get('title', 'Logical Model')} Documentation", 'logical_model')
                 if html_path:
                     schema_docs['logical_model'].append({
                         'title': schema.get('title', os.path.basename(schema_path)),
@@ -1532,7 +1632,7 @@ def main():
             if valueset_enum_wrapper:
                 # Generate ReDoc HTML for ValueSets enumeration
                 valueset_enum_html = redoc_renderer.generate_redoc_html(valueset_enum_wrapper, output_dir,
-                                                                       "ValueSets Enumeration API Documentation")
+                                                                       "ValueSets Enumeration API Documentation", 'valueset')
                 if valueset_enum_html:
                     enumeration_docs.append({
                         'title': 'ValueSets.schema.json',
@@ -1550,7 +1650,7 @@ def main():
             if logicalmodel_enum_wrapper:
                 # Generate ReDoc HTML for LogicalModels enumeration
                 logicalmodel_enum_html = redoc_renderer.generate_redoc_html(logicalmodel_enum_wrapper, output_dir,
-                                                                           "LogicalModels Enumeration API Documentation")
+                                                                           "LogicalModels Enumeration API Documentation", 'logical_model')
                 if logicalmodel_enum_html:
                     enumeration_docs.append({
                         'title': 'LogicalModels.schema.json',
