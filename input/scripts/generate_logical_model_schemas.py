@@ -226,11 +226,6 @@ class SchemaGenerator:
             "required": []
         }
         
-        # Add narrative with link to logical models listing
-        narrative_text = f"This schema validates data for the {logical_model.get('title', logical_model['name'])} Logical Model. "
-        narrative_text += f"For a complete listing of all Logical Models, see artifacts.html#structures-logical-models."
-        schema["narrative"] = narrative_text
-        
         # Add metadata
         if model_url:
             schema["fhir:logicalModel"] = model_url

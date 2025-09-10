@@ -760,11 +760,14 @@ class ReDocRenderer:
                             filename = schema_id
                         
                         # Determine the correct FHIR page link based on schema type
-                        if filename.startswith('ValueSet-'):
+                        # Individual schemas should link to their specific HTML pages
+                        # Only enumeration endpoints should link to artifacts.html sections
+                        if filename == 'ValueSets.schema.json':
                             fhir_url = "artifacts.html#terminology-value-sets"
-                        elif schema_type == 'logical_model':
+                        elif filename == 'LogicalModels.schema.json':
                             fhir_url = "artifacts.html#structures-logical-models"
                         else:
+                            # Individual schemas link to their specific HTML files
                             fhir_url = filename.replace('.schema.json', '.html')
                         
                         html_content += f"""
