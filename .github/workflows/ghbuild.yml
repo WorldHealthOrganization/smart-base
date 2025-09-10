@@ -30,6 +30,26 @@ on:
       tx:
         description: 'Optional Custom terminology server URL'
         required: false
+      generate_dmn_questionnaires:
+        description: 'Generate DMN Questionnaires (default: enabled for WHO repos, disabled for others)'
+        required: false
+        type: boolean
+      transform_dmn_files:
+        description: 'Transform DMN files to HTML (default: enabled for WHO repos, disabled for others)'
+        required: false
+        type: boolean
+      generate_valueset_schemas:
+        description: 'Generate ValueSet JSON Schemas (default: enabled for WHO repos, disabled for others)'
+        required: false
+        type: boolean
+      generate_logical_model_schemas:
+        description: 'Generate Logical Model JSON Schemas (default: enabled for WHO repos, disabled for others)'
+        required: false
+        type: boolean
+      generate_dak_api_hub:
+        description: 'Generate DAK API Documentation Hub (default: enabled for WHO repos, disabled for others)'
+        required: false
+        type: boolean
 
 # Prevent concurrent deployments to avoid race conditions when updating gh-pages branch
 concurrency:
@@ -101,6 +121,65 @@ jobs:
             echo "DEPLOY_URL=https://worldhealthorganization.github.io/${{ github.event.repository.name }}/branches/$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
           fi
 
+      - name: Set feature defaults based on repository owner
+        run: |
+          REPO_OWNER="${{ github.repository_owner }}"
+          echo "Repository owner: $REPO_OWNER"
+          
+          # Set defaults based on repository owner (enabled for WHO, disabled for others)
+          if [ "$REPO_OWNER" == "WorldHealthOrganization" ]; then
+            echo "WHO repository detected - enabling features by default"
+            echo "DEFAULT_GENERATE_DMN_QUESTIONNAIRES=true" >> $GITHUB_ENV
+            echo "DEFAULT_TRANSFORM_DMN_FILES=true" >> $GITHUB_ENV
+            echo "DEFAULT_GENERATE_VALUESET_SCHEMAS=true" >> $GITHUB_ENV
+            echo "DEFAULT_GENERATE_LOGICAL_MODEL_SCHEMAS=true" >> $GITHUB_ENV
+            echo "DEFAULT_GENERATE_DAK_API_HUB=true" >> $GITHUB_ENV
+          else
+            echo "Non-WHO repository detected - disabling features by default"
+            echo "DEFAULT_GENERATE_DMN_QUESTIONNAIRES=false" >> $GITHUB_ENV
+            echo "DEFAULT_TRANSFORM_DMN_FILES=false" >> $GITHUB_ENV
+            echo "DEFAULT_GENERATE_VALUESET_SCHEMAS=false" >> $GITHUB_ENV
+            echo "DEFAULT_GENERATE_LOGICAL_MODEL_SCHEMAS=false" >> $GITHUB_ENV
+            echo "DEFAULT_GENERATE_DAK_API_HUB=false" >> $GITHUB_ENV
+          fi
+          
+          # Determine final values (inputs override defaults)
+          ENABLE_DMN_QUESTIONNAIRES="${{ inputs.generate_dmn_questionnaires }}"
+          ENABLE_TRANSFORM_DMN="${{ inputs.transform_dmn_files }}"
+          ENABLE_VALUESET_SCHEMAS="${{ inputs.generate_valueset_schemas }}"
+          ENABLE_LOGICAL_MODEL_SCHEMAS="${{ inputs.generate_logical_model_schemas }}"
+          ENABLE_DAK_API_HUB="${{ inputs.generate_dak_api_hub }}"
+          
+          # Use input if provided, otherwise use default
+          if [ "$ENABLE_DMN_QUESTIONNAIRES" == "" ]; then
+            ENABLE_DMN_QUESTIONNAIRES="$DEFAULT_GENERATE_DMN_QUESTIONNAIRES"
+          fi
+          if [ "$ENABLE_TRANSFORM_DMN" == "" ]; then
+            ENABLE_TRANSFORM_DMN="$DEFAULT_TRANSFORM_DMN_FILES"
+          fi
+          if [ "$ENABLE_VALUESET_SCHEMAS" == "" ]; then
+            ENABLE_VALUESET_SCHEMAS="$DEFAULT_GENERATE_VALUESET_SCHEMAS"
+          fi
+          if [ "$ENABLE_LOGICAL_MODEL_SCHEMAS" == "" ]; then
+            ENABLE_LOGICAL_MODEL_SCHEMAS="$DEFAULT_GENERATE_LOGICAL_MODEL_SCHEMAS"
+          fi
+          if [ "$ENABLE_DAK_API_HUB" == "" ]; then
+            ENABLE_DAK_API_HUB="$DEFAULT_GENERATE_DAK_API_HUB"
+          fi
+          
+          echo "ENABLE_DMN_QUESTIONNAIRES=$ENABLE_DMN_QUESTIONNAIRES" >> $GITHUB_ENV
+          echo "ENABLE_TRANSFORM_DMN=$ENABLE_TRANSFORM_DMN" >> $GITHUB_ENV
+          echo "ENABLE_VALUESET_SCHEMAS=$ENABLE_VALUESET_SCHEMAS" >> $GITHUB_ENV
+          echo "ENABLE_LOGICAL_MODEL_SCHEMAS=$ENABLE_LOGICAL_MODEL_SCHEMAS" >> $GITHUB_ENV
+          echo "ENABLE_DAK_API_HUB=$ENABLE_DAK_API_HUB" >> $GITHUB_ENV
+          
+          echo "Final feature settings:"
+          echo "  Generate DMN Questionnaires: $ENABLE_DMN_QUESTIONNAIRES"
+          echo "  Transform DMN files: $ENABLE_TRANSFORM_DMN"
+          echo "  Generate ValueSet schemas: $ENABLE_VALUESET_SCHEMAS"
+          echo "  Generate Logical Model schemas: $ENABLE_LOGICAL_MODEL_SCHEMAS"
+          echo "  Generate DAK API hub: $ENABLE_DAK_API_HUB"
+
       - name: Comment on PR - Build Started
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
@@ -154,6 +233,7 @@ jobs:
           args: -c "mkdir -p ./fhir-package-cache && chown 1001:127 ./fhir-package-cache"
 
       - name: Generate DMN Questionnaires
+        if: env.ENABLE_DMN_QUESTIONNAIRES == 'true'
         run: |
           echo "Generating FHIR Questionnaires from DMN files before IG publisher runs..."
           
@@ -205,6 +285,7 @@ jobs:
           fi
 
       - name: Transform DMN files to HTML
+        if: env.ENABLE_TRANSFORM_DMN == 'true'
         run: |
           echo "Transforming DMN files to HTML before IG publisher runs..."
           
@@ -300,6 +381,7 @@ jobs:
             sh -c "$CMD"
 
       - name: Generate ValueSet JSON Schemas
+        if: env.ENABLE_VALUESET_SCHEMAS == 'true'
         run: |
           echo "Generating ValueSet schemas from expansions.json..."
           if [ -f "./output/expansions.json" ]; then
@@ -324,6 +406,7 @@ jobs:
           fi
 
       - name: Generate Logical Model JSON Schemas
+        if: env.ENABLE_LOGICAL_MODEL_SCHEMAS == 'true'
         run: |
           echo "Generating Logical Model schemas from StructureDefinition JSON files..."
           # Check if script exists locally first
@@ -345,6 +428,7 @@ jobs:
           fi
 
       - name: Generate DAK API Documentation Hub
+        if: env.ENABLE_DAK_API_HUB == 'true'
         run: |
           echo "Generating DAK API Documentation Hub..."
           # Install required Python dependencies
