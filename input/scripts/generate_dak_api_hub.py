@@ -693,8 +693,13 @@ class ReDocRenderer:
                     
                     # Add schema ID as link if available
                     if schema_id:
-                        # Convert schema ID to corresponding FHIR page
-                        fhir_url = schema_id.replace('.schema.json', '.html')
+                        # Convert schema ID to corresponding FHIR page (use relative URL)
+                        # Extract filename from absolute URL and replace extension
+                        if '/' in schema_id:
+                            filename = schema_id.split('/')[-1]
+                        else:
+                            filename = schema_id
+                        fhir_url = filename.replace('.schema.json', '.html')
                         html_content += f"""
                 <p><strong>Schema ID:</strong> <a href="{schema_id}" title="{schema_id}" target="_blank">{schema_id}</a></p>
                 <p><strong>FHIR Page:</strong> <a href="{fhir_url}" title="View full FHIR definition at {fhir_url}" target="_blank">{fhir_url}</a></p>"""

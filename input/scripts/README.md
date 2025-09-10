@@ -177,22 +177,46 @@ python input/scripts/generate_valueset_schemas.py path/to/expansions.json path/t
 ```
 
 **Output:**
-- Creates one JSON schema file per ValueSet in the output/schema directory: `{valueset-id}.schema.json`
-- Creates an index.html file at `output/schema/index.html` with links to all generated schemas
-- Each schema uses enum to constrain values to the expanded codes
+- Creates three files per ValueSet:
+  - `ValueSet-{id}.schema.json` - JSON schema with enum validation
+  - `ValueSet-{id}.displays.json` - Display values with multilingual support
+  - `ValueSet-{id}.system.json` - System URI mappings
+- Creates an index.html file with links to all generated schemas
+- Schema files use enum to constrain values to the expanded codes and reference display/system files
+- Display files use multilingual structure to support translations
 - Includes FHIR metadata (ValueSet URL, expansion timestamp, etc.)
 
-**Example generated schema:**
+**Example generated files:**
+
+Schema file (`ValueSet-example.schema.json`):
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "http://smart.who.int/base/ValueSet/example/schema",
+  "$id": "http://smart.who.int/base/ValueSet-example.schema.json",
   "title": "Example ValueSet Schema",
   "description": "JSON Schema for Example ValueSet codes. Generated from FHIR expansions.",
   "type": "string",
   "enum": ["code1", "code2", "code3"],
+  "fhir:displays": "http://smart.who.int/base/ValueSet-example.displays.json",
+  "fhir:system": "http://smart.who.int/base/ValueSet-example.system.json",
   "fhir:valueSet": "http://smart.who.int/base/ValueSet/example",
   "fhir:expansionTimestamp": "2023-01-01T00:00:00Z"
+}
+```
+
+Display file (`ValueSet-example.displays.json`):
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-example.displays.json",
+  "title": "Example ValueSet Display Values",
+  "description": "Display values for Example ValueSet codes. Generated from FHIR expansions.",
+  "fhir:displays": {
+    "code1": {"en": "Display One"},
+    "code2": {"en": "Display Two"},
+    "code3": {"en": "Display Three"}
+  },
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/example"
 }
 ```
 
