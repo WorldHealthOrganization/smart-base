@@ -514,19 +514,54 @@ class SchemaDocumentationRenderer:
                     with open(html_path, 'r', encoding='utf-8') as f:
                         html_content = f.read()
                     
-                    # Look for anchor patterns like id="CDHIv1-2.461.462" or similar
+                    # Look for anchor patterns in code definition tables
+                    # Pattern 1: id="CodeSystem-ID-code" (simple case)
+                    # Pattern 2: id="ID-code" (common IG Publisher pattern)
+                    # Pattern 3: code-specific patterns based on the actual HTML structure
                     import re
-                    # Pattern to find id attributes that likely correspond to codes
-                    anchor_pattern = rf'id="({re.escape(codesystem_id)}-[^"]+)"'
-                    matches = re.findall(anchor_pattern, html_content)
                     
-                    for match in matches:
-                        # Extract the code part after the codesystem ID
-                        if '-' in match:
-                            code_part = match.split('-', 1)[1]
-                            anchor_map[code_part] = match
+                    # Try different anchor patterns that might be used by IG Publisher
+                    patterns = [
+                        rf'id="({codesystem_id}-[^"]+)"',  # CodeSystem-ID-code
+                        rf'id="([^"]*-[0-9.]+[^"]*)"',     # Any ID with numeric codes
+                        rf'<tr[^>]*id="([^"]*{codesystem_id}[^"]*)"',  # Table rows with CodeSystem ID
+                        rf'<a[^>]*name="([^"]*)"[^>]*>.*?{re.escape(codesystem_id)}'  # Named anchors
+                    ]
+                    
+                    for pattern in patterns:
+                        matches = re.findall(pattern, html_content, re.IGNORECASE)
+                        for match in matches:
+                            # Extract potential code from the match
+                            if codesystem_id in match:
+                                # Split by the codesystem ID and take the part after it
+                                parts = match.split(codesystem_id, 1)
+                                if len(parts) > 1 and parts[1]:
+                                    code_part = parts[1].lstrip('-_.')
+                                    if code_part:
+                                        anchor_map[code_part] = match
+                            else:
+                                # For patterns that don't include the codesystem ID
+                                # Try to extract numeric codes
+                                code_match = re.search(r'[0-9]+(?:\.[0-9]+)*', match)
+                                if code_match:
+                                    code = code_match.group()
+                                    anchor_map[code] = match
+                    
+                    # If we still don't have anchors, try a more generic approach
+                    if not anchor_map:
+                        # Look for any table cells or elements that might contain codes
+                        td_pattern = r'<td[^>]*>([0-9]+(?:\.[0-9]+)*)</td>'
+                        code_matches = re.findall(td_pattern, html_content)
+                        for code in code_matches:
+                            # Create a best-guess anchor
+                            anchor_map[code] = f"{codesystem_id}-{code}"
                 
                 self.logger.info(f"Found {len(anchor_map)} anchor mappings for CodeSystem {codesystem_id}")
+                if anchor_map:
+                    # Log a few examples for debugging
+                    sample_mappings = list(anchor_map.items())[:3]
+                    self.logger.info(f"Sample mappings: {sample_mappings}")
+                    
         except Exception as e:
             self.logger.warning(f"Could not load CodeSystem anchors for {codesystem_url}: {e}")
         
@@ -761,46 +796,6 @@ details pre {{
         except Exception as e:
             self.logger.error(f"Error generating schema documentation for {schema_path}: {e}")
             return ""
-        """
-        Attempt to find anchor mappings for codes in a CodeSystem HTML file.
-        
-        Args:
-            codesystem_url: The canonical URL of the CodeSystem
-            output_dir: Directory where HTML files are located
-            
-        Returns:
-            Dictionary mapping codes to their anchor names
-        """
-        anchor_map = {}
-        
-        try:
-            # Extract CodeSystem ID from URL
-            if '/CodeSystem/' in codesystem_url:
-                codesystem_id = codesystem_url.split('/CodeSystem/')[-1]
-                html_filename = f"CodeSystem-{codesystem_id}.html"
-                html_path = os.path.join(output_dir, html_filename)
-                
-                if os.path.exists(html_path):
-                    with open(html_path, 'r', encoding='utf-8') as f:
-                        html_content = f.read()
-                    
-                    # Look for anchor patterns like id="CDHIv1-2.461.462" or similar
-                    import re
-                    # Pattern to find id attributes that likely correspond to codes
-                    anchor_pattern = rf'id="({re.escape(codesystem_id)}-[^"]+)"'
-                    matches = re.findall(anchor_pattern, html_content)
-                    
-                    for match in matches:
-                        # Extract the code part after the codesystem ID
-                        if '-' in match:
-                            code_part = match.split('-', 1)[1]
-                            anchor_map[code_part] = match
-                
-                self.logger.info(f"Found {len(anchor_map)} anchor mappings for CodeSystem {codesystem_id}")
-        except Exception as e:
-            self.logger.warning(f"Could not load CodeSystem anchors for {codesystem_url}: {e}")
-        
-        return anchor_map
     
     def generate_redoc_html(self, openapi_path: str, output_dir: str, title: str = None, schema_type: str = None) -> Optional[str]:
         """
@@ -1703,7 +1698,7 @@ def main():
         template_size = os.path.getsize(dak_api_html_path)
         logger.info(f"Template file size: {template_size} bytes")
     
-    # Process ValueSet schemas
+    # Process ValueSet schemas (collect metadata only - don't create individual HTML files)
     logger.info(f"Processing {len(schemas['valueset'])} ValueSet schemas...")
     for i, schema_path in enumerate(schemas['valueset'], 1):
         logger.info(f"Processing ValueSet schema {i}/{len(schemas['valueset'])}: {schema_path}")
@@ -1717,45 +1712,27 @@ def main():
             logger.info(f"  Schema name: {schema_name}")
             logger.info(f"  Schema title: {schema.get('title', 'No title')}")
             
-            # Generate schema documentation content
-            logger.info(f"  Generating documentation content...")
-            doc_content = schema_doc_renderer.generate_schema_documentation_html(schema_path, 'valueset', output_dir)
+            # Individual schema pages should be created by IG publisher, not here
+            # We only collect metadata for the hub documentation
+            title = schema.get('title', f"{schema_name} Schema Documentation")
             
-            if doc_content:
-                logger.info(f"  Generated content length: {len(doc_content)} characters")
-                # Create individual HTML file using dak-api.html as template
-                html_filename = f"{schema_name}.html"
-                html_path = os.path.join(output_dir, html_filename)
-                
-                # Create HTML content using template
-                title = schema.get('title', f"{schema_name} Schema Documentation")
-                logger.info(f"  Creating HTML page with title: {title}")
-                html_content = html_processor.create_html_template_from_existing(dak_api_html_path, title, doc_content)
-                
-                if html_content:
-                    logger.info(f"  Generated HTML content length: {len(html_content)} characters")
-                    # Save the individual schema HTML file
-                    with open(html_path, 'w', encoding='utf-8') as f:
-                        f.write(html_content)
-                    
-                    logger.info(f"  ✅ Created ValueSet schema HTML: {html_path}")
-                    
-                    schema_docs['valueset'].append({
-                        'title': title,
-                        'description': schema.get('description', 'ValueSet schema documentation'),
-                        'html_file': html_filename
-                    })
-                else:
-                    logger.error(f"  ❌ Failed to create HTML content for {schema_name}")
-            else:
-                logger.error(f"  ❌ Failed to generate documentation content for {schema_name}")
+            # Individual schemas should link to their IG-generated HTML files
+            html_filename = f"{schema_name}.html"
+            
+            schema_docs['valueset'].append({
+                'title': title,
+                'description': schema.get('description', 'ValueSet schema documentation'),
+                'html_file': html_filename
+            })
+            
+            logger.info(f"  ✅ Added ValueSet schema to hub documentation: {schema_name}")
                 
         except Exception as e:
             logger.error(f"  ❌ Error processing ValueSet schema {schema_path}: {e}")
             import traceback
             logger.error(f"  Traceback: {traceback.format_exc()}")
     
-    # Process Logical Model schemas
+    # Process Logical Model schemas (collect metadata only - don't create individual HTML files)
     logger.info(f"Processing {len(schemas['logical_model'])} Logical Model schemas...")
     for i, schema_path in enumerate(schemas['logical_model'], 1):
         logger.info(f"Processing Logical Model schema {i}/{len(schemas['logical_model'])}: {schema_path}")
@@ -1769,38 +1746,20 @@ def main():
             logger.info(f"  Schema name: {schema_name}")
             logger.info(f"  Schema title: {schema.get('title', 'No title')}")
             
-            # Generate schema documentation content
-            logger.info(f"  Generating documentation content...")
-            doc_content = schema_doc_renderer.generate_schema_documentation_html(schema_path, 'logical_model', output_dir)
+            # Individual schema pages should be created by IG publisher, not here
+            # We only collect metadata for the hub documentation
+            title = schema.get('title', f"{schema_name} Schema Documentation")
             
-            if doc_content:
-                logger.info(f"  Generated content length: {len(doc_content)} characters")
-                # Create individual HTML file using dak-api.html as template
-                html_filename = f"{schema_name}.html"
-                html_path = os.path.join(output_dir, html_filename)
-                
-                # Create HTML content using template
-                title = schema.get('title', f"{schema_name} Schema Documentation")
-                logger.info(f"  Creating HTML page with title: {title}")
-                html_content = html_processor.create_html_template_from_existing(dak_api_html_path, title, doc_content)
-                
-                if html_content:
-                    logger.info(f"  Generated HTML content length: {len(html_content)} characters")
-                    # Save the individual schema HTML file
-                    with open(html_path, 'w', encoding='utf-8') as f:
-                        f.write(html_content)
-                    
-                    logger.info(f"  ✅ Created Logical Model schema HTML: {html_path}")
-                    
-                    schema_docs['logical_model'].append({
-                        'title': title,
-                        'description': schema.get('description', 'Logical Model schema documentation'),
-                        'html_file': html_filename
-                    })
-                else:
-                    logger.error(f"  ❌ Failed to create HTML content for {schema_name}")
-            else:
-                logger.error(f"  ❌ Failed to generate documentation content for {schema_name}")
+            # Individual schemas should link to their IG-generated HTML files
+            html_filename = f"{schema_name}.html"
+            
+            schema_docs['logical_model'].append({
+                'title': title,
+                'description': schema.get('description', 'Logical Model schema documentation'),
+                'html_file': html_filename
+            })
+            
+            logger.info(f"  ✅ Added Logical Model schema to hub documentation: {schema_name}")
                 
         except Exception as e:
             logger.error(f"  ❌ Error processing Logical Model schema {schema_path}: {e}")
@@ -1831,34 +1790,15 @@ def main():
         valueset_enum_path = hub_generator.create_enumeration_schema('valueset', schemas['valueset'], output_dir)
         if valueset_enum_path:
             logger.info(f"Created ValueSets enumeration schema: {valueset_enum_path}")
-            # Generate enumeration documentation content
-            doc_content = schema_doc_renderer.generate_schema_documentation_html(valueset_enum_path, 'valueset', output_dir)
             
-            if doc_content:
-                logger.info(f"Generated enumeration documentation content length: {len(doc_content)} characters")
-                # Create enumeration HTML file
-                html_filename = "ValueSets-enumeration.html"
-                html_path = os.path.join(output_dir, html_filename)
-                
-                title = "ValueSets Enumeration API Documentation"
-                html_content = html_processor.create_html_template_from_existing(dak_api_html_path, title, doc_content)
-                
-                if html_content:
-                    with open(html_path, 'w', encoding='utf-8') as f:
-                        f.write(html_content)
-                    
-                    logger.info(f"✅ Created ValueSets enumeration HTML: {html_path}")
-                    
-                    enumeration_docs.append({
-                        'title': 'ValueSets.schema.json',
-                        'description': 'Enumeration of all available ValueSet schemas',
-                        'html_file': html_filename,
-                        'type': 'enumeration-valueset'
-                    })
-                else:
-                    logger.error("❌ Failed to create ValueSets enumeration HTML content")
-            else:
-                logger.error("❌ Failed to generate ValueSets enumeration documentation content")
+            # Add to enumeration docs (IG publisher should create the HTML)
+            enumeration_docs.append({
+                'title': 'ValueSets.schema.json',
+                'description': 'Enumeration of all available ValueSet schemas',
+                'html_file': 'ValueSets-enumeration.html',  # This should be created by IG publisher
+                'type': 'enumeration-valueset'
+            })
+            logger.info(f"✅ Added ValueSets enumeration to hub documentation")
         else:
             logger.error("❌ Failed to create ValueSets enumeration schema")
     else:
@@ -1870,34 +1810,15 @@ def main():
         logicalmodel_enum_path = hub_generator.create_enumeration_schema('logical_model', schemas['logical_model'], output_dir)
         if logicalmodel_enum_path:
             logger.info(f"Created LogicalModels enumeration schema: {logicalmodel_enum_path}")
-            # Generate enumeration documentation content
-            doc_content = schema_doc_renderer.generate_schema_documentation_html(logicalmodel_enum_path, 'logical_model', output_dir)
             
-            if doc_content:
-                logger.info(f"Generated enumeration documentation content length: {len(doc_content)} characters")
-                # Create enumeration HTML file
-                html_filename = "LogicalModels-enumeration.html"
-                html_path = os.path.join(output_dir, html_filename)
-                
-                title = "LogicalModels Enumeration API Documentation"
-                html_content = html_processor.create_html_template_from_existing(dak_api_html_path, title, doc_content)
-                
-                if html_content:
-                    with open(html_path, 'w', encoding='utf-8') as f:
-                        f.write(html_content)
-                    
-                    logger.info(f"✅ Created LogicalModels enumeration HTML: {html_path}")
-                    
-                    enumeration_docs.append({
-                        'title': 'LogicalModels.schema.json',
-                        'description': 'Enumeration of all available Logical Model schemas',
-                        'html_file': html_filename,
-                        'type': 'enumeration-logicalmodel'
-                    })
-                else:
-                    logger.error("❌ Failed to create LogicalModels enumeration HTML content")
-            else:
-                logger.error("❌ Failed to generate LogicalModels enumeration documentation content")
+            # Add to enumeration docs (IG publisher should create the HTML)
+            enumeration_docs.append({
+                'title': 'LogicalModels.schema.json',
+                'description': 'Enumeration of all available Logical Model schemas',
+                'html_file': 'LogicalModels-enumeration.html',  # This should be created by IG publisher
+                'type': 'enumeration-logicalmodel'
+            })
+            logger.info(f"✅ Added LogicalModels enumeration to hub documentation")
         else:
             logger.error("❌ Failed to create LogicalModels enumeration schema")
     else:
