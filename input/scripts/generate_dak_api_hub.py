@@ -1168,6 +1168,214 @@ class DAKApiHubGenerator:
             self.logger.error(f"Error creating enumeration schema for {schema_type}: {e}")
             return None
     
+    def generate_hub_html_content(self, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None) -> str:
+        """
+        Generate HTML content for the DAK API hub page.
+        
+        Args:
+            schema_docs: Dictionary with schema documentation info
+            openapi_docs: List of OpenAPI documentation info
+            enumeration_docs: List of enumeration endpoint documentation info
+            
+        Returns:
+            HTML content as a string
+        """
+        if enumeration_docs is None:
+            enumeration_docs = []
+        
+        # Start building the HTML content
+        html_content = """
+<div class="dak-api-hub">
+    <h2>DAK API Documentation Hub</h2>
+    
+    <p>This page provides comprehensive documentation for all available DAK (Data Access Kit) API endpoints and schemas. 
+    The DAK API provides structured access to ValueSet enumerations and Logical Model definitions used throughout this implementation guide.</p>
+"""
+        
+        # Add API Enumeration Endpoints section
+        if enumeration_docs:
+            html_content += """
+    <h3>API Enumeration Endpoints</h3>
+    
+    <p>These endpoints provide lists of all available schemas of each type:</p>
+    
+    <div class="enumeration-endpoints">
+"""
+            for enum_doc in enumeration_docs:
+                html_content += f"""
+        <div class="endpoint-card">
+            <h4><a href="{enum_doc['html_file']}">{enum_doc['title']}</a></h4>
+            <p>{enum_doc['description']}</p>
+        </div>
+"""
+            html_content += """
+    </div>
+"""
+        
+        # Add ValueSet Schemas section
+        if schema_docs['valueset']:
+            html_content += f"""
+    <h3>ValueSet Schemas ({len(schema_docs['valueset'])} available)</h3>
+    
+    <p>JSON Schema definitions for FHIR ValueSets, providing structured enumeration of allowed code values:</p>
+    
+    <div class="schema-grid">
+"""
+            for schema_doc in schema_docs['valueset']:
+                html_content += f"""
+        <div class="schema-card">
+            <h4><a href="{schema_doc['html_file']}">{schema_doc['title']}</a></h4>
+            <p>{schema_doc['description']}</p>
+        </div>
+"""
+            html_content += """
+    </div>
+"""
+        
+        # Add Logical Model Schemas section
+        if schema_docs['logical_model']:
+            html_content += f"""
+    <h3>Logical Model Schemas ({len(schema_docs['logical_model'])} available)</h3>
+    
+    <p>JSON Schema definitions for FHIR Logical Models, defining structured data elements and their relationships:</p>
+    
+    <div class="schema-grid">
+"""
+            for schema_doc in schema_docs['logical_model']:
+                html_content += f"""
+        <div class="schema-card">
+            <h4><a href="{schema_doc['html_file']}">{schema_doc['title']}</a></h4>
+            <p>{schema_doc['description']}</p>
+        </div>
+"""
+            html_content += """
+    </div>
+"""
+        
+        # Add OpenAPI Documentation section (if any)
+        if openapi_docs:
+            html_content += f"""
+    <h3>OpenAPI Documentation ({len(openapi_docs)} available)</h3>
+    
+    <p>Interactive API documentation for REST endpoints:</p>
+    
+    <div class="api-grid">
+"""
+            for api_doc in openapi_docs:
+                html_content += f"""
+        <div class="api-card">
+            <h4><a href="{api_doc['html_file']}">{api_doc['title']}</a></h4>
+            <p>{api_doc['description']}</p>
+        </div>
+"""
+            html_content += """
+    </div>
+"""
+        
+        # Add usage information
+        html_content += """
+    <h3>Using the DAK API</h3>
+    
+    <div class="usage-info">
+        <h4>Schema Validation</h4>
+        <p>Each JSON Schema can be used to validate data structures in your applications. 
+        The schemas follow the JSON Schema Draft 2020-12 specification and include:</p>
+        <ul>
+            <li>Type definitions and constraints</li>
+            <li>Property descriptions and examples</li>
+            <li>Required field specifications</li>
+            <li>Enumeration values with links to definitions</li>
+        </ul>
+        
+        <h4>Integration with FHIR</h4>
+        <p>All schemas are derived from the FHIR definitions in this implementation guide. 
+        Each schema page includes links to the corresponding FHIR resource definitions for complete context.</p>
+        
+        <h4>API Endpoints</h4>
+        <p>The enumeration endpoints provide machine-readable lists of all available schemas, 
+        making it easy to discover and integrate with the available data structures programmatically.</p>
+    </div>
+</div>
+
+<style>
+/* DAK API Hub styling that integrates with IG theme */
+.dak-api-hub {
+    margin: 1rem 0;
+}
+
+.enumeration-endpoints, .schema-grid, .api-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.endpoint-card, .schema-card, .api-card {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 1rem;
+    background: #f8f9fa;
+    transition: box-shadow 0.2s ease;
+}
+
+.endpoint-card:hover, .schema-card:hover, .api-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.endpoint-card h4, .schema-card h4, .api-card h4 {
+    margin: 0 0 0.5rem 0;
+    color: #00477d;
+}
+
+.endpoint-card h4 a, .schema-card h4 a, .api-card h4 a {
+    color: #00477d;
+    text-decoration: none;
+}
+
+.endpoint-card h4 a:hover, .schema-card h4 a:hover, .api-card h4 a:hover {
+    color: #0070A1;
+    text-decoration: underline;
+}
+
+.endpoint-card p, .schema-card p, .api-card p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.usage-info {
+    background: #e7f3ff;
+    border: 1px solid #b8daff;
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.usage-info h4 {
+    color: #00477d;
+    margin-top: 1rem;
+}
+
+.usage-info h4:first-child {
+    margin-top: 0;
+}
+
+.usage-info ul {
+    margin: 0.5rem 0;
+}
+
+.usage-info li {
+    margin: 0.25rem 0;
+}
+</style>
+
+<hr>
+
+<p><em>This documentation hub is automatically generated from the available schema and API definitions.</em></p>
+"""
+        
+        return html_content
+    
     def post_process_dak_api_html(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None) -> bool:
         """
         Post-process the dak-api.html file to inject DAK API content.
