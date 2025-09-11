@@ -340,17 +340,21 @@ def generate_display_file(valueset_resource: Dict[str, Any], codes_with_display:
     else:
         display_id = f"#ValueSet-{valueset_id}-displays"
     
-    # Extract displays with multilingual structure support (no system URIs)
+    # Extract displays with multilingual structure support using IRI format to match schema enum values
     displays = {}
     
     for item in codes_with_display:
         code = item['code']
         display = item['display']
+        system = item.get('system', '')
+        
+        # Generate canonical IRI for the code using same logic as JSON schema enum values
+        code_iri = generate_canonical_iri(code, valueset_url, system)
         
         # Structure displays to support multiple languages
         # For now, use 'en' as the default language since FHIR expansions typically contain English text
         # This structure allows for easy addition of other languages later
-        displays[code] = {
+        displays[code_iri] = {
             "en": display
         }
     
@@ -363,11 +367,11 @@ def generate_display_file(valueset_resource: Dict[str, Any], codes_with_display:
         "properties": {
             "fhir:displays": {
                 "type": "object",
-                "description": "Multilingual display values for ValueSet codes",
+                "description": "Multilingual display values for ValueSet codes using IRI format to match JSON schema enum values",
                 "patternProperties": {
-                    "^[a-zA-Z0-9._-]+$": {
+                    "^https?://.*": {
                         "type": "object",
-                        "description": "Display values for a specific code by language",
+                        "description": "Display values for a specific IRI-formatted code by language",
                         "properties": {
                             "en": {
                                 "type": "string",

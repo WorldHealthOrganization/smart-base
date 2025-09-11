@@ -7,11 +7,11 @@
   "properties": {
     "fhir:displays": {
       "type": "object",
-      "description": "Multilingual display values for ValueSet codes",
+      "description": "Multilingual display values for ValueSet codes using IRI format to match JSON schema enum values",
       "patternProperties": {
-        "^[a-zA-Z0-9._-]+$": {
+        "^https?://.*": {
           "type": "object",
-          "description": "Display values for a specific code by language",
+          "description": "Display values for a specific IRI-formatted code by language",
           "properties": {
             "en": {
               "type": "string",
@@ -35,13 +35,13 @@
   ],
   "additionalProperties": true,
   "fhir:displays": {
-    "1.0": {
+    "http://smart.who.int/base/CodeSystem/CDHIv1#1.0": {
       "en": "Clients"
     },
-    "1.1": {
+    "http://smart.who.int/base/CodeSystem/CDHIv1#1.1": {
       "en": "Targeted client communication"
     },
-    "2.0": {
+    "http://smart.who.int/base/CodeSystem/CDHIv1#2.0": {
       "en": "Health workers"
     }
   },
