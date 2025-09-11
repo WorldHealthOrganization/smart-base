@@ -1,44 +1,22 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "ValueSets Enumeration API",
-    "description": "API endpoint providing an enumeration of all available ValueSet schemas",
+    "title": "ValueSet Enumeration Schema API",
+    "description": "JSON Schema defining the structure of the ValueSet enumeration endpoint response",
     "version": "1.0.0"
   },
   "paths": {
     "/ValueSets.schema.json": {
       "get": {
-        "summary": "Get enumeration of all ValueSet schemas",
-        "description": "Returns a list of all available ValueSet schemas with metadata",
+        "summary": "JSON Schema definition for the enumeration ValueSets",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSets.",
         "responses": {
           "200": {
-            "description": "Successfully retrieved valueset enumeration",
+            "description": "The JSON Schema for ValueSets",
             "content": {
-              "application/json": {
+              "application/schema+json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EnumerationResponse"
-                },
-                "example": {
-                  "type": "valueset",
-                  "count": 2,
-                  "schemas": [
-                    {
-                      "filename": "ValueSets.schema.json",
-                      "id": "#/ValueSets.schema.json",
-                      "title": "ValueSet Enumeration Schema",
-                      "description": "JSON Schema defining the structure of the ValueSet enumeration endpoint response",
-                      "url": "./ValueSets.schema.json"
-                    },
-                    {
-                      "filename": "ValueSet-CDHIv1.schema.json",
-                      "id": "http://smart.who.int/base/ValueSet-CDHIv1.schema.json",
-                      "title": "Classification of Digital Health Interventions v1 Schema",
-                      "description": "JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions using IRI format.",
-                      "url": "./ValueSet-CDHIv1.schema.json",
-                      "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv1",
-                      "codeCount": 3
-                    }
-                  ]
+                  "$ref": "./ValueSets.schema.json"
                 }
               }
             }
@@ -49,7 +27,7 @@
   },
   "components": {
     "schemas": {
-      "EnumerationResponse": {
+      "ValueSets": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": "#/ValueSets.schema.json",
         "title": "ValueSet Enumeration Schema",
@@ -115,20 +93,13 @@
         ],
         "example": {
           "type": "valueset",
-          "count": 2,
+          "count": 1,
           "schemas": [
-            {
-              "filename": "ValueSets.schema.json",
-              "id": "#/ValueSets.schema.json",
-              "title": "ValueSet Enumeration Schema",
-              "description": "JSON Schema defining the structure of the ValueSet enumeration endpoint response",
-              "url": "./ValueSets.schema.json"
-            },
             {
               "filename": "ValueSet-CDHIv1.schema.json",
               "id": "http://smart.who.int/base/ValueSet-CDHIv1.schema.json",
               "title": "Classification of Digital Health Interventions v1 Schema",
-              "description": "JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions using IRI format.",
+              "description": "JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions.",
               "url": "./ValueSet-CDHIv1.schema.json",
               "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv1",
               "codeCount": 3
