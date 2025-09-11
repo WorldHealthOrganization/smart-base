@@ -81,6 +81,28 @@ class SchemaDetector:
         self.logger.info(f"Found {len(schemas['other'])} other schemas")
         
         return schemas
+    
+    def find_jsonld_files(self, output_dir: str) -> List[str]:
+        """
+        Find all JSON-LD vocabulary files in the output directory.
+        
+        Returns:
+            List of JSON-LD file paths
+        """
+        jsonld_files = []
+        
+        if not os.path.exists(output_dir):
+            self.logger.warning(f"Output directory does not exist: {output_dir}")
+            return jsonld_files
+        
+        for file in os.listdir(output_dir):
+            if file.endswith('.jsonld') and file.startswith('ValueSet-'):
+                file_path = os.path.join(output_dir, file)
+                jsonld_files.append(file_path)
+        
+        self.logger.info(f"Found {len(jsonld_files)} JSON-LD vocabulary files")
+        
+        return jsonld_files
 
 
 class OpenAPIDetector:
@@ -1168,7 +1190,7 @@ class DAKApiHubGenerator:
             self.logger.error(f"Error creating enumeration schema for {schema_type}: {e}")
             return None
     
-    def generate_hub_html_content(self, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None) -> str:
+    def generate_hub_html_content(self, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None, jsonld_docs: List[Dict] = None) -> str:
         """
         Generate HTML content for the DAK API hub page.
         
@@ -1176,12 +1198,15 @@ class DAKApiHubGenerator:
             schema_docs: Dictionary with schema documentation info
             openapi_docs: List of OpenAPI documentation info
             enumeration_docs: List of enumeration endpoint documentation info
+            jsonld_docs: List of JSON-LD vocabulary documentation info
             
         Returns:
             HTML content as a string
         """
         if enumeration_docs is None:
             enumeration_docs = []
+        if jsonld_docs is None:
+            jsonld_docs = []
         
         # Start building the HTML content
         html_content = """
@@ -1252,6 +1277,27 @@ class DAKApiHubGenerator:
     </div>
 """
         
+        # Add JSON-LD Vocabularies section
+        if jsonld_docs:
+            html_content += f"""
+    <h3>JSON-LD Vocabularies ({len(jsonld_docs)} available)</h3>
+    
+    <p>Semantic web vocabularies that define enumeration classes and properties for ValueSet codes. 
+    Each vocabulary follows the JSON-LD 1.1 specification and provides:</p>
+    
+    <div class="schema-grid">
+"""
+            for jsonld_doc in jsonld_docs:
+                html_content += f"""
+        <div class="schema-card">
+            <h4><a href="{jsonld_doc['filename']}">{jsonld_doc['title']}</a></h4>
+            <p>{jsonld_doc['description']}</p>
+        </div>
+"""
+            html_content += """
+    </div>
+"""
+        
         # Add OpenAPI Documentation section (if any)
         if openapi_docs:
             html_content += f"""
@@ -1285,6 +1331,15 @@ class DAKApiHubGenerator:
             <li>Property descriptions and examples</li>
             <li>Required field specifications</li>
             <li>Enumeration values with links to definitions</li>
+        </ul>
+        
+        <h4>JSON-LD Semantic Integration</h4>
+        <p>The JSON-LD vocabularies provide semantic web integration for ValueSet enumerations. Each vocabulary includes:</p>
+        <ul>
+            <li>Enumeration class definitions with schema.org compatibility</li>
+            <li>Individual code instances with canonical IRIs</li>
+            <li>Property definitions with range constraints</li>
+            <li>FHIR metadata integration (system URIs, ValueSet references)</li>
         </ul>
         
         <h4>Integration with FHIR</h4>
@@ -1376,7 +1431,7 @@ class DAKApiHubGenerator:
         
         return html_content
     
-    def post_process_dak_api_html(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None) -> bool:
+    def post_process_dak_api_html(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None, jsonld_docs: List[Dict] = None) -> bool:
         """
         Post-process the dak-api.html file to inject DAK API content.
         
@@ -1385,6 +1440,7 @@ class DAKApiHubGenerator:
             schema_docs: Dictionary with schema documentation info
             openapi_docs: List of OpenAPI documentation info
             enumeration_docs: List of enumeration endpoint documentation info
+            jsonld_docs: List of JSON-LD vocabulary documentation info
             
         Returns:
             True if successful, False otherwise
@@ -1392,6 +1448,8 @@ class DAKApiHubGenerator:
         try:
             if enumeration_docs is None:
                 enumeration_docs = []
+            if jsonld_docs is None:
+                jsonld_docs = []
             
             # Check if dak-api.html exists
             dak_api_html_path = os.path.join(output_dir, "dak-api.html")
@@ -1400,7 +1458,7 @@ class DAKApiHubGenerator:
                 return False
             
             # Generate the HTML content for the hub
-            hub_content = self.generate_hub_html_content(schema_docs, openapi_docs, enumeration_docs)
+            hub_content = self.generate_hub_html_content(schema_docs, openapi_docs, enumeration_docs, jsonld_docs)
             
             # Create HTML processor to inject content
             html_processor = HTMLProcessor(self.logger, output_dir)
@@ -1446,6 +1504,9 @@ def main():
     
     # Find schema files
     schemas = schema_detector.find_schema_files(output_dir)
+    
+    # Find JSON-LD vocabulary files
+    jsonld_files = schema_detector.find_jsonld_files(output_dir)
     
     # Find existing OpenAPI files
     openapi_files = openapi_detector.find_openapi_files(openapi_dir)
@@ -1611,11 +1672,45 @@ def main():
                         'type': 'enumeration-logicalmodel'
                     })
     
+    # Process JSON-LD vocabulary files
+    jsonld_docs = []
+    for jsonld_path in jsonld_files:
+        try:
+            # Load JSON-LD vocabulary to get metadata
+            with open(jsonld_path, 'r', encoding='utf-8') as f:
+                jsonld_vocab = json.load(f)
+            
+            jsonld_filename = os.path.basename(jsonld_path)
+            
+            # Extract title and description from the enumeration class in the @graph
+            title = jsonld_filename
+            description = "JSON-LD vocabulary for ValueSet enumeration"
+            
+            if '@graph' in jsonld_vocab and isinstance(jsonld_vocab['@graph'], list):
+                for item in jsonld_vocab['@graph']:
+                    if isinstance(item, dict) and item.get('type') == 'schema:Enumeration':
+                        if 'name' in item:
+                            title = f"{item['name']} JSON-LD Vocabulary"
+                        if 'comment' in item:
+                            description = item['comment']
+                        break
+            
+            jsonld_docs.append({
+                'title': title,
+                'description': description,
+                'filename': jsonld_filename
+            })
+            
+            logger.info(f"Added JSON-LD vocabulary to documentation: {jsonld_filename}")
+            
+        except Exception as e:
+            logger.error(f"Error processing JSON-LD vocabulary {jsonld_path}: {e}")
+    
     # Post-process the DAK API hub
-    success = hub_generator.post_process_dak_api_html(output_dir, schema_docs, openapi_docs, enumeration_docs)
+    success = hub_generator.post_process_dak_api_html(output_dir, schema_docs, openapi_docs, enumeration_docs, jsonld_docs)
     
     if success:
-        total_docs = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(openapi_docs) + len(enumeration_docs)
+        total_docs = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(openapi_docs) + len(enumeration_docs) + len(jsonld_docs)
         logger.info(f"Successfully post-processed DAK API hub with {total_docs} documentation pages")
         sys.exit(0)
     else:
