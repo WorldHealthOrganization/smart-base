@@ -561,6 +561,8 @@ jobs:
           
           if [ "$HAVE_SCHEMAS" = true ] || [ "$VALUESET_SCHEMAS_GENERATED" = true ] || [ "$LOGICAL_MODEL_SCHEMAS_GENERATED" = true ] || [ "$JSONLD_VOCABULARIES_GENERATED" = true ]; then
             # Install required Python dependencies
+            # Note: beautifulsoup4 is required for HTML processing
+            # pyyaml was removed as dependency in latest version but kept for backward compatibility
             pip install pyyaml beautifulsoup4
             
             # Check if script exists locally first

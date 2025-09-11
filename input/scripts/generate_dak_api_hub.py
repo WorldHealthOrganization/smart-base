@@ -23,7 +23,6 @@ import json
 import os
 import sys
 import logging
-import yaml
 import re
 from typing import Dict, List, Optional, Any, Tuple
 from pathlib import Path
@@ -150,7 +149,7 @@ class OpenAPIDetector:
         self.logger = logger
     
     def find_openapi_files(self, openapi_dir: str) -> List[str]:
-        """Find OpenAPI/Swagger files in the given directory, including generated .openapi.yaml files."""
+        """Find OpenAPI/Swagger files in the given directory, including generated .openapi.json files."""
         openapi_files = []
         
         if not os.path.exists(openapi_dir):
@@ -161,9 +160,10 @@ class OpenAPIDetector:
         
         for root, dirs, files in os.walk(openapi_dir):
             for file in files:
-                # Include generated OpenAPI wrapper files
-                if (file.endswith(('.yaml', '.yml', '.json')) and 
-                    ('openapi' in file.lower() or 'swagger' in file.lower() or file.endswith('.openapi.yaml'))):
+                # Include generated OpenAPI wrapper files - prioritize JSON format
+                if (file.endswith(('.json', '.yaml', '.yml')) and 
+                    ('openapi' in file.lower() or 'swagger' in file.lower() or 
+                     file.endswith('.openapi.json') or file.endswith('.openapi.yaml'))):
                     full_path = os.path.join(root, file)
                     openapi_files.append(full_path)
                     self.logger.info(f"Found OpenAPI file: {file}")
@@ -247,11 +247,11 @@ class OpenAPIWrapper:
             }
             
             # Save OpenAPI wrapper
-            wrapper_filename = f"{schema_name}.openapi.yaml"
+            wrapper_filename = f"{schema_name}.openapi.json"
             wrapper_path = os.path.join(output_dir, wrapper_filename)
             
             with open(wrapper_path, 'w', encoding='utf-8') as f:
-                yaml.dump(openapi_spec, f, default_flow_style=False, sort_keys=False)
+                json.dump(openapi_spec, f, indent=2, ensure_ascii=False)
             
             self.logger.info(f"Created OpenAPI wrapper: {wrapper_path}")
             return wrapper_path
@@ -331,14 +331,14 @@ class OpenAPIWrapper:
             
             # Save OpenAPI wrapper
             if schema_type == 'valueset':
-                wrapper_filename = "ValueSets-enumeration.openapi.yaml"
+                wrapper_filename = "ValueSets-enumeration.openapi.json"
             else:
-                wrapper_filename = "LogicalModels-enumeration.openapi.yaml"
+                wrapper_filename = "LogicalModels-enumeration.openapi.json"
                 
             wrapper_path = os.path.join(output_dir, wrapper_filename)
             
             with open(wrapper_path, 'w', encoding='utf-8') as f:
-                yaml.dump(openapi_spec, f, default_flow_style=False, sort_keys=False)
+                json.dump(openapi_spec, f, indent=2, ensure_ascii=False)
             
             self.logger.info(f"Created enumeration OpenAPI wrapper: {wrapper_path}")
             return wrapper_path
@@ -788,7 +788,7 @@ details pre {{
         """
         try:
             openapi_filename = os.path.basename(openapi_path)
-            spec_name = openapi_filename.replace('.openapi.yaml', '').replace('.yaml', '').replace('.yml', '').replace('.json', '')
+            spec_name = openapi_filename.replace('.openapi.json', '').replace('.openapi.yaml', '').replace('.yaml', '').replace('.yml', '').replace('.json', '')
             
             # Determine schema type if not provided
             if schema_type is None:
@@ -804,10 +804,7 @@ details pre {{
             
             # Load the OpenAPI spec
             with open(openapi_path, 'r', encoding='utf-8') as f:
-                if openapi_path.endswith('.json'):
-                    spec_data = json.load(f)
-                else:
-                    spec_data = yaml.safe_load(f)
+                spec_data = json.load(f)
             
             # Create pagecontent directory path
             pagecontent_dir = os.path.join(os.path.dirname(output_dir), "input", "pagecontent")
@@ -1858,9 +1855,9 @@ def main():
             relative_path = f"dak-api-openapi/{openapi_filename}"
             
             openapi_docs.append({
-                'title': f"{openapi_filename.replace('.openapi.yaml', '').replace('.yaml', '').replace('.json', '')} API",
-                'description': f"OpenAPI specification for {openapi_filename.replace('.openapi.yaml', '').replace('.yaml', '').replace('.json', '')}",
-                'file_path': relative_path,  # Direct link to YAML/JSON file instead of HTML
+                'title': f"{openapi_filename.replace('.openapi.json', '').replace('.openapi.yaml', '').replace('.yaml', '').replace('.json', '')} API",
+                'description': f"OpenAPI specification for {openapi_filename.replace('.openapi.json', '').replace('.openapi.yaml', '').replace('.yaml', '').replace('.json', '')}",
+                'file_path': relative_path,  # Direct link to JSON/YAML file instead of HTML
                 'filename': openapi_filename
             })
         except Exception as e:
