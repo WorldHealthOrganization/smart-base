@@ -894,8 +894,8 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
         # Generate system file
         system_file = generate_system_file(resource, codes_with_display)
         
-        # Generate JSON-LD vocabulary
-        jsonld_vocab = generate_jsonld_vocabulary(resource, codes_with_display)
+        # Generate JSON-LD vocabulary (skipped - now handled by separate script)
+        # jsonld_vocab = generate_jsonld_vocabulary(resource, codes_with_display)
         
         # Save schema
         schema_path = save_schema(schema, output_dir, valueset_id)
@@ -908,11 +908,11 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
         # Save system file
         system_path = save_system_file(system_file, output_dir, valueset_id)
         
-        # Save JSON-LD vocabulary
-        jsonld_path = save_jsonld_vocabulary(jsonld_vocab, output_dir, valueset_id)
+        # Save JSON-LD vocabulary (skipped - now handled by separate script)
+        # jsonld_path = save_jsonld_vocabulary(jsonld_vocab, output_dir, valueset_id)
         
-        # Count as successful if all four files are saved
-        if schema_path and display_path and system_path and jsonld_path:
+        # Count as successful if schema, display, and system files are saved
+        if schema_path and display_path and system_path:
             schemas_generated += 1
     
 

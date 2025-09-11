@@ -50,6 +50,10 @@ on:
         description: 'Generate DAK API Documentation Hub (default: enabled for WHO repos, disabled for others)'
         required: false
         type: boolean
+      generate_jsonld_vocabularies:
+        description: 'Generate JSON-LD Vocabularies from ValueSet expansions (default: enabled for WHO repos, disabled for others)'
+        required: false
+        type: boolean
 
 # Prevent concurrent deployments to avoid race conditions when updating gh-pages branch
 concurrency:
@@ -166,6 +170,7 @@ jobs:
           RAW_VALUESET_SCHEMAS="${{ inputs.generate_valueset_schemas }}"
           RAW_LOGICAL_MODEL_SCHEMAS="${{ inputs.generate_logical_model_schemas }}"
           RAW_DAK_API_HUB="${{ inputs.generate_dak_api_hub }}"
+          RAW_JSONLD_VOCABULARIES="${{ inputs.generate_jsonld_vocabularies }}"
           
           echo "Raw input values (trigger: $TRIGGER_TYPE):"
           echo "  generate_dmn_questionnaires: '$RAW_DMN_QUESTIONNAIRES'"
@@ -173,6 +178,7 @@ jobs:
           echo "  generate_valueset_schemas: '$RAW_VALUESET_SCHEMAS'"
           echo "  generate_logical_model_schemas: '$RAW_LOGICAL_MODEL_SCHEMAS'"
           echo "  generate_dak_api_hub: '$RAW_DAK_API_HUB'"
+          echo "  generate_jsonld_vocabularies: '$RAW_JSONLD_VOCABULARIES'"
           
           # Normalize all values
           ENABLE_DMN_QUESTIONNAIRES=$(normalize_boolean "$RAW_DMN_QUESTIONNAIRES" "$DEFAULT_ENABLE")
@@ -180,16 +186,19 @@ jobs:
           ENABLE_VALUESET_SCHEMAS=$(normalize_boolean "$RAW_VALUESET_SCHEMAS" "$DEFAULT_ENABLE")
           ENABLE_LOGICAL_MODEL_SCHEMAS=$(normalize_boolean "$RAW_LOGICAL_MODEL_SCHEMAS" "$DEFAULT_ENABLE")
           ENABLE_DAK_API_HUB=$(normalize_boolean "$RAW_DAK_API_HUB" "$DEFAULT_ENABLE")
+          ENABLE_JSONLD_VOCABULARIES=$(normalize_boolean "$RAW_JSONLD_VOCABULARIES" "$DEFAULT_ENABLE")
           
           echo "ENABLE_DMN_QUESTIONNAIRES=$ENABLE_DMN_QUESTIONNAIRES" >> $GITHUB_ENV
           echo "ENABLE_TRANSFORM_DMN=$ENABLE_TRANSFORM_DMN" >> $GITHUB_ENV
           echo "ENABLE_VALUESET_SCHEMAS=$ENABLE_VALUESET_SCHEMAS" >> $GITHUB_ENV
           echo "ENABLE_LOGICAL_MODEL_SCHEMAS=$ENABLE_LOGICAL_MODEL_SCHEMAS" >> $GITHUB_ENV
           echo "ENABLE_DAK_API_HUB=$ENABLE_DAK_API_HUB" >> $GITHUB_ENV
+          echo "ENABLE_JSONLD_VOCABULARIES=$ENABLE_JSONLD_VOCABULARIES" >> $GITHUB_ENV
           
           # Initialize tracking variables for schema generation
           echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
           echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+          echo "JSONLD_VOCABULARIES_GENERATED=false" >> $GITHUB_ENV
           
           echo "Final feature settings:"
           echo "  Generate DMN Questionnaires: $ENABLE_DMN_QUESTIONNAIRES (condition: env.ENABLE_DMN_QUESTIONNAIRES == 'true')"
@@ -197,6 +206,7 @@ jobs:
           echo "  Generate ValueSet schemas: $ENABLE_VALUESET_SCHEMAS (condition: env.ENABLE_VALUESET_SCHEMAS == 'true')"
           echo "  Generate Logical Model schemas: $ENABLE_LOGICAL_MODEL_SCHEMAS (condition: env.ENABLE_LOGICAL_MODEL_SCHEMAS == 'true')"
           echo "  Generate DAK API hub: $ENABLE_DAK_API_HUB (condition: env.ENABLE_DAK_API_HUB == 'true')"
+          echo "  Generate JSON-LD vocabularies: $ENABLE_JSONLD_VOCABULARIES (condition: env.ENABLE_JSONLD_VOCABULARIES == 'true')"
           
           # Additional debugging - show what conditions will evaluate to
           echo "Step condition evaluations:"
@@ -224,6 +234,11 @@ jobs:
             echo "  ✅ DAK API hub step WILL run"
           else
             echo "  ❌ DAK API hub step will NOT run (value: '$ENABLE_DAK_API_HUB')"
+          fi
+          if [ "$ENABLE_JSONLD_VOCABULARIES" == "true" ]; then
+            echo "  ✅ JSON-LD vocabularies step WILL run"
+          else
+            echo "  ❌ JSON-LD vocabularies step will NOT run (value: '$ENABLE_JSONLD_VOCABULARIES')"
           fi
 
       - name: Comment on PR - Build Started
@@ -408,6 +423,7 @@ jobs:
         run: |
           echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
           echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+          echo "JSONLD_VOCABULARIES_GENERATED=false" >> $GITHUB_ENV
 
       - name: Run the IG publisher with optional tx
         run: |
@@ -460,6 +476,35 @@ jobs:
             echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
           fi
 
+      - name: Generate JSON-LD Vocabularies (after IG publisher)
+        if: env.ENABLE_JSONLD_VOCABULARIES == 'true' && env.JSONLD_VOCABULARIES_GENERATED != 'true'
+        run: |
+          echo "Generating JSON-LD vocabularies from expansions.json after IG publisher..."
+          if [ -f "./output/expansions.json" ]; then
+            # Check if script exists locally first
+            if [ -f "./input/scripts/generate_jsonld_vocabularies.py" ]; then
+              echo "Using local JSON-LD vocabulary generator..."
+              python3 input/scripts/generate_jsonld_vocabularies.py
+              echo "JSONLD_VOCABULARIES_GENERATED=true" >> $GITHUB_ENV
+            else
+              echo "Downloading JSON-LD vocabulary generator..."
+              mkdir -p ./input/scripts
+              curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_jsonld_vocabularies.py \
+                -o ./input/scripts/generate_jsonld_vocabularies.py
+              if [ -f "./input/scripts/generate_jsonld_vocabularies.py" ]; then
+                python3 input/scripts/generate_jsonld_vocabularies.py
+                echo "✅ JSON-LD vocabularies generated successfully"
+                echo "JSONLD_VOCABULARIES_GENERATED=true" >> $GITHUB_ENV
+              else
+                echo "⚠️  Failed to download JSON-LD vocabulary generator, skipping"
+                echo "JSONLD_VOCABULARIES_GENERATED=false" >> $GITHUB_ENV
+              fi
+            fi
+          else
+            echo "⚠️  expansions.json not found, skipping JSON-LD vocabulary generation"
+            echo "JSONLD_VOCABULARIES_GENERATED=false" >> $GITHUB_ENV
+          fi
+
       - name: Generate Logical Model JSON Schemas (after IG publisher)
         if: env.ENABLE_LOGICAL_MODEL_SCHEMAS == 'true' && env.LOGICAL_MODEL_SCHEMAS_GENERATED != 'true'
         run: |
@@ -503,16 +548,18 @@ jobs:
           if [ -f "./output/ValueSets.schema.json" ] || [ -f "./output/LogicalModels.schema.json" ] || \
              find ./output -name "ValueSet-*.schema.json" -print -quit | grep -q . || \
              find ./output -name "*Model*.schema.json" -print -quit | grep -q . || \
+             find ./output -name "ValueSet-*.jsonld" -print -quit | grep -q . || \
              [ -d "./input/images/openapi" ] && find ./input/images/openapi -name "*.json" -o -name "*.yaml" -o -name "*.yml" | grep -q .; then
             HAVE_SCHEMAS=true
-            echo "Found schemas or OpenAPI files to document"
+            echo "Found schemas, JSON-LD vocabularies, or OpenAPI files to document"
           fi
           
           # Set fallback values for schema generation flags if not set
           VALUESET_SCHEMAS_GENERATED="${VALUESET_SCHEMAS_GENERATED:-false}"
           LOGICAL_MODEL_SCHEMAS_GENERATED="${LOGICAL_MODEL_SCHEMAS_GENERATED:-false}"
+          JSONLD_VOCABULARIES_GENERATED="${JSONLD_VOCABULARIES_GENERATED:-false}"
           
-          if [ "$HAVE_SCHEMAS" = true ] || [ "$VALUESET_SCHEMAS_GENERATED" = true ] || [ "$LOGICAL_MODEL_SCHEMAS_GENERATED" = true ]; then
+          if [ "$HAVE_SCHEMAS" = true ] || [ "$VALUESET_SCHEMAS_GENERATED" = true ] || [ "$LOGICAL_MODEL_SCHEMAS_GENERATED" = true ] || [ "$JSONLD_VOCABULARIES_GENERATED" = true ]; then
             # Install required Python dependencies
             pip install pyyaml beautifulsoup4
             
@@ -534,9 +581,10 @@ jobs:
               fi
             fi
           else
-            echo "⚠️  No schemas or OpenAPI files found to document. Run schema generation steps first or ensure schemas are available."
+            echo "⚠️  No schemas, JSON-LD vocabularies, or OpenAPI files found to document. Run schema generation steps first or ensure schemas are available."
             echo "     - Enable 'Generate ValueSet JSON Schemas' to generate ValueSet documentation"
             echo "     - Enable 'Generate Logical Model JSON Schemas' to generate Logical Model documentation"  
+            echo "     - Enable 'Generate JSON-LD Vocabularies' to generate JSON-LD vocabulary documentation"
             echo "     - Or place OpenAPI/Swagger files in input/images/openapi/ directory"
             echo "Skipping DAK API documentation generation."
           fi
