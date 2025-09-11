@@ -404,6 +404,125 @@ jobs:
           entrypoint: /bin/sh
           args: -c "mkdir -p /var/lib/.fhir && chown $(id -u):$(id -g) /var/lib/.fhir"
 
+      - name: Initialize schema generation tracking (if disabled)
+        if: env.ENABLE_VALUESET_SCHEMAS != 'true'
+        run: |
+          echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+
+      - name: Generate ValueSet JSON Schemas (before IG publisher)
+        if: env.ENABLE_VALUESET_SCHEMAS == 'true'
+        run: |
+          echo "Generating ValueSet schemas from existing data before IG publisher runs..."
+          
+          # Check for existing expansions.json first (from a previous build)
+          if [ -f "./output/expansions.json" ]; then
+            echo "Found existing expansions.json, generating schemas..."
+            # Check if script exists locally first
+            if [ -f "./input/scripts/generate_valueset_schemas.py" ]; then
+              echo "Using local ValueSet schema generator..."
+              python3 input/scripts/generate_valueset_schemas.py
+              echo "VALUESET_SCHEMAS_GENERATED=true" >> $GITHUB_ENV
+            else
+              echo "Downloading ValueSet schema generator..."
+              mkdir -p ./input/scripts
+              curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_valueset_schemas.py \
+                -o ./input/scripts/generate_valueset_schemas.py
+              if [ -f "./input/scripts/generate_valueset_schemas.py" ]; then
+                python3 input/scripts/generate_valueset_schemas.py
+                echo "✅ ValueSet schemas generated successfully"
+                echo "VALUESET_SCHEMAS_GENERATED=true" >> $GITHUB_ENV
+              else
+                echo "⚠️  Failed to download schema generator, will retry after IG publisher"
+                echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+              fi
+            fi
+          else
+            echo "⚠️  expansions.json not found, will generate schemas after IG publisher"
+            echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+          fi
+
+      - name: Initialize logical model schema generation tracking (if disabled)
+        if: env.ENABLE_LOGICAL_MODEL_SCHEMAS != 'true'
+        run: |
+          echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+
+      - name: Generate Logical Model JSON Schemas (before IG publisher)
+        if: env.ENABLE_LOGICAL_MODEL_SCHEMAS == 'true'
+        run: |
+          echo "Generating Logical Model schemas from existing data before IG publisher runs..."
+          
+          # Check if there are existing StructureDefinition files to process
+          if find ./output -name "StructureDefinition-*.json" -print -quit | grep -q .; then
+            echo "Found existing StructureDefinition files, generating schemas..."
+            # Check if script exists locally first
+            if [ -f "./input/scripts/generate_logical_model_schemas.py" ]; then
+              echo "Using local Logical Model schema generator..."
+              python3 input/scripts/generate_logical_model_schemas.py output output
+              echo "✅ Logical Model schemas generated successfully"
+              echo "LOGICAL_MODEL_SCHEMAS_GENERATED=true" >> $GITHUB_ENV
+            else
+              echo "Downloading Logical Model schema generator..."
+              mkdir -p ./input/scripts
+              curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_logical_model_schemas.py \
+                -o ./input/scripts/generate_logical_model_schemas.py
+              if [ -f "./input/scripts/generate_logical_model_schemas.py" ]; then
+                python3 input/scripts/generate_logical_model_schemas.py output output
+                echo "✅ Logical Model schemas generated successfully"
+                echo "LOGICAL_MODEL_SCHEMAS_GENERATED=true" >> $GITHUB_ENV
+              else
+                echo "⚠️  Failed to download Logical Model schema generator, will retry after IG publisher"
+                echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+              fi
+            fi
+          else
+            echo "⚠️  No existing StructureDefinition JSON files found, will generate schemas after IG publisher"
+            echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+          fi
+
+      - name: Generate DAK API Documentation Hub (before IG publisher)
+        if: env.ENABLE_DAK_API_HUB == 'true'
+        run: |
+          echo "Generating DAK API Documentation markdown files before IG publisher runs..."
+          
+          # Check if there are schemas to document
+          HAVE_SCHEMAS=false
+          if [ -f "./output/ValueSets.schema.json" ] || [ -f "./output/LogicalModels.schema.json" ] || \
+             find ./output -name "ValueSet-*.schema.json" -print -quit | grep -q . || \
+             find ./output -name "*Model*.schema.json" -print -quit | grep -q . || \
+             [ -d "./input/images/openapi" ] && find ./input/images/openapi -name "*.json" -o -name "*.yaml" -o -name "*.yml" | grep -q .; then
+            HAVE_SCHEMAS=true
+            echo "Found schemas or OpenAPI files to document"
+          fi
+          
+          # Set fallback values for schema generation flags if not set
+          VALUESET_SCHEMAS_GENERATED="${VALUESET_SCHEMAS_GENERATED:-false}"
+          LOGICAL_MODEL_SCHEMAS_GENERATED="${LOGICAL_MODEL_SCHEMAS_GENERATED:-false}"
+          
+          if [ "$HAVE_SCHEMAS" = true ] || [ "$VALUESET_SCHEMAS_GENERATED" = true ] || [ "$LOGICAL_MODEL_SCHEMAS_GENERATED" = true ]; then
+            # Install required Python dependencies
+            pip install pyyaml
+            
+            # Check if script exists locally first
+            if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
+              echo "Using local DAK API hub generator..."
+              python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
+              echo "✅ DAK API markdown files generated successfully"
+            else
+              echo "Downloading DAK API hub generator..."
+              mkdir -p ./input/scripts
+              curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_api_hub.py \
+                -o ./input/scripts/generate_dak_api_hub.py
+              if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
+                python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
+                echo "✅ DAK API markdown files generated successfully"
+              else
+                echo "⚠️  Failed to download DAK API hub generator, will retry after IG publisher"
+              fi
+            fi
+          else
+            echo "⚠️  No schemas or OpenAPI files found to document yet. Will retry after IG publisher if schemas are generated."
+          fi
+
       - name: Run the IG publisher with optional tx
         run: |
           echo "TX input: ${{ inputs.tx }}"
@@ -426,15 +545,10 @@ jobs:
             hl7fhir/ig-publisher-base:latest \
             sh -c "$CMD"
 
-      - name: Initialize schema generation tracking (if disabled)
-        if: env.ENABLE_VALUESET_SCHEMAS != 'true'
+      - name: Generate ValueSet JSON Schemas (after IG publisher if not done before)
+        if: env.ENABLE_VALUESET_SCHEMAS == 'true' && env.VALUESET_SCHEMAS_GENERATED != 'true'
         run: |
-          echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
-
-      - name: Generate ValueSet JSON Schemas
-        if: env.ENABLE_VALUESET_SCHEMAS == 'true'
-        run: |
-          echo "Generating ValueSet schemas from expansions.json..."
+          echo "Generating ValueSet schemas from expansions.json after IG publisher..."
           if [ -f "./output/expansions.json" ]; then
             # Check if script exists locally first
             if [ -f "./input/scripts/generate_valueset_schemas.py" ]; then
@@ -460,15 +574,10 @@ jobs:
             echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
           fi
 
-      - name: Initialize logical model schema generation tracking (if disabled)
-        if: env.ENABLE_LOGICAL_MODEL_SCHEMAS != 'true'
+      - name: Generate Logical Model JSON Schemas (after IG publisher if not done before)
+        if: env.ENABLE_LOGICAL_MODEL_SCHEMAS == 'true' && env.LOGICAL_MODEL_SCHEMAS_GENERATED != 'true'
         run: |
-          echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
-
-      - name: Generate Logical Model JSON Schemas
-        if: env.ENABLE_LOGICAL_MODEL_SCHEMAS == 'true'
-        run: |
-          echo "Generating Logical Model schemas from StructureDefinition JSON files..."
+          echo "Generating Logical Model schemas from StructureDefinition JSON files after IG publisher..."
           
           # Check if there are StructureDefinition files to process
           if find ./output -name "StructureDefinition-*.json" -print -quit | grep -q .; then
@@ -498,12 +607,12 @@ jobs:
             echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
           fi
 
-      - name: Generate DAK API Documentation Hub
+      - name: Generate DAK API Documentation Hub (after IG publisher if not done before)
         if: env.ENABLE_DAK_API_HUB == 'true'
         run: |
-          echo "Generating DAK API Documentation Hub..."
+          echo "Generating any remaining DAK API documentation after IG publisher..."
           
-          # Check if there are schemas to document
+          # Check if there are new schemas to document
           HAVE_SCHEMAS=false
           if [ -f "./output/ValueSets.schema.json" ] || [ -f "./output/LogicalModels.schema.json" ] || \
              find ./output -name "ValueSet-*.schema.json" -print -quit | grep -q . || \
@@ -525,7 +634,7 @@ jobs:
             if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
               echo "Using local DAK API hub generator..."
               python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
-              echo "✅ DAK API hub generated successfully"
+              echo "✅ DAK API documentation completed"
             else
               echo "Downloading DAK API hub generator..."
               mkdir -p ./input/scripts
@@ -533,7 +642,7 @@ jobs:
                 -o ./input/scripts/generate_dak_api_hub.py
               if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
                 python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
-                echo "✅ DAK API hub generated successfully"
+                echo "✅ DAK API documentation completed"
               else
                 echo "⚠️  Failed to download DAK API hub generator, skipping"
               fi
@@ -543,7 +652,7 @@ jobs:
             echo "     - Enable 'Generate ValueSet JSON Schemas' to generate ValueSet documentation"
             echo "     - Enable 'Generate Logical Model JSON Schemas' to generate Logical Model documentation"  
             echo "     - Or place OpenAPI/Swagger files in input/images/openapi/ directory"
-            echo "Skipping DAK API hub generation."
+            echo "Skipping final DAK API hub generation."
           fi
      
       # Additional step to upload qa.json as an artifact
