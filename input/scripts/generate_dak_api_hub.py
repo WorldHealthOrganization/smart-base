@@ -7,7 +7,7 @@ It works by:
 1. Detecting existing JSON schemas (ValueSet and Logical Model schemas)
 2. Creating minimal OpenAPI 3.0 wrappers for each JSON schema
 3. Generating schema documentation content
-4. Post-processing the dak-api.html file to replace content after "publish-box"
+4. Post-processing the dak-api.html file to replace content at the "DAK_API_CONTENT" comment marker
 5. Creating individual schema documentation pages using dak-api.html as template
 
 The script is designed to work with a single IG publisher run, post-processing
@@ -28,7 +28,6 @@ import re
 from typing import Dict, List, Optional, Any, Tuple
 from pathlib import Path
 from urllib.parse import urlparse
-from bs4 import BeautifulSoup
 
 
 def setup_logging() -> logging.Logger:
@@ -363,7 +362,7 @@ class HTMLProcessor:
         Args:
             template_html_path: Path to the template HTML file (e.g., dak-api.html)
             title: Title for the new page
-            content: HTML content to inject after the publish-box
+            content: HTML content to inject at the DAK_API_CONTENT marker
             
         Returns:
             The new HTML content as a string
@@ -372,45 +371,36 @@ class HTMLProcessor:
             with open(template_html_path, 'r', encoding='utf-8') as f:
                 template_html = f.read()
             
-            soup = BeautifulSoup(template_html, 'html.parser')
-            
             # Update the title
-            title_tag = soup.find('title')
-            if title_tag:
-                # Extract the suffix from existing title (e.g., " - SMART Base v0.2.0")
-                current_title = title_tag.get_text()
+            import re
+            title_pattern = r'<title>([^<]*)</title>'
+            match = re.search(title_pattern, template_html)
+            if match:
+                current_title = match.group(1)
+                # Preserve any suffix from the original title
                 if ' - ' in current_title:
                     suffix = ' - ' + current_title.split(' - ', 1)[1]
                 else:
                     suffix = ''
-                title_tag.string = title + suffix
+                new_title = title + suffix
+                template_html = re.sub(title_pattern, f'<title>{new_title}</title>', template_html)
             
-            # Find the publish-box and replace content after it
-            publish_box = soup.find(id='publish-box')
-            if publish_box:
-                # Find the parent container that holds the content
-                content_container = publish_box.find_parent()
-                if content_container:
-                    # Remove all siblings after the publish-box
-                    for sibling in list(publish_box.next_siblings):
-                        if hasattr(sibling, 'extract'):
-                            sibling.extract()
-                    
-                    # Add the new content
-                    new_content_soup = BeautifulSoup(content, 'html.parser')
-                    for element in new_content_soup:
-                        if hasattr(element, 'name'):  # Only add tag elements
-                            content_container.append(element)
+            # Replace the DAK_API_CONTENT comment marker with actual content
+            comment_marker = '<!-- DAK_API_CONTENT -->'
+            if comment_marker in template_html:
+                template_html = template_html.replace(comment_marker, content)
+            else:
+                self.logger.warning(f"DAK_API_CONTENT marker not found in template")
             
-            return str(soup)
+            return template_html
             
         except Exception as e:
             self.logger.error(f"Error creating HTML template: {e}")
             return ""
     
-    def inject_content_after_publish_box(self, html_file_path: str, content: str) -> bool:
+    def inject_content_at_comment_marker(self, html_file_path: str, content: str) -> bool:
         """
-        Inject content into an HTML file after the publish-box div using string replacement.
+        Inject content into an HTML file at the DAK_API_CONTENT comment marker.
         
         Args:
             html_file_path: Path to the HTML file to modify
@@ -432,45 +422,23 @@ class HTMLProcessor:
             
             self.logger.info(f"📖 Read HTML file, original length: {len(html_content)} characters")
             
-            # Look for the publish-box div and inject content after it
-            publish_box_pattern = r'<div[^>]*id\s*=\s*["\']publish-box["\'][^>]*>.*?</div>'
+            # Look for the DAK_API_CONTENT comment marker
+            comment_marker = '<!-- DAK_API_CONTENT -->'
             
-            import re
-            match = re.search(publish_box_pattern, html_content, re.DOTALL)
-            
-            if not match:
-                self.logger.warning(f"⚠️  No publish-box found in {html_file_path}")
-                
-                # Fallback: look for any container div and append there
-                container_pattern = r'(<div[^>]*class\s*=\s*["\'][^"\']*container[^"\']*["\'][^>]*>)'
-                container_match = re.search(container_pattern, html_content)
-                
-                if container_match:
-                    self.logger.info("🔍 Found container div, trying to inject there")
-                    insertion_point = container_match.end()
-                    new_html_content = (html_content[:insertion_point] + 
-                                      '\n' + content + '\n' + 
-                                      html_content[insertion_point:])
-                    
-                    with open(html_file_path, 'w', encoding='utf-8') as f:
-                        f.write(new_html_content)
-                    
-                    size_increase = len(new_html_content) - len(html_content)
-                    self.logger.info(f"✅ Successfully injected content via container div workaround")
-                    self.logger.info(f"📏 Final HTML file size: {len(new_html_content)} characters (increased by {size_increase})")
-                    return size_increase > 100
-                
+            if comment_marker not in html_content:
+                self.logger.error(f"❌ DAK_API_CONTENT comment marker not found in {html_file_path}")
+                self.logger.info("Available content sample for debugging:")
+                # Show a sample to help debug
+                sample_content = html_content[:1000] if len(html_content) > 1000 else html_content
+                self.logger.info(f"Sample content: {sample_content}")
                 return False
             
-            self.logger.info(f"✅ Found publish-box element")
+            self.logger.info(f"✅ Found DAK_API_CONTENT comment marker")
             
-            # Insert content right after the publish-box closing tag
-            insertion_point = match.end()
-            new_html_content = (html_content[:insertion_point] + 
-                              '\n' + content + '\n' + 
-                              html_content[insertion_point:])
+            # Replace the comment marker with the actual content
+            new_html_content = html_content.replace(comment_marker, content)
             
-            self.logger.info(f"📏 Content insertion: original={len(html_content)}, new={len(new_html_content)}")
+            self.logger.info(f"📏 Content replacement: original={len(html_content)}, new={len(new_html_content)}")
             
             # Write the modified HTML back to the file
             with open(html_file_path, 'w', encoding='utf-8') as f:
@@ -1397,15 +1365,17 @@ class DAKApiHubGenerator:
             html_content += f"""
     <h3>OpenAPI Documentation ({len(openapi_docs)} available)</h3>
     
-    <p>Interactive API documentation for REST endpoints:</p>
+    <p>Direct access to OpenAPI specifications for API integration:</p>
     
     <div class="api-grid">
 """
             for api_doc in openapi_docs:
+                # Link directly to the OpenAPI YAML/JSON file for direct API integration
                 html_content += f"""
         <div class="api-card">
-            <h4><a href="{api_doc['html_file']}">{api_doc['title']}</a></h4>
+            <h4><a href="{api_doc['file_path']}" target="_blank">{api_doc['title']}</a></h4>
             <p>{api_doc['description']}</p>
+            <p class="file-info">📄 <a href="{api_doc['file_path']}">{api_doc['filename']}</a></p>
         </div>
 """
             html_content += """
@@ -1490,6 +1460,23 @@ class DAKApiHubGenerator:
     margin: 0;
     color: #6c757d;
     font-size: 0.9rem;
+}
+
+.file-info {
+    font-size: 0.8rem;
+    color: #495057;
+    margin-top: 0.5rem;
+}
+
+.file-info a {
+    color: #00477d;
+    text-decoration: none;
+    font-family: monospace;
+}
+
+.file-info a:hover {
+    color: #0070A1;
+    text-decoration: underline;
 }
 
 .usage-info {
@@ -1617,7 +1604,7 @@ class DAKApiHubGenerator:
             
             # Inject content into dak-api.html
             self.logger.info("Injecting content into dak-api.html...")
-            success = html_processor.inject_content_after_publish_box(dak_api_html_path, hub_content)
+            success = html_processor.inject_content_at_comment_marker(dak_api_html_path, hub_content)
             
             if success:
                 self.logger.info(f"✅ Successfully post-processed DAK API hub: {dak_api_html_path}")
@@ -1752,14 +1739,14 @@ def main():
         template_size = os.path.getsize(dak_api_html_path)
         logger.info(f"Template file size: {template_size} bytes")
         
-        # Check if the file has a publish-box element for injection
+        # Check if the file has the DAK_API_CONTENT comment marker for injection
         try:
             with open(dak_api_html_path, 'r', encoding='utf-8') as f:
                 html_content = f.read()
-            if 'id="publish-box"' in html_content:
-                logger.info("✅ Found publish-box element in dak-api.html for content injection")
+            if '<!-- DAK_API_CONTENT -->' in html_content:
+                logger.info("✅ Found DAK_API_CONTENT comment marker in dak-api.html for content injection")
             else:
-                logger.warning("⚠️ No publish-box element found in dak-api.html - content injection may fail")
+                logger.warning("⚠️ No DAK_API_CONTENT comment marker found in dak-api.html - content injection may fail")
                 # Log a sample of the content to help debug
                 sample_content = html_content[:500] if len(html_content) > 500 else html_content
                 logger.info(f"Sample content from dak-api.html: {sample_content}")
@@ -1848,16 +1835,33 @@ def main():
             import traceback
             logger.error(f"  Traceback: {traceback.format_exc()}")
     
-    # Process existing OpenAPI files (if any)
+    # Process existing OpenAPI files (if any) - create merged directory structure
     openapi_docs = []
+    merged_openapi_dir = os.path.join(output_dir, "dak-api-openapi")
+    
+    # Create the merged OpenAPI directory if we have OpenAPI files
+    if openapi_files:
+        os.makedirs(merged_openapi_dir, exist_ok=True)
+        logger.info(f"Created merged OpenAPI directory: {merged_openapi_dir}")
+    
     for openapi_path in openapi_files:
         try:
-            # For now, just note them - could add OpenAPI documentation generation here
             openapi_filename = os.path.basename(openapi_path)
+            
+            # Copy OpenAPI file to merged directory to avoid collisions
+            import shutil
+            merged_openapi_path = os.path.join(merged_openapi_dir, openapi_filename)
+            shutil.copy2(openapi_path, merged_openapi_path)
+            logger.info(f"Copied OpenAPI file to merged directory: {merged_openapi_path}")
+            
+            # Use relative path that won't conflict with IG publisher
+            relative_path = f"dak-api-openapi/{openapi_filename}"
+            
             openapi_docs.append({
-                'title': f"{openapi_filename} API",
-                'description': f"API documentation from {openapi_filename}",
-                'html_file': f"{openapi_filename}.html"  # Would need to create this
+                'title': f"{openapi_filename.replace('.openapi.yaml', '').replace('.yaml', '').replace('.json', '')} API",
+                'description': f"OpenAPI specification for {openapi_filename.replace('.openapi.yaml', '').replace('.yaml', '').replace('.json', '')}",
+                'file_path': relative_path,  # Direct link to YAML/JSON file instead of HTML
+                'filename': openapi_filename
             })
         except Exception as e:
             logger.error(f"Error processing OpenAPI file {openapi_path}: {e}")
