@@ -1698,7 +1698,7 @@ def main():
         template_size = os.path.getsize(dak_api_html_path)
         logger.info(f"Template file size: {template_size} bytes")
     
-    # Process ValueSet schemas (collect metadata only - don't create individual HTML files)
+    # Process ValueSet schemas (collect metadata and generate OpenAPI wrappers)
     logger.info(f"Processing {len(schemas['valueset'])} ValueSet schemas...")
     for i, schema_path in enumerate(schemas['valueset'], 1):
         logger.info(f"Processing ValueSet schema {i}/{len(schemas['valueset'])}: {schema_path}")
@@ -1712,8 +1712,14 @@ def main():
             logger.info(f"  Schema name: {schema_name}")
             logger.info(f"  Schema title: {schema.get('title', 'No title')}")
             
-            # Individual schema pages should be created by IG publisher, not here
-            # We only collect metadata for the hub documentation
+            # Generate OpenAPI wrapper for this ValueSet schema
+            openapi_wrapper_path = openapi_wrapper.create_wrapper_for_schema(schema_path, 'valueset', output_dir)
+            if openapi_wrapper_path:
+                logger.info(f"  ✅ Created OpenAPI wrapper: {openapi_wrapper_path}")
+            else:
+                logger.warning(f"  ⚠️ Failed to create OpenAPI wrapper for {schema_name}")
+            
+            # Collect metadata for the hub documentation
             title = schema.get('title', f"{schema_name} Schema Documentation")
             
             # Individual schemas should link to their IG-generated HTML files
@@ -1732,7 +1738,7 @@ def main():
             import traceback
             logger.error(f"  Traceback: {traceback.format_exc()}")
     
-    # Process Logical Model schemas (collect metadata only - don't create individual HTML files)
+    # Process Logical Model schemas (collect metadata and generate OpenAPI wrappers)
     logger.info(f"Processing {len(schemas['logical_model'])} Logical Model schemas...")
     for i, schema_path in enumerate(schemas['logical_model'], 1):
         logger.info(f"Processing Logical Model schema {i}/{len(schemas['logical_model'])}: {schema_path}")
@@ -1746,8 +1752,14 @@ def main():
             logger.info(f"  Schema name: {schema_name}")
             logger.info(f"  Schema title: {schema.get('title', 'No title')}")
             
-            # Individual schema pages should be created by IG publisher, not here
-            # We only collect metadata for the hub documentation
+            # Generate OpenAPI wrapper for this Logical Model schema
+            openapi_wrapper_path = openapi_wrapper.create_wrapper_for_schema(schema_path, 'logical_model', output_dir)
+            if openapi_wrapper_path:
+                logger.info(f"  ✅ Created OpenAPI wrapper: {openapi_wrapper_path}")
+            else:
+                logger.warning(f"  ⚠️ Failed to create OpenAPI wrapper for {schema_name}")
+            
+            # Collect metadata for the hub documentation
             title = schema.get('title', f"{schema_name} Schema Documentation")
             
             # Individual schemas should link to their IG-generated HTML files
@@ -1791,6 +1803,13 @@ def main():
         if valueset_enum_path:
             logger.info(f"Created ValueSets enumeration schema: {valueset_enum_path}")
             
+            # Create OpenAPI wrapper for the enumeration endpoint
+            enum_openapi_path = openapi_wrapper.create_enumeration_wrapper(valueset_enum_path, 'valueset', output_dir)
+            if enum_openapi_path:
+                logger.info(f"✅ Created ValueSets enumeration OpenAPI wrapper: {enum_openapi_path}")
+            else:
+                logger.warning("⚠️ Failed to create ValueSets enumeration OpenAPI wrapper")
+            
             # Add to enumeration docs (IG publisher should create the HTML)
             enumeration_docs.append({
                 'title': 'ValueSets.schema.json',
@@ -1810,6 +1829,13 @@ def main():
         logicalmodel_enum_path = hub_generator.create_enumeration_schema('logical_model', schemas['logical_model'], output_dir)
         if logicalmodel_enum_path:
             logger.info(f"Created LogicalModels enumeration schema: {logicalmodel_enum_path}")
+            
+            # Create OpenAPI wrapper for the enumeration endpoint
+            enum_openapi_path = openapi_wrapper.create_enumeration_wrapper(logicalmodel_enum_path, 'logical_model', output_dir)
+            if enum_openapi_path:
+                logger.info(f"✅ Created LogicalModels enumeration OpenAPI wrapper: {enum_openapi_path}")
+            else:
+                logger.warning("⚠️ Failed to create LogicalModels enumeration OpenAPI wrapper")
             
             # Add to enumeration docs (IG publisher should create the HTML)
             enumeration_docs.append({
