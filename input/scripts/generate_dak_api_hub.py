@@ -151,21 +151,25 @@ class OpenAPIDetector:
         self.logger = logger
     
     def find_openapi_files(self, openapi_dir: str) -> List[str]:
-        """Find OpenAPI/Swagger files in the given directory."""
+        """Find OpenAPI/Swagger files in the given directory, including generated .openapi.yaml files."""
         openapi_files = []
         
         if not os.path.exists(openapi_dir):
             self.logger.info(f"OpenAPI directory does not exist: {openapi_dir}")
             return openapi_files
         
+        self.logger.info(f"Scanning for OpenAPI files in: {openapi_dir}")
+        
         for root, dirs, files in os.walk(openapi_dir):
             for file in files:
-                if file.endswith(('.yaml', '.yml', '.json')) and (
-                    'openapi' in file.lower() or 'swagger' in file.lower()
-                ):
-                    openapi_files.append(os.path.join(root, file))
+                # Include generated OpenAPI wrapper files
+                if (file.endswith(('.yaml', '.yml', '.json')) and 
+                    ('openapi' in file.lower() or 'swagger' in file.lower() or file.endswith('.openapi.yaml'))):
+                    full_path = os.path.join(root, file)
+                    openapi_files.append(full_path)
+                    self.logger.info(f"Found OpenAPI file: {file}")
         
-        self.logger.info(f"Found {len(openapi_files)} OpenAPI/Swagger files")
+        self.logger.info(f"Found {len(openapi_files)} OpenAPI/Swagger files total")
         return openapi_files
 
 
@@ -406,7 +410,7 @@ class HTMLProcessor:
     
     def inject_content_after_publish_box(self, html_file_path: str, content: str) -> bool:
         """
-        Inject content into an HTML file after the publish-box div.
+        Inject content into an HTML file after the publish-box div using string replacement.
         
         Args:
             html_file_path: Path to the HTML file to modify
@@ -416,73 +420,77 @@ class HTMLProcessor:
             True if successful, False otherwise
         """
         try:
-            self.logger.info(f"Starting content injection into: {html_file_path}")
-            self.logger.info(f"Content to inject length: {len(content)} characters")
+            self.logger.info(f"🔍 Starting content injection into: {html_file_path}")
+            self.logger.info(f"📏 Content to inject length: {len(content)} characters")
             
             if not os.path.exists(html_file_path):
-                self.logger.error(f"HTML file does not exist: {html_file_path}")
+                self.logger.error(f"❌ HTML file does not exist: {html_file_path}")
                 return False
             
             with open(html_file_path, 'r', encoding='utf-8') as f:
                 html_content = f.read()
             
-            self.logger.info(f"Read HTML file, length: {len(html_content)} characters")
+            self.logger.info(f"📖 Read HTML file, original length: {len(html_content)} characters")
             
-            soup = BeautifulSoup(html_content, 'html.parser')
+            # Look for the publish-box div and inject content after it
+            publish_box_pattern = r'<div[^>]*id\s*=\s*["\']publish-box["\'][^>]*>.*?</div>'
             
-            # Find the publish-box
-            publish_box = soup.find(id='publish-box')
-            if not publish_box:
-                self.logger.warning(f"No publish-box found in {html_file_path}")
-                # Let's check what IDs exist in the file
-                all_ids = [elem.get('id') for elem in soup.find_all(id=True)]
-                self.logger.info(f"Available IDs in HTML: {all_ids}")
+            import re
+            match = re.search(publish_box_pattern, html_content, re.DOTALL)
+            
+            if not match:
+                self.logger.warning(f"⚠️  No publish-box found in {html_file_path}")
+                
+                # Fallback: look for any container div and append there
+                container_pattern = r'(<div[^>]*class\s*=\s*["\'][^"\']*container[^"\']*["\'][^>]*>)'
+                container_match = re.search(container_pattern, html_content)
+                
+                if container_match:
+                    self.logger.info("🔍 Found container div, trying to inject there")
+                    insertion_point = container_match.end()
+                    new_html_content = (html_content[:insertion_point] + 
+                                      '\n' + content + '\n' + 
+                                      html_content[insertion_point:])
+                    
+                    with open(html_file_path, 'w', encoding='utf-8') as f:
+                        f.write(new_html_content)
+                    
+                    size_increase = len(new_html_content) - len(html_content)
+                    self.logger.info(f"✅ Successfully injected content via container div workaround")
+                    self.logger.info(f"📏 Final HTML file size: {len(new_html_content)} characters (increased by {size_increase})")
+                    return size_increase > 100
+                
                 return False
             
-            self.logger.info(f"Found publish-box element: {publish_box.name}")
+            self.logger.info(f"✅ Found publish-box element")
             
-            # Find the parent container that holds the content
-            content_container = publish_box.find_parent()
-            if not content_container:
-                self.logger.warning(f"No content container found for publish-box in {html_file_path}")
-                return False
+            # Insert content right after the publish-box closing tag
+            insertion_point = match.end()
+            new_html_content = (html_content[:insertion_point] + 
+                              '\n' + content + '\n' + 
+                              html_content[insertion_point:])
             
-            self.logger.info(f"Found content container: {content_container.name}")
-            
-            # Count existing siblings after publish-box
-            existing_siblings = list(publish_box.next_siblings)
-            sibling_count = len([s for s in existing_siblings if hasattr(s, 'extract')])
-            self.logger.info(f"Found {sibling_count} existing siblings after publish-box")
-            
-            # Remove all siblings after the publish-box
-            for sibling in existing_siblings:
-                if hasattr(sibling, 'extract'):
-                    sibling.extract()
-            
-            self.logger.info(f"Removed {sibling_count} existing siblings")
-            
-            # Add the new content
-            new_content_soup = BeautifulSoup(content, 'html.parser')
-            elements_added = 0
-            for element in new_content_soup:
-                if hasattr(element, 'name'):  # Only add tag elements
-                    content_container.append(element)
-                    elements_added += 1
-            
-            self.logger.info(f"Added {elements_added} new elements to content container")
+            self.logger.info(f"📏 Content insertion: original={len(html_content)}, new={len(new_html_content)}")
             
             # Write the modified HTML back to the file
             with open(html_file_path, 'w', encoding='utf-8') as f:
-                f.write(str(soup))
+                f.write(new_html_content)
             
-            self.logger.info(f"Successfully wrote modified HTML back to {html_file_path}")
-            self.logger.info(f"Final HTML file size: {len(str(soup))} characters")
-            return True
+            size_increase = len(new_html_content) - len(html_content)
+            self.logger.info(f"💾 Successfully wrote modified HTML back to {html_file_path}")
+            self.logger.info(f"📏 Final HTML file size: {len(new_html_content)} characters (increased by {size_increase})")
+            
+            if size_increase > 100:  # If we added substantial content
+                self.logger.info(f"✅ Content injection appears successful (substantial size increase)")
+                return True
+            else:
+                self.logger.warning(f"⚠️  Content injection may have failed (minimal size increase: {size_increase})")
+                return False
             
         except Exception as e:
-            self.logger.error(f"Error injecting content into {html_file_path}: {e}")
+            self.logger.error(f"❌ Error injecting content into {html_file_path}: {e}")
             import traceback
-            self.logger.error(f"Traceback: {traceback.format_exc()}")
+            self.logger.error(f"🔍 Traceback: {traceback.format_exc()}")
             return False
 class SchemaDocumentationRenderer:
     """Generates HTML documentation content for schemas."""
@@ -1635,10 +1643,10 @@ def main():
     # Parse command line arguments
     if len(sys.argv) == 1:
         output_dir = "output"
-        openapi_dir = "input/images/openapi"
+        openapi_dir = "output"  # Changed to look in output directory for generated OpenAPI wrappers
     elif len(sys.argv) == 2:
         output_dir = sys.argv[1]
-        openapi_dir = "input/images/openapi"
+        openapi_dir = sys.argv[1]  # Use same directory for both schemas and OpenAPI wrappers
     else:
         output_dir = sys.argv[1]
         openapi_dir = sys.argv[2]

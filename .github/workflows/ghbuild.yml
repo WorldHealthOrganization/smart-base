@@ -566,7 +566,7 @@ jobs:
             # Check if script exists locally first
             if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
               echo "Using local DAK API hub generator..."
-              python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
+              python3 input/scripts/generate_dak_api_hub.py output output
               echo "✅ DAK API documentation post-processed successfully"
             else
               echo "Downloading DAK API hub generator..."
@@ -574,7 +574,7 @@ jobs:
               curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_api_hub.py \
                 -o ./input/scripts/generate_dak_api_hub.py
               if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
-                python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
+                python3 input/scripts/generate_dak_api_hub.py output output
                 echo "✅ DAK API documentation post-processed successfully"
               else
                 echo "⚠️  Failed to download DAK API hub generator, skipping"
