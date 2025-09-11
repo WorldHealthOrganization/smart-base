@@ -591,7 +591,7 @@ class SchemaDocumentationRenderer:
                 
                 html_content += f"""
     <div class="schema-links">
-        <p><strong>Schema ID:</strong> <a href="{schema_id}" target="_blank">{schema_id}</a></p>
+        <p><strong>Schema ID:</strong> <a href="{schema_id}">{schema_id}</a></p>
         <p><strong>FHIR Page:</strong> <a href="{fhir_url}">View full FHIR definition</a></p>
     </div>
 """
@@ -1370,7 +1370,7 @@ class DAKApiHubGenerator:
                 # Link directly to the OpenAPI YAML/JSON file for direct API integration
                 html_content += f"""
         <div class="api-card">
-            <h4><a href="{api_doc['file_path']}" target="_blank">{api_doc['title']}</a></h4>
+            <h4><a href="{api_doc['file_path']}">{api_doc['title']}</a></h4>
             <p>{api_doc['description']}</p>
             <p class="file-info">📄 <a href="{api_doc['file_path']}">{api_doc['filename']}</a></p>
         </div>
@@ -1832,36 +1832,8 @@ def main():
             import traceback
             logger.error(f"  Traceback: {traceback.format_exc()}")
     
-    # Process existing OpenAPI files (if any) - create merged directory structure
+    # Initialize OpenAPI docs list (will be populated after generation)
     openapi_docs = []
-    merged_openapi_dir = os.path.join(output_dir, "dak-api-openapi")
-    
-    # Create the merged OpenAPI directory if we have OpenAPI files
-    if openapi_files:
-        os.makedirs(merged_openapi_dir, exist_ok=True)
-        logger.info(f"Created merged OpenAPI directory: {merged_openapi_dir}")
-    
-    for openapi_path in openapi_files:
-        try:
-            openapi_filename = os.path.basename(openapi_path)
-            
-            # Copy OpenAPI file to merged directory to avoid collisions
-            import shutil
-            merged_openapi_path = os.path.join(merged_openapi_dir, openapi_filename)
-            shutil.copy2(openapi_path, merged_openapi_path)
-            logger.info(f"Copied OpenAPI file to merged directory: {merged_openapi_path}")
-            
-            # Use relative path that won't conflict with IG publisher
-            relative_path = f"dak-api-openapi/{openapi_filename}"
-            
-            openapi_docs.append({
-                'title': f"{openapi_filename.replace('.openapi.json', '').replace('.openapi.yaml', '').replace('.yaml', '').replace('.json', '')} API",
-                'description': f"OpenAPI specification for {openapi_filename.replace('.openapi.json', '').replace('.openapi.yaml', '').replace('.yaml', '').replace('.json', '')}",
-                'file_path': relative_path,  # Direct link to JSON/YAML file instead of HTML
-                'filename': openapi_filename
-            })
-        except Exception as e:
-            logger.error(f"Error processing OpenAPI file {openapi_path}: {e}")
     
     # Create enumeration endpoints for ValueSets and LogicalModels
     logger.info("=== ENUMERATION ENDPOINT CREATION PHASE ===")
@@ -1964,6 +1936,76 @@ def main():
             logger.error(f"  ❌ Error processing JSON-LD vocabulary {jsonld_path}: {e}")
             import traceback
             logger.error(f"  Traceback: {traceback.format_exc()}")
+    
+    # Process all OpenAPI files (existing + generated) for OpenAPI documentation section
+    logger.info("=== OPENAPI DOCUMENTATION COLLECTION PHASE ===")
+    
+    # Re-scan for all OpenAPI files now that generated wrappers exist
+    generated_openapi_files = openapi_detector.find_openapi_files(output_dir)
+    logger.info(f"Found {len(generated_openapi_files)} generated OpenAPI files in output directory")
+    
+    # Combine and deduplicate OpenAPI files by filename
+    all_openapi_files = []
+    seen_filenames = set()
+    
+    # Add generated files first (they take priority)
+    for file_path in generated_openapi_files:
+        filename = os.path.basename(file_path)
+        if filename not in seen_filenames:
+            all_openapi_files.append(file_path)
+            seen_filenames.add(filename)
+    
+    # Add existing files if not already seen
+    if openapi_files:
+        for file_path in openapi_files:
+            filename = os.path.basename(file_path)
+            if filename not in seen_filenames:
+                all_openapi_files.append(file_path)
+                seen_filenames.add(filename)
+        logger.info(f"Added {len([f for f in openapi_files if os.path.basename(f) not in seen_filenames])} new existing OpenAPI files")
+    
+    logger.info(f"Total unique OpenAPI files: {len(all_openapi_files)}")
+    
+    # Create merged OpenAPI directory for all files
+    merged_openapi_dir = os.path.join(output_dir, "dak-api-openapi")
+    if all_openapi_files:
+        os.makedirs(merged_openapi_dir, exist_ok=True)
+        logger.info(f"Created merged OpenAPI directory: {merged_openapi_dir}")
+    
+    # Process all unique OpenAPI files for documentation
+    for openapi_path in all_openapi_files:
+        try:
+            openapi_filename = os.path.basename(openapi_path)
+            logger.info(f"Processing OpenAPI file: {openapi_filename}")
+            
+            # Copy to merged directory to avoid collisions with IG publisher
+            import shutil
+            merged_openapi_path = os.path.join(merged_openapi_dir, openapi_filename)
+            if not os.path.exists(merged_openapi_path):
+                shutil.copy2(openapi_path, merged_openapi_path)
+                logger.info(f"  Copied to merged directory: {merged_openapi_path}")
+            else:
+                logger.info(f"  File already exists in merged directory: {merged_openapi_path}")
+            
+            # Use relative path that won't conflict with IG publisher
+            relative_path = f"dak-api-openapi/{openapi_filename}"
+            
+            # Create cleaner title from filename
+            clean_name = openapi_filename.replace('.openapi.json', '').replace('.openapi.yaml', '').replace('.yaml', '').replace('.json', '')
+            
+            openapi_docs.append({
+                'title': f"{clean_name} API",
+                'description': f"OpenAPI specification for {clean_name}",
+                'file_path': relative_path,  # Direct link to JSON/YAML file
+                'filename': openapi_filename
+            })
+            
+            logger.info(f"  ✅ Added to OpenAPI documentation: {clean_name}")
+            
+        except Exception as e:
+            logger.error(f"  ❌ Error processing OpenAPI file {openapi_path}: {e}")
+    
+    logger.info(f"OpenAPI documentation collection completed - {len(openapi_docs)} unique files documented")
     
     # Log summary before hub generation
     logger.info("=== DOCUMENTATION SUMMARY ===")
