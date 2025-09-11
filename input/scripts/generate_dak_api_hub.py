@@ -64,21 +64,44 @@ class SchemaDetector:
             self.logger.warning(f"Output directory does not exist: {output_dir}")
             return schemas
         
-        for file in os.listdir(output_dir):
+        self.logger.info(f"Scanning directory for schema files: {output_dir}")
+        all_files = os.listdir(output_dir)
+        schema_count = 0
+        
+        for file in all_files:
             if file.endswith('.schema.json'):
+                schema_count += 1
                 file_path = os.path.join(output_dir, file)
+                self.logger.info(f"Found schema file: {file}")
                 
                 if file.startswith('ValueSet-'):
                     schemas['valueset'].append(file_path)
+                    self.logger.info(f"  -> Categorized as ValueSet schema")
+                elif file in ['ValueSets.schema.json', 'LogicalModels.schema.json']:
+                    # These are enumeration schemas, categorize appropriately
+                    if file == 'ValueSets.schema.json':
+                        schemas['valueset'].append(file_path) 
+                        self.logger.info(f"  -> Categorized as ValueSet enumeration schema")
+                    else:
+                        schemas['logical_model'].append(file_path)
+                        self.logger.info(f"  -> Categorized as Logical Model enumeration schema")
                 elif not file.startswith('ValueSet-') and not file.startswith('CodeSystem-'):
                     # Assume logical model if not ValueSet or CodeSystem
                     schemas['logical_model'].append(file_path)
+                    self.logger.info(f"  -> Categorized as Logical Model schema")
                 else:
                     schemas['other'].append(file_path)
+                    self.logger.info(f"  -> Categorized as other schema")
         
-        self.logger.info(f"Found {len(schemas['valueset'])} ValueSet schemas")
-        self.logger.info(f"Found {len(schemas['logical_model'])} Logical Model schemas")
-        self.logger.info(f"Found {len(schemas['other'])} other schemas")
+        self.logger.info(f"Schema detection summary:")
+        self.logger.info(f"  Total schema files found: {schema_count}")
+        self.logger.info(f"  ValueSet schemas: {len(schemas['valueset'])}")
+        self.logger.info(f"  Logical Model schemas: {len(schemas['logical_model'])}")
+        self.logger.info(f"  Other schemas: {len(schemas['other'])}")
+        
+        if schema_count == 0:
+            self.logger.warning(f"No .schema.json files found in {output_dir}")
+            self.logger.info(f"Directory contents: {', '.join(all_files)}")
         
         return schemas
     
@@ -95,12 +118,28 @@ class SchemaDetector:
             self.logger.warning(f"Output directory does not exist: {output_dir}")
             return jsonld_files
         
-        for file in os.listdir(output_dir):
-            if file.endswith('.jsonld') and file.startswith('ValueSet-'):
-                file_path = os.path.join(output_dir, file)
-                jsonld_files.append(file_path)
+        self.logger.info(f"Scanning directory for JSON-LD files: {output_dir}")
+        all_files = os.listdir(output_dir)
+        jsonld_count = 0
         
-        self.logger.info(f"Found {len(jsonld_files)} JSON-LD vocabulary files")
+        for file in all_files:
+            if file.endswith('.jsonld'):
+                jsonld_count += 1
+                file_path = os.path.join(output_dir, file)
+                self.logger.info(f"Found JSON-LD file: {file}")
+                
+                if file.startswith('ValueSet-'):
+                    jsonld_files.append(file_path)
+                    self.logger.info(f"  -> Added ValueSet JSON-LD vocabulary")
+                else:
+                    self.logger.info(f"  -> Skipped non-ValueSet JSON-LD file")
+        
+        self.logger.info(f"JSON-LD detection summary:")
+        self.logger.info(f"  Total JSON-LD files found: {jsonld_count}")
+        self.logger.info(f"  ValueSet JSON-LD vocabularies: {len(jsonld_files)}")
+        
+        if jsonld_count == 0:
+            self.logger.info(f"No .jsonld files found in {output_dir}")
         
         return jsonld_files
 
@@ -377,8 +416,17 @@ class HTMLProcessor:
             True if successful, False otherwise
         """
         try:
+            self.logger.info(f"Starting content injection into: {html_file_path}")
+            self.logger.info(f"Content to inject length: {len(content)} characters")
+            
+            if not os.path.exists(html_file_path):
+                self.logger.error(f"HTML file does not exist: {html_file_path}")
+                return False
+            
             with open(html_file_path, 'r', encoding='utf-8') as f:
                 html_content = f.read()
+            
+            self.logger.info(f"Read HTML file, length: {len(html_content)} characters")
             
             soup = BeautifulSoup(html_content, 'html.parser')
             
@@ -386,7 +434,12 @@ class HTMLProcessor:
             publish_box = soup.find(id='publish-box')
             if not publish_box:
                 self.logger.warning(f"No publish-box found in {html_file_path}")
+                # Let's check what IDs exist in the file
+                all_ids = [elem.get('id') for elem in soup.find_all(id=True)]
+                self.logger.info(f"Available IDs in HTML: {all_ids}")
                 return False
+            
+            self.logger.info(f"Found publish-box element: {publish_box.name}")
             
             # Find the parent container that holds the content
             content_container = publish_box.find_parent()
@@ -394,26 +447,42 @@ class HTMLProcessor:
                 self.logger.warning(f"No content container found for publish-box in {html_file_path}")
                 return False
             
+            self.logger.info(f"Found content container: {content_container.name}")
+            
+            # Count existing siblings after publish-box
+            existing_siblings = list(publish_box.next_siblings)
+            sibling_count = len([s for s in existing_siblings if hasattr(s, 'extract')])
+            self.logger.info(f"Found {sibling_count} existing siblings after publish-box")
+            
             # Remove all siblings after the publish-box
-            for sibling in list(publish_box.next_siblings):
+            for sibling in existing_siblings:
                 if hasattr(sibling, 'extract'):
                     sibling.extract()
             
+            self.logger.info(f"Removed {sibling_count} existing siblings")
+            
             # Add the new content
             new_content_soup = BeautifulSoup(content, 'html.parser')
+            elements_added = 0
             for element in new_content_soup:
                 if hasattr(element, 'name'):  # Only add tag elements
                     content_container.append(element)
+                    elements_added += 1
+            
+            self.logger.info(f"Added {elements_added} new elements to content container")
             
             # Write the modified HTML back to the file
             with open(html_file_path, 'w', encoding='utf-8') as f:
                 f.write(str(soup))
             
-            self.logger.info(f"Successfully injected content into {html_file_path}")
+            self.logger.info(f"Successfully wrote modified HTML back to {html_file_path}")
+            self.logger.info(f"Final HTML file size: {len(str(soup))} characters")
             return True
             
         except Exception as e:
             self.logger.error(f"Error injecting content into {html_file_path}: {e}")
+            import traceback
+            self.logger.error(f"Traceback: {traceback.format_exc()}")
             return False
 class SchemaDocumentationRenderer:
     """Generates HTML documentation content for schemas."""
@@ -1218,14 +1287,15 @@ class DAKApiHubGenerator:
 """
         
         # Add API Enumeration Endpoints section
-        if enumeration_docs:
+        if enumeration_docs or jsonld_docs:
             html_content += """
     <h3>API Enumeration Endpoints</h3>
     
-    <p>These endpoints provide lists of all available schemas of each type:</p>
+    <p>These endpoints provide lists of all available schemas and vocabularies of each type:</p>
     
     <div class="enumeration-endpoints">
 """
+            # Add schema enumeration endpoints
             for enum_doc in enumeration_docs:
                 html_content += f"""
         <div class="endpoint-card">
@@ -1233,6 +1303,27 @@ class DAKApiHubGenerator:
             <p>{enum_doc['description']}</p>
         </div>
 """
+            
+            # Add JSON-LD enumeration endpoints
+            if jsonld_docs:
+                html_content += """
+        <div class="endpoint-card">
+            <h4>JSON-LD Vocabularies Enumeration</h4>
+            <p>Semantic web vocabularies for ValueSet enumerations with schema.org compatibility</p>
+            <div class="jsonld-list">
+"""
+                for jsonld_doc in jsonld_docs:
+                    html_content += f"""
+                <div class="jsonld-item">
+                    <a href="{jsonld_doc['filename']}" class="jsonld-link">{jsonld_doc['title']}</a>
+                    <span class="jsonld-description">{jsonld_doc['description']}</span>
+                </div>
+"""
+                html_content += """
+            </div>
+        </div>
+"""
+            
             html_content += """
     </div>
 """
@@ -1422,6 +1513,46 @@ class DAKApiHubGenerator:
 .usage-info li {
     margin: 0.25rem 0;
 }
+
+/* JSON-LD specific styling */
+.jsonld-list {
+    margin: 0.75rem 0 0 0;
+    padding: 0.75rem;
+    background: #fff;
+    border: 1px solid #e1ecf4;
+    border-radius: 4px;
+}
+
+.jsonld-item {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-left: 3px solid #17a2b8;
+    background: #f8f9fa;
+}
+
+.jsonld-item:last-child {
+    margin-bottom: 0;
+}
+
+.jsonld-link {
+    font-weight: 600;
+    color: #17a2b8;
+    text-decoration: none;
+    margin-bottom: 0.25rem;
+}
+
+.jsonld-link:hover {
+    color: #138496;
+    text-decoration: underline;
+}
+
+.jsonld-description {
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-style: italic;
+}
 </style>
 
 <hr>
@@ -1446,10 +1577,19 @@ class DAKApiHubGenerator:
             True if successful, False otherwise
         """
         try:
+            self.logger.info("Starting DAK API hub post-processing...")
+            
             if enumeration_docs is None:
                 enumeration_docs = []
             if jsonld_docs is None:
                 jsonld_docs = []
+            
+            self.logger.info(f"Content to include in hub:")
+            self.logger.info(f"  ValueSet schemas: {len(schema_docs['valueset'])}")
+            self.logger.info(f"  Logical Model schemas: {len(schema_docs['logical_model'])}")
+            self.logger.info(f"  Enumeration endpoints: {len(enumeration_docs)}")
+            self.logger.info(f"  JSON-LD vocabularies: {len(jsonld_docs)}")
+            self.logger.info(f"  OpenAPI docs: {len(openapi_docs)}")
             
             # Check if dak-api.html exists
             dak_api_html_path = os.path.join(output_dir, "dak-api.html")
@@ -1457,22 +1597,39 @@ class DAKApiHubGenerator:
                 self.logger.error(f"dak-api.html not found at {dak_api_html_path}")
                 return False
             
+            self.logger.info(f"Found dak-api.html template at: {dak_api_html_path}")
+            
             # Generate the HTML content for the hub
+            self.logger.info("Generating hub HTML content...")
             hub_content = self.generate_hub_html_content(schema_docs, openapi_docs, enumeration_docs, jsonld_docs)
+            self.logger.info(f"Generated hub content length: {len(hub_content)} characters")
+            
+            if len(hub_content) < 100:
+                self.logger.warning("Generated hub content seems very short, this might indicate an issue")
+                self.logger.info(f"Hub content preview: {hub_content[:200]}...")
             
             # Create HTML processor to inject content
+            self.logger.info("Creating HTML processor for content injection...")
             html_processor = HTMLProcessor(self.logger, output_dir)
             
             # Inject content into dak-api.html
+            self.logger.info("Injecting content into dak-api.html...")
             success = html_processor.inject_content_after_publish_box(dak_api_html_path, hub_content)
             
             if success:
-                self.logger.info(f"Successfully post-processed DAK API hub: {dak_api_html_path}")
+                self.logger.info(f"✅ Successfully post-processed DAK API hub: {dak_api_html_path}")
+                # Verify the final file
+                final_size = os.path.getsize(dak_api_html_path)
+                self.logger.info(f"Final dak-api.html file size: {final_size} bytes")
+            else:
+                self.logger.error("❌ Failed to inject content into dak-api.html")
             
             return success
             
         except Exception as e:
             self.logger.error(f"Error post-processing DAK API hub: {e}")
+            import traceback
+            self.logger.error(f"Traceback: {traceback.format_exc()}")
             return False
 
 
@@ -1494,24 +1651,41 @@ def main():
     logger.info(f"Output directory: {output_dir}")
     logger.info(f"OpenAPI directory: {openapi_dir}")
     
+    # Check if output directory exists and has content
+    if os.path.exists(output_dir):
+        logger.info(f"Output directory exists with {len(os.listdir(output_dir))} items")
+        # Log a few sample files to help debugging
+        all_files = os.listdir(output_dir)
+        sample_files = all_files[:10]  # Show first 10 files
+        logger.info(f"Sample files in output directory: {sample_files}")
+    else:
+        logger.error(f"Output directory does not exist: {output_dir}")
+        sys.exit(1)
+    
     # Initialize components
+    logger.info("Initializing DAK API components...")
     schema_detector = SchemaDetector(logger)
     openapi_detector = OpenAPIDetector(logger)
     openapi_wrapper = OpenAPIWrapper(logger)
     schema_doc_renderer = SchemaDocumentationRenderer(logger)
     hub_generator = DAKApiHubGenerator(logger)
     html_processor = HTMLProcessor(logger, output_dir)
+    logger.info("Components initialized successfully")
     
     # Find schema files
+    logger.info("=== SCHEMA FILE DETECTION PHASE ===")
     schemas = schema_detector.find_schema_files(output_dir)
     
     # Find JSON-LD vocabulary files
+    logger.info("=== JSON-LD FILE DETECTION PHASE ===")
     jsonld_files = schema_detector.find_jsonld_files(output_dir)
     
     # Find existing OpenAPI files
+    logger.info("=== OPENAPI FILE DETECTION PHASE ===")
     openapi_files = openapi_detector.find_openapi_files(openapi_dir)
     
     # Generate schema documentation
+    logger.info("=== SCHEMA DOCUMENTATION GENERATION PHASE ===")
     schema_docs = {
         'valueset': [],
         'logical_model': []
@@ -1519,12 +1693,20 @@ def main():
     
     # Check if dak-api.html exists (required as template)
     dak_api_html_path = os.path.join(output_dir, "dak-api.html")
+    logger.info(f"Checking for dak-api.html template at: {dak_api_html_path}")
     if not os.path.exists(dak_api_html_path):
         logger.error(f"dak-api.html not found at {dak_api_html_path}. Make sure the IG publisher ran first with a placeholder dak-api.md file.")
         sys.exit(1)
+    else:
+        logger.info("dak-api.html template found successfully")
+        # Get file size for debugging
+        template_size = os.path.getsize(dak_api_html_path)
+        logger.info(f"Template file size: {template_size} bytes")
     
     # Process ValueSet schemas
-    for schema_path in schemas['valueset']:
+    logger.info(f"Processing {len(schemas['valueset'])} ValueSet schemas...")
+    for i, schema_path in enumerate(schemas['valueset'], 1):
+        logger.info(f"Processing ValueSet schema {i}/{len(schemas['valueset'])}: {schema_path}")
         try:
             # Load schema to get metadata
             with open(schema_path, 'r', encoding='utf-8') as f:
@@ -1532,37 +1714,51 @@ def main():
             
             schema_filename = os.path.basename(schema_path)
             schema_name = schema_filename.replace('.schema.json', '')
+            logger.info(f"  Schema name: {schema_name}")
+            logger.info(f"  Schema title: {schema.get('title', 'No title')}")
             
             # Generate schema documentation content
+            logger.info(f"  Generating documentation content...")
             doc_content = schema_doc_renderer.generate_schema_documentation_html(schema_path, 'valueset', output_dir)
             
             if doc_content:
+                logger.info(f"  Generated content length: {len(doc_content)} characters")
                 # Create individual HTML file using dak-api.html as template
                 html_filename = f"{schema_name}.html"
                 html_path = os.path.join(output_dir, html_filename)
                 
                 # Create HTML content using template
                 title = schema.get('title', f"{schema_name} Schema Documentation")
+                logger.info(f"  Creating HTML page with title: {title}")
                 html_content = html_processor.create_html_template_from_existing(dak_api_html_path, title, doc_content)
                 
                 if html_content:
+                    logger.info(f"  Generated HTML content length: {len(html_content)} characters")
                     # Save the individual schema HTML file
                     with open(html_path, 'w', encoding='utf-8') as f:
                         f.write(html_content)
                     
-                    logger.info(f"Created ValueSet schema HTML: {html_path}")
+                    logger.info(f"  ✅ Created ValueSet schema HTML: {html_path}")
                     
                     schema_docs['valueset'].append({
                         'title': title,
                         'description': schema.get('description', 'ValueSet schema documentation'),
                         'html_file': html_filename
                     })
+                else:
+                    logger.error(f"  ❌ Failed to create HTML content for {schema_name}")
+            else:
+                logger.error(f"  ❌ Failed to generate documentation content for {schema_name}")
                 
         except Exception as e:
-            logger.error(f"Error processing ValueSet schema {schema_path}: {e}")
+            logger.error(f"  ❌ Error processing ValueSet schema {schema_path}: {e}")
+            import traceback
+            logger.error(f"  Traceback: {traceback.format_exc()}")
     
     # Process Logical Model schemas
-    for schema_path in schemas['logical_model']:
+    logger.info(f"Processing {len(schemas['logical_model'])} Logical Model schemas...")
+    for i, schema_path in enumerate(schemas['logical_model'], 1):
+        logger.info(f"Processing Logical Model schema {i}/{len(schemas['logical_model'])}: {schema_path}")
         try:
             # Load schema to get metadata
             with open(schema_path, 'r', encoding='utf-8') as f:
@@ -1570,34 +1766,46 @@ def main():
             
             schema_filename = os.path.basename(schema_path)
             schema_name = schema_filename.replace('.schema.json', '')
+            logger.info(f"  Schema name: {schema_name}")
+            logger.info(f"  Schema title: {schema.get('title', 'No title')}")
             
             # Generate schema documentation content
+            logger.info(f"  Generating documentation content...")
             doc_content = schema_doc_renderer.generate_schema_documentation_html(schema_path, 'logical_model', output_dir)
             
             if doc_content:
+                logger.info(f"  Generated content length: {len(doc_content)} characters")
                 # Create individual HTML file using dak-api.html as template
                 html_filename = f"{schema_name}.html"
                 html_path = os.path.join(output_dir, html_filename)
                 
                 # Create HTML content using template
                 title = schema.get('title', f"{schema_name} Schema Documentation")
+                logger.info(f"  Creating HTML page with title: {title}")
                 html_content = html_processor.create_html_template_from_existing(dak_api_html_path, title, doc_content)
                 
                 if html_content:
+                    logger.info(f"  Generated HTML content length: {len(html_content)} characters")
                     # Save the individual schema HTML file
                     with open(html_path, 'w', encoding='utf-8') as f:
                         f.write(html_content)
                     
-                    logger.info(f"Created Logical Model schema HTML: {html_path}")
+                    logger.info(f"  ✅ Created Logical Model schema HTML: {html_path}")
                     
                     schema_docs['logical_model'].append({
                         'title': title,
                         'description': schema.get('description', 'Logical Model schema documentation'),
                         'html_file': html_filename
                     })
+                else:
+                    logger.error(f"  ❌ Failed to create HTML content for {schema_name}")
+            else:
+                logger.error(f"  ❌ Failed to generate documentation content for {schema_name}")
                 
         except Exception as e:
-            logger.error(f"Error processing Logical Model schema {schema_path}: {e}")
+            logger.error(f"  ❌ Error processing Logical Model schema {schema_path}: {e}")
+            import traceback
+            logger.error(f"  Traceback: {traceback.format_exc()}")
     
     # Process existing OpenAPI files (if any)
     openapi_docs = []
@@ -1614,16 +1822,20 @@ def main():
             logger.error(f"Error processing OpenAPI file {openapi_path}: {e}")
     
     # Create enumeration endpoints for ValueSets and LogicalModels
+    logger.info("=== ENUMERATION ENDPOINT CREATION PHASE ===")
     enumeration_docs = []
     
     # Create ValueSets enumeration endpoint if we have ValueSet schemas
     if schemas['valueset']:
+        logger.info(f"Creating ValueSets enumeration endpoint for {len(schemas['valueset'])} schemas...")
         valueset_enum_path = hub_generator.create_enumeration_schema('valueset', schemas['valueset'], output_dir)
         if valueset_enum_path:
+            logger.info(f"Created ValueSets enumeration schema: {valueset_enum_path}")
             # Generate enumeration documentation content
             doc_content = schema_doc_renderer.generate_schema_documentation_html(valueset_enum_path, 'valueset', output_dir)
             
             if doc_content:
+                logger.info(f"Generated enumeration documentation content length: {len(doc_content)} characters")
                 # Create enumeration HTML file
                 html_filename = "ValueSets-enumeration.html"
                 html_path = os.path.join(output_dir, html_filename)
@@ -1635,7 +1847,7 @@ def main():
                     with open(html_path, 'w', encoding='utf-8') as f:
                         f.write(html_content)
                     
-                    logger.info(f"Created ValueSets enumeration HTML: {html_path}")
+                    logger.info(f"✅ Created ValueSets enumeration HTML: {html_path}")
                     
                     enumeration_docs.append({
                         'title': 'ValueSets.schema.json',
@@ -1643,15 +1855,26 @@ def main():
                         'html_file': html_filename,
                         'type': 'enumeration-valueset'
                     })
+                else:
+                    logger.error("❌ Failed to create ValueSets enumeration HTML content")
+            else:
+                logger.error("❌ Failed to generate ValueSets enumeration documentation content")
+        else:
+            logger.error("❌ Failed to create ValueSets enumeration schema")
+    else:
+        logger.info("No ValueSet schemas found, skipping ValueSets enumeration endpoint")
     
     # Create LogicalModels enumeration endpoint if we have LogicalModel schemas  
     if schemas['logical_model']:
+        logger.info(f"Creating LogicalModels enumeration endpoint for {len(schemas['logical_model'])} schemas...")
         logicalmodel_enum_path = hub_generator.create_enumeration_schema('logical_model', schemas['logical_model'], output_dir)
         if logicalmodel_enum_path:
+            logger.info(f"Created LogicalModels enumeration schema: {logicalmodel_enum_path}")
             # Generate enumeration documentation content
             doc_content = schema_doc_renderer.generate_schema_documentation_html(logicalmodel_enum_path, 'logical_model', output_dir)
             
             if doc_content:
+                logger.info(f"Generated enumeration documentation content length: {len(doc_content)} characters")
                 # Create enumeration HTML file
                 html_filename = "LogicalModels-enumeration.html"
                 html_path = os.path.join(output_dir, html_filename)
@@ -1663,7 +1886,7 @@ def main():
                     with open(html_path, 'w', encoding='utf-8') as f:
                         f.write(html_content)
                     
-                    logger.info(f"Created LogicalModels enumeration HTML: {html_path}")
+                    logger.info(f"✅ Created LogicalModels enumeration HTML: {html_path}")
                     
                     enumeration_docs.append({
                         'title': 'LogicalModels.schema.json',
@@ -1671,28 +1894,44 @@ def main():
                         'html_file': html_filename,
                         'type': 'enumeration-logicalmodel'
                     })
+                else:
+                    logger.error("❌ Failed to create LogicalModels enumeration HTML content")
+            else:
+                logger.error("❌ Failed to generate LogicalModels enumeration documentation content")
+        else:
+            logger.error("❌ Failed to create LogicalModels enumeration schema")
+    else:
+        logger.info("No Logical Model schemas found, skipping LogicalModels enumeration endpoint")
     
     # Process JSON-LD vocabulary files
+    logger.info("=== JSON-LD VOCABULARY PROCESSING PHASE ===")
     jsonld_docs = []
-    for jsonld_path in jsonld_files:
+    logger.info(f"Processing {len(jsonld_files)} JSON-LD vocabulary files...")
+    for i, jsonld_path in enumerate(jsonld_files, 1):
+        logger.info(f"Processing JSON-LD vocabulary {i}/{len(jsonld_files)}: {jsonld_path}")
         try:
             # Load JSON-LD vocabulary to get metadata
             with open(jsonld_path, 'r', encoding='utf-8') as f:
                 jsonld_vocab = json.load(f)
             
             jsonld_filename = os.path.basename(jsonld_path)
+            logger.info(f"  Filename: {jsonld_filename}")
             
             # Extract title and description from the enumeration class in the @graph
             title = jsonld_filename
             description = "JSON-LD vocabulary for ValueSet enumeration"
             
             if '@graph' in jsonld_vocab and isinstance(jsonld_vocab['@graph'], list):
+                logger.info(f"  Found @graph with {len(jsonld_vocab['@graph'])} items")
                 for item in jsonld_vocab['@graph']:
                     if isinstance(item, dict) and item.get('type') == 'schema:Enumeration':
+                        logger.info(f"  Found enumeration class: {item.get('id', 'no ID')}")
                         if 'name' in item:
                             title = f"{item['name']} JSON-LD Vocabulary"
+                            logger.info(f"  Updated title to: {title}")
                         if 'comment' in item:
                             description = item['comment']
+                            logger.info(f"  Updated description to: {description}")
                         break
             
             jsonld_docs.append({
@@ -1701,20 +1940,45 @@ def main():
                 'filename': jsonld_filename
             })
             
-            logger.info(f"Added JSON-LD vocabulary to documentation: {jsonld_filename}")
+            logger.info(f"  ✅ Added JSON-LD vocabulary to documentation: {jsonld_filename}")
             
         except Exception as e:
-            logger.error(f"Error processing JSON-LD vocabulary {jsonld_path}: {e}")
+            logger.error(f"  ❌ Error processing JSON-LD vocabulary {jsonld_path}: {e}")
+            import traceback
+            logger.error(f"  Traceback: {traceback.format_exc()}")
+    
+    # Log summary before hub generation
+    logger.info("=== DOCUMENTATION SUMMARY ===")
+    logger.info(f"ValueSet schema docs: {len(schema_docs['valueset'])}")
+    logger.info(f"Logical Model schema docs: {len(schema_docs['logical_model'])}")
+    logger.info(f"Enumeration endpoints: {len(enumeration_docs)}")
+    logger.info(f"JSON-LD vocabularies: {len(jsonld_docs)}")
+    logger.info(f"OpenAPI docs: {len(openapi_docs)}")
+    
+    total_content_items = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(enumeration_docs) + len(jsonld_docs) + len(openapi_docs)
+    if total_content_items == 0:
+        logger.warning("⚠️ No content items found to document! The DAK API hub will be empty.")
+    else:
+        logger.info(f"Total content items to include in hub: {total_content_items}")
     
     # Post-process the DAK API hub
+    logger.info("=== DAK API HUB POST-PROCESSING PHASE ===")
     success = hub_generator.post_process_dak_api_html(output_dir, schema_docs, openapi_docs, enumeration_docs, jsonld_docs)
     
     if success:
         total_docs = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(openapi_docs) + len(enumeration_docs) + len(jsonld_docs)
-        logger.info(f"Successfully post-processed DAK API hub with {total_docs} documentation pages")
+        logger.info(f"🎉 Successfully post-processed DAK API hub with {total_docs} documentation pages")
+        logger.info("=== FINAL SUMMARY ===")
+        logger.info(f"✅ ValueSet schema pages: {len(schema_docs['valueset'])}")
+        logger.info(f"✅ Logical Model schema pages: {len(schema_docs['logical_model'])}")
+        logger.info(f"✅ Enumeration endpoint pages: {len(enumeration_docs)}")
+        logger.info(f"✅ JSON-LD vocabulary references: {len(jsonld_docs)}")
+        logger.info(f"✅ OpenAPI documentation pages: {len(openapi_docs)}")
+        logger.info(f"✅ Total documentation pages: {total_docs}")
         sys.exit(0)
     else:
-        logger.error("Failed to post-process DAK API hub")
+        logger.error("❌ Failed to post-process DAK API hub")
+        logger.error("Check the logs above for specific error details")
         sys.exit(1)
 
 
