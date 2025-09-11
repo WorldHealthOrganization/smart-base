@@ -493,10 +493,10 @@ jobs:
             echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
           fi
 
-      - name: Generate DAK API Documentation (after IG publisher)  
+      - name: Generate DAK API Documentation (post-process HTML)  
         if: env.ENABLE_DAK_API_HUB == 'true'
         run: |
-          echo "Generating DAK API documentation after IG publisher and schema generation..."
+          echo "Post-processing DAK API documentation into generated HTML files..."
           
           # Check if there are schemas to document
           HAVE_SCHEMAS=false
@@ -514,13 +514,13 @@ jobs:
           
           if [ "$HAVE_SCHEMAS" = true ] || [ "$VALUESET_SCHEMAS_GENERATED" = true ] || [ "$LOGICAL_MODEL_SCHEMAS_GENERATED" = true ]; then
             # Install required Python dependencies
-            pip install pyyaml
+            pip install pyyaml beautifulsoup4
             
             # Check if script exists locally first
             if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
               echo "Using local DAK API hub generator..."
               python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
-              echo "✅ DAK API documentation generated successfully"
+              echo "✅ DAK API documentation post-processed successfully"
             else
               echo "Downloading DAK API hub generator..."
               mkdir -p ./input/scripts
@@ -528,7 +528,7 @@ jobs:
                 -o ./input/scripts/generate_dak_api_hub.py
               if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
                 python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
-                echo "✅ DAK API documentation generated successfully"
+                echo "✅ DAK API documentation post-processed successfully"
               else
                 echo "⚠️  Failed to download DAK API hub generator, skipping"
               fi
@@ -539,38 +539,6 @@ jobs:
             echo "     - Enable 'Generate Logical Model JSON Schemas' to generate Logical Model documentation"  
             echo "     - Or place OpenAPI/Swagger files in input/images/openapi/ directory"
             echo "Skipping DAK API documentation generation."
-          fi
-
-      - name: Run IG Publisher second time for DAK API markdown integration
-        if: env.ENABLE_DAK_API_HUB == 'true'
-        run: |
-          echo "Running IG Publisher second time to process DAK API markdown files..."
-          
-          # Check if DAK API markdown files were generated
-          if [ -f "./input/pagecontent/dak-api.md" ] || find ./input/pagecontent -name "*-schema.md" -print -quit | grep -q .; then
-            echo "Found DAK API markdown files, running IG Publisher to process them..."
-            
-            CMD="java -Xmx6g -jar ./input-cache/publisher.jar publisher \
-              -ig . \
-              -auto-ig-build \
-              -repo https://github.com/${GITHUB_REPOSITORY}/tree/${GITHUB_REF_NAME} \
-              -package-cache-folder ./fhir-package-cache"
-
-            if [ ! -z "${{ inputs.tx }}" ]; then
-              CMD="$CMD -tx ${{ inputs.tx }}"
-            fi
-
-            echo "Running IG Publisher second time for DAK API integration..."
-            
-            docker run --rm \
-              -v ${{ github.workspace }}:/work \
-              -w /work \
-              hl7fhir/ig-publisher-base:latest \
-              sh -c "$CMD"
-              
-            echo "✅ IG Publisher completed DAK API markdown integration"
-          else
-            echo "⚠️  No DAK API markdown files found, skipping second IG Publisher run"
           fi
      
       # Additional step to upload qa.json as an artifact

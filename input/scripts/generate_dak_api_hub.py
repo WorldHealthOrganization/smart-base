@@ -2,16 +2,16 @@
 """
 DAK API Documentation Hub Generator
 
-This script generates a unified API documentation hub (dak-api.html) that provides 
-browsable documentation for all JSON schemas and OpenAPI specifications in a 
-WHO SMART Guideline Digital Adaptation Kit (DAK).
+This script post-processes the IG-generated HTML files to inject DAK API content.
+It works by:
+1. Detecting existing JSON schemas (ValueSet and Logical Model schemas)
+2. Creating minimal OpenAPI 3.0 wrappers for each JSON schema
+3. Generating schema documentation content
+4. Post-processing the dak-api.html file to replace content after "publish-box"
+5. Creating individual schema documentation pages using dak-api.html as template
 
-The script:
-1. Detects existing JSON schemas (ValueSet and Logical Model schemas)
-2. Creates minimal OpenAPI 3.0 wrappers for each JSON schema
-3. Generates ReDoc HTML files for each schema
-4. Detects any existing OpenAPI/Swagger files
-5. Creates the unified dak-api.html hub page
+The script is designed to work with a single IG publisher run, post-processing
+the generated HTML files instead of creating markdown that requires a second run.
 
 Usage:
     python generate_dak_api_hub.py [output_dir] [openapi_dir]
@@ -28,6 +28,7 @@ import re
 from typing import Dict, List, Optional, Any, Tuple
 from pathlib import Path
 from urllib.parse import urlparse
+from bs4 import BeautifulSoup
 
 
 def setup_logging() -> logging.Logger:
@@ -283,13 +284,392 @@ class OpenAPIWrapper:
             return None
 
 
-class ReDocRenderer:
-    """Generates self-contained HTML files for OpenAPI specifications and JSON schemas."""
+class HTMLProcessor:
+    """Post-processes HTML files to inject DAK API content."""
+    
+    def __init__(self, logger: logging.Logger, output_dir: str):
+        self.logger = logger
+        self.output_dir = output_dir
+    
+    def create_html_template_from_existing(self, template_html_path: str, title: str, content: str) -> str:
+        """
+        Create a new HTML file using an existing file as template.
+        
+        Args:
+            template_html_path: Path to the template HTML file (e.g., dak-api.html)
+            title: Title for the new page
+            content: HTML content to inject after the publish-box
+            
+        Returns:
+            The new HTML content as a string
+        """
+        try:
+            with open(template_html_path, 'r', encoding='utf-8') as f:
+                template_html = f.read()
+            
+            soup = BeautifulSoup(template_html, 'html.parser')
+            
+            # Update the title
+            title_tag = soup.find('title')
+            if title_tag:
+                # Extract the suffix from existing title (e.g., " - SMART Base v0.2.0")
+                current_title = title_tag.get_text()
+                if ' - ' in current_title:
+                    suffix = ' - ' + current_title.split(' - ', 1)[1]
+                else:
+                    suffix = ''
+                title_tag.string = title + suffix
+            
+            # Find the publish-box and replace content after it
+            publish_box = soup.find(id='publish-box')
+            if publish_box:
+                # Find the parent container that holds the content
+                content_container = publish_box.find_parent()
+                if content_container:
+                    # Remove all siblings after the publish-box
+                    for sibling in list(publish_box.next_siblings):
+                        if hasattr(sibling, 'extract'):
+                            sibling.extract()
+                    
+                    # Add the new content
+                    new_content_soup = BeautifulSoup(content, 'html.parser')
+                    for element in new_content_soup:
+                        if hasattr(element, 'name'):  # Only add tag elements
+                            content_container.append(element)
+            
+            return str(soup)
+            
+        except Exception as e:
+            self.logger.error(f"Error creating HTML template: {e}")
+            return ""
+    
+    def inject_content_after_publish_box(self, html_file_path: str, content: str) -> bool:
+        """
+        Inject content into an HTML file after the publish-box div.
+        
+        Args:
+            html_file_path: Path to the HTML file to modify
+            content: HTML content to inject
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            with open(html_file_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+            
+            soup = BeautifulSoup(html_content, 'html.parser')
+            
+            # Find the publish-box
+            publish_box = soup.find(id='publish-box')
+            if not publish_box:
+                self.logger.warning(f"No publish-box found in {html_file_path}")
+                return False
+            
+            # Find the parent container that holds the content
+            content_container = publish_box.find_parent()
+            if not content_container:
+                self.logger.warning(f"No content container found for publish-box in {html_file_path}")
+                return False
+            
+            # Remove all siblings after the publish-box
+            for sibling in list(publish_box.next_siblings):
+                if hasattr(sibling, 'extract'):
+                    sibling.extract()
+            
+            # Add the new content
+            new_content_soup = BeautifulSoup(content, 'html.parser')
+            for element in new_content_soup:
+                if hasattr(element, 'name'):  # Only add tag elements
+                    content_container.append(element)
+            
+            # Write the modified HTML back to the file
+            with open(html_file_path, 'w', encoding='utf-8') as f:
+                f.write(str(soup))
+            
+            self.logger.info(f"Successfully injected content into {html_file_path}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Error injecting content into {html_file_path}: {e}")
+            return False
+class SchemaDocumentationRenderer:
+    """Generates HTML documentation content for schemas."""
     
     def __init__(self, logger: logging.Logger):
         self.logger = logger
     
     def get_codesystem_anchors(self, codesystem_url: str, output_dir: str) -> Dict[str, str]:
+        """
+        Attempt to find anchor mappings for codes in a CodeSystem HTML file.
+        
+        Args:
+            codesystem_url: The canonical URL of the CodeSystem
+            output_dir: Directory where HTML files are located
+            
+        Returns:
+            Dictionary mapping codes to their anchor names
+        """
+        anchor_map = {}
+        
+        try:
+            # Extract CodeSystem ID from URL
+            if '/CodeSystem/' in codesystem_url:
+                codesystem_id = codesystem_url.split('/CodeSystem/')[-1]
+                html_filename = f"CodeSystem-{codesystem_id}.html"
+                html_path = os.path.join(output_dir, html_filename)
+                
+                if os.path.exists(html_path):
+                    with open(html_path, 'r', encoding='utf-8') as f:
+                        html_content = f.read()
+                    
+                    # Look for anchor patterns like id="CDHIv1-2.461.462" or similar
+                    import re
+                    # Pattern to find id attributes that likely correspond to codes
+                    anchor_pattern = rf'id="({re.escape(codesystem_id)}-[^"]+)"'
+                    matches = re.findall(anchor_pattern, html_content)
+                    
+                    for match in matches:
+                        # Extract the code part after the codesystem ID
+                        if '-' in match:
+                            code_part = match.split('-', 1)[1]
+                            anchor_map[code_part] = match
+                
+                self.logger.info(f"Found {len(anchor_map)} anchor mappings for CodeSystem {codesystem_id}")
+        except Exception as e:
+            self.logger.warning(f"Could not load CodeSystem anchors for {codesystem_url}: {e}")
+        
+        return anchor_map
+    
+    def generate_schema_documentation_html(self, schema_path: str, schema_type: str, output_dir: str) -> str:
+        """
+        Generate HTML documentation content for a schema.
+        
+        Args:
+            schema_path: Path to the schema file
+            schema_type: Type of schema ('valueset' or 'logical_model')
+            output_dir: Output directory for reference files
+            
+        Returns:
+            HTML content as a string
+        """
+        try:
+            schema_filename = os.path.basename(schema_path)
+            spec_name = schema_filename.replace('.schema.json', '')
+            
+            # Load the schema
+            with open(schema_path, 'r', encoding='utf-8') as f:
+                schema_data = json.load(f)
+            
+            title = schema_data.get('title', f"{spec_name} Schema Documentation")
+            
+            # Generate HTML content
+            html_content = f"""
+<div class="schema-documentation">
+    <h2>{title}</h2>
+    
+    <div class="schema-info">
+        <p><strong>Schema File:</strong> {schema_filename}</p>
+        <p><strong>Description:</strong> {schema_data.get('description', 'No description available')}</p>
+        <p><strong>Type:</strong> {schema_data.get('type', 'unknown')}</p>
+    </div>
+"""
+            
+            # Add schema ID as link if available
+            schema_id = schema_data.get('$id', '')
+            if schema_id:
+                # Determine the correct FHIR page link based on schema type
+                if schema_filename == 'ValueSets.schema.json':
+                    fhir_url = "artifacts.html#terminology-value-sets"
+                elif schema_filename == 'LogicalModels.schema.json':
+                    fhir_url = "artifacts.html#structures-logical-models"
+                else:
+                    # Individual schemas link to their specific HTML files
+                    fhir_url = schema_filename.replace('.schema.json', '.html')
+                
+                html_content += f"""
+    <div class="schema-links">
+        <p><strong>Schema ID:</strong> <a href="{schema_id}" target="_blank">{schema_id}</a></p>
+        <p><strong>FHIR Page:</strong> <a href="{fhir_url}">View full FHIR definition</a></p>
+    </div>
+"""
+            
+            # Handle enum values for ValueSets
+            if 'enum' in schema_data:
+                # Sort enum values alphabetically and truncate after 40 entries
+                enum_values = sorted(schema_data['enum'])
+                displayed_values = enum_values[:40]
+                truncated = len(enum_values) > 40
+                
+                # Check if we can link to CodeSystem definitions
+                codesystem_anchors = {}
+                if schema_type == 'valueset' and schema_id:
+                    # Try to load system mapping to find CodeSystem
+                    try:
+                        if '/' in schema_id:
+                            base_url = '/'.join(schema_id.split('/')[:-1])
+                            system_filename = f"{spec_name}.system.json"
+                            system_path = os.path.join(output_dir, system_filename)
+                            
+                            if os.path.exists(system_path):
+                                with open(system_path, 'r', encoding='utf-8') as f:
+                                    system_data = json.load(f)
+                                
+                                # Get system URIs for codes
+                                fhir_systems = system_data.get('fhir:systems', {})
+                                if fhir_systems:
+                                    # Check if any system is from the same IG
+                                    for code, system_uri in fhir_systems.items():
+                                        if system_uri and base_url in system_uri:
+                                            # This is a local CodeSystem, try to get anchors
+                                            codesystem_anchors = self.get_codesystem_anchors(system_uri, output_dir)
+                                            break
+                    except Exception as e:
+                        self.logger.warning(f"Could not load system mappings for {spec_name}: {e}")
+                
+                html_content += """
+    <div class="allowed-values">
+        <h3>Allowed Values</h3>
+        <div class="enum-values">
+"""
+                for enum_value in displayed_values:
+                    if enum_value in codesystem_anchors:
+                        # Create link to CodeSystem anchor
+                        anchor = codesystem_anchors[enum_value]
+                        codesystem_id = anchor.split('-')[0]
+                        link_url = f"CodeSystem-{codesystem_id}.html#{anchor}"
+                        html_content += f'            <span class="enum-value"><a href="{link_url}" title="View definition in CodeSystem">{enum_value}</a></span>\n'
+                    else:
+                        html_content += f'            <span class="enum-value">{enum_value}</span>\n'
+                
+                if truncated:
+                    remaining_count = len(enum_values) - 40
+                    html_content += f'            <div class="enum-truncated">... and {remaining_count} more values</div>\n'
+                
+                html_content += """        </div>
+    </div>
+"""
+            
+            # Handle object properties for Logical Models
+            if 'properties' in schema_data:
+                html_content += """
+    <div class="schema-properties">
+        <h3>Properties</h3>
+        <ul>
+"""
+                for prop_name, prop_def in schema_data['properties'].items():
+                    prop_type = prop_def.get('type', 'unknown')
+                    html_content += f'            <li><strong>{prop_name}</strong> ({prop_type}): {prop_def.get("description", "No description")}</li>\n'
+                
+                html_content += """        </ul>
+"""
+                
+                # Show required fields
+                required = schema_data.get('required', [])
+                if required:
+                    html_content += f"""
+        <p><strong>Required fields:</strong> {', '.join(required)}</p>
+"""
+                
+                html_content += """    </div>
+"""
+            
+            # Show full schema as collapsible JSON
+            schema_json_str = json.dumps(schema_data, indent=2)
+            html_content += f"""
+    <div class="schema-json">
+        <details>
+            <summary>Full Schema (JSON)</summary>
+            <pre><code class="language-json">{schema_json_str}</code></pre>
+        </details>
+    </div>
+</div>
+
+<style>
+/* Schema documentation styling that integrates with IG theme */
+.schema-documentation {{
+    margin: 1rem 0;
+}}
+
+.schema-info, .schema-links, .allowed-values, .schema-properties, .schema-json {{
+    margin: 1.5rem 0;
+}}
+
+.enum-values {{
+    background-color: #e7f3ff;
+    border: 1px solid #b8daff;
+    border-radius: 4px;
+    padding: 1rem;
+    margin: 1rem 0;
+}}
+
+.enum-value {{
+    display: inline-block;
+    background-color: #00477d;
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    margin: 0.2rem;
+    font-size: 0.9rem;
+    text-decoration: none;
+}}
+
+.enum-value a {{
+    color: white;
+    text-decoration: none;
+}}
+
+.enum-value:hover, .enum-value a:hover {{
+    background-color: #0070A1;
+    color: white;
+    text-decoration: none;
+}}
+
+.enum-truncated {{
+    margin-top: 0.5rem;
+    font-style: italic;
+    color: #6c757d;
+}}
+
+details {{
+    margin: 1rem 0;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 0;
+}}
+
+details summary {{
+    background: #f8f9fa;
+    padding: 0.75rem;
+    cursor: pointer;
+    border-bottom: 1px solid #dee2e6;
+    font-weight: 500;
+}}
+
+details[open] summary {{
+    border-bottom: 1px solid #dee2e6;
+}}
+
+details pre {{
+    margin: 1rem;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 1rem;
+    overflow-x: auto;
+}}
+</style>
+
+<hr>
+
+<p><em>This documentation is automatically generated from the schema definition.</em></p>
+"""
+            
+            return html_content
+            
+        except Exception as e:
+            self.logger.error(f"Error generating schema documentation for {schema_path}: {e}")
+            return ""
         """
         Attempt to find anchor mappings for codes in a CodeSystem HTML file.
         
@@ -788,12 +1168,12 @@ class DAKApiHubGenerator:
             self.logger.error(f"Error creating enumeration schema for {schema_type}: {e}")
             return None
     
-    def generate_hub(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None) -> bool:
+    def post_process_dak_api_html(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None) -> bool:
         """
-        Generate the unified DAK API documentation by updating the dak-api.md file.
+        Post-process the dak-api.html file to inject DAK API content.
         
         Args:
-            output_dir: Directory to save the hub file
+            output_dir: Directory containing the generated HTML files
             schema_docs: Dictionary with schema documentation info
             openapi_docs: List of OpenAPI documentation info
             enumeration_docs: List of enumeration endpoint documentation info
@@ -805,313 +1185,28 @@ class DAKApiHubGenerator:
             if enumeration_docs is None:
                 enumeration_docs = []
             
-            # Update dak-api.md instead of creating standalone HTML
-            pagecontent_dir = os.path.join(os.path.dirname(output_dir), "input", "pagecontent")
-            if not os.path.exists(pagecontent_dir):
-                # Fallback: try to find pagecontent relative to current location
-                pagecontent_dir = os.path.join(os.getcwd(), "input", "pagecontent")
-            
-            if not os.path.exists(pagecontent_dir):
-                self.logger.error(f"Could not find pagecontent directory. Tried: {pagecontent_dir}")
+            # Check if dak-api.html exists
+            dak_api_html_path = os.path.join(output_dir, "dak-api.html")
+            if not os.path.exists(dak_api_html_path):
+                self.logger.error(f"dak-api.html not found at {dak_api_html_path}")
                 return False
-                
-            dak_api_md_path = os.path.join(pagecontent_dir, "dak-api.md")
             
+            # Generate the HTML content for the hub
+            hub_content = self.generate_hub_html_content(schema_docs, openapi_docs, enumeration_docs)
             
-            # Generate Markdown content for IG integration
-            markdown_content = """# DAK API Documentation Hub
-
-<!-- This content is automatically generated by the DAK API Documentation Hub Generator -->
-
-This Digital Adaptation Kit (DAK) API documentation provides programmatic access to the ValueSet schemas and Logical Model schemas defined in this implementation guide.
-
-<div class="dak-api-content">
-"""
+            # Create HTML processor to inject content
+            html_processor = HTMLProcessor(self.logger, output_dir)
             
-            # Add enumeration endpoints section
-            if enumeration_docs:
-                # Sort enumeration docs alphabetically by title
-                sorted_enumeration_docs = sorted(enumeration_docs, key=lambda x: x['title'])
-                markdown_content += """
-## API Enumeration Endpoints
-
-These endpoints provide dynamic lists of all available schemas in this implementation guide.
-
-<div class="card-grid">
-"""
-                for doc in sorted_enumeration_docs:
-                    # Determine type label and description
-                    if doc.get('type') == 'enumeration-valueset':
-                        type_label = "ValueSets Enumeration"
-                        icon = "📋"
-                    elif doc.get('type') == 'enumeration-logicalmodel':
-                        type_label = "LogicalModels Enumeration"
-                        icon = "🏗️"
-                    else:
-                        type_label = "Enumeration"
-                        icon = "📊"
-                    
-                    markdown_content += f"""
-<div class="api-card enumeration">
-  <div class="card-header">
-    <span class="card-icon">{icon}</span>
-    <span class="card-type">{type_label}</span>
-  </div>
-  <h3><a href="{doc['html_file']}">{doc['title']}</a></h3>
-  <p>{doc['description']}</p>
-  <div class="card-actions">
-    <a href="{doc['html_file']}" class="btn btn-primary">View API Documentation</a>
-  </div>
-</div>
-"""
-                markdown_content += """
-</div>
-"""
+            # Inject content into dak-api.html
+            success = html_processor.inject_content_after_publish_box(dak_api_html_path, hub_content)
             
-            # Add ValueSet schemas section
-            if schema_docs.get('valueset'):
-                # Sort ValueSet schemas alphabetically by title
-                sorted_valueset_docs = sorted(schema_docs['valueset'], key=lambda x: x['title'])
-                markdown_content += """
-## ValueSet Schemas
-
-Individual ValueSet schemas provide enumerated code lists for specific value domains.
-
-<div class="card-grid">
-"""
-                for doc in sorted_valueset_docs:
-                    markdown_content += f"""
-<div class="api-card valueset">
-  <div class="card-header">
-    <span class="card-icon">🎯</span>
-    <span class="card-type">ValueSet</span>
-  </div>
-  <h3><a href="{doc['html_file']}">{doc['title']}</a></h3>
-  <p>{doc['description']}</p>
-  <div class="card-actions">
-    <a href="{doc['html_file']}" class="btn btn-primary">View Schema Documentation</a>
-  </div>
-</div>
-"""
-                markdown_content += """
-</div>
-"""
+            if success:
+                self.logger.info(f"Successfully post-processed DAK API hub: {dak_api_html_path}")
             
-            # Add Logical Model schemas section
-            if schema_docs.get('logical_model'):
-                # Sort Logical Model schemas alphabetically by title
-                sorted_logical_model_docs = sorted(schema_docs['logical_model'], key=lambda x: x['title'])
-                markdown_content += """
-## Logical Model Schemas
-
-Logical Model schemas define the structure and constraints for data models used in this implementation guide.
-
-<div class="card-grid">
-"""
-                for doc in sorted_logical_model_docs:
-                    markdown_content += f"""
-<div class="api-card logical-model">
-  <div class="card-header">
-    <span class="card-icon">🏗️</span>
-    <span class="card-type">Logical Model</span>
-  </div>
-  <h3><a href="{doc['html_file']}">{doc['title']}</a></h3>
-  <p>{doc['description']}</p>
-  <div class="card-actions">
-    <a href="{doc['html_file']}" class="btn btn-primary">View Schema Documentation</a>
-  </div>
-</div>
-"""
-                markdown_content += """
-</div>
-"""
-            
-            # Add OpenAPI specifications section
-            if openapi_docs:
-                # Sort OpenAPI docs alphabetically by title
-                sorted_openapi_docs = sorted(openapi_docs, key=lambda x: x['title'])
-                markdown_content += """
-## OpenAPI Specifications
-
-Additional API specifications beyond the core ValueSet and Logical Model schemas.
-
-<div class="card-grid">
-"""
-                for doc in sorted_openapi_docs:
-                    markdown_content += f"""
-<div class="api-card openapi">
-  <div class="card-header">
-    <span class="card-icon">⚙️</span>
-    <span class="card-type">OpenAPI</span>
-  </div>
-  <h3><a href="{doc['html_file']}">{doc['title']}</a></h3>
-  <p>{doc['description']}</p>
-  <div class="card-actions">
-    <a href="{doc['html_file']}" class="btn btn-primary">View API Documentation</a>
-  </div>
-</div>
-"""
-                markdown_content += """
-</div>
-"""
-            
-            # Add empty state if no documentation
-            if not schema_docs.get('valueset') and not schema_docs.get('logical_model') and not openapi_docs and not enumeration_docs:
-                markdown_content += """
-## No API Documentation Available
-
-No API documentation found. Run the schema generation scripts first to generate documentation:
-
-1. `Generate ValueSet JSON Schemas`
-2. `Generate Logical Model JSON Schemas` 
-3. `Generate DAK API Documentation Hub`
-
-These scripts are part of the GitHub workflow build process.
-"""
-            
-            markdown_content += """
-</div>
-
-<style>
-/* DAK API Styling that integrates with IG theme */
-.dak-api-content {
-  margin-top: 1rem;
-}
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin: 1.5rem 0;
-}
-
-.api-card {
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: all 0.2s ease;
-  overflow: hidden;
-}
-
-.api-card:hover {
-  border-color: #00477d;
-  box-shadow: 0 4px 12px rgba(0,71,125,0.15);
-  transform: translateY(-2px);
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.card-icon {
-  font-size: 1.5rem;
-  margin-right: 0.75rem;
-}
-
-.card-type {
-  background: #00477d;
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-.api-card.enumeration .card-type {
-  background: #607d8b;
-}
-
-.api-card.valueset .card-type {
-  background: #17a2b8;
-}
-
-.api-card.logical-model .card-type {
-  background: #6f42c1;
-}
-
-.api-card.openapi .card-type {
-  background: #fd7e14;
-}
-
-.api-card h3 {
-  margin: 1rem 1rem 0.5rem 1rem;
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.api-card h3 a {
-  color: #00477d;
-  text-decoration: none;
-}
-
-.api-card h3 a:hover {
-  text-decoration: underline;
-}
-
-.api-card p {
-  margin: 0 1rem 1rem 1rem;
-  color: #6c757d;
-  line-height: 1.5;
-}
-
-.card-actions {
-  padding: 1rem;
-  border-top: 1px solid #f1f3f4;
-  background: #fafbfc;
-}
-
-.btn {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
-}
-
-.btn-primary {
-  background-color: #00477d;
-  color: white;
-  border-color: #00477d;
-}
-
-.btn-primary:hover {
-  background-color: #003a68;
-  border-color: #003a68;
-  color: white;
-  text-decoration: none;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .card-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-}
-</style>
-
----
-
-*This documentation is automatically generated from the schemas and specifications defined in this implementation guide.*
-"""
-            
-            # Save markdown content to dak-api.md
-            with open(dak_api_md_path, 'w', encoding='utf-8') as f:
-                f.write(markdown_content)
-            
-            self.logger.info(f"Updated DAK API markdown: {dak_api_md_path}")
-            return True
+            return success
             
         except Exception as e:
-            self.logger.error(f"Error generating DAK API hub: {e}")
+            self.logger.error(f"Error post-processing DAK API hub: {e}")
             return False
 
 
@@ -1137,8 +1232,9 @@ def main():
     schema_detector = SchemaDetector(logger)
     openapi_detector = OpenAPIDetector(logger)
     openapi_wrapper = OpenAPIWrapper(logger)
-    redoc_renderer = ReDocRenderer(logger)
+    schema_doc_renderer = SchemaDocumentationRenderer(logger)
     hub_generator = DAKApiHubGenerator(logger)
+    html_processor = HTMLProcessor(logger, output_dir)
     
     # Find schema files
     schemas = schema_detector.find_schema_files(output_dir)
@@ -1146,11 +1242,17 @@ def main():
     # Find existing OpenAPI files
     openapi_files = openapi_detector.find_openapi_files(openapi_dir)
     
-    # Generate OpenAPI wrappers and ReDoc HTML for schemas
+    # Generate schema documentation
     schema_docs = {
         'valueset': [],
         'logical_model': []
     }
+    
+    # Check if dak-api.html exists (required as template)
+    dak_api_html_path = os.path.join(output_dir, "dak-api.html")
+    if not os.path.exists(dak_api_html_path):
+        logger.error(f"dak-api.html not found at {dak_api_html_path}. Make sure the IG publisher ran first with a placeholder dak-api.md file.")
+        sys.exit(1)
     
     # Process ValueSet schemas
     for schema_path in schemas['valueset']:
@@ -1159,18 +1261,34 @@ def main():
             with open(schema_path, 'r', encoding='utf-8') as f:
                 schema = json.load(f)
             
-            # Create OpenAPI wrapper
-            wrapper_path = openapi_wrapper.create_wrapper_for_schema(schema_path, 'valueset', output_dir)
-            if wrapper_path:
-                # Generate ReDoc HTML
-                html_path = redoc_renderer.generate_redoc_html(wrapper_path, output_dir, 
-                                                             f"{schema.get('title', 'ValueSet')} Documentation", 'valueset')
-                if html_path:
+            schema_filename = os.path.basename(schema_path)
+            schema_name = schema_filename.replace('.schema.json', '')
+            
+            # Generate schema documentation content
+            doc_content = schema_doc_renderer.generate_schema_documentation_html(schema_path, 'valueset', output_dir)
+            
+            if doc_content:
+                # Create individual HTML file using dak-api.html as template
+                html_filename = f"{schema_name}.html"
+                html_path = os.path.join(output_dir, html_filename)
+                
+                # Create HTML content using template
+                title = schema.get('title', f"{schema_name} Schema Documentation")
+                html_content = html_processor.create_html_template_from_existing(dak_api_html_path, title, doc_content)
+                
+                if html_content:
+                    # Save the individual schema HTML file
+                    with open(html_path, 'w', encoding='utf-8') as f:
+                        f.write(html_content)
+                    
+                    logger.info(f"Created ValueSet schema HTML: {html_path}")
+                    
                     schema_docs['valueset'].append({
-                        'title': schema.get('title', os.path.basename(schema_path)),
+                        'title': title,
                         'description': schema.get('description', 'ValueSet schema documentation'),
-                        'html_file': os.path.basename(html_path)
+                        'html_file': html_filename
                     })
+                
         except Exception as e:
             logger.error(f"Error processing ValueSet schema {schema_path}: {e}")
     
@@ -1181,33 +1299,48 @@ def main():
             with open(schema_path, 'r', encoding='utf-8') as f:
                 schema = json.load(f)
             
-            # Create OpenAPI wrapper
-            wrapper_path = openapi_wrapper.create_wrapper_for_schema(schema_path, 'logical_model', output_dir)
-            if wrapper_path:
-                # Generate ReDoc HTML
-                html_path = redoc_renderer.generate_redoc_html(wrapper_path, output_dir,
-                                                             f"{schema.get('title', 'Logical Model')} Documentation", 'logical_model')
-                if html_path:
+            schema_filename = os.path.basename(schema_path)
+            schema_name = schema_filename.replace('.schema.json', '')
+            
+            # Generate schema documentation content
+            doc_content = schema_doc_renderer.generate_schema_documentation_html(schema_path, 'logical_model', output_dir)
+            
+            if doc_content:
+                # Create individual HTML file using dak-api.html as template
+                html_filename = f"{schema_name}.html"
+                html_path = os.path.join(output_dir, html_filename)
+                
+                # Create HTML content using template
+                title = schema.get('title', f"{schema_name} Schema Documentation")
+                html_content = html_processor.create_html_template_from_existing(dak_api_html_path, title, doc_content)
+                
+                if html_content:
+                    # Save the individual schema HTML file
+                    with open(html_path, 'w', encoding='utf-8') as f:
+                        f.write(html_content)
+                    
+                    logger.info(f"Created Logical Model schema HTML: {html_path}")
+                    
                     schema_docs['logical_model'].append({
-                        'title': schema.get('title', os.path.basename(schema_path)),
+                        'title': title,
                         'description': schema.get('description', 'Logical Model schema documentation'),
-                        'html_file': os.path.basename(html_path)
+                        'html_file': html_filename
                     })
+                
         except Exception as e:
             logger.error(f"Error processing Logical Model schema {schema_path}: {e}")
     
-    # Process existing OpenAPI files
+    # Process existing OpenAPI files (if any)
     openapi_docs = []
     for openapi_path in openapi_files:
         try:
-            # Generate ReDoc HTML for existing OpenAPI files
-            html_path = redoc_renderer.generate_redoc_html(openapi_path, output_dir)
-            if html_path:
-                openapi_docs.append({
-                    'title': f"{os.path.basename(openapi_path)} API",
-                    'description': f"API documentation from {os.path.basename(openapi_path)}",
-                    'html_file': os.path.basename(html_path)
-                })
+            # For now, just note them - could add OpenAPI documentation generation here
+            openapi_filename = os.path.basename(openapi_path)
+            openapi_docs.append({
+                'title': f"{openapi_filename} API",
+                'description': f"API documentation from {openapi_filename}",
+                'html_file': f"{openapi_filename}.html"  # Would need to create this
+            })
         except Exception as e:
             logger.error(f"Error processing OpenAPI file {openapi_path}: {e}")
     
@@ -1218,17 +1351,27 @@ def main():
     if schemas['valueset']:
         valueset_enum_path = hub_generator.create_enumeration_schema('valueset', schemas['valueset'], output_dir)
         if valueset_enum_path:
-            # Create OpenAPI wrapper for ValueSets enumeration
-            valueset_enum_wrapper = openapi_wrapper.create_enumeration_wrapper(valueset_enum_path, 'valueset', output_dir)
-            if valueset_enum_wrapper:
-                # Generate ReDoc HTML for ValueSets enumeration
-                valueset_enum_html = redoc_renderer.generate_redoc_html(valueset_enum_wrapper, output_dir,
-                                                                       "ValueSets Enumeration API Documentation", 'valueset')
-                if valueset_enum_html:
+            # Generate enumeration documentation content
+            doc_content = schema_doc_renderer.generate_schema_documentation_html(valueset_enum_path, 'valueset', output_dir)
+            
+            if doc_content:
+                # Create enumeration HTML file
+                html_filename = "ValueSets-enumeration.html"
+                html_path = os.path.join(output_dir, html_filename)
+                
+                title = "ValueSets Enumeration API Documentation"
+                html_content = html_processor.create_html_template_from_existing(dak_api_html_path, title, doc_content)
+                
+                if html_content:
+                    with open(html_path, 'w', encoding='utf-8') as f:
+                        f.write(html_content)
+                    
+                    logger.info(f"Created ValueSets enumeration HTML: {html_path}")
+                    
                     enumeration_docs.append({
                         'title': 'ValueSets.schema.json',
                         'description': 'Enumeration of all available ValueSet schemas',
-                        'html_file': os.path.basename(valueset_enum_html),
+                        'html_file': html_filename,
                         'type': 'enumeration-valueset'
                     })
     
@@ -1236,29 +1379,39 @@ def main():
     if schemas['logical_model']:
         logicalmodel_enum_path = hub_generator.create_enumeration_schema('logical_model', schemas['logical_model'], output_dir)
         if logicalmodel_enum_path:
-            # Create OpenAPI wrapper for LogicalModels enumeration
-            logicalmodel_enum_wrapper = openapi_wrapper.create_enumeration_wrapper(logicalmodel_enum_path, 'logical_model', output_dir)
-            if logicalmodel_enum_wrapper:
-                # Generate ReDoc HTML for LogicalModels enumeration
-                logicalmodel_enum_html = redoc_renderer.generate_redoc_html(logicalmodel_enum_wrapper, output_dir,
-                                                                           "LogicalModels Enumeration API Documentation", 'logical_model')
-                if logicalmodel_enum_html:
+            # Generate enumeration documentation content
+            doc_content = schema_doc_renderer.generate_schema_documentation_html(logicalmodel_enum_path, 'logical_model', output_dir)
+            
+            if doc_content:
+                # Create enumeration HTML file
+                html_filename = "LogicalModels-enumeration.html"
+                html_path = os.path.join(output_dir, html_filename)
+                
+                title = "LogicalModels Enumeration API Documentation"
+                html_content = html_processor.create_html_template_from_existing(dak_api_html_path, title, doc_content)
+                
+                if html_content:
+                    with open(html_path, 'w', encoding='utf-8') as f:
+                        f.write(html_content)
+                    
+                    logger.info(f"Created LogicalModels enumeration HTML: {html_path}")
+                    
                     enumeration_docs.append({
                         'title': 'LogicalModels.schema.json',
                         'description': 'Enumeration of all available Logical Model schemas',
-                        'html_file': os.path.basename(logicalmodel_enum_html),
+                        'html_file': html_filename,
                         'type': 'enumeration-logicalmodel'
                     })
     
-    # Generate the unified hub
-    success = hub_generator.generate_hub(output_dir, schema_docs, openapi_docs, enumeration_docs)
+    # Post-process the DAK API hub
+    success = hub_generator.post_process_dak_api_html(output_dir, schema_docs, openapi_docs, enumeration_docs)
     
     if success:
         total_docs = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(openapi_docs) + len(enumeration_docs)
-        logger.info(f"Successfully generated DAK API hub with {total_docs} documentation pages")
+        logger.info(f"Successfully post-processed DAK API hub with {total_docs} documentation pages")
         sys.exit(0)
     else:
-        logger.error("Failed to generate DAK API hub")
+        logger.error("Failed to post-process DAK API hub")
         sys.exit(1)
 
 
