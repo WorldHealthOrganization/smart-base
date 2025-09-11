@@ -240,7 +240,7 @@ def extract_valueset_codes_with_display(valueset_resource: Dict[str, Any], value
 
 def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: List[Dict[str, str]]) -> Dict[str, Any]:
     """
-    Generate a JSON schema for a ValueSet using enum constraints with references to separate display and system files.
+    Generate a JSON schema for a ValueSet using enum constraints with IRI-formatted values that match JSON-LD format.
     
     Args:
         valueset_resource: FHIR ValueSet resource
@@ -266,33 +266,41 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
     else:
         schema_id = f"#ValueSet-{valueset_id}-schema"
     
-    # Use relative URLs for file references as requested by user
-    display_reference = f"ValueSet-{valueset_id}.displays.json"
-    system_reference = f"ValueSet-{valueset_id}.system.json"
+    # Use absolute URLs for file references
+    if valueset_url and '/ValueSet/' in valueset_url:
+        base_url = valueset_url.split('/ValueSet/')[0]
+        display_reference = f"{base_url}/ValueSet-{valueset_id}.displays.json"
+    else:
+        display_reference = f"ValueSet-{valueset_id}.displays.json"
     
-    # Extract codes for validation
-    codes = []
+    # Generate IRI-formatted enum values that match JSON-LD format
+    enum_values = []
     for item in codes_with_display:
-        codes.append(item['code'])
+        code = item['code']
+        system = item.get('system', '')
+        
+        # Generate canonical IRI for the code using same logic as JSON-LD
+        enum_iri = generate_canonical_iri(code, valueset_url, system)
+        enum_values.append(enum_iri)
     
     schema = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": schema_id,
         "title": f"{valueset_title} Schema",
-        "description": f"JSON Schema for {valueset_title} ValueSet codes. Generated from FHIR expansions.",
+        "description": f"JSON Schema for {valueset_title} ValueSet codes. Generated from FHIR expansions using IRI format.",
         "type": "string",
-        "enum": codes
+        "enum": enum_values
     }
     
-    # Add narrative that includes links to display and system files
-    narrative_text = f"This schema validates codes for the {valueset_title} ValueSet. "
+    # Add narrative that reflects the IRI format (system URIs are embedded, no separate system file needed)
+    narrative_text = f"This schema validates IRI-formatted codes for the {valueset_title} ValueSet. "
+    narrative_text += f"Each enum value includes the system URI in the format {{systemuri}}#{{code}} to match JSON-LD enumeration IRIs. "
     narrative_text += f"Display values are available at {display_reference}. "
-    narrative_text += f"System URI mappings are available at {system_reference}."
+    narrative_text += f"For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets."
     schema["narrative"] = narrative_text
     
-    # References to separate files
+    # References to display file (no system file needed since system URIs are embedded in enum values)
     schema["fhir:displays"] = display_reference
-    schema["fhir:system"] = system_reference
     
     # Add metadata if available
     if valueset_url:
@@ -891,8 +899,9 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
         # Generate display file
         display_file = generate_display_file(resource, codes_with_display)
         
-        # Generate system file
-        system_file = generate_system_file(resource, codes_with_display)
+        # System file no longer needed - system URIs are embedded in schema enum values
+        # to match JSON-LD IRI format as requested
+        # system_file = generate_system_file(resource, codes_with_display)
         
         # Generate JSON-LD vocabulary (skipped - now handled by separate script)
         # jsonld_vocab = generate_jsonld_vocabulary(resource, codes_with_display)
@@ -905,14 +914,14 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
         # Save display file
         display_path = save_display_file(display_file, output_dir, valueset_id)
         
-        # Save system file
-        system_path = save_system_file(system_file, output_dir, valueset_id)
+        # System file no longer generated - system URIs are embedded in schema enum values
+        # system_path = save_system_file(system_file, output_dir, valueset_id)
         
         # Save JSON-LD vocabulary (skipped - now handled by separate script)
         # jsonld_path = save_jsonld_vocabulary(jsonld_vocab, output_dir, valueset_id)
         
-        # Count as successful if schema, display, and system files are saved
-        if schema_path and display_path and system_path:
+        # Count as successful if schema and display files are saved
+        if schema_path and display_path:
             schemas_generated += 1
     
 
