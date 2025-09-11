@@ -1274,21 +1274,12 @@ class DAKApiHubGenerator:
             
             # Add JSON-LD enumeration endpoints
             if jsonld_docs:
-                html_content += """
+                html_content += f"""
         <div class="endpoint-card">
             <h4>JSON-LD Vocabularies Enumeration</h4>
-            <p>Semantic web vocabularies for ValueSet enumerations with schema.org compatibility</p>
-            <div class="jsonld-list">
-"""
-                for jsonld_doc in jsonld_docs:
-                    html_content += f"""
-                <div class="jsonld-item">
-                    <a href="{jsonld_doc['filename']}" class="jsonld-link">{jsonld_doc['title']}</a>
-                    <span class="jsonld-description">{jsonld_doc['description']}</span>
-                </div>
-"""
-                html_content += """
-            </div>
+            <p>Semantic web vocabularies for ValueSet enumerations with schema.org compatibility. 
+            This endpoint provides {len(jsonld_docs)} JSON-LD vocabularies that define enumeration classes and properties for ValueSet codes, 
+            each following the JSON-LD 1.1 specification with canonical IRIs and FHIR metadata integration.</p>
         </div>
 """
             
@@ -1310,6 +1301,21 @@ class DAKApiHubGenerator:
         <div class="schema-card">
             <h4><a href="{schema_doc['html_file']}">{schema_doc['title']}</a></h4>
             <p>{schema_doc['description']}</p>
+            <div class="schema-links">
+                <a href="{schema_doc.get('schema_file', '')}" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>"""
+                
+                # Add displays file link if it exists
+                if schema_doc.get('displays_file'):
+                    html_content += f"""
+                <a href="{schema_doc['displays_file']}" class="schema-link" title="Display Names">🏷️ Displays</a>"""
+                
+                # Add OpenAPI wrapper link if it exists
+                if schema_doc.get('openapi_file'):
+                    html_content += f"""
+                <a href="{schema_doc['openapi_file']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>"""
+                
+                html_content += """
+            </div>
         </div>
 """
             html_content += """
@@ -1330,6 +1336,21 @@ class DAKApiHubGenerator:
         <div class="schema-card">
             <h4><a href="{schema_doc['html_file']}">{schema_doc['title']}</a></h4>
             <p>{schema_doc['description']}</p>
+            <div class="schema-links">
+                <a href="{schema_doc.get('schema_file', '')}" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>"""
+                
+                # Add displays file link if it exists
+                if schema_doc.get('displays_file'):
+                    html_content += f"""
+                <a href="{schema_doc['displays_file']}" class="schema-link" title="Display Names">🏷️ Displays</a>"""
+                
+                # Add OpenAPI wrapper link if it exists
+                if schema_doc.get('openapi_file'):
+                    html_content += f"""
+                <a href="{schema_doc['openapi_file']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>"""
+                
+                html_content += """
+            </div>
         </div>
 """
             html_content += """
@@ -1454,9 +1475,34 @@ class DAKApiHubGenerator:
 }
 
 .endpoint-card p, .schema-card p, .api-card p {
-    margin: 0;
+    margin: 0 0 0.5rem 0;
     color: #6c757d;
     font-size: 0.9rem;
+}
+
+.schema-links {
+    margin: 0.75rem 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.schema-link {
+    display: inline-block;
+    background-color: #17a2b8;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.schema-link:hover {
+    background-color: #138496;
+    color: white;
+    text-decoration: none;
 }
 
 .file-info {
@@ -1779,11 +1825,33 @@ def main():
             # Individual schemas should link to their IG-generated HTML files
             html_filename = f"{schema_name}.html"
             
-            schema_docs['valueset'].append({
+            # Collect additional file references
+            schema_filename = os.path.basename(schema_path)
+            displays_filename = f"{schema_name}.displays.json"
+            openapi_filename = f"{schema_name}.openapi.json"
+            
+            # Check if additional files exist
+            displays_path = os.path.join(output_dir, displays_filename)
+            openapi_path = os.path.join(output_dir, openapi_filename)
+            
+            schema_doc_entry = {
                 'title': title,
                 'description': schema.get('description', 'ValueSet schema documentation'),
-                'html_file': html_filename
-            })
+                'html_file': html_filename,
+                'schema_file': schema_filename
+            }
+            
+            # Add displays file if it exists
+            if os.path.exists(displays_path):
+                schema_doc_entry['displays_file'] = displays_filename
+                logger.info(f"  Found displays file: {displays_filename}")
+            
+            # Add OpenAPI file if it exists
+            if os.path.exists(openapi_path):
+                schema_doc_entry['openapi_file'] = openapi_filename
+                logger.info(f"  Found OpenAPI file: {openapi_filename}")
+            
+            schema_docs['valueset'].append(schema_doc_entry)
             
             logger.info(f"  ✅ Added ValueSet schema to hub documentation: {schema_name}")
                 
@@ -1819,11 +1887,33 @@ def main():
             # Individual schemas should link to their IG-generated HTML files
             html_filename = f"{schema_name}.html"
             
-            schema_docs['logical_model'].append({
+            # Collect additional file references
+            schema_filename = os.path.basename(schema_path)
+            displays_filename = f"{schema_name}.displays.json"
+            openapi_filename = f"{schema_name}.openapi.json"
+            
+            # Check if additional files exist
+            displays_path = os.path.join(output_dir, displays_filename)
+            openapi_path = os.path.join(output_dir, openapi_filename)
+            
+            schema_doc_entry = {
                 'title': title,
                 'description': schema.get('description', 'Logical Model schema documentation'),
-                'html_file': html_filename
-            })
+                'html_file': html_filename,
+                'schema_file': schema_filename
+            }
+            
+            # Add displays file if it exists
+            if os.path.exists(displays_path):
+                schema_doc_entry['displays_file'] = displays_filename
+                logger.info(f"  Found displays file: {displays_filename}")
+            
+            # Add OpenAPI file if it exists
+            if os.path.exists(openapi_path):
+                schema_doc_entry['openapi_file'] = openapi_filename
+                logger.info(f"  Found OpenAPI file: {openapi_filename}")
+            
+            schema_docs['logical_model'].append(schema_doc_entry)
             
             logger.info(f"  ✅ Added Logical Model schema to hub documentation: {schema_name}")
                 
