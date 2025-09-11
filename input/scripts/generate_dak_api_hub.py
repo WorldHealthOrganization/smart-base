@@ -1670,14 +1670,17 @@ def main():
     # Find schema files
     logger.info("=== SCHEMA FILE DETECTION PHASE ===")
     schemas = schema_detector.find_schema_files(output_dir)
+    logger.info(f"Schema detection completed - ValueSet: {len(schemas['valueset'])}, LogicalModel: {len(schemas['logical_model'])}, Other: {len(schemas['other'])}")
     
     # Find JSON-LD vocabulary files
     logger.info("=== JSON-LD FILE DETECTION PHASE ===")
     jsonld_files = schema_detector.find_jsonld_files(output_dir)
+    logger.info(f"JSON-LD detection completed - found {len(jsonld_files)} files")
     
     # Find existing OpenAPI files
     logger.info("=== OPENAPI FILE DETECTION PHASE ===")
     openapi_files = openapi_detector.find_openapi_files(openapi_dir)
+    logger.info(f"OpenAPI detection completed - found {len(openapi_files)} files")
     
     # Generate schema documentation
     logger.info("=== SCHEMA DOCUMENTATION GENERATION PHASE ===")
@@ -1689,14 +1692,73 @@ def main():
     # Check if dak-api.html exists (required as template)
     dak_api_html_path = os.path.join(output_dir, "dak-api.html")
     logger.info(f"Checking for dak-api.html template at: {dak_api_html_path}")
-    if not os.path.exists(dak_api_html_path):
-        logger.error(f"dak-api.html not found at {dak_api_html_path}. Make sure the IG publisher ran first with a placeholder dak-api.md file.")
-        sys.exit(1)
+    
+    # Log some debug information about the output directory
+    logger.info(f"Current working directory: {os.getcwd()}")
+    logger.info(f"Output directory absolute path: {os.path.abspath(output_dir)}")
+    if os.path.exists(output_dir):
+        all_files = os.listdir(output_dir)
+        html_files = [f for f in all_files if f.endswith('.html')]
+        logger.info(f"Total files in output directory: {len(all_files)}")
+        logger.info(f"HTML files in output directory: {len(html_files)} found")
+        if len(html_files) > 0:
+            logger.info(f"Sample HTML files: {html_files[:5]}")  # Show first 5
+        if 'dak-api.html' in all_files:
+            logger.info("✅ Found dak-api.html in directory listing")
+        else:
+            logger.warning("⚠️ dak-api.html NOT found in directory listing")
+            logger.info(f"Files containing 'dak': {[f for f in all_files if 'dak' in f.lower()]}")
     else:
-        logger.info("dak-api.html template found successfully")
-        # Get file size for debugging
+        logger.error(f"❌ Output directory does not exist: {output_dir}")
+    
+    # Continue processing even if dak-api.html is not found initially
+    # The IG publisher might have generated it in a different location or named it differently
+    if not os.path.exists(dak_api_html_path):
+        logger.warning(f"⚠️ dak-api.html not found at expected location: {dak_api_html_path}")
+        
+        # Try to find dak-api.html in the output directory with different approaches
+        found_dak_api = False
+        if os.path.exists(output_dir):
+            all_files = os.listdir(output_dir)
+            for file in all_files:
+                if file == 'dak-api.html':
+                    found_dak_api = True
+                    dak_api_html_path = os.path.join(output_dir, file)
+                    logger.info(f"✅ Found dak-api.html at: {dak_api_html_path}")
+                    break
+        
+        if not found_dak_api:
+            logger.error(f"❌ Cannot find dak-api.html in output directory. Available HTML files:")
+            if os.path.exists(output_dir):
+                html_files = [f for f in os.listdir(output_dir) if f.endswith('.html')]
+                for html_file in html_files[:10]:  # Show first 10
+                    logger.error(f"  - {html_file}")
+            logger.error("Make sure the IG publisher ran first and created dak-api.html from the dak-api.md placeholder.")
+            logger.error("Exiting with error code 1")
+            sys.exit(1)
+    else:
+        logger.info("✅ dak-api.html template found successfully")
+    
+    # Get file size for debugging
+    if os.path.exists(dak_api_html_path):
         template_size = os.path.getsize(dak_api_html_path)
         logger.info(f"Template file size: {template_size} bytes")
+        
+        # Check if the file has a publish-box element for injection
+        try:
+            with open(dak_api_html_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+            if 'id="publish-box"' in html_content:
+                logger.info("✅ Found publish-box element in dak-api.html for content injection")
+            else:
+                logger.warning("⚠️ No publish-box element found in dak-api.html - content injection may fail")
+                # Log a sample of the content to help debug
+                sample_content = html_content[:500] if len(html_content) > 500 else html_content
+                logger.info(f"Sample content from dak-api.html: {sample_content}")
+        except Exception as e:
+            logger.error(f"Error reading dak-api.html for validation: {e}")
+    else:
+        logger.error(f"dak-api.html path does not exist: {dak_api_html_path}")
     
     # Process ValueSet schemas (collect metadata and generate OpenAPI wrappers)
     logger.info(f"Processing {len(schemas['valueset'])} ValueSet schemas...")
