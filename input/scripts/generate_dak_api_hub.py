@@ -333,16 +333,16 @@ class ReDocRenderer:
     
     def generate_redoc_html(self, openapi_path: str, output_dir: str, title: str = None, schema_type: str = None) -> Optional[str]:
         """
-        Generate a self-contained HTML file for an OpenAPI specification.
+        Generate a markdown file for an OpenAPI specification that integrates with the IG template.
         
         Args:
             openapi_path: Path to the OpenAPI spec file
-            output_dir: Directory to save the HTML file
-            title: Optional title for the HTML page
+            output_dir: Directory to save the markdown file
+            title: Optional title for the page
             schema_type: Optional schema type ('valueset' or 'logical_model')
             
         Returns:
-            Path to the generated HTML file, or None if failed
+            Path to the generated markdown file, or None if failed
         """
         try:
             openapi_filename = os.path.basename(openapi_path)
@@ -367,388 +367,70 @@ class ReDocRenderer:
                 else:
                     spec_data = yaml.safe_load(f)
             
-            # Generate self-contained HTML with embedded spec
-            html_content = f"""<!DOCTYPE html>
-<html>
-<head>
-    <title>{title}</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
-        
-        /* WHO SMART Trust inspired styling */
-        :root {{
-            --navbar-bg-color: #00477d;
-            --ig-header-color: #f6f7f9;
-            --footer-bg-color: #505050;
-            --footer-container-bg-color: #00477d;
-            --btn-hover-color: #0070A1;
-            --toc-box-border: navy;
-            --toc-box-bg-color: #f6f7f9;
-        }}
-        
-        body {{
-            font-family: 'Noto Sans', sans-serif !important;
-            margin: 0;
-            padding: 0;
-            background-color: var(--toc-box-bg-color) !important;
-            color: #000 !important;
-            height: fit-content !important;
-        }}
-        
-        .container {{
-            width: 100% !important;
-            max-width: none !important;
-            background-color: var(--toc-box-bg-color) !important;
-            color: #000 !important;
-            padding: 0 20px;
-        }}
-        
-        @media (min-width: 2200px) {{
-            .container {{
-                max-width: 1980px !important;
-                margin-left: auto !important;
-                margin-right: auto !important;
-            }}
-        }}
-        
-        /* Header segment matching SMART Trust */
-        #segment-header {{
-            display: block;
-        }}
-        
-        #segment-navbar {{
-            background-color: var(--navbar-bg-color) !important;
-        }}
-        
-        #segment-navbar .container {{
-            background-color: var(--navbar-bg-color) !important;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            min-height: 50px;
-        }}
-        
-        #project-nav {{
-            flex: 0 0 auto;
-            margin-right: auto;
-            line-height: 50px;
-            margin-top: 4px;
-            margin-bottom: 4px;
-            color: #808080;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 0 20px;
-        }}
-        
-        #project-nav a {{
-            color: #e6e6e6;
-            text-decoration: none;
-            font-weight: 500;
-        }}
-        
-        #project-nav a:hover {{
-            color: #ffffff;
-        }}
-        
-        .header-container {{
-            background-color: var(--ig-header-color) !important;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0px 6px 8px rgba(130, 130, 13, 0.1) !important;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-        }}
-        
-        #ig-status {{
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-        }}
-        
-        #ig-status p {{
-            background-color: white;
-            padding: 10px 17px;
-            border-radius: 5px;
-            position: relative;
-            z-index: 2;
-            margin: 0;
-        }}
-        
-        .content-container {{
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }}
-        
-        .section {{
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }}
-        
-        .section-header {{
-            background-color: #f8f9fa;
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid #dee2e6;
-        }}
-        
-        .section-header h2 {{
-            margin: 0;
-            color: #00477d;
-            font-size: 1.5rem;
-            font-weight: 500;
-        }}
-        
-        .section-content {{
-            padding: 1.5rem;
-        }}
-        
-        .endpoint {{
-            border: 1px solid #e9ecef;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-        }}
-        
-        .endpoint-header {{
-            background-color: #28a745;
-            color: white;
-            padding: 0.5rem 1rem;
-            font-weight: 500;
-            font-family: monospace;
-        }}
-        
-        .endpoint-content {{
-            padding: 1rem;
-        }}
-        
-        .schema-display {{
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 4px;
-            padding: 1rem;
-            font-family: monospace;
-            white-space: pre-wrap;
-            overflow-x: auto;
-            max-height: 400px;
-            overflow-y: auto;
-        }}
-        
-        .property {{
-            margin-bottom: 0.5rem;
-        }}
-        
-        .property-name {{
-            font-weight: 600;
-            color: #00477d;
-        }}
-        
-        .property-type {{
-            color: #6f42c1;
-            font-family: 'Noto Sans', monospace;
-        }}
-        
-        .property-description {{
-            color: #666;
-            margin-top: 0.25rem;
-        }}
-        
-        .enum-values {{
-            background-color: #e7f3ff;
-            border: 1px solid #b8daff;
-            border-radius: 4px;
-            padding: 0.5rem;
-            margin-top: 0.5rem;
-        }}
-        
-        .enum-value {{
-            display: inline-block;
-            background-color: #00477d;
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            margin: 0.2rem;
-            font-size: 0.9rem;
-            text-decoration: none;
-        }}
-        
-        .enum-value:hover {{
-            background-color: #0070A1;
-            color: white;
-            text-decoration: none;
-        }}
-        
-        .enum-truncated {{
-            margin-top: 0.5rem;
-            font-style: italic;
-            color: #6c757d;
-        }}
-        
-        .schema-header {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }}
-        
-        .schema-actions {{
-            display: flex;
-            gap: 0.5rem;
-        }}
-        
-        .action-btn {{
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 4px;
-            padding: 0.5rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #495057;
-        }}
-        
-        .action-btn:hover {{
-            background: #e9ecef;
-            border-color: #adb5bd;
-        }}
-        
-        .action-btn svg {{
-            display: block;
-        }}
-        
-        .property-type a {{
-            color: #0066cc;
-            text-decoration: none;
-        }}
-        
-        .property-type a:hover {{
-            text-decoration: underline;
-        }}
-            font-family: 'Noto Sans', monospace;
-            font-size: 0.9rem;
-        }}
-        
-        h1, h2, h3, h4, h5, h6 {{
-            font-family: 'Noto Sans', sans-serif !important;
-            color: #000 !important;
-        }}
-        
-        td, p, li {{
-            font-family: 'Noto Sans', sans-serif !important;
-        }}
-    </style>
-</head>
-<body>
-    <div id="segment-header" class="segment">
-        <div id="segment-navbar" class="segment">
-            <div class="container">
-                <div id="project-nav">
-                    <a href="../index.html">Return to SMART Guideline</a>
-                    <span style="margin: 0 10px; color: #808080;">|</span>
-                    <a href="dak-api.html">Return to DAK API Hub</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="container header-container">
-            <div id="ig-status">
-                <p><span style="font-size:12pt;font-weight:bold">{title}</span>
-                    <br/>
-                    <span style="display:inline-block;">Generated from: {openapi_filename}</span>
-                </p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="content-container">
+            # Create pagecontent directory path
+            pagecontent_dir = os.path.join(os.path.dirname(output_dir), "input", "pagecontent")
+            if not os.path.exists(pagecontent_dir):
+                # Fallback: try to find pagecontent relative to current location
+                pagecontent_dir = os.path.join(os.getcwd(), "input", "pagecontent")
+            
+            if not os.path.exists(pagecontent_dir):
+                # Generate in output directory as fallback
+                pagecontent_dir = output_dir
+            
+            # Generate markdown content for IG integration
+            markdown_content = f"""# {title}
+
+<!-- This content is automatically generated from {openapi_filename} -->
+
 """
             
             # Add API info
             info = spec_data.get('info', {})
-            html_content += f"""
-        <div class="section">
-            <div class="section-header">
-                <h2>API Information</h2>
-            </div>
-            <div class="section-content">
-                <h3>{info.get('title', 'API')}</h3>
-                <p>{info.get('description', 'No description available')}</p>
-                <p><strong>Version:</strong> {info.get('version', 'Unknown')}</p>
-            </div>
-        </div>
+            markdown_content += f"""## API Information
+
+**{info.get('title', 'API')}**
+
+{info.get('description', 'No description available')}
+
+**Version:** {info.get('version', 'Unknown')}
+
 """
             
             # Add endpoints
             paths = spec_data.get('paths', {})
             if paths:
-                html_content += """
-        <div class="section">
-            <div class="section-header">
-                <h2>Endpoints</h2>
-            </div>
-            <div class="section-content">
+                markdown_content += """## Endpoints
+
 """
                 
                 for path, methods in paths.items():
                     for method, operation in methods.items():
-                        html_content += f"""
-                <div class="endpoint">
-                    <div class="endpoint-header">
-                        {method.upper()} {path}
-                    </div>
-                    <div class="endpoint-content">
-                        <h4>{operation.get('summary', 'No summary')}</h4>
-                        <p>{operation.get('description', 'No description available')}</p>
-                    </div>
-                </div>
-"""
-                
-                html_content += """
-            </div>
-        </div>
+                        markdown_content += f"""### {method.upper()} {path}
+
+**{operation.get('summary', 'No summary')}**
+
+{operation.get('description', 'No description available')}
+
 """
             
             # Add schema information
             components = spec_data.get('components', {})
             schemas = components.get('schemas', {})
             if schemas:
-                html_content += """
-        <div class="section">
-            <div class="section-header">
-                <h2>Schema Definition</h2>
-            </div>
-            <div class="section-content">
+                markdown_content += """## Schema Definition
+
 """
                 
                 for schema_name, schema_def in schemas.items():
                     schema_id = schema_def.get('$id', '')
-                    schema_json_str = json.dumps(schema_def, indent=2)
                     
-                    html_content += f"""
-                <div class="schema-header">
-                    <h3>{schema_name}</h3>
-                    <div class="schema-actions">
-                        <button class="action-btn copy-btn" onclick="copySchemaToClipboard('{schema_name}', {json.dumps(schema_json_str)})" title="Copy schema to clipboard">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <p><strong>Description:</strong> {schema_def.get('description', 'No description')}</p>
-                <p><strong>Type:</strong> <span class="property-type"><a href="https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model" title="JSON Schema {schema_def.get('type', 'unknown')} type definition">{schema_def.get('type', 'unknown')}</a></span></p>"""
+                    markdown_content += f"""### {schema_name}
+
+**Description:** {schema_def.get('description', 'No description')}
+
+**Type:** {schema_def.get('type', 'unknown')}
+
+"""
                     
                     # Add schema ID as link if available
                     if schema_id:
@@ -770,11 +452,10 @@ class ReDocRenderer:
                             # Individual schemas link to their specific HTML files
                             fhir_url = filename.replace('.schema.json', '.html')
                         
-                        html_content += f"""
-                <p><strong>Schema ID:</strong> <a href="{schema_id}" title="{schema_id}">{schema_id}</a></p>
-                <p><strong>FHIR Page:</strong> <a href="{fhir_url}" title="View full FHIR definition at {fhir_url}">{fhir_url}</a></p>"""
-                    
-                    html_content += """
+                        markdown_content += f"""**Schema ID:** [{schema_id}]({schema_id})
+
+**FHIR Page:** [View full FHIR definition]({fhir_url})
+
 """
                     
                     # Handle enum values for ValueSets
@@ -810,9 +491,9 @@ class ReDocRenderer:
                             except Exception as e:
                                 self.logger.warning(f"Could not load system mappings for {schema_name}: {e}")
                         
-                        html_content += """
-                <div class="enum-values">
-                    <strong>Allowed values:</strong><br>
+                        markdown_content += """**Allowed values:**
+
+<div class="enum-values">
 """
                         for enum_value in displayed_values:
                             if enum_value in codesystem_anchors:
@@ -820,105 +501,139 @@ class ReDocRenderer:
                                 anchor = codesystem_anchors[enum_value]
                                 codesystem_id = anchor.split('-')[0]
                                 link_url = f"CodeSystem-{codesystem_id}.html#{anchor}"
-                                html_content += f'                    <a href="{link_url}" class="enum-value" title="View definition in CodeSystem">{enum_value}</a>\n'
+                                markdown_content += f'<span class="enum-value"><a href="{link_url}" title="View definition in CodeSystem">{enum_value}</a></span>\n'
                             else:
-                                html_content += f'                    <span class="enum-value">{enum_value}</span>\n'
+                                markdown_content += f'<span class="enum-value">{enum_value}</span>\n'
                         
                         if truncated:
                             remaining_count = len(enum_values) - 40
-                            html_content += f'                    <div class="enum-truncated">... and {remaining_count} more values</div>\n'
+                            markdown_content += f'<div class="enum-truncated">... and {remaining_count} more values</div>\n'
                         
-                        html_content += """
-                </div>
+                        markdown_content += """</div>
+
 """
                     
                     # Handle object properties for Logical Models
                     if 'properties' in schema_def:
-                        html_content += """
-                <h4>Properties:</h4>
+                        markdown_content += """**Properties:**
+
 """
                         for prop_name, prop_def in schema_def['properties'].items():
                             prop_type = prop_def.get('type', 'unknown')
-                            # Create link to JSON Schema definition for type
-                            type_link = f'<a href="https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model" title="JSON Schema {prop_type} type definition">{prop_type}</a>'
                             
-                            html_content += f"""
-                <div class="property">
-                    <span class="property-name">{prop_name}</span>
-                    <span class="property-type">({type_link})</span>
-                    <div class="property-description">{prop_def.get('description', 'No description')}</div>
-                </div>
+                            markdown_content += f"""- **{prop_name}** ({prop_type}): {prop_def.get('description', 'No description')}
 """
                         
                         # Show required fields
                         required = schema_def.get('required', [])
                         if required:
-                            html_content += f"""
-                <p><strong>Required fields:</strong> {', '.join(required)}</p>
+                            markdown_content += f"""
+**Required fields:** {', '.join(required)}
+
 """
                     
-                    # Show full schema as JSON
-                    html_content += f"""
-                <h4>Full Schema:</h4>
-                <div class="schema-display">{json.dumps(schema_def, indent=2)}</div>
-"""
-                
-                html_content += """
-            </div>
-        </div>
+                    # Show full schema as collapsible JSON
+                    schema_json_str = json.dumps(schema_def, indent=2)
+                    markdown_content += f"""<details>
+<summary>Full Schema (JSON)</summary>
+
+```json
+{schema_json_str}
+```
+
+</details>
+
 """
             
-            html_content += """
-    </div>
-</body>
-<script>
-function copySchemaToClipboard(schemaName, schemaJson) {
-    navigator.clipboard.writeText(schemaJson).then(function() {
-        // Show temporary feedback
-        const btn = event.target.closest('.copy-btn');
-        const originalTitle = btn.title;
-        btn.title = 'Copied!';
-        btn.style.backgroundColor = '#28a745';
-        btn.style.borderColor = '#28a745';
-        btn.style.color = 'white';
-        
-        setTimeout(() => {
-            btn.title = originalTitle;
-            btn.style.backgroundColor = '';
-            btn.style.borderColor = '';
-            btn.style.color = '';
-        }, 2000);
-    }).catch(function(err) {
-        console.error('Could not copy text: ', err);
-        alert('Failed to copy to clipboard');
-    });
+            # Add styling that integrates with IG theme
+            markdown_content += """
+<style>
+/* Schema documentation styling that integrates with IG theme */
+.enum-values {
+  background-color: #e7f3ff;
+  border: 1px solid #b8daff;
+  border-radius: 4px;
+  padding: 1rem;
+  margin: 1rem 0;
 }
 
-// Make title bar clickable to return to DAK API hub
-document.addEventListener('DOMContentLoaded', function() {
-    const igStatus = document.getElementById('ig-status');
-    if (igStatus) {
-        igStatus.style.cursor = 'pointer';
-        igStatus.addEventListener('click', function() {
-            window.location.href = 'dak-api.html';
-        });
-    }
-});
-</script>
-</html>"""
+.enum-value {
+  display: inline-block;
+  background-color: #00477d;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  margin: 0.2rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.enum-value a {
+  color: white;
+  text-decoration: none;
+}
+
+.enum-value:hover, .enum-value a:hover {
+  background-color: #0070A1;
+  color: white;
+  text-decoration: none;
+}
+
+.enum-truncated {
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #6c757d;
+}
+
+details {
+  margin: 1rem 0;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 0;
+}
+
+details summary {
+  background: #f8f9fa;
+  padding: 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid #dee2e6;
+  font-weight: 500;
+}
+
+details[open] summary {
+  border-bottom: 1px solid #dee2e6;
+}
+
+details pre {
+  margin: 1rem;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+</style>
+
+---
+
+*This documentation is automatically generated from the OpenAPI specification.*
+"""
             
-            # Save HTML file
-            html_filename = f"{spec_name}.openapi.html"
-            html_path = os.path.join(output_dir, html_filename)
+            # Save markdown file
+            md_filename = f"{spec_name}.md"
+            md_path = os.path.join(pagecontent_dir, md_filename)
             
-            with open(html_path, 'w', encoding='utf-8') as f:
-                f.write(html_content)
+            with open(md_path, 'w', encoding='utf-8') as f:
+                f.write(markdown_content)
             
-            self.logger.info(f"Generated self-contained HTML: {html_path}")
-            return html_path
+            self.logger.info(f"Generated schema documentation markdown: {md_path}")
+            
+            # Return the corresponding HTML filename that will be generated by the IG build
+            html_filename = f"{spec_name}.html"
+            return html_filename
             
         except Exception as e:
-            self.logger.error(f"Error generating HTML for {openapi_path}: {e}")
+            self.logger.error(f"Error generating markdown for {openapi_path}: {e}")
             return None
 
 
@@ -1075,7 +790,7 @@ class DAKApiHubGenerator:
     
     def generate_hub(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None) -> bool:
         """
-        Generate the unified dak-api.html hub page.
+        Generate the unified DAK API documentation by updating the dak-api.md file.
         
         Args:
             output_dir: Directory to save the hub file
@@ -1089,437 +804,310 @@ class DAKApiHubGenerator:
         try:
             if enumeration_docs is None:
                 enumeration_docs = []
-            hub_path = os.path.join(output_dir, "dak-api.html")
             
-            # Generate HTML content
-            html_content = """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAK API Documentation Hub</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
-        
-        /* WHO SMART Trust inspired styling */
-        :root {
-            --navbar-bg-color: #00477d;
-            --ig-header-color: #f6f7f9;
-            --footer-bg-color: #505050;
-            --footer-container-bg-color: #00477d;
-            --btn-hover-color: #0070A1;
-            --toc-box-border: navy;
-            --toc-box-bg-color: #f6f7f9;
-        }
-        
-        body { 
-            font-family: 'Noto Sans', sans-serif !important;
-            margin: 0; 
-            padding: 0;
-            background-color: var(--toc-box-bg-color) !important;
-            color: #000 !important;
-            height: fit-content !important;
-        }
-        
-        .container {
-            width: 100% !important;
-            max-width: none !important;
-            background-color: var(--toc-box-bg-color) !important;
-            color: #000 !important;
-            padding: 0 20px;
-        }
-        
-        @media (min-width: 2200px) {
-            .container {
-                max-width: 1980px !important;
-                margin-left: auto !important;
-                margin-right: auto !important;
-            }
-        }
-        
-        /* Header segment matching SMART Trust */
-        #segment-header {
-            display: block;
-        }
-        
-        #segment-navbar {
-            background-color: var(--navbar-bg-color) !important;
-        }
-        
-        #segment-navbar .container {
-            background-color: var(--navbar-bg-color) !important;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            min-height: 50px;
-        }
-        
-        #project-nav {
-            flex: 0 0 auto;
-            margin-right: auto;
-            line-height: 50px;
-            margin-top: 4px;
-            margin-bottom: 4px;
-            color: #808080;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 0 20px;
-        }
-        
-        #project-nav a {
-            color: #e6e6e6;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        #project-nav a:hover {
-            color: #ffffff;
-        }
-        
-        .header-container {
-            background-color: var(--ig-header-color) !important;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0px 6px 8px rgba(130, 130, 13, 0.1) !important;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        #ig-status {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-        }
-        
-        #ig-status p {
-            background-color: white;
-            padding: 10px 17px;
-            border-radius: 5px;
-            position: relative;
-            z-index: 2;
-            margin: 0;
-        }
-        
-        .content-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .section {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }
-        
-        .section-header {
-            background-color: #e9ecef;
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid #dee2e6;
-        }
-        
-        .section-header h2 { 
-            margin: 0;
-            color: #00477d; 
-            font-size: 1.5rem;
-            font-weight: 500;
-        }
-        
-        .section-content {
-            padding: 1.5rem;
-        }
-        
-        .doc-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
-        }
-        
-        .doc-card {
-            border: 1px solid #dee2e6;
-            border-radius: 6px;
-            padding: 1rem;
-            background: #f8f9fa;
-            transition: all 0.2s ease;
-        }
-        
-        .doc-card:hover {
-            border-color: #00477d;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,71,125,0.1);
-        }
-        
-        .doc-card h3 {
-            margin: 0 0 0.5rem 0;
-            color: #00477d;
-            font-size: 1.1rem;
-        }
-        
-        .doc-card p {
-            margin: 0 0 1rem 0;
-            color: #6c757d;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-        
-        .doc-card a {
-            display: inline-block;
-            color: #00477d;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border: 1px solid #00477d;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-        }
-        
-        .doc-card a:hover {
-            background-color: #00477d;
-            color: white;
-        }
-        
-        .schema-type {
-            display: inline-block;
-            background-color: #28a745;
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-        
-        .schema-type.valueset {
-            background-color: #17a2b8;
-        }
-        
-        .schema-type.logical-model {
-            background-color: #6f42c1;
-        }
-        
-        .schema-type.openapi {
-            background-color: #fd7e14;
-        }
-        
-        .schema-type.enumeration-valueset {
-            background-color: #e91e63;
-        }
-        
-        .schema-type.enumeration-logicalmodel {
-            background-color: #9c27b0;
-        }
-        
-        .schema-type.enumeration {
-            background-color: #607d8b;
-        }
-        
-        .no-content {
-            text-align: center;
-            color: #6c757d;
-            font-style: italic;
-            padding: 2rem;
-        }
-        
-        .footer {
-            text-align: center;
-            color: #6c757d;
-            font-size: 0.9rem;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #dee2e6;
-        }
-    </style>
-</head>
-<body>
-    <div id="segment-header" class="segment">
-        <div id="segment-navbar" class="segment">
-            <div class="container">
-                <div id="project-nav">
-                    <a href="index.html">Return to SMART Guideline</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="container header-container">
-            <div id="ig-status">
-                <p><span style="font-size:12pt;font-weight:bold">DAK API Documentation Hub</span>
-                    <br/>
-                    <span style="display:inline-block;">WHO SMART Guideline Digital Adaptation Kit - API and Schema Documentation</span>
-                </p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="content-container">
+            # Update dak-api.md instead of creating standalone HTML
+            pagecontent_dir = os.path.join(os.path.dirname(output_dir), "input", "pagecontent")
+            if not os.path.exists(pagecontent_dir):
+                # Fallback: try to find pagecontent relative to current location
+                pagecontent_dir = os.path.join(os.getcwd(), "input", "pagecontent")
+            
+            if not os.path.exists(pagecontent_dir):
+                self.logger.error(f"Could not find pagecontent directory. Tried: {pagecontent_dir}")
+                return False
+                
+            dak_api_md_path = os.path.join(pagecontent_dir, "dak-api.md")
+            
+            
+            # Generate Markdown content for IG integration
+            markdown_content = """# DAK API Documentation Hub
+
+<!-- This content is automatically generated by the DAK API Documentation Hub Generator -->
+
+This Digital Adaptation Kit (DAK) API documentation provides programmatic access to the ValueSet schemas and Logical Model schemas defined in this implementation guide.
+
+<div class="dak-api-content">
 """
             
             # Add enumeration endpoints section
             if enumeration_docs:
                 # Sort enumeration docs alphabetically by title
                 sorted_enumeration_docs = sorted(enumeration_docs, key=lambda x: x['title'])
-                html_content += """
-        <div class="section">
-            <div class="section-header">
-                <h2>API Enumeration Endpoints</h2>
-            </div>
-            <div class="section-content">
-                <div class="doc-grid">
+                markdown_content += """
+## API Enumeration Endpoints
+
+These endpoints provide dynamic lists of all available schemas in this implementation guide.
+
+<div class="card-grid">
 """
                 for doc in sorted_enumeration_docs:
-                    # Determine icon type
+                    # Determine type label and description
                     if doc.get('type') == 'enumeration-valueset':
-                        schema_type_class = "enumeration-valueset"
-                        type_label = "ValueSets Enum"
+                        type_label = "ValueSets Enumeration"
+                        icon = "📋"
                     elif doc.get('type') == 'enumeration-logicalmodel':
-                        schema_type_class = "enumeration-logicalmodel"
-                        type_label = "LogicalModels Enum"
+                        type_label = "LogicalModels Enumeration"
+                        icon = "🏗️"
                     else:
-                        schema_type_class = "enumeration"
                         type_label = "Enumeration"
+                        icon = "📊"
                     
-                    html_content += f"""
-                    <div class="doc-card">
-                        <div class="schema-type {schema_type_class}">{type_label}</div>
-                        <h3>{doc['title']}</h3>
-                        <p>{doc['description']}</p>
-                        <a href="{doc['html_file']}">View Documentation</a>
-                    </div>
+                    markdown_content += f"""
+<div class="api-card enumeration">
+  <div class="card-header">
+    <span class="card-icon">{icon}</span>
+    <span class="card-type">{type_label}</span>
+  </div>
+  <h3><a href="{doc['html_file']}">{doc['title']}</a></h3>
+  <p>{doc['description']}</p>
+  <div class="card-actions">
+    <a href="{doc['html_file']}" class="btn btn-primary">View API Documentation</a>
+  </div>
+</div>
 """
-                html_content += """
-                </div>
-            </div>
-        </div>
+                markdown_content += """
+</div>
 """
             
             # Add ValueSet schemas section
             if schema_docs.get('valueset'):
                 # Sort ValueSet schemas alphabetically by title
                 sorted_valueset_docs = sorted(schema_docs['valueset'], key=lambda x: x['title'])
-                html_content += """
-        <div class="section">
-            <div class="section-header">
-                <h2>ValueSet Schemas</h2>
-            </div>
-            <div class="section-content">
-                <div class="doc-grid">
+                markdown_content += """
+## ValueSet Schemas
+
+Individual ValueSet schemas provide enumerated code lists for specific value domains.
+
+<div class="card-grid">
 """
                 for doc in sorted_valueset_docs:
-                    html_content += f"""
-                    <div class="doc-card">
-                        <div class="schema-type valueset">ValueSet</div>
-                        <h3>{doc['title']}</h3>
-                        <p>{doc['description']}</p>
-                        <a href="{doc['html_file']}">View Documentation</a>
-                    </div>
+                    markdown_content += f"""
+<div class="api-card valueset">
+  <div class="card-header">
+    <span class="card-icon">🎯</span>
+    <span class="card-type">ValueSet</span>
+  </div>
+  <h3><a href="{doc['html_file']}">{doc['title']}</a></h3>
+  <p>{doc['description']}</p>
+  <div class="card-actions">
+    <a href="{doc['html_file']}" class="btn btn-primary">View Schema Documentation</a>
+  </div>
+</div>
 """
-                html_content += """
-                </div>
-            </div>
-        </div>
+                markdown_content += """
+</div>
 """
             
             # Add Logical Model schemas section
             if schema_docs.get('logical_model'):
                 # Sort Logical Model schemas alphabetically by title
                 sorted_logical_model_docs = sorted(schema_docs['logical_model'], key=lambda x: x['title'])
-                html_content += """
-        <div class="section">
-            <div class="section-header">
-                <h2>Logical Model Schemas</h2>
-            </div>
-            <div class="section-content">
-                <div class="doc-grid">
+                markdown_content += """
+## Logical Model Schemas
+
+Logical Model schemas define the structure and constraints for data models used in this implementation guide.
+
+<div class="card-grid">
 """
                 for doc in sorted_logical_model_docs:
-                    html_content += f"""
-                    <div class="doc-card">
-                        <div class="schema-type logical-model">Logical Model</div>
-                        <h3>{doc['title']}</h3>
-                        <p>{doc['description']}</p>
-                        <a href="{doc['html_file']}">View Documentation</a>
-                    </div>
+                    markdown_content += f"""
+<div class="api-card logical-model">
+  <div class="card-header">
+    <span class="card-icon">🏗️</span>
+    <span class="card-type">Logical Model</span>
+  </div>
+  <h3><a href="{doc['html_file']}">{doc['title']}</a></h3>
+  <p>{doc['description']}</p>
+  <div class="card-actions">
+    <a href="{doc['html_file']}" class="btn btn-primary">View Schema Documentation</a>
+  </div>
+</div>
 """
-                html_content += """
-                </div>
-            </div>
-        </div>
+                markdown_content += """
+</div>
 """
             
             # Add OpenAPI specifications section
             if openapi_docs:
                 # Sort OpenAPI docs alphabetically by title
                 sorted_openapi_docs = sorted(openapi_docs, key=lambda x: x['title'])
-                html_content += """
-        <div class="section">
-            <div class="section-header">
-                <h2>OpenAPI Specifications</h2>
-            </div>
-            <div class="section-content">
-                <div class="doc-grid">
+                markdown_content += """
+## OpenAPI Specifications
+
+Additional API specifications beyond the core ValueSet and Logical Model schemas.
+
+<div class="card-grid">
 """
                 for doc in sorted_openapi_docs:
-                    html_content += f"""
-                    <div class="doc-card">
-                        <div class="schema-type openapi">OpenAPI</div>
-                        <h3>{doc['title']}</h3>
-                        <p>{doc['description']}</p>
-                        <a href="{doc['html_file']}">View Documentation</a>
-                    </div>
+                    markdown_content += f"""
+<div class="api-card openapi">
+  <div class="card-header">
+    <span class="card-icon">⚙️</span>
+    <span class="card-type">OpenAPI</span>
+  </div>
+  <h3><a href="{doc['html_file']}">{doc['title']}</a></h3>
+  <p>{doc['description']}</p>
+  <div class="card-actions">
+    <a href="{doc['html_file']}" class="btn btn-primary">View API Documentation</a>
+  </div>
+</div>
 """
-                html_content += """
-                </div>
-            </div>
-        </div>
+                markdown_content += """
+</div>
 """
             
             # Add empty state if no documentation
             if not schema_docs.get('valueset') and not schema_docs.get('logical_model') and not openapi_docs and not enumeration_docs:
-                html_content += """
-        <div class="section">
-            <div class="section-content">
-                <div class="no-content">
-                    <p>No API documentation found. Run the schema generation scripts first to generate documentation.</p>
-                </div>
-            </div>
-        </div>
+                markdown_content += """
+## No API Documentation Available
+
+No API documentation found. Run the schema generation scripts first to generate documentation:
+
+1. `Generate ValueSet JSON Schemas`
+2. `Generate Logical Model JSON Schemas` 
+3. `Generate DAK API Documentation Hub`
+
+These scripts are part of the GitHub workflow build process.
 """
             
-            html_content += """
-        <div class="footer">
-            <p>Generated automatically by the DAK API Documentation Hub Generator</p>
-        </div>
-    </div>
-</body>
-<script>
-// Make title bar clickable - this is the main hub so it just refreshes the page
-document.addEventListener('DOMContentLoaded', function() {
-    const igStatus = document.getElementById('ig-status');
-    if (igStatus) {
-        igStatus.style.cursor = 'pointer';
-        igStatus.addEventListener('click', function() {
-            window.location.reload();
-        });
-        igStatus.title = 'Click to refresh DAK API Hub';
-    }
-});
-</script>
-</html>"""
+            markdown_content += """
+</div>
+
+<style>
+/* DAK API Styling that integrates with IG theme */
+.dak-api-content {
+  margin-top: 1rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.api-card {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.api-card:hover {
+  border-color: #00477d;
+  box-shadow: 0 4px 12px rgba(0,71,125,0.15);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.card-icon {
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
+}
+
+.card-type {
+  background: #00477d;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.api-card.enumeration .card-type {
+  background: #607d8b;
+}
+
+.api-card.valueset .card-type {
+  background: #17a2b8;
+}
+
+.api-card.logical-model .card-type {
+  background: #6f42c1;
+}
+
+.api-card.openapi .card-type {
+  background: #fd7e14;
+}
+
+.api-card h3 {
+  margin: 1rem 1rem 0.5rem 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.api-card h3 a {
+  color: #00477d;
+  text-decoration: none;
+}
+
+.api-card h3 a:hover {
+  text-decoration: underline;
+}
+
+.api-card p {
+  margin: 0 1rem 1rem 1rem;
+  color: #6c757d;
+  line-height: 1.5;
+}
+
+.card-actions {
+  padding: 1rem;
+  border-top: 1px solid #f1f3f4;
+  background: #fafbfc;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background-color: #00477d;
+  color: white;
+  border-color: #00477d;
+}
+
+.btn-primary:hover {
+  background-color: #003a68;
+  border-color: #003a68;
+  color: white;
+  text-decoration: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+</style>
+
+---
+
+*This documentation is automatically generated from the schemas and specifications defined in this implementation guide.*
+"""
             
-            # Save hub file
-            with open(hub_path, 'w', encoding='utf-8') as f:
-                f.write(html_content)
+            # Save markdown content to dak-api.md
+            with open(dak_api_md_path, 'w', encoding='utf-8') as f:
+                f.write(markdown_content)
             
-            self.logger.info(f"Generated DAK API hub: {hub_path}")
+            self.logger.info(f"Updated DAK API markdown: {dak_api_md_path}")
             return True
             
         except Exception as e:
