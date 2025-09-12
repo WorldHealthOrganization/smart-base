@@ -79,6 +79,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get branch name
         run: |
@@ -487,8 +490,55 @@ jobs:
                   git config --local user.email "action@github.com"
                   git config --local user.name "GitHub Action"
                   git add sushi-config.yaml
+
+                  # Also add dak-api.md if it was created
+                  if [ -f "input/pagecontent/dak-api.md" ]; then
+                    git add input/pagecontent/dak-api.md
+                  fi
+
                   git commit -m "Auto-configure sushi-config.yaml for DAK API documentation"
-                  git push
+
+                  # Pull latest changes before pushing to avoid conflicts
+                  echo "Pulling latest changes before push..."
+                  if git pull --rebase origin $BRANCH_NAME; then
+                    echo "Successfully pulled and rebased changes"
+                  else
+                    echo "Pull/rebase failed, attempting merge strategy..."
+                    git rebase --abort 2>/dev/null || true
+                    if git pull --no-rebase origin $BRANCH_NAME; then
+                      echo "Successfully pulled with merge strategy"
+                    else
+                      echo "❌ Failed to pull changes - there may be conflicts that need manual resolution"
+                      echo "Attempting to push anyway..."
+                    fi
+                  fi
+
+                  # Attempt to push with retry logic
+                  PUSH_RETRIES=3
+                  PUSH_SUCCESS=false
+
+                  for i in $(seq 1 $PUSH_RETRIES); do
+                    echo "Push attempt $i of $PUSH_RETRIES..."
+                    if git push origin $BRANCH_NAME; then
+                      echo "✅ Successfully pushed changes"
+                      PUSH_SUCCESS=true
+                      break
+                    else
+                      echo "⚠️  Push attempt $i failed"
+                      if [ $i -lt $PUSH_RETRIES ]; then
+                        echo "Pulling latest changes before retry..."
+                        git pull --no-rebase origin $BRANCH_NAME || echo "Pull failed, retrying push anyway..."
+                        sleep 2
+                      fi
+                    fi
+                  done
+
+                  if [ "$PUSH_SUCCESS" = false ]; then
+                    echo "❌ Failed to push after $PUSH_RETRIES attempts"
+                    echo "This may indicate concurrent builds or permission issues"
+                    echo "The build will continue, but sushi-config.yaml changes were not committed"
+                    echo "Manual intervention may be required"
+                  fi
                 fi
               else
                 echo "Failed to update sushi-config.yaml, continuing with existing configuration..."
