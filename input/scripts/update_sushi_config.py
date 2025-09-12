@@ -8,6 +8,31 @@ def update_sushi_config():
         with open('sushi-config.yaml', 'r') as f:
             config = yaml.safe_load(f)
         
+        # Check if smart-base is listed as a dependency
+        dependencies = config.get('dependencies', {})
+        smart_base_found = False
+        
+        # Check for various possible smart-base dependency names
+        smart_base_patterns = [
+            'smart-base',
+            'smart.who.int.base',
+            'who.smart.base',
+            'smart.base'
+        ]
+        
+        for dep_name in dependencies.keys():
+            for pattern in smart_base_patterns:
+                if pattern in dep_name.lower():
+                    smart_base_found = True
+                    print(f"Found smart-base dependency: {dep_name}")
+                    break
+            if smart_base_found:
+                break
+        
+        if not smart_base_found:
+            print("smart-base is not listed as a dependency. Skipping DAK API configuration.")
+            return False
+        
         # Ensure pages section exists
         if 'pages' not in config:
             config['pages'] = {}
