@@ -133,13 +133,6 @@ The script handles common scenarios gracefully:
 
 ## Troubleshooting
 
-### dak-api.html Not Found Error
-**Error**: `❌ Cannot find dak-api.html in output directory`
-**Solution**: This script is a post-processor that requires the IG publisher to run first.
-1. Run the IG publisher to generate `dak-api.html` from `input/pagecontent/dak-api.md`
-2. Then run this script to post-process the generated HTML
-3. Use the correct build order: `./build-with-dak-api.sh` or `./_genonce.sh` then `python3 input/scripts/generate_dak_api_hub.py output`
-
 ### No Documentation Generated
 1. Ensure schema files exist in the output directory
 2. Check that schema files have proper JSON Schema format
@@ -161,15 +154,15 @@ Add to your IG build script:
 ```bash
 #!/bin/bash
 
-# Run FHIR IG Publisher first (creates dak-api.html from dak-api.md)
+# Run FHIR IG Publisher
 java -jar publisher.jar -ig .
 
-# Generate schema documentation (if needed)
+# Generate schema documentation
 python input/scripts/generate_valueset_schemas.py
 python input/scripts/generate_logical_model_schemas.py
 
-# Post-process: Generate unified API hub (requires dak-api.html to exist)
+# Generate unified API hub
 python input/scripts/generate_dak_api_hub.py
 
-echo "API documentation hub post-processed at output/dak-api.html"
+echo "API documentation hub generated at output/dak-api.html"
 ```
