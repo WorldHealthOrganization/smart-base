@@ -1,5 +1,54 @@
 import yaml
 import sys
+import os
+
+def create_dak_api_md_if_needed():
+    """Create dak-api.md file with proper content if it doesn't exist."""
+    dak_api_path = 'input/pagecontent/dak-api.md'
+    
+    # Check if the file already exists
+    if os.path.exists(dak_api_path):
+        # Verify it has the required DAK_API_CONTENT marker
+        try:
+            with open(dak_api_path, 'r') as f:
+                content = f.read()
+            if '<!-- DAK_API_CONTENT -->' in content:
+                print(f"dak-api.md already exists with proper content")
+                return True
+            else:
+                print(f"dak-api.md exists but missing DAK_API_CONTENT marker, updating...")
+        except Exception as e:
+            print(f"Error reading existing dak-api.md: {e}")
+    else:
+        print(f"dak-api.md does not exist, creating...")
+    
+    # Create the directories if they don't exist
+    os.makedirs(os.path.dirname(dak_api_path), exist_ok=True)
+    
+    # Create the dak-api.md content with the required marker
+    dak_api_content = """# DAK API Documentation Hub
+
+This page provides access to Data Access Kit (DAK) API documentation and schemas.
+
+{: .no_toc}
+
+## Table of Contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+<!-- DAK_API_CONTENT -->
+"""
+    
+    try:
+        with open(dak_api_path, 'w') as f:
+            f.write(dak_api_content)
+        print(f"Successfully created dak-api.md with DAK_API_CONTENT marker")
+        return True
+    except Exception as e:
+        print(f"Error creating dak-api.md: {e}")
+        return False
 
 def update_sushi_config():
     config_updated = False
@@ -40,6 +89,10 @@ def update_sushi_config():
         if not smart_base_found:
             print("This is not the smart-base repository and smart-base is not listed as a dependency. Skipping DAK API configuration.")
             return False
+        
+        # Create dak-api.md if needed before processing sushi config
+        if not create_dak_api_md_if_needed():
+            print("Failed to create dak-api.md, but continuing with sushi-config processing...")
         
         # Ensure pages section exists
         if 'pages' not in config:
