@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # SMART Base IG Build Script
-# This script ensures the DAK API hub is generated before the IG build
+# This script runs the IG build first, then post-processes with DAK API hub
 
 set -e
 
@@ -10,18 +10,18 @@ echo "=== SMART Base IG Build ==="
 # Ensure output directory exists
 mkdir -p output
 
-# Generate DAK API documentation hub
-echo "Generating DAK API documentation hub..."
-python3 input/scripts/generate_dak_api_hub.py output
-
-echo "DAK API hub generated successfully at output/dak-api.html"
-
-# Run the standard IG build process
+# Run the standard IG build process first
 echo "Starting IG build process..."
 if [ -f "_genonce.sh" ]; then
     ./_genonce.sh
 else
-    echo "Warning: _genonce.sh not found. Run this manually after the script completes."
+    echo "Error: _genonce.sh not found. Cannot proceed with IG build."
+    exit 1
 fi
 
+# Post-process: Generate DAK API documentation hub
+echo "Post-processing DAK API documentation into generated HTML files..."
+python3 input/scripts/generate_dak_api_hub.py output
+
+echo "DAK API hub post-processing completed successfully."
 echo "Build process completed."

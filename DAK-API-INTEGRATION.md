@@ -67,9 +67,9 @@ Users can access the DAK API documentation through:
 # Build IG with DAK API integration
 ./build-with-dak-api.sh
 
-# Or manually generate DAK API hub then build
-python3 input/scripts/generate_dak_api_hub.py output
+# Or manually run IG build first, then post-process
 ./_genonce.sh
+python3 input/scripts/generate_dak_api_hub.py output
 ```
 
 ## Architecture Decision
