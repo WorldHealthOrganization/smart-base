@@ -1,12 +1,12 @@
-# Classification of Digital Health Interventions v1 Schema Documentation
+# ValueSet-CDHIv1 API Documentation
 
-<!-- This content is automatically generated from ValueSet-CDHIv1.openapi.yaml -->
+<!-- This content is automatically generated from ValueSet-CDHIv1.openapi.json -->
 
 ## API Information
 
 **Classification of Digital Health Interventions v1 Schema API**
 
-JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions.
+JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions using IRI format.
 
 **Version:** 1.0.0
 
@@ -22,7 +22,7 @@ This endpoint serves the JSON Schema definition for the enumeration ValueSet-CDH
 
 ### ValueSet-CDHIv1
 
-**Description:** JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions.
+**Description:** JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions using IRI format.
 
 **Type:** string
 
@@ -33,9 +33,9 @@ This endpoint serves the JSON Schema definition for the enumeration ValueSet-CDH
 **Allowed values:**
 
 <div class="enum-values">
-<span class="enum-value">1.0</span>
-<span class="enum-value">1.1</span>
-<span class="enum-value">2.0</span>
+<span class="enum-value">http://smart.who.int/base/CodeSystem/CDHIv1#1.0</span>
+<span class="enum-value">http://smart.who.int/base/CodeSystem/CDHIv1#1.1</span>
+<span class="enum-value">http://smart.who.int/base/CodeSystem/CDHIv1#2.0</span>
 </div>
 
 <details>
@@ -46,16 +46,15 @@ This endpoint serves the JSON Schema definition for the enumeration ValueSet-CDH
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "http://smart.who.int/base/ValueSet-CDHIv1.schema.json",
   "title": "Classification of Digital Health Interventions v1 Schema",
-  "description": "JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions.",
+  "description": "JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions using IRI format.",
   "type": "string",
   "enum": [
-    "1.0",
-    "1.1",
-    "2.0"
+    "http://smart.who.int/base/CodeSystem/CDHIv1#1.0",
+    "http://smart.who.int/base/CodeSystem/CDHIv1#1.1",
+    "http://smart.who.int/base/CodeSystem/CDHIv1#2.0"
   ],
-  "narrative": "This schema validates codes for the Classification of Digital Health Interventions v1 ValueSet. Display values are available at http://smart.who.int/base/ValueSet-CDHIv1.displays.json. System URI mappings are available at http://smart.who.int/base/ValueSet-CDHIv1.system.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+  "narrative": "This schema validates IRI-formatted codes for the Classification of Digital Health Interventions v1 ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-CDHIv1.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
   "fhir:displays": "http://smart.who.int/base/ValueSet-CDHIv1.displays.json",
-  "fhir:system": "http://smart.who.int/base/ValueSet-CDHIv1.system.json",
   "fhir:valueSet": "http://smart.who.int/base/ValueSet/CDHIv1",
   "fhir:version": "0.3.0",
   "fhir:expansionTimestamp": "2023-10-01T12:00:00Z"

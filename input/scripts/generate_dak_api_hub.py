@@ -1473,19 +1473,26 @@ class DAKApiHubGenerator:
         </div>
 """
             
-            # Add traditional OpenAPI specification files as cards if any exist
+            # Add OpenAPI documentation pages as cards
             if openapi_docs:
                 for api_doc in openapi_docs:
-                    # Skip files we've already included above
-                    if not (api_doc['filename'].endswith('-enumeration.openapi.json') or 
-                           any(schema_doc.get('openapi_file') == api_doc['filename'] 
-                               for schema_doc in schema_docs['valueset'] + schema_docs['logical_model'])):
-                        html_content += f"""
+                    # Create documentation cards for all OpenAPI files, including those with HTML docs
+                    html_content += f"""
         <div class="schema-card">
             <h4>{api_doc['title']}</h4>
             <p>{api_doc['description']}</p>
-            <div class="schema-links">
-                <a href="{api_doc['file_path']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            <div class="schema-links">"""
+                    
+                    # Add link to generated HTML documentation if available
+                    if api_doc.get('html_file'):
+                        html_content += f"""
+                <a href="{api_doc['html_file']}" class="schema-link" title="API Documentation">📖 Documentation</a>"""
+                    
+                    # Always add link to raw OpenAPI specification
+                    html_content += f"""
+                <a href="{api_doc['file_path']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>"""
+                    
+                    html_content += """
             </div>
         </div>
 """
@@ -2212,11 +2219,20 @@ def main():
             # Create cleaner title from filename
             clean_name = openapi_filename.replace('.openapi.json', '').replace('.openapi.yaml', '').replace('.yaml', '').replace('.json', '')
             
+            # Generate individual OpenAPI documentation markdown file
+            logger.info(f"  Generating OpenAPI documentation markdown for: {clean_name}")
+            openapi_html_filename = schema_doc_renderer.generate_redoc_html(openapi_path, output_dir, f"{clean_name} API Documentation")
+            if openapi_html_filename:
+                logger.info(f"  ✅ Generated OpenAPI documentation: {openapi_html_filename}")
+            else:
+                logger.warning(f"  ⚠️ Failed to generate OpenAPI documentation for {clean_name}")
+            
             openapi_docs.append({
                 'title': f"{clean_name} API",
                 'description': f"OpenAPI specification for {clean_name}",
                 'file_path': relative_path,  # Direct link to JSON/YAML file
-                'filename': openapi_filename
+                'filename': openapi_filename,
+                'html_file': openapi_html_filename if openapi_html_filename else None
             })
             
             logger.info(f"  ✅ Added to OpenAPI documentation: {clean_name}")

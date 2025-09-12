@@ -1,12 +1,12 @@
-# ValueSets-enumeration API Documentation
+# ValueSets API Documentation
 
-<!-- This content is automatically generated from ValueSets-enumeration.openapi.json -->
+<!-- This content is automatically generated from ValueSets.openapi.json -->
 
 ## API Information
 
-**ValueSets Enumeration API**
+**ValueSet Enumeration Schema API**
 
-API endpoint providing an enumeration of all available ValueSet schemas
+JSON Schema defining the structure of the ValueSet enumeration endpoint response
 
 **Version:** 1.0.0
 
@@ -14,13 +14,13 @@ API endpoint providing an enumeration of all available ValueSet schemas
 
 ### GET /ValueSets.schema.json
 
-**Get enumeration of all ValueSet schemas**
+**JSON Schema definition for the enumeration ValueSets**
 
-Returns a list of all available ValueSet schemas with metadata
+This endpoint serves the JSON Schema definition for the enumeration ValueSets.
 
 ## Schema Definition
 
-### EnumerationResponse
+### ValueSets
 
 **Description:** JSON Schema defining the structure of the ValueSet enumeration endpoint response
 
