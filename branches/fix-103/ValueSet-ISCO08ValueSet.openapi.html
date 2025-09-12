@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ISCO-08 Value Set Schema Documentation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+        
+        /* WHO SMART Trust inspired styling */
+        :root {
+            --navbar-bg-color: #00477d;
+            --ig-header-color: #f6f7f9;
+            --footer-bg-color: #505050;
+            --footer-container-bg-color: #00477d;
+            --btn-hover-color: #0070A1;
+            --toc-box-border: navy;
+            --toc-box-bg-color: #f6f7f9;
+        }
+        
+        body {
+            font-family: 'Noto Sans', sans-serif !important;
+            margin: 0;
+            padding: 0;
+            background-color: var(--toc-box-bg-color) !important;
+            color: #000 !important;
+            height: fit-content !important;
+        }
+        
+        .container {
+            width: 100% !important;
+            max-width: none !important;
+            background-color: var(--toc-box-bg-color) !important;
+            color: #000 !important;
+            padding: 0 20px;
+        }
+        
+        @media (min-width: 2200px) {
+            .container {
+                max-width: 1980px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+        }
+        
+        /* Header segment matching SMART Trust */
+        #segment-header {
+            display: block;
+        }
+        
+        #segment-navbar {
+            background-color: var(--navbar-bg-color) !important;
+        }
+        
+        #segment-navbar .container {
+            background-color: var(--navbar-bg-color) !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            min-height: 50px;
+        }
+        
+        #project-nav {
+            flex: 0 0 auto;
+            margin-right: auto;
+            line-height: 50px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            color: #808080;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 20px;
+        }
+        
+        #project-nav a {
+            color: #e6e6e6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        #project-nav a:hover {
+            color: #ffffff;
+        }
+        
+        .header-container {
+            background-color: var(--ig-header-color) !important;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0px 6px 8px rgba(130, 130, 13, 0.1) !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        #ig-status {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        #ig-status p {
+            background-color: white;
+            padding: 10px 17px;
+            border-radius: 5px;
+            position: relative;
+            z-index: 2;
+            margin: 0;
+        }
+        
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            color: #00477d;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        
+        .section-content {
+            padding: 1.5rem;
+        }
+        
+        .endpoint {
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .endpoint-header {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            font-family: monospace;
+        }
+        
+        .endpoint-content {
+            padding: 1rem;
+        }
+        
+        .schema-display {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .property {
+            margin-bottom: 0.5rem;
+        }
+        
+        .property-name {
+            font-weight: 600;
+            color: #00477d;
+        }
+        
+        .property-type {
+            color: #6f42c1;
+            font-family: 'Noto Sans', monospace;
+        }
+        
+        .property-description {
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        
+        .enum-values {
+            background-color: #e7f3ff;
+            border: 1px solid #b8daff;
+            border-radius: 4px;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .enum-value {
+            display: inline-block;
+            background-color: #00477d;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            margin: 0.2rem;
+            font-family: 'Noto Sans', monospace;
+            font-size: 0.9rem;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Noto Sans', sans-serif !important;
+            color: #000 !important;
+        }
+        
+        td, p, li {
+            font-family: 'Noto Sans', sans-serif !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="segment-header" class="segment">
+        <div id="segment-navbar" class="segment">
+            <div class="container">
+                <div id="project-nav">
+                    <a href="../index.html">Return to SMART Guideline</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container header-container">
+            <div id="ig-status">
+                <p><span style="font-size:12pt;font-weight:bold">ISCO-08 Value Set Schema Documentation</span>
+                    <br/>
+                    <span style="display:inline-block;">Generated from: ValueSet-ISCO08ValueSet.openapi.yaml</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content-container">
+
+        <div class="section">
+            <div class="section-header">
+                <h2>API Information</h2>
+            </div>
+            <div class="section-content">
+                <h3>ISCO-08 Value Set Schema API</h3>
+                <p>JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.</p>
+                <p><strong>Version:</strong> 1.0.0</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Endpoints</h2>
+            </div>
+            <div class="section-content">
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        GET /ValueSet-ISCO08ValueSet.schema.json
+                    </div>
+                    <div class="endpoint-content">
+                        <h4>JSON Schema definition for the enumeration ValueSet-ISCO08ValueSet</h4>
+                        <p>This endpoint serves the JSON Schema definition for the enumeration ValueSet-ISCO08ValueSet.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Schema Definition</h2>
+            </div>
+            <div class="section-content">
+
+                <h3>ValueSet-ISCO08ValueSet</h3>
+                <p><strong>Description:</strong> JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.</p>
+                <p><strong>Type:</strong> <span class="property-type">string</span></p>
+
+                <div class="enum-values">
+                    <strong>Allowed values:</strong><br>
+                    <span class="enum-value">0</span>
+                    <span class="enum-value">1</span>
+                    <span class="enum-value">2</span>
+                    <span class="enum-value">3</span>
+                    <span class="enum-value">4</span>
+                    <span class="enum-value">5</span>
+                    <span class="enum-value">6</span>
+                    <span class="enum-value">7</span>
+                    <span class="enum-value">8</span>
+                    <span class="enum-value">9</span>
+                    <span class="enum-value">11</span>
+                    <span class="enum-value">12</span>
+                    <span class="enum-value">13</span>
+                    <span class="enum-value">14</span>
+                    <span class="enum-value">21</span>
+                    <span class="enum-value">22</span>
+                    <span class="enum-value">23</span>
+                    <span class="enum-value">24</span>
+                    <span class="enum-value">25</span>
+                    <span class="enum-value">26</span>
+                    <span class="enum-value">31</span>
+                    <span class="enum-value">32</span>
+                    <span class="enum-value">33</span>
+                    <span class="enum-value">34</span>
+                    <span class="enum-value">35</span>
+                    <span class="enum-value">41</span>
+                    <span class="enum-value">42</span>
+                    <span class="enum-value">43</span>
+                    <span class="enum-value">44</span>
+                    <span class="enum-value">51</span>
+                    <span class="enum-value">52</span>
+                    <span class="enum-value">53</span>
+                    <span class="enum-value">54</span>
+                    <span class="enum-value">61</span>
+                    <span class="enum-value">62</span>
+                    <span class="enum-value">63</span>
+                    <span class="enum-value">71</span>
+                    <span class="enum-value">72</span>
+                    <span class="enum-value">73</span>
+                    <span class="enum-value">74</span>
+                    <span class="enum-value">75</span>
+                    <span class="enum-value">81</span>
+                    <span class="enum-value">82</span>
+                    <span class="enum-value">83</span>
+                    <span class="enum-value">91</span>
+                    <span class="enum-value">92</span>
+                    <span class="enum-value">93</span>
+                    <span class="enum-value">94</span>
+                    <span class="enum-value">95</span>
+                    <span class="enum-value">96</span>
+                    <span class="enum-value">111</span>
+                    <span class="enum-value">112</span>
+                    <span class="enum-value">121</span>
+                    <span class="enum-value">122</span>
+                    <span class="enum-value">211</span>
+                    <span class="enum-value">212</span>
+                    <span class="enum-value">213</span>
+                    <span class="enum-value">214</span>
+                    <span class="enum-value">215</span>
+                    <span class="enum-value">216</span>
+                    <span class="enum-value">221</span>
+                    <span class="enum-value">222</span>
+                    <span class="enum-value">223</span>
+                    <span class="enum-value">224</span>
+                    <span class="enum-value">225</span>
+                    <span class="enum-value">226</span>
+                    <span class="enum-value">231</span>
+                    <span class="enum-value">232</span>
+                    <span class="enum-value">233</span>
+                    <span class="enum-value">234</span>
+                    <span class="enum-value">235</span>
+                    <span class="enum-value">311</span>
+                    <span class="enum-value">312</span>
+                    <span class="enum-value">313</span>
+                    <span class="enum-value">314</span>
+                    <span class="enum-value">315</span>
+                    <span class="enum-value">321</span>
+                    <span class="enum-value">322</span>
+                    <span class="enum-value">323</span>
+                    <span class="enum-value">324</span>
+                    <span class="enum-value">325</span>
+                    <span class="enum-value">411</span>
+                    <span class="enum-value">412</span>
+                    <span class="enum-value">413</span>
+                    <span class="enum-value">511</span>
+                    <span class="enum-value">512</span>
+                    <span class="enum-value">513</span>
+                    <span class="enum-value">514</span>
+                    <span class="enum-value">515</span>
+                    <span class="enum-value">516</span>
+                    <span class="enum-value">711</span>
+                    <span class="enum-value">712</span>
+                    <span class="enum-value">713</span>
+                    <span class="enum-value">811</span>
+                    <span class="enum-value">812</span>
+                    <span class="enum-value">813</span>
+                    <span class="enum-value">911</span>
+                    <span class="enum-value">912</span>
+                    <span class="enum-value">913</span>
+                    <span class="enum-value">1111</span>
+                    <span class="enum-value">1112</span>
+                    <span class="enum-value">1113</span>
+                    <span class="enum-value">1114</span>
+                    <span class="enum-value">1120</span>
+                    <span class="enum-value">1211</span>
+                    <span class="enum-value">1212</span>
+                    <span class="enum-value">1213</span>
+                    <span class="enum-value">1219</span>
+                    <span class="enum-value">1221</span>
+                    <span class="enum-value">1222</span>
+                    <span class="enum-value">1223</span>
+                    <span class="enum-value">2111</span>
+                    <span class="enum-value">2112</span>
+                    <span class="enum-value">2113</span>
+                    <span class="enum-value">2114</span>
+                    <span class="enum-value">2120</span>
+                    <span class="enum-value">2131</span>
+                    <span class="enum-value">2132</span>
+                    <span class="enum-value">2133</span>
+                    <span class="enum-value">2141</span>
+                    <span class="enum-value">2142</span>
+                    <span class="enum-value">2143</span>
+                    <span class="enum-value">2144</span>
+                    <span class="enum-value">2145</span>
+                    <span class="enum-value">2146</span>
+                    <span class="enum-value">2149</span>
+                    <span class="enum-value">2151</span>
+                    <span class="enum-value">2152</span>
+                    <span class="enum-value">2153</span>
+                    <span class="enum-value">2161</span>
+                    <span class="enum-value">2162</span>
+                    <span class="enum-value">2163</span>
+                    <span class="enum-value">2164</span>
+                    <span class="enum-value">2165</span>
+                    <span class="enum-value">2166</span>
+                    <span class="enum-value">2211</span>
+                    <span class="enum-value">2212</span>
+                    <span class="enum-value">2221</span>
+                    <span class="enum-value">2222</span>
+                    <span class="enum-value">2230</span>
+                    <span class="enum-value">2240</span>
+                    <span class="enum-value">2250</span>
+                    <span class="enum-value">2261</span>
+                    <span class="enum-value">2262</span>
+                    <span class="enum-value">2263</span>
+                    <span class="enum-value">2264</span>
+                    <span class="enum-value">2265</span>
+                    <span class="enum-value">2266</span>
+                    <span class="enum-value">2267</span>
+                    <span class="enum-value">2269</span>
+                    <span class="enum-value">3111</span>
+                    <span class="enum-value">3112</span>
+                    <span class="enum-value">3113</span>
+                    <span class="enum-value">3114</span>
+                    <span class="enum-value">3115</span>
+                    <span class="enum-value">3116</span>
+                    <span class="enum-value">3117</span>
+                    <span class="enum-value">3118</span>
+                    <span class="enum-value">3119</span>
+                    <span class="enum-value">4110</span>
+                    <span class="enum-value">4120</span>
+                    <span class="enum-value">4131</span>
+                    <span class="enum-value">4132</span>
+                    <span class="enum-value">5111</span>
+                    <span class="enum-value">5112</span>
+                    <span class="enum-value">5113</span>
+                    <span class="enum-value">6111</span>
+                    <span class="enum-value">6112</span>
+                    <span class="enum-value">6113</span>
+                    <span class="enum-value">6114</span>
+                    <span class="enum-value">7111</span>
+                    <span class="enum-value">7112</span>
+                    <span class="enum-value">7113</span>
+                    <span class="enum-value">7114</span>
+                    <span class="enum-value">8111</span>
+                    <span class="enum-value">8112</span>
+                    <span class="enum-value">8113</span>
+                    <span class="enum-value">9111</span>
+                    <span class="enum-value">9112</span>
+                    <span class="enum-value">9211</span>
+                    <span class="enum-value">9212</span>
+                    <span class="enum-value">9213</span>
+
+                </div>
+
+                <h4>Full Schema:</h4>
+                <div class="schema-display">{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-ISCO08ValueSet.schema.json",
+  "title": "ISCO-08 Value Set Schema",
+  "description": "JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.",
+  "type": "string",
+  "enum": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "11",
+    "12",
+    "13",
+    "14",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "31",
+    "32",
+    "33",
+    "34",
+    "35",
+    "41",
+    "42",
+    "43",
+    "44",
+    "51",
+    "52",
+    "53",
+    "54",
+    "61",
+    "62",
+    "63",
+    "71",
+    "72",
+    "73",
+    "74",
+    "75",
+    "81",
+    "82",
+    "83",
+    "91",
+    "92",
+    "93",
+    "94",
+    "95",
+    "96",
+    "111",
+    "112",
+    "121",
+    "122",
+    "211",
+    "212",
+    "213",
+    "214",
+    "215",
+    "216",
+    "221",
+    "222",
+    "223",
+    "224",
+    "225",
+    "226",
+    "231",
+    "232",
+    "233",
+    "234",
+    "235",
+    "311",
+    "312",
+    "313",
+    "314",
+    "315",
+    "321",
+    "322",
+    "323",
+    "324",
+    "325",
+    "411",
+    "412",
+    "413",
+    "511",
+    "512",
+    "513",
+    "514",
+    "515",
+    "516",
+    "711",
+    "712",
+    "713",
+    "811",
+    "812",
+    "813",
+    "911",
+    "912",
+    "913",
+    "1111",
+    "1112",
+    "1113",
+    "1114",
+    "1120",
+    "1211",
+    "1212",
+    "1213",
+    "1219",
+    "1221",
+    "1222",
+    "1223",
+    "2111",
+    "2112",
+    "2113",
+    "2114",
+    "2120",
+    "2131",
+    "2132",
+    "2133",
+    "2141",
+    "2142",
+    "2143",
+    "2144",
+    "2145",
+    "2146",
+    "2149",
+    "2151",
+    "2152",
+    "2153",
+    "2161",
+    "2162",
+    "2163",
+    "2164",
+    "2165",
+    "2166",
+    "2211",
+    "2212",
+    "2221",
+    "2222",
+    "2230",
+    "2240",
+    "2250",
+    "2261",
+    "2262",
+    "2263",
+    "2264",
+    "2265",
+    "2266",
+    "2267",
+    "2269",
+    "3111",
+    "3112",
+    "3113",
+    "3114",
+    "3115",
+    "3116",
+    "3117",
+    "3118",
+    "3119",
+    "4110",
+    "4120",
+    "4131",
+    "4132",
+    "5111",
+    "5112",
+    "5113",
+    "6111",
+    "6112",
+    "6113",
+    "6114",
+    "7111",
+    "7112",
+    "7113",
+    "7114",
+    "8111",
+    "8112",
+    "8113",
+    "9111",
+    "9112",
+    "9211",
+    "9212",
+    "9213"
+  ],
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/ISCO08ValueSet",
+  "fhir:version": "0.2.0",
+  "fhir:expansionTimestamp": "2025-09-08T13:54:41+00:00"
+}</div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

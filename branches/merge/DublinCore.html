@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dublin Core Metadata Element Set Documentation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #fafafa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0066cc 0%, #004a99 100%);
+            color: white;
+            padding: 2rem 0;
+            margin: -2rem -2rem 2rem -2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 400;
+        }
+        
+        .header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            color: #0066cc;
+            font-size: 1.3rem;
+        }
+        
+        .section-content {
+            padding: 1.5rem;
+        }
+        
+        .endpoint {
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .endpoint-header {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            font-family: monospace;
+        }
+        
+        .endpoint-content {
+            padding: 1rem;
+        }
+        
+        .schema-display {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .property {
+            margin-bottom: 0.5rem;
+        }
+        
+        .property-name {
+            font-weight: 600;
+            color: #0066cc;
+        }
+        
+        .property-type {
+            color: #6f42c1;
+            font-family: monospace;
+        }
+        
+        .property-description {
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        
+        .enum-values {
+            background-color: #e7f3ff;
+            border: 1px solid #b8daff;
+            border-radius: 4px;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .enum-value {
+            display: inline-block;
+            background-color: #0066cc;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            margin: 0.2rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dublin Core Metadata Element Set Documentation</h1>
+            <p>Generated from: DublinCore.openapi.yaml</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>API Information</h2>
+            </div>
+            <div class="section-content">
+                <h3>Dublin Core Metadata Element Set API</h3>
+                <p>Logical Model representing Dublin Core metadata elements as defined at https://www.dublincore.org/specifications/dublin-core/dcmi-terms/</p>
+                <p><strong>Version:</strong> 1.0.0</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Endpoints</h2>
+            </div>
+            <div class="section-content">
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        GET /DublinCore.schema.json
+                    </div>
+                    <div class="endpoint-content">
+                        <h4>JSON Schema definition for the Logical Model DublinCore</h4>
+                        <p>This endpoint serves the JSON Schema definition for the Logical Model DublinCore.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Schema Definition</h2>
+            </div>
+            <div class="section-content">
+
+                <h3>DublinCore</h3>
+                <p><strong>Description:</strong> Logical Model representing Dublin Core metadata elements as defined at https://www.dublincore.org/specifications/dublin-core/dcmi-terms/</p>
+                <p><strong>Type:</strong> <span class="property-type">object</span></p>
+
+                <h4>Properties:</h4>
+
+                <div class="property">
+                    <span class="property-name">title</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">A name given to the resource</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">creator</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">An entity responsible for making the resource</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">subject</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">The topic of the resource</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">description</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">An account of the resource</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">publisher</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">An entity responsible for making the resource available</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">contributor</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">An entity responsible for making contributions to the resource</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">date</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">A point or period of time associated with an event in the lifecycle of the resource</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">type</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">The nature or genre of the resource</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">format</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">The file format, physical medium, or dimensions of the resource</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">identifier</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">An unambiguous reference to the resource within a given context</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">source</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">A related resource from which the described resource is derived</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">language</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">A language of the resource</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">relation</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">A related resource</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">coverage</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">The spatial or temporal topic of the resource</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">rights</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">Information about rights held in and over the resource</div>
+                </div>
+
+                <h4>Full Schema:</h4>
+                <div class="schema-display">{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition/DublinCore.schema.json",
+  "title": "Dublin Core Metadata Element Set",
+  "description": "Logical Model representing Dublin Core metadata elements as defined at https://www.dublincore.org/specifications/dublin-core/dcmi-terms/",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "A name given to the resource"
+    },
+    "creator": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "An entity responsible for making the resource"
+    },
+    "subject": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The topic of the resource"
+    },
+    "description": {
+      "type": "string",
+      "description": "An account of the resource"
+    },
+    "publisher": {
+      "type": "string",
+      "description": "An entity responsible for making the resource available"
+    },
+    "contributor": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "An entity responsible for making contributions to the resource"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "A point or period of time associated with an event in the lifecycle of the resource"
+    },
+    "type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The nature or genre of the resource"
+    },
+    "format": {
+      "type": "string",
+      "description": "The file format, physical medium, or dimensions of the resource"
+    },
+    "identifier": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "An unambiguous reference to the resource within a given context"
+    },
+    "source": {
+      "type": "string",
+      "description": "A related resource from which the described resource is derived"
+    },
+    "language": {
+      "type": "string",
+      "description": "A language of the resource"
+    },
+    "relation": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "A related resource"
+    },
+    "coverage": {
+      "type": "string",
+      "description": "The spatial or temporal topic of the resource"
+    },
+    "rights": {
+      "type": "string",
+      "description": "Information about rights held in and over the resource"
+    }
+  },
+  "required": [],
+  "fhir:logicalModel": "http://smart.who.int/base/StructureDefinition/DublinCore",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}</div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

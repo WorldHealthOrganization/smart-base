@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ISCO-08 Value Set Schema Documentation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #fafafa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0066cc 0%, #004a99 100%);
+            color: white;
+            padding: 2rem 0;
+            margin: -2rem -2rem 2rem -2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 400;
+            cursor: pointer;
+        }
+        
+        .header h1:hover {
+            text-decoration: underline;
+        }
+        
+        .header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .breadcrumb {
+            position: absolute;
+            top: 1rem;
+            left: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .schema-actions {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            align-items: center;
+        }
+        
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: #004a99;
+            color: white;
+        }
+        
+        .action-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .schema-id-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .schema-id-link:hover {
+            text-decoration: underline;
+        }
+        
+        .fhir-page-link {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        .fhir-page-link:hover {
+            text-decoration: underline;
+        }
+        
+        .data-type-link {
+            color: #6f42c1;
+            text-decoration: none;
+        }
+        
+        .data-type-link:hover {
+            text-decoration: underline;
+        }
+        
+        .show-more-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            color: #0066cc;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .show-more-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .hidden-values {
+            display: none;
+        }
+        
+        .toast {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: #28a745;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            color: #0066cc;
+            font-size: 1.3rem;
+        }
+        
+        .section-content {
+            padding: 1.5rem;
+        }
+        
+        .endpoint {
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .endpoint-header {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            font-family: monospace;
+        }
+        
+        .endpoint-content {
+            padding: 1rem;
+        }
+        
+        .schema-display {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .property {
+            margin-bottom: 0.5rem;
+        }
+        
+        .property-name {
+            font-weight: 600;
+            color: #0066cc;
+        }
+        
+        .property-type {
+            color: #6f42c1;
+            font-family: monospace;
+        }
+        
+        .property-description {
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        
+        .enum-values {
+            background-color: #e7f3ff;
+            border: 1px solid #b8daff;
+            border-radius: 4px;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .enum-value {
+            display: inline-block;
+            background-color: #0066cc;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            margin: 0.2rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+    
+    <script>
+        function downloadSchema() {
+            const schemaData = {"ValueSet-ISCO08ValueSet": {"$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "http://smart.who.int/base/ValueSet-ISCO08ValueSet.schema.json", "title": "ISCO-08 Value Set Schema", "description": "JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.", "type": "string", "enum": ["1", "2", "11", "12", "22", "111", "112", "121", "221", "222", "1111", "1112", "1113", "1114", "1120", "1211", "1212", "1213", "1219", "2211", "2212", "2221", "2222"], "fhir:valueSet": "http://smart.who.int/base/ValueSet/ISCO08ValueSet", "fhir:version": "0.2.0", "fhir:expansionTimestamp": "2025-09-04T13:04:40+00:00"}};
+            const schemaName = Object.keys(schemaData)[0];
+            const blob = new Blob([JSON.stringify(schemaData[schemaName], null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = schemaName + '.schema.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function copyToClipboard() {
+            const schemaData = {"ValueSet-ISCO08ValueSet": {"$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "http://smart.who.int/base/ValueSet-ISCO08ValueSet.schema.json", "title": "ISCO-08 Value Set Schema", "description": "JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.", "type": "string", "enum": ["1", "2", "11", "12", "22", "111", "112", "121", "221", "222", "1111", "1112", "1113", "1114", "1120", "1211", "1212", "1213", "1219", "2211", "2212", "2221", "2222"], "fhir:valueSet": "http://smart.who.int/base/ValueSet/ISCO08ValueSet", "fhir:version": "0.2.0", "fhir:expansionTimestamp": "2025-09-04T13:04:40+00:00"}};
+            const schemaName = Object.keys(schemaData)[0];
+            const schemaText = JSON.stringify(schemaData[schemaName], null, 2);
+            navigator.clipboard.writeText(schemaText).then(() => {
+                showToast('Schema copied to clipboard!');
+            }).catch(() => {
+                showToast('Failed to copy to clipboard', true);
+            });
+        }
+        
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast' + (isError ? ' error' : '');
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        }
+        
+        function toggleEnumValues() {
+            const hiddenValues = document.querySelector('.hidden-values');
+            const button = document.querySelector('.show-more-btn');
+            if (hiddenValues.style.display === 'none' || !hiddenValues.style.display) {
+                hiddenValues.style.display = 'inline';
+                button.textContent = 'Show less';
+            } else {
+                hiddenValues.style.display = 'none';
+                button.textContent = 'Show more (' + hiddenValues.children.length + ' additional values)';
+            }
+        }
+        
+        function goToHub() {
+            window.location.href = 'dak-api.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="breadcrumb">
+                <a href="dak-api.html">← Back to DAK API Hub</a>
+            </div>
+            <h1 onclick="goToHub()">ISCO-08 Value Set Schema Documentation</h1>
+            <p>Generated from: ValueSet-ISCO08ValueSet.openapi.yaml</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>API Information</h2>
+            </div>
+            <div class="section-content">
+                <h3>ISCO-08 Value Set Schema API</h3>
+                <p>JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.</p>
+                <p><strong>Version:</strong> 1.0.0</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Endpoints</h2>
+            </div>
+            <div class="section-content">
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        GET /ValueSet-ISCO08ValueSet.schema.json
+                    </div>
+                    <div class="endpoint-content">
+                        <h4>JSON Schema definition for the enumeration ValueSet-ISCO08ValueSet</h4>
+                        <p>This endpoint serves the JSON Schema definition for the enumeration ValueSet-ISCO08ValueSet.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Schema Definition</h2>
+            </div>
+            <div class="section-content">
+
+                <h3>ISCO-08 Value Set Schema</h3>
+                
+                <div class="schema-actions">
+                    <button class="action-btn" onclick="downloadSchema()">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
+                        </svg>
+                        Download Schema
+                    </button>
+                    <button class="action-btn" onclick="copyToClipboard()">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
+                        </svg>
+                        Copy to Clipboard
+                    </button>
+                </div>
+                
+                <p><strong>Description:</strong> JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.</p>
+                <p><strong>Schema ID:</strong> <a href="http://smart.who.int/base/ValueSet-ISCO08ValueSet.schema.json" class="schema-id-link" title="http://smart.who.int/base/ValueSet-ISCO08ValueSet.schema.json" target="_blank">http://smart.who.int/base/ValueSet-ISCO08ValueSet.schema.json</a></p>
+                <p><strong>FHIR Definition:</strong> <a href="http://smart.who.int/base/ValueSet-ISCO08ValueSet.html" class="fhir-page-link" target="_blank">View full definition at corresponding FHIR page</a></p>
+                <p><strong>Type:</strong> <a href="https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model" class="data-type-link" target="_blank">string</a></p>
+                <div class="enum-values">
+                    <strong>Allowed values:</strong><br>
+                    <span class="enum-value">1</span>
+                    <span class="enum-value">11</span>
+                    <span class="enum-value">111</span>
+                    <span class="enum-value">1111</span>
+                    <span class="enum-value">1112</span>
+                    <span class="enum-value">1113</span>
+                    <span class="enum-value">1114</span>
+                    <span class="enum-value">112</span>
+                    <span class="enum-value">1120</span>
+                    <span class="enum-value">12</span>
+                    <span class="enum-value">121</span>
+                    <span class="enum-value">1211</span>
+                    <span class="enum-value">1212</span>
+                    <span class="enum-value">1213</span>
+                    <span class="enum-value">1219</span>
+                    <span class="enum-value">2</span>
+                    <span class="enum-value">22</span>
+                    <span class="enum-value">221</span>
+                    <span class="enum-value">2211</span>
+                    <span class="enum-value">2212</span>
+                    <span class="enum-value">222</span>
+                    <span class="enum-value">2221</span>
+                    <span class="enum-value">2222</span>
+
+                </div>
+
+                <h4>Full Schema:</h4>
+                <div class="schema-display">{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-ISCO08ValueSet.schema.json",
+  "title": "ISCO-08 Value Set Schema",
+  "description": "JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.",
+  "type": "string",
+  "enum": [
+    "1",
+    "2",
+    "11",
+    "12",
+    "22",
+    "111",
+    "112",
+    "121",
+    "221",
+    "222",
+    "1111",
+    "1112",
+    "1113",
+    "1114",
+    "1120",
+    "1211",
+    "1212",
+    "1213",
+    "1219",
+    "2211",
+    "2212",
+    "2221",
+    "2222"
+  ],
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/ISCO08ValueSet",
+  "fhir:version": "0.2.0",
+  "fhir:expansionTimestamp": "2025-09-04T13:04:40+00:00"
+}</div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

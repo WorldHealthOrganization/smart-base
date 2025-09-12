@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-DecisionTableActions.schema.json",
+  "title": "Smart Guidelines Decision Table Actions Schema",
+  "description": "JSON Schema for Smart Guidelines Decision Table Actions ValueSet codes. Generated from FHIR expansions.",
+  "type": "string",
+  "enum": [
+    "output",
+    "guidance",
+    "annotation"
+  ],
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/DecisionTableActions",
+  "fhir:version": "0.2.0",
+  "fhir:expansionTimestamp": "2025-08-31T10:06:00+00:00"
+}

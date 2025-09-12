@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ISCO-08 Value Set Schema Documentation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+        
+        /* WHO SMART Trust inspired styling */
+        :root {
+            --navbar-bg-color: #00477d;
+            --ig-header-color: #f6f7f9;
+            --footer-bg-color: #505050;
+            --footer-container-bg-color: #00477d;
+            --btn-hover-color: #0070A1;
+            --toc-box-border: navy;
+            --toc-box-bg-color: #f6f7f9;
+        }
+        
+        body {
+            font-family: 'Noto Sans', sans-serif !important;
+            margin: 0;
+            padding: 0;
+            background-color: var(--toc-box-bg-color) !important;
+            color: #000 !important;
+            height: fit-content !important;
+        }
+        
+        .container {
+            width: 100% !important;
+            max-width: none !important;
+            background-color: var(--toc-box-bg-color) !important;
+            color: #000 !important;
+            padding: 0 20px;
+        }
+        
+        @media (min-width: 2200px) {
+            .container {
+                max-width: 1980px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+        }
+        
+        /* Header segment matching SMART Trust */
+        #segment-header {
+            display: block;
+        }
+        
+        #segment-navbar {
+            background-color: var(--navbar-bg-color) !important;
+        }
+        
+        #segment-navbar .container {
+            background-color: var(--navbar-bg-color) !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            min-height: 50px;
+        }
+        
+        #project-nav {
+            flex: 0 0 auto;
+            margin-right: auto;
+            line-height: 50px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            color: #808080;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 20px;
+        }
+        
+        #project-nav a {
+            color: #e6e6e6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        #project-nav a:hover {
+            color: #ffffff;
+        }
+        
+        .header-container {
+            background-color: var(--ig-header-color) !important;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0px 6px 8px rgba(130, 130, 13, 0.1) !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        #ig-status {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        #ig-status p {
+            background-color: white;
+            padding: 10px 17px;
+            border-radius: 5px;
+            position: relative;
+            z-index: 2;
+            margin: 0;
+        }
+        
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            color: #00477d;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        
+        .section-content {
+            padding: 1.5rem;
+        }
+        
+        .endpoint {
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .endpoint-header {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            font-family: monospace;
+        }
+        
+        .endpoint-content {
+            padding: 1rem;
+        }
+        
+        .schema-display {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .property {
+            margin-bottom: 0.5rem;
+        }
+        
+        .property-name {
+            font-weight: 600;
+            color: #00477d;
+        }
+        
+        .property-type {
+            color: #6f42c1;
+            font-family: 'Noto Sans', monospace;
+        }
+        
+        .property-description {
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        
+        .enum-values {
+            background-color: #e7f3ff;
+            border: 1px solid #b8daff;
+            border-radius: 4px;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .enum-value {
+            display: inline-block;
+            background-color: #00477d;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            margin: 0.2rem;
+            font-size: 0.9rem;
+        }
+        
+        .enum-truncated {
+            margin-top: 0.5rem;
+            font-style: italic;
+            color: #6c757d;
+        }
+        
+        .schema-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .schema-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #495057;
+        }
+        
+        .action-btn:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        
+        .action-btn svg {
+            display: block;
+        }
+        
+        .property-type a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        .property-type a:hover {
+            text-decoration: underline;
+        }
+            font-family: 'Noto Sans', monospace;
+            font-size: 0.9rem;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Noto Sans', sans-serif !important;
+            color: #000 !important;
+        }
+        
+        td, p, li {
+            font-family: 'Noto Sans', sans-serif !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="segment-header" class="segment">
+        <div id="segment-navbar" class="segment">
+            <div class="container">
+                <div id="project-nav">
+                    <a href="../index.html">Return to SMART Guideline</a>
+                    <span style="margin: 0 10px; color: #808080;">|</span>
+                    <a href="dak-api.html">Return to DAK API Hub</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container header-container">
+            <div id="ig-status">
+                <p><span style="font-size:12pt;font-weight:bold">ISCO-08 Value Set Schema Documentation</span>
+                    <br/>
+                    <span style="display:inline-block;">Generated from: ValueSet-ISCO08ValueSet.openapi.yaml</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content-container">
+
+        <div class="section">
+            <div class="section-header">
+                <h2>API Information</h2>
+            </div>
+            <div class="section-content">
+                <h3>ISCO-08 Value Set Schema API</h3>
+                <p>JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.</p>
+                <p><strong>Version:</strong> 1.0.0</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Endpoints</h2>
+            </div>
+            <div class="section-content">
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        GET /ValueSet-ISCO08ValueSet.schema.json
+                    </div>
+                    <div class="endpoint-content">
+                        <h4>JSON Schema definition for the enumeration ValueSet-ISCO08ValueSet</h4>
+                        <p>This endpoint serves the JSON Schema definition for the enumeration ValueSet-ISCO08ValueSet.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Schema Definition</h2>
+            </div>
+            <div class="section-content">
+
+                <div class="schema-header">
+                    <h3>ValueSet-ISCO08ValueSet</h3>
+                    <div class="schema-actions">
+                        <button class="action-btn copy-btn" onclick="copySchemaToClipboard('ValueSet-ISCO08ValueSet', "{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"http://smart.who.int/base/ValueSet-ISCO08ValueSet.schema.json\",\n  \"title\": \"ISCO-08 Value Set Schema\",\n  \"description\": \"JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.\",\n  \"type\": \"string\",\n  \"enum\": [\n    \"0\",\n    \"1\",\n    \"2\",\n    \"3\",\n    \"4\",\n    \"5\",\n    \"6\",\n    \"7\",\n    \"8\",\n    \"9\",\n    \"11\",\n    \"12\",\n    \"13\",\n    \"14\",\n    \"21\",\n    \"22\",\n    \"23\",\n    \"24\",\n    \"25\",\n    \"26\",\n    \"31\",\n    \"32\",\n    \"33\",\n    \"34\",\n    \"35\",\n    \"41\",\n    \"42\",\n    \"43\",\n    \"44\",\n    \"51\",\n    \"52\",\n    \"53\",\n    \"54\",\n    \"61\",\n    \"62\",\n    \"63\",\n    \"71\",\n    \"72\",\n    \"73\",\n    \"74\",\n    \"75\",\n    \"81\",\n    \"82\",\n    \"83\",\n    \"91\",\n    \"92\",\n    \"93\",\n    \"94\",\n    \"95\",\n    \"96\",\n    \"111\",\n    \"112\",\n    \"121\",\n    \"122\",\n    \"211\",\n    \"212\",\n    \"213\",\n    \"214\",\n    \"215\",\n    \"216\",\n    \"221\",\n    \"222\",\n    \"223\",\n    \"224\",\n    \"225\",\n    \"226\",\n    \"231\",\n    \"232\",\n    \"233\",\n    \"234\",\n    \"235\",\n    \"311\",\n    \"312\",\n    \"313\",\n    \"314\",\n    \"315\",\n    \"321\",\n    \"322\",\n    \"323\",\n    \"324\",\n    \"325\",\n    \"411\",\n    \"412\",\n    \"413\",\n    \"511\",\n    \"512\",\n    \"513\",\n    \"514\",\n    \"515\",\n    \"516\",\n    \"711\",\n    \"712\",\n    \"713\",\n    \"811\",\n    \"812\",\n    \"813\",\n    \"911\",\n    \"912\",\n    \"913\",\n    \"1111\",\n    \"1112\",\n    \"1113\",\n    \"1114\",\n    \"1120\",\n    \"1211\",\n    \"1212\",\n    \"1213\",\n    \"1219\",\n    \"1221\",\n    \"1222\",\n    \"1223\",\n    \"2111\",\n    \"2112\",\n    \"2113\",\n    \"2114\",\n    \"2120\",\n    \"2131\",\n    \"2132\",\n    \"2133\",\n    \"2141\",\n    \"2142\",\n    \"2143\",\n    \"2144\",\n    \"2145\",\n    \"2146\",\n    \"2149\",\n    \"2151\",\n    \"2152\",\n    \"2153\",\n    \"2161\",\n    \"2162\",\n    \"2163\",\n    \"2164\",\n    \"2165\",\n    \"2166\",\n    \"2211\",\n    \"2212\",\n    \"2221\",\n    \"2222\",\n    \"2230\",\n    \"2240\",\n    \"2250\",\n    \"2261\",\n    \"2262\",\n    \"2263\",\n    \"2264\",\n    \"2265\",\n    \"2266\",\n    \"2267\",\n    \"2269\",\n    \"3111\",\n    \"3112\",\n    \"3113\",\n    \"3114\",\n    \"3115\",\n    \"3116\",\n    \"3117\",\n    \"3118\",\n    \"3119\",\n    \"4110\",\n    \"4120\",\n    \"4131\",\n    \"4132\",\n    \"5111\",\n    \"5112\",\n    \"5113\",\n    \"6111\",\n    \"6112\",\n    \"6113\",\n    \"6114\",\n    \"7111\",\n    \"7112\",\n    \"7113\",\n    \"7114\",\n    \"8111\",\n    \"8112\",\n    \"8113\",\n    \"9111\",\n    \"9112\",\n    \"9211\",\n    \"9212\",\n    \"9213\"\n  ],\n  \"fhir:displays\": \"ValueSet-ISCO08ValueSet.displays.json\",\n  \"fhir:system\": \"ValueSet-ISCO08ValueSet.system.json\",\n  \"fhir:valueSet\": \"http://smart.who.int/base/ValueSet/ISCO08ValueSet\",\n  \"fhir:version\": \"0.2.0\",\n  \"fhir:expansionTimestamp\": \"2025-09-09T15:40:42+00:00\"\n}")" title="Copy schema to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <p><strong>Description:</strong> JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.</p>
+                <p><strong>Type:</strong> <span class="property-type"><a href="https://json-schema.org/draft/2020-12/json-schema-core#name-instance-data-model" target="_blank" title="JSON Schema string type definition">string</a></span></p>
+                <p><strong>Schema ID:</strong> <a href="http://smart.who.int/base/ValueSet-ISCO08ValueSet.schema.json" title="http://smart.who.int/base/ValueSet-ISCO08ValueSet.schema.json" target="_blank">http://smart.who.int/base/ValueSet-ISCO08ValueSet.schema.json</a></p>
+                <p><strong>FHIR Page:</strong> <a href="http://smart.who.int/base/ValueSet-ISCO08ValueSet.html" title="View full FHIR definition at http://smart.who.int/base/ValueSet-ISCO08ValueSet.html" target="_blank">http://smart.who.int/base/ValueSet-ISCO08ValueSet.html</a></p>
+
+                <div class="enum-values">
+                    <strong>Allowed values:</strong><br>
+                    <span class="enum-value">0</span>
+                    <span class="enum-value">1</span>
+                    <span class="enum-value">11</span>
+                    <span class="enum-value">111</span>
+                    <span class="enum-value">1111</span>
+                    <span class="enum-value">1112</span>
+                    <span class="enum-value">1113</span>
+                    <span class="enum-value">1114</span>
+                    <span class="enum-value">112</span>
+                    <span class="enum-value">1120</span>
+                    <span class="enum-value">12</span>
+                    <span class="enum-value">121</span>
+                    <span class="enum-value">1211</span>
+                    <span class="enum-value">1212</span>
+                    <span class="enum-value">1213</span>
+                    <span class="enum-value">1219</span>
+                    <span class="enum-value">122</span>
+                    <span class="enum-value">1221</span>
+                    <span class="enum-value">1222</span>
+                    <span class="enum-value">1223</span>
+                    <span class="enum-value">13</span>
+                    <span class="enum-value">14</span>
+                    <span class="enum-value">2</span>
+                    <span class="enum-value">21</span>
+                    <span class="enum-value">211</span>
+                    <span class="enum-value">2111</span>
+                    <span class="enum-value">2112</span>
+                    <span class="enum-value">2113</span>
+                    <span class="enum-value">2114</span>
+                    <span class="enum-value">212</span>
+                    <span class="enum-value">2120</span>
+                    <span class="enum-value">213</span>
+                    <span class="enum-value">2131</span>
+                    <span class="enum-value">2132</span>
+                    <span class="enum-value">2133</span>
+                    <span class="enum-value">214</span>
+                    <span class="enum-value">2141</span>
+                    <span class="enum-value">2142</span>
+                    <span class="enum-value">2143</span>
+                    <span class="enum-value">2144</span>
+                    <div class="enum-truncated">... and 142 more values</div>
+
+                </div>
+
+                <h4>Full Schema:</h4>
+                <div class="schema-display">{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-ISCO08ValueSet.schema.json",
+  "title": "ISCO-08 Value Set Schema",
+  "description": "JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.",
+  "type": "string",
+  "enum": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "11",
+    "12",
+    "13",
+    "14",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "31",
+    "32",
+    "33",
+    "34",
+    "35",
+    "41",
+    "42",
+    "43",
+    "44",
+    "51",
+    "52",
+    "53",
+    "54",
+    "61",
+    "62",
+    "63",
+    "71",
+    "72",
+    "73",
+    "74",
+    "75",
+    "81",
+    "82",
+    "83",
+    "91",
+    "92",
+    "93",
+    "94",
+    "95",
+    "96",
+    "111",
+    "112",
+    "121",
+    "122",
+    "211",
+    "212",
+    "213",
+    "214",
+    "215",
+    "216",
+    "221",
+    "222",
+    "223",
+    "224",
+    "225",
+    "226",
+    "231",
+    "232",
+    "233",
+    "234",
+    "235",
+    "311",
+    "312",
+    "313",
+    "314",
+    "315",
+    "321",
+    "322",
+    "323",
+    "324",
+    "325",
+    "411",
+    "412",
+    "413",
+    "511",
+    "512",
+    "513",
+    "514",
+    "515",
+    "516",
+    "711",
+    "712",
+    "713",
+    "811",
+    "812",
+    "813",
+    "911",
+    "912",
+    "913",
+    "1111",
+    "1112",
+    "1113",
+    "1114",
+    "1120",
+    "1211",
+    "1212",
+    "1213",
+    "1219",
+    "1221",
+    "1222",
+    "1223",
+    "2111",
+    "2112",
+    "2113",
+    "2114",
+    "2120",
+    "2131",
+    "2132",
+    "2133",
+    "2141",
+    "2142",
+    "2143",
+    "2144",
+    "2145",
+    "2146",
+    "2149",
+    "2151",
+    "2152",
+    "2153",
+    "2161",
+    "2162",
+    "2163",
+    "2164",
+    "2165",
+    "2166",
+    "2211",
+    "2212",
+    "2221",
+    "2222",
+    "2230",
+    "2240",
+    "2250",
+    "2261",
+    "2262",
+    "2263",
+    "2264",
+    "2265",
+    "2266",
+    "2267",
+    "2269",
+    "3111",
+    "3112",
+    "3113",
+    "3114",
+    "3115",
+    "3116",
+    "3117",
+    "3118",
+    "3119",
+    "4110",
+    "4120",
+    "4131",
+    "4132",
+    "5111",
+    "5112",
+    "5113",
+    "6111",
+    "6112",
+    "6113",
+    "6114",
+    "7111",
+    "7112",
+    "7113",
+    "7114",
+    "8111",
+    "8112",
+    "8113",
+    "9111",
+    "9112",
+    "9211",
+    "9212",
+    "9213"
+  ],
+  "fhir:displays": "ValueSet-ISCO08ValueSet.displays.json",
+  "fhir:system": "ValueSet-ISCO08ValueSet.system.json",
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/ISCO08ValueSet",
+  "fhir:version": "0.2.0",
+  "fhir:expansionTimestamp": "2025-09-09T15:40:42+00:00"
+}</div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+<script>
+function copySchemaToClipboard(schemaName, schemaJson) {
+    navigator.clipboard.writeText(schemaJson).then(function() {
+        // Show temporary feedback
+        const btn = event.target.closest('.copy-btn');
+        const originalTitle = btn.title;
+        btn.title = 'Copied!';
+        btn.style.backgroundColor = '#28a745';
+        btn.style.borderColor = '#28a745';
+        btn.style.color = 'white';
+        
+        setTimeout(() => {
+            btn.title = originalTitle;
+            btn.style.backgroundColor = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
+        }, 2000);
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+        alert('Failed to copy to clipboard');
+    });
+}
+
+// Make title bar clickable to return to DAK API hub
+document.addEventListener('DOMContentLoaded', function() {
+    const igStatus = document.getElementById('ig-status');
+    if (igStatus) {
+        igStatus.style.cursor = 'pointer';
+        igStatus.addEventListener('click', function() {
+            window.location.href = 'dak-api.html';
+        });
+    }
+});
+</script>
+</html>

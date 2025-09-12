@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>ISCO-08 Value Set - SMART Base v0.2.0</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+    <link href="assets/css/fa-all.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/project.css" rel="stylesheet"/>
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+    <link href="assets/css/who.css" rel="stylesheet"/>
+    <link href="assets/css/lforms.min.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script src="assets/js/prism.js"></script>
+
+    <style type="text/css">h2{--heading-prefix:"5.48"}
+    h3,h4,h5,h6{--heading-prefix:"5.48"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+
+      <div id="segment-navbar" class="segment">  <!-- segment-navbar -->
+        <div id="stripe"> </div>
+        <div class="container">  <!-- container -->
+          <!-- HEADER CONTENT -->
+  
+          <nav class="navbar navbar-inverse">
+            <!--status-bar-->
+            <div class="container">
+              <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+              </button>
+              <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+              <div class="nav-collapse collapse navbar-inverse-collapse">
+                <!-- menu.xml  -->
+
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Indices
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="artifacts.html">Artifact Index</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+              </div>  <!-- /.nav-collapse -->
+
+              <div class="sf_colsIn col-md-8  navbar-right-container" data-sf-element="LanguageSelectorSearch" data-placeholder-label="Language Selector and Search" style="display: flex; justify-content: flex-end; align-items: center;">
+                <!-- This div will be pushed to the right -->
+                <div class="language-selector" style="margin-left: auto; background-color: #00477d; color: white;">
+                  <i class="fa fa-language fa-lg"></i>
+                  <label for="language-selector"> </label>
+                  <select onChange="openLink(value)" id="language-selector" name="language-selector">
+                    <option disabled selected>Select language</option>
+                    <option value="en" class="selected">English</option>
+                  </select>
+                  <i class="fas fa-angle-down"></i>
+                </div>
+                <!-- Search Content -->
+              </div>
+            </div>  <!-- /.container -->
+          </nav>  <!-- /.navbar -->
+        <!-- /HEADER CONTENT -->
+        </div>  <!-- /container -->
+      </div>  <!-- /segment-navbar -->
+      
+
+      <div class="container" style=" justify-content: space-between; align-items: left;">
+
+        <!-- Placeholder for child template header declarations -->
+<div id="project-nav">
+    <a id="who-logo" no-external="true" href="index.html">
+        
+    </a>
+</div>
+
+ <div id="family-nav">
+  <a id="fhir-logo" no-external="true" href="http://hl7.org/fhir">  </a>
+</div> 
+
+
+        <div id="ig-status" class="ig-status-draft">
+          <p><span style="font-size:12pt;font-weight:bold">SMART Base</span>
+            <br/>
+            <span style="display:inline-block;">0.2.0 - ci-build
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><a href='artifacts.html'><b>Artifacts Summary</b></a></li><li><b>ISCO-08 Value Set</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">SMART Base, published by WHO. This guide is not an authorized publication; it is the continuous build for version 0.2.0  built by the FHIR (HL7&reg; FHIR&reg; Standard) CI Build. This version is based on the current content of <a href='https://github.com/WorldHealthOrganization/smart-base/tree/copilot/fix-56'>https://github.com/WorldHealthOrganization/smart-base/tree/copilot/fix-56</a> and changes regularly. See the <a href='http://smart.who.int/base/history.html'>Directory of published versions</a></p><!--EndReleaseHeader-->
+  
+
+
+
+
+
+
+
+
+<ul class="nav nav-tabs">
+
+  <li class="active">
+    <a href="#">Narrative Content</a>
+  </li>
+
+
+
+  
+    <li>
+      <a href="ValueSet-ISCO08ValueSet.xml.html">XML</a>
+    </li>
+  
+
+
+  
+    <li>
+      <a href="ValueSet-ISCO08ValueSet.json.html">JSON</a>
+    </li>
+  
+
+
+  
+    <li>
+      <a href="ValueSet-ISCO08ValueSet.ttl.html">TTL</a>
+    </li>
+  
+
+
+
+</ul>
+
+  <a name="root"> </a>
+  <h2 id="root">ValueSet: ISCO-08 Value Set
+
+  </h2>
+  <table class="colsi">
+
+    <tr>
+      <td colspan="4"><i>Official URL</i>: <span class="copy-text">http://smart.who.int/base/ValueSet/ISCO08ValueSet<button title="Click to copy URL" class="btn-copy" data-clipboard-text="http://smart.who.int/base/ValueSet/ISCO08ValueSet"/></span>
+      </td>
+      <td><i>Version</i>:
+      <span class="copy-text">0.2.0<button title="Click to copy versioned URL" class="btn-copy" data-clipboard-text="http://smart.who.int/base/ValueSet/ISCO08ValueSet|0.2.0"/></span>
+      </td>
+    </tr>
+
+    <tr>
+
+
+
+
+
+
+
+      <td colspan="4">
+        
+          Active
+          
+            as of 2025-08-31
+          
+        
+      </td>
+
+
+
+      <td><i>Computable Name</i>: <span style="font-family: monospace;">ISCO08ValueSet</span></td>
+    </tr>
+
+
+
+
+  </table>
+
+<p>
+<p>Extensible value set of ISCO-08 codes for persona classification</p>
+
+</p>
+
+
+  <p>
+    <b>References</b>
+  </p>
+  
+<ul>
+ <li><a href="StructureDefinition-GenericPersona.html">Generic Persona (DAK)</a></li>
+</ul>
+
+
+  <!-- insert intro if present -->
+  
+
+
+
+  <a name="definition"> </a>
+
+<!-- Content Logical Definition heading in the fragment -->
+  <h3>Logical Definition (CLD)</h3>
+<div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"></p><a name="ISCO08ValueSet"> </a><a name="hcISCO08ValueSet"> </a>
+<ul><li>Include all codes defined in <a href="CodeSystem-ISCO08.html"><code>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</code></a></li></ul></div>
+
+  <p>&#160;</p>
+  <a name="expansion"> </a>
+  <h3 id="expansion">Expansion</h3>
+
+  <div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"/><p style="border: black 1px dotted; background-color: #EEEEEE; padding: 8px; margin-bottom: 8px">Expansion performed internally based on <a href="CodeSystem-ISCO08.html">codesystem International Standard Classification of Occupations 2008 v0.2.0 (CodeSystem)</a></p><p>This value set contains 23 concepts</p><table class="codes"><tr><td style="white-space:nowrap"><b>Code</b></td><td><b>System</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-1">1</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Managers</td><td>Managers plan, direct, coordinate and evaluate the overall activities of enterprises, governments and other organizations, or of organizational units within them, and formulate and review their policies, laws, rules and regulations.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-2">2</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Professionals</td><td>Professionals increase the existing stock of knowledge; apply scientific or artistic concepts and theories; teach about the foregoing in a systematic manner; or engage in any combination of these activities.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-11"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-11">11</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Chief Executives, Senior Officials and Legislators</td><td>Chief executives, senior officials and legislators formulate government policy, exercise governmental functions, direct the activities of enterprises and organizations, and act as representatives of the people.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-12"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-12">12</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Administrative and Commercial Managers</td><td>Administrative and commercial managers plan, direct, coordinate and evaluate the overall activities of enterprises, governments and other organizations.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-22"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-22">22</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Health Professionals</td><td>Health professionals conduct research, improve or develop concepts, theories and operational methods, and apply knowledge of medicine, nursing, dentistry, pharmacy and health promotion to diagnose, treat and prevent illness, disease, injury and other physical and mental impairments in humans.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-111"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-111">111</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Legislators and Senior Officials</td><td>Legislators and senior officials formulate government policy, laws, and regulations; oversee their implementation; and represent the people as elected representatives.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-112"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-112">112</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Managing Directors and Chief Executives</td><td>Managing directors and chief executives plan, direct, coordinate and evaluate the overall activities of enterprises, governments and other organizations.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-121"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-121">121</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Business Services and Administration Managers</td><td>Business services and administration managers plan, direct, coordinate and evaluate business services and administration activities.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-221"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-221">221</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Medical Doctors</td><td>Medical doctors study, diagnose, treat and prevent illness, disease, injury and other physical and mental impairments in humans through the application of the principles and procedures of modern medicine.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-222"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-222">222</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Nursing and Midwifery Professionals</td><td>Nursing and midwifery professionals plan, manage, provide and evaluate nursing and midwifery care services for patients and the community.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1111"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-1111">1111</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Legislators</td><td>Legislators research, draft, debate and vote on the enactment of laws and policy; represent the electorate and perform related tasks.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1112"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-1112">1112</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Senior Government Officials</td><td>Senior government officials formulate and administer government policy and regulations; ensure their implementation and advise government; and represent government in negotiations and at official functions.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1113"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-1113">1113</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Traditional Chiefs and Heads of Villages</td><td>Traditional chiefs and heads of villages lead and represent communities according to traditional custom and practice; act as custodians of traditional culture and values.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1114"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-1114">1114</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Senior Officials of Special-Interest Organizations</td><td>Senior officials of special-interest organizations formulate and administer the policies and programs of special-interest organizations.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1120"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-1120">1120</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Managing Directors and Chief Executives</td><td>Managing directors and chief executives plan, direct, coordinate and evaluate the overall activities of enterprises, governments and other organizations.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1211"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-1211">1211</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Finance Managers</td><td>Finance managers plan, direct and coordinate financial activities and services within an organization.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1212"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-1212">1212</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Human Resource Managers</td><td>Human resource managers plan, direct and coordinate human resource management activities within an organization.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1213"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-1213">1213</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Policy and Planning Managers</td><td>Policy and planning managers plan, direct and coordinate policy development and strategic planning activities within an organization.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1219"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-1219">1219</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Business Services and Administration Managers Not Elsewhere Classified</td><td>This unit group covers Business Services and Administration Managers not elsewhere classified in Minor Group 121 Business Services and Administration Managers.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2211"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-2211">2211</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Generalist Medical Practitioners</td><td>Generalist medical practitioners diagnose, treat and prevent illness, disease, injury and other physical and mental impairments in humans.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2212"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-2212">2212</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Specialist Medical Practitioners</td><td>Specialist medical practitioners diagnose, treat and prevent illness, disease, injury and other physical and mental impairments in humans, using specialized knowledge and skills in a particular area of medicine.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2221"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-2221">2221</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Nursing Professionals</td><td>Nursing professionals provide treatment, support and care services for people who are in need of nursing care due to the effects of ageing, injury, illness or other physical or mental impairment, or potential risks to health.</td></tr><tr><td style="white-space:nowrap"><a name="x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2222"> </a>  <a href="CodeSystem-ISCO08.html#ISCO08-2222">2222</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Midwifery Professionals</td><td>Midwifery professionals plan, manage, provide and evaluate midwifery care services before, during and after pregnancy and childbirth.</td></tr></table></div>
+
+  <hr/>
+  <p>
+    Explanation of the columns that may appear on this page:
+  </p>
+  <table class="grid">
+    <tr>
+      <td>Level</td>
+      <td>A few code lists that FHIR defines are hierarchical - each code is assigned a level.
+          In this scheme, some codes are under other codes, and imply that the code they are under also applies</td>
+    </tr>
+    <tr>
+      <td>System</td>
+      <td>The source of the definition of the code (when the value set draws in codes defined elsewhere)</td>
+    </tr>
+    <tr>
+      <td>Code</td>
+      <td>The code (used as the code in the resource instance)</td>
+    </tr>
+    <tr>
+      <td>Display</td>
+      <td>The display (used in the <i>display</i> element of a <a href="http://hl7.org/fhir/R4/datatypes.html#Coding">Coding</a>). If there is no display, implementers should not simply display the code, but map the concept into their application</td>
+    </tr>
+    <tr>
+      <td>Definition</td>
+      <td>An explanation of the meaning of the concept</td>
+    </tr>
+    <tr>
+      <td>Comments</td>
+      <td>Additional notes about how to use the code</td>
+    </tr>
+  </table>
+
+  
+
+  <!-- insert notes if present -->
+  
+
+
+
+  
+
+</div>
+</div>  <!-- /inner-wrapper -->
+</div>  <!-- /row -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-content -->
+
+<script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+<script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+
+<script type="text/javascript" src="assets/js/window-hash.js"> </script>
+<a name="bottom"> </a>
+<div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+<div class="container">  <!-- container -->
+
+<div class="inner-wrapper">
+  <p>
+    IG &#169; 2023+ <a style="color:var(--footer-hyperlink-text-color)" href="http://who.int">WHO</a>.  Package smart.who.int.base#0.2.0 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>. Generated <span title="Sun, Aug 31, 2025 10:02+0000">2025-08-31</span>
+    <br/>
+    <span style="color: var(--footer-highlight-text-color)">
+                Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="qa.html">QA Report</a>
+                 
+                
+| <a style="color: #81BEF7" target="_blank" href="http://smart.who.int/base/history.html">Version History</a> | <a style="color: #81BEF7" rel="license" href="license.html">License</a>
+    </span>
+  </p>
+</div>  <!-- /inner-wrapper -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-footer -->
+
+<div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+<div class="container">  <!-- container -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-post-footer -->
+
+<!-- JS and analytics only. -->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+<script type="text/javascript" src="assets/js/respond.min.js"> </script>
+<script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+<script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+<script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+<script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+<!-- Analytics Below
+================================================== -->
+
+
+
+

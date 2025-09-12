@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digital Adaptation Kit (DAK) Documentation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #fafafa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0066cc 0%, #004a99 100%);
+            color: white;
+            padding: 2rem 0;
+            margin: -2rem -2rem 2rem -2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 400;
+        }
+        
+        .header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            color: #0066cc;
+            font-size: 1.3rem;
+        }
+        
+        .section-content {
+            padding: 1.5rem;
+        }
+        
+        .endpoint {
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .endpoint-header {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            font-family: monospace;
+        }
+        
+        .endpoint-content {
+            padding: 1rem;
+        }
+        
+        .schema-display {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .property {
+            margin-bottom: 0.5rem;
+        }
+        
+        .property-name {
+            font-weight: 600;
+            color: #0066cc;
+        }
+        
+        .property-type {
+            color: #6f42c1;
+            font-family: monospace;
+        }
+        
+        .property-description {
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        
+        .enum-values {
+            background-color: #e7f3ff;
+            border: 1px solid #b8daff;
+            border-radius: 4px;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .enum-value {
+            display: inline-block;
+            background-color: #0066cc;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            margin: 0.2rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Digital Adaptation Kit (DAK) Documentation</h1>
+            <p>Generated from: DAK.openapi.yaml</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>API Information</h2>
+            </div>
+            <div class="section-content">
+                <h3>Digital Adaptation Kit (DAK) API</h3>
+                <p>Logical Model for representing a complete Digital Adaptation Kit (DAK) with metadata and all 9 DAK components</p>
+                <p><strong>Version:</strong> 1.0.0</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Endpoints</h2>
+            </div>
+            <div class="section-content">
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        GET /DAK.schema.json
+                    </div>
+                    <div class="endpoint-content">
+                        <h4>JSON Schema definition for the Logical Model DAK</h4>
+                        <p>This endpoint serves the JSON Schema definition for the Logical Model DAK.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Schema Definition</h2>
+            </div>
+            <div class="section-content">
+
+                <h3>DAK</h3>
+                <p><strong>Description:</strong> Logical Model for representing a complete Digital Adaptation Kit (DAK) with metadata and all 9 DAK components</p>
+                <p><strong>Type:</strong> <span class="property-type">object</span></p>
+
+                <h4>Properties:</h4>
+
+                <div class="property">
+                    <span class="property-name">metadata</span>
+                    <span class="property-type">(object)</span>
+                    <div class="property-description">Metadata for the DAK</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">id</span>
+                    <span class="property-type">(object)</span>
+                    <div class="property-description">Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">modifierExtension</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.
+
+Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">identifier</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">Identifier for the DAK</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">canonical</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">Canonical URL for the DAK</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">name</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">Name of the DAK</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">healthInterventions</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">Overview of the health interventions and WHO, regional or national recommendations included within the DAK</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">personas</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">Depiction of the human and system actors</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">userScenarios</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">Narratives that describe how the different personas may interact with each other</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">businessProcesses</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">Business processes and workflows for achieving health programme objectives</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">dataElements</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">Data elements required throughout the different points of a workflow</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">decisionLogic</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">Decision-support logic and algorithms to support appropriate service delivery</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">indicators</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">Core set of indicators for decision-making, performance metrics and reporting</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">requirements</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">High-level list of core functions and capabilities that the system must have</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">testScenarios</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">Set of test scenarios to validate an implementation of the DAK</div>
+                </div>
+
+                <p><strong>Required fields:</strong> metadata, identifier, canonical, name</p>
+
+                <h4>Full Schema:</h4>
+                <div class="schema-display">{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition/DAK.schema.json",
+  "title": "Digital Adaptation Kit (DAK)",
+  "description": "Logical Model for representing a complete Digital Adaptation Kit (DAK) with metadata and all 9 DAK components",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Metadata for the DAK"
+    },
+    "id": {
+      "type": "object",
+      "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces."
+    },
+    "modifierExtension": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Extension"
+      },
+      "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."
+    },
+    "identifier": {
+      "type": "string",
+      "description": "Identifier for the DAK"
+    },
+    "canonical": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical URL for the DAK"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the DAK"
+    },
+    "healthInterventions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Overview of the health interventions and WHO, regional or national recommendations included within the DAK"
+    },
+    "personas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Depiction of the human and system actors"
+    },
+    "userScenarios": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Narratives that describe how the different personas may interact with each other"
+    },
+    "businessProcesses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Business processes and workflows for achieving health programme objectives"
+    },
+    "dataElements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Data elements required throughout the different points of a workflow"
+    },
+    "decisionLogic": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Decision-support logic and algorithms to support appropriate service delivery"
+    },
+    "indicators": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Core set of indicators for decision-making, performance metrics and reporting"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "High-level list of core functions and capabilities that the system must have"
+    },
+    "testScenarios": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Set of test scenarios to validate an implementation of the DAK"
+    }
+  },
+  "required": [
+    "metadata",
+    "identifier",
+    "canonical",
+    "name"
+  ],
+  "fhir:logicalModel": "http://smart.who.int/base/StructureDefinition/DAK",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}</div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

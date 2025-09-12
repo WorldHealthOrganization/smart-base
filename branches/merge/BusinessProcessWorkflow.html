@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Business Process Workflow (DAK) Documentation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #fafafa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0066cc 0%, #004a99 100%);
+            color: white;
+            padding: 2rem 0;
+            margin: -2rem -2rem 2rem -2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 400;
+        }
+        
+        .header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            color: #0066cc;
+            font-size: 1.3rem;
+        }
+        
+        .section-content {
+            padding: 1.5rem;
+        }
+        
+        .endpoint {
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .endpoint-header {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            font-family: monospace;
+        }
+        
+        .endpoint-content {
+            padding: 1rem;
+        }
+        
+        .schema-display {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .property {
+            margin-bottom: 0.5rem;
+        }
+        
+        .property-name {
+            font-weight: 600;
+            color: #0066cc;
+        }
+        
+        .property-type {
+            color: #6f42c1;
+            font-family: monospace;
+        }
+        
+        .property-description {
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        
+        .enum-values {
+            background-color: #e7f3ff;
+            border: 1px solid #b8daff;
+            border-radius: 4px;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .enum-value {
+            display: inline-block;
+            background-color: #0066cc;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            margin: 0.2rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Business Process Workflow (DAK) Documentation</h1>
+            <p>Generated from: BusinessProcessWorkflow.openapi.yaml</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>API Information</h2>
+            </div>
+            <div class="section-content">
+                <h3>Business Process Workflow (DAK) API</h3>
+                <p>Logical Model for representing Generic Business Processes and Workflows from a DAK. A business process is a set of related activities or tasks performed together to achieve the objectives of the health programme area.</p>
+                <p><strong>Version:</strong> 1.0.0</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Endpoints</h2>
+            </div>
+            <div class="section-content">
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        GET /BusinessProcessWorkflow.schema.json
+                    </div>
+                    <div class="endpoint-content">
+                        <h4>JSON Schema definition for the Logical Model BusinessProcessWorkflow</h4>
+                        <p>This endpoint serves the JSON Schema definition for the Logical Model BusinessProcessWorkflow.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h2>Schema Definition</h2>
+            </div>
+            <div class="section-content">
+
+                <h3>BusinessProcessWorkflow</h3>
+                <p><strong>Description:</strong> Logical Model for representing Generic Business Processes and Workflows from a DAK. A business process is a set of related activities or tasks performed together to achieve the objectives of the health programme area.</p>
+                <p><strong>Type:</strong> <span class="property-type">object</span></p>
+
+                <h4>Properties:</h4>
+
+                <div class="property">
+                    <span class="property-name">source</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">Link to a BPMN file containing the workflow definition</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">scenario</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">References to user scenario IDs related to this workflow</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">objectives</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">Description of the objectives of the workflow</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">task</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">Tasks within the business process workflow</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">id</span>
+                    <span class="property-type">(object)</span>
+                    <div class="property-description">Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">modifierExtension</span>
+                    <span class="property-type">(array)</span>
+                    <div class="property-description">May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.
+
+Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">identifier</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">Identifier for the task</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">name</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">Name of the task</div>
+                </div>
+
+                <div class="property">
+                    <span class="property-name">description</span>
+                    <span class="property-type">(string)</span>
+                    <div class="property-description">Description of what the task involves</div>
+                </div>
+
+                <p><strong>Required fields:</strong> source, objectives, identifier, name, description</p>
+
+                <h4>Full Schema:</h4>
+                <div class="schema-display">{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition/BusinessProcessWorkflow.schema.json",
+  "title": "Business Process Workflow (DAK)",
+  "description": "Logical Model for representing Generic Business Processes and Workflows from a DAK. A business process is a set of related activities or tasks performed together to achieve the objectives of the health programme area.",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string",
+      "format": "uri",
+      "description": "Link to a BPMN file containing the workflow definition"
+    },
+    "scenario": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "References to user scenario IDs related to this workflow"
+    },
+    "objectives": {
+      "type": "string",
+      "description": "Description of the objectives of the workflow"
+    },
+    "task": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Tasks within the business process workflow"
+    },
+    "id": {
+      "type": "object",
+      "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces."
+    },
+    "modifierExtension": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Extension"
+      },
+      "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."
+    },
+    "identifier": {
+      "type": "string",
+      "description": "Identifier for the task"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the task"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what the task involves"
+    }
+  },
+  "required": [
+    "source",
+    "objectives",
+    "identifier",
+    "name",
+    "description"
+  ],
+  "fhir:logicalModel": "http://smart.who.int/base/StructureDefinition/BusinessProcessWorkflow",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}</div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
