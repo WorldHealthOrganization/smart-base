@@ -240,7 +240,7 @@ def extract_valueset_codes_with_display(valueset_resource: Dict[str, Any], value
 
 def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: List[Dict[str, str]]) -> Dict[str, Any]:
     """
-    Generate a JSON schema for a ValueSet using enum constraints with references to separate display and system files.
+    Generate a JSON schema for a ValueSet using enum constraints with IRI-formatted values that match JSON-LD format.
     
     Args:
         valueset_resource: FHIR ValueSet resource
@@ -266,33 +266,41 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
     else:
         schema_id = f"#ValueSet-{valueset_id}-schema"
     
-    # Use relative URLs for file references as requested by user
-    display_reference = f"ValueSet-{valueset_id}.displays.json"
-    system_reference = f"ValueSet-{valueset_id}.system.json"
+    # Use absolute URLs for file references
+    if valueset_url and '/ValueSet/' in valueset_url:
+        base_url = valueset_url.split('/ValueSet/')[0]
+        display_reference = f"{base_url}/ValueSet-{valueset_id}.displays.json"
+    else:
+        display_reference = f"ValueSet-{valueset_id}.displays.json"
     
-    # Extract codes for validation
-    codes = []
+    # Generate IRI-formatted enum values that match JSON-LD format
+    enum_values = []
     for item in codes_with_display:
-        codes.append(item['code'])
+        code = item['code']
+        system = item.get('system', '')
+        
+        # Generate canonical IRI for the code using same logic as JSON-LD
+        enum_iri = generate_canonical_iri(code, valueset_url, system)
+        enum_values.append(enum_iri)
     
     schema = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": schema_id,
         "title": f"{valueset_title} Schema",
-        "description": f"JSON Schema for {valueset_title} ValueSet codes. Generated from FHIR expansions.",
+        "description": f"JSON Schema for {valueset_title} ValueSet codes. Generated from FHIR expansions using IRI format.",
         "type": "string",
-        "enum": codes
+        "enum": enum_values
     }
     
-    # Add narrative that includes links to display and system files
-    narrative_text = f"This schema validates codes for the {valueset_title} ValueSet. "
+    # Add narrative that reflects the IRI format (system URIs are embedded, no separate system file needed)
+    narrative_text = f"This schema validates IRI-formatted codes for the {valueset_title} ValueSet. "
+    narrative_text += f"Each enum value includes the system URI in the format {{systemuri}}#{{code}} to match JSON-LD enumeration IRIs. "
     narrative_text += f"Display values are available at {display_reference}. "
-    narrative_text += f"System URI mappings are available at {system_reference}."
+    narrative_text += f"For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets."
     schema["narrative"] = narrative_text
     
-    # References to separate files
+    # References to display file (no system file needed since system URIs are embedded in enum values)
     schema["fhir:displays"] = display_reference
-    schema["fhir:system"] = system_reference
     
     # Add metadata if available
     if valueset_url:
@@ -332,17 +340,21 @@ def generate_display_file(valueset_resource: Dict[str, Any], codes_with_display:
     else:
         display_id = f"#ValueSet-{valueset_id}-displays"
     
-    # Extract displays with multilingual structure support (no system URIs)
+    # Extract displays with multilingual structure support using IRI format to match schema enum values
     displays = {}
     
     for item in codes_with_display:
         code = item['code']
         display = item['display']
+        system = item.get('system', '')
+        
+        # Generate canonical IRI for the code using same logic as JSON schema enum values
+        code_iri = generate_canonical_iri(code, valueset_url, system)
         
         # Structure displays to support multiple languages
         # For now, use 'en' as the default language since FHIR expansions typically contain English text
         # This structure allows for easy addition of other languages later
-        displays[code] = {
+        displays[code_iri] = {
             "en": display
         }
     
@@ -355,11 +367,11 @@ def generate_display_file(valueset_resource: Dict[str, Any], codes_with_display:
         "properties": {
             "fhir:displays": {
                 "type": "object",
-                "description": "Multilingual display values for ValueSet codes",
+                "description": "Multilingual display values for ValueSet codes using IRI format to match JSON schema enum values",
                 "patternProperties": {
-                    "^[a-zA-Z0-9._-]+$": {
+                    "^https?://.*": {
                         "type": "object",
-                        "description": "Display values for a specific code by language",
+                        "description": "Display values for a specific IRI-formatted code by language",
                         "properties": {
                             "en": {
                                 "type": "string",
@@ -469,6 +481,165 @@ def generate_system_file(valueset_resource: Dict[str, Any], codes_with_display: 
     return system_file
 
 
+def generate_canonical_iri(code: str, valueset_url: str, system_uri: str = None) -> str:
+    """
+    Generate a canonical IRI for a code using a deterministic pattern.
+    
+    Args:
+        code: The code value
+        valueset_url: The ValueSet canonical URL
+        system_uri: Optional system URI for the code
+        
+    Returns:
+        Canonical IRI for the code
+    """
+    # If we have a system URI, use it as the base
+    if system_uri:
+        # Ensure system URI ends with # or / for fragment/path appending
+        if not system_uri.endswith(('#', '/')):
+            return f"{system_uri}#{code}"
+        else:
+            return f"{system_uri}{code}"
+    
+    # Fall back to using ValueSet URL as base
+    if valueset_url:
+        # Use the base URL from the ValueSet canonical URL
+        if '/ValueSet/' in valueset_url:
+            base_url = valueset_url.split('/ValueSet/')[0]
+            return f"{base_url}/CodeSystem/{code}"
+        else:
+            # Fallback pattern
+            return f"{valueset_url}#{code}"
+    
+    # Final fallback
+    return f"http://example.com/codes#{code}"
+
+
+def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_display: List[Dict[str, str]]) -> Dict[str, Any]:
+    """
+    Generate a JSON-LD vocabulary for a ValueSet that defines an Enumeration class,
+    declares each code as a member of that Enumeration, and creates a property
+    whose allowed range is that Enumeration.
+    
+    Args:
+        valueset_resource: FHIR ValueSet resource
+        codes_with_display: List of dictionaries with 'code', 'display', and optionally 'system' keys
+        
+    Returns:
+        JSON-LD vocabulary dictionary
+    """
+    valueset_id = extract_valueset_id(valueset_resource)
+    valueset_title = valueset_resource.get('title', valueset_resource.get('name', 'Unknown ValueSet'))
+    valueset_description = valueset_resource.get('description', f"Allowed values for the {valueset_title} enumeration.")
+    valueset_url = valueset_resource.get('url', '')
+    valueset_version = valueset_resource.get('version', '')
+    valueset_date = None
+    valueset_publisher = valueset_resource.get('publisher', 'World Health Organization')
+    
+    # Extract date from expansion timestamp if available
+    if 'expansion' in valueset_resource and 'timestamp' in valueset_resource['expansion']:
+        valueset_date = valueset_resource['expansion']['timestamp']
+    elif 'date' in valueset_resource:
+        valueset_date = valueset_resource['date']
+    
+    # Determine base vocabulary IRI
+    if valueset_url:
+        if '/ValueSet/' in valueset_url:
+            base_url = valueset_url.split('/ValueSet/')[0]
+            vocab_base = f"{base_url}/vocab"
+        else:
+            vocab_base = f"{valueset_url}/vocab"
+    else:
+        vocab_base = "http://example.com/vocab"
+    
+    # Create enumeration class IRI
+    enumeration_class_iri = f"{vocab_base}#{valueset_id}Enumeration"
+    property_iri = f"{vocab_base}#{valueset_id.lower()}"
+    
+    # JSON-LD context
+    context = {
+        "@vocab": f"{vocab_base}#",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "schema": "https://schema.org/",
+        "fhir": "http://hl7.org/fhir/",
+        "id": "@id",
+        "type": "@type",
+        "name": "rdfs:label",
+        "comment": "rdfs:comment",
+        "version": "schema:version",
+        "date": "schema:dateCreated",
+        "publisher": "schema:publisher"
+    }
+    
+    # Start building the @graph
+    graph = []
+    
+    # 1. Define the Enumeration class
+    enumeration_class = {
+        "id": enumeration_class_iri,
+        "type": "schema:Enumeration",
+        "name": f"{valueset_title} Enumeration",
+        "comment": valueset_description
+    }
+    
+    # Add metadata if available
+    if valueset_version:
+        enumeration_class["version"] = valueset_version
+    if valueset_date:
+        enumeration_class["date"] = valueset_date
+    if valueset_publisher:
+        enumeration_class["publisher"] = valueset_publisher
+    if valueset_url:
+        enumeration_class["fhir:valueSet"] = valueset_url
+    
+    graph.append(enumeration_class)
+    
+    # 2. Declare each code as a member (instance) of the Enumeration
+    for item in codes_with_display:
+        code = item['code']
+        display = item['display']
+        system = item.get('system', '')
+        
+        # Generate canonical IRI for the code
+        code_iri = generate_canonical_iri(code, valueset_url, system)
+        
+        code_instance = {
+            "id": code_iri,
+            "type": enumeration_class_iri,
+            "name": display,
+            "fhir:code": code
+        }
+        
+        # Add system information if available
+        if system:
+            code_instance["fhir:system"] = system
+        
+        graph.append(code_instance)
+    
+    # 3. Declare a property whose allowed range is the Enumeration
+    property_definition = {
+        "id": property_iri,
+        "type": "rdf:Property",
+        "name": valueset_id.lower(),
+        "comment": f"Property for selecting a value from the {valueset_title} enumeration.",
+        "schema:rangeIncludes": {"id": enumeration_class_iri}
+    }
+    
+    # Add domain information if this is a specific use case
+    # For now, we'll leave the domain open as this is a general enumeration
+    
+    graph.append(property_definition)
+    
+    # Create the complete JSON-LD document
+    jsonld_vocab = {
+        "@context": context,
+        "@graph": graph
+    }
+    
+    return jsonld_vocab
+
+
 def save_schema(schema: Dict[str, Any], output_dir: str, valueset_id: str) -> Optional[str]:
     """
     Save a JSON schema to a file.
@@ -568,6 +739,40 @@ def save_system_file(system_file: Dict[str, Any], output_dir: str, valueset_id: 
         
     except Exception as e:
         logger.error(f"Error saving system file for ValueSet {valueset_id}: {e}")
+        return None
+
+
+def save_jsonld_vocabulary(jsonld_vocab: Dict[str, Any], output_dir: str, valueset_id: str) -> Optional[str]:
+    """
+    Save a JSON-LD vocabulary file.
+    
+    Args:
+        jsonld_vocab: JSON-LD vocabulary dictionary
+        output_dir: Directory to save JSON-LD files
+        valueset_id: ValueSet ID for filename
+        
+    Returns:
+        Filepath if saved successfully, None otherwise
+    """
+    logger = logging.getLogger(__name__)
+    
+    try:
+        # Ensure output directory exists
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        
+        # Create filename with ValueSet- prefix and .jsonld extension
+        filename = f"ValueSet-{valueset_id}.jsonld"
+        filepath = os.path.join(output_dir, filename)
+        
+        # Save JSON-LD vocabulary
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(jsonld_vocab, f, indent=2, ensure_ascii=False)
+        
+        logger.info(f"Saved JSON-LD vocabulary for ValueSet {valueset_id} to {filepath}")
+        return filepath
+        
+    except Exception as e:
+        logger.error(f"Error saving JSON-LD vocabulary for ValueSet {valueset_id}: {e}")
         return None
 
 
@@ -698,8 +903,12 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
         # Generate display file
         display_file = generate_display_file(resource, codes_with_display)
         
-        # Generate system file
-        system_file = generate_system_file(resource, codes_with_display)
+        # System file no longer needed - system URIs are embedded in schema enum values
+        # to match JSON-LD IRI format as requested
+        # system_file = generate_system_file(resource, codes_with_display)
+        
+        # Generate JSON-LD vocabulary (skipped - now handled by separate script)
+        # jsonld_vocab = generate_jsonld_vocabulary(resource, codes_with_display)
         
         # Save schema
         schema_path = save_schema(schema, output_dir, valueset_id)
@@ -709,11 +918,14 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
         # Save display file
         display_path = save_display_file(display_file, output_dir, valueset_id)
         
-        # Save system file
-        system_path = save_system_file(system_file, output_dir, valueset_id)
+        # System file no longer generated - system URIs are embedded in schema enum values
+        # system_path = save_system_file(system_file, output_dir, valueset_id)
         
-        # Count as successful if all three files are saved
-        if schema_path and display_path and system_path:
+        # Save JSON-LD vocabulary (skipped - now handled by separate script)
+        # jsonld_path = save_jsonld_vocabulary(jsonld_vocab, output_dir, valueset_id)
+        
+        # Count as successful if schema and display files are saved
+        if schema_path and display_path:
             schemas_generated += 1
     
 

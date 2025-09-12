@@ -30,6 +30,30 @@ on:
       tx:
         description: 'Optional Custom terminology server URL'
         required: false
+      generate_dmn_questionnaires:
+        description: 'Generate DMN Questionnaires (default: enabled for WHO repos, disabled for others)'
+        required: false
+        type: boolean
+      transform_dmn_files:
+        description: 'Transform DMN files to HTML (default: enabled for WHO repos, disabled for others)'
+        required: false
+        type: boolean
+      generate_valueset_schemas:
+        description: 'Generate ValueSet JSON Schemas (default: enabled for WHO repos, disabled for others)'
+        required: false
+        type: boolean
+      generate_logical_model_schemas:
+        description: 'Generate Logical Model JSON Schemas (default: enabled for WHO repos, disabled for others)'
+        required: false
+        type: boolean
+      generate_dak_api_hub:
+        description: 'Generate DAK API Documentation Hub (default: enabled for WHO repos, disabled for others)'
+        required: false
+        type: boolean
+      generate_jsonld_vocabularies:
+        description: 'Generate JSON-LD Vocabularies from ValueSet expansions (default: enabled for WHO repos, disabled for others)'
+        required: false
+        type: boolean
 
 # Prevent concurrent deployments to avoid race conditions when updating gh-pages branch
 concurrency:
@@ -101,6 +125,122 @@ jobs:
             echo "DEPLOY_URL=https://worldhealthorganization.github.io/${{ github.event.repository.name }}/branches/$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
           fi
 
+      - name: Set feature defaults based on repository owner
+        run: |
+          REPO_OWNER="${{ github.repository_owner }}"
+          TRIGGER_TYPE="${{ github.event_name }}"
+          echo "Repository owner: $REPO_OWNER"
+          echo "Trigger type: $TRIGGER_TYPE"
+          
+          # Set defaults based on repository owner (enabled for WHO, disabled for others)
+          if [ "$REPO_OWNER" == "WorldHealthOrganization" ]; then
+            echo "WHO repository detected - enabling features by default"
+            DEFAULT_ENABLE="true"
+          else
+            echo "Non-WHO repository detected - disabling features by default"
+            DEFAULT_ENABLE="false"
+          fi
+          
+          echo "Default feature setting: $DEFAULT_ENABLE"
+          
+          # Normalize input handling for different trigger types
+          # Function to normalize boolean values
+          normalize_boolean() {
+            local input_value="$1"
+            local default_value="$2"
+            
+            # For automatic triggers (push/pull_request), inputs are empty
+            if [ "$TRIGGER_TYPE" != "workflow_dispatch" ]; then
+              echo "$default_value"
+              return
+            fi
+            
+            # For manual triggers, handle explicit boolean values
+            case "$input_value" in
+              "true")  echo "true" ;;
+              "false") echo "false" ;;
+              "")      echo "$default_value" ;;
+              *)       echo "$default_value" ;;
+            esac
+          }
+          
+          # Get raw input values
+          RAW_DMN_QUESTIONNAIRES="${{ inputs.generate_dmn_questionnaires }}"
+          RAW_TRANSFORM_DMN="${{ inputs.transform_dmn_files }}"
+          RAW_VALUESET_SCHEMAS="${{ inputs.generate_valueset_schemas }}"
+          RAW_LOGICAL_MODEL_SCHEMAS="${{ inputs.generate_logical_model_schemas }}"
+          RAW_DAK_API_HUB="${{ inputs.generate_dak_api_hub }}"
+          RAW_JSONLD_VOCABULARIES="${{ inputs.generate_jsonld_vocabularies }}"
+          
+          echo "Raw input values (trigger: $TRIGGER_TYPE):"
+          echo "  generate_dmn_questionnaires: '$RAW_DMN_QUESTIONNAIRES'"
+          echo "  transform_dmn_files: '$RAW_TRANSFORM_DMN'"
+          echo "  generate_valueset_schemas: '$RAW_VALUESET_SCHEMAS'"
+          echo "  generate_logical_model_schemas: '$RAW_LOGICAL_MODEL_SCHEMAS'"
+          echo "  generate_dak_api_hub: '$RAW_DAK_API_HUB'"
+          echo "  generate_jsonld_vocabularies: '$RAW_JSONLD_VOCABULARIES'"
+          
+          # Normalize all values
+          ENABLE_DMN_QUESTIONNAIRES=$(normalize_boolean "$RAW_DMN_QUESTIONNAIRES" "$DEFAULT_ENABLE")
+          ENABLE_TRANSFORM_DMN=$(normalize_boolean "$RAW_TRANSFORM_DMN" "$DEFAULT_ENABLE")
+          ENABLE_VALUESET_SCHEMAS=$(normalize_boolean "$RAW_VALUESET_SCHEMAS" "$DEFAULT_ENABLE")
+          ENABLE_LOGICAL_MODEL_SCHEMAS=$(normalize_boolean "$RAW_LOGICAL_MODEL_SCHEMAS" "$DEFAULT_ENABLE")
+          ENABLE_DAK_API_HUB=$(normalize_boolean "$RAW_DAK_API_HUB" "$DEFAULT_ENABLE")
+          ENABLE_JSONLD_VOCABULARIES=$(normalize_boolean "$RAW_JSONLD_VOCABULARIES" "$DEFAULT_ENABLE")
+          
+          echo "ENABLE_DMN_QUESTIONNAIRES=$ENABLE_DMN_QUESTIONNAIRES" >> $GITHUB_ENV
+          echo "ENABLE_TRANSFORM_DMN=$ENABLE_TRANSFORM_DMN" >> $GITHUB_ENV
+          echo "ENABLE_VALUESET_SCHEMAS=$ENABLE_VALUESET_SCHEMAS" >> $GITHUB_ENV
+          echo "ENABLE_LOGICAL_MODEL_SCHEMAS=$ENABLE_LOGICAL_MODEL_SCHEMAS" >> $GITHUB_ENV
+          echo "ENABLE_DAK_API_HUB=$ENABLE_DAK_API_HUB" >> $GITHUB_ENV
+          echo "ENABLE_JSONLD_VOCABULARIES=$ENABLE_JSONLD_VOCABULARIES" >> $GITHUB_ENV
+          
+          # Initialize tracking variables for schema generation
+          echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+          echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+          echo "JSONLD_VOCABULARIES_GENERATED=false" >> $GITHUB_ENV
+          
+          echo "Final feature settings:"
+          echo "  Generate DMN Questionnaires: $ENABLE_DMN_QUESTIONNAIRES (condition: env.ENABLE_DMN_QUESTIONNAIRES == 'true')"
+          echo "  Transform DMN files: $ENABLE_TRANSFORM_DMN (condition: env.ENABLE_TRANSFORM_DMN == 'true')"
+          echo "  Generate ValueSet schemas: $ENABLE_VALUESET_SCHEMAS (condition: env.ENABLE_VALUESET_SCHEMAS == 'true')"
+          echo "  Generate Logical Model schemas: $ENABLE_LOGICAL_MODEL_SCHEMAS (condition: env.ENABLE_LOGICAL_MODEL_SCHEMAS == 'true')"
+          echo "  Generate DAK API hub: $ENABLE_DAK_API_HUB (condition: env.ENABLE_DAK_API_HUB == 'true')"
+          echo "  Generate JSON-LD vocabularies: $ENABLE_JSONLD_VOCABULARIES (condition: env.ENABLE_JSONLD_VOCABULARIES == 'true')"
+          
+          # Additional debugging - show what conditions will evaluate to
+          echo "Step condition evaluations:"
+          if [ "$ENABLE_DMN_QUESTIONNAIRES" == "true" ]; then
+            echo "  ✅ DMN Questionnaires step WILL run"
+          else
+            echo "  ❌ DMN Questionnaires step will NOT run (value: '$ENABLE_DMN_QUESTIONNAIRES')"
+          fi
+          if [ "$ENABLE_TRANSFORM_DMN" == "true" ]; then
+            echo "  ✅ Transform DMN step WILL run"
+          else
+            echo "  ❌ Transform DMN step will NOT run (value: '$ENABLE_TRANSFORM_DMN')"
+          fi
+          if [ "$ENABLE_VALUESET_SCHEMAS" == "true" ]; then
+            echo "  ✅ ValueSet schemas step WILL run"
+          else
+            echo "  ❌ ValueSet schemas step will NOT run (value: '$ENABLE_VALUESET_SCHEMAS')"
+          fi
+          if [ "$ENABLE_LOGICAL_MODEL_SCHEMAS" == "true" ]; then
+            echo "  ✅ Logical Model schemas step WILL run"
+          else
+            echo "  ❌ Logical Model schemas step will NOT run (value: '$ENABLE_LOGICAL_MODEL_SCHEMAS')"
+          fi
+          if [ "$ENABLE_DAK_API_HUB" == "true" ]; then
+            echo "  ✅ DAK API hub step WILL run"
+          else
+            echo "  ❌ DAK API hub step will NOT run (value: '$ENABLE_DAK_API_HUB')"
+          fi
+          if [ "$ENABLE_JSONLD_VOCABULARIES" == "true" ]; then
+            echo "  ✅ JSON-LD vocabularies step WILL run"
+          else
+            echo "  ❌ JSON-LD vocabularies step will NOT run (value: '$ENABLE_JSONLD_VOCABULARIES')"
+          fi
+
       - name: Comment on PR - Build Started
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
@@ -154,6 +294,7 @@ jobs:
           args: -c "mkdir -p ./fhir-package-cache && chown 1001:127 ./fhir-package-cache"
 
       - name: Generate DMN Questionnaires
+        if: env.ENABLE_DMN_QUESTIONNAIRES == 'true'
         run: |
           echo "Generating FHIR Questionnaires from DMN files before IG publisher runs..."
           
@@ -205,6 +346,7 @@ jobs:
           fi
 
       - name: Transform DMN files to HTML
+        if: env.ENABLE_TRANSFORM_DMN == 'true'
         run: |
           echo "Transforming DMN files to HTML before IG publisher runs..."
           
@@ -277,6 +419,12 @@ jobs:
           entrypoint: /bin/sh
           args: -c "mkdir -p /var/lib/.fhir && chown $(id -u):$(id -g) /var/lib/.fhir"
 
+      - name: Initialize schema generation tracking
+        run: |
+          echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+          echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+          echo "JSONLD_VOCABULARIES_GENERATED=false" >> $GITHUB_ENV
+
       - name: Run the IG publisher with optional tx
         run: |
           echo "TX input: ${{ inputs.tx }}"
@@ -299,14 +447,16 @@ jobs:
             hl7fhir/ig-publisher-base:latest \
             sh -c "$CMD"
 
-      - name: Generate ValueSet JSON Schemas
+      - name: Generate ValueSet JSON Schemas (after IG publisher)
+        if: env.ENABLE_VALUESET_SCHEMAS == 'true' && env.VALUESET_SCHEMAS_GENERATED != 'true'
         run: |
-          echo "Generating ValueSet schemas from expansions.json..."
+          echo "Generating ValueSet schemas from expansions.json after IG publisher..."
           if [ -f "./output/expansions.json" ]; then
             # Check if script exists locally first
             if [ -f "./input/scripts/generate_valueset_schemas.py" ]; then
               echo "Using local ValueSet schema generator..."
               python3 input/scripts/generate_valueset_schemas.py
+              echo "VALUESET_SCHEMAS_GENERATED=true" >> $GITHUB_ENV
             else
               echo "Downloading ValueSet schema generator..."
               mkdir -p ./input/scripts
@@ -315,57 +465,130 @@ jobs:
               if [ -f "./input/scripts/generate_valueset_schemas.py" ]; then
                 python3 input/scripts/generate_valueset_schemas.py
                 echo "✅ ValueSet schemas generated successfully"
+                echo "VALUESET_SCHEMAS_GENERATED=true" >> $GITHUB_ENV
               else
                 echo "⚠️  Failed to download schema generator, skipping"
+                echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
               fi
             fi
           else
             echo "⚠️  expansions.json not found, skipping schema generation"
+            echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
           fi
 
-      - name: Generate Logical Model JSON Schemas
+      - name: Generate JSON-LD Vocabularies (after IG publisher)
+        if: env.ENABLE_JSONLD_VOCABULARIES == 'true' && env.JSONLD_VOCABULARIES_GENERATED != 'true'
         run: |
-          echo "Generating Logical Model schemas from StructureDefinition JSON files..."
-          # Check if script exists locally first
-          if [ -f "./input/scripts/generate_logical_model_schemas.py" ]; then
-            echo "Using local Logical Model schema generator..."
-            python3 input/scripts/generate_logical_model_schemas.py output output
-            echo "✅ Logical Model schemas generated successfully"
+          echo "Generating JSON-LD vocabularies from expansions.json after IG publisher..."
+          if [ -f "./output/expansions.json" ]; then
+            # Check if script exists locally first
+            if [ -f "./input/scripts/generate_jsonld_vocabularies.py" ]; then
+              echo "Using local JSON-LD vocabulary generator..."
+              python3 input/scripts/generate_jsonld_vocabularies.py
+              echo "JSONLD_VOCABULARIES_GENERATED=true" >> $GITHUB_ENV
+            else
+              echo "Downloading JSON-LD vocabulary generator..."
+              mkdir -p ./input/scripts
+              curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_jsonld_vocabularies.py \
+                -o ./input/scripts/generate_jsonld_vocabularies.py
+              if [ -f "./input/scripts/generate_jsonld_vocabularies.py" ]; then
+                python3 input/scripts/generate_jsonld_vocabularies.py
+                echo "✅ JSON-LD vocabularies generated successfully"
+                echo "JSONLD_VOCABULARIES_GENERATED=true" >> $GITHUB_ENV
+              else
+                echo "⚠️  Failed to download JSON-LD vocabulary generator, skipping"
+                echo "JSONLD_VOCABULARIES_GENERATED=false" >> $GITHUB_ENV
+              fi
+            fi
           else
-            echo "Downloading Logical Model schema generator..."
-            mkdir -p ./input/scripts
-            curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_logical_model_schemas.py \
-              -o ./input/scripts/generate_logical_model_schemas.py
+            echo "⚠️  expansions.json not found, skipping JSON-LD vocabulary generation"
+            echo "JSONLD_VOCABULARIES_GENERATED=false" >> $GITHUB_ENV
+          fi
+
+      - name: Generate Logical Model JSON Schemas (after IG publisher)
+        if: env.ENABLE_LOGICAL_MODEL_SCHEMAS == 'true' && env.LOGICAL_MODEL_SCHEMAS_GENERATED != 'true'
+        run: |
+          echo "Generating Logical Model schemas from StructureDefinition JSON files after IG publisher..."
+          
+          # Check if there are StructureDefinition files to process
+          if find ./output -name "StructureDefinition-*.json" -print -quit | grep -q .; then
+            echo "Found StructureDefinition files to process"
+            # Check if script exists locally first
             if [ -f "./input/scripts/generate_logical_model_schemas.py" ]; then
+              echo "Using local Logical Model schema generator..."
               python3 input/scripts/generate_logical_model_schemas.py output output
               echo "✅ Logical Model schemas generated successfully"
+              echo "LOGICAL_MODEL_SCHEMAS_GENERATED=true" >> $GITHUB_ENV
             else
-              echo "⚠️  Failed to download Logical Model schema generator, skipping"
+              echo "Downloading Logical Model schema generator..."
+              mkdir -p ./input/scripts
+              curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_logical_model_schemas.py \
+                -o ./input/scripts/generate_logical_model_schemas.py
+              if [ -f "./input/scripts/generate_logical_model_schemas.py" ]; then
+                python3 input/scripts/generate_logical_model_schemas.py output output
+                echo "✅ Logical Model schemas generated successfully"
+                echo "LOGICAL_MODEL_SCHEMAS_GENERATED=true" >> $GITHUB_ENV
+              else
+                echo "⚠️  Failed to download Logical Model schema generator, skipping"
+                echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
+              fi
             fi
+          else
+            echo "⚠️  No StructureDefinition JSON files found, skipping Logical Model schema generation"
+            echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
           fi
 
-      - name: Generate DAK API Documentation Hub
+      - name: Generate DAK API Documentation (post-process HTML)  
+        if: env.ENABLE_DAK_API_HUB == 'true'
         run: |
-          echo "Generating DAK API Documentation Hub..."
-          # Install required Python dependencies
-          pip install pyyaml
+          echo "Post-processing DAK API documentation into generated HTML files..."
           
-          # Check if script exists locally first
-          if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
-            echo "Using local DAK API hub generator..."
-            python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
-            echo "✅ DAK API hub generated successfully"
-          else
-            echo "Downloading DAK API hub generator..."
-            mkdir -p ./input/scripts
-            curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_api_hub.py \
-              -o ./input/scripts/generate_dak_api_hub.py
+          # Check if there are schemas to document
+          HAVE_SCHEMAS=false
+          if [ -f "./output/ValueSets.schema.json" ] || [ -f "./output/LogicalModels.schema.json" ] || \
+             find ./output -name "ValueSet-*.schema.json" -print -quit | grep -q . || \
+             find ./output -name "*Model*.schema.json" -print -quit | grep -q . || \
+             find ./output -name "ValueSet-*.jsonld" -print -quit | grep -q . || \
+             [ -d "./input/images/openapi" ] && find ./input/images/openapi -name "*.json" -o -name "*.yaml" -o -name "*.yml" | grep -q .; then
+            HAVE_SCHEMAS=true
+            echo "Found schemas, JSON-LD vocabularies, or OpenAPI files to document"
+          fi
+          
+          # Set fallback values for schema generation flags if not set
+          VALUESET_SCHEMAS_GENERATED="${VALUESET_SCHEMAS_GENERATED:-false}"
+          LOGICAL_MODEL_SCHEMAS_GENERATED="${LOGICAL_MODEL_SCHEMAS_GENERATED:-false}"
+          JSONLD_VOCABULARIES_GENERATED="${JSONLD_VOCABULARIES_GENERATED:-false}"
+          
+          if [ "$HAVE_SCHEMAS" = true ] || [ "$VALUESET_SCHEMAS_GENERATED" = true ] || [ "$LOGICAL_MODEL_SCHEMAS_GENERATED" = true ] || [ "$JSONLD_VOCABULARIES_GENERATED" = true ]; then
+            # Install required Python dependencies
+            # Note: beautifulsoup4 is required for HTML processing
+            # pyyaml was removed as dependency in latest version but kept for backward compatibility
+            pip install pyyaml beautifulsoup4
+            
+            # Check if script exists locally first
             if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
-              python3 input/scripts/generate_dak_api_hub.py output input/images/openapi
-              echo "✅ DAK API hub generated successfully"
+              echo "Using local DAK API hub generator..."
+              python3 input/scripts/generate_dak_api_hub.py output output
+              echo "✅ DAK API documentation post-processed successfully"
             else
-              echo "⚠️  Failed to download DAK API hub generator, skipping"
+              echo "Downloading DAK API hub generator..."
+              mkdir -p ./input/scripts
+              curl -sSL https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_api_hub.py \
+                -o ./input/scripts/generate_dak_api_hub.py
+              if [ -f "./input/scripts/generate_dak_api_hub.py" ]; then
+                python3 input/scripts/generate_dak_api_hub.py output output
+                echo "✅ DAK API documentation post-processed successfully"
+              else
+                echo "⚠️  Failed to download DAK API hub generator, skipping"
+              fi
             fi
+          else
+            echo "⚠️  No schemas, JSON-LD vocabularies, or OpenAPI files found to document. Run schema generation steps first or ensure schemas are available."
+            echo "     - Enable 'Generate ValueSet JSON Schemas' to generate ValueSet documentation"
+            echo "     - Enable 'Generate Logical Model JSON Schemas' to generate Logical Model documentation"  
+            echo "     - Enable 'Generate JSON-LD Vocabularies' to generate JSON-LD vocabulary documentation"
+            echo "     - Or place OpenAPI/Swagger files in input/images/openapi/ directory"
+            echo "Skipping DAK API documentation generation."
           fi
      
       # Additional step to upload qa.json as an artifact
