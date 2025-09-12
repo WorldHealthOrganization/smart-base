@@ -429,10 +429,9 @@ jobs:
           echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
           echo "JSONLD_VOCABULARIES_GENERATED=false" >> $GITHUB_ENV
           
-          # Ensure dak-api.md exists and sushi-config is properly configured if DAK API generation is enabled
+          # Ensure sushi-config is properly configured if DAK API generation is enabled
           if [ "$ENABLE_DAK_API_HUB" = "true" ]; then
-            echo "DAK API generation enabled, ensuring dak-api.md placeholder exists..."
-            touch input/pagecontent/dak-api.md
+            echo "DAK API generation enabled, configuring sushi-config.yaml..."
             
             echo "Checking and updating sushi-config.yaml for DAK API documentation..."
             
