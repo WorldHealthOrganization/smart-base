@@ -187,6 +187,14 @@ jobs:
             sh -c "$CMD"
      
       # Additional step to upload qa.json as an artifact
+      - name: Upload complete build output
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ig-build-output
+          path: ./output
+          retention-days: 1
+
       - name: Upload qa.json artifact
         if: success()
         uses: actions/upload-artifact@v4
