@@ -428,6 +428,36 @@ jobs:
           echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
           echo "LOGICAL_MODEL_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
           echo "JSONLD_VOCABULARIES_GENERATED=false" >> $GITHUB_ENV
+          
+          # Ensure dak-api.md exists and sushi-config is properly configured if DAK API generation is enabled
+          if [ "$ENABLE_DAK_API_HUB" = "true" ]; then
+            echo "DAK API generation enabled, ensuring dak-api.md placeholder exists..."
+            touch input/pagecontent/dak-api.md
+            
+            echo "Checking and updating sushi-config.yaml for DAK API documentation..."
+            
+            # Install PyYAML for YAML processing
+            pip install pyyaml
+            
+            # Run the Python script to update sushi-config.yaml
+            if python3 input/scripts/update_sushi_config.py; then
+              echo "sushi-config.yaml processing completed"
+              
+              # Check if there are changes to commit
+              if git diff --quiet sushi-config.yaml; then
+                echo "No changes to sushi-config.yaml, continuing..."
+              else
+                echo "Committing sushi-config.yaml updates for DAK API configuration..."
+                git config --local user.email "action@github.com"
+                git config --local user.name "GitHub Action"
+                git add sushi-config.yaml
+                git commit -m "Auto-configure sushi-config.yaml for DAK API documentation"
+                git push
+              fi
+            else
+              echo "Failed to update sushi-config.yaml, continuing with existing configuration..."
+            fi
+          fi
 
       - name: Run the IG publisher with optional tx
         run: |
