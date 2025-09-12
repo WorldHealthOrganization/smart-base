@@ -93,13 +93,20 @@
         ],
         "example": {
           "type": "valueset",
-          "count": 1,
+          "count": 2,
           "schemas": [
+            {
+              "filename": "ValueSets.schema.json",
+              "id": "#/ValueSets.schema.json",
+              "title": "ValueSet Enumeration Schema",
+              "description": "JSON Schema defining the structure of the ValueSet enumeration endpoint response",
+              "url": "./ValueSets.schema.json"
+            },
             {
               "filename": "ValueSet-CDHIv1.schema.json",
               "id": "http://smart.who.int/base/ValueSet-CDHIv1.schema.json",
               "title": "Classification of Digital Health Interventions v1 Schema",
-              "description": "JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions.",
+              "description": "JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions using IRI format.",
               "url": "./ValueSet-CDHIv1.schema.json",
               "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv1",
               "codeCount": 3

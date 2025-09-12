@@ -1255,7 +1255,7 @@ class DAKApiHubGenerator:
 """
         
         # Add API Enumeration Endpoints section
-        if enumeration_docs or jsonld_docs:
+        if enumeration_docs:
             html_content += """
     <h3>API Enumeration Endpoints</h3>
     
@@ -1263,23 +1263,49 @@ class DAKApiHubGenerator:
     
     <div class="enumeration-endpoints">
 """
-            # Add schema enumeration endpoints
+            # Add schema enumeration endpoints with proper endpoint listings
             for enum_doc in enumeration_docs:
-                html_content += f"""
+                if enum_doc['type'] == 'enumeration-valueset':
+                    # List ValueSet schemas in this enumeration
+                    valueset_list = ""
+                    for schema_doc in schema_docs['valueset']:
+                        schema_name = schema_doc['schema_file'].replace('.schema.json', '')
+                        valueset_list += f"""
+                    <li><a href="{schema_doc['schema_file']}">{schema_name}.schema.json</a> - JSON Schema for {schema_doc['title']}</li>"""
+                        # Add JSON-LD if available
+                        if schema_doc.get('jsonld_file'):
+                            jsonld_name = schema_doc['jsonld_file'].replace('.jsonld', '')
+                            valueset_list += f"""
+                    <li><a href="{schema_doc['jsonld_file']}">{jsonld_name}.jsonld</a> - JSON-LD vocabulary for {schema_doc['title']}</li>"""
+                    
+                    html_content += f"""
         <div class="endpoint-card">
             <h4><a href="{enum_doc['html_file']}">{enum_doc['title']}</a></h4>
             <p>{enum_doc['description']}</p>
+            <div class="endpoint-list">
+                <h5>Available Endpoints:</h5>
+                <ul>{valueset_list}
+                </ul>
+            </div>
         </div>
 """
-            
-            # Add JSON-LD enumeration endpoints
-            if jsonld_docs:
-                html_content += f"""
+                elif enum_doc['type'] == 'enumeration-logicalmodel':
+                    # List LogicalModel schemas in this enumeration
+                    logicalmodel_list = ""
+                    for schema_doc in schema_docs['logical_model']:
+                        schema_name = schema_doc['schema_file'].replace('.schema.json', '')
+                        logicalmodel_list += f"""
+                    <li><a href="{schema_doc['schema_file']}">{schema_name}.schema.json</a> - JSON Schema for {schema_doc['title']}</li>"""
+                    
+                    html_content += f"""
         <div class="endpoint-card">
-            <h4>JSON-LD Vocabularies Enumeration</h4>
-            <p>Semantic web vocabularies for ValueSet enumerations with schema.org compatibility. 
-            This endpoint provides {len(jsonld_docs)} JSON-LD vocabularies that define enumeration classes and properties for ValueSet codes, 
-            each following the JSON-LD 1.1 specification with canonical IRIs and FHIR metadata integration.</p>
+            <h4><a href="{enum_doc['html_file']}">{enum_doc['title']}</a></h4>
+            <p>{enum_doc['description']}</p>
+            <div class="endpoint-list">
+                <h5>Available Endpoints:</h5>
+                <ul>{logicalmodel_list}
+                </ul>
+            </div>
         </div>
 """
             
@@ -1364,26 +1390,6 @@ class DAKApiHubGenerator:
     </div>
 """
         
-        # Add JSON-LD Vocabularies section
-        if jsonld_docs:
-            html_content += f"""
-    <h3>JSON-LD Vocabularies ({len(jsonld_docs)} available)</h3>
-    
-    <p>Semantic web vocabularies that define enumeration classes and properties for ValueSet codes. 
-    Each vocabulary follows the JSON-LD 1.1 specification and provides:</p>
-    
-    <div class="schema-grid">
-"""
-            for jsonld_doc in jsonld_docs:
-                html_content += f"""
-        <div class="schema-card">
-            <h4><a href="{jsonld_doc['filename']}">{jsonld_doc['title']}</a></h4>
-            <p>{jsonld_doc['description']}</p>
-        </div>
-"""
-            html_content += """
-    </div>
-"""
         
         # Add OpenAPI Documentation section (comprehensive listing)
         if openapi_docs or schema_docs['valueset'] or schema_docs['logical_model']:
@@ -1392,100 +1398,95 @@ class DAKApiHubGenerator:
     
     <p>Complete API specification documentation for all available endpoints:</p>
     
-    <div class="api-grid">
+    <div class="schema-grid">
 """
             
-            # Organize endpoints by category
-            endpoint_categories = {
-                'Schema Endpoints': [],
-                'JSON-LD Endpoints': [],
-                'Enumeration Endpoints': []
-            }
-            
-            # Add ValueSet schema endpoints
+            # Add ValueSet schema endpoints as cards
             for schema_doc in schema_docs['valueset']:
                 schema_name = schema_doc['schema_file'].replace('.schema.json', '')
                 
-                # JSON Schema endpoint
-                endpoint_categories['Schema Endpoints'].append({
-                    'title': f"{schema_name} JSON Schema",
-                    'description': f"JSON Schema definition for {schema_name} ValueSet codes",
-                    'file_path': schema_doc['schema_file'],
-                    'filename': schema_doc['schema_file']
-                })
+                html_content += f"""
+        <div class="schema-card">
+            <h4>{schema_name} Endpoints</h4>
+            <p>API endpoints for {schema_doc['title']}</p>
+            <div class="schema-links">
+                <a href="{schema_doc['schema_file']}" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>"""
                 
-                # JSON-LD endpoint (if file exists)
+                # Add JSON-LD endpoint if available
                 if schema_doc.get('jsonld_file'):
-                    endpoint_categories['JSON-LD Endpoints'].append({
-                        'title': f"{schema_name} JSON-LD Vocabulary",
-                        'description': f"Semantic web vocabulary for {schema_name} enumeration",
-                        'file_path': schema_doc['jsonld_file'],
-                        'filename': schema_doc['jsonld_file']
-                    })
-            
-            # Add LogicalModel schema endpoints
-            for schema_doc in schema_docs['logical_model']:
-                schema_name = schema_doc['schema_file'].replace('.schema.json', '')
-                
-                # JSON Schema endpoint
-                endpoint_categories['Schema Endpoints'].append({
-                    'title': f"{schema_name} JSON Schema",
-                    'description': f"JSON Schema definition for {schema_name} Logical Model",
-                    'file_path': schema_doc['schema_file'],
-                    'filename': schema_doc['schema_file']
-                })
-            
-            # Add enumeration endpoints
-            for enum_doc in enumeration_docs:
-                if enum_doc['type'] == 'enumeration-valueset':
-                    endpoint_categories['Enumeration Endpoints'].append({
-                        'title': 'ValueSets Enumeration',
-                        'description': 'Complete list of all available ValueSet schemas',
-                        'file_path': 'ValueSets.schema.json',
-                        'filename': 'ValueSets.schema.json'
-                    })
-                elif enum_doc['type'] == 'enumeration-logicalmodel':
-                    endpoint_categories['Enumeration Endpoints'].append({
-                        'title': 'LogicalModels Enumeration',
-                        'description': 'Complete list of all available Logical Model schemas',
-                        'file_path': 'LogicalModels.schema.json',
-                        'filename': 'LogicalModels.schema.json'
-                    })
-            
-            # Display each category
-            for category_name, endpoints in endpoint_categories.items():
-                if endpoints:
                     html_content += f"""
-        <h4>{category_name} ({len(endpoints)} available)</h4>
-        <div class="endpoint-category">
-"""
-                    for endpoint in endpoints:
-                        html_content += f"""
-            <div class="api-card">
-                <h5><a href="{endpoint['file_path']}">{endpoint['title']}</a></h5>
-                <p>{endpoint['description']}</p>
-                <p class="file-info">📄 <a href="{endpoint['file_path']}">{endpoint['filename']}</a></p>
+                <a href="{schema_doc['jsonld_file']}" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>"""
+                
+                # Add OpenAPI specification if available
+                if schema_doc.get('openapi_file'):
+                    html_content += f"""
+                <a href="{schema_doc['openapi_file']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>"""
+                
+                html_content += """
             </div>
-"""
-                    html_content += """
         </div>
 """
             
-            # Add traditional OpenAPI specification files
-            if openapi_docs:
+            # Add LogicalModel schema endpoints as cards
+            for schema_doc in schema_docs['logical_model']:
+                schema_name = schema_doc['schema_file'].replace('.schema.json', '')
+                
                 html_content += f"""
-        <h4>OpenAPI Specifications ({len(openapi_docs)} available)</h4>
-        <div class="endpoint-category">
-"""
-                for api_doc in openapi_docs:
+        <div class="schema-card">
+            <h4>{schema_name} Endpoints</h4>
+            <p>API endpoints for {schema_doc['title']}</p>
+            <div class="schema-links">
+                <a href="{schema_doc['schema_file']}" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>"""
+                
+                # Add OpenAPI specification if available
+                if schema_doc.get('openapi_file'):
                     html_content += f"""
-            <div class="api-card">
-                <h5><a href="{api_doc['file_path']}">{api_doc['title']}</a></h5>
-                <p>{api_doc['description']}</p>
-                <p class="file-info">📄 <a href="{api_doc['file_path']}">{api_doc['filename']}</a></p>
-            </div>
-"""
+                <a href="{schema_doc['openapi_file']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>"""
+                
                 html_content += """
+            </div>
+        </div>
+"""
+            
+            # Add enumeration endpoints as cards
+            for enum_doc in enumeration_docs:
+                if enum_doc['type'] == 'enumeration-valueset':
+                    html_content += f"""
+        <div class="schema-card">
+            <h4>ValueSets Enumeration Endpoint</h4>
+            <p>Complete list of all available ValueSet schemas</p>
+            <div class="schema-links">
+                <a href="ValueSets.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="ValueSets-enumeration.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+"""
+                elif enum_doc['type'] == 'enumeration-logicalmodel':
+                    html_content += f"""
+        <div class="schema-card">
+            <h4>LogicalModels Enumeration Endpoint</h4>
+            <p>Complete list of all available Logical Model schemas</p>
+            <div class="schema-links">
+                <a href="LogicalModels.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="LogicalModels-enumeration.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+"""
+            
+            # Add traditional OpenAPI specification files as cards if any exist
+            if openapi_docs:
+                for api_doc in openapi_docs:
+                    # Skip files we've already included above
+                    if not (api_doc['filename'].endswith('-enumeration.openapi.json') or 
+                           any(schema_doc.get('openapi_file') == api_doc['filename'] 
+                               for schema_doc in schema_docs['valueset'] + schema_docs['logical_model'])):
+                        html_content += f"""
+        <div class="schema-card">
+            <h4>{api_doc['title']}</h4>
+            <p>{api_doc['description']}</p>
+            <div class="schema-links">
+                <a href="{api_doc['file_path']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
         </div>
 """
             
@@ -1533,21 +1534,14 @@ class DAKApiHubGenerator:
     margin: 1rem 0;
 }
 
-.enumeration-endpoints, .schema-grid, .api-grid {
+.enumeration-endpoints, .schema-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1rem;
     margin: 1rem 0;
 }
 
-.endpoint-category {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 0.75rem;
-    margin: 0.5rem 0 1.5rem 0;
-}
-
-.endpoint-card, .schema-card, .api-card {
+.endpoint-card, .schema-card {
     border: 1px solid #dee2e6;
     border-radius: 4px;
     padding: 1rem;
@@ -1555,29 +1549,66 @@ class DAKApiHubGenerator:
     transition: box-shadow 0.2s ease;
 }
 
-.endpoint-card:hover, .schema-card:hover, .api-card:hover {
+.endpoint-card:hover, .schema-card:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.endpoint-card h4, .schema-card h4, .api-card h4, .api-card h5 {
+.endpoint-card h4, .schema-card h4 {
     margin: 0 0 0.5rem 0;
     color: #00477d;
 }
 
-.endpoint-card h4 a, .schema-card h4 a, .api-card h4 a, .api-card h5 a {
+.endpoint-card h4 a, .schema-card h4 a {
     color: #00477d;
     text-decoration: none;
 }
 
-.endpoint-card h4 a:hover, .schema-card h4 a:hover, .api-card h4 a:hover, .api-card h5 a:hover {
+.endpoint-card h4 a:hover, .schema-card h4 a:hover {
     color: #0070A1;
     text-decoration: underline;
 }
 
-.endpoint-card p, .schema-card p, .api-card p {
+.endpoint-card p, .schema-card p {
     margin: 0 0 0.5rem 0;
     color: #6c757d;
     font-size: 0.9rem;
+}
+
+.endpoint-list {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.endpoint-list h5 {
+    margin: 0 0 0.5rem 0;
+    color: #00477d;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.endpoint-list ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    list-style-type: disc;
+}
+
+.endpoint-list li {
+    margin: 0.25rem 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.endpoint-list a {
+    color: #17a2b8;
+    text-decoration: none;
+    font-family: monospace;
+    font-weight: 500;
+}
+
+.endpoint-list a:hover {
+    color: #138496;
+    text-decoration: underline;
 }
 
 .schema-links {
@@ -1611,23 +1642,6 @@ class DAKApiHubGenerator:
 
 .schema-link.fhir-link:hover {
     background-color: #218838;
-}
-
-.file-info {
-    font-size: 0.8rem;
-    color: #495057;
-    margin-top: 0.5rem;
-}
-
-.file-info a {
-    color: #00477d;
-    text-decoration: none;
-    font-family: monospace;
-}
-
-.file-info a:hover {
-    color: #0070A1;
-    text-decoration: underline;
 }
 
 .usage-info {
