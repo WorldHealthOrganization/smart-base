@@ -439,23 +439,63 @@ jobs:
             # Install PyYAML for YAML processing
             pip install pyyaml
             
-            # Run the Python script to update sushi-config.yaml
-            if python3 input/scripts/update_sushi_config.py; then
-              echo "sushi-config.yaml processing completed"
+            # Check if update_sushi_config.py exists locally, download if not
+            if [ ! -f "input/scripts/update_sushi_config.py" ]; then
+              echo "update_sushi_config.py not found locally, downloading from smart-base repository..."
               
-              # Check if there are changes to commit
-              if git diff --quiet sushi-config.yaml; then
-                echo "No changes to sushi-config.yaml, continuing..."
-              else
-                echo "Committing sushi-config.yaml updates for DAK API configuration..."
-                git config --local user.email "action@github.com"
-                git config --local user.name "GitHub Action"
-                git add sushi-config.yaml
-                git commit -m "Auto-configure sushi-config.yaml for DAK API documentation"
-                git push
+              # Create directories if they don't exist
+              mkdir -p input/scripts
+              
+              # Function to download a file with fallback branches
+              download_file() {
+                local file_path="$1"
+                local output_path="$2"
+                
+                # Try main branch first
+                if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/$file_path" 2>/dev/null; then
+                  echo "Downloaded $file_path from main branch"
+                  return 0
+                fi
+                
+                # Fallback to current branch (for testing)
+                if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/$BRANCH_NAME/$file_path" 2>/dev/null; then
+                  echo "Downloaded $file_path from $BRANCH_NAME branch"
+                  return 0
+                fi
+                
+                echo "Failed to download $file_path from any branch"
+                return 1
+              }
+              
+              # Download the update_sushi_config.py script
+              if ! download_file "input/scripts/update_sushi_config.py" "input/scripts/update_sushi_config.py"; then
+                echo "Failed to download update_sushi_config.py, continuing with existing configuration..."
               fi
             else
-              echo "Failed to update sushi-config.yaml, continuing with existing configuration..."
+              echo "Using local update_sushi_config.py script"
+            fi
+            
+            # Run the Python script to update sushi-config.yaml if available
+            if [ -f "input/scripts/update_sushi_config.py" ]; then
+              if python3 input/scripts/update_sushi_config.py; then
+                echo "sushi-config.yaml processing completed"
+                
+                # Check if there are changes to commit
+                if git diff --quiet sushi-config.yaml; then
+                  echo "No changes to sushi-config.yaml, continuing..."
+                else
+                  echo "Committing sushi-config.yaml updates for DAK API configuration..."
+                  git config --local user.email "action@github.com"
+                  git config --local user.name "GitHub Action"
+                  git add sushi-config.yaml
+                  git commit -m "Auto-configure sushi-config.yaml for DAK API documentation"
+                  git push
+                fi
+              else
+                echo "Failed to update sushi-config.yaml, continuing with existing configuration..."
+              fi
+            else
+              echo "update_sushi_config.py script not available, continuing with existing configuration..."
             fi
           fi
 
