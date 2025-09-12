@@ -8,29 +8,37 @@ def update_sushi_config():
         with open('sushi-config.yaml', 'r') as f:
             config = yaml.safe_load(f)
         
-        # Check if smart-base is listed as a dependency
-        dependencies = config.get('dependencies', {})
-        smart_base_found = False
+        # Check if this is the smart-base repository or if smart-base is listed as a dependency
+        repo_id = config.get('id', '')
+        is_smart_base_repo = repo_id == 'smart.who.int.base'
         
-        # Check for various possible smart-base dependency names
-        smart_base_patterns = [
-            'smart-base',
-            'smart.who.int.base',
-            'who.smart.base',
-            'smart.base'
-        ]
+        smart_base_found = is_smart_base_repo
         
-        for dep_name in dependencies.keys():
-            for pattern in smart_base_patterns:
-                if pattern in dep_name.lower():
-                    smart_base_found = True
-                    print(f"Found smart-base dependency: {dep_name}")
+        if is_smart_base_repo:
+            print(f"This is the smart-base repository (id: {repo_id})")
+        else:
+            # Check if smart-base is listed as a dependency
+            dependencies = config.get('dependencies', {})
+            
+            # Check for various possible smart-base dependency names
+            smart_base_patterns = [
+                'smart-base',
+                'smart.who.int.base',
+                'who.smart.base',
+                'smart.base'
+            ]
+            
+            for dep_name in dependencies.keys():
+                for pattern in smart_base_patterns:
+                    if pattern in dep_name.lower():
+                        smart_base_found = True
+                        print(f"Found smart-base dependency: {dep_name}")
+                        break
+                if smart_base_found:
                     break
-            if smart_base_found:
-                break
         
         if not smart_base_found:
-            print("smart-base is not listed as a dependency. Skipping DAK API configuration.")
+            print("This is not the smart-base repository and smart-base is not listed as a dependency. Skipping DAK API configuration.")
             return False
         
         # Ensure pages section exists
