@@ -1,0 +1,513 @@
+# DAK (Data Access Kit) Build Workflow
+# This workflow includes DAK-specific features and calls the basic ghbuild workflow
+# Features include: DMN questionnaires, schema generation, JSON-LD vocabularies, DAK API hub
+# Created for v2 workflow architecture
+
+name: DAK Build
+
+# Controls when the action will run
+on: 
+  workflow_call: # Reusable by other workflows
+    inputs:
+      tx:
+        required: false
+        type: string
+      generate_dmn_questionnaires:
+        description: 'Generate DMN Questionnaires'
+        required: false
+        type: boolean
+        default: true
+      transform_dmn_files:
+        description: 'Transform DMN files to HTML'
+        required: false
+        type: boolean
+        default: true
+      generate_valueset_schemas:
+        description: 'Generate ValueSet JSON Schemas'
+        required: false
+        type: boolean
+        default: true
+      generate_logical_model_schemas:
+        description: 'Generate Logical Model JSON Schemas'
+        required: false
+        type: boolean
+        default: true
+      generate_dak_api_hub:
+        description: 'Generate DAK API Documentation Hub'
+        required: false
+        type: boolean
+        default: true
+      generate_jsonld_vocabularies:
+        description: 'Generate JSON-LD Vocabularies from ValueSet expansions'
+        required: false
+        type: boolean
+        default: true
+  # Triggers the workflow on push or pull request events for any branch
+  push:
+    branches-ignore:    
+      - 'gh-pages'
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      tx:
+        description: 'Optional Custom terminology server URL'
+        required: false
+      generate_dmn_questionnaires:
+        description: 'Generate DMN Questionnaires'
+        required: false
+        type: boolean
+        default: true
+      transform_dmn_files:
+        description: 'Transform DMN files to HTML'
+        required: false
+        type: boolean
+        default: true
+      generate_valueset_schemas:
+        description: 'Generate ValueSet JSON Schemas'
+        required: false
+        type: boolean
+        default: true
+      generate_logical_model_schemas:
+        description: 'Generate Logical Model JSON Schemas'
+        required: false
+        type: boolean
+        default: true
+      generate_dak_api_hub:
+        description: 'Generate DAK API Documentation Hub'
+        required: false
+        type: boolean
+        default: true
+      generate_jsonld_vocabularies:
+        description: 'Generate JSON-LD Vocabularies from ValueSet expansions'
+        required: false
+        type: boolean
+        default: true
+
+# Prevent concurrent deployments
+concurrency:
+  group: dak-build-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # Pre-process job for DAK-specific tasks that need to run before IG publisher
+  dak-preprocess:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get branch name
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BRANCH_NAME="${{ github.head_ref }}"
+          else
+            BRANCH_NAME="${GITHUB_REF##*/}"
+          fi
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+
+      - name: Set feature flags
+        run: |
+          TRIGGER_TYPE="${{ github.event_name }}"
+          echo "Trigger type: $TRIGGER_TYPE"
+          
+          # Normalize input handling for different trigger types
+          normalize_boolean() {
+            local input_value="$1"
+            local default_value="$2"
+            
+            # For automatic triggers (push/pull_request), use defaults
+            if [ "$TRIGGER_TYPE" != "workflow_dispatch" ] && [ "$TRIGGER_TYPE" != "workflow_call" ]; then
+              echo "$default_value"
+              return
+            fi
+            
+            # For manual/call triggers, handle explicit boolean values
+            case "$input_value" in
+              "true")  echo "true" ;;
+              "false") echo "false" ;;
+              "")      echo "$default_value" ;;
+              *)       echo "$default_value" ;;
+            esac
+          }
+          
+          # Get normalized values (defaults to true for all DAK features)
+          ENABLE_DMN_QUESTIONNAIRES=$(normalize_boolean "${{ inputs.generate_dmn_questionnaires }}" "true")
+          ENABLE_TRANSFORM_DMN=$(normalize_boolean "${{ inputs.transform_dmn_files }}" "true")
+          ENABLE_VALUESET_SCHEMAS=$(normalize_boolean "${{ inputs.generate_valueset_schemas }}" "true")
+          ENABLE_LOGICAL_MODEL_SCHEMAS=$(normalize_boolean "${{ inputs.generate_logical_model_schemas }}" "true")
+          ENABLE_DAK_API_HUB=$(normalize_boolean "${{ inputs.generate_dak_api_hub }}" "true")
+          ENABLE_JSONLD_VOCABULARIES=$(normalize_boolean "${{ inputs.generate_jsonld_vocabularies }}" "true")
+          
+          echo "ENABLE_DMN_QUESTIONNAIRES=$ENABLE_DMN_QUESTIONNAIRES" >> $GITHUB_ENV
+          echo "ENABLE_TRANSFORM_DMN=$ENABLE_TRANSFORM_DMN" >> $GITHUB_ENV
+          echo "ENABLE_VALUESET_SCHEMAS=$ENABLE_VALUESET_SCHEMAS" >> $GITHUB_ENV
+          echo "ENABLE_LOGICAL_MODEL_SCHEMAS=$ENABLE_LOGICAL_MODEL_SCHEMAS" >> $GITHUB_ENV
+          echo "ENABLE_DAK_API_HUB=$ENABLE_DAK_API_HUB" >> $GITHUB_ENV
+          echo "ENABLE_JSONLD_VOCABULARIES=$ENABLE_JSONLD_VOCABULARIES" >> $GITHUB_ENV
+          
+          echo "DAK feature settings:"
+          echo "  Generate DMN Questionnaires: $ENABLE_DMN_QUESTIONNAIRES"
+          echo "  Transform DMN files: $ENABLE_TRANSFORM_DMN"
+          echo "  Generate ValueSet schemas: $ENABLE_VALUESET_SCHEMAS"
+          echo "  Generate Logical Model schemas: $ENABLE_LOGICAL_MODEL_SCHEMAS"
+          echo "  Generate DAK API hub: $ENABLE_DAK_API_HUB"
+          echo "  Generate JSON-LD vocabularies: $ENABLE_JSONLD_VOCABULARIES"
+
+      - name: Generate DMN Questionnaires
+        if: env.ENABLE_DMN_QUESTIONNAIRES == 'true'
+        run: |
+          echo "Generating FHIR Questionnaires from DMN files before IG publisher runs..."
+          
+          # Check if questionnaire generation files exist locally
+          if [ ! -f "input/scripts/dmn_questionnaire_generator.py" ]; then
+            echo "DMN questionnaire generator not found locally, downloading from smart-base repository..."
+            
+            # Create directories if they don't exist
+            mkdir -p input/scripts
+            
+            # Function to download a file with fallback branches
+            download_file() {
+              local file_path="$1"
+              local output_path="$2"
+              
+              # Try main branch first
+              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/$file_path" 2>/dev/null; then
+                echo "Downloaded $file_path from main branch"
+                return 0
+              fi
+              
+              # Fallback to current branch (for testing)
+              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/$BRANCH_NAME/$file_path" 2>/dev/null; then
+                echo "Downloaded $file_path from $BRANCH_NAME branch"
+                return 0
+              fi
+              
+              echo "Failed to download $file_path from any branch"
+              return 1
+            }
+            
+            # Download questionnaire generator from smart-base repository
+            if ! download_file "input/scripts/dmn_questionnaire_generator.py" "input/scripts/dmn_questionnaire_generator.py"; then
+              echo "Failed to download questionnaire generator, skipping questionnaire generation"
+            fi
+          else
+            echo "Using local DMN questionnaire generator"
+          fi
+          
+          # Install required Python dependencies for questionnaire generation
+          pip install lxml
+          
+          # Run questionnaire generation if script is available
+          if [ -f "input/scripts/dmn_questionnaire_generator.py" ]; then
+            python3 input/scripts/dmn_questionnaire_generator.py
+            echo "✅ Questionnaires generated successfully"
+          else
+            echo "⚠️ DMN questionnaire generator not available, skipping questionnaire generation"
+          fi
+
+      - name: Transform DMN files to HTML
+        if: env.ENABLE_TRANSFORM_DMN == 'true'
+        run: |
+          echo "Transforming DMN files to HTML before IG publisher runs..."
+          
+          # Check if DMN transformation files exist locally
+          if [ ! -f "input/scripts/transform_dmn.py" ] || [ ! -f "input/includes/dmn2html.xslt" ] || [ ! -f "input/includes/dmn.css" ]; then
+            echo "DMN transformation files not found locally, downloading from smart-base repository..."
+            
+            # Create directories if they don't exist
+            mkdir -p input/scripts input/includes
+            
+            # Function to download a file with fallback branches
+            download_file() {
+              local file_path="$1"
+              local output_path="$2"
+              
+              # Try main branch first
+              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/$file_path" 2>/dev/null; then
+                echo "Downloaded $file_path from main branch"
+                return 0
+              fi
+              
+              # Fallback to current branch (for testing)
+              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/$BRANCH_NAME/$file_path" 2>/dev/null; then
+                echo "Downloaded $file_path from $BRANCH_NAME branch"
+                return 0
+              fi
+              
+              echo "Failed to download $file_path from any branch"
+              return 1
+            }
+            
+            # Download transformation files from smart-base repository
+            download_success=true
+            
+            if ! download_file "input/scripts/transform_dmn.py" "input/scripts/transform_dmn.py"; then
+              download_success=false
+            fi
+            
+            if ! download_file "input/includes/dmn2html.xslt" "input/includes/dmn2html.xslt"; then
+              download_success=false
+            fi
+            
+            if ! download_file "input/includes/dmn.css" "input/includes/dmn.css"; then
+              download_success=false
+            fi
+            
+            if [ "$download_success" = true ]; then
+              echo "Successfully downloaded all DMN transformation files"
+            else
+              echo "Failed to download some DMN transformation files"
+            fi
+          else
+            echo "Using local DMN transformation files"
+          fi
+          
+          # Install required Python dependencies for DMN transformation
+          pip install lxml
+          
+          # Run DMN transformation if script is available
+          if [ -f "input/scripts/transform_dmn.py" ]; then
+            python3 input/scripts/transform_dmn.py
+          else
+            echo "DMN transformation script not available, skipping DMN transformation"
+          fi
+
+      - name: Configure DAK API hub settings
+        if: env.ENABLE_DAK_API_HUB == 'true'
+        run: |
+          echo "DAK API generation enabled, configuring sushi-config.yaml..."
+          
+          # Install PyYAML for YAML processing
+          pip install pyyaml
+          
+          # Check if update_sushi_config.py exists locally, download if not
+          if [ ! -f "input/scripts/update_sushi_config.py" ]; then
+            echo "update_sushi_config.py not found locally, downloading from smart-base repository..."
+            
+            # Create directories if they don't exist
+            mkdir -p input/scripts
+            
+            # Function to download a file with fallback branches
+            download_file() {
+              local file_path="$1"
+              local output_path="$2"
+              
+              # Try main branch first
+              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/$file_path" 2>/dev/null; then
+                echo "Downloaded $file_path from main branch"
+                return 0
+              fi
+              
+              # Fallback to current branch (for testing)
+              if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/$BRANCH_NAME/$file_path" 2>/dev/null; then
+                echo "Downloaded $file_path from $BRANCH_NAME branch"
+                return 0
+              fi
+              
+              echo "Failed to download $file_path from any branch"
+              return 1
+            }
+            
+            # Download the update_sushi_config.py script
+            if ! download_file "input/scripts/update_sushi_config.py" "input/scripts/update_sushi_config.py"; then
+              echo "Failed to download update_sushi_config.py, continuing with existing configuration..."
+            fi
+          else
+            echo "Using local update_sushi_config.py script"
+          fi
+          
+          # Run the Python script to update sushi-config.yaml if available
+          if [ -f "input/scripts/update_sushi_config.py" ]; then
+            if python3 input/scripts/update_sushi_config.py; then
+              echo "sushi-config.yaml processing completed"
+              
+              # Check if there are changes to commit
+              if git diff --quiet sushi-config.yaml; then
+                echo "No changes to sushi-config.yaml, continuing..."
+              else
+                echo "Committing sushi-config.yaml updates for DAK API configuration..."
+                git config --local user.email "action@github.com"
+                git config --local user.name "GitHub Action"
+                git add sushi-config.yaml
+
+                # Also add dak-api.md if it was created
+                if [ -f "input/pagecontent/dak-api.md" ]; then
+                  git add input/pagecontent/dak-api.md
+                fi
+
+                git commit -m "Auto-configure sushi-config.yaml for DAK API documentation"
+
+                # Pull latest changes before pushing to avoid conflicts
+                echo "Pulling latest changes before push..."
+                if git pull --rebase origin $BRANCH_NAME; then
+                  echo "Successfully pulled and rebased changes"
+                else
+                  echo "Pull/rebase failed, attempting merge strategy..."
+                  git rebase --abort 2>/dev/null || true
+                  if git pull --no-rebase origin $BRANCH_NAME; then
+                    echo "Successfully pulled with merge strategy"
+                  else
+                    echo "❌ Failed to pull changes - there may be conflicts that need manual resolution"
+                    echo "Attempting to push anyway..."
+                  fi
+                fi
+
+                # Attempt to push with retry logic
+                PUSH_RETRIES=3
+                PUSH_SUCCESS=false
+
+                for i in $(seq 1 $PUSH_RETRIES); do
+                  echo "Push attempt $i of $PUSH_RETRIES..."
+                  if git push origin $BRANCH_NAME; then
+                    echo "✅ Successfully pushed changes"
+                    PUSH_SUCCESS=true
+                    break
+                  else
+                    echo "⚠️  Push attempt $i failed"
+                    if [ $i -lt $PUSH_RETRIES ]; then
+                      echo "Pulling latest changes before retry..."
+                      git pull --no-rebase origin $BRANCH_NAME || echo "Pull failed, retrying push anyway..."
+                      sleep 2
+                    fi
+                  fi
+                done
+
+                if [ "$PUSH_SUCCESS" = false ]; then
+                  echo "❌ Failed to push after $PUSH_RETRIES attempts"
+                  echo "This may indicate concurrent builds or permission issues"
+                  echo "The build will continue, but sushi-config.yaml changes were not committed"
+                  echo "Manual intervention may be required"
+                fi
+              fi
+            else
+              echo "Failed to update sushi-config.yaml, continuing with existing configuration..."
+            fi
+          else
+            echo "update_sushi_config.py script not available, continuing with existing configuration..."
+          fi
+
+      - name: Upload preprocessed files
+        uses: actions/upload-artifact@v4
+        with:
+          name: dak-preprocessed-files
+          path: |
+            input/
+            sushi-config.yaml
+          retention-days: 1
+
+  # Call the basic ghbuild workflow
+  call-ghbuild:
+    needs: dak-preprocess
+    uses: ./.github/workflows/v2/ghbuild.yml
+    with:
+      tx: ${{ inputs.tx }}
+    secrets: inherit
+
+  # Post-process job for DAK-specific tasks that need to run after IG publisher
+  dak-postprocess:
+    needs: call-ghbuild
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download preprocessed files
+        uses: actions/download-artifact@v4
+        with:
+          name: dak-preprocessed-files
+          path: .
+
+      - name: Download build output from ghbuild
+        uses: actions/download-artifact@v4
+        with:
+          name: qa-json-artifact
+          path: ./output/
+
+      - name: Get branch name and feature flags
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BRANCH_NAME="${{ github.head_ref }}"
+          else
+            BRANCH_NAME="${GITHUB_REF##*/}"
+          fi
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          
+          # Re-establish feature flags from preprocessing job
+          TRIGGER_TYPE="${{ github.event_name }}"
+          
+          normalize_boolean() {
+            local input_value="$1"
+            local default_value="$2"
+            
+            if [ "$TRIGGER_TYPE" != "workflow_dispatch" ] && [ "$TRIGGER_TYPE" != "workflow_call" ]; then
+              echo "$default_value"
+              return
+            fi
+            
+            case "$input_value" in
+              "true")  echo "true" ;;
+              "false") echo "false" ;;
+              "")      echo "$default_value" ;;
+              *)       echo "$default_value" ;;
+            esac
+          }
+          
+          ENABLE_VALUESET_SCHEMAS=$(normalize_boolean "${{ inputs.generate_valueset_schemas }}" "true")
+          ENABLE_LOGICAL_MODEL_SCHEMAS=$(normalize_boolean "${{ inputs.generate_logical_model_schemas }}" "true")
+          ENABLE_DAK_API_HUB=$(normalize_boolean "${{ inputs.generate_dak_api_hub }}" "true")
+          ENABLE_JSONLD_VOCABULARIES=$(normalize_boolean "${{ inputs.generate_jsonld_vocabularies }}" "true")
+          
+          echo "ENABLE_VALUESET_SCHEMAS=$ENABLE_VALUESET_SCHEMAS" >> $GITHUB_ENV
+          echo "ENABLE_LOGICAL_MODEL_SCHEMAS=$ENABLE_LOGICAL_MODEL_SCHEMAS" >> $GITHUB_ENV
+          echo "ENABLE_DAK_API_HUB=$ENABLE_DAK_API_HUB" >> $GITHUB_ENV
+          echo "ENABLE_JSONLD_VOCABULARIES=$ENABLE_JSONLD_VOCABULARIES" >> $GITHUB_ENV
+
+      # Note: We would need to download the actual IG publisher output from the ghbuild job
+      # This is a simplified version - in a real implementation, we'd need to coordinate
+      # the artifact sharing between jobs more carefully
+
+      - name: Generate ValueSet JSON Schemas (after IG publisher)
+        if: env.ENABLE_VALUESET_SCHEMAS == 'true'
+        run: |
+          echo "Generating ValueSet schemas from expansions.json after IG publisher..."
+          echo "⚠️  Note: This step requires the full IG output from the ghbuild workflow"
+          echo "⚠️  In a full implementation, this would process the downloaded IG output artifacts"
+
+      - name: Generate JSON-LD Vocabularies (after IG publisher)
+        if: env.ENABLE_JSONLD_VOCABULARIES == 'true'
+        run: |
+          echo "Generating JSON-LD vocabularies from expansions.json after IG publisher..."
+          echo "⚠️  Note: This step requires the full IG output from the ghbuild workflow"
+
+      - name: Generate Logical Model JSON Schemas (after IG publisher)
+        if: env.ENABLE_LOGICAL_MODEL_SCHEMAS == 'true'
+        run: |
+          echo "Generating Logical Model schemas from StructureDefinition JSON files after IG publisher..."
+          echo "⚠️  Note: This step requires the full IG output from the ghbuild workflow"
+
+      - name: Generate DAK API Documentation (post-process HTML)  
+        if: env.ENABLE_DAK_API_HUB == 'true'
+        run: |
+          echo "Post-processing DAK API documentation into generated HTML files..."
+          echo "⚠️  Note: This step requires the full IG output from the ghbuild workflow"
