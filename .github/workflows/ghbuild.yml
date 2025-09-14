@@ -419,13 +419,6 @@ jobs:
             echo "DMN transformation script not available, skipping DMN transformation"
           fi
 
-
-      - name: Run the IG publisher
-        uses: docker://hl7fhir/ig-publisher-base:latest
-        with:
-          entrypoint: /bin/sh
-          args: -c "mkdir -p /var/lib/.fhir && chown $(id -u):$(id -g) /var/lib/.fhir"
-
       - name: Initialize schema generation tracking
         run: |
           echo "VALUESET_SCHEMAS_GENERATED=false" >> $GITHUB_ENV
@@ -547,6 +540,12 @@ jobs:
               echo "update_sushi_config.py script not available, continuing with existing configuration..."
             fi
           fi
+
+      - name: Run the IG publisher
+        uses: docker://hl7fhir/ig-publisher-base:latest
+        with:
+          entrypoint: /bin/sh
+          args: -c "mkdir -p /var/lib/.fhir && chown $(id -u):$(id -g) /var/lib/.fhir"
 
       - name: Run the IG publisher with optional tx
         run: |
