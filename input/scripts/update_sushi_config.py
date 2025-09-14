@@ -1,6 +1,8 @@
 import yaml
 import sys
 import os
+import json
+import glob
 
 def create_dak_api_md_if_needed():
     """Create dak-api.md file with proper content if it doesn't exist."""
@@ -50,6 +52,182 @@ This page provides access to Data Access Kit (DAK) API documentation and schemas
         print(f"Error creating dak-api.md: {e}")
         return False
 
+def scan_for_valuesets_and_create_placeholders():
+    """
+    Scan for ValueSet resources from fsh-generated and input/resources directories
+    and create placeholder markdown files for the IG publisher to process.
+    
+    This runs after sushi but before the IG publisher.
+    """
+    try:
+        valuesets = []
+        logical_models = []
+        
+        # Scan fsh-generated directory (created by sushi)
+        fsh_generated_dir = 'fsh-generated/resources'
+        if os.path.exists(fsh_generated_dir):
+            print(f"Scanning {fsh_generated_dir} for FHIR resources...")
+            fhir_files = glob.glob(os.path.join(fsh_generated_dir, '*.json'))
+            for fhir_file in fhir_files:
+                try:
+                    with open(fhir_file, 'r', encoding='utf-8') as f:
+                        resource = json.load(f)
+                    
+                    resource_type = resource.get('resourceType', '')
+                    resource_id = resource.get('id', '')
+                    
+                    if resource_type == 'ValueSet' and resource_id:
+                        valuesets.append({
+                            'id': resource_id,
+                            'name': resource.get('name', resource_id),
+                            'title': resource.get('title', resource_id),
+                            'source_file': fhir_file
+                        })
+                        print(f"  Found ValueSet: {resource_id}")
+                    elif resource_type == 'StructureDefinition' and resource_id:
+                        kind = resource.get('kind', '')
+                        if kind == 'logical':
+                            logical_models.append({
+                                'id': resource_id,
+                                'name': resource.get('name', resource_id),
+                                'title': resource.get('title', resource_id),
+                                'source_file': fhir_file
+                            })
+                            print(f"  Found Logical Model: {resource_id}")
+                            
+                except Exception as e:
+                    print(f"  Warning: Error reading {fhir_file}: {e}")
+        
+        # Scan input/resources directory (static FHIR resources)
+        input_resources_dir = 'input/resources'
+        if os.path.exists(input_resources_dir):
+            print(f"Scanning {input_resources_dir} for FHIR resources...")
+            fhir_files = glob.glob(os.path.join(input_resources_dir, '*.json'))
+            for fhir_file in fhir_files:
+                try:
+                    with open(fhir_file, 'r', encoding='utf-8') as f:
+                        resource = json.load(f)
+                    
+                    resource_type = resource.get('resourceType', '')
+                    resource_id = resource.get('id', '')
+                    
+                    if resource_type == 'ValueSet' and resource_id:
+                        # Check if already found in fsh-generated
+                        if not any(vs['id'] == resource_id for vs in valuesets):
+                            valuesets.append({
+                                'id': resource_id,
+                                'name': resource.get('name', resource_id),
+                                'title': resource.get('title', resource_id),
+                                'source_file': fhir_file
+                            })
+                            print(f"  Found ValueSet: {resource_id}")
+                    elif resource_type == 'StructureDefinition' and resource_id:
+                        kind = resource.get('kind', '')
+                        if kind == 'logical':
+                            # Check if already found in fsh-generated
+                            if not any(lm['id'] == resource_id for lm in logical_models):
+                                logical_models.append({
+                                    'id': resource_id,
+                                    'name': resource.get('name', resource_id),
+                                    'title': resource.get('title', resource_id),
+                                    'source_file': fhir_file
+                                })
+                                print(f"  Found Logical Model: {resource_id}")
+                            
+                except Exception as e:
+                    print(f"  Warning: Error reading {fhir_file}: {e}")
+        
+        # Create placeholder markdown files for all found resources
+        pagecontent_dir = 'input/pagecontent'
+        os.makedirs(pagecontent_dir, exist_ok=True)
+        
+        created_files = []
+        
+        # Create placeholder files for ValueSets
+        for valueset in valuesets:
+            md_filename = f"ValueSet-{valueset['id']}.md"
+            md_path = os.path.join(pagecontent_dir, md_filename)
+            
+            # Only create if doesn't exist or is empty placeholder
+            should_create = True
+            if os.path.exists(md_path):
+                try:
+                    with open(md_path, 'r', encoding='utf-8') as f:
+                        existing_content = f.read().strip()
+                    # Only recreate if it's empty or contains our placeholder marker
+                    if existing_content and '<!-- DAK_API_PLACEHOLDER -->' not in existing_content:
+                        should_create = False
+                        print(f"  Skipping {md_filename} - already exists with content")
+                except Exception:
+                    pass
+            
+            if should_create:
+                placeholder_content = f"""# {valueset['title']}
+
+<!-- DAK_API_PLACEHOLDER: ValueSet-{valueset['id']} -->
+
+{valueset.get('description', 'ValueSet documentation will be generated during post-processing.')}
+
+---
+
+*This content will be automatically updated during the DAK API documentation generation process.*
+"""
+                try:
+                    with open(md_path, 'w', encoding='utf-8') as f:
+                        f.write(placeholder_content)
+                    created_files.append(md_filename)
+                    print(f"  Created placeholder: {md_filename}")
+                except Exception as e:
+                    print(f"  Error creating {md_filename}: {e}")
+        
+        # Create placeholder files for Logical Models
+        for logical_model in logical_models:
+            md_filename = f"StructureDefinition-{logical_model['id']}.md"
+            md_path = os.path.join(pagecontent_dir, md_filename)
+            
+            # Only create if doesn't exist or is empty placeholder
+            should_create = True
+            if os.path.exists(md_path):
+                try:
+                    with open(md_path, 'r', encoding='utf-8') as f:
+                        existing_content = f.read().strip()
+                    # Only recreate if it's empty or contains our placeholder marker
+                    if existing_content and '<!-- DAK_API_PLACEHOLDER -->' not in existing_content:
+                        should_create = False
+                        print(f"  Skipping {md_filename} - already exists with content")
+                except Exception:
+                    pass
+            
+            if should_create:
+                placeholder_content = f"""# {logical_model['title']}
+
+<!-- DAK_API_PLACEHOLDER: StructureDefinition-{logical_model['id']} -->
+
+{logical_model.get('description', 'Logical Model documentation will be generated during post-processing.')}
+
+---
+
+*This content will be automatically updated during the DAK API documentation generation process.*
+"""
+                try:
+                    with open(md_path, 'w', encoding='utf-8') as f:
+                        f.write(placeholder_content)
+                    created_files.append(md_filename)
+                    print(f"  Created placeholder: {md_filename}")
+                except Exception as e:
+                    print(f"  Error creating {md_filename}: {e}")
+        
+        print(f"Placeholder generation completed:")
+        print(f"  Found {len(valuesets)} ValueSets")
+        print(f"  Found {len(logical_models)} Logical Models")
+        print(f"  Created {len(created_files)} placeholder files")
+        
+        return len(created_files) > 0
+        
+    except Exception as e:
+        print(f"Error during valueset scanning and placeholder creation: {e}")
+        return False
+
 def update_sushi_config():
     config_updated = False
     
@@ -93,6 +271,10 @@ def update_sushi_config():
         # Create dak-api.md if needed before processing sushi config
         if not create_dak_api_md_if_needed():
             print("Failed to create dak-api.md, but continuing with sushi-config processing...")
+        
+        # Scan for valuesets and logical models, create placeholder markdown files
+        # This ensures the IG publisher will process these files into HTML
+        scan_for_valuesets_and_create_placeholders()
         
         # Ensure pages section exists
         if 'pages' not in config:
