@@ -1087,11 +1087,16 @@ def main():
     qa_report = qa_reporter.finalize_report(qa_status)
     
     # Save QA report as a component report that can be merged by the main script
-    qa_output_path = "/tmp/qa_valueset_schemas.json"
-    if qa_reporter.save_to_file(qa_output_path):
-        logger.info(f"ValueSet schema generation QA report saved to {qa_output_path}")
+    # Save to protected location to avoid IG publisher overwriting
+    protected_qa_path = "input/temp/qa_valueset_schemas.json"
+    if qa_reporter.save_to_file(protected_qa_path):
+        logger.info(f"ValueSet schema generation QA report saved to {protected_qa_path}")
     else:
-        logger.warning("Failed to save ValueSet schema generation QA report")
+        logger.warning("Failed to save ValueSet schema generation QA report to protected location")
+    
+    # Also save to /tmp for backward compatibility
+    temp_qa_path = "/tmp/qa_valueset_schemas.json"
+    qa_reporter.save_to_file(temp_qa_path)
     
     # Log QA summary
     logger.info("=== VALUESET SCHEMA GENERATION QA SUMMARY ===")

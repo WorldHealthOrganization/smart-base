@@ -40,7 +40,7 @@ def setup_logging() -> logging.Logger:
 
 
 class QAReporter:
-    """Handles QA reporting for post-processing steps."""
+    """Handles QA reporting for post-processing steps and merging with FHIR IG publisher QA."""
     
     def __init__(self, phase: str = "postprocessing"):
         self.phase = phase
@@ -59,6 +59,23 @@ class QAReporter:
                 "files_missing": []
             }
         }
+        # Store existing IG publisher QA data if present
+        self.ig_publisher_qa = None
+    
+    def load_existing_ig_qa(self, qa_file_path: str):
+        """Load existing FHIR IG publisher QA file to preserve its structure."""
+        try:
+            if os.path.exists(qa_file_path):
+                with open(qa_file_path, 'r', encoding='utf-8') as f:
+                    self.ig_publisher_qa = json.load(f)
+                print(f"Loaded existing IG publisher QA file: {qa_file_path}")
+                return True
+            else:
+                print(f"No existing IG publisher QA file found at: {qa_file_path}")
+                return False
+        except Exception as e:
+            print(f"Error loading existing IG publisher QA file: {e}")
+            return False
     
     def add_success(self, message: str, details: Optional[Dict] = None):
         """Add a success entry to the QA report."""
@@ -99,7 +116,7 @@ class QAReporter:
             self.report["details"]["files_missing"].append(file_path)
     
     def finalize_report(self, status: str = "completed"):
-        """Finalize the QA report with summary statistics."""
+        """Finalize the QA report with summary statistics and merge with IG publisher QA if available."""
         self.report["status"] = status
         self.report["summary"] = {
             "total_successes": len(self.report["details"]["successes"]),
@@ -110,7 +127,48 @@ class QAReporter:
             "files_missing_count": len(self.report["details"]["files_missing"]),
             "completion_timestamp": datetime.now().isoformat()
         }
+        
+        # If we have IG publisher QA data, merge it with our report
+        if self.ig_publisher_qa:
+            return self.merge_with_ig_publisher_qa()
+        
         return self.report
+    
+    def merge_with_ig_publisher_qa(self):
+        """Merge our QA report with the existing FHIR IG publisher QA structure."""
+        try:
+            # Create a merged report that preserves the IG publisher structure
+            merged_report = dict(self.ig_publisher_qa)
+            
+            # Add our component reports as a new section
+            if "dak_api_processing" not in merged_report:
+                merged_report["dak_api_processing"] = {}
+            
+            # Include any stored preprocessing reports
+            preprocessing_reports = {}
+            if hasattr(self, '_stored_preprocessing_reports'):
+                for i, report in enumerate(self._stored_preprocessing_reports):
+                    component_name = report.get("component", report.get("phase", f"component_{i}"))
+                    preprocessing_reports[component_name] = report
+            
+            # Add our preprocessing and postprocessing reports
+            merged_report["dak_api_processing"] = {
+                "preprocessing_reports": preprocessing_reports,
+                "postprocessing": self.report,
+                "summary": {
+                    "total_dak_api_successes": self.report["summary"]["total_successes"],
+                    "total_dak_api_warnings": self.report["summary"]["total_warnings"], 
+                    "total_dak_api_errors": self.report["summary"]["total_errors"],
+                    "dak_api_completion_timestamp": self.report["summary"]["completion_timestamp"]
+                }
+            }
+            
+            return merged_report
+            
+        except Exception as e:
+            print(f"Error merging with IG publisher QA: {e}")
+            # Fall back to our report only
+            return self.report
     
     def merge_preprocessing_report(self, preprocessing_report: Dict):
         """Merge a preprocessing report into this post-processing report."""
@@ -135,6 +193,15 @@ class QAReporter:
                 schema_with_component = dict(schema)
                 schema_with_component["component"] = component_name
                 self.add_success(f"[{component_name}] Generated schema", schema_with_component)
+        
+        # Store preprocessing report in the final merged structure
+        if self.ig_publisher_qa and "dak_api_processing" in self.ig_publisher_qa:
+            self.ig_publisher_qa["dak_api_processing"]["preprocessing"] = preprocessing_report
+        else:
+            # Store for later merging
+            if not hasattr(self, '_stored_preprocessing_reports'):
+                self._stored_preprocessing_reports = []
+            self._stored_preprocessing_reports.append(preprocessing_report)
     
     def save_to_file(self, output_path: str):
         """Save QA report to a JSON file."""
@@ -1950,43 +2017,66 @@ def main():
     qa_reporter = QAReporter("postprocessing")
     qa_reporter.add_success("Starting generate_dak_api_hub.py post-processing")
     
-    # Check for and merge preprocessing QA report
-    temp_qa_path = "/tmp/qa_preprocessing.json"
-    if os.path.exists(temp_qa_path):
+    # Load existing FHIR IG publisher QA file if it exists
+    qa_output_path = os.path.join(output_dir, "qa.json")
+    if qa_reporter.load_existing_ig_qa(qa_output_path):
+        qa_reporter.add_success("Loaded existing FHIR IG publisher QA file for merging")
+    else:
+        qa_reporter.add_warning("No existing FHIR IG publisher QA file found - will create new one")
+    
+    # Check for and merge preprocessing QA report from protected location first
+    preprocessing_qa_path = "input/temp/qa_preprocessing.json"
+    if os.path.exists(preprocessing_qa_path):
         try:
-            with open(temp_qa_path, 'r', encoding='utf-8') as f:
+            with open(preprocessing_qa_path, 'r', encoding='utf-8') as f:
                 preprocessing_report = json.load(f)
             qa_reporter.merge_preprocessing_report(preprocessing_report)
-            qa_reporter.add_success("Merged preprocessing QA report")
-            logger.info("Successfully merged preprocessing QA report")
+            qa_reporter.add_success("Merged preprocessing QA report from input/temp/")
+            logger.info("Successfully merged preprocessing QA report from input/temp/")
         except Exception as e:
-            qa_reporter.add_warning(f"Failed to merge preprocessing QA report: {e}")
-            logger.warning(f"Failed to merge preprocessing QA report: {e}")
+            qa_reporter.add_warning(f"Failed to merge preprocessing QA report from input/temp/: {e}")
+            logger.warning(f"Failed to merge preprocessing QA report from input/temp/: {e}")
     else:
-        qa_reporter.add_warning("No preprocessing QA report found")
-        logger.warning("No preprocessing QA report found")
+        # Fallback to /tmp location
+        temp_qa_path = "/tmp/qa_preprocessing.json"
+        if os.path.exists(temp_qa_path):
+            try:
+                with open(temp_qa_path, 'r', encoding='utf-8') as f:
+                    preprocessing_report = json.load(f)
+                qa_reporter.merge_preprocessing_report(preprocessing_report)
+                qa_reporter.add_success("Merged preprocessing QA report from /tmp/")
+                logger.info("Successfully merged preprocessing QA report from /tmp/")
+            except Exception as e:
+                qa_reporter.add_warning(f"Failed to merge preprocessing QA report from /tmp/: {e}")
+                logger.warning(f"Failed to merge preprocessing QA report from /tmp/: {e}")
+        else:
+            qa_reporter.add_warning("No preprocessing QA report found in either input/temp/ or /tmp/")
+            logger.warning("No preprocessing QA report found in either input/temp/ or /tmp/")
     
-    # Check for and merge component QA reports
+    # Check for and merge component QA reports from both locations
     component_qa_files = [
-        ("/tmp/qa_valueset_schemas.json", "ValueSet schema generation"),
-        ("/tmp/qa_logical_model_schemas.json", "Logical Model schema generation"), 
-        ("/tmp/qa_jsonld_vocabularies.json", "JSON-LD vocabulary generation")
+        ("input/temp/qa_valueset_schemas.json", "/tmp/qa_valueset_schemas.json", "ValueSet schema generation"),
+        ("input/temp/qa_logical_model_schemas.json", "/tmp/qa_logical_model_schemas.json", "Logical Model schema generation"), 
+        ("input/temp/qa_jsonld_vocabularies.json", "/tmp/qa_jsonld_vocabularies.json", "JSON-LD vocabulary generation")
     ]
     
-    for qa_file_path, component_name in component_qa_files:
+    for protected_path, temp_path, component_name in component_qa_files:
+        # Try protected location first
+        qa_file_path = protected_path if os.path.exists(protected_path) else temp_path
+        
         if os.path.exists(qa_file_path):
             try:
                 with open(qa_file_path, 'r', encoding='utf-8') as f:
                     component_report = json.load(f)
                 qa_reporter.merge_preprocessing_report(component_report)
-                qa_reporter.add_success(f"Merged {component_name} QA report")
-                logger.info(f"Successfully merged {component_name} QA report")
+                qa_reporter.add_success(f"Merged {component_name} QA report from {qa_file_path}")
+                logger.info(f"Successfully merged {component_name} QA report from {qa_file_path}")
             except Exception as e:
                 qa_reporter.add_warning(f"Failed to merge {component_name} QA report: {e}")
                 logger.warning(f"Failed to merge {component_name} QA report: {e}")
         else:
             qa_reporter.add_warning(f"No {component_name} QA report found")
-            logger.info(f"No {component_name} QA report found at {qa_file_path}")
+            logger.info(f"No {component_name} QA report found at {protected_path} or {temp_path}")
     
     # Parse command line arguments
     if len(sys.argv) == 1:
@@ -2543,13 +2633,27 @@ def main():
     qa_status = "completed" if success else "completed_with_errors"
     qa_report = qa_reporter.finalize_report(qa_status)
     
-    # Save QA report to output directory
+    # Save final merged QA report to output directory
+    # This will either merge with existing IG publisher QA or create a new comprehensive report
     qa_output_path = os.path.join(output_dir, "qa.json")
     if qa_reporter.save_to_file(qa_output_path):
-        logger.info(f"QA report saved to {qa_output_path}")
-        qa_reporter.add_success(f"QA report saved to {qa_output_path}")
+        logger.info(f"Final merged QA report saved to {qa_output_path}")
+        qa_reporter.add_success(f"Final merged QA report saved to {qa_output_path}")
+        
+        # Log details about the merged report structure
+        if qa_reporter.ig_publisher_qa:
+            logger.info("QA report successfully merged with existing FHIR IG publisher QA file")
+        else:
+            logger.info("QA report created as new comprehensive DAK API QA file")
     else:
         logger.warning(f"Failed to save QA report to {qa_output_path}")
+        
+        # Try to save to backup location if main save fails
+        backup_qa_path = os.path.join(output_dir, "dak-api-qa.json")
+        if qa_reporter.save_to_file(backup_qa_path):
+            logger.info(f"QA report saved to backup location: {backup_qa_path}")
+        else:
+            logger.error("Failed to save QA report to any location")
     
     # Log final QA summary
     logger.info("=== QA REPORT SUMMARY ===")

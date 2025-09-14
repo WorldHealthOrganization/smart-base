@@ -514,13 +514,17 @@ if __name__ == "__main__":
         # Finalize the QA report
         qa_report = qa_reporter.finalize_report("completed")
         
-        # Save the preprocessing QA report to a temporary location
-        # This will be picked up by the post-processing script and merged into qa.json
-        temp_qa_path = "/tmp/qa_preprocessing.json"
-        if qa_reporter.save_to_file(temp_qa_path):
-            print(f"QA report saved to {temp_qa_path}")
+        # Save the preprocessing QA report to a location that won't be overwritten by IG publisher
+        # Using a different filename and location to avoid conflicts
+        preprocessing_qa_path = "input/temp/qa_preprocessing.json"
+        if qa_reporter.save_to_file(preprocessing_qa_path):
+            print(f"QA report saved to {preprocessing_qa_path}")
         else:
             print("Failed to save QA report")
+            
+        # Also save to the /tmp location for backward compatibility
+        temp_qa_path = "/tmp/qa_preprocessing.json"
+        qa_reporter.save_to_file(temp_qa_path)
         
         # Return exit code based on whether there were any errors
         # Note: We don't fail on warnings, only on errors
@@ -531,7 +535,9 @@ if __name__ == "__main__":
         qa_reporter.add_error(f"Unexpected error in main: {e}")
         qa_report = qa_reporter.finalize_report("failed")
         
-        # Try to save the error report
+        # Try to save the error report to both locations
+        preprocessing_qa_path = "input/temp/qa_preprocessing.json"
+        qa_reporter.save_to_file(preprocessing_qa_path)
         temp_qa_path = "/tmp/qa_preprocessing.json"
         qa_reporter.save_to_file(temp_qa_path)
         
