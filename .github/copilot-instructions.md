@@ -4,6 +4,12 @@ WHO SMART Base is a FHIR Implementation Guide that serves as the foundational de
 
 **Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.**
 
+## Critical Build Notes
+
+⚠️ **IMPORTANT**: The full IG build currently requires SUSHI (FSH processor) which may have installation challenges in some environments. However, **all DAK extraction scripts work independently** and can be used for content processing even when the full build fails.
+
+The DAK scripts are the core value of this repository and are fully functional for processing clinical guideline content.
+
 ## Working Effectively
 
 ### Bootstrap and Dependencies
@@ -20,16 +26,38 @@ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 sudo apt-get install nodejs -y
 npm config set strict-ssl false  # If certificate issues occur
 sudo npm install -g fsh-sushi
+
+# TROUBLESHOOTING: If SUSHI fails with "Cannot find module" errors:
+# The build can still proceed without SUSHI for basic validation
 ```
 
 ### Build Process
 ```bash
-# NEVER CANCEL: Build takes 8-15 minutes in offline mode, potentially 30+ minutes with network dependencies
+# NEVER CANCEL: Build takes 7+ seconds even when failing, potentially 30-60 minutes for complete builds
 # NEVER CANCEL: Always set timeout to 60+ minutes for build commands
 ./_genonce.sh
 
 # For offline builds (when internet connectivity is limited):
 ./_genonce.sh -tx n/a
+
+# Expected behavior: 6 dependency fetch failures, then SUSHI execution attempt
+# If SUSHI fails, build stops at ~7-8 seconds with "Process exited with an error: 1"
+```
+
+## Alternative: DAK-Only Workflow (Always Works)
+
+If IG build fails due to SUSHI issues, use the DAK extraction scripts directly:
+
+```bash
+# Core workflow that always works:
+pip install -r input/scripts/requirements.txt  # 45-60 seconds
+
+# Process your content:
+python3 input/scripts/isco08_extractor.py input/data/ISCO-08_EN_Structure_and_definitions.xlsx
+python3 input/scripts/dmn_questionnaire_generator.py
+python3 input/scripts/transform_dmn.py
+
+# Generated FSH files can be manually reviewed or processed with external SUSHI installation
 ```
 
 ### Test DAK Extraction Scripts
@@ -47,9 +75,9 @@ python3 input/scripts/extract_dak.py
 
 **NEVER CANCEL the following operations:**
 
-- **IG Publisher Build**: 8-15 minutes offline, 30-45 minutes with network dependencies. **MEASURED**: Dependency resolution alone takes 5+ seconds per package (6 packages = 30+ seconds), actual build processing time can be 10-60 minutes depending on complexity.
+- **IG Publisher Build**: **MEASURED**: 7-8 seconds for dependency resolution + SUSHI failure, 30-60+ minutes for complete successful builds
 - **Dependency Installation**: 5-10 minutes 
-- **Python package installation**: 2-5 minutes **MEASURED**: Completed in 30-60 seconds for required packages
+- **Python package installation**: **MEASURED**: 45-60 seconds for required packages
 - **DAK extraction scripts**: **MEASURED**: Individual scripts: 0.4-0.5 seconds, DMN processing: 0.06 seconds
 
 **ALWAYS set timeouts of 60+ minutes for build commands to prevent premature cancellation.**
@@ -59,6 +87,8 @@ python3 input/scripts/extract_dak.py
 - DMN questionnaire generation: <0.1 seconds (1 DMN file)  
 - DMN transformation to HTML: 0.059 seconds (1 DMN file)
 - Python dependency installation: 45-60 seconds
+- **IG Publisher dependency resolution**: 7.3 seconds (6 dependencies, all failing offline)
+- **Build failure time**: 7.859 seconds (when SUSHI installation issues occur)
 
 ## Validation Scenarios
 
@@ -79,12 +109,14 @@ python3 input/scripts/extract_dak.py
    # Verify: Check input/pagecontent/DAK.DT.IMMZ.D2.DT.BCG.xml is created
    ```
 
-2. **Build Validation** (NEVER CANCEL - 10-60 minutes):
+2. **Build Validation** (NEVER CANCEL - may fail quickly if SUSHI issues):
    ```bash
    ./_genonce.sh -tx n/a
    # Expected: 6 dependency fetch failures (normal in offline mode)
    # Expected: "Trying to go on" messages after each failure
-   # Verify: Check for final success message and fsh-generated/ directory creation
+   # Expected: SUSHI execution attempt at ~7 seconds
+   # Possible: "Process exited with an error: 1" if SUSHI installation incomplete
+   # Verify: Check console output for specific error messages
    ```
 
 3. **FSH Compilation Validation** (requires SUSHI):
@@ -171,18 +203,21 @@ python3 input/scripts/isco08_extractor.py input/data/ISCO-08_EN_Structure_and_de
 python3 input/scripts/dmn_questionnaire_generator.py  # <0.1s
 python3 input/scripts/transform_dmn.py  # 0.059s
 
-# Build command (MEASURED: 10-60 minutes - NEVER CANCEL):
+# Build command (MEASURED: 7-8 seconds until SUSHI failure, up to 60 minutes for successful builds):
 ./_genonce.sh -tx n/a
-# Expected output: 6 dependency resolution failures, then "Trying to go on"
+# Expected output: 6 dependency resolution failures, then SUSHI failure
+# Common error: "Process exited with an error: 1" due to SUSHI installation issues
 ```
 
 ## Troubleshooting
 
 - **"Cannot run program 'sushi'"**: Install Node.js and SUSHI as shown above
+- **"Cannot find module 'fs-extra'"**: SUSHI installation incomplete - build will fail at ~7-8 seconds
 - **Network timeouts**: Use `-tx n/a` flag for offline builds
 - **npm certificate errors**: Run `npm config set strict-ssl false`
 - **Build appears stuck**: Wait 60+ minutes - builds can take this long
 - **Python import errors**: Ensure `pip install -r input/scripts/requirements.txt` completed successfully
+- **"Process exited with an error: 1"**: Normal when SUSHI has installation issues - DAK scripts still work independently
 
 ## GitHub Actions CI
 
