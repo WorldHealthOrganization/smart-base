@@ -116,17 +116,25 @@ class QAReporter:
         """Merge a preprocessing report into this post-processing report."""
         if "details" in preprocessing_report:
             # Add preprocessing entries with a prefix
+            component_name = preprocessing_report.get("component", preprocessing_report.get("phase", "Unknown"))
+            
             for success in preprocessing_report["details"].get("successes", []):
-                self.add_success(f"[Preprocessing] {success['message']}", success.get("details"))
+                self.add_success(f"[{component_name}] {success['message']}", success.get("details"))
             
             for warning in preprocessing_report["details"].get("warnings", []):
-                self.add_warning(f"[Preprocessing] {warning['message']}", warning.get("details"))
+                self.add_warning(f"[{component_name}] {warning['message']}", warning.get("details"))
             
             for error in preprocessing_report["details"].get("errors", []):
-                self.add_error(f"[Preprocessing] {error['message']}", error.get("details"))
+                self.add_error(f"[{component_name}] {error['message']}", error.get("details"))
             
             for file_proc in preprocessing_report["details"].get("files_processed", []):
-                self.add_file_processed(f"[Preprocessing] {file_proc['file']}", file_proc.get("status", "unknown"), file_proc.get("details"))
+                self.add_file_processed(f"[{component_name}] {file_proc['file']}", file_proc.get("status", "unknown"), file_proc.get("details"))
+            
+            # Merge schemas_generated if available (for component reports)
+            for schema in preprocessing_report["details"].get("schemas_generated", []):
+                schema_with_component = dict(schema)
+                schema_with_component["component"] = component_name
+                self.add_success(f"[{component_name}] Generated schema", schema_with_component)
     
     def save_to_file(self, output_path: str):
         """Save QA report to a JSON file."""
@@ -1957,6 +1965,28 @@ def main():
     else:
         qa_reporter.add_warning("No preprocessing QA report found")
         logger.warning("No preprocessing QA report found")
+    
+    # Check for and merge component QA reports
+    component_qa_files = [
+        ("/tmp/qa_valueset_schemas.json", "ValueSet schema generation"),
+        ("/tmp/qa_logical_model_schemas.json", "Logical Model schema generation"), 
+        ("/tmp/qa_jsonld_vocabularies.json", "JSON-LD vocabulary generation")
+    ]
+    
+    for qa_file_path, component_name in component_qa_files:
+        if os.path.exists(qa_file_path):
+            try:
+                with open(qa_file_path, 'r', encoding='utf-8') as f:
+                    component_report = json.load(f)
+                qa_reporter.merge_preprocessing_report(component_report)
+                qa_reporter.add_success(f"Merged {component_name} QA report")
+                logger.info(f"Successfully merged {component_name} QA report")
+            except Exception as e:
+                qa_reporter.add_warning(f"Failed to merge {component_name} QA report: {e}")
+                logger.warning(f"Failed to merge {component_name} QA report: {e}")
+        else:
+            qa_reporter.add_warning(f"No {component_name} QA report found")
+            logger.info(f"No {component_name} QA report found at {qa_file_path}")
     
     # Parse command line arguments
     if len(sys.argv) == 1:
