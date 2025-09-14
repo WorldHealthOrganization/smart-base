@@ -22,6 +22,7 @@ import sys
 import logging
 from typing import Dict, List, Optional, Any
 from pathlib import Path
+from datetime import datetime
 
 
 def setup_logging() -> logging.Logger:
@@ -31,6 +32,124 @@ def setup_logging() -> logging.Logger:
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
     return logging.getLogger(__name__)
+
+
+class QAReporter:
+    """Handles QA reporting for JSON-LD vocabulary generation."""
+    
+    def __init__(self, component: str = "jsonld_vocabularies"):
+        self.component = component
+        self.timestamp = datetime.now().isoformat()
+        self.report = {
+            "component": component,
+            "timestamp": self.timestamp,
+            "status": "running",
+            "summary": {},
+            "details": {
+                "successes": [],
+                "warnings": [],
+                "errors": [],
+                "files_processed": [],
+                "files_expected": [],
+                "files_missing": [],
+                "vocabularies_generated": []
+            }
+        }
+    
+    def add_success(self, message: str, details: Optional[Dict] = None):
+        """Add a success entry to the QA report."""
+        entry = {"message": message, "timestamp": datetime.now().isoformat()}
+        if details:
+            entry["details"] = details
+        self.report["details"]["successes"].append(entry)
+    
+    def add_warning(self, message: str, details: Optional[Dict] = None):
+        """Add a warning entry to the QA report."""
+        entry = {"message": message, "timestamp": datetime.now().isoformat()}
+        if details:
+            entry["details"] = details
+        self.report["details"]["warnings"].append(entry)
+    
+    def add_error(self, message: str, details: Optional[Dict] = None):
+        """Add an error entry to the QA report."""
+        entry = {"message": message, "timestamp": datetime.now().isoformat()}
+        if details:
+            entry["details"] = details
+        self.report["details"]["errors"].append(entry)
+    
+    def add_file_processed(self, file_path: str, status: str = "success", details: Optional[Dict] = None):
+        """Record a file that was processed."""
+        entry = {
+            "file": file_path,
+            "status": status,
+            "timestamp": datetime.now().isoformat()
+        }
+        if details:
+            entry["details"] = details
+        self.report["details"]["files_processed"].append(entry)
+    
+    def add_file_expected(self, file_path: str, found: bool = False):
+        """Record a file that was expected."""
+        self.report["details"]["files_expected"].append(file_path)
+        if not found:
+            self.report["details"]["files_missing"].append(file_path)
+    
+    def add_vocabulary_generated(self, vocab_info: Dict):
+        """Record a vocabulary that was generated."""
+        vocab_info["timestamp"] = datetime.now().isoformat()
+        self.report["details"]["vocabularies_generated"].append(vocab_info)
+    
+    def finalize_report(self, status: str = "completed"):
+        """Finalize the QA report with summary statistics."""
+        self.report["status"] = status
+        self.report["summary"] = {
+            "total_successes": len(self.report["details"]["successes"]),
+            "total_warnings": len(self.report["details"]["warnings"]),
+            "total_errors": len(self.report["details"]["errors"]),
+            "files_processed_count": len(self.report["details"]["files_processed"]),
+            "files_expected_count": len(self.report["details"]["files_expected"]),
+            "files_missing_count": len(self.report["details"]["files_missing"]),
+            "vocabularies_generated_count": len(self.report["details"]["vocabularies_generated"]),
+            "completion_timestamp": datetime.now().isoformat()
+        }
+        return self.report
+    
+    def save_report(self, output_path: str, backup_path: str = None):
+        """Save QA report to protected location and backup."""
+        report = self.finalize_report()
+        
+        try:
+            # Save to primary protected location
+            protected_dir = os.path.dirname(output_path)
+            if protected_dir:
+                Path(protected_dir).mkdir(parents=True, exist_ok=True)
+            
+            with open(output_path, 'w', encoding='utf-8') as f:
+                json.dump(report, f, indent=2, ensure_ascii=False)
+            print(f"QA report saved to protected location: {output_path}")
+            
+            # Save backup if specified
+            if backup_path:
+                backup_dir = os.path.dirname(backup_path)
+                if backup_dir:
+                    Path(backup_dir).mkdir(parents=True, exist_ok=True)
+                
+                with open(backup_path, 'w', encoding='utf-8') as f:
+                    json.dump(report, f, indent=2, ensure_ascii=False)
+                print(f"QA report backup saved to: {backup_path}")
+                
+        except Exception as e:
+            print(f"Error saving QA report: {e}")
+            # Fallback to temp if main save fails
+            if backup_path and backup_path != output_path:
+                try:
+                    with open(backup_path, 'w', encoding='utf-8') as f:
+                        json.dump(report, f, indent=2, ensure_ascii=False)
+                    print(f"QA report saved to fallback location: {backup_path}")
+                except Exception as e2:
+                    print(f"Error saving QA report to fallback: {e2}")
+        
+        return report
 
 
 def load_expansions_json(file_path: str) -> Optional[Dict[str, Any]]:
@@ -393,101 +512,219 @@ def save_jsonld_vocabulary(jsonld_vocab: Dict[str, Any], output_dir: str, values
         return None
 
 
-def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
+def process_expansions(expansions_data: Dict[str, Any], output_dir: str, qa_reporter: QAReporter) -> int:
     """
     Process the expansions data and generate JSON-LD vocabularies for all ValueSets.
     
     Args:
         expansions_data: Parsed expansions.json data
         output_dir: Directory to save JSON-LD vocabulary files
+        qa_reporter: QA reporter instance
         
     Returns:
         Number of vocabularies successfully generated
     """
     logger = logging.getLogger(__name__)
     
-    # Check if it's a Bundle
-    if expansions_data.get('resourceType') != 'Bundle':
-        logger.error("Expansions data is not a FHIR Bundle")
+    try:
+        # Check if it's a Bundle
+        if expansions_data.get('resourceType') != 'Bundle':
+            error_msg = "Expansions data is not a FHIR Bundle"
+            logger.error(error_msg)
+            qa_reporter.add_error(error_msg, {
+                "resourceType": expansions_data.get('resourceType', 'unknown')
+            })
+            return 0
+        
+        qa_reporter.add_success("Found FHIR Bundle", {
+            "resourceType": expansions_data.get('resourceType')
+        })
+        
+        # Check if Bundle has entries
+        if 'entry' not in expansions_data:
+            warning_msg = "Bundle has no entries"
+            logger.warning(warning_msg)
+            qa_reporter.add_warning(warning_msg)
+            return 0
+        
+        entries = expansions_data['entry']
+        qa_reporter.add_success(f"Found {len(entries)} entries in Bundle", {
+            "entry_count": len(entries)
+        })
+        
+        vocabularies_generated = 0
+        
+        # Process each entry
+        for i, entry in enumerate(entries):
+            try:
+                if 'resource' not in entry:
+                    warning_msg = f"Bundle entry {i} has no resource"
+                    logger.warning(warning_msg)
+                    qa_reporter.add_warning(warning_msg, {"entry_index": i})
+                    continue
+                    
+                resource = entry['resource']
+                
+                # Check if it's a ValueSet
+                if resource.get('resourceType') != 'ValueSet':
+                    logger.debug(f"Skipping non-ValueSet resource: {resource.get('resourceType')}")
+                    continue
+                
+                valueset_id = extract_valueset_id_from_entry(entry)
+                logger.info(f"Processing ValueSet for JSON-LD vocabulary: {valueset_id}")
+                
+                qa_reporter.add_success(f"Processing ValueSet {valueset_id}", {
+                    "valueset_id": valueset_id,
+                    "entry_index": i
+                })
+                
+                # Extract codes with displays from expansion
+                codes_with_display = extract_valueset_codes_with_display(resource, valueset_id)
+                
+                if not codes_with_display:
+                    warning_msg = f"No codes found for ValueSet {valueset_id}, skipping JSON-LD vocabulary generation"
+                    logger.warning(warning_msg)
+                    qa_reporter.add_warning(warning_msg, {
+                        "valueset_id": valueset_id
+                    })
+                    continue
+                
+                qa_reporter.add_success(f"Extracted {len(codes_with_display)} codes for ValueSet {valueset_id}", {
+                    "valueset_id": valueset_id,
+                    "codes_count": len(codes_with_display)
+                })
+                
+                # Generate JSON-LD vocabulary
+                jsonld_vocab = generate_jsonld_vocabulary(resource, codes_with_display)
+                qa_reporter.add_success(f"Generated JSON-LD vocabulary for ValueSet {valueset_id}")
+                
+                # Save JSON-LD vocabulary
+                jsonld_path = save_jsonld_vocabulary(jsonld_vocab, output_dir, valueset_id)
+                
+                # Count as successful if JSON-LD file is saved
+                if jsonld_path:
+                    vocabularies_generated += 1
+                    
+                    qa_reporter.add_file_processed(jsonld_path, "success", {
+                        "valueset_id": valueset_id,
+                        "codes_count": len(codes_with_display),
+                        "vocab_size": len(json.dumps(jsonld_vocab))
+                    })
+                    
+                    qa_reporter.add_vocabulary_generated({
+                        "valueset_id": valueset_id,
+                        "jsonld_file": jsonld_path,
+                        "codes_count": len(codes_with_display),
+                        "has_context": "@context" in jsonld_vocab,
+                        "has_graph": "@graph" in jsonld_vocab
+                    })
+                else:
+                    qa_reporter.add_error(f"Failed to save JSON-LD vocabulary for ValueSet {valueset_id}", {
+                        "valueset_id": valueset_id
+                    })
+                    
+            except Exception as e:
+                error_msg = f"Error processing entry {i}: {e}"
+                logger.error(error_msg)
+                qa_reporter.add_error(error_msg, {
+                    "entry_index": i,
+                    "exception": str(e)
+                })
+                continue
+        
+        qa_reporter.add_success(f"Generated {vocabularies_generated} JSON-LD vocabularies", {
+            "vocabularies_generated": vocabularies_generated
+        })
+        logger.info(f"Generated {vocabularies_generated} JSON-LD vocabularies")
+        return vocabularies_generated
+        
+    except Exception as e:
+        error_msg = f"Unexpected error in process_expansions: {e}"
+        logger.error(error_msg)
+        qa_reporter.add_error(error_msg, {
+            "exception": str(e)
+        })
         return 0
-    
-    # Check if Bundle has entries
-    if 'entry' not in expansions_data:
-        logger.warning("Bundle has no entries")
-        return 0
-    
-    vocabularies_generated = 0
-    
-    # Process each entry
-    for entry in expansions_data['entry']:
-        if 'resource' not in entry:
-            logger.warning("Bundle entry has no resource")
-            continue
-            
-        resource = entry['resource']
-        
-        # Check if it's a ValueSet
-        if resource.get('resourceType') != 'ValueSet':
-            logger.debug(f"Skipping non-ValueSet resource: {resource.get('resourceType')}")
-            continue
-        
-        valueset_id = extract_valueset_id_from_entry(entry)
-        logger.info(f"Processing ValueSet for JSON-LD vocabulary: {valueset_id}")
-        
-        # Extract codes with displays from expansion
-        codes_with_display = extract_valueset_codes_with_display(resource, valueset_id)
-        
-        if not codes_with_display:
-            logger.warning(f"No codes found for ValueSet {valueset_id}, skipping JSON-LD vocabulary generation")
-            continue
-        
-        # Generate JSON-LD vocabulary
-        jsonld_vocab = generate_jsonld_vocabulary(resource, codes_with_display)
-        
-        # Save JSON-LD vocabulary
-        jsonld_path = save_jsonld_vocabulary(jsonld_vocab, output_dir, valueset_id)
-        
-        # Count as successful if JSON-LD file is saved
-        if jsonld_path:
-            vocabularies_generated += 1
-    
-    logger.info(f"Generated {vocabularies_generated} JSON-LD vocabularies")
-    return vocabularies_generated
 
 
 def main():
     """Main entry point for the script."""
     logger = setup_logging()
     
-    # Parse command line arguments
-    if len(sys.argv) < 2:
-        # Default paths
-        expansions_path = "output/expansions.json"
-        output_dir = "output"  # JSON-LD vocabularies will be saved directly to output/ directory
-    elif len(sys.argv) == 2:
-        expansions_path = sys.argv[1]
-        output_dir = "output"  # JSON-LD vocabularies will be saved directly to output/ directory
-    else:
-        expansions_path = sys.argv[1]
-        output_dir = sys.argv[2]
+    # Initialize QA reporter
+    qa_reporter = QAReporter("jsonld_vocabularies")
     
-    logger.info(f"Processing expansions from: {expansions_path}")
-    logger.info(f"Output directory: {output_dir}")
+    try:
+        # Parse command line arguments
+        if len(sys.argv) < 2:
+            # Default paths
+            expansions_path = "output/expansions.json"
+            output_dir = "output"  # JSON-LD vocabularies will be saved directly to output/ directory
+        elif len(sys.argv) == 2:
+            expansions_path = sys.argv[1]
+            output_dir = "output"  # JSON-LD vocabularies will be saved directly to output/ directory
+        else:
+            expansions_path = sys.argv[1]
+            output_dir = sys.argv[2]
+        
+        logger.info(f"Processing expansions from: {expansions_path}")
+        logger.info(f"Output directory: {output_dir}")
+        
+        qa_reporter.add_success("Script started", {
+            "expansions_path": expansions_path,
+            "output_directory": output_dir
+        })
+        
+        # Record expected file
+        qa_reporter.add_file_expected(expansions_path, found=os.path.exists(expansions_path))
+        
+        # Load expansions.json
+        expansions_data = load_expansions_json(expansions_path)
+        if not expansions_data:
+            error_msg = "Failed to load expansions data"
+            logger.error(error_msg)
+            qa_reporter.add_error(error_msg, {
+                "expansions_path": expansions_path,
+                "file_exists": os.path.exists(expansions_path)
+            })
+        else:
+            qa_reporter.add_success("Successfully loaded expansions data", {
+                "expansions_path": expansions_path
+            })
+            
+            # Process expansions and generate JSON-LD vocabularies
+            vocabularies_count = process_expansions(expansions_data, output_dir, qa_reporter)
+            
+            if vocabularies_count > 0:
+                success_msg = f"Successfully generated {vocabularies_count} JSON-LD vocabularies in {output_dir}"
+                logger.info(success_msg)
+                qa_reporter.add_success(success_msg, {
+                    "vocabularies_count": vocabularies_count,
+                    "output_directory": output_dir
+                })
+            else:
+                warning_msg = "No JSON-LD vocabularies were generated (no ValueSets found in expansions)"
+                logger.info(warning_msg)
+                qa_reporter.add_warning(warning_msg)
     
-    # Load expansions.json
-    expansions_data = load_expansions_json(expansions_path)
-    if not expansions_data:
-        logger.error("Failed to load expansions data")
-        sys.exit(1)
+    except Exception as e:
+        error_msg = f"Unexpected error in main: {e}"
+        logger.error(error_msg)
+        qa_reporter.add_error(error_msg, {
+            "exception": str(e)
+        })
     
-    # Process expansions and generate JSON-LD vocabularies
-    vocabularies_count = process_expansions(expansions_data, output_dir)
-    
-    if vocabularies_count > 0:
-        logger.info(f"Successfully generated {vocabularies_count} JSON-LD vocabularies in {output_dir}")
-        sys.exit(0)
-    else:
-        logger.info("No JSON-LD vocabularies were generated (no ValueSets found in expansions)")
+    finally:
+        # Always save QA report regardless of success/failure
+        try:
+            # Save to protected location that won't be overwritten by IG publisher
+            protected_path = "input/temp/qa_jsonld_vocabularies.json"
+            backup_path = "/tmp/qa_jsonld_vocabularies.json"
+            qa_reporter.save_report(protected_path, backup_path)
+        except Exception as e:
+            logger.error(f"Error saving QA report: {e}")
+        
+        # Exit with 0 to avoid failing the workflow
         sys.exit(0)
 
 

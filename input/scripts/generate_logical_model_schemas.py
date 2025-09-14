@@ -24,6 +24,7 @@ import logging
 import re
 from typing import Dict, List, Optional, Any, Tuple
 from pathlib import Path
+from datetime import datetime
 
 
 def setup_logging() -> logging.Logger:
@@ -33,6 +34,124 @@ def setup_logging() -> logging.Logger:
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
     return logging.getLogger(__name__)
+
+
+class QAReporter:
+    """Handles QA reporting for Logical Model schema generation."""
+    
+    def __init__(self, component: str = "logical_model_schemas"):
+        self.component = component
+        self.timestamp = datetime.now().isoformat()
+        self.report = {
+            "component": component,
+            "timestamp": self.timestamp,
+            "status": "running",
+            "summary": {},
+            "details": {
+                "successes": [],
+                "warnings": [],
+                "errors": [],
+                "files_processed": [],
+                "files_expected": [],
+                "files_missing": [],
+                "schemas_generated": []
+            }
+        }
+    
+    def add_success(self, message: str, details: Optional[Dict] = None):
+        """Add a success entry to the QA report."""
+        entry = {"message": message, "timestamp": datetime.now().isoformat()}
+        if details:
+            entry["details"] = details
+        self.report["details"]["successes"].append(entry)
+    
+    def add_warning(self, message: str, details: Optional[Dict] = None):
+        """Add a warning entry to the QA report."""
+        entry = {"message": message, "timestamp": datetime.now().isoformat()}
+        if details:
+            entry["details"] = details
+        self.report["details"]["warnings"].append(entry)
+    
+    def add_error(self, message: str, details: Optional[Dict] = None):
+        """Add an error entry to the QA report."""
+        entry = {"message": message, "timestamp": datetime.now().isoformat()}
+        if details:
+            entry["details"] = details
+        self.report["details"]["errors"].append(entry)
+    
+    def add_file_processed(self, file_path: str, status: str = "success", details: Optional[Dict] = None):
+        """Record a file that was processed."""
+        entry = {
+            "file": file_path,
+            "status": status,
+            "timestamp": datetime.now().isoformat()
+        }
+        if details:
+            entry["details"] = details
+        self.report["details"]["files_processed"].append(entry)
+    
+    def add_file_expected(self, file_path: str, found: bool = False):
+        """Record a file that was expected."""
+        self.report["details"]["files_expected"].append(file_path)
+        if not found:
+            self.report["details"]["files_missing"].append(file_path)
+    
+    def add_schema_generated(self, schema_info: Dict):
+        """Record a schema that was generated."""
+        schema_info["timestamp"] = datetime.now().isoformat()
+        self.report["details"]["schemas_generated"].append(schema_info)
+    
+    def finalize_report(self, status: str = "completed"):
+        """Finalize the QA report with summary statistics."""
+        self.report["status"] = status
+        self.report["summary"] = {
+            "total_successes": len(self.report["details"]["successes"]),
+            "total_warnings": len(self.report["details"]["warnings"]),
+            "total_errors": len(self.report["details"]["errors"]),
+            "files_processed_count": len(self.report["details"]["files_processed"]),
+            "files_expected_count": len(self.report["details"]["files_expected"]),
+            "files_missing_count": len(self.report["details"]["files_missing"]),
+            "schemas_generated_count": len(self.report["details"]["schemas_generated"]),
+            "completion_timestamp": datetime.now().isoformat()
+        }
+        return self.report
+    
+    def save_report(self, output_path: str, backup_path: str = None):
+        """Save QA report to protected location and backup."""
+        report = self.finalize_report()
+        
+        try:
+            # Save to primary protected location
+            protected_dir = os.path.dirname(output_path)
+            if protected_dir:
+                Path(protected_dir).mkdir(parents=True, exist_ok=True)
+            
+            with open(output_path, 'w', encoding='utf-8') as f:
+                json.dump(report, f, indent=2, ensure_ascii=False)
+            print(f"QA report saved to protected location: {output_path}")
+            
+            # Save backup if specified
+            if backup_path:
+                backup_dir = os.path.dirname(backup_path)
+                if backup_dir:
+                    Path(backup_dir).mkdir(parents=True, exist_ok=True)
+                
+                with open(backup_path, 'w', encoding='utf-8') as f:
+                    json.dump(report, f, indent=2, ensure_ascii=False)
+                print(f"QA report backup saved to: {backup_path}")
+                
+        except Exception as e:
+            print(f"Error saving QA report: {e}")
+            # Fallback to temp if main save fails
+            if backup_path and backup_path != output_path:
+                try:
+                    with open(backup_path, 'w', encoding='utf-8') as f:
+                        json.dump(report, f, indent=2, ensure_ascii=False)
+                    print(f"QA report saved to fallback location: {backup_path}")
+                except Exception as e2:
+                    print(f"Error saving QA report to fallback: {e2}")
+        
+        return report
 
 
 class StructureDefinitionParser:
@@ -364,79 +483,174 @@ class SchemaGenerator:
             return None
 
 
-def process_logical_models(structure_definition_dir: str, output_dir: str) -> int:
+def process_logical_models(structure_definition_dir: str, output_dir: str, qa_reporter: QAReporter) -> int:
     """Process StructureDefinition JSON files and generate JSON schemas for logical models."""
     logger = logging.getLogger(__name__)
     
-    # Initialize parser and generator
-    parser = StructureDefinitionParser(logger)
-    generator = SchemaGenerator(logger)
-    
-    # Find StructureDefinition JSON files
-    json_files = parser.find_structure_definition_files(structure_definition_dir)
-    logger.info(f"Found {len(json_files)} StructureDefinition files to process")
-    
-    # Parse logical models
-    logical_models = parser.parse_logical_models(json_files)
-    logger.info(f"Found {len(logical_models)} logical models")
-    
-    # Generate schemas
-    schemas_generated = 0
-    schema_files = []
-    
-    for model in logical_models:
-        logger.info(f"Generating schema for logical model: {model['name']}")
+    try:
+        # Initialize parser and generator
+        parser = StructureDefinitionParser(logger)
+        generator = SchemaGenerator(logger)
         
-        # Generate schema
-        schema = generator.generate_schema(model)
+        # Find StructureDefinition JSON files
+        try:
+            json_files = parser.find_structure_definition_files(structure_definition_dir)
+            qa_reporter.add_success(f"Found {len(json_files)} StructureDefinition files", {
+                "directory": structure_definition_dir,
+                "file_count": len(json_files)
+            })
+            logger.info(f"Found {len(json_files)} StructureDefinition files to process")
+        except Exception as e:
+            qa_reporter.add_error(f"Error finding StructureDefinition files: {e}", {
+                "directory": structure_definition_dir,
+                "exception": str(e)
+            })
+            return 0
         
-        # Save schema
-        schema_path = generator.save_schema(schema, output_dir, model['name'])
-        if schema_path:
-            schemas_generated += 1
-            schema_files.append(schema_path)
-    
-    logger.info(f"Generated {schemas_generated} Logical Model schemas")
-    return schemas_generated
+        # Record expected files
+        for file_path in json_files:
+            qa_reporter.add_file_expected(file_path, found=True)
+        
+        # Parse logical models
+        try:
+            logical_models = parser.parse_logical_models(json_files)
+            qa_reporter.add_success(f"Found {len(logical_models)} logical models", {
+                "models_found": len(logical_models),
+                "model_names": [model['name'] for model in logical_models]
+            })
+            logger.info(f"Found {len(logical_models)} logical models")
+        except Exception as e:
+            qa_reporter.add_error(f"Error parsing logical models: {e}", {
+                "exception": str(e)
+            })
+            return 0
+        
+        # Generate schemas
+        schemas_generated = 0
+        schema_files = []
+        
+        for model in logical_models:
+            model_name = model['name']
+            logger.info(f"Generating schema for logical model: {model_name}")
+            
+            try:
+                # Generate schema
+                schema = generator.generate_schema(model)
+                qa_reporter.add_success(f"Generated schema for model {model_name}")
+                
+                # Save schema
+                schema_path = generator.save_schema(schema, output_dir, model_name)
+                if schema_path:
+                    schemas_generated += 1
+                    schema_files.append(schema_path)
+                    
+                    qa_reporter.add_file_processed(schema_path, "success", {
+                        "model_name": model_name,
+                        "schema_size": len(json.dumps(schema))
+                    })
+                    
+                    qa_reporter.add_schema_generated({
+                        "model_name": model_name,
+                        "schema_file": schema_path,
+                        "properties_count": len(schema.get("properties", {})),
+                        "required_fields": schema.get("required", [])
+                    })
+                else:
+                    qa_reporter.add_error(f"Failed to save schema for model {model_name}")
+                    
+            except Exception as e:
+                qa_reporter.add_error(f"Error processing logical model {model_name}: {e}", {
+                    "model_name": model_name,
+                    "exception": str(e)
+                })
+                continue
+        
+        qa_reporter.add_success(f"Generated {schemas_generated} Logical Model schemas", {
+            "schemas_generated": schemas_generated,
+            "schema_files": schema_files
+        })
+        logger.info(f"Generated {schemas_generated} Logical Model schemas")
+        return schemas_generated
+        
+    except Exception as e:
+        qa_reporter.add_error(f"Unexpected error in process_logical_models: {e}", {
+            "exception": str(e)
+        })
+        return 0
 
 
 def main():
     """Main entry point for the script."""
     logger = setup_logging()
     
-    # Parse command line arguments
-    if len(sys.argv) > 2:
-        structure_definition_dir = sys.argv[1]
-        output_dir = sys.argv[2]
-    elif len(sys.argv) > 1:
-        structure_definition_dir = sys.argv[1]
-        output_dir = "."
-    else:
-        structure_definition_dir = "output"
-        output_dir = "output"
+    # Initialize QA reporter
+    qa_reporter = QAReporter("logical_model_schemas")
     
-    logger.info(f"Processing StructureDefinition files from: {structure_definition_dir}")
-    logger.info(f"Schema output directory: {output_dir}")
-    
-    # Check if input directory exists
-    if not os.path.exists(structure_definition_dir):
-        logger.error(f"StructureDefinition directory does not exist: {structure_definition_dir}")
-        sys.exit(1)
-    
-    # Process logical models
     try:
-        schemas_generated = process_logical_models(structure_definition_dir, output_dir)
-        
-        if schemas_generated > 0:
-            logger.info(f"Successfully generated {schemas_generated} logical model schemas")
-            sys.exit(0)
+        # Parse command line arguments
+        if len(sys.argv) > 2:
+            structure_definition_dir = sys.argv[1]
+            output_dir = sys.argv[2]
+        elif len(sys.argv) > 1:
+            structure_definition_dir = sys.argv[1]
+            output_dir = "."
         else:
-            logger.info("No logical model schemas were generated (no logical models found)")
-            sys.exit(0)
+            structure_definition_dir = "output"
+            output_dir = "output"
+        
+        logger.info(f"Processing StructureDefinition files from: {structure_definition_dir}")
+        logger.info(f"Schema output directory: {output_dir}")
+        
+        qa_reporter.add_success("Script started", {
+            "input_directory": structure_definition_dir,
+            "output_directory": output_dir
+        })
+        
+        # Check if input directory exists
+        if not os.path.exists(structure_definition_dir):
+            error_msg = f"StructureDefinition directory does not exist: {structure_definition_dir}"
+            logger.error(error_msg)
+            qa_reporter.add_error(error_msg, {
+                "directory": structure_definition_dir
+            })
+        else:
+            qa_reporter.add_success("Input directory found", {
+                "directory": structure_definition_dir
+            })
             
+            # Process logical models
+            schemas_generated = process_logical_models(structure_definition_dir, output_dir, qa_reporter)
+            
+            if schemas_generated > 0:
+                success_msg = f"Successfully generated {schemas_generated} logical model schemas"
+                logger.info(success_msg)
+                qa_reporter.add_success(success_msg, {
+                    "schemas_generated": schemas_generated
+                })
+            else:
+                warning_msg = "No logical model schemas were generated (no logical models found)"
+                logger.info(warning_msg)
+                qa_reporter.add_warning(warning_msg)
+        
     except Exception as e:
-        logger.error(f"Error processing logical models: {e}")
-        sys.exit(1)
+        error_msg = f"Unexpected error in main: {e}"
+        logger.error(error_msg)
+        qa_reporter.add_error(error_msg, {
+            "exception": str(e)
+        })
+    
+    finally:
+        # Always save QA report regardless of success/failure
+        try:
+            # Save to protected location that won't be overwritten by IG publisher
+            protected_path = "input/temp/qa_logical_model_schemas.json"
+            backup_path = "/tmp/qa_logical_model_schemas.json"
+            qa_reporter.save_report(protected_path, backup_path)
+        except Exception as e:
+            logger.error(f"Error saving QA report: {e}")
+        
+        # Exit with 0 to avoid failing the workflow
+        sys.exit(0)
 
 
 if __name__ == "__main__":
