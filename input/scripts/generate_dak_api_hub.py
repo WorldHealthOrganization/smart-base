@@ -2013,9 +2013,24 @@ def main():
     """Main entry point for the script."""
     logger = setup_logging()
     
+    # Parse command line arguments first
+    if len(sys.argv) == 1:
+        output_dir = "output"
+        openapi_dir = "output"  # Changed to look in output directory for generated OpenAPI wrappers
+    elif len(sys.argv) == 2:
+        output_dir = sys.argv[1]
+        openapi_dir = sys.argv[1]  # Use same directory for both schemas and OpenAPI wrappers
+    else:
+        output_dir = sys.argv[1]
+        openapi_dir = sys.argv[2]
+    
+    logger.info(f"Output directory: {output_dir}")
+    logger.info(f"OpenAPI directory: {openapi_dir}")
+    
     # Initialize QA reporter for post-processing
     qa_reporter = QAReporter("postprocessing")
     qa_reporter.add_success("Starting generate_dak_api_hub.py post-processing")
+    qa_reporter.add_success(f"Configured directories - Output: {output_dir}, OpenAPI: {openapi_dir}")
     
     # Load existing FHIR IG publisher QA file if it exists
     qa_output_path = os.path.join(output_dir, "qa.json")
@@ -2077,21 +2092,6 @@ def main():
         else:
             qa_reporter.add_warning(f"No {component_name} QA report found")
             logger.info(f"No {component_name} QA report found at {protected_path} or {temp_path}")
-    
-    # Parse command line arguments
-    if len(sys.argv) == 1:
-        output_dir = "output"
-        openapi_dir = "output"  # Changed to look in output directory for generated OpenAPI wrappers
-    elif len(sys.argv) == 2:
-        output_dir = sys.argv[1]
-        openapi_dir = sys.argv[1]  # Use same directory for both schemas and OpenAPI wrappers
-    else:
-        output_dir = sys.argv[1]
-        openapi_dir = sys.argv[2]
-    
-    logger.info(f"Output directory: {output_dir}")
-    logger.info(f"OpenAPI directory: {openapi_dir}")
-    qa_reporter.add_success(f"Configured directories - Output: {output_dir}, OpenAPI: {openapi_dir}")
     
     # Check if output directory exists and has content
     qa_reporter.add_file_expected(output_dir)
