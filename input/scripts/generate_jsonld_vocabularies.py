@@ -487,8 +487,8 @@ def main():
         logger.info(f"Successfully generated {vocabularies_count} JSON-LD vocabularies in {output_dir}")
         sys.exit(0)
     else:
-        logger.error("No JSON-LD vocabularies were generated")
-        sys.exit(1)
+        logger.info("No JSON-LD vocabularies were generated (no ValueSets found in expansions)")
+        sys.exit(0)
 
 
 if __name__ == "__main__":
