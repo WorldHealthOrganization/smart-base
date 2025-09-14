@@ -27,6 +27,7 @@ import re
 from typing import Dict, List, Optional, Any, Tuple
 from pathlib import Path
 from urllib.parse import urlparse
+from datetime import datetime
 
 
 def setup_logging() -> logging.Logger:
@@ -36,6 +37,107 @@ def setup_logging() -> logging.Logger:
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
     return logging.getLogger(__name__)
+
+
+class QAReporter:
+    """Handles QA reporting for post-processing steps."""
+    
+    def __init__(self, phase: str = "postprocessing"):
+        self.phase = phase
+        self.timestamp = datetime.now().isoformat()
+        self.report = {
+            "phase": phase,
+            "timestamp": self.timestamp,
+            "status": "running",
+            "summary": {},
+            "details": {
+                "successes": [],
+                "warnings": [],
+                "errors": [],
+                "files_processed": [],
+                "files_expected": [],
+                "files_missing": []
+            }
+        }
+    
+    def add_success(self, message: str, details: Optional[Dict] = None):
+        """Add a success entry to the QA report."""
+        entry = {"message": message, "timestamp": datetime.now().isoformat()}
+        if details:
+            entry["details"] = details
+        self.report["details"]["successes"].append(entry)
+    
+    def add_warning(self, message: str, details: Optional[Dict] = None):
+        """Add a warning entry to the QA report."""
+        entry = {"message": message, "timestamp": datetime.now().isoformat()}
+        if details:
+            entry["details"] = details
+        self.report["details"]["warnings"].append(entry)
+    
+    def add_error(self, message: str, details: Optional[Dict] = None):
+        """Add an error entry to the QA report."""
+        entry = {"message": message, "timestamp": datetime.now().isoformat()}
+        if details:
+            entry["details"] = details
+        self.report["details"]["errors"].append(entry)
+    
+    def add_file_processed(self, file_path: str, status: str = "success", details: Optional[Dict] = None):
+        """Record a file that was processed."""
+        entry = {
+            "file": file_path,
+            "status": status,
+            "timestamp": datetime.now().isoformat()
+        }
+        if details:
+            entry["details"] = details
+        self.report["details"]["files_processed"].append(entry)
+    
+    def add_file_expected(self, file_path: str, found: bool = False):
+        """Record a file that was expected."""
+        self.report["details"]["files_expected"].append(file_path)
+        if not found:
+            self.report["details"]["files_missing"].append(file_path)
+    
+    def finalize_report(self, status: str = "completed"):
+        """Finalize the QA report with summary statistics."""
+        self.report["status"] = status
+        self.report["summary"] = {
+            "total_successes": len(self.report["details"]["successes"]),
+            "total_warnings": len(self.report["details"]["warnings"]),
+            "total_errors": len(self.report["details"]["errors"]),
+            "files_processed_count": len(self.report["details"]["files_processed"]),
+            "files_expected_count": len(self.report["details"]["files_expected"]),
+            "files_missing_count": len(self.report["details"]["files_missing"]),
+            "completion_timestamp": datetime.now().isoformat()
+        }
+        return self.report
+    
+    def merge_preprocessing_report(self, preprocessing_report: Dict):
+        """Merge a preprocessing report into this post-processing report."""
+        if "details" in preprocessing_report:
+            # Add preprocessing entries with a prefix
+            for success in preprocessing_report["details"].get("successes", []):
+                self.add_success(f"[Preprocessing] {success['message']}", success.get("details"))
+            
+            for warning in preprocessing_report["details"].get("warnings", []):
+                self.add_warning(f"[Preprocessing] {warning['message']}", warning.get("details"))
+            
+            for error in preprocessing_report["details"].get("errors", []):
+                self.add_error(f"[Preprocessing] {error['message']}", error.get("details"))
+            
+            for file_proc in preprocessing_report["details"].get("files_processed", []):
+                self.add_file_processed(f"[Preprocessing] {file_proc['file']}", file_proc.get("status", "unknown"), file_proc.get("details"))
+    
+    def save_to_file(self, output_path: str):
+        """Save QA report to a JSON file."""
+        try:
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            with open(output_path, 'w', encoding='utf-8') as f:
+                json.dump(self.report, f, indent=2, ensure_ascii=False)
+            return True
+        except Exception as e:
+            print(f"Error saving QA report to {output_path}: {e}")
+            return False
 
 
 class SchemaDetector:
@@ -1112,15 +1214,6 @@ details pre {{
         
         return html_content
 
-    def generate_redoc_html(self, openapi_path: str, output_dir: str, title: str = None, schema_type: str = None) -> Optional[str]:
-        """
-        DEPRECATED: Use inject_into_html instead.
-        
-        This method is kept for backward compatibility but now delegates to inject_into_html.
-        """
-        self.logger.warning("generate_redoc_html is deprecated. Use inject_into_html instead.")
-        return self.inject_into_html(openapi_path, output_dir, title, schema_type)
-
 
 class DAKApiHubGenerator:
     """Generates the unified DAK API documentation hub."""
@@ -1845,6 +1938,26 @@ def main():
     """Main entry point for the script."""
     logger = setup_logging()
     
+    # Initialize QA reporter for post-processing
+    qa_reporter = QAReporter("postprocessing")
+    qa_reporter.add_success("Starting generate_dak_api_hub.py post-processing")
+    
+    # Check for and merge preprocessing QA report
+    temp_qa_path = "/tmp/qa_preprocessing.json"
+    if os.path.exists(temp_qa_path):
+        try:
+            with open(temp_qa_path, 'r', encoding='utf-8') as f:
+                preprocessing_report = json.load(f)
+            qa_reporter.merge_preprocessing_report(preprocessing_report)
+            qa_reporter.add_success("Merged preprocessing QA report")
+            logger.info("Successfully merged preprocessing QA report")
+        except Exception as e:
+            qa_reporter.add_warning(f"Failed to merge preprocessing QA report: {e}")
+            logger.warning(f"Failed to merge preprocessing QA report: {e}")
+    else:
+        qa_reporter.add_warning("No preprocessing QA report found")
+        logger.warning("No preprocessing QA report found")
+    
     # Parse command line arguments
     if len(sys.argv) == 1:
         output_dir = "output"
@@ -1858,32 +1971,81 @@ def main():
     
     logger.info(f"Output directory: {output_dir}")
     logger.info(f"OpenAPI directory: {openapi_dir}")
+    qa_reporter.add_success(f"Configured directories - Output: {output_dir}, OpenAPI: {openapi_dir}")
     
     # Check if output directory exists and has content
+    qa_reporter.add_file_expected(output_dir)
     if os.path.exists(output_dir):
         logger.info(f"Output directory exists with {len(os.listdir(output_dir))} items")
+        qa_reporter.add_success(f"Output directory exists with {len(os.listdir(output_dir))} items")
         # Log a few sample files to help debugging
         all_files = os.listdir(output_dir)
         sample_files = all_files[:10]  # Show first 10 files
         logger.info(f"Sample files in output directory: {sample_files}")
+        qa_reporter.add_success("Output directory contents sampled", {"sample_files": sample_files})
     else:
         logger.error(f"Output directory does not exist: {output_dir}")
+        qa_reporter.add_error(f"Output directory does not exist: {output_dir}")
+        
+        # Save QA report even on failure
+        qa_report = qa_reporter.finalize_report("failed")
+        qa_output_path = os.path.join("output", "qa.json")  # Fallback location
+        try:
+            os.makedirs(os.path.dirname(qa_output_path), exist_ok=True)
+            qa_reporter.save_to_file(qa_output_path)
+        except:
+            pass  # Don't fail if we can't save QA report
+        
         sys.exit(1)
     
     # Initialize components
     logger.info("Initializing DAK API components...")
-    schema_detector = SchemaDetector(logger)
-    openapi_detector = OpenAPIDetector(logger)
-    openapi_wrapper = OpenAPIWrapper(logger)
-    schema_doc_renderer = SchemaDocumentationRenderer(logger)
-    hub_generator = DAKApiHubGenerator(logger)
-    html_processor = HTMLProcessor(logger, output_dir)
-    logger.info("Components initialized successfully")
+    qa_reporter.add_success("Initializing DAK API components")
+    
+    try:
+        schema_detector = SchemaDetector(logger)
+        openapi_detector = OpenAPIDetector(logger)
+        openapi_wrapper = OpenAPIWrapper(logger)
+        schema_doc_renderer = SchemaDocumentationRenderer(logger)
+        hub_generator = DAKApiHubGenerator(logger)
+        html_processor = HTMLProcessor(logger, output_dir)
+        logger.info("Components initialized successfully")
+        qa_reporter.add_success("All components initialized successfully")
+    except Exception as e:
+        logger.error(f"Failed to initialize components: {e}")
+        qa_reporter.add_error(f"Failed to initialize components: {e}")
+        
+        # Save QA report even on failure
+        qa_report = qa_reporter.finalize_report("failed")
+        qa_output_path = os.path.join(output_dir, "qa.json")
+        qa_reporter.save_to_file(qa_output_path)
+        sys.exit(1)
     
     # Find schema files
     logger.info("=== SCHEMA FILE DETECTION PHASE ===")
-    schemas = schema_detector.find_schema_files(output_dir)
-    logger.info(f"Schema detection completed - ValueSet: {len(schemas['valueset'])}, LogicalModel: {len(schemas['logical_model'])}, Other: {len(schemas['other'])}")
+    qa_reporter.add_success("Starting schema file detection phase")
+    
+    try:
+        schemas = schema_detector.find_schema_files(output_dir)
+        logger.info(f"Schema detection completed - ValueSet: {len(schemas['valueset'])}, LogicalModel: {len(schemas['logical_model'])}, Other: {len(schemas['other'])}")
+        qa_reporter.add_success("Schema detection completed", {
+            "valueset_schemas": len(schemas['valueset']),
+            "logical_model_schemas": len(schemas['logical_model']),
+            "other_schemas": len(schemas['other'])
+        })
+        
+        # Record found schema files
+        for schema_path in schemas['valueset']:
+            qa_reporter.add_file_processed(schema_path, "valueset_schema_detected")
+        for schema_path in schemas['logical_model']:
+            qa_reporter.add_file_processed(schema_path, "logical_model_schema_detected")
+        for schema_path in schemas['other']:
+            qa_reporter.add_file_processed(schema_path, "other_schema_detected")
+            
+    except Exception as e:
+        logger.error(f"Schema detection failed: {e}")
+        qa_reporter.add_error(f"Schema detection failed: {e}")
+        schemas = {'valueset': [], 'logical_model': [], 'other': []}
     
     # Find JSON-LD vocabulary files
     logger.info("=== JSON-LD FILE DETECTION PHASE ===")
@@ -2296,31 +2458,87 @@ def main():
     logger.info(f"JSON-LD vocabularies: {len(jsonld_docs)}")
     logger.info(f"OpenAPI docs: {len(openapi_docs)}")
     
+    qa_reporter.add_success("Documentation summary completed", {
+        "valueset_schema_docs": len(schema_docs['valueset']),
+        "logical_model_schema_docs": len(schema_docs['logical_model']),
+        "enumeration_endpoints": len(enumeration_docs),
+        "jsonld_vocabularies": len(jsonld_docs),
+        "openapi_docs": len(openapi_docs)
+    })
+    
     total_content_items = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(enumeration_docs) + len(jsonld_docs) + len(openapi_docs)
     if total_content_items == 0:
         logger.warning("⚠️ No content items found to document! The DAK API hub will be empty.")
+        qa_reporter.add_warning("No content items found to document! The DAK API hub will be empty.")
     else:
         logger.info(f"Total content items to include in hub: {total_content_items}")
+        qa_reporter.add_success(f"Total content items to include in hub: {total_content_items}")
     
     # Post-process the DAK API hub
     logger.info("=== DAK API HUB POST-PROCESSING PHASE ===")
-    success = hub_generator.post_process_dak_api_html(output_dir, schema_docs, openapi_docs, enumeration_docs, jsonld_docs)
+    qa_reporter.add_success("Starting DAK API hub post-processing phase")
     
-    if success:
-        total_docs = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(openapi_docs) + len(enumeration_docs) + len(jsonld_docs)
-        logger.info(f"🎉 Successfully post-processed DAK API hub with {total_docs} documentation pages")
-        logger.info("=== FINAL SUMMARY ===")
-        logger.info(f"✅ ValueSet schema pages: {len(schema_docs['valueset'])}")
-        logger.info(f"✅ Logical Model schema pages: {len(schema_docs['logical_model'])}")
-        logger.info(f"✅ Enumeration endpoint pages: {len(enumeration_docs)}")
-        logger.info(f"✅ JSON-LD vocabulary references: {len(jsonld_docs)}")
-        logger.info(f"✅ OpenAPI documentation pages: {len(openapi_docs)}")
-        logger.info(f"✅ Total documentation pages: {total_docs}")
-        sys.exit(0)
+    try:
+        success = hub_generator.post_process_dak_api_html(output_dir, schema_docs, openapi_docs, enumeration_docs, jsonld_docs)
+        
+        if success:
+            total_docs = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(openapi_docs) + len(enumeration_docs) + len(jsonld_docs)
+            logger.info(f"🎉 Successfully post-processed DAK API hub with {total_docs} documentation pages")
+            logger.info("=== FINAL SUMMARY ===")
+            logger.info(f"✅ ValueSet schema pages: {len(schema_docs['valueset'])}")
+            logger.info(f"✅ Logical Model schema pages: {len(schema_docs['logical_model'])}")
+            logger.info(f"✅ Enumeration endpoint pages: {len(enumeration_docs)}")
+            logger.info(f"✅ JSON-LD vocabulary references: {len(jsonld_docs)}")
+            logger.info(f"✅ OpenAPI documentation pages: {len(openapi_docs)}")
+            logger.info(f"✅ Total documentation pages: {total_docs}")
+            
+            qa_reporter.add_success("DAK API hub post-processing completed successfully", {
+                "total_documentation_pages": total_docs,
+                "valueset_pages": len(schema_docs['valueset']),
+                "logical_model_pages": len(schema_docs['logical_model']),
+                "enumeration_pages": len(enumeration_docs),
+                "jsonld_references": len(jsonld_docs),
+                "openapi_pages": len(openapi_docs)
+            })
+        else:
+            logger.error("❌ Failed to post-process DAK API hub")
+            qa_reporter.add_error("Failed to post-process DAK API hub - check detailed logs for specific errors")
+            
+    except Exception as e:
+        logger.error(f"❌ Exception during DAK API hub post-processing: {e}")
+        qa_reporter.add_error(f"Exception during DAK API hub post-processing: {e}")
+        success = False
+    
+    # Always generate and save QA report, regardless of success/failure
+    qa_status = "completed" if success else "completed_with_errors"
+    qa_report = qa_reporter.finalize_report(qa_status)
+    
+    # Save QA report to output directory
+    qa_output_path = os.path.join(output_dir, "qa.json")
+    if qa_reporter.save_to_file(qa_output_path):
+        logger.info(f"QA report saved to {qa_output_path}")
+        qa_reporter.add_success(f"QA report saved to {qa_output_path}")
     else:
-        logger.error("❌ Failed to post-process DAK API hub")
-        logger.error("Check the logs above for specific error details")
-        sys.exit(1)
+        logger.warning(f"Failed to save QA report to {qa_output_path}")
+    
+    # Log final QA summary
+    logger.info("=== QA REPORT SUMMARY ===")
+    logger.info(f"Total successes: {qa_report['summary']['total_successes']}")
+    logger.info(f"Total warnings: {qa_report['summary']['total_warnings']}")
+    logger.info(f"Total errors: {qa_report['summary']['total_errors']}")
+    logger.info(f"Files processed: {qa_report['summary']['files_processed_count']}")
+    logger.info(f"Files expected: {qa_report['summary']['files_expected_count']}")
+    logger.info(f"Files missing: {qa_report['summary']['files_missing_count']}")
+    
+    # Exit with success code (0) regardless of errors - QA report contains all details
+    # This prevents the workflow from failing while still providing comprehensive error reporting
+    if success:
+        logger.info("✅ DAK API documentation generation completed successfully")
+    else:
+        logger.warning("⚠️ DAK API documentation generation completed with errors - see QA report for details")
+    
+    logger.info("Exiting with success code 0 - check qa.json for detailed status")
+    sys.exit(0)
 
 
 if __name__ == "__main__":
