@@ -4,29 +4,75 @@
 
 The issue reports that functionality from PR #102 that generated "HTML with narrative and crossing link of schemas for each LM and valueset" has disappeared. After thorough analysis, the functionality exists but is currently broken due to a missing dependency.
 
-## Current State Analysis
+## Current State Analysis (Updated for HEAD)
 
 ### ✅ Existing Functionality (Still Present)
-- HTML generation with narrative descriptions
-- Cross-linking between schemas and FHIR pages  
-- ValueSet enumeration display with alphabetical sorting and truncation
-- Logical Model property display with types and descriptions
-- Copy functionality for schema JSON (from PR #102)
-- Enhanced styling with WHO blue palette and professional layout
-- OpenAPI wrapper generation for JSON schemas
-- Individual schema documentation page generation
+- **Pre-processing workflow**: `update_sushi_config.py` creates `dak-api.md` if missing
+- **HTML generation**: Complete narrative descriptions with FHIR integration
+- **Cross-linking**: Between schemas and FHIR pages via IG publisher templates
+- **ValueSet enumeration**: Alphabetical sorting and truncation after 40 values
+- **Logical Model display**: Property types, descriptions, and requirements
+- **Individual schema pages**: `generate_redoc_html` creates markdown → IG publisher → HTML
+- **OpenAPI wrapper generation**: JSON schemas wrapped with OpenAPI 3.0 specs
+- **Enhanced styling**: WHO blue palette with professional layout
+- **Copy functionality**: Schema JSON access and download
 
-### ❌ Missing/Broken Functionality
-- **Standalone execution**: Currently requires `dak-api.html` template from FHIR IG publisher
-- **Error handling**: Script fails if template file is missing
-- **Fallback mechanism**: No alternative when FHIR IG publisher hasn't run
+### ❌ Current Issue Points
+- **Workflow dependency chain**: Pre-processing → IG Publisher → Post-processing can fail at any step
+- **Error propagation**: Failure in any step makes entire feature appear "missing"  
+- **Limited error messages**: Users see failure but not which step failed
+- **Recovery complexity**: Requires understanding full 3-step workflow to debug
 
-## Root Cause
+## Root Cause (Updated)
 
-The `generate_dak_api_hub.py` script depends on:
-1. FHIR IG Publisher generating `dak-api.html` from `input/pagecontent/dak-api.md`
-2. Post-processing that HTML file to inject content at `<!-- DAK_API_CONTENT -->` marker
-3. If Step 1 fails (no FHIR IG publisher run), Step 2 cannot proceed
+The current HEAD workflow uses a **3-stage pipeline**:
+
+1. **Pre-processing** (`update_sushi_config.py`):
+   - Creates `input/pagecontent/dak-api.md` if missing
+   - Updates `sushi-config.yaml` with DAK API menu entries
+   - Ensures IG publisher will process the DAK API page
+
+2. **IG Publisher Processing**:
+   - Converts `dak-api.md` → `dak-api.html` with IG template/styling
+   - Processes individual schema markdown files created by `generate_redoc_html`
+   - Generates individual schema HTML pages in `output/` directory
+
+3. **Post-processing** (`generate_dak_api_hub.py`):
+   - Creates markdown files for individual schemas via `generate_redoc_html`
+   - Generates OpenAPI wrappers for JSON schemas
+   - Injects comprehensive hub content at `<!-- DAK_API_CONTENT -->` marker
+   - Links to all generated individual schema HTML pages
+
+**Key insight**: `generate_redoc_html` creates **markdown files** for the IG publisher to process into the final HTML files that populate the DAK API hub. The hub then provides organized access to these individual schema documentation pages.
+
+## Understanding `generate_redoc_html` Function
+
+The `generate_redoc_html` function (lines 776-1077 in `generate_dak_api_hub.py`) is a key component that **creates individual schema documentation markdown files** for IG publisher processing:
+
+### Function Purpose
+- **Input**: OpenAPI specification file (JSON/YAML)
+- **Output**: Markdown file in `input/pagecontent/` directory
+- **Process**: IG publisher converts markdown → individual HTML documentation pages
+
+### What It Generates
+1. **Individual schema documentation pages** with:
+   - API information (title, description, version)
+   - Endpoint documentation (paths, methods, responses)
+   - Schema definitions with cross-links to FHIR pages
+   - Enumeration values with CodeSystem links when available
+   - Logical Model properties with types and descriptions
+   - Collapsible JSON schema definitions
+
+2. **IG-integrated styling** that matches WHO SMART Guidelines theme
+
+3. **Cross-linking** to corresponding FHIR resource definitions
+
+### Workflow Integration
+```
+Schema Files → generate_redoc_html() → Markdown Files → IG Publisher → Individual HTML Pages → DAK API Hub Links
+```
+
+**This is likely the primary output desired** - the individual schema documentation HTML files in `output/` directory that provide detailed, styled documentation for each schema with proper FHIR integration and cross-linking.
 
 ## Implementation Options
 
@@ -58,30 +104,37 @@ The `generate_dak_api_hub.py` script depends on:
 ---
 
 ### Option 2: Enhanced Post-Processing (RECOMMENDED)
-**Description:** Improve current post-processing approach with fallback template
+**Description:** Improve current 3-stage workflow with better error handling and recovery
 
 **Implementation Approach:**
-- Check for existing `dak-api.html` from FHIR IG publisher
-- If found: Use current post-processing workflow
-- If missing: Generate fallback template and continue
-- Preserve all existing functionality and integration
+- Add comprehensive error handling for each workflow stage
+- Implement stage detection and selective retry capabilities  
+- Create fallback mechanisms when individual stages fail
+- Enhance logging and user feedback for debugging
 
 **Pros:**
-- ✅ Builds on existing architecture
-- ✅ Maintains FHIR IG integration when available
-- ✅ Can work with or without IG publisher
-- ✅ Preserves current workflow and styling
-- ✅ Minimal code changes required
-- ✅ Backward compatible
+- ✅ Minimal changes to existing workflow (~100-200 lines)
+- ✅ Maintains full compatibility with current HEAD architecture
+- ✅ Preserves all functionality from PR #102 and current improvements
+- ✅ Enables better debugging when issues occur
+- ✅ Can recover from partial workflow failures
+- ✅ No breaking changes to existing consumers
 
 **Cons:**
-- ❌ Still requires template management
-- ❌ More complex error handling needed
-- ❌ Slight increase in code complexity
+- ❌ Still requires understanding of 3-stage pipeline
+- ❌ More complex error scenarios to handle
+- ❌ May need fallback templates for edge cases
 
-**Complexity:** Low  
+**Complexity:** Medium  
 **Estimated Effort:** 1-2 days  
 **Code Changes:** ~100-200 lines
+
+**Key Changes:**
+1. Add stage detection logic to identify which step failed
+2. Implement selective retry for failed stages
+3. Create fallback template generation when IG publisher step fails
+4. Enhance error messaging to guide users to specific failure points
+5. Add recovery workflows for common failure scenarios
 
 ---
 
