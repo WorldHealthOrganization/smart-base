@@ -431,8 +431,8 @@ def main():
             logger.info(f"Successfully generated {schemas_generated} logical model schemas")
             sys.exit(0)
         else:
-            logger.warning("No logical model schemas were generated")
-            sys.exit(1)
+            logger.info("No logical model schemas were generated (no logical models found)")
+            sys.exit(0)
             
     except Exception as e:
         logger.error(f"Error processing logical models: {e}")
