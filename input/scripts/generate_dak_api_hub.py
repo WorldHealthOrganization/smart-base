@@ -2655,14 +2655,14 @@ def main():
         else:
             logger.error("Failed to save QA report to any location")
     
-    # Log final QA summary
+    # Log final QA summary (using qa_reporter.report which has the most up-to-date summary)
     logger.info("=== QA REPORT SUMMARY ===")
-    logger.info(f"Total successes: {qa_report['summary']['total_successes']}")
-    logger.info(f"Total warnings: {qa_report['summary']['total_warnings']}")
-    logger.info(f"Total errors: {qa_report['summary']['total_errors']}")
-    logger.info(f"Files processed: {qa_report['summary']['files_processed_count']}")
-    logger.info(f"Files expected: {qa_report['summary']['files_expected_count']}")
-    logger.info(f"Files missing: {qa_report['summary']['files_missing_count']}")
+    logger.info(f"Total successes: {len(qa_reporter.report['details']['successes'])}")
+    logger.info(f"Total warnings: {len(qa_reporter.report['details']['warnings'])}")
+    logger.info(f"Total errors: {len(qa_reporter.report['details']['errors'])}")
+    logger.info(f"Files processed: {len(qa_reporter.report['details']['files_processed'])}")
+    logger.info(f"Files expected: {len(qa_reporter.report['details']['files_expected'])}")
+    logger.info(f"Files missing: {len(qa_reporter.report['details']['files_missing'])}")
     
     # Exit with success code (0) regardless of errors - QA report contains all details
     # This prevents the workflow from failing while still providing comprehensive error reporting
