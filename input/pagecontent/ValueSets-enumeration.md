@@ -111,19 +111,20 @@ Returns a list of all available ValueSet schemas with metadata
     "count": 2,
     "schemas": [
       {
-        "filename": "ValueSet-Actions.schema.json",
-        "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-Actions.schema.json",
-        "title": "Actions ValueSet",
-        "description": "Actions that can be taken as part of the care process",
-        "url": "./ValueSet-Actions.schema.json",
-        "codeCount": 7
+        "filename": "ValueSets.schema.json",
+        "id": "#/ValueSets.schema.json",
+        "title": "ValueSet Enumeration Schema",
+        "description": "JSON Schema defining the structure of the ValueSet enumeration endpoint response",
+        "url": "./ValueSets.schema.json"
       },
       {
-        "filename": "ValueSet-Test.schema.json",
-        "id": "",
-        "title": "ValueSet-Test.schema.json",
-        "description": "",
-        "url": "./ValueSet-Test.schema.json"
+        "filename": "ValueSet-CDHIv1.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDHIv1.schema.json",
+        "title": "Classification of Digital Health Interventions v1 Schema",
+        "description": "JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDHIv1.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv1",
+        "codeCount": 3
       }
     ]
   }
