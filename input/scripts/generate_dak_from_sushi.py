@@ -156,6 +156,9 @@ def generate_dak_json(sushi_config: Dict[str, Any]) -> Dict[str, Any]:
     
     # Core DAK identity (mapped from sushi config)
     dak = {
+        "resourceType": "DAK",
+        "fhir:canonicalUri": "http://smart.who.int/base/StructureDefinition/DAK",
+        "fhir:logicalModel": "http://smart.who.int/base/StructureDefinition/DAK",
         "id": sushi_config.get("id", ""),
         "name": sushi_config.get("name", ""),
         "title": sushi_config.get("title", ""),
@@ -177,28 +180,6 @@ def generate_dak_json(sushi_config: Dict[str, Any]) -> Dict[str, Any]:
         dak["dependencies"] = convert_dependencies(sushi_config["dependencies"])
     else:
         dak["dependencies"] = []
-    
-    # DAK-specific features (defaults enabled for DAK repos)
-    dak.update({
-        "generateDmnQuestionnaires": True,
-        "transformDmnFiles": True,
-        "generateValuesetSchemas": True,
-        "generateLogicalModelSchemas": True,
-        "generateDakApiHub": True,
-        "generateJsonldVocabularies": True,
-    })
-    
-    # Pages
-    if sushi_config.get("pages"):
-        dak["pages"] = convert_pages(sushi_config["pages"])
-    else:
-        dak["pages"] = []
-    
-    # Menu
-    if sushi_config.get("menu"):
-        dak["menu"] = convert_menu(sushi_config["menu"])
-    else:
-        dak["menu"] = []
     
     # Additional metadata
     dak.update({

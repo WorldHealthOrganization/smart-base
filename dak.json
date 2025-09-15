@@ -1,4 +1,7 @@
 {
+  "resourceType": "DAK",
+  "fhir:canonicalUri": "http://smart.who.int/base/StructureDefinition/DAK",
+  "fhir:logicalModel": "http://smart.who.int/base/StructureDefinition/DAK",
   "id": "smart.who.int.base",
   "name": "Base",
   "title": "SMART Base",
@@ -61,58 +64,6 @@
       "id": "sdc",
       "version": "3.0.0",
       "reason": "This IG uses questionnaire profiles and capabilities provided by the Structure Data Capture (SDC) IG"
-    }
-  ],
-  "generateDmnQuestionnaires": true,
-  "transformDmnFiles": true,
-  "generateValuesetSchemas": true,
-  "generateLogicalModelSchemas": true,
-  "generateDakApiHub": true,
-  "generateJsonldVocabularies": true,
-  "pages": [
-    {
-      "filename": "index.md",
-      "title": "Home"
-    },
-    {
-      "filename": "changes.md",
-      "title": "Changes"
-    },
-    {
-      "filename": "downloads.md",
-      "title": "Downloads"
-    },
-    {
-      "filename": "license.md",
-      "title": "License"
-    },
-    {
-      "filename": "dak-api.md",
-      "title": "DAK API Documentation Hub"
-    }
-  ],
-  "menu": [
-    {
-      "title": "Home",
-      "url": "index.html"
-    },
-    {
-      "title": "Downloads",
-      "url": "downloads.html"
-    },
-    {
-      "title": "Indices",
-      "url": "#",
-      "subItems": [
-        {
-          "title": "Artifact Index",
-          "url": "artifacts.html"
-        },
-        {
-          "title": "DAK API",
-          "url": "dak-api.html"
-        }
-      ]
     }
   ],
   "releaseLabel": "ci-build",

@@ -47,13 +47,7 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
     * title 1..1 string "Sub-item Title" "Title of the sub-menu item"
     * url 1..1 string "Sub-item URL" "URL of the sub-menu item"
 
-// DAK-specific generation flags
-* generateDmnQuestionnaires 0..1 boolean "Generate DMN Questionnaires" "Whether to generate FHIR Questionnaires from DMN files"
-* transformDmnFiles 0..1 boolean "Transform DMN Files" "Whether to transform DMN files to HTML"
-* generateValuesetSchemas 0..1 boolean "Generate ValueSet Schemas" "Whether to generate JSON schemas for ValueSets"
-* generateLogicalModelSchemas 0..1 boolean "Generate Logical Model Schemas" "Whether to generate JSON schemas for Logical Models"
-* generateDakApiHub 0..1 boolean "Generate DAK API Hub" "Whether to generate DAK API Documentation Hub"
-* generateJsonldVocabularies 0..1 boolean "Generate JSON-LD Vocabularies" "Whether to generate JSON-LD vocabularies from ValueSet expansions"
+
 
 // 9 DAK Components with cardinality 0..*
 * healthInterventions 0..* HealthInterventions "Health Interventions and Recommendations" "Overview of the health interventions and WHO, regional or national recommendations included within the DAK"
