@@ -1,15 +1,16 @@
-# Wrapper workflow that calls the v1-ghbuild for backward compatibility
-# The current workflow functionality has been moved to v1-ghbuild.yml
-# For new projects, consider using:
-# - v2-ghbuild.yml for standard FHIR IG builds
-# - v2-dakbuild.yml for builds with DAK features
+# Wrapper workflow that calls the v2-dakbuild for DAK-enabled features
+# This repository contains DAK (Digital Adaptation Kit) features including:
+# - DMN files and questionnaire generation
+# - Decision table transformations
+# - Schema generation for ValueSets and Logical Models
+# - JSON-LD vocabulary generation
 # 
 # This wrapper ensures existing references to ghbuild.yml continue to work
 
-name: CI (v1 - Legacy)
+name: CI (DAK-enabled)
 
 # Controls when the action will run. 
-on: 
+on:
   workflow_call: # Reusable by other workflows
     inputs:
       tx:
@@ -59,9 +60,9 @@ concurrency:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Call the v1 workflow for backward compatibility
-  call-v1-ghbuild:
-    uses: ./.github/workflows/v1-ghbuild.yml
+  # Call the v2-dakbuild workflow for DAK-enabled features
+  call-v2-dakbuild:
+    uses: ./.github/workflows/v2-dakbuild.yml
     with:
       tx: ${{ inputs.tx }}
       generate_dmn_questionnaires: ${{ inputs.generate_dmn_questionnaires }}
