@@ -23,7 +23,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v1/ghbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v1-ghbuild.yml@main
     with:
       tx: "https://tx.fhir.org"  # Optional custom terminology server
       # Manual overrides (optional):
@@ -49,7 +49,7 @@ You can explicitly enable/disable any feature regardless of repository owner:
 ```yaml
 jobs:
   build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v1/ghbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v1-ghbuild.yml@main
     with:
       generate_dmn_questionnaires: false  # Force disable even for WHO repos
       generate_valueset_schemas: true     # Force enable even for non-WHO repos

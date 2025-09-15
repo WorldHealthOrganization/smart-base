@@ -6,9 +6,9 @@ This GitHub Action automatically builds and publishes FHIR Implementation Guides
 
 This repository now provides **versioned workflows** to better serve different use cases:
 
-- **[v1/ghbuild.yml](v1/)**: Complete workflow with optional DAK features (semi-stable)
-- **[v2/ghbuild.yml](v2/)**: Core FHIR IG build only (experimental)
-- **[v2/dakbuild.yml](v2/)**: DAK features + core build (experimental)
+- **[v1-ghbuild.yml](v1/)**: Complete workflow with optional DAK features (semi-stable)
+- **[v2-ghbuild.yml](v2/)**: Core FHIR IG build only (experimental)
+- **[v2-dakbuild.yml](v2/)**: DAK features + core build (experimental)
 
 **📖 See [VERSIONING.md](VERSIONING.md) for complete migration guide and best practices.**
 
@@ -18,14 +18,14 @@ This repository now provides **versioned workflows** to better serve different u
 ```yaml
 jobs:
   build: 
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2/ghbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@main
 ```
 
 ### For DAK-Enhanced Builds  
 ```yaml
 jobs:
   dak-build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2/dakbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-dakbuild.yml@main
     with:
       generate_dmn_questionnaires: true
       generate_valueset_schemas: true
@@ -65,8 +65,8 @@ Before you can use this GitHub Action, you need to ensure the following:
 
    **For new projects**, choose based on your needs:
    
-   - **Standard FHIR IG**: Use `v2/ghbuild.yml`
-   - **With DAK features**: Use `v2/dakbuild.yml`
+   - **Standard FHIR IG**: Use `v2-ghbuild.yml`
+   - **With DAK features**: Use `v2-dakbuild.yml`
    - **Legacy compatibility**: Use main `ghbuild.yml`
 
 3. **Add the Workflow File**
@@ -79,7 +79,7 @@ Before you can use this GitHub Action, you need to ensure the following:
    on: [push, pull_request]
    jobs:
      build: 
-       uses: WorldHealthOrganization/smart-base/.github/workflows/v2/ghbuild.yml@main
+       uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@main
    ```
    
    **DAK-enhanced build (v2)**:
@@ -88,7 +88,7 @@ Before you can use this GitHub Action, you need to ensure the following:
    on: [push, pull_request]
    jobs:
      dak-build:
-       uses: WorldHealthOrganization/smart-base/.github/workflows/v2/dakbuild.yml@main
+       uses: WorldHealthOrganization/smart-base/.github/workflows/v2-dakbuild.yml@main
        with:
          generate_dmn_questionnaires: true
          generate_valueset_schemas: true
