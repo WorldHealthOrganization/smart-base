@@ -58,6 +58,7 @@ concurrency:
 jobs:
   # Call the v2 DAK workflow with all the DAK-specific parameters
   call-v2-dakbuild:
+    name: Build and Deploy with DAK Features
     uses: ./.github/workflows/v2-dakbuild.yml
     with:
       tx: ${{ inputs.tx }}

@@ -37,6 +37,7 @@ concurrency:
 jobs:
   # Call the v1 workflow for backward compatibility
   call-v1-ghbuild:
+    name: Build and Deploy (v1 Legacy)
     uses: ./.github/workflows/v1-ghbuild.yml
     with:
       tx: ${{ inputs.tx }}
