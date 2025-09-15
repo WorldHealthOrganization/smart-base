@@ -51,7 +51,7 @@ on:
 
 # Prevent concurrent deployments to avoid race conditions when updating gh-pages branch
 concurrency:
-  group: gh-pages-deployment-${{ github.ref }}
+  group: dak-deployment-${{ github.ref }}
   cancel-in-progress: false
 
 # A workflow run is made up of one or more jobs
