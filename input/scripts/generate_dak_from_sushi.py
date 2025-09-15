@@ -4,6 +4,7 @@ Generate dak.json from sushi-config.yaml
 
 This script processes an existing FHIR Implementation Guide sushi-config.yaml file
 and generates a corresponding dak.json file that serves as the primary DAK indicator.
+It uses only the Python standard library and YAML parsing to avoid dependency on SUSHI.
 
 Usage:
     python generate_dak_from_sushi.py [path_to_sushi_config] [output_path]

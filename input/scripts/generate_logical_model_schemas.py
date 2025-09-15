@@ -222,15 +222,19 @@ class SchemaGenerator:
             "title": logical_model.get('title', logical_model['name']),
             "description": logical_model.get('description', f"JSON Schema for {logical_model['name']} Logical Model. Generated from StructureDefinition."),
             "type": "object",
-            "properties": {},
-            "required": []
+            "properties": {
+                "resourceType": {
+                    "type": "string",
+                    "const": logical_model['id'],
+                    "description": f"Resource type identifier for {logical_model['name']} logical model"
+                }
+            },
+            "required": ["resourceType"]
         }
         
-        # Add metadata
-        if model_url:
-            schema["fhir:logicalModel"] = model_url
-        else:
-            schema["fhir:logicalModel"] = f"{self.canonical_base}/StructureDefinition/{model_name}"
+        # Add metadata including canonical URI
+        schema["fhir:canonicalUri"] = model_url if model_url else f"{self.canonical_base}/StructureDefinition/{model_name}"
+        schema["fhir:logicalModel"] = model_url if model_url else f"{self.canonical_base}/StructureDefinition/{model_name}"
         
         if logical_model.get('parent'):
             schema["fhir:parent"] = logical_model['parent']
