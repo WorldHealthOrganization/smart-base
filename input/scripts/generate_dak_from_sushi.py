@@ -157,8 +157,7 @@ def generate_dak_json(sushi_config: Dict[str, Any]) -> Dict[str, Any]:
     # Core DAK identity (mapped from sushi config)
     dak = {
         "resourceType": "DAK",
-        "fhir:canonicalUri": "http://smart.who.int/base/StructureDefinition/DAK",
-        "fhir:logicalModel": "http://smart.who.int/base/StructureDefinition/DAK",
+        "resourceDefinition": "http://smart.who.int/base/StructureDefinition/DAK",
         "id": sushi_config.get("id", ""),
         "name": sushi_config.get("name", ""),
         "title": sushi_config.get("title", ""),

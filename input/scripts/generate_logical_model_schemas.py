@@ -232,9 +232,8 @@ class SchemaGenerator:
             "required": ["resourceType"]
         }
         
-        # Add metadata including canonical URI
-        schema["fhir:canonicalUri"] = model_url if model_url else f"{self.canonical_base}/StructureDefinition/{model_name}"
-        schema["fhir:logicalModel"] = model_url if model_url else f"{self.canonical_base}/StructureDefinition/{model_name}"
+        # Add metadata including canonical URI using resourceDefinition
+        schema["resourceDefinition"] = model_url if model_url else f"{self.canonical_base}/StructureDefinition/{model_name}"
         
         if logical_model.get('parent'):
             schema["fhir:parent"] = logical_model['parent']
