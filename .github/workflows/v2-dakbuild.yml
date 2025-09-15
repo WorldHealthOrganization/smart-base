@@ -87,7 +87,7 @@ on:
 
 # Prevent concurrent deployments to avoid race conditions when updating gh-pages branch
 concurrency:
-  group: gh-pages-deployment
+  group: gh-pages-deployment-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
