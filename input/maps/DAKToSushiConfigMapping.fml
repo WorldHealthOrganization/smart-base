@@ -1,0 +1,35 @@
+/// url = "http://smart.who.int/base/StructureMap/DAKToSushiConfigMapping"
+/// name = "DAKToSushiConfigMapping"
+/// title = "DAK to SUSHI Config Mapping"
+/// status = "draft"
+/// description = "Mapping from DAK logical model metadata to SUSHI configuration logical model for IG generation"
+
+map "http://smart.who.int/base/StructureMap/DAKToSushiConfigMapping" = "DAKToSushiConfigMapping"
+
+{
+  prefix s = "http://smart.who.int/base/StructureDefinition/"
+  prefix t = "http://smart.who.int/base/StructureDefinition/"
+  
+  uses "http://smart.who.int/base/StructureDefinition/DAK" alias DAK as source
+  uses "http://smart.who.int/base/StructureDefinition/SushiConfigLogicalModel" alias SushiConfigLogicalModel as target
+  
+  group DAKToSushiConfig(source dak : DAK, target sushiConfig : SushiConfigLogicalModel) {
+    
+    // Core identity mappings
+    dak.id -> sushiConfig.id "mapDakIdToSushiId";
+    dak.publicationUrl -> sushiConfig.canonical "mapDakPublicationUrlToSushiCanonical";
+    dak.name -> sushiConfig.name "mapDakNameToSushiName";
+    dak.title -> sushiConfig.title "mapDakTitleToSushiTitle";
+    dak.description -> sushiConfig.description "mapDakDescriptionToSushiDescription";
+    dak.version -> sushiConfig.version "mapDakVersionToSushiVersion";
+    dak.status -> sushiConfig.status "mapDakStatusToSushiStatus";
+    dak.license -> sushiConfig.license "mapDakLicenseToSushiLicense";
+    dak.copyrightYear -> sushiConfig.copyrightYear "mapDakCopyrightYearToSushiCopyrightYear";
+    
+    // Publisher mapping (complex object)
+    dak.publisher as dakPublisher -> sushiConfig.publisher as sushiPublisher then {
+      dakPublisher.name -> sushiPublisher.name "mapPublisherName";
+      dakPublisher.url -> sushiPublisher.url "mapPublisherUrl";
+    } "mapDakPublisherToSushiPublisher";
+  }
+}
