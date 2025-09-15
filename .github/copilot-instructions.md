@@ -8,7 +8,7 @@ WHO SMART Base is a FHIR Implementation Guide that serves as the foundational de
 
 ⚠️ **IMPORTANT**: The full IG build currently requires SUSHI (FSH processor) which may have installation challenges in some environments. However, **all DAK extraction scripts work independently** and can be used for content processing even when the full build fails.
 
-The DAK scripts are the core value of this repository and are fully functional for processing clinical guideline content.
+The DAK scripts are the core value of this repository and are fully functional for processing clinical guideline content. Another main value of this repository is that it defines the schemas (Logical models, JSON schema) for computable representations of WHO DAK content.
 
 ## Working Effectively
 
@@ -54,7 +54,6 @@ pip install -r input/scripts/requirements.txt  # 45-60 seconds
 
 # Process your content:
 python3 input/scripts/isco08_extractor.py input/data/ISCO-08_EN_Structure_and_definitions.xlsx
-python3 input/scripts/dmn_questionnaire_generator.py
 python3 input/scripts/transform_dmn.py
 
 # Generated FSH files can be manually reviewed or processed with external SUSHI installation
@@ -64,12 +63,49 @@ python3 input/scripts/transform_dmn.py
 ```bash
 # Test individual extractors (each takes 0.5-2 seconds):
 python3 input/scripts/isco08_extractor.py input/data/ISCO-08_EN_Structure_and_definitions.xlsx
-python3 input/scripts/dmn_questionnaire_generator.py
 python3 input/scripts/transform_dmn.py
 
 # Full DAK extraction pipeline:
 python3 input/scripts/extract_dak.py
 ```
+
+## WHO DAK Content Schemas (Logical Models & JSON Schemas)
+
+WHO SMART Base defines comprehensive schemas for computable representations of WHO DAK content through FHIR Logical Models and generated JSON schemas:
+
+### FHIR Logical Models
+The repository includes logical models in `input/fsh/models/` that define the structure for:
+
+```bash
+# Core DAK logical models (view with):
+ls input/fsh/models/
+# Key models include:
+# - DAK.fsh - Complete Digital Adaptation Kit structure
+# - GenericPersona.fsh - Human and system actors 
+# - HealthInterventions.fsh - WHO health interventions and recommendations
+# - Requirements.fsh - Functional and non-functional requirements
+# - BusinessProcessWorkflow.fsh - Clinical care workflows
+# - DecisionSupportLogic.fsh - Clinical decision logic
+# - ProgramIndicator.fsh - Health program indicators
+```
+
+### JSON Schema Generation
+Generate JSON schemas from FHIR logical models for validation:
+
+```bash
+# Generate schemas from logical models (requires completed IG build):
+python3 input/scripts/generate_logical_model_schemas.py
+python3 input/scripts/generate_valueset_schemas.py
+
+# Schemas enable validation of DAK content against WHO standards
+# Generated schemas are used for data interchange and validation
+```
+
+### Schema Validation Use Cases
+- **DAK Content Validation**: Ensure DAK data conforms to WHO standards
+- **Data Interchange**: Standardized JSON representations for system integration  
+- **Implementation Verification**: Validate local adaptations against WHO schemas
+- **Quality Assurance**: Automated validation of DAK content during development
 
 ## Timing Expectations and Critical Warnings
 
@@ -84,7 +120,6 @@ python3 input/scripts/extract_dak.py
 
 ### Measured Script Performance
 - ISCO-08 extraction: 0.464 seconds (182 codes processed)
-- DMN questionnaire generation: <0.1 seconds (1 DMN file)  
 - DMN transformation to HTML: 0.059 seconds (1 DMN file)
 - Python dependency installation: 45-60 seconds
 - **IG Publisher dependency resolution**: 7.3 seconds (6 dependencies, all failing offline)
@@ -99,10 +134,6 @@ python3 input/scripts/extract_dak.py
    # Test ISCO-08 extraction (creates FSH file with 182 occupation codes)
    python3 input/scripts/isco08_extractor.py input/data/ISCO-08_EN_Structure_and_definitions.xlsx
    # Verify: Check input/fsh/codesystems/ISCO08.fsh is created and contains "CodeSystem: ISCO08"
-   
-   # Test DMN questionnaire generation (processes 1 DMN file)
-   python3 input/scripts/dmn_questionnaire_generator.py
-   # Verify: Check input/fsh/questionnaires/DAK.DT.IMMZ.D2.DT.BCGQuestionnaire.fsh is created
    
    # Test DMN to HTML transformation
    python3 input/scripts/transform_dmn.py
@@ -136,6 +167,7 @@ python3 input/scripts/extract_dak.py
 
 ### Core Directories
 - `input/fsh/` - FHIR Shorthand definitions (profiles, extensions, valuesets)
+- `input/fsh/models/` - FHIR Logical Models defining WHO DAK content schemas
 - `input/scripts/` - Python DAK extraction pipeline
 - `input/data/` - Sample data files for testing extractors
 - `input/dmn/` - Decision tables in DMN format
@@ -148,8 +180,9 @@ python3 input/scripts/extract_dak.py
 - `_genonce.sh` - Runs complete IG build process
 - `input/scripts/extract_dak.py` - Main DAK extraction orchestrator
 - `input/scripts/isco08_extractor.py` - ISCO-08 occupation codes extractor
-- `input/scripts/dmn_questionnaire_generator.py` - Generates questionnaires from DMN files
 - `input/scripts/transform_dmn.py` - Converts DMN files to HTML for documentation
+- `input/scripts/generate_logical_model_schemas.py` - Generates JSON schemas from FHIR logical models
+- `input/scripts/generate_valueset_schemas.py` - Generates JSON schemas from FHIR value sets
 
 ### Configuration Files
 - `sushi-config.yaml` - Main SUSHI configuration for the FHIR IG
@@ -170,11 +203,21 @@ python3 input/scripts/extract_dak.py
 3. Verify generated FSH files in `input/fsh/`
 4. Run build to generate final FHIR resources
 
+### Working with WHO DAK Content Schemas
+1. Review logical models in `input/fsh/models/` to understand DAK structure
+2. After successful IG build, generate JSON schemas:
+   ```bash
+   python3 input/scripts/generate_logical_model_schemas.py
+   python3 input/scripts/generate_valueset_schemas.py
+   ```
+3. Use generated schemas for validating DAK content representations
+4. Reference schemas in implementation guides and system integrations
+
 ### Validating Changes
 **Always run these validation steps before committing:**
 ```bash
 # Test basic DAK functionality
-python3 input/scripts/dmn_questionnaire_generator.py
+python3 input/scripts/transform_dmn.py
 
 # Test build process (NEVER CANCEL - wait 60+ minutes if needed)
 ./_genonce.sh -tx n/a
@@ -200,7 +243,6 @@ pip install -r input/scripts/requirements.txt  # Takes 45-60 seconds
 
 # Quick validation tests (all verified under 1 second):
 python3 input/scripts/isco08_extractor.py input/data/ISCO-08_EN_Structure_and_definitions.xlsx  # 0.464s
-python3 input/scripts/dmn_questionnaire_generator.py  # <0.1s
 python3 input/scripts/transform_dmn.py  # 0.059s
 
 # Build command (MEASURED: 7-8 seconds until SUSHI failure, up to 60 minutes for successful builds):
