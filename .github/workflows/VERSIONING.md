@@ -13,7 +13,7 @@ The smart-base repository provides versioned GitHub workflows to support differe
 
 ### Version 1 (v1) - Semi-Stable
 
-**Location**: `.github/workflows/v1/ghbuild.yml`
+**Location**: `.github/workflows/v1-ghbuild.yml`
 
 **Features**:
 - Complete FHIR IG build functionality
@@ -30,7 +30,7 @@ The smart-base repository provides versioned GitHub workflows to support differe
 ```yaml
 jobs:
   build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v1/ghbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v1-ghbuild.yml@main
     with:
       tx: "https://tx.fhir.org"  # optional
       generate_dmn_questionnaires: true  # optional
@@ -41,9 +41,9 @@ jobs:
 
 Version 2 splits the monolithic workflow into two focused workflows:
 
-#### v2/ghbuild.yml - Core FHIR Build
+#### v2-ghbuild.yml - Core FHIR Build
 
-**Location**: `.github/workflows/v2/ghbuild.yml`
+**Location**: `.github/workflows/v2-ghbuild.yml`
 
 **Features**:
 - Core FHIR IG build functionality only
@@ -55,18 +55,18 @@ Version 2 splits the monolithic workflow into two focused workflows:
 ```yaml
 jobs:
   build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2/ghbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@main
     with:
       tx: "https://tx.fhir.org"  # optional
 ```
 
-#### v2/dakbuild.yml - DAK Features + Core Build
+#### v2-dakbuild.yml - DAK Features + Core Build
 
-**Location**: `.github/workflows/v2/dakbuild.yml`
+**Location**: `.github/workflows/v2-dakbuild.yml`
 
 **Features**:
 - All DAK-specific features
-- Calls v2/ghbuild.yml for core FHIR build
+- Calls v2-ghbuild.yml for core FHIR build
 - Modular architecture with pre-processing and post-processing jobs
 - Fine-grained control over DAK features
 
@@ -74,7 +74,7 @@ jobs:
 ```yaml
 jobs:
   dak-build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2/dakbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-dakbuild.yml@main
     with:
       tx: "https://tx.fhir.org"  # optional
       generate_dmn_questionnaires: true
@@ -108,7 +108,7 @@ jobs:
 ```yaml
 jobs:
   build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2/ghbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@main
 ```
 
 #### For DAK-Enhanced Builds
@@ -127,7 +127,7 @@ jobs:
 ```yaml
 jobs:
   dak-build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2/dakbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-dakbuild.yml@main
     with:
       generate_dmn_questionnaires: true
       # ... other DAK flags
@@ -206,19 +206,19 @@ jobs:
 #### For Production Use
 ```yaml
 # Pin to specific version
-uses: WorldHealthOrganization/smart-base/.github/workflows/v1/ghbuild.yml@v1.2.1
+uses: WorldHealthOrganization/smart-base/.github/workflows/v1-ghbuild.yml@v1.2.1
 
 # Or pin to major version for stability
-uses: WorldHealthOrganization/smart-base/.github/workflows/v1/ghbuild.yml@v1
+uses: WorldHealthOrganization/smart-base/.github/workflows/v1-ghbuild.yml@v1
 ```
 
 #### For Development/Testing
 ```yaml
 # Use latest for testing new features
-uses: WorldHealthOrganization/smart-base/.github/workflows/v2/ghbuild.yml@main
+uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@main
 
 # Or use specific branch for testing
-uses: WorldHealthOrganization/smart-base/.github/workflows/v2/ghbuild.yml@feature/new-capability
+uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@feature/new-capability
 ```
 
 ### 8. Documentation Standards

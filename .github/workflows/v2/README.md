@@ -25,7 +25,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2/ghbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@main
     with:
       tx: "https://tx.fhir.org"  # Optional custom terminology server
     secrets: inherit
@@ -51,7 +51,7 @@ A comprehensive workflow that includes DAK features and calls the core ghbuild w
 - ✅ Logical model JSON schema generation
 - ✅ DAK API documentation hub
 - ✅ JSON-LD vocabulary generation
-- ✅ Calls v2/ghbuild.yml for core build
+- ✅ Calls v2-ghbuild.yml for core build
 - ✅ Modular pre/post-processing architecture
 
 ### Usage
@@ -62,7 +62,7 @@ on: [push, pull_request]
 
 jobs:
   dak-build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2/dakbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-dakbuild.yml@main
     with:
       tx: "https://tx.fhir.org"
       # All DAK features default to true, but can be controlled:
@@ -80,7 +80,7 @@ jobs:
 The DAK workflow uses a three-job architecture:
 
 1. **`dak-preprocess`**: DMN processing, configuration setup
-2. **`call-ghbuild`**: Calls v2/ghbuild.yml for core FHIR build
+2. **`call-ghbuild`**: Calls v2-ghbuild.yml for core FHIR build
 3. **`dak-postprocess`**: Schema generation, API documentation
 
 ### When to Use
@@ -103,38 +103,38 @@ The DAK workflow uses a three-job architecture:
 
 ## Migration from v1
 
-### From v1 to v2/ghbuild (Core Only)
+### From v1 to v2-ghbuild (Core Only)
 
 **Before (v1)**:
 ```yaml
 jobs:
   build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v1/ghbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v1-ghbuild.yml@main
 ```
 
-**After (v2/ghbuild)**:
+**After (v2-ghbuild)**:
 ```yaml
 jobs:
   build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2/ghbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@main
 ```
 
-### From v1 to v2/dakbuild (With DAK Features)
+### From v1 to v2-dakbuild (With DAK Features)
 
 **Before (v1)**:
 ```yaml
 jobs:
   build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v1/ghbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v1-ghbuild.yml@main
     with:
       generate_dmn_questionnaires: true
 ```
 
-**After (v2/dakbuild)**:
+**After (v2-dakbuild)**:
 ```yaml
 jobs:
   dak-build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2/dakbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-dakbuild.yml@main
     with:
       generate_dmn_questionnaires: true
       # Note: Other features default to true, but can be explicitly controlled
@@ -156,7 +156,7 @@ jobs:
 
 1. **Pin to specific commits** for reproducibility:
    ```yaml
-   uses: WorldHealthOrganization/smart-base/.github/workflows/v2/ghbuild.yml@abc123
+   uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@abc123
    ```
 
 2. **Test thoroughly** before adopting

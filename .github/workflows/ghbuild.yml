@@ -1,8 +1,8 @@
-# Wrapper workflow that calls the v1 ghbuild for backward compatibility
-# The current workflow functionality has been moved to v1/ghbuild.yml
+# Wrapper workflow that calls the v1-ghbuild for backward compatibility
+# The current workflow functionality has been moved to v1-ghbuild.yml
 # For new projects, consider using:
-# - v2/ghbuild.yml for standard FHIR IG builds
-# - v2/dakbuild.yml for builds with DAK features
+# - v2-ghbuild.yml for standard FHIR IG builds
+# - v2-dakbuild.yml for builds with DAK features
 # 
 # This wrapper ensures existing references to ghbuild.yml continue to work
 
@@ -61,7 +61,7 @@ concurrency:
 jobs:
   # Call the v1 workflow for backward compatibility
   call-v1-ghbuild:
-    uses: ./.github/workflows/v1/ghbuild.yml
+    uses: ./.github/workflows/v1-ghbuild.yml
     with:
       tx: ${{ inputs.tx }}
       generate_dmn_questionnaires: ${{ inputs.generate_dmn_questionnaires }}
