@@ -1,13 +1,12 @@
-# Wrapper workflow that calls the v2-dakbuild for DAK-enabled features
-# This repository contains DAK (Digital Adaptation Kit) features including:
-# - DMN files and questionnaire generation
-# - Decision table transformations
-# - Schema generation for ValueSets and Logical Models
-# - JSON-LD vocabulary generation
+# Wrapper workflow that calls the v1-ghbuild for backward compatibility
+# The current workflow functionality has been moved to v1-ghbuild.yml
+# For new projects, consider using:
+# - v2-ghbuild.yml for standard FHIR IG builds
+# - v2-dakbuild.yml for builds with DAK features
 # 
 # This wrapper ensures existing references to ghbuild.yml continue to work
 
-name: CI (DAK-enabled)
+name: CI (v1 - Legacy)
 
 # Controls when the action will run. 
 on:
@@ -28,30 +27,6 @@ on:
       tx:
         description: 'Optional Custom terminology server URL'
         required: false
-      generate_dmn_questionnaires:
-        description: 'Generate DMN Questionnaires (default: enabled for WHO repos, disabled for others)'
-        required: false
-        type: boolean
-      transform_dmn_files:
-        description: 'Transform DMN files to HTML (default: enabled for WHO repos, disabled for others)'
-        required: false
-        type: boolean
-      generate_valueset_schemas:
-        description: 'Generate ValueSet JSON Schemas (default: enabled for WHO repos, disabled for others)'
-        required: false
-        type: boolean
-      generate_logical_model_schemas:
-        description: 'Generate Logical Model JSON Schemas (default: enabled for WHO repos, disabled for others)'
-        required: false
-        type: boolean
-      generate_dak_api_hub:
-        description: 'Generate DAK API Documentation Hub (default: enabled for WHO repos, disabled for others)'
-        required: false
-        type: boolean
-      generate_jsonld_vocabularies:
-        description: 'Generate JSON-LD Vocabularies from ValueSet expansions (default: enabled for WHO repos, disabled for others)'
-        required: false
-        type: boolean
 
 # Prevent concurrent deployments to avoid race conditions when updating gh-pages branch
 concurrency:
@@ -60,15 +35,9 @@ concurrency:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Call the v2-dakbuild workflow for DAK-enabled features
-  call-v2-dakbuild:
-    uses: ./.github/workflows/v2-dakbuild.yml
+  # Call the v1 workflow for backward compatibility
+  call-v1-ghbuild:
+    uses: ./.github/workflows/v1-ghbuild.yml
     with:
       tx: ${{ inputs.tx }}
-      generate_dmn_questionnaires: ${{ inputs.generate_dmn_questionnaires }}
-      transform_dmn_files: ${{ inputs.transform_dmn_files }}
-      generate_valueset_schemas: ${{ inputs.generate_valueset_schemas }}
-      generate_logical_model_schemas: ${{ inputs.generate_logical_model_schemas }}
-      generate_dak_api_hub: ${{ inputs.generate_dak_api_hub }}
-      generate_jsonld_vocabularies: ${{ inputs.generate_jsonld_vocabularies }}
     secrets: inherit
