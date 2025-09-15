@@ -9,7 +9,7 @@
 name: CI (v1 - Legacy)
 
 # Controls when the action will run. 
-on: 
+on:
   workflow_call: # Reusable by other workflows
     inputs:
       tx:
@@ -27,30 +27,6 @@ on:
       tx:
         description: 'Optional Custom terminology server URL'
         required: false
-      generate_dmn_questionnaires:
-        description: 'Generate DMN Questionnaires (default: enabled for WHO repos, disabled for others)'
-        required: false
-        type: boolean
-      transform_dmn_files:
-        description: 'Transform DMN files to HTML (default: enabled for WHO repos, disabled for others)'
-        required: false
-        type: boolean
-      generate_valueset_schemas:
-        description: 'Generate ValueSet JSON Schemas (default: enabled for WHO repos, disabled for others)'
-        required: false
-        type: boolean
-      generate_logical_model_schemas:
-        description: 'Generate Logical Model JSON Schemas (default: enabled for WHO repos, disabled for others)'
-        required: false
-        type: boolean
-      generate_dak_api_hub:
-        description: 'Generate DAK API Documentation Hub (default: enabled for WHO repos, disabled for others)'
-        required: false
-        type: boolean
-      generate_jsonld_vocabularies:
-        description: 'Generate JSON-LD Vocabularies from ValueSet expansions (default: enabled for WHO repos, disabled for others)'
-        required: false
-        type: boolean
 
 # Prevent concurrent deployments to avoid race conditions when updating gh-pages branch
 concurrency:
@@ -61,13 +37,8 @@ concurrency:
 jobs:
   # Call the v1 workflow for backward compatibility
   call-v1-ghbuild:
+    name: Build and Deploy (v1 Legacy)
     uses: ./.github/workflows/v1-ghbuild.yml
     with:
       tx: ${{ inputs.tx }}
-      generate_dmn_questionnaires: ${{ inputs.generate_dmn_questionnaires }}
-      transform_dmn_files: ${{ inputs.transform_dmn_files }}
-      generate_valueset_schemas: ${{ inputs.generate_valueset_schemas }}
-      generate_logical_model_schemas: ${{ inputs.generate_logical_model_schemas }}
-      generate_dak_api_hub: ${{ inputs.generate_dak_api_hub }}
-      generate_jsonld_vocabularies: ${{ inputs.generate_jsonld_vocabularies }}
     secrets: inherit
