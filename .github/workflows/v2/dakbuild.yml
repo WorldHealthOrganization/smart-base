@@ -85,9 +85,9 @@ on:
         type: boolean
         default: true
 
-# Prevent concurrent deployments
+# Prevent concurrent deployments to avoid race conditions when updating gh-pages branch
 concurrency:
-  group: dak-build-${{ github.ref }}
+  group: gh-pages-deployment
   cancel-in-progress: false
 
 jobs:
@@ -676,6 +676,7 @@ jobs:
           target-folder: branches/${{ env.SANITIZED_BRANCH_NAME }}
           single-commit: true
           clean: false 
+          force: false 
 
       - name: Deploy main
         uses: JamesIves/github-pages-deploy-action@v4.4.2
@@ -689,3 +690,4 @@ jobs:
           clean-exclude: |
             branches
             sitepreview
+          force: false
