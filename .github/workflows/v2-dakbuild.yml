@@ -674,7 +674,7 @@ jobs:
           target-folder: branches/${{ env.SANITIZED_BRANCH_NAME }}
           single-commit: true
           clean: false 
-          force: false 
+          force: true 
 
       - name: Deploy main
         uses: JamesIves/github-pages-deploy-action@v4.4.2
@@ -688,4 +688,4 @@ jobs:
           clean-exclude: |
             branches
             sitepreview
-          force: false
+          force: true
