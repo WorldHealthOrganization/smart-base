@@ -13,8 +13,6 @@ group DAKToSushiConfig(source dak : DAK, target sushiConfig : SushiConfigLogical
   dak.status -> sushiConfig.status;
   dak.license -> sushiConfig.license;
   dak.copyrightYear -> sushiConfig.copyrightYear;
-  dak.publisher -> sushiConfig.publisher then {
-    dak.publisher.name -> sushiConfig.publisher.name;
-    dak.publisher.url -> sushiConfig.publisher.url;
-  };
+  dak.publisher.name -> sushiConfig.publisher.name;
+  dak.publisher.url -> sushiConfig.publisher.url;
 }
