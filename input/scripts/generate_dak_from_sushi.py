@@ -48,109 +48,6 @@ def convert_publisher(sushi_publisher: Any) -> Dict[str, str]:
         return {"name": ""}
 
 
-def convert_dependencies(sushi_deps: Dict[str, Any]) -> List[Dict[str, str]]:
-    """Convert dependencies from sushi config to DAK format."""
-    dependencies = []
-    
-    # Default reasons for common dependencies
-    default_reasons = {
-        "hl7.terminology": "Required terminology definitions",
-        "hl7.fhir.uv.extensions.r4": "Standard FHIR extensions for R4",
-        "hl7.fhir.uv.extensions.r5": "Standard FHIR extensions for R5"
-    }
-    
-    for dep_id, dep_info in sushi_deps.items():
-        if isinstance(dep_info, dict):
-            dep_name = dep_info.get("id", dep_id)
-            reason = dep_info.get("reason", default_reasons.get(dep_name, ""))
-            dependencies.append({
-                "id": dep_name,
-                "version": dep_info.get("version", ""),
-                "reason": reason
-            })
-        elif isinstance(dep_info, str):
-            reason = default_reasons.get(dep_id, "")
-            dependencies.append({
-                "id": dep_id,
-                "version": dep_info,
-                "reason": reason
-            })
-    return dependencies
-
-
-def convert_pages(sushi_pages: Dict[str, Any]) -> List[Dict[str, str]]:
-    """Convert pages from sushi config to DAK format."""
-    pages = []
-    for filename, page_info in sushi_pages.items():
-        if isinstance(page_info, dict):
-            pages.append({
-                "filename": filename,
-                "title": page_info.get("title", filename)
-            })
-        else:
-            pages.append({
-                "filename": filename,
-                "title": str(page_info) if page_info else filename
-            })
-    return pages
-
-
-def convert_menu(sushi_menu: Dict[str, Any]) -> List[Dict[str, Any]]:
-    """Convert menu structure from sushi config to DAK format."""
-    menu = []
-    for title, url_or_submenu in sushi_menu.items():
-        if isinstance(url_or_submenu, str):
-            menu.append({
-                "title": title,
-                "url": url_or_submenu
-            })
-        elif isinstance(url_or_submenu, dict):
-            menu_item = {
-                "title": title,
-                "url": "#",
-                "subItems": []
-            }
-            for sub_title, sub_url in url_or_submenu.items():
-                menu_item["subItems"].append({
-                    "title": sub_title,
-                    "url": sub_url
-                })
-            menu.append(menu_item)
-    return menu
-
-
-def convert_jurisdiction(jurisdiction_list: Optional[List[str]]) -> List[Dict[str, Any]]:
-    """Convert jurisdiction from sushi config to DAK format."""
-    if not jurisdiction_list:
-        return [{
-            "coding": [{
-                "system": "urn:iso:std:iso:3166",
-                "code": "001",
-                "display": "World"
-            }]
-        }]
-    
-    jurisdictions = []
-    for j in jurisdiction_list:
-        # Parse jurisdiction strings like "urn:iso:std:iso:3166#US"
-        if "#" in j:
-            system, code = j.split("#", 1)
-            jurisdictions.append({
-                "coding": [{
-                    "system": system,
-                    "code": code
-                }]
-            })
-        else:
-            jurisdictions.append({
-                "coding": [{
-                    "system": "urn:iso:std:iso:3166",
-                    "code": j
-                }]
-            })
-    return jurisdictions
-
-
 def generate_dak_json(sushi_config: Dict[str, Any]) -> Dict[str, Any]:
     """Generate dak.json structure from sushi-config.yaml."""
     
@@ -167,25 +64,8 @@ def generate_dak_json(sushi_config: Dict[str, Any]) -> Dict[str, Any]:
         "publicationUrl": sushi_config.get("canonical", ""),
         "license": sushi_config.get("license", "CC0-1.0"),
         "copyrightYear": sushi_config.get("copyrightYear", str(datetime.now().year)),
-        "publisher": convert_publisher(sushi_config.get("publisher", {})),
-        "experimental": sushi_config.get("experimental", False),
-        "useContext": sushi_config.get("useContext", []),
-        "jurisdiction": convert_jurisdiction(sushi_config.get("jurisdiction")),
-        "fhirVersion": sushi_config.get("fhirVersion", "4.0.1"),
+        "publisher": convert_publisher(sushi_config.get("publisher", {}))
     }
-    
-    # Dependencies
-    if sushi_config.get("dependencies"):
-        dak["dependencies"] = convert_dependencies(sushi_config["dependencies"])
-    else:
-        dak["dependencies"] = []
-    
-    # Additional metadata
-    dak.update({
-        "releaseLabel": sushi_config.get("releaseLabel", "ci-build"),
-        "date": datetime.now().strftime("%Y-%m-%d"),
-        "contact": sushi_config.get("contact", [])
-    })
     
     return dak
 
