@@ -3,16 +3,11 @@ map "http://smart.who.int/base/StructureMap/DAKToSushiConfigMapping" = "DAKToSus
 uses "http://smart.who.int/base/StructureDefinition/DAK" as source
 uses "http://smart.who.int/base/StructureDefinition/SushiConfigLogicalModel" as target
 
-group DAKToSushiConfig(source dak : DAK, target sushiConfig : SushiConfigLogicalModel) {
+group DAKToSushiConfig(source dak, target sushiConfig) {
   dak.id -> sushiConfig.id;
   dak.publicationUrl -> sushiConfig.canonical;
   dak.name -> sushiConfig.name;
   dak.title -> sushiConfig.title;
   dak.description -> sushiConfig.description;
   dak.version -> sushiConfig.version;
-  dak.status -> sushiConfig.status;
-  dak.license -> sushiConfig.license;
-  dak.copyrightYear -> sushiConfig.copyrightYear;
-  dak.publisher.name -> sushiConfig.publisher.name;
-  dak.publisher.url -> sushiConfig.publisher.url;
 }
