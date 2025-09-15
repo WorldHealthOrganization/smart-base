@@ -33,7 +33,7 @@ on:
 
 # Prevent concurrent deployments to avoid race conditions when updating gh-pages branch
 concurrency:
-  group: v1-ghbuild-${{ github.ref }}
+  group: gh-pages-deployment-${{ github.ref }}
   cancel-in-progress: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -183,6 +183,7 @@ jobs:
           target-folder: branches/${{ env.SANITIZED_BRANCH_NAME }}
           single-commit: true
           clean: false 
+          force: false 
 
       - name: Deploy main
         uses: JamesIves/github-pages-deploy-action@v4.4.2
@@ -196,3 +197,4 @@ jobs:
           clean-exclude: |
             branches
             sitepreview
+          force: false

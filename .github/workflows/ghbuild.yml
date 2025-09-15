@@ -30,7 +30,7 @@ on:
 
 # Prevent concurrent deployments to avoid race conditions when updating gh-pages branch
 concurrency:
-  group: ghbuild-legacy-${{ github.ref }}
+  group: gh-pages-deployment-${{ github.ref }}
   cancel-in-progress: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
