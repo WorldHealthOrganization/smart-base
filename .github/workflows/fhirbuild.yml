@@ -1,6 +1,6 @@
 # This is a simple workflow that runs the HL/ FHIR IG Publisher, which builds the IG in https://build.fhir.ig/ig/<repo>/index.html
 
-name: Trigger HL7 FHIR Autobuild
+name: HL7 FHIR Autobuild Trigger
 run-name: ${{ github.actor }} triggered a GitHub Action
 on: 
   workflow_call: # Reusable by other workflows
