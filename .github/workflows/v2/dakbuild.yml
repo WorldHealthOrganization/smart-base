@@ -643,7 +643,7 @@ jobs:
   # Call the deploy-only workflow
   call-ghdeploy:
     needs: dak-postprocess
-    uses: ./.github/workflows/v2-ghdeploy.yml
+    uses: ./.github/workflows/v2-ghdeployonly.yml
     with:
       artifact_name: dak-final-output
     secrets: inherit
