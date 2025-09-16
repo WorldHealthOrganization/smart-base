@@ -411,7 +411,7 @@ jobs:
   # Call the build-only workflow
   call-ghbuild:
     needs: dak-preprocess
-    uses: ./.github/workflows/v2-ghbuild.yml
+    uses: ./.github/workflows/v2-ghbuildonly.yml
     with:
       tx: ${{ inputs.tx }}
     secrets: inherit
