@@ -12,7 +12,7 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "${{ github.ref }} - ${{ github.repository }}"
+      - run: printf "%s - %s\n" "${{ github.ref }}" "${{ github.repository }}"
       - run: | 
           curl --request POST \
           --header 'content-type: application/json' \

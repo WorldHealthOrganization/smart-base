@@ -181,17 +181,17 @@ jobs:
               
               # Try main branch first
               if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/$file_path" 2>/dev/null; then
-                echo "Downloaded $file_path from main branch"
+                printf "Downloaded %s from main branch\n" "$file_path"
                 return 0
               fi
               
               # Fallback to current branch (for testing)
               if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/$BRANCH_NAME/$file_path" 2>/dev/null; then
-                echo "Downloaded $file_path from $BRANCH_NAME branch"
+                printf "Downloaded %s from %s branch\n" "$file_path" "$BRANCH_NAME"
                 return 0
               fi
               
-              echo "Failed to download $file_path from any branch"
+              printf "Failed to download %s from any branch\n" "$file_path"
               return 1
             }
             
@@ -233,17 +233,17 @@ jobs:
               
               # Try main branch first
               if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/$file_path" 2>/dev/null; then
-                echo "Downloaded $file_path from main branch"
+                printf "Downloaded %s from main branch\n" "$file_path"
                 return 0
               fi
               
               # Fallback to current branch (for testing)
               if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/$BRANCH_NAME/$file_path" 2>/dev/null; then
-                echo "Downloaded $file_path from $BRANCH_NAME branch"
+                printf "Downloaded %s from %s branch\n" "$file_path" "$BRANCH_NAME"
                 return 0
               fi
               
-              echo "Failed to download $file_path from any branch"
+              printf "Failed to download %s from any branch\n" "$file_path"
               return 1
             }
             
@@ -303,17 +303,17 @@ jobs:
               
               # Try main branch first
               if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/$file_path" 2>/dev/null; then
-                echo "Downloaded $file_path from main branch"
+                printf "Downloaded %s from main branch\n" "$file_path"
                 return 0
               fi
               
               # Fallback to current branch (for testing)
               if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/$BRANCH_NAME/$file_path" 2>/dev/null; then
-                echo "Downloaded $file_path from $BRANCH_NAME branch"
+                printf "Downloaded %s from %s branch\n" "$file_path" "$BRANCH_NAME"
                 return 0
               fi
               
-              echo "Failed to download $file_path from any branch"
+              printf "Failed to download %s from any branch\n" "$file_path"
               return 1
             }
             

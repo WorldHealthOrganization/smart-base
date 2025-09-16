@@ -32,8 +32,8 @@ jobs:
 
       - name: Debug Variables
         run: |
-          echo "Repository Owner: $REPOSITORY_OWNER"
-          echo "Repository Name: $REPOSITORY_NAME"
+          printf "Repository Owner: %s\n" "$REPOSITORY_OWNER"
+          printf "Repository Name: %s\n" "$REPOSITORY_NAME"
       
 
       - name: Replace placeholders in badges.md

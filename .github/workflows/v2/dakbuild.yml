@@ -116,7 +116,7 @@ jobs:
       - name: Set feature flags
         run: |
           TRIGGER_TYPE="${{ github.event_name }}"
-          echo "Trigger type: $TRIGGER_TYPE"
+          printf "Trigger type: %s\n" "$TRIGGER_TYPE"
           
           # Normalize input handling for different trigger types
           normalize_boolean() {
