@@ -154,12 +154,12 @@ jobs:
           echo "ENABLE_JSONLD_VOCABULARIES=$ENABLE_JSONLD_VOCABULARIES" >> $GITHUB_ENV
           
           echo "DAK feature settings:"
-          echo "  Generate DMN Questionnaires: $ENABLE_DMN_QUESTIONNAIRES"
-          echo "  Transform DMN files: $ENABLE_TRANSFORM_DMN"
-          echo "  Generate ValueSet schemas: $ENABLE_VALUESET_SCHEMAS"
-          echo "  Generate Logical Model schemas: $ENABLE_LOGICAL_MODEL_SCHEMAS"
-          echo "  Generate DAK API hub: $ENABLE_DAK_API_HUB"
-          echo "  Generate JSON-LD vocabularies: $ENABLE_JSONLD_VOCABULARIES"
+          printf "  Generate DMN Questionnaires: %s\n" "$ENABLE_DMN_QUESTIONNAIRES"
+          printf "  Transform DMN files: %s\n" "$ENABLE_TRANSFORM_DMN"
+          printf "  Generate ValueSet schemas: %s\n" "$ENABLE_VALUESET_SCHEMAS"
+          printf "  Generate Logical Model schemas: %s\n" "$ENABLE_LOGICAL_MODEL_SCHEMAS"
+          printf "  Generate DAK API hub: %s\n" "$ENABLE_DAK_API_HUB"
+          printf "  Generate JSON-LD vocabularies: %s\n" "$ENABLE_JSONLD_VOCABULARIES"
 
       - name: Generate DMN Questionnaires
         if: env.ENABLE_DMN_QUESTIONNAIRES == 'true'
@@ -186,11 +186,11 @@ jobs:
               
               # Fallback to current branch (for testing)
               if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/$BRANCH_NAME/$file_path" 2>/dev/null; then
-                echo "Downloaded $file_path from $BRANCH_NAME branch"
+                printf "Downloaded %s from %s branch\n" "$file_path" "$BRANCH_NAME"
                 return 0
               fi
               
-              echo "Failed to download $file_path from any branch"
+              printf "Failed to download %s from any branch\n" "$file_path"
               return 1
             }
             
@@ -238,11 +238,11 @@ jobs:
               
               # Fallback to current branch (for testing)
               if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/$BRANCH_NAME/$file_path" 2>/dev/null; then
-                echo "Downloaded $file_path from $BRANCH_NAME branch"
+                printf "Downloaded %s from %s branch\n" "$file_path" "$BRANCH_NAME"
                 return 0
               fi
               
-              echo "Failed to download $file_path from any branch"
+              printf "Failed to download %s from any branch\n" "$file_path"
               return 1
             }
             
@@ -308,11 +308,11 @@ jobs:
               
               # Fallback to current branch (for testing)
               if curl -L -f -o "$output_path" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/$BRANCH_NAME/$file_path" 2>/dev/null; then
-                echo "Downloaded $file_path from $BRANCH_NAME branch"
+                printf "Downloaded %s from %s branch\n" "$file_path" "$BRANCH_NAME"
                 return 0
               fi
               
-              echo "Failed to download $file_path from any branch"
+              printf "Failed to download %s from any branch\n" "$file_path"
               return 1
             }
             
@@ -365,7 +365,7 @@ jobs:
                 PUSH_SUCCESS=false
 
                 for i in $(seq 1 $PUSH_RETRIES); do
-                  echo "Push attempt $i of $PUSH_RETRIES..."
+                  printf "Push attempt %d of %d...\n" "$i" "$PUSH_RETRIES"
                   if git push origin $BRANCH_NAME; then
                     echo "✅ Successfully pushed changes"
                     PUSH_SUCCESS=true
@@ -381,7 +381,7 @@ jobs:
                 done
 
                 if [ "$PUSH_SUCCESS" = false ]; then
-                  echo "❌ Failed to push after $PUSH_RETRIES attempts"
+                  printf "❌ Failed to push after %d attempts\n" "$PUSH_RETRIES"
                   echo "This may indicate concurrent builds or permission issues"
                   echo "The build will continue, but sushi-config.yaml changes were not committed"
                   echo "Manual intervention may be required"
