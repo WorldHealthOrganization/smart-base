@@ -151,9 +151,12 @@ jobs:
 
       - name: Run the IG publisher with optional tx
         uses: actions/github-script@v7
+        env:
+          TX_INPUT: ${{ inputs.tx }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
         with:
           script: |
-            const txInput = '${{ inputs.tx }}';
+            const txInput = process.env.TX_INPUT;
             console.log(`TX input: ${txInput}`);
 
             let cmd = `java -Xmx6g -jar ./input-cache/publisher.jar publisher ` +
@@ -170,7 +173,7 @@ jobs:
             
             const { execSync } = require('child_process');
             try {
-              execSync(`docker run --rm -v ${{ github.workspace }}:/work -w /work hl7fhir/ig-publisher-base:latest sh -c "${cmd}"`, {
+              execSync(`docker run --rm -v ${process.env.GITHUB_WORKSPACE}:/work -w /work hl7fhir/ig-publisher-base:latest sh -c "${cmd}"`, {
                 stdio: 'inherit'
               });
             } catch (error) {

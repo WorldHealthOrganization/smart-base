@@ -114,52 +114,57 @@ jobs:
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
 
       - name: Set feature flags
-        run: |
-          TRIGGER_TYPE="${{ github.event_name }}"
-          printf "Trigger type: %s\n" "$TRIGGER_TYPE"
-          
-          # Normalize input handling for different trigger types
-          normalize_boolean() {
-            local input_value="$1"
-            local default_value="$2"
+        uses: actions/github-script@v7
+        env:
+          INPUT_GENERATE_DMN_QUESTIONNAIRES: ${{ inputs.generate_dmn_questionnaires }}
+          INPUT_TRANSFORM_DMN_FILES: ${{ inputs.transform_dmn_files }}
+          INPUT_GENERATE_VALUESET_SCHEMAS: ${{ inputs.generate_valueset_schemas }}
+          INPUT_GENERATE_LOGICAL_MODEL_SCHEMAS: ${{ inputs.generate_logical_model_schemas }}
+          INPUT_GENERATE_DAK_API_HUB: ${{ inputs.generate_dak_api_hub }}
+          INPUT_GENERATE_JSONLD_VOCABULARIES: ${{ inputs.generate_jsonld_vocabularies }}
+        with:
+          script: |
+            const triggerType = context.eventName;
+            console.log(`Trigger type: ${triggerType}`);
             
-            # For automatic triggers (push/pull_request), use defaults
-            if [ "$TRIGGER_TYPE" != "workflow_dispatch" ] && [ "$TRIGGER_TYPE" != "workflow_call" ]; then
-              echo "$default_value"
-              return
-            fi
+            // Normalize input handling for different trigger types
+            function normalizeBoolean(inputValue, defaultValue) {
+              // For automatic triggers (push/pull_request), use defaults
+              if (triggerType !== 'workflow_dispatch' && triggerType !== 'workflow_call') {
+                return defaultValue;
+              }
+              
+              // For manual/call triggers, handle explicit boolean values
+              switch (inputValue) {
+                case 'true': return 'true';
+                case 'false': return 'false';
+                case '': return defaultValue;
+                default: return defaultValue;
+              }
+            }
             
-            # For manual/call triggers, handle explicit boolean values
-            case "$input_value" in
-              "true")  echo "true" ;;
-              "false") echo "false" ;;
-              "")      echo "$default_value" ;;
-              *)       echo "$default_value" ;;
-            esac
-          }
-          
-          # Get normalized values (defaults to true for all DAK features)
-          ENABLE_DMN_QUESTIONNAIRES=$(normalize_boolean "${{ inputs.generate_dmn_questionnaires }}" "true")
-          ENABLE_TRANSFORM_DMN=$(normalize_boolean "${{ inputs.transform_dmn_files }}" "true")
-          ENABLE_VALUESET_SCHEMAS=$(normalize_boolean "${{ inputs.generate_valueset_schemas }}" "true")
-          ENABLE_LOGICAL_MODEL_SCHEMAS=$(normalize_boolean "${{ inputs.generate_logical_model_schemas }}" "true")
-          ENABLE_DAK_API_HUB=$(normalize_boolean "${{ inputs.generate_dak_api_hub }}" "true")
-          ENABLE_JSONLD_VOCABULARIES=$(normalize_boolean "${{ inputs.generate_jsonld_vocabularies }}" "true")
-          
-          echo "ENABLE_DMN_QUESTIONNAIRES=$ENABLE_DMN_QUESTIONNAIRES" >> $GITHUB_ENV
-          echo "ENABLE_TRANSFORM_DMN=$ENABLE_TRANSFORM_DMN" >> $GITHUB_ENV
-          echo "ENABLE_VALUESET_SCHEMAS=$ENABLE_VALUESET_SCHEMAS" >> $GITHUB_ENV
-          echo "ENABLE_LOGICAL_MODEL_SCHEMAS=$ENABLE_LOGICAL_MODEL_SCHEMAS" >> $GITHUB_ENV
-          echo "ENABLE_DAK_API_HUB=$ENABLE_DAK_API_HUB" >> $GITHUB_ENV
-          echo "ENABLE_JSONLD_VOCABULARIES=$ENABLE_JSONLD_VOCABULARIES" >> $GITHUB_ENV
-          
-          echo "DAK feature settings:"
-          printf "  Generate DMN Questionnaires: %s\n" "$ENABLE_DMN_QUESTIONNAIRES"
-          printf "  Transform DMN files: %s\n" "$ENABLE_TRANSFORM_DMN"
-          printf "  Generate ValueSet schemas: %s\n" "$ENABLE_VALUESET_SCHEMAS"
-          printf "  Generate Logical Model schemas: %s\n" "$ENABLE_LOGICAL_MODEL_SCHEMAS"
-          printf "  Generate DAK API hub: %s\n" "$ENABLE_DAK_API_HUB"
-          printf "  Generate JSON-LD vocabularies: %s\n" "$ENABLE_JSONLD_VOCABULARIES"
+            // Get normalized values (defaults to true for all DAK features)
+            const enableDmnQuestionnaires = normalizeBoolean(process.env.INPUT_GENERATE_DMN_QUESTIONNAIRES, 'true');
+            const enableTransformDmn = normalizeBoolean(process.env.INPUT_TRANSFORM_DMN_FILES, 'true');
+            const enableValuesetSchemas = normalizeBoolean(process.env.INPUT_GENERATE_VALUESET_SCHEMAS, 'true');
+            const enableLogicalModelSchemas = normalizeBoolean(process.env.INPUT_GENERATE_LOGICAL_MODEL_SCHEMAS, 'true');
+            const enableDakApiHub = normalizeBoolean(process.env.INPUT_GENERATE_DAK_API_HUB, 'true');
+            const enableJsonldVocabularies = normalizeBoolean(process.env.INPUT_GENERATE_JSONLD_VOCABULARIES, 'true');
+            
+            core.exportVariable('ENABLE_DMN_QUESTIONNAIRES', enableDmnQuestionnaires);
+            core.exportVariable('ENABLE_TRANSFORM_DMN', enableTransformDmn);
+            core.exportVariable('ENABLE_VALUESET_SCHEMAS', enableValuesetSchemas);
+            core.exportVariable('ENABLE_LOGICAL_MODEL_SCHEMAS', enableLogicalModelSchemas);
+            core.exportVariable('ENABLE_DAK_API_HUB', enableDakApiHub);
+            core.exportVariable('ENABLE_JSONLD_VOCABULARIES', enableJsonldVocabularies);
+            
+            console.log('DAK feature settings:');
+            console.log(`  Generate DMN Questionnaires: ${enableDmnQuestionnaires}`);
+            console.log(`  Transform DMN files: ${enableTransformDmn}`);
+            console.log(`  Generate ValueSet schemas: ${enableValuesetSchemas}`);
+            console.log(`  Generate Logical Model schemas: ${enableLogicalModelSchemas}`);
+            console.log(`  Generate DAK API hub: ${enableDakApiHub}`);
+            console.log(`  Generate JSON-LD vocabularies: ${enableJsonldVocabularies}`);
 
       - name: Generate DMN Questionnaires
         if: env.ENABLE_DMN_QUESTIONNAIRES == 'true'

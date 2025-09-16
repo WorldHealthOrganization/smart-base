@@ -116,6 +116,13 @@ jobs:
 
       - name: Set feature flags
         uses: actions/github-script@v7
+        env:
+          INPUT_GENERATE_DMN_QUESTIONNAIRES: ${{ inputs.generate_dmn_questionnaires }}
+          INPUT_TRANSFORM_DMN_FILES: ${{ inputs.transform_dmn_files }}
+          INPUT_GENERATE_VALUESET_SCHEMAS: ${{ inputs.generate_valueset_schemas }}
+          INPUT_GENERATE_LOGICAL_MODEL_SCHEMAS: ${{ inputs.generate_logical_model_schemas }}
+          INPUT_GENERATE_DAK_API_HUB: ${{ inputs.generate_dak_api_hub }}
+          INPUT_GENERATE_JSONLD_VOCABULARIES: ${{ inputs.generate_jsonld_vocabularies }}
         with:
           script: |
             const triggerType = context.eventName;
@@ -138,12 +145,12 @@ jobs:
             }
             
             // Get normalized values (defaults to true for all DAK features)
-            const enableDmnQuestionnaires = normalizeBoolean('${{ inputs.generate_dmn_questionnaires }}', 'true');
-            const enableTransformDmn = normalizeBoolean('${{ inputs.transform_dmn_files }}', 'true');
-            const enableValuesetSchemas = normalizeBoolean('${{ inputs.generate_valueset_schemas }}', 'true');
-            const enableLogicalModelSchemas = normalizeBoolean('${{ inputs.generate_logical_model_schemas }}', 'true');
-            const enableDakApiHub = normalizeBoolean('${{ inputs.generate_dak_api_hub }}', 'true');
-            const enableJsonldVocabularies = normalizeBoolean('${{ inputs.generate_jsonld_vocabularies }}', 'true');
+            const enableDmnQuestionnaires = normalizeBoolean(process.env.INPUT_GENERATE_DMN_QUESTIONNAIRES, 'true');
+            const enableTransformDmn = normalizeBoolean(process.env.INPUT_TRANSFORM_DMN_FILES, 'true');
+            const enableValuesetSchemas = normalizeBoolean(process.env.INPUT_GENERATE_VALUESET_SCHEMAS, 'true');
+            const enableLogicalModelSchemas = normalizeBoolean(process.env.INPUT_GENERATE_LOGICAL_MODEL_SCHEMAS, 'true');
+            const enableDakApiHub = normalizeBoolean(process.env.INPUT_GENERATE_DAK_API_HUB, 'true');
+            const enableJsonldVocabularies = normalizeBoolean(process.env.INPUT_GENERATE_JSONLD_VOCABULARIES, 'true');
             
             core.exportVariable('ENABLE_DMN_QUESTIONNAIRES', enableDmnQuestionnaires);
             core.exportVariable('ENABLE_TRANSFORM_DMN', enableTransformDmn);
