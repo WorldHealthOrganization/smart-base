@@ -5,7 +5,11 @@ run-name: ${{ github.actor }} triggered a GitHub Action
 on: 
   workflow_call: # Reusable by other workflows
   push:
+    branches-ignore:    
+      - 'gh-pages'
   pull_request:
+    branches-ignore:    
+      - 'gh-pages'
   workflow_dispatch:  
 
 jobs:
