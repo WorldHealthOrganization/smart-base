@@ -1,5 +1,7 @@
 # FHIR IG Deploy-Only Workflow
 # This workflow deploys build artifacts to GitHub Pages
+# REQUIRES: output/ directory from v2-ghbuild.yml (build-only workflow)
+# FAILS: if output/ directory is missing or empty
 # Based on the idea by Carl Leitner
 # Change log:
 # 2024-XX-XX: (v2): Split deploy-only functionality from v2-ghbuild.yml
@@ -158,6 +160,46 @@ jobs:
         with:
           name: ${{ inputs.artifact_name }}
           path: ./output/
+
+      - name: Validate output directory exists and is populated
+        run: |
+          echo "Validating that output/ directory exists and contains build artifacts..."
+          
+          # Check if output directory exists
+          if [ ! -d "./output" ]; then
+            echo "❌ ERROR: output/ directory not found!"
+            echo "The ghdeployonly workflow requires the output/ directory from the ghbuildonly workflow."
+            exit 1
+          fi
+          
+          # Check if output directory is not empty
+          if [ -z "$(ls -A ./output)" ]; then
+            echo "❌ ERROR: output/ directory is empty!"
+            echo "The ghdeployonly workflow requires populated output/ directory from the ghbuildonly workflow."
+            exit 1
+          fi
+          
+          # List contents for verification
+          echo "✅ output/ directory found and contains:"
+          ls -la ./output/
+          
+          # Check for essential files that should be present from FHIR IG build
+          essential_files=("index.html")
+          missing_files=()
+          
+          for file in "${essential_files[@]}"; do
+            if [ ! -f "./output/$file" ]; then
+              missing_files+=("$file")
+            fi
+          done
+          
+          if [ ${#missing_files[@]} -gt 0 ]; then
+            echo "⚠️  WARNING: Some expected files are missing from output/:"
+            printf "  - %s\n" "${missing_files[@]}"
+            echo "This may indicate an incomplete build from the ghbuildonly workflow."
+          else
+            echo "✅ Essential build files found in output/ directory"
+          fi
 
       - name: Delete files >100MB before deployment
         run: |

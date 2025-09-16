@@ -188,6 +188,36 @@ jobs:
             }
      
       # Additional step to upload qa.json as an artifact
+      - name: Validate build output directory
+        run: |
+          echo "Validating FHIR IG build output..."
+          
+          # Check if output directory was created
+          if [ ! -d "./output" ]; then
+            echo "❌ ERROR: FHIR IG Publisher did not create output/ directory!"
+            echo "Build failed - no output directory found."
+            exit 1
+          fi
+          
+          # Check if output directory contains files
+          if [ -z "$(ls -A ./output)" ]; then
+            echo "❌ ERROR: output/ directory is empty!"
+            echo "FHIR IG Publisher did not generate any output files."
+            exit 1
+          fi
+          
+          echo "✅ output/ directory created with $(ls ./output | wc -l) files"
+          echo "Build output contents:"
+          ls -la ./output/ | head -20
+          
+          # Check for critical files
+          if [ ! -f "./output/index.html" ]; then
+            echo "⚠️  WARNING: index.html not found in output/"
+            echo "This may indicate a build issue."
+          else
+            echo "✅ index.html found in output/"
+          fi
+
       - name: Upload complete build output
         if: success()
         uses: actions/upload-artifact@v4
