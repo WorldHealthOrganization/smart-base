@@ -1,5 +1,5 @@
 [![License: CC BY-IGO 3.0](https://licensebuttons.net/l/by-nc/3.0/igo/80x15.png)](https://creativecommons.org/licenses/by/3.0/igo)
-![CI Build](https://img.shields.io/github/actions/workflow/status/WorldHealthOrganization/smart-base/ghbuild.yml)  
+![CI Build](https://img.shields.io/github/actions/workflow/status/WorldHealthOrganization/smart-base/dakbuild.yml)  
   
 
 ![QA errors](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fworldhealthorganization.github.io%2Fsmart-base%2Fqa.json&query=%24.errs&logoColor=red&label=QA%20errors&color=yellow)

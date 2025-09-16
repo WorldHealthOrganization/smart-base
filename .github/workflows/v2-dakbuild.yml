@@ -114,6 +114,52 @@ jobs:
           fi
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
 
+      - name: Validate DAK repository
+        run: |
+          echo "Validating DAK repository structure..."
+          
+          # Check if dak.json exists in repository root
+          if [ ! -f "dak.json" ]; then
+            echo "❌ ERROR: dak.json not found in repository root"
+            echo "This repository is expected to be a DAK but does not contain a valid dak.json file."
+            echo "The dakbuild workflow requires a valid dak.json in the root directory to proceed."
+            exit 1
+          fi
+          
+          # Validate that dak.json is valid JSON
+          if ! jq . dak.json > /dev/null 2>&1; then
+            echo "❌ ERROR: dak.json is not valid JSON"
+            echo "Please check the syntax of your dak.json file."
+            exit 1
+          fi
+          
+          # Check for required DAK fields
+          required_fields=("id" "name" "title" "description" "version" "status" "publicationUrl" "license" "publisher")
+          missing_fields=()
+          
+          for field in "${required_fields[@]}"; do
+            if ! jq -e ".$field" dak.json > /dev/null 2>&1; then
+              missing_fields+=("$field")
+            fi
+          done
+          
+          if [ ${#missing_fields[@]} -gt 0 ]; then
+            echo "❌ ERROR: dak.json is missing required fields:"
+            printf "  - %s\n" "${missing_fields[@]}"
+            echo ""
+            echo "A valid DAK requires these fields to be present in dak.json."
+            exit 1
+          fi
+          
+          # Display DAK information
+          echo "✅ Valid DAK repository detected:"
+          echo "  ID: $(jq -r '.id' dak.json)"
+          echo "  Name: $(jq -r '.name' dak.json)"
+          echo "  Title: $(jq -r '.title' dak.json)"
+          echo "  Version: $(jq -r '.version' dak.json)"
+          echo "  Publication URL: $(jq -r '.publicationUrl' dak.json)"
+          echo ""
+
       - name: Set feature flags
         uses: actions/github-script@v7
         env:

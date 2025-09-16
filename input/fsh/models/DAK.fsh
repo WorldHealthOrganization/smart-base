@@ -4,11 +4,35 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
 
 * ^status = #active
 
-// Metadata element with cardinality 1..1
-* metadata 1..1 BackboneElement "Metadata" "Metadata for the DAK"
-  * identifier 1..1 id "DAK ID" "Identifier for the DAK"
-  * canonical 1..1 canonical "Canonical URL" "Canonical URL for the DAK"
-  * name 1..1 string "Name" "Name of the DAK"
+// Core DAK metadata fields (aligned with dak.json structure)
+* id 1..1 string "DAK ID" "Identifier for the DAK (e.g., smart.who.int.base)"
+* name 1..1 string "DAK Name" "Short name for the DAK (e.g., Base)"
+* title 1..1 string "DAK Title" "Full title of the DAK (e.g., SMART Base)"
+* description 1..1 string "DAK Description" "Description of the DAK"
+* version 1..1 string "DAK Version" "Version of the DAK"
+* status 1..1 code "DAK Status" "Publication status of the DAK"
+* publicationUrl 1..1 url "Publication URL" "Canonical URL for the DAK (e.g., http://smart.who.int/base)"
+* license 1..1 code "License" "License under which the DAK is published"
+* copyrightYear 1..1 string "Copyright Year" "Year or year range for copyright"
+
+// Publisher information
+* publisher 1..1 BackboneElement "Publisher" "Organization responsible for publishing the DAK"
+  * name 1..1 string "Publisher Name" "Name of the publishing organization"
+  * url 0..1 url "Publisher URL" "URL of the publishing organization"
+
+// Content structure (pages and menu)
+* pages 0..* BackboneElement "Pages" "Custom pages included in the DAK"
+  * filename 1..1 string "Page Filename" "Filename of the page (e.g., index.md)"
+  * title 1..1 string "Page Title" "Title of the page"
+
+* menu 0..* BackboneElement "Menu Structure" "Navigation menu structure for the DAK"
+  * title 1..1 string "Menu Title" "Title of the menu item"
+  * url 1..1 string "Menu URL" "URL of the menu item"
+  * subItems 0..* BackboneElement "Sub Menu Items" "Sub-menu items"
+    * title 1..1 string "Sub-item Title" "Title of the sub-menu item"
+    * url 1..1 string "Sub-item URL" "URL of the sub-menu item"
+
+
 
 // 9 DAK Components with cardinality 0..*
 * healthInterventions 0..* HealthInterventions "Health Interventions and Recommendations" "Overview of the health interventions and WHO, regional or national recommendations included within the DAK"
