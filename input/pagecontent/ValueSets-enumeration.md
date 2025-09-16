@@ -111,11 +111,13 @@ Returns a list of all available ValueSet schemas with metadata
     "count": 1,
     "schemas": [
       {
-        "filename": "ValueSet-ExampleCodes.schema.json",
-        "id": "ValueSet-ExampleCodes.schema.json",
-        "title": "Example ValueSet",
-        "description": "An example ValueSet for testing",
-        "url": "./ValueSet-ExampleCodes.schema.json"
+        "filename": "ValueSet-example-codes.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-example-codes.schema.json",
+        "title": "Example Codes for Testing Schema",
+        "description": "JSON Schema for Example Codes for Testing ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-example-codes.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/example-codes",
+        "codeCount": 2
       }
     ]
   }

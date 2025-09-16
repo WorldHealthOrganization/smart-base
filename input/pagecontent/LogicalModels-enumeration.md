@@ -111,11 +111,12 @@ Returns a list of all available Logical Model schemas with metadata
     "count": 1,
     "schemas": [
       {
-        "filename": "StructureDefinition-ExampleModel.schema.json",
-        "id": "StructureDefinition-ExampleModel.schema.json",
-        "title": "Example Logical Model",
-        "description": "An example logical model for testing",
-        "url": "./StructureDefinition-ExampleModel.schema.json",
+        "filename": "StructureDefinition-ExampleDAKModel.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-ExampleDAKModel.schema.json",
+        "title": "Example DAK Model",
+        "description": "An example logical model for DAK API testing",
+        "url": "./StructureDefinition-ExampleDAKModel.schema.json",
+        "logicalModelUrl": "http://smart.who.int/base/StructureDefinition/ExampleDAKModel",
         "propertyCount": 2
       }
     ]
