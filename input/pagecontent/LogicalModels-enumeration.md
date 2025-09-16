@@ -1,38 +1,38 @@
-# ValueSets-enumeration API Documentation
+# LogicalModels-enumeration API Documentation
 
-<!-- This content is automatically generated from ValueSets-enumeration.openapi.json -->
+<!-- This content is automatically generated from LogicalModels-enumeration.openapi.json -->
 
 ## API Information
 
-**ValueSets Enumeration API**
+**LogicalModels Enumeration API**
 
-API endpoint providing an enumeration of all available ValueSet schemas
+API endpoint providing an enumeration of all available Logical Model schemas
 
 **Version:** 1.0.0
 
 ## Endpoints
 
-### GET /ValueSets.schema.json
+### GET /LogicalModels.schema.json
 
-**Get enumeration of all ValueSet schemas**
+**Get enumeration of all Logical Model schemas**
 
-Returns a list of all available ValueSet schemas with metadata
+Returns a list of all available Logical Model schemas with metadata
 
 ## Schema Definition
 
 ### EnumerationResponse
 
-**Description:** JSON Schema defining the structure of the ValueSet enumeration endpoint response
+**Description:** JSON Schema defining the structure of the Logical Model enumeration endpoint response
 
 **Type:** object
 
-**Schema ID:** [#/ValueSets.schema.json](#/ValueSets.schema.json)
+**Schema ID:** [#/LogicalModels.schema.json](#/LogicalModels.schema.json)
 
-**FHIR Page:** [View full FHIR definition](artifacts.html#terminology-value-sets)
+**FHIR Page:** [View full FHIR definition](artifacts.html#structures-logical-models)
 
 **Properties:**
 
-- **type** (string): The type of schemas enumerated (valueset)
+- **type** (string): The type of schemas enumerated (logical_model)
 - **count** (integer): Total number of schemas available
 - **schemas** (array): Array of available schemas
 
@@ -44,15 +44,15 @@ Returns a list of all available ValueSet schemas with metadata
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "#/ValueSets.schema.json",
-  "title": "ValueSet Enumeration Schema",
-  "description": "JSON Schema defining the structure of the ValueSet enumeration endpoint response",
+  "$id": "#/LogicalModels.schema.json",
+  "title": "Logical Model Enumeration Schema",
+  "description": "JSON Schema defining the structure of the Logical Model enumeration endpoint response",
   "type": "object",
   "properties": {
     "type": {
       "type": "string",
-      "const": "valueset",
-      "description": "The type of schemas enumerated (valueset)"
+      "const": "logical_model",
+      "description": "The type of schemas enumerated (logical_model)"
     },
     "count": {
       "type": "integer",
@@ -84,13 +84,13 @@ Returns a list of all available ValueSet schemas with metadata
             "type": "string",
             "description": "Relative URL to the schema file"
           },
-          "valueSetUrl": {
+          "logicalModelUrl": {
             "type": "string",
-            "description": "FHIR canonical URL of the ValueSet"
+            "description": "FHIR canonical URL of the Logical Model"
           },
-          "codeCount": {
+          "propertyCount": {
             "type": "integer",
-            "description": "Number of codes in the ValueSet"
+            "description": "Number of properties in the Logical Model"
           }
         },
         "required": [
@@ -107,15 +107,16 @@ Returns a list of all available ValueSet schemas with metadata
     "schemas"
   ],
   "example": {
-    "type": "valueset",
+    "type": "logical_model",
     "count": 1,
     "schemas": [
       {
-        "filename": "ValueSet-ExampleCodes.schema.json",
-        "id": "ValueSet-ExampleCodes.schema.json",
-        "title": "Example ValueSet",
-        "description": "An example ValueSet for testing",
-        "url": "./ValueSet-ExampleCodes.schema.json"
+        "filename": "StructureDefinition-ExampleModel.schema.json",
+        "id": "StructureDefinition-ExampleModel.schema.json",
+        "title": "Example Logical Model",
+        "description": "An example logical model for testing",
+        "url": "./StructureDefinition-ExampleModel.schema.json",
+        "propertyCount": 2
       }
     ]
   }
