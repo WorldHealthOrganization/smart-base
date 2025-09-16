@@ -409,7 +409,7 @@ jobs:
             sushi-config.yaml
           retention-days: 1
 
-  # Call the basic ghbuild workflow
+  # Call the build-only workflow
   call-ghbuild:
     needs: dak-preprocess
     uses: ./.github/workflows/v2-ghbuild.yml
@@ -422,8 +422,7 @@ jobs:
     needs: call-ghbuild
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pages: write
+      contents: read
       pull-requests: write
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -642,55 +641,10 @@ jobs:
           path: ./output
           retention-days: 7
 
-      - name: Get deployment settings
-        run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            BRANCH_NAME="${{ github.head_ref }}"
-          else
-            BRANCH_NAME="${GITHUB_REF##*/}"
-          fi
-          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
-          
-          # Sanitize branch name for URLs and file paths
-          SANITIZED_BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9._-]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
-          echo "SANITIZED_BRANCH_NAME=$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
-          
-          # Check if this is the default branch
-          DEFAULT_BRANCH=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
-          if [ "$BRANCH_NAME" == "$DEFAULT_BRANCH" ]; then
-            echo "IS_DEFAULT_BRANCH=true" >> $GITHUB_ENV
-          else
-            echo "IS_DEFAULT_BRANCH=false" >> $GITHUB_ENV
-          fi
-
-      - name: Delete files >100MB before deployment
-        run: |
-          echo "Removing files over 100 MB from ./output..."
-          find ./output -type f -size +100M -print -delete
-
-      - name: Deploy candidate
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
-        if: env.IS_DEFAULT_BRANCH == 'false'
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages # The branch the action should deploy to.
-          folder: ./output # The folder the action should deploy.
-          commit-message: Deploy DAK build for candidate branch
-          target-folder: branches/${{ env.SANITIZED_BRANCH_NAME }}
-          single-commit: true
-          clean: false 
-          force: true 
-
-      - name: Deploy main
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
-        if: env.IS_DEFAULT_BRANCH == 'true'
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages # The branch the action should deploy to.
-          folder: ./output # The folder the action should deploy.
-          commit-message: Deploy DAK build for main branch
-          single-commit: true
-          clean-exclude: |
-            branches
-            sitepreview
-          force: true
+  # Call the deploy-only workflow
+  call-ghdeploy:
+    needs: dak-postprocess
+    uses: ./.github/workflows/v2-ghdeploy.yml
+    with:
+      artifact_name: dak-final-output
+    secrets: inherit
