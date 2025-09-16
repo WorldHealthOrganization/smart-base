@@ -15,9 +15,11 @@ on:
       tx:
         required: false
         type: string
-  # Note: push and pull_request triggers removed to prevent conflicts with dakbuild.yml
-  # For DAK repositories, dakbuild.yml should be used for automatic triggers
-  # This workflow is now only triggered by workflow_call or manual workflow_dispatch
+  # Triggers the workflow on push or pull request events for any branch
+  push:
+    branches-ignore:    
+      - 'gh-pages'
+  pull_request:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,6 +36,8 @@ jobs:
   # Call the v1 workflow for backward compatibility
   call-v1-ghbuild:
     name: Build and Deploy (v1 Legacy)
+    # Skip this workflow in smart-base repository to prevent conflicts with dakbuild.yml
+    if: github.repository != 'WorldHealthOrganization/smart-base'
     uses: ./.github/workflows/v1-ghbuild.yml
     with:
       tx: ${{ inputs.tx }}
