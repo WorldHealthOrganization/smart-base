@@ -265,7 +265,12 @@ python3 input/scripts/transform_dmn.py  # 0.059s
 
 The repository uses `.github/workflows/ghbuild.yml` for automated builds. The workflow:
 - Installs all dependencies automatically
-- Runs FHIR IG Publisher build
-- Processes DAK extraction scripts
+- Runs FHIR IG Publisher build  
+- Conditionally processes DAK extraction scripts (when `do_dak: true`)
 - Deploys to GitHub Pages
 - **Build timeouts are set to handle 45+ minute builds**
+
+**Recommended usage for downstream repositories:**
+```yaml
+uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@14b3859
+```

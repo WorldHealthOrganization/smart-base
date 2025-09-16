@@ -1,270 +1,142 @@
 # GitHub Workflow Versioning Guide
 
-This document describes the versioning strategy for GitHub workflows in the smart-base repository and provides best practices for managing community versions of GitHub workflows.
+This document describes the versioning strategy for GitHub workflows in the smart-base repository and provides best practices for using the versioned workflow.
 
 ## Overview
 
-The smart-base repository provides versioned GitHub workflows to support different use cases:
+The smart-base repository provides a **single versioned workflow** that supports both stable v1 compatibility and v2 DAK features through hybrid commit SHA and branch reference versioning.
 
-- **v1 (Stable)**: The original `ghbuild.yml` with all DAK features included (semi-stable)
-- **v2 (Experimental)**: Split workflows for modular usage
+## Workflow Versioning Strategy
 
-## Workflow Versions
+### Hybrid Versioning Approach
 
-### Version 1 (v1) - Semi-Stable
+The repository uses **hybrid versioning** combining commit SHAs for stability and branch references for latest features:
 
-**Location**: `.github/workflows/v1-ghbuild.yml`
+- **Stable Production (Recommended)**: `@14b3859` - Immutable commit reference for v1 functionality
+- **Latest Development**: `@main` - Dynamic branch reference for latest features
+- **Future Versions**: Specific commit SHAs for v2, v2.1, etc. when released
 
-**Features**:
-- Complete FHIR IG build functionality
-- WHO/non-WHO repository detection
-- Optional DAK features based on repository owner:
-  - DMN questionnaire generation
-  - DMN file transformation to HTML
-  - ValueSet JSON schema generation
-  - Logical model JSON schema generation
-  - DAK API documentation hub
-  - JSON-LD vocabulary generation
-
-**Usage**:
-```yaml
-jobs:
-  build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v1-ghbuild.yml@main
-    with:
-      tx: "https://tx.fhir.org"  # optional
-      generate_dmn_questionnaires: true  # optional
-      # ... other DAK feature flags
-```
-
-### Version 2 (v2) - Experimental
-
-Version 2 splits the monolithic workflow into two focused workflows:
-
-#### v2-ghbuild.yml - Core FHIR Build
-
-**Location**: `.github/workflows/v2-ghbuild.yml`
-
-**Features**:
-- Core FHIR IG build functionality only
-- No DAK-specific features
-- Faster execution for standard FHIR builds
-- Suitable for non-WHO repositories and basic builds
-
-**Usage**:
-```yaml
-jobs:
-  build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@main
-    with:
-      tx: "https://tx.fhir.org"  # optional
-```
-
-#### v2-dakbuild.yml - DAK Features + Core Build
-
-**Location**: `.github/workflows/v2-dakbuild.yml`
-
-**Features**:
-- All DAK-specific features
-- Calls v2-ghbuild.yml for core FHIR build
-- Modular architecture with pre-processing and post-processing jobs
-- Fine-grained control over DAK features
-
-**Usage**:
-```yaml
-jobs:
-  dak-build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-dakbuild.yml@main
-    with:
-      tx: "https://tx.fhir.org"  # optional
-      generate_dmn_questionnaires: true
-      transform_dmn_files: true
-      generate_valueset_schemas: true
-      generate_logical_model_schemas: true
-      generate_dak_api_hub: true
-      generate_jsonld_vocabularies: true
-```
-
-### Main ghbuild.yml - Backward Compatibility
+### Single Workflow with Conditional Features
 
 **Location**: `.github/workflows/ghbuild.yml`
 
-This is a wrapper that calls the v1 workflow to maintain backward compatibility for existing projects.
+**Features**:
+- Complete FHIR IG build functionality (always enabled)
+- Conditional DAK features via `do_dak: true` parameter:
+  - DMN questionnaire generation
+  - DMN file transformation to HTML  
+  - ValueSet and logical model JSON schema generation
+  - DAK API documentation hub
+  - JSON-LD vocabulary generation
+- Self-contained: Downloads DAK scripts when needed
+- Validates `dak.json` presence before enabling DAK features
 
-## Migration Guide
+## Usage Examples
 
-### From Main ghbuild.yml to v2
-
-#### For Standard FHIR Builds (No DAK Features)
-
-**Before**:
+### Standard FHIR IG Build (Recommended - Stable)
 ```yaml
 jobs:
   build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@main
-```
-
-**After**:
-```yaml
-jobs:
-  build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@main
-```
-
-#### For DAK-Enhanced Builds
-
-**Before**:
-```yaml
-jobs:
-  build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@14b3859
     with:
-      generate_dmn_questionnaires: true
-      # ... other DAK flags
+      tx: "https://tx.fhir.org"  # optional
 ```
 
-**After**:
+### DAK-Enhanced Build (Recommended - Stable)
 ```yaml
 jobs:
   dak-build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-dakbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@14b3859
     with:
-      generate_dmn_questionnaires: true
-      # ... other DAK flags
+      do_dak: true
+      tx: "https://tx.fhir.org"  # optional
 ```
 
-## Best Practices for Community Workflow Versioning
-
-### 1. Semantic Versioning for Workflows
-
-- **Major versions** (v1, v2): Breaking changes in interface or behavior
-- **Minor versions** (v1.1, v1.2): New features, backward compatible
-- **Patch versions** (v1.1.1): Bug fixes, no interface changes
-
-### 2. Version Directory Structure
-
-```
-.github/workflows/
-├── v1/
-│   ├── ghbuild.yml
-│   └── README.md
-├── v2/
-│   ├── ghbuild.yml
-│   ├── dakbuild.yml
-│   └── README.md
-├── ghbuild.yml          # Backward compatibility wrapper
-└── VERSIONING.md        # This file
-```
-
-### 3. Backward Compatibility Strategy
-
-- **Never delete** previous major versions
-- **Maintain** existing interfaces in stable versions
-- **Document** deprecation timeline clearly
-- **Provide** clear migration paths
-
-### 4. Stability Guarantees
-
-#### v1 (Semi-Stable)
-- Interface changes require 30-day notice
-- Bug fixes allowed without notice
-- Feature additions may be added cautiously
-
-#### v2 (Experimental)
-- Breaking changes allowed without notice
-- Rapid iteration and feedback collection
-- Not recommended for production use
-
-### 5. Release Communication
-
-#### For Breaking Changes
-1. **Announce** in repository discussions
-2. **Document** in CHANGELOG.md
-3. **Provide** migration guide
-4. **Give** adequate notice period
-
-#### For New Features
-1. **Document** in workflow README
-2. **Add** usage examples
-3. **Test** with pilot projects
-
-### 6. Testing Strategy
-
-#### Pre-Release Testing
-- Test with multiple repository types
-- Validate both WHO and non-WHO scenarios
-- Check backward compatibility
-- Test error conditions
-
-#### Community Testing
-- Beta testing with selected repositories
-- Feedback collection period
-- Issue tracking and resolution
-
-### 7. Version Pinning Recommendations
-
-#### For Production Use
+### Latest Development Features
 ```yaml
-# Pin to specific version
-uses: WorldHealthOrganization/smart-base/.github/workflows/v1-ghbuild.yml@v1.2.1
+jobs:
+  build:
+    uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@main
+    with:
+      do_dak: true  # optional - enable DAK features
+```
 
-# Or pin to major version for stability
-uses: WorldHealthOrganization/smart-base/.github/workflows/v1-ghbuild.yml@v1
+## Best Practices for Workflow Versioning
+
+### 1. Version Reference Strategy
+
+#### For Production Use (Recommended)
+```yaml
+# Use stable commit SHA for production
+uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@14b3859
 ```
 
 #### For Development/Testing
 ```yaml
-# Use latest for testing new features
-uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@main
-
-# Or use specific branch for testing
-uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@feature/new-capability
+# Use latest for testing new features  
+uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@main
 ```
 
-### 8. Documentation Standards
+#### Future Versions
+```yaml
+# Use specific commit SHAs for v2+ when released
+uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@abc1234
+```
 
-Each version should include:
-- **README.md**: Usage instructions and examples
-- **CHANGELOG.md**: Version history and breaking changes
-- **Input/Output specification**: Clear interface documentation
-- **Migration guides**: When moving between versions
+### 2. Stability Guarantees
 
-### 9. Community Feedback
+#### Commit SHA References (Production)
+- **Immutable**: Never changes once tagged
+- **Stable**: Guaranteed consistent behavior
+- **Secure**: GitHub recommended for production use
 
-- **GitHub Discussions**: For design discussions
-- **Issues**: For bug reports and feature requests
-- **Pull Requests**: For community contributions
-- **Beta testing**: Opt-in testing program
+#### Branch References (Development)  
+- **Dynamic**: Updates with latest features
+- **Testing**: Good for validating new capabilities
+- **Flexible**: Easy to get latest improvements
 
-### 10. Deprecation Process
+### 3. DAK Feature Usage
 
-1. **Announce** deprecation with timeline
-2. **Mark** as deprecated in documentation
-3. **Provide** migration path
-4. **Maintain** for announced period
-5. **Archive** but keep available for reference
+DAK features are enabled conditionally via the `do_dak` parameter:
+
+```yaml
+# Standard FHIR IG build
+uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@14b3859
+
+# With DAK features enabled
+uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@14b3859
+with:
+  do_dak: true
+```
+
+DAK features require `dak.json` in the repository root and include:
+- DMN questionnaire generation
+- DMN to HTML transformation
+- JSON schema generation
+- DAK API hub creation
+- JSON-LD vocabulary generation
 
 ## Support Matrix
 
-| Version | Status | Support Level | Use Case |
-|---------|--------|---------------|----------|
-| v1 | Semi-Stable | Bug fixes + Critical features | Production WHO repositories |
-| v2 | Experimental | Active development | Testing and feedback |
-| main (wrapper) | Stable | Redirects to v1 | Backward compatibility |
+| Reference | Status | Use Case | Stability |
+|-----------|--------|----------|-----------|
+| `@14b3859` | Stable | Production repositories | Immutable v1 implementation |
+| `@main` | Development | Testing new features | Latest development version |
+| `@abc1234` | Future | v2+ releases | Immutable future versions |
 
 ## Getting Help
 
-- **Documentation**: Check version-specific README files
+- **Documentation**: Check this versioning guide and workflow README
 - **Issues**: Report bugs via GitHub Issues
 - **Discussions**: Ask questions in GitHub Discussions
-- **Migration**: Follow migration guides in this document
+- **Examples**: See workflow README for usage examples
 
 ## Contributing
 
-When contributing to workflows:
+When contributing to the workflow:
 
-1. **Target** the appropriate version branch
-2. **Test** changes with multiple repository types
+1. **Test** changes with multiple repository types
+2. **Validate** both standard and DAK-enabled scenarios  
 3. **Document** interface changes
-4. **Update** version-specific README
-5. **Follow** semantic versioning guidelines
+4. **Follow** hybrid versioning guidelines
+5. **Ensure** backward compatibility

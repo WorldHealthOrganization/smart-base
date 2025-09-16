@@ -2,49 +2,62 @@
 
 This GitHub Action automatically builds and publishes FHIR Implementation Guides using the HL7 FHIR IG Publisher. It is designed to run the publisher on push or pull request events and publish the output to GitHub Pages.
 
-## 🚀 New Versioned Workflows Available!
+## 🚀 Versioned Workflow with Hybrid Versioning Strategy
 
-This repository now provides **versioned workflows** to better serve different use cases:
+This repository provides a **single versioned workflow** that supports both stable v1 compatibility and v2 DAK features:
 
-- **[v1-ghbuild.yml](v1/)**: Complete workflow with optional DAK features (semi-stable)
-- **[v2-ghbuild.yml](v2/)**: Core FHIR IG build only (experimental)
-- **[v2-dakbuild.yml](v2/)**: DAK features + core build (experimental)
+- **Stable Production (Recommended)**: Use commit SHA `@14b3859` for immutable v1 reference
+- **Latest Development**: Use `@main` for cutting-edge features and improvements
+- **DAK-Enhanced Builds**: Enable with `do_dak: true` parameter
+
+### Recommended Usage (Stable)
+```yaml
+uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@14b3859
+```
 
 **📖 See [VERSIONING.md](VERSIONING.md) for complete migration guide and best practices.**
 
 ## Quick Start
 
-### For Standard FHIR IG Builds
+### For Standard FHIR IG Builds (Recommended - Stable)
 ```yaml
 jobs:
   build: 
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@14b3859
 ```
 
-### For DAK-Enhanced Builds  
+### For Latest Development Features
+```yaml
+jobs:
+  build: 
+    uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@main
+```
+
+### For DAK-Enhanced Builds
 ```yaml
 jobs:
   dak-build:
-    uses: WorldHealthOrganization/smart-base/.github/workflows/v2-dakbuild.yml@main
+    uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@14b3859
     with:
-      generate_dmn_questionnaires: true
-      generate_valueset_schemas: true
-      # ... other DAK features
+      do_dak: true
 ```
 
-### Legacy (Backward Compatible)
+### For Cutting-Edge DAK Features  
 ```yaml
 jobs:
-  call_build: 
+  dak-build:
     uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@main
+    with:
+      do_dak: true
 ```
 
 ## Features
 
 - Default branch is published in `https://<owner>.github.io/<repo>`. Branches are published in `https://<owner>.github.io/<repo>/branches/<branch>`
 - Automatically uses the latest versions of sushi and IG publisher
-- **v2**: Modular architecture with separate core and DAK workflows
-- **v1**: Monolithic workflow with all features included
+- **Hybrid Versioning**: Use commit SHAs for stability (`@14b3859`) or branches for latest features (`@main`)
+- **Conditional DAK Features**: Enable with `do_dak: true` parameter when needed
+- **Self-contained**: Downloads DAK scripts automatically when DAK features are enabled
 
 ## Prerequisites
 
@@ -63,42 +76,42 @@ Before you can use this GitHub Action, you need to ensure the following:
 
 2. **Choose Your Workflow Version**
 
-   **For new projects**, choose based on your needs:
+   **For production use (Recommended)**, use the stable commit reference:
    
-   - **Standard FHIR IG**: Use `v2-ghbuild.yml`
-   - **With DAK features**: Use `v2-dakbuild.yml`
-   - **Legacy compatibility**: Use main `ghbuild.yml`
+   - **Standard FHIR IG**: Use `ghbuild.yml@14b3859`
+   - **With DAK features**: Use `ghbuild.yml@14b3859` with `do_dak: true`
+   - **Latest development**: Use `ghbuild.yml@main` (for testing new features)
 
 3. **Add the Workflow File**
 
-   Create a `.github/workflows` directory in your repository if it doesn't already exist, and call the appropriate workflow:
+   Create a `.github/workflows` directory in your repository if it doesn't already exist, and add the workflow:
 
-   **Standard FHIR build (v2)**:
+   **Standard FHIR build (Recommended - Stable)**:
    ```yaml
    name: Build IG
    on: [push, pull_request]
    jobs:
      build: 
-       uses: WorldHealthOrganization/smart-base/.github/workflows/v2-ghbuild.yml@main
+       uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@14b3859
    ```
    
-   **DAK-enhanced build (v2)**:
+   **DAK-enhanced build (Recommended - Stable)**:
    ```yaml
    name: Build IG with DAK
    on: [push, pull_request]
    jobs:
      dak-build:
-       uses: WorldHealthOrganization/smart-base/.github/workflows/v2-dakbuild.yml@main
+       uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@14b3859
        with:
-         generate_dmn_questionnaires: true
-         generate_valueset_schemas: true
-         # Configure other DAK features as needed
+         do_dak: true
    ```
    
-   **Legacy (backward compatible)**:
+   **Latest development features**:
    ```yaml
+   name: Build IG (Latest)
+   on: [push, pull_request]
    jobs:
-     call_build: 
+     build: 
        uses: WorldHealthOrganization/smart-base/.github/workflows/ghbuild.yml@main
    ```
 
