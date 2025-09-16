@@ -49,10 +49,8 @@ on:
         type: boolean
         default: true
 
-# Prevent concurrent deployments
-concurrency:
-  group: dak-build-${{ github.ref }}
-  cancel-in-progress: false
+# Note: Concurrency control is handled by the called workflow (v2-dakbuild.yml)
+# to prevent deadlock between the wrapper and the actual implementation
 
 # A workflow run is made up of one or more jobs
 jobs:

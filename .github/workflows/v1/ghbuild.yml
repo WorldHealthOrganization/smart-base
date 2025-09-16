@@ -18,11 +18,8 @@ on:
       tx:
         required: false
         type: string
-  # Triggers the workflow on push or pull request events for any branch
-  push:
-    branches-ignore:    
-      - 'gh-pages'
-  pull_request:
+  # This is a called workflow - it should not trigger directly on push/pull_request
+  # The main ghbuild.yml wrapper calls this workflow
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -33,7 +30,7 @@ on:
 
 # Prevent concurrent deployments to avoid race conditions when updating gh-pages branch
 concurrency:
-  group: v1-dir-ghbuild-${{ github.ref }}
+  group: gh-pages-deployment-${{ github.ref }}
   cancel-in-progress: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -59,49 +56,64 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get branch name
-        run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            BRANCH_NAME="${{ github.head_ref }}"
-          else
-            BRANCH_NAME="${GITHUB_REF##*/}"
-          fi
-          
-          # Validate that branch name is not empty
-          if [ -z "$BRANCH_NAME" ]; then
-            echo "❌ Error: Branch name is empty or could not be determined"
-            echo "Event: ${{ github.event_name }}"
-            echo "GITHUB_REF: ${GITHUB_REF:-'(not set)'}"
-            echo "github.head_ref: ${{ github.head_ref }}"
-            exit 1
-          fi
-          
-          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
-          # Sanitize branch name for URLs and file paths
-          SANITIZED_BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9._-]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
-          
-          # Validate that sanitized branch name is not empty
-          if [ -z "$SANITIZED_BRANCH_NAME" ]; then
-            echo "❌ Error: Sanitized branch name is empty after processing"
-            echo "Original branch name: $BRANCH_NAME"
-            exit 1
-          fi
-          
-          echo "SANITIZED_BRANCH_NAME=$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branchName = context.eventName === 'pull_request' 
+              ? context.payload.pull_request.head.ref 
+              : context.ref.replace('refs/heads/', '');
+            
+            // Validate that branch name is not empty
+            if (!branchName) {
+              console.log('❌ Error: Branch name is empty or could not be determined');
+              console.log('Event: ' + context.eventName);
+              console.log('GITHUB_REF: ' + (process.env.GITHUB_REF || '(not set)'));
+              console.log('github.head_ref: ' + (context.payload.pull_request?.head?.ref || '(not set)'));
+              process.exit(1);
+            }
+            
+            // Sanitize branch name for URLs and file paths
+            const sanitizedBranchName = branchName
+              .replace(/[^a-zA-Z0-9._-]/g, '-')
+              .replace(/--+/g, '-')
+              .replace(/^-|-$/g, '');
+            
+            // Validate that sanitized branch name is not empty
+            if (!sanitizedBranchName) {
+              console.log('❌ Error: Sanitized branch name is empty after processing');
+              console.log('Original branch name: ' + branchName);
+              process.exit(1);
+            }
+            
+            // Set environment variables for subsequent steps
+            core.exportVariable('BRANCH_NAME', branchName);
+            core.exportVariable('SANITIZED_BRANCH_NAME', sanitizedBranchName);
 
       - name: Echo branch name and check if it's the default branch
-        run: |
-          echo "🔨 Building branch: $BRANCH_NAME"
-          DEFAULT_BRANCH=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
-          echo "Default Branch: $DEFAULT_BRANCH"
-          if [ "$BRANCH_NAME" == "$DEFAULT_BRANCH" ]; then
-            echo "This is the default branch."
-            echo "IS_DEFAULT_BRANCH=true" >> $GITHUB_ENV
-            echo "DEPLOY_URL=https://worldhealthorganization.github.io/${{ github.event.repository.name }}" >> $GITHUB_ENV
-          else
-            echo "This is NOT the default branch."
-            echo "IS_DEFAULT_BRANCH=false" >> $GITHUB_ENV
-            echo "DEPLOY_URL=https://worldhealthorganization.github.io/${{ github.event.repository.name }}/branches/$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
-          fi
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branchName = process.env.BRANCH_NAME;
+            console.log('🔨 Building branch: ' + branchName);
+            
+            // Get default branch using git command
+            const { execSync } = require('child_process');
+            const defaultBranch = execSync('git remote show origin | sed -n \'/HEAD branch/s/.*: //p\'', { encoding: 'utf8' }).trim();
+            console.log('Default Branch: ' + defaultBranch);
+            
+            const isDefaultBranch = branchName === defaultBranch;
+            const repoName = context.repo.repo;
+            const sanitizedBranchName = process.env.SANITIZED_BRANCH_NAME;
+            
+            if (isDefaultBranch) {
+              console.log('This is the default branch.');
+              core.exportVariable('IS_DEFAULT_BRANCH', 'true');
+              core.exportVariable('DEPLOY_URL', 'https://worldhealthorganization.github.io/' + repoName);
+            } else {
+              console.log('This is NOT the default branch.');
+              core.exportVariable('IS_DEFAULT_BRANCH', 'false');
+              core.exportVariable('DEPLOY_URL', 'https://worldhealthorganization.github.io/' + repoName + '/branches/' + sanitizedBranchName);
+            }
 
       - name: Create gh-pages branch if it doesn't exist
         run: |
@@ -138,26 +150,36 @@ jobs:
           args: -c "mkdir -p /var/lib/.fhir && chown $(id -u):$(id -g) /var/lib/.fhir"
 
       - name: Run the IG publisher with optional tx
-        run: |
-          echo "TX input: ${{ inputs.tx }}"
+        uses: actions/github-script@v7
+        env:
+          TX_INPUT: ${{ inputs.tx }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+        with:
+          script: |
+            const txInput = process.env.TX_INPUT;
+            console.log('TX input: ' + txInput);
 
-          CMD="java -Xmx6g -jar ./input-cache/publisher.jar publisher \
-            -ig . \
-            -auto-ig-build \
-            -repo https://github.com/${GITHUB_REPOSITORY}/tree/${GITHUB_REF_NAME} \
-            -package-cache-folder ./fhir-package-cache"
+            let cmd = 'java -Xmx6g -jar ./input-cache/publisher.jar publisher ' +
+                     '-ig . ' +
+                     '-auto-ig-build ' +
+                     '-repo https://github.com/' + process.env.GITHUB_REPOSITORY + '/tree/' + process.env.GITHUB_REF_NAME + ' ' +
+                     '-package-cache-folder ./fhir-package-cache';
 
-          if [ ! -z "${{ inputs.tx }}" ]; then
-            CMD="$CMD -tx ${{ inputs.tx }}"
-          fi
+            if (txInput) {
+              cmd += ' -tx ' + txInput;
+            }
 
-          echo "Running command: $CMD"
-          
-          docker run --rm \
-            -v ${{ github.workspace }}:/work \
-            -w /work \
-            hl7fhir/ig-publisher-base:latest \
-            sh -c "$CMD"
+            console.log('Running command: ' + cmd);
+            
+            const { execSync } = require('child_process');
+            try {
+              execSync('docker run --rm -v ' + process.env.GITHUB_WORKSPACE + ':/work -w /work hl7fhir/ig-publisher-base:latest sh -c "' + cmd + '"', {
+                stdio: 'inherit'
+              });
+            } catch (error) {
+              console.error('IG Publisher failed:', error.message);
+              process.exit(1);
+            }
      
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
@@ -183,6 +205,7 @@ jobs:
           target-folder: branches/${{ env.SANITIZED_BRANCH_NAME }}
           single-commit: true
           clean: false 
+          force: true 
 
       - name: Deploy main
         uses: JamesIves/github-pages-deploy-action@v4.4.2
@@ -196,3 +219,4 @@ jobs:
           clean-exclude: |
             branches
             sitepreview
+          force: true

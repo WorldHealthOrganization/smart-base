@@ -12,7 +12,11 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "${{ github.ref }} - ${{ github.repository }}"
+      - name: Output repository information
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log(context.ref + ' - ' + context.repo.owner + '/' + context.repo.repo);
       - run: | 
           curl --request POST \
           --header 'content-type: application/json' \
