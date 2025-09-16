@@ -66,9 +66,9 @@ jobs:
             // Validate that branch name is not empty
             if (!branchName) {
               console.log('❌ Error: Branch name is empty or could not be determined');
-              console.log(`Event: ${context.eventName}`);
-              console.log(`GITHUB_REF: ${process.env.GITHUB_REF || '(not set)'}`);
-              console.log(`github.head_ref: ${context.payload.pull_request?.head?.ref || '(not set)'}`);
+              console.log('Event: ' + context.eventName);
+              console.log('GITHUB_REF: ' + (process.env.GITHUB_REF || '(not set)'));
+              console.log('github.head_ref: ' + (context.payload.pull_request?.head?.ref || '(not set)'));
               process.exit(1);
             }
             
@@ -81,7 +81,7 @@ jobs:
             // Validate that sanitized branch name is not empty
             if (!sanitizedBranchName) {
               console.log('❌ Error: Sanitized branch name is empty after processing');
-              console.log(`Original branch name: ${branchName}`);
+              console.log('Original branch name: ' + branchName);
               process.exit(1);
             }
             
@@ -94,12 +94,12 @@ jobs:
         with:
           script: |
             const branchName = process.env.BRANCH_NAME;
-            console.log(`🔨 Building branch: ${branchName}`);
+            console.log('🔨 Building branch: ' + branchName);
             
             // Get default branch using git command
             const { execSync } = require('child_process');
             const defaultBranch = execSync('git remote show origin | sed -n \'/HEAD branch/s/.*: //p\'', { encoding: 'utf8' }).trim();
-            console.log(`Default Branch: ${defaultBranch}`);
+            console.log('Default Branch: ' + defaultBranch);
             
             const isDefaultBranch = branchName === defaultBranch;
             const repoName = context.repo.repo;
@@ -108,11 +108,11 @@ jobs:
             if (isDefaultBranch) {
               console.log('This is the default branch.');
               core.exportVariable('IS_DEFAULT_BRANCH', 'true');
-              core.exportVariable('DEPLOY_URL', `https://worldhealthorganization.github.io/${repoName}`);
+              core.exportVariable('DEPLOY_URL', 'https://worldhealthorganization.github.io/' + repoName);
             } else {
               console.log('This is NOT the default branch.');
               core.exportVariable('IS_DEFAULT_BRANCH', 'false');
-              core.exportVariable('DEPLOY_URL', `https://worldhealthorganization.github.io/${repoName}/branches/${sanitizedBranchName}`);
+              core.exportVariable('DEPLOY_URL', 'https://worldhealthorganization.github.io/' + repoName + '/branches/' + sanitizedBranchName);
             }
 
       - name: Create gh-pages branch if it doesn't exist
@@ -157,23 +157,23 @@ jobs:
         with:
           script: |
             const txInput = process.env.TX_INPUT;
-            console.log(`TX input: ${txInput}`);
+            console.log('TX input: ' + txInput);
 
-            let cmd = `java -Xmx6g -jar ./input-cache/publisher.jar publisher ` +
-                     `-ig . ` +
-                     `-auto-ig-build ` +
-                     `-repo https://github.com/${process.env.GITHUB_REPOSITORY}/tree/${process.env.GITHUB_REF_NAME} ` +
-                     `-package-cache-folder ./fhir-package-cache`;
+            let cmd = 'java -Xmx6g -jar ./input-cache/publisher.jar publisher ' +
+                     '-ig . ' +
+                     '-auto-ig-build ' +
+                     '-repo https://github.com/' + process.env.GITHUB_REPOSITORY + '/tree/' + process.env.GITHUB_REF_NAME + ' ' +
+                     '-package-cache-folder ./fhir-package-cache';
 
             if (txInput) {
-              cmd += ` -tx ${txInput}`;
+              cmd += ' -tx ' + txInput;
             }
 
-            console.log(`Running command: ${cmd}`);
+            console.log('Running command: ' + cmd);
             
             const { execSync } = require('child_process');
             try {
-              execSync(`docker run --rm -v ${process.env.GITHUB_WORKSPACE}:/work -w /work hl7fhir/ig-publisher-base:latest sh -c "${cmd}"`, {
+              execSync('docker run --rm -v ' + process.env.GITHUB_WORKSPACE + ':/work -w /work hl7fhir/ig-publisher-base:latest sh -c "' + cmd + '"', {
                 stdio: 'inherit'
               });
             } catch (error) {

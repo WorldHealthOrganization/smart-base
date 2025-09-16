@@ -34,8 +34,8 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            console.log(`Repository Owner: ${process.env.REPOSITORY_OWNER}`);
-            console.log(`Repository Name: ${process.env.REPOSITORY_NAME}`);
+            console.log('Repository Owner: ' + process.env.REPOSITORY_OWNER);
+            console.log('Repository Name: ' + process.env.REPOSITORY_NAME);
       
 
       - name: Replace placeholders in badges.md

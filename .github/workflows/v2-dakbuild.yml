@@ -126,7 +126,7 @@ jobs:
         with:
           script: |
             const triggerType = context.eventName;
-            console.log(`Trigger type: ${triggerType}`);
+            console.log('Trigger type: ' + triggerType);
             
             // Normalize input handling for different trigger types
             function normalizeBoolean(inputValue, defaultValue) {
@@ -160,12 +160,12 @@ jobs:
             core.exportVariable('ENABLE_JSONLD_VOCABULARIES', enableJsonldVocabularies);
             
             console.log('DAK feature settings:');
-            console.log(`  Generate DMN Questionnaires: ${enableDmnQuestionnaires}`);
-            console.log(`  Transform DMN files: ${enableTransformDmn}`);
-            console.log(`  Generate ValueSet schemas: ${enableValuesetSchemas}`);
-            console.log(`  Generate Logical Model schemas: ${enableLogicalModelSchemas}`);
-            console.log(`  Generate DAK API hub: ${enableDakApiHub}`);
-            console.log(`  Generate JSON-LD vocabularies: ${enableJsonldVocabularies}`);
+            console.log('  Generate DMN Questionnaires: ' + enableDmnQuestionnaires);
+            console.log('  Transform DMN files: ' + enableTransformDmn);
+            console.log('  Generate ValueSet schemas: ' + enableValuesetSchemas);
+            console.log('  Generate Logical Model schemas: ' + enableLogicalModelSchemas);
+            console.log('  Generate DAK API hub: ' + enableDakApiHub);
+            console.log('  Generate JSON-LD vocabularies: ' + enableJsonldVocabularies);
 
       - name: Generate DMN Questionnaires
         if: env.ENABLE_DMN_QUESTIONNAIRES == 'true'
