@@ -22,6 +22,7 @@ import sys
 import logging
 from typing import Dict, List, Optional, Any
 from pathlib import Path
+from datetime import datetime
 
 
 def setup_logging() -> logging.Logger:
@@ -31,6 +32,98 @@ def setup_logging() -> logging.Logger:
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
     return logging.getLogger(__name__)
+
+
+class QAReporter:
+    """Handles QA reporting for ValueSet schema generation."""
+    
+    def __init__(self, component: str = "valueset_schemas"):
+        self.component = component
+        self.timestamp = datetime.now().isoformat()
+        self.report = {
+            "component": component,
+            "timestamp": self.timestamp,
+            "status": "running",
+            "summary": {},
+            "details": {
+                "successes": [],
+                "warnings": [],
+                "errors": [],
+                "files_processed": [],
+                "files_expected": [],
+                "files_missing": [],
+                "schemas_generated": []
+            }
+        }
+    
+    def add_success(self, message: str, details: Optional[Dict] = None):
+        """Add a success entry to the QA report."""
+        entry = {"message": message, "timestamp": datetime.now().isoformat()}
+        if details:
+            entry["details"] = details
+        self.report["details"]["successes"].append(entry)
+    
+    def add_warning(self, message: str, details: Optional[Dict] = None):
+        """Add a warning entry to the QA report."""
+        entry = {"message": message, "timestamp": datetime.now().isoformat()}
+        if details:
+            entry["details"] = details
+        self.report["details"]["warnings"].append(entry)
+    
+    def add_error(self, message: str, details: Optional[Dict] = None):
+        """Add an error entry to the QA report."""
+        entry = {"message": message, "timestamp": datetime.now().isoformat()}
+        if details:
+            entry["details"] = details
+        self.report["details"]["errors"].append(entry)
+    
+    def add_file_processed(self, file_path: str, status: str = "success", details: Optional[Dict] = None):
+        """Record a file that was processed."""
+        entry = {
+            "file": file_path,
+            "status": status,
+            "timestamp": datetime.now().isoformat()
+        }
+        if details:
+            entry["details"] = details
+        self.report["details"]["files_processed"].append(entry)
+    
+    def add_file_expected(self, file_path: str, found: bool = False):
+        """Record a file that was expected."""
+        self.report["details"]["files_expected"].append(file_path)
+        if not found:
+            self.report["details"]["files_missing"].append(file_path)
+    
+    def add_schema_generated(self, schema_info: Dict):
+        """Record a schema that was generated."""
+        schema_info["timestamp"] = datetime.now().isoformat()
+        self.report["details"]["schemas_generated"].append(schema_info)
+    
+    def finalize_report(self, status: str = "completed"):
+        """Finalize the QA report with summary statistics."""
+        self.report["status"] = status
+        self.report["summary"] = {
+            "total_successes": len(self.report["details"]["successes"]),
+            "total_warnings": len(self.report["details"]["warnings"]),
+            "total_errors": len(self.report["details"]["errors"]),
+            "files_processed_count": len(self.report["details"]["files_processed"]),
+            "files_expected_count": len(self.report["details"]["files_expected"]),
+            "files_missing_count": len(self.report["details"]["files_missing"]),
+            "schemas_generated_count": len(self.report["details"]["schemas_generated"]),
+            "completion_timestamp": datetime.now().isoformat()
+        }
+        return self.report
+    
+    def save_to_file(self, output_path: str):
+        """Save QA report to a JSON file."""
+        try:
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            with open(output_path, 'w', encoding='utf-8') as f:
+                json.dump(self.report, f, indent=2, ensure_ascii=False)
+            return True
+        except Exception as e:
+            print(f"Error saving QA report to {output_path}: {e}")
+            return False
 
 
 def load_expansions_json(file_path: str) -> Optional[Dict[str, Any]]:
@@ -937,6 +1030,8 @@ def process_expansions(expansions_data: Dict[str, Any], output_dir: str) -> int:
 def main():
     """Main entry point for the script."""
     logger = setup_logging()
+    qa_reporter = QAReporter("valueset_schemas")
+    qa_reporter.add_success("Starting ValueSet schema generation")
     
     # Parse command line arguments
     if len(sys.argv) < 2:
@@ -952,22 +1047,72 @@ def main():
     
     logger.info(f"Processing expansions from: {expansions_path}")
     logger.info(f"Output directory: {output_dir}")
+    qa_reporter.add_success(f"Configured paths - Expansions: {expansions_path}, Output: {output_dir}")
     
     # Load expansions.json
+    qa_reporter.add_file_expected(expansions_path)
     expansions_data = load_expansions_json(expansions_path)
     if not expansions_data:
         logger.error("Failed to load expansions data")
-        sys.exit(1)
-    
-    # Process expansions and generate schemas
-    schemas_count = process_expansions(expansions_data, output_dir)
-    
-    if schemas_count > 0:
-        logger.info(f"Successfully generated {schemas_count} ValueSet schemas in {output_dir}")
-        sys.exit(0)
+        qa_reporter.add_error(f"Failed to load expansions data from {expansions_path}")
+        qa_reporter.add_file_processed(expansions_path, "failed_to_load")
     else:
-        logger.info("No ValueSet schemas were generated (no ValueSets found in expansions)")
-        sys.exit(0)
+        qa_reporter.add_success(f"Successfully loaded expansions data from {expansions_path}")
+        qa_reporter.add_file_processed(expansions_path, "loaded")
+    
+    # Process expansions and generate schemas (continue even if expansions_data is None)
+    try:
+        if expansions_data:
+            schemas_count = process_expansions(expansions_data, output_dir)
+        else:
+            schemas_count = 0
+            qa_reporter.add_warning("No expansions data available - no schemas will be generated")
+        
+        if schemas_count > 0:
+            logger.info(f"Successfully generated {schemas_count} ValueSet schemas in {output_dir}")
+            qa_reporter.add_success(f"Successfully generated {schemas_count} ValueSet schemas")
+        else:
+            logger.info("No ValueSet schemas were generated (no ValueSets found in expansions)")
+            qa_reporter.add_warning("No ValueSet schemas were generated - no ValueSets found in expansions")
+    except Exception as e:
+        logger.error(f"Error during schema generation: {e}")
+        qa_reporter.add_error(f"Error during schema generation: {e}")
+        schemas_count = 0
+    
+    # Finalize QA report
+    qa_status = "completed" if schemas_count > 0 else "completed_with_warnings"
+    if len(qa_reporter.report["details"]["errors"]) > 0:
+        qa_status = "completed_with_errors"
+    
+    qa_report = qa_reporter.finalize_report(qa_status)
+    
+    # Save QA report as a component report that can be merged by the main script
+    # Save to protected location to avoid IG publisher overwriting
+    protected_qa_path = "input/temp/qa_valueset_schemas.json"
+    if qa_reporter.save_to_file(protected_qa_path):
+        logger.info(f"ValueSet schema generation QA report saved to {protected_qa_path}")
+    else:
+        logger.warning("Failed to save ValueSet schema generation QA report to protected location")
+    
+    # Also save to /tmp for backward compatibility
+    temp_qa_path = "/tmp/qa_valueset_schemas.json"
+    qa_reporter.save_to_file(temp_qa_path)
+    
+    # Log QA summary
+    logger.info("=== VALUESET SCHEMA GENERATION QA SUMMARY ===")
+    logger.info(f"Successes: {qa_report['summary']['total_successes']}")
+    logger.info(f"Warnings: {qa_report['summary']['total_warnings']}")
+    logger.info(f"Errors: {qa_report['summary']['total_errors']}")
+    logger.info(f"Schemas generated: {qa_report['summary']['schemas_generated_count']}")
+    
+    # Always exit with success code - errors are captured in QA report
+    if qa_report['summary']['total_errors'] == 0:
+        logger.info("✅ ValueSet schema generation completed successfully")
+    else:
+        logger.warning("⚠️ ValueSet schema generation completed with errors - see QA report for details")
+    
+    logger.info("Exiting with success code 0 - check QA report for detailed status")
+    sys.exit(0)
 
 
 if __name__ == "__main__":
