@@ -61,7 +61,8 @@ jobs:
       - name: Get branch name
         run: |
           echo ${{ github.head_ref }}
-          echo ${{ github.ref_name }}   
+          echo ${{ github.ref_name }}
+          echo ${{GITHUB_REF#refs/heads/}}
           echo "BRANCH_NAME=${GITHUB_REF##*/}" 
           echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
