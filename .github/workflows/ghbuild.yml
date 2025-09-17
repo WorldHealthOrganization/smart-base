@@ -115,7 +115,7 @@ jobs:
           fi
 
       - name: DAK Preprocessing - Generate DMN Questionnaires
-        if: inputs.do_dak == true && env.DAK_ENABLED == 'true'
+        if: inputs.do_dak != false && env.DAK_ENABLED == 'true'
         run: |
           echo "Generating FHIR Questionnaires from DMN files before IG publisher runs..."
           
@@ -146,7 +146,7 @@ jobs:
           fi
 
       - name: DAK Preprocessing - Transform DMN files to HTML
-        if: inputs.do_dak == true && env.DAK_ENABLED == 'true'
+        if: inputs.do_dak != false && env.DAK_ENABLED == 'true'
         run: |
           echo "Transforming DMN files to HTML before IG publisher runs..."
           
@@ -222,7 +222,7 @@ jobs:
           path: ./output/qa.json  # Adjust the path based on where qa.json is located
 
       - name: DAK Postprocessing - Generate JSON Schemas
-        if: inputs.do_dak == true && env.DAK_ENABLED == 'true'
+        if: inputs.do_dak != false && env.DAK_ENABLED == 'true'
         run: |
           echo "Generating JSON schemas from FHIR resources..."
           
@@ -250,7 +250,7 @@ jobs:
           fi
 
       - name: DAK Postprocessing - Generate DAK API Hub
-        if: inputs.do_dak == true && env.DAK_ENABLED == 'true'
+        if: inputs.do_dak != false && env.DAK_ENABLED == 'true'
         run: |
           echo "Generating DAK API documentation hub..."
           
@@ -273,7 +273,7 @@ jobs:
           fi
 
       - name: DAK Postprocessing - Generate JSON-LD Vocabularies
-        if: inputs.do_dak == true && env.DAK_ENABLED == 'true'
+        if: inputs.do_dak != false && env.DAK_ENABLED == 'true'
         run: |
           echo "Generating JSON-LD vocabularies from ValueSet expansions..."
           
