@@ -41,7 +41,7 @@ on:
         description: 'Enable DAK preprocessing and postprocessing'
         required: false
         type: boolean
-        default: false
+        default: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -75,20 +75,25 @@ jobs:
           fi
 
 
-#      - name: Create gh-pages branch if it doesn't exist
-#        run: |
-#          git fetch origin
-#          exists=`git show-ref refs/heads/gh-pages`
-#          if [ -n "$exists" ]; then
-#            echo 'gh-pages branch exists';
-#          else
-#            echo 'gh-pages branch does not exist, creating it';
-#            git checkout --orphan gh-pages
-#            git reset --hard
-#            git commit --allow-empty -m "Initializing gh-pages branch"
-#            git push origin gh-pages
-#            git checkout ${GITHUB_REF##*/}
-#          fi
+      - name: Create gh-pages branch if it doesn't exist
+        run: |
+          git fetch origin
+          exists=`git show-ref refs/heads/gh-pages`
+          if [ -n "$exists" ]; then
+            echo 'gh-pages branch exists';
+          else
+            echo 'gh-pages branch does not exist, creating it';
+            git checkout --orphan gh-pages
+            git reset --hard
+            git commit --allow-empty -m "Initializing gh-pages branch"
+            git push origin gh-pages
+            git checkout ${GITHUB_REF##*/}
+          fi
+
+      - name: Check for DAK configuration
+        if: inputs.do_dak == false
+        run: |
+          echo "DAK processing disabled"
 
       - name: Check for DAK configuration
         if: inputs.do_dak == true
