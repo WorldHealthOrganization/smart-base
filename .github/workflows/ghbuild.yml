@@ -102,8 +102,10 @@ jobs:
           echo "DAK processing disabled"
 
       - name: Check for DAK configuration
-        if: inputs.do_dak == true
         run: |
+          if: inputs.do_dak != true
+            echo "Not generating DAK"	   
+            exit 0
           echo "DAK processing enabled, checking for dak.json..."
           if [ -f "dak.json" ]; then
             echo "✅ Found dak.json - DAK processing will be enabled"
