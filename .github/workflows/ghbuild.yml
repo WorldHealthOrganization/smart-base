@@ -96,15 +96,11 @@ jobs:
       #       git checkout ${GITHUB_REF##*/}
       #     fi
 
-      - name: Check for DAK processing disabled
-        if: inputs.do_dak == false
-        run: |
-          echo "DAK processing disabled"
+
 
       - name: Check for DAK configuration
         run: |
-        run: |
-          if [ "${{ inputs.do_dak }}" != "true" ]; then
+          if [  inputs.do_dak != true ]; then
             echo "Not generating DAK"
             exit 0
           fi
