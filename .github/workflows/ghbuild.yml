@@ -103,9 +103,11 @@ jobs:
 
       - name: Check for DAK configuration
         run: |
-          if: inputs.do_dak != true
-            echo "Not generating DAK"	   
+        run: |
+          if [ "${{ inputs.do_dak }}" != "true" ]; then
+            echo "Not generating DAK"
             exit 0
+          fi
           echo "DAK processing enabled, checking for dak.json..."
           if [ -f "dak.json" ]; then
             echo "✅ Found dak.json - DAK processing will be enabled"
