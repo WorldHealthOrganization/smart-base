@@ -1,0 +1,193 @@
+name: Prune Deployed Branches
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_cleanup:
+        description: 'Type "CONFIRM" to proceed with cleanup'
+        required: true
+        type: string
+      dry_run:
+        description: 'Perform a dry run (show what would be deleted without deleting)'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  prune-branches:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Validate confirmation
+      if: inputs.confirm_cleanup != 'CONFIRM'
+      run: |
+        echo "❌ Cleanup not confirmed. Please type 'CONFIRM' in the confirm_cleanup input to proceed."
+        exit 1
+    
+    - name: Checkout gh-pages branch
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Verify we're on gh-pages branch
+      run: |
+        CURRENT_BRANCH=$(git branch --show-current)
+        echo "Current branch: $CURRENT_BRANCH"
+        
+        if [ "$CURRENT_BRANCH" != "gh-pages" ]; then
+          echo "❌ Error: Not on gh-pages branch. Current branch is: $CURRENT_BRANCH"
+          exit 1
+        fi
+        
+        echo "✅ Confirmed: Operating on gh-pages branch"
+    
+    - name: Verify branches directory exists
+      run: |
+        if [ ! -d "branches" ]; then
+          echo "❌ Error: branches directory does not exist"
+          exit 1
+        fi
+        
+        echo "✅ Confirmed: branches directory exists"
+    
+    - name: Analyze current state
+      id: analyze
+      run: |
+        echo "📊 Analyzing current state of branches directory..."
+        
+        # Get size and file count
+        SIZE=$(du -sh branches 2>/dev/null | cut -f1 || echo "unknown")
+        FILE_COUNT=$(find branches -type f 2>/dev/null | wc -l || echo "0")
+        DIR_COUNT=$(find branches -maxdepth 1 -type d 2>/dev/null | grep -v "^branches$" | wc -l || echo "0")
+        
+        echo "📏 Total size: $SIZE"
+        echo "📄 Total files: $FILE_COUNT"
+        echo "📁 Subdirectories: $DIR_COUNT"
+        
+        # Set outputs for later steps
+        echo "size=$SIZE" >> $GITHUB_OUTPUT
+        echo "file_count=$FILE_COUNT" >> $GITHUB_OUTPUT
+        echo "dir_count=$DIR_COUNT" >> $GITHUB_OUTPUT
+        
+        # List top-level directories
+        echo "📁 Top-level directories in branches/:"
+        find branches -maxdepth 1 -type d 2>/dev/null | grep -v "^branches$" | head -20 | sed 's/^branches\//  /' || echo "  (none)"
+        
+        if [ "$DIR_COUNT" -gt 20 ]; then
+          REMAINING=$((DIR_COUNT - 20))
+          echo "  ... and $REMAINING more directories"
+        fi
+    
+    - name: Dry run - Show what would be deleted
+      if: inputs.dry_run == true
+      run: |
+        echo "🔍 DRY RUN: This is what would be deleted..."
+        echo "============================================"
+        
+        echo "📊 Summary:"
+        echo "  - Size to be freed: ${{ steps.analyze.outputs.size }}"
+        echo "  - Files to be deleted: ${{ steps.analyze.outputs.file_count }}"
+        echo "  - Directories to be deleted: ${{ steps.analyze.outputs.dir_count }}"
+        
+        echo ""
+        echo "📁 Directories that would be removed:"
+        find branches -maxdepth 1 -type d 2>/dev/null | grep -v "^branches$" | head -50 | sed 's/^branches\//  /' || echo "  (none)"
+        
+        echo ""
+        echo "⚠️  This was a DRY RUN - no files were actually deleted."
+        echo "To perform the actual cleanup, set 'dry_run' to false and re-run the workflow."
+    
+    - name: Perform cleanup
+      if: inputs.dry_run == false
+      run: |
+        echo "🗑️  Performing actual cleanup of branches directory..."
+        echo "WARNING: This will permanently delete all content in branches/"
+        
+        # Remove all contents from branches directory
+        rm -rf branches/*
+        
+        echo "✅ Cleanup completed"
+    
+    - name: Verify cleanup results
+      if: inputs.dry_run == false
+      run: |
+        echo "🔍 Verifying cleanup results..."
+        
+        AFTER_SIZE=$(du -sh branches 2>/dev/null | cut -f1 || echo "unknown")
+        AFTER_COUNT=$(find branches -type f 2>/dev/null | wc -l || echo "0")
+        
+        echo "📊 After cleanup:"
+        echo "  - Size: $AFTER_SIZE"
+        echo "  - Files remaining: $AFTER_COUNT"
+        
+        if [ "$AFTER_COUNT" -eq 0 ]; then
+          echo "✅ Cleanup successful - branches directory is now empty"
+        else
+          echo "⚠️  Warning: $AFTER_COUNT files still remain in branches directory"
+        fi
+    
+    - name: Commit cleanup changes
+      if: inputs.dry_run == false
+      run: |
+        # Configure git
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # Check if there are changes to commit
+        if git diff --quiet && git diff --cached --quiet; then
+          echo "ℹ️  No changes to commit (branches directory was already empty)"
+          exit 0
+        fi
+        
+        # Stage all changes
+        git add -A
+        
+        # Count deleted files for commit message
+        DELETED_FILES=$(git status --porcelain | grep "^D " | wc -l || echo "0")
+        
+        # Create commit
+        git commit -m "Prune deployed branches directory
+
+This automated cleanup removed $DELETED_FILES files from the
+branches directory to reduce repository size and improve performance.
+
+Previous state: ${{ steps.analyze.outputs.size }} with ${{ steps.analyze.outputs.file_count }} files
+Current state: Empty directory
+
+Executed via GitHub Actions workflow 'Prune Deployed Branches'
+Run ID: ${{ github.run_id }}
+Triggered by: ${{ github.actor }}"
+        
+        echo "✅ Changes committed successfully"
+    
+    - name: Push changes
+      if: inputs.dry_run == false
+      run: |
+        echo "📤 Pushing changes to gh-pages branch..."
+        git push origin gh-pages
+        echo "✅ Changes pushed successfully"
+    
+    - name: Summary
+      run: |
+        echo "🎉 Workflow completed successfully!"
+        echo "=================================="
+        
+        if [ "${{ inputs.dry_run }}" == "true" ]; then
+          echo "Mode: DRY RUN"
+          echo "Status: Analysis completed, no changes made"
+          echo "Found: ${{ steps.analyze.outputs.file_count }} files in ${{ steps.analyze.outputs.dir_count }} directories (${{ steps.analyze.outputs.size }})"
+          echo ""
+          echo "To perform actual cleanup:"
+          echo "1. Re-run this workflow"
+          echo "2. Set 'dry_run' to false"
+          echo "3. Type 'CONFIRM' in the confirmation field"
+        else
+          echo "Mode: CLEANUP"
+          echo "Status: Cleanup completed and changes pushed"
+          echo "Result: branches directory has been emptied"
+          echo ""
+          echo "The gh-pages/branches directory has been successfully cleaned up."
+          echo "Repository performance should be significantly improved."
+        fi

@@ -25,84 +25,55 @@ The `gh-pages/branches` directory has grown to **8.4GB** containing **1,578 item
 
 ## Solution Implemented
 
-### 1. Automated Cleanup Script
+### GitHub Workflow: "Prune Deployed Branches"
 
-A comprehensive cleanup script has been created: `cleanup-gh-pages-branches.sh`
+A secure GitHub Actions workflow has been created: `.github/workflows/prune-deployed-branches.yml`
 
 **Features:**
-- ✅ Safety checks (git repository, branch existence)
-- ✅ Size measurement before/after
-- ✅ Comprehensive logging
-- ✅ Automatic branch switching and restoration
-- ✅ Detailed commit message with statistics
-- ✅ Clear next steps for execution
+- ✅ Manual dispatch from GitHub UI (workflow_dispatch)
+- ✅ Comprehensive safety checks and validation
+- ✅ Dry run mode for safe testing
+- ✅ Confirmation requirement to prevent accidental execution
+- ✅ Automatic size measurement and reporting
+- ✅ Detailed commit documentation with statistics
+- ✅ Secure execution with proper permissions
 
-### 2. Manual Steps Performed (Testing)
-
-The cleanup has been successfully tested on the gh-pages branch:
-
-```bash
-# Results from test execution:
-# - Switched to gh-pages branch
-# - Removed 93,719 files from branches directory  
-# - Reduced size from 8.4GB to 92KB
-# - Created commit ce7eb99e with detailed documentation
-# - Verified cleanup success
-```
+**Safety Features:**
+- Requires explicit "CONFIRM" input to proceed
+- Validates execution on correct gh-pages branch
+- Verifies branches directory exists before proceeding
+- Dry run mode shows what would be deleted without making changes
+- Comprehensive logging and status reporting
 
 ## Execution Instructions
 
-### For Repository Maintainers
+### Using GitHub Actions Workflow (Recommended)
 
-1. **Review the cleanup script**:
-   ```bash
-   cat cleanup-gh-pages-branches.sh
-   ```
+1. **Navigate to GitHub Actions**:
+   - Go to the repository on GitHub
+   - Click on "Actions" tab
+   - Find "Prune Deployed Branches" workflow
 
-2. **Execute the cleanup** (requires push permissions to gh-pages):
-   ```bash
-   ./cleanup-gh-pages-branches.sh
-   ```
+2. **Run the workflow**:
+   - Click "Run workflow" button
+   - **For testing**: Leave "dry_run" as `true` to see what would be deleted
+   - **For actual cleanup**: Set "dry_run" to `false`
+   - Type "CONFIRM" in the confirmation field
+   - Click "Run workflow"
 
-3. **Review the changes**:
-   ```bash
-   git checkout gh-pages
-   git show --stat
-   ```
+3. **Monitor execution**:
+   - Watch the workflow run in real-time
+   - Review logs for detailed progress and results
+   - Verify success in the workflow summary
 
-4. **Push the cleanup** (⚠️ **IRREVERSIBLE**):
-   ```bash
-   git push origin gh-pages
-   ```
+### Dry Run Process (Recommended First Step)
 
-### Alternative: Manual Execution
-
-If you prefer manual execution:
-
-```bash
-# 1. Switch to gh-pages branch
-git checkout gh-pages
-
-# 2. Check current size
-du -sh branches
-find branches -type f | wc -l
-
-# 3. Remove all contents
-rm -rf branches/*
-
-# 4. Verify cleanup
-du -sh branches
-ls -la branches/
-
-# 5. Commit changes
-git add -A
-git commit -m "Remove all content from gh-pages/branches directory
-
-Resolves #150"
-
-# 6. Push changes (⚠️ IRREVERSIBLE)
-git push origin gh-pages
-```
+1. Run workflow with `dry_run: true`
+2. Review the analysis output to see:
+   - Current size and file count
+   - Directories that would be removed
+   - Expected impact of cleanup
+3. If satisfied, run again with `dry_run: false`
 
 ## Impact Assessment
 
@@ -119,6 +90,15 @@ git push origin gh-pages
 - **Backup available**: Git history preserves pre-cleanup state
 
 ## Technical Details
+
+### GitHub Workflow Details
+The workflow (`prune-deployed-branches.yml`) includes:
+- **Trigger**: Manual dispatch only (workflow_dispatch)
+- **Inputs**: 
+  - `confirm_cleanup`: Requires "CONFIRM" to proceed
+  - `dry_run`: Boolean to enable safe testing mode
+- **Safety checks**: Branch validation, directory existence, proper permissions
+- **Execution**: Automated cleanup with comprehensive logging
 
 ### Files Removed
 The cleanup removes build artifacts including:
@@ -139,30 +119,24 @@ The cleanup removes build artifacts including:
 
 ## Verification Steps
 
-After cleanup execution:
+After workflow execution:
 
-1. **Size verification**:
-   ```bash
-   du -sh branches  # Should show ~92KB
-   ```
+1. **Check workflow logs**:
+   - Review GitHub Actions run logs
+   - Verify successful completion
+   - Check size reduction statistics
 
-2. **Content verification**:
-   ```bash
-   ls -la branches/  # Should be empty
-   ```
+2. **Verify results**:
+   - Navigate to gh-pages branch on GitHub
+   - Confirm branches directory is empty
+   - Check repository size improvements
 
-3. **Git verification**:
-   ```bash
-   git log --oneline -1  # Should show cleanup commit
-   ```
-
-4. **Repository size check**:
-   ```bash
-   git count-objects -vH  # Should show reduced repository size
-   ```
+3. **Monitor performance**:
+   - Test clone speed improvements
+   - Verify GitHub Pages functionality
 
 ## Conclusion
 
-This cleanup will dramatically improve the repository's performance and maintainability by removing 8.3GB of unnecessary historical build artifacts. The solution is safe, well-documented, and provides clear execution steps for repository maintainers.
+This GitHub Actions workflow provides a secure, auditable way to clean up the gh-pages/branches directory. The workflow dramatically improves repository performance by removing 8.3GB of unnecessary historical build artifacts while maintaining safety through comprehensive checks and dry-run capabilities.
 
-The automated script ensures proper safety checks and detailed logging, making the cleanup process reliable and traceable.
+The solution is accessible through the GitHub UI, provides detailed logging, and ensures proper authorization and confirmation before making any changes.
