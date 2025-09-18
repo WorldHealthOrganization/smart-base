@@ -89,13 +89,14 @@ jobs:
             const runId = '${{ github.run_id }}';
             const sha = '${{ github.sha }}';
             const branch = '${{ github.head_ref || github.ref_name }}';
+            const branchForUrl = branch.includes('/') ? branch.split('/').pop() : branch;
             
             // Determine deployment URL
             let deploymentUrl;
             if (branch === 'main') {
               deploymentUrl = 'https://worldhealthorganization.github.io/smart-base/';
             } else {
-              deploymentUrl = `https://worldhealthorganization.github.io/smart-base/branches/${branch}/`;
+              deploymentUrl = `https://worldhealthorganization.github.io/smart-base/branches/${branchForUrl}/`;
             }
             
             const buildLogUrl = `https://github.com/${{ github.repository }}/actions/runs/${runId}`;
@@ -395,6 +396,7 @@ jobs:
           script: |
             const prNumber = '${{ steps.find_pr.outputs.PR_NUMBER }}';
             const branch = '${{ github.head_ref || github.ref_name }}';
+            const branchForUrl = branch.includes('/') ? branch.split('/').pop() : branch;
             const sha = '${{ github.sha }}';
             const jobStatus = '${{ job.status }}';
             const runId = '${{ github.run_id }}';
@@ -404,7 +406,7 @@ jobs:
             if (branch === 'main') {
               deploymentUrl = 'https://worldhealthorganization.github.io/smart-base/';
             } else {
-              deploymentUrl = `https://worldhealthorganization.github.io/smart-base/branches/${branch}/`;
+              deploymentUrl = `https://worldhealthorganization.github.io/smart-base/branches/${branchForUrl}/`;
             }
             
             const buildLogUrl = `https://github.com/${{ github.repository }}/actions/runs/${runId}`;
