@@ -58,6 +58,39 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Find PR number
+        id: find_pr
+        run: |
+          # Check if this is a PR event
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "PR_NUMBER=${{ github.event.number }}" >> $GITHUB_OUTPUT
+            echo "IS_PR=true" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "push" ]]; then
+            # For push events, try to find associated PR
+            PR_NUMBER=$(gh pr list --head "${{ github.ref_name }}" --json number --jq '.[0].number' 2>/dev/null || echo "")
+            if [[ -n "$PR_NUMBER" && "$PR_NUMBER" != "null" ]]; then
+              echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_OUTPUT
+              echo "IS_PR=true" >> $GITHUB_OUTPUT
+            else
+              echo "IS_PR=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "IS_PR=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment on PR - Build started
+        if: steps.find_pr.outputs.IS_PR == 'true'
+        run: |
+          python3 input/scripts/pr_comment_start.py \
+            "${{ steps.find_pr.outputs.PR_NUMBER }}" \
+            "${{ github.repository }}" \
+            "${{ github.run_id }}" \
+            "${{ github.sha }}" \
+            "${{ github.head_ref || github.ref_name }}" \
+            "${{ secrets.GITHUB_TOKEN }}"
+
       - name: Get branch name
         run: |
           echo ${{ github.head_ref }}
@@ -100,7 +133,7 @@ jobs:
 
       - name: Check for DAK configuration
         run: |
-          if [  inputs.do_dak == false ]; then
+          if [ "${{ inputs.do_dak }}" == "false" ]; then
             echo "Not generating DAK"
             exit 0
           fi
@@ -322,3 +355,15 @@ jobs:
           clean-exclude: |
             branches
             sitepreview
+
+      - name: Comment on PR - Deployment completed
+        if: steps.find_pr.outputs.IS_PR == 'true' && (success() || failure())
+        run: |
+          python3 input/scripts/pr_comment_finish.py \
+            "${{ steps.find_pr.outputs.PR_NUMBER }}" \
+            "${{ github.repository }}" \
+            "${{ github.run_id }}" \
+            "${{ github.sha }}" \
+            "${{ github.head_ref || github.ref_name }}" \
+            "${{ job.status }}" \
+            "${{ secrets.GITHUB_TOKEN }}"
