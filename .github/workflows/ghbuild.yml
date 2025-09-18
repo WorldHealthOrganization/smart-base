@@ -58,6 +58,71 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Find PR number
+        id: find_pr
+        run: |
+          # Check if this is a PR event
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "PR_NUMBER=${{ github.event.number }}" >> $GITHUB_OUTPUT
+            echo "IS_PR=true" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "push" ]]; then
+            # For push events, try to find associated PR
+            PR_NUMBER=$(gh pr list --head "${{ github.ref_name }}" --json number --jq '.[0].number' 2>/dev/null || echo "")
+            if [[ -n "$PR_NUMBER" && "$PR_NUMBER" != "null" ]]; then
+              echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_OUTPUT
+              echo "IS_PR=true" >> $GITHUB_OUTPUT
+            else
+              echo "IS_PR=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "IS_PR=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment on PR - Build started
+        if: steps.find_pr.outputs.IS_PR == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = '${{ steps.find_pr.outputs.PR_NUMBER }}';
+            const runId = '${{ github.run_id }}';
+            const sha = '${{ github.sha }}';
+            const branch = '${{ github.head_ref || github.ref_name }}';
+            
+            // Determine deployment URL
+            let deploymentUrl;
+            if (branch === 'main') {
+              deploymentUrl = 'https://worldhealthorganization.github.io/smart-base/';
+            } else {
+              deploymentUrl = `https://worldhealthorganization.github.io/smart-base/branches/${branch}/`;
+            }
+            
+            const buildLogUrl = `https://github.com/${{ github.repository }}/actions/runs/${runId}`;
+            
+            const comment = `## 🚀 Deployment Started
+            
+            **Branch:** \`${branch}\`  
+            **Commit:** \`${sha.substring(0, 7)}\`  
+            **Expected URL:** ${deploymentUrl}
+            
+            [\`🔍 View Build Log\`](${buildLogUrl})
+            
+            ---
+            *This comment will be updated when the deployment completes.*`;
+            
+            // Post the comment
+            const { data: comment_data } = await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: comment
+            });
+            
+            // Save comment ID for later updates
+            console.log(`Comment ID: ${comment_data.id}`);
+            require('fs').writeFileSync('/tmp/comment_id.txt', comment_data.id.toString());
+
       - name: Get branch name
         run: |
           echo ${{ github.head_ref }}
@@ -322,3 +387,86 @@ jobs:
           clean-exclude: |
             branches
             sitepreview
+
+      - name: Comment on PR - Deployment completed
+        if: steps.find_pr.outputs.IS_PR == 'true' && (success() || failure())
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = '${{ steps.find_pr.outputs.PR_NUMBER }}';
+            const branch = '${{ github.head_ref || github.ref_name }}';
+            const sha = '${{ github.sha }}';
+            const jobStatus = '${{ job.status }}';
+            const runId = '${{ github.run_id }}';
+            
+            // Determine deployment URL
+            let deploymentUrl;
+            if (branch === 'main') {
+              deploymentUrl = 'https://worldhealthorganization.github.io/smart-base/';
+            } else {
+              deploymentUrl = `https://worldhealthorganization.github.io/smart-base/branches/${branch}/`;
+            }
+            
+            const buildLogUrl = `https://github.com/${{ github.repository }}/actions/runs/${runId}`;
+            
+            let comment, commentIcon, statusText, actionButton;
+            
+            if (jobStatus === 'success') {
+              commentIcon = '✅';
+              statusText = 'Deployment Successful';
+              actionButton = `[\`🌐 Open Preview\`](${deploymentUrl})`;
+              comment = `## ${commentIcon} ${statusText}
+              
+              **Branch:** \`${branch}\`  
+              **Commit:** \`${sha.substring(0, 7)}\`  
+              **Deployed to:** ${deploymentUrl}
+              
+              ${actionButton}  
+              [\`🔍 View Build Log\`](${buildLogUrl})
+              
+              ---
+              *Deployment completed successfully! The site is now live at the URL above.*`;
+            } else {
+              commentIcon = '❌';
+              statusText = 'Deployment Failed';
+              actionButton = `[\`🔍 View Build Log\`](${buildLogUrl})`;
+              comment = `## ${commentIcon} ${statusText}
+              
+              **Branch:** \`${branch}\`  
+              **Commit:** \`${sha.substring(0, 7)}\`  
+              
+              ${actionButton}
+              
+              ---
+              *Deployment failed. Please check the build log for details.*`;
+            }
+            
+            // Try to update existing comment first
+            let commentUpdated = false;
+            try {
+              const commentIdFile = '/tmp/comment_id.txt';
+              if (require('fs').existsSync(commentIdFile)) {
+                const commentId = require('fs').readFileSync(commentIdFile, 'utf8').trim();
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: parseInt(commentId),
+                  body: comment
+                });
+                commentUpdated = true;
+                console.log(`Updated existing comment ${commentId}`);
+              }
+            } catch (error) {
+              console.log(`Failed to update existing comment: ${error.message}`);
+            }
+            
+            // If update failed, create new comment
+            if (!commentUpdated) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: comment
+              });
+              console.log('Created new comment');
+            }
