@@ -338,7 +338,9 @@ class OpenAPIDetector:
         for root, dirs, files in os.walk(openapi_dir):
             for file in files:
                 # Include generated OpenAPI wrapper files - prioritize JSON format
+                # Exclude index.html as it's handled separately for content extraction
                 if (file.endswith(('.json', '.yaml', '.yml')) and 
+                    file.lower() != 'index.html' and
                     ('openapi' in file.lower() or 'swagger' in file.lower() or 
                      file.endswith('.openapi.json') or file.endswith('.openapi.yaml'))):
                     full_path = os.path.join(root, file)
@@ -347,6 +349,83 @@ class OpenAPIDetector:
         
         self.logger.info(f"Found {len(openapi_files)} OpenAPI/Swagger files total")
         return openapi_files
+    
+    def find_existing_html_content(self, openapi_dir: str) -> Optional[str]:
+        """Find and extract content from existing index.html in OpenAPI directory."""
+        index_html_path = os.path.join(openapi_dir, "index.html")
+        
+        if not os.path.exists(index_html_path):
+            self.logger.info(f"No existing index.html found in: {openapi_dir}")
+            return None
+        
+        try:
+            self.logger.info(f"Found existing OpenAPI HTML content at: {index_html_path}")
+            with open(index_html_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+            
+            # Extract the main content from the existing HTML
+            # Look for the main content within the body, excluding head/scripts
+            import re
+            
+            # Try to extract content between <body> and </body>
+            body_match = re.search(r'<body[^>]*>(.*?)</body>', html_content, re.DOTALL | re.IGNORECASE)
+            if body_match:
+                body_content = body_match.group(1)
+                
+                # Clean up the content for injection - remove scripts and extract meaningful content
+                # Remove script tags
+                body_content = re.sub(r'<script[^>]*>.*?</script>', '', body_content, flags=re.DOTALL | re.IGNORECASE)
+                
+                # Extract the main container content
+                container_match = re.search(r'<div[^>]*class[^>]*container[^>]*>(.*?)</div>', body_content, re.DOTALL | re.IGNORECASE)
+                if container_match:
+                    content = container_match.group(1)
+                else:
+                    content = body_content
+                
+                self.logger.info(f"Extracted {len(content)} characters of HTML content from existing index.html")
+                return content.strip()
+            else:
+                self.logger.warning("Could not extract body content from existing index.html")
+                return None
+                
+        except Exception as e:
+            self.logger.error(f"Error reading existing HTML content: {e}")
+            return None
+    
+    def copy_openapi_files_to_output(self, openapi_dir: str, output_dir: str) -> List[str]:
+        """Copy OpenAPI specification files (not HTML) to output directory for access."""
+        import shutil
+        copied_files = []
+        
+        if not os.path.exists(openapi_dir):
+            self.logger.info(f"OpenAPI directory does not exist: {openapi_dir}")
+            return copied_files
+        
+        try:
+            for root, dirs, files in os.walk(openapi_dir):
+                for file in files:
+                    # Copy OpenAPI specification files (json, yaml) but not HTML/CSS/JS
+                    if (file.endswith(('.json', '.yaml', '.yml')) and 
+                        file.lower() != 'index.html' and
+                        ('openapi' in file.lower() or 'swagger' in file.lower())):
+                        
+                        source_path = os.path.join(root, file)
+                        dest_path = os.path.join(output_dir, file)
+                        
+                        try:
+                            shutil.copy2(source_path, dest_path)
+                            copied_files.append(file)
+                            self.logger.info(f"Copied OpenAPI file: {file} to output directory")
+                        except Exception as e:
+                            self.logger.warning(f"Failed to copy {file}: {e}")
+            
+            self.logger.info(f"Copied {len(copied_files)} OpenAPI specification files to output directory")
+            return copied_files
+            
+        except Exception as e:
+            self.logger.error(f"Error copying OpenAPI files: {e}")
+            return copied_files
 
 
 class OpenAPIWrapper:
@@ -1514,7 +1593,7 @@ class DAKApiHubGenerator:
             self.logger.error(f"Error creating enumeration schema for {schema_type}: {e}")
             return None
     
-    def generate_hub_html_content(self, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None, jsonld_docs: List[Dict] = None) -> str:
+    def generate_hub_html_content(self, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None, jsonld_docs: List[Dict] = None, existing_openapi_html_content: Optional[str] = None) -> str:
         """
         Generate HTML content for the DAK API hub page.
         
@@ -1523,6 +1602,7 @@ class DAKApiHubGenerator:
             openapi_docs: List of OpenAPI documentation info
             enumeration_docs: List of enumeration endpoint documentation info
             jsonld_docs: List of JSON-LD vocabulary documentation info
+            existing_openapi_html_content: Existing HTML content from input/images/openapi/index.html
             
         Returns:
             HTML content as a string
@@ -1788,6 +1868,19 @@ class DAKApiHubGenerator:
     </div>
 """
         
+        # Add existing OpenAPI content if present
+        if existing_openapi_html_content:
+            html_content += """
+    <h3>Existing API Documentation</h3>
+    
+    <div class="existing-openapi-content">
+"""
+            # Add the extracted content from existing index.html
+            html_content += existing_openapi_html_content
+            html_content += """
+    </div>
+"""
+        
         # Add usage information
         html_content += """
     <h3>Using the DAK API</h3>
@@ -2011,7 +2104,7 @@ class DAKApiHubGenerator:
         
         return html_content
     
-    def post_process_dak_api_html(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None, jsonld_docs: List[Dict] = None) -> bool:
+    def post_process_dak_api_html(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None, jsonld_docs: List[Dict] = None, existing_openapi_html_content: Optional[str] = None) -> bool:
         """
         Post-process the dak-api.html file to inject DAK API content.
         
@@ -2021,6 +2114,7 @@ class DAKApiHubGenerator:
             openapi_docs: List of OpenAPI documentation info
             enumeration_docs: List of enumeration endpoint documentation info
             jsonld_docs: List of JSON-LD vocabulary documentation info
+            existing_openapi_html_content: Existing HTML content from input/images/openapi/index.html
             
         Returns:
             True if successful, False otherwise
@@ -2050,7 +2144,7 @@ class DAKApiHubGenerator:
             
             # Generate the HTML content for the hub
             self.logger.info("Generating hub HTML content...")
-            hub_content = self.generate_hub_html_content(schema_docs, openapi_docs, enumeration_docs, jsonld_docs)
+            hub_content = self.generate_hub_html_content(schema_docs, openapi_docs, enumeration_docs, jsonld_docs, existing_openapi_html_content)
             self.logger.info(f"Generated hub content length: {len(hub_content)} characters")
             
             if len(hub_content) < 100:
@@ -2089,10 +2183,10 @@ def main():
     # Parse command line arguments first
     if len(sys.argv) == 1:
         output_dir = "output"
-        openapi_dir = "output"  # Changed to look in output directory for generated OpenAPI wrappers
+        openapi_dir = "input/images/openapi"  # Default to existing OpenAPI documentation location
     elif len(sys.argv) == 2:
         output_dir = sys.argv[1]
-        openapi_dir = sys.argv[1]  # Use same directory for both schemas and OpenAPI wrappers
+        openapi_dir = "input/images/openapi"  # Default to existing OpenAPI documentation location
     else:
         output_dir = sys.argv[1]
         openapi_dir = sys.argv[2]
@@ -2249,6 +2343,24 @@ def main():
     logger.info("=== OPENAPI FILE DETECTION PHASE ===")
     openapi_files = openapi_detector.find_openapi_files(openapi_dir)
     logger.info(f"OpenAPI detection completed - found {len(openapi_files)} files")
+    
+    # Extract existing HTML content from OpenAPI documentation
+    logger.info("=== EXISTING OPENAPI HTML CONTENT DETECTION ===")
+    existing_openapi_html_content = openapi_detector.find_existing_html_content(openapi_dir)
+    if existing_openapi_html_content:
+        logger.info("Found existing OpenAPI HTML content that will be incorporated into DAK API hub")
+    else:
+        logger.info("No existing OpenAPI HTML content found")
+    
+    # Copy existing OpenAPI specification files to output directory
+    logger.info("=== COPYING EXISTING OPENAPI FILES ===")
+    copied_openapi_files = openapi_detector.copy_openapi_files_to_output(openapi_dir, output_dir)
+    if copied_openapi_files:
+        logger.info(f"Copied {len(copied_openapi_files)} existing OpenAPI files to output directory")
+        for filename in copied_openapi_files:
+            logger.info(f"  ✅ {filename}")
+    else:
+        logger.info("No existing OpenAPI specification files to copy")
     
     # Generate schema documentation
     logger.info("=== SCHEMA DOCUMENTATION GENERATION PHASE ===")
@@ -2591,6 +2703,16 @@ def main():
                 seen_filenames.add(filename)
         logger.info(f"Added {len([f for f in openapi_files if os.path.basename(f) not in seen_filenames])} new existing OpenAPI files")
     
+    # Add copied existing OpenAPI files from the source directory 
+    if copied_openapi_files:
+        for filename in copied_openapi_files:
+            if filename not in seen_filenames:
+                # The file is now in the output directory
+                file_path = os.path.join(output_dir, filename)
+                all_openapi_files.append(file_path)
+                seen_filenames.add(filename)
+        logger.info(f"Added {len([f for f in copied_openapi_files if f not in seen_filenames])} copied existing OpenAPI files")
+    
     logger.info(f"Total unique OpenAPI files: {len(all_openapi_files)}")
     
     # Process all unique OpenAPI files for documentation
@@ -2657,7 +2779,7 @@ def main():
     qa_reporter.add_success("Starting DAK API hub post-processing phase")
     
     try:
-        success = hub_generator.post_process_dak_api_html(output_dir, schema_docs, openapi_docs, enumeration_docs, jsonld_docs)
+        success = hub_generator.post_process_dak_api_html(output_dir, schema_docs, openapi_docs, enumeration_docs, jsonld_docs, existing_openapi_html_content)
         
         if success:
             total_docs = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(openapi_docs) + len(enumeration_docs) + len(jsonld_docs)
