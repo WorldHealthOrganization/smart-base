@@ -1,0 +1,78 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Persona (DAK) API",
+    "description": "Logical Model for representing Personas from a DAK",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-Persona.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-Persona",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-Persona.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-Persona",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-Persona.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-Persona": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-Persona.schema.json",
+        "title": "Persona (DAK)",
+        "description": "Logical Model for representing Personas from a DAK",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "Persona",
+            "description": "Resource type identifier for Persona logical model"
+          },
+          "id": {
+            "type": "string",
+            "description": "An identifier or code for the requirement"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the persona"
+          },
+          "ISCO": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "ISCO Code"
+          },
+          "type": {
+            "$ref": "ValueSet-SGPersonaTypesVS.schema.json",
+            "description": "Persona Types: Key/Related/System/Hardware Device"
+          }
+        },
+        "required": [
+          "resourceType",
+          "id",
+          "name",
+          "description",
+          "type"
+        ],
+        "resourceDefinition": "http://smart.who.int/base/StructureDefinition/Persona",
+        "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+      }
+    }
+  }
+}

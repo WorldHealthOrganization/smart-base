@@ -1,0 +1,65 @@
+{
+  "@context": {
+    "@vocab": "http://smart.who.int/base/vocab#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "schema": "https://schema.org/",
+    "fhir": "http://hl7.org/fhir/",
+    "id": "@id",
+    "type": "@type",
+    "name": "rdfs:label",
+    "comment": "rdfs:comment",
+    "version": "schema:version",
+    "date": "schema:dateCreated",
+    "publisher": "schema:publisher"
+  },
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/vocab#SGPersonaTypesVSEnumeration",
+      "type": "schema:Enumeration",
+      "name": "Smart Guidelines Persona Types Value Set Enumeration",
+      "comment": "Allowed values for the Smart Guidelines Persona Types Value Set enumeration.",
+      "version": "0.2.0",
+      "date": "2025-09-18T02:01:34+00:00",
+      "publisher": "World Health Organization",
+      "fhir:valueSet": "http://smart.who.int/base/ValueSet/SGPersonaTypesVS"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key",
+      "type": "http://smart.who.int/base/vocab#SGPersonaTypesVSEnumeration",
+      "name": "Key Persona",
+      "fhir:code": "key",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/SGPersonaTypes"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/SGPersonaTypes#related",
+      "type": "http://smart.who.int/base/vocab#SGPersonaTypesVSEnumeration",
+      "name": "Related Persona",
+      "fhir:code": "related",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/SGPersonaTypes"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/SGPersonaTypes#system",
+      "type": "http://smart.who.int/base/vocab#SGPersonaTypesVSEnumeration",
+      "name": "System",
+      "fhir:code": "system",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/SGPersonaTypes"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/SGPersonaTypes#hardware",
+      "type": "http://smart.who.int/base/vocab#SGPersonaTypesVSEnumeration",
+      "name": "Hardware Device",
+      "fhir:code": "hardware",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/SGPersonaTypes"
+    },
+    {
+      "id": "http://smart.who.int/base/vocab#sgpersonatypesvs",
+      "type": "rdf:Property",
+      "name": "sgpersonatypesvs",
+      "comment": "Property for selecting a value from the Smart Guidelines Persona Types Value Set enumeration.",
+      "schema:rangeIncludes": {
+        "id": "http://smart.who.int/base/vocab#SGPersonaTypesVSEnumeration"
+      }
+    }
+  ]
+}
