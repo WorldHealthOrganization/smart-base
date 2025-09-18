@@ -337,11 +337,12 @@ class OpenAPIDetector:
         
         for root, dirs, files in os.walk(openapi_dir):
             for file in files:
-                # Include generated OpenAPI wrapper files - prioritize JSON format
+                # Include OpenAPI/Swagger files with more lenient matching for existing files
                 # Exclude index.html as it's handled separately for content extraction
                 if (file.endswith(('.json', '.yaml', '.yml')) and 
                     file.lower() != 'index.html' and
                     ('openapi' in file.lower() or 'swagger' in file.lower() or 
+                     'api' in file.lower() or  # More lenient for existing API files
                      file.endswith('.openapi.json') or file.endswith('.openapi.yaml'))):
                     full_path = os.path.join(root, file)
                     openapi_files.append(full_path)
@@ -408,7 +409,7 @@ class OpenAPIDetector:
                     # Copy OpenAPI specification files (json, yaml) but not HTML/CSS/JS
                     if (file.endswith(('.json', '.yaml', '.yml')) and 
                         file.lower() != 'index.html' and
-                        ('openapi' in file.lower() or 'swagger' in file.lower())):
+                        ('openapi' in file.lower() or 'swagger' in file.lower() or 'api' in file.lower())):
                         
                         source_path = os.path.join(root, file)
                         dest_path = os.path.join(output_dir, file)

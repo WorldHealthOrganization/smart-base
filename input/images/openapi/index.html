@@ -25,6 +25,25 @@
         margin-bottom: 20px;
         border-left: 4px solid #007bff;
       }
+      .api-section {
+        margin: 30px 0;
+        padding: 20px;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        background: #ffffff;
+      }
+      .endpoint-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .endpoint-card {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 6px;
+        background: #f8f9fa;
+      }
     </style>
   </head>
 
@@ -43,6 +62,40 @@
               <p>
                 Use the interactive documentation below to explore all available endpoints and test API functionality.
               </p>
+            </div>
+            
+            <div class="api-section">
+              <h3>Core API Endpoints</h3>
+              <p>The following endpoints provide access to core DAK functionality:</p>
+              <div class="endpoint-grid">
+                <div class="endpoint-card">
+                  <h4>/health</h4>
+                  <p>Health check endpoint for API status monitoring</p>
+                </div>
+                <div class="endpoint-card">
+                  <h4>/guidelines</h4>
+                  <p>Access clinical guideline definitions and recommendations</p>
+                </div>
+                <div class="endpoint-card">
+                  <h4>/indicators</h4>
+                  <p>Retrieve health program indicators and metrics</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="api-section">
+              <h3>Trust Network Integration</h3>
+              <p>Additional endpoints for trust network operations and certificate verification:</p>
+              <div class="endpoint-grid">
+                <div class="endpoint-card">
+                  <h4>/trustlist</h4>
+                  <p>Retrieve current trust list for certificate verification</p>
+                </div>
+                <div class="endpoint-card">
+                  <h4>/verify</h4>
+                  <p>Verify digital certificates against trust network</p>
+                </div>
+              </div>
             </div>
             
             <!-- OpenAPI Swagger UI Container -->

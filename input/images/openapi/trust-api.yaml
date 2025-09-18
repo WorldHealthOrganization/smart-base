@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: WHO Trust Network API
+  description: API for Digital Covid Certificate trust network operations
+  version: 1.2.0
+  contact:
+    name: WHO Smart Trust Team
+    url: https://who.int/smart-trust
+paths:
+  /trustlist:
+    get:
+      summary: Get trust list
+      description: Retrieve the current trust list for certificate verification
+      responses:
+        '200':
+          description: Trust list retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  certificates:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        kid:
+                          type: string
+                          description: Key identifier
+                        certificate:
+                          type: string
+                          description: Base64 encoded certificate
+  /verify:
+    post:
+      summary: Verify certificate
+      description: Verify a digital covid certificate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                certificate:
+                  type: string
+                  description: Certificate to verify
+              required:
+                - certificate
+      responses:
+        '200':
+          description: Verification result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                  details:
+                    type: object
