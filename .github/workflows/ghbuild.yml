@@ -43,6 +43,11 @@ on:
         type: boolean
         default: true
 
+# Concurrency controls to prevent multiple builds on same repo/branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -282,29 +287,6 @@ jobs:
             echo "✅ ValueSet schemas generated"
           fi
 
-      - name: DAK Postprocessing - Generate DAK API Hub
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        run: |
-          echo "Generating DAK API documentation hub..."
-          
-          # Install required Python dependencies
-          pip install pyyaml
-          
-          # Check if API hub generation files exist locally, download if needed
-          if [ ! -f "input/scripts/generate_dak_api_hub.py" ]; then
-            echo "DAK API hub generator not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/generate_dak_api_hub.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_api_hub.py" 2>/dev/null || echo "Failed to download DAK API hub generator"
-          fi
-          
-          # Generate DAK API hub
-          if [ -f "input/scripts/generate_dak_api_hub.py" ]; then
-            python3 input/scripts/generate_dak_api_hub.py
-            echo "✅ DAK API hub generated"
-          else
-            echo "⚠️ DAK API hub generator not available, skipping API hub generation"
-          fi
-
       - name: DAK Postprocessing - Generate JSON-LD Vocabularies
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
@@ -326,6 +308,29 @@ jobs:
             echo "✅ JSON-LD vocabularies generated"
           else
             echo "⚠️ JSON-LD vocabulary generator not available, skipping vocabulary generation"
+          fi
+
+      - name: DAK Postprocessing - Generate DAK API Hub
+        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+        run: |
+          echo "Generating DAK API documentation hub..."
+          
+          # Install required Python dependencies
+          pip install pyyaml
+          
+          # Check if API hub generation files exist locally, download if needed
+          if [ ! -f "input/scripts/generate_dak_api_hub.py" ]; then
+            echo "DAK API hub generator not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/generate_dak_api_hub.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_api_hub.py" 2>/dev/null || echo "Failed to download DAK API hub generator"
+          fi
+          
+          # Generate DAK API hub
+          if [ -f "input/scripts/generate_dak_api_hub.py" ]; then
+            python3 input/scripts/generate_dak_api_hub.py
+            echo "✅ DAK API hub generated"
+          else
+            echo "⚠️ DAK API hub generator not available, skipping API hub generation"
           fi
 
       - name: Delete files >100MB before deployment

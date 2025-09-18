@@ -337,9 +337,12 @@ class OpenAPIDetector:
         
         for root, dirs, files in os.walk(openapi_dir):
             for file in files:
-                # Include generated OpenAPI wrapper files - prioritize JSON format
+                # Include OpenAPI/Swagger files with more lenient matching for existing files
+                # Exclude index.html as it's handled separately for content extraction
                 if (file.endswith(('.json', '.yaml', '.yml')) and 
+                    file.lower() != 'index.html' and
                     ('openapi' in file.lower() or 'swagger' in file.lower() or 
+                     'api' in file.lower() or  # More lenient for existing API files
                      file.endswith('.openapi.json') or file.endswith('.openapi.yaml'))):
                     full_path = os.path.join(root, file)
                     openapi_files.append(full_path)
@@ -347,6 +350,72 @@ class OpenAPIDetector:
         
         self.logger.info(f"Found {len(openapi_files)} OpenAPI/Swagger files total")
         return openapi_files
+    
+    def find_existing_html_content(self, openapi_dir: str) -> Optional[str]:
+        """Find and extract content from existing index.html in OpenAPI directory."""
+        index_html_path = os.path.join(openapi_dir, "index.html")
+        
+        if not os.path.exists(index_html_path):
+            self.logger.info(f"No existing index.html found in: {openapi_dir}")
+            return None
+        
+        try:
+            from bs4 import BeautifulSoup
+            
+            self.logger.info(f"Found existing OpenAPI HTML content at: {index_html_path}")
+            with open(index_html_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+            
+            # Parse the HTML using BeautifulSoup
+            soup = BeautifulSoup(html_content, 'html.parser')
+            
+            # Extract the body content
+            body = soup.find('body')
+            if not body:
+                self.logger.warning("No <body> tag found in existing index.html")
+                return None
+            
+            # Remove script tags and other non-content elements
+            for script in body.find_all(['script', 'noscript']):
+                script.decompose()
+            
+            # Look for the main content container
+            # Try common container patterns
+            content_container = (
+                body.find('div', class_=lambda x: x and 'container' in x.lower()) or
+                body.find('div', class_=lambda x: x and 'content' in x.lower()) or
+                body.find('main') or
+                body.find('div', id=lambda x: x and 'content' in x.lower()) or
+                body
+            )
+            
+            if content_container:
+                # Get the inner HTML content
+                extracted_content = str(content_container)
+                
+                # If we got the whole body, remove the body tags
+                if content_container == body:
+                    # Remove body tag but keep its content
+                    extracted_content = extracted_content.replace('<body>', '').replace('</body>', '')
+                    # Clean up any attributes from body tag
+                    if extracted_content.startswith('<body '):
+                        end_tag = extracted_content.find('>')
+                        if end_tag != -1:
+                            extracted_content = extracted_content[end_tag + 1:]
+                
+                self.logger.info(f"Extracted {len(extracted_content)} characters of HTML content from existing index.html")
+                return extracted_content.strip()
+            else:
+                self.logger.warning("Could not find suitable content container in existing index.html")
+                return None
+                
+        except ImportError:
+            self.logger.error("BeautifulSoup not available. Please install beautifulsoup4: pip install beautifulsoup4")
+            return None
+        except Exception as e:
+            self.logger.error(f"Error parsing existing HTML content: {e}")
+            return None
+
 
 
 class OpenAPIWrapper:
@@ -1512,7 +1581,7 @@ class DAKApiHubGenerator:
             self.logger.error(f"Error creating enumeration schema for {schema_type}: {e}")
             return None
     
-    def generate_hub_html_content(self, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None, jsonld_docs: List[Dict] = None) -> str:
+    def generate_hub_html_content(self, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None, jsonld_docs: List[Dict] = None, existing_openapi_html_content: Optional[str] = None) -> str:
         """
         Generate HTML content for the DAK API hub page.
         
@@ -1521,6 +1590,7 @@ class DAKApiHubGenerator:
             openapi_docs: List of OpenAPI documentation info
             enumeration_docs: List of enumeration endpoint documentation info
             jsonld_docs: List of JSON-LD vocabulary documentation info
+            existing_openapi_html_content: Existing HTML content from input/images/openapi/index.html
             
         Returns:
             HTML content as a string
@@ -1786,6 +1856,19 @@ class DAKApiHubGenerator:
     </div>
 """
         
+        # Add existing OpenAPI content if present
+        if existing_openapi_html_content:
+            html_content += """
+    <h3>Existing API Documentation</h3>
+    
+    <div class="existing-openapi-content">
+"""
+            # Add the extracted content from existing index.html
+            html_content += existing_openapi_html_content
+            html_content += """
+    </div>
+"""
+        
         # Add usage information
         html_content += """
     <h3>Using the DAK API</h3>
@@ -2009,7 +2092,7 @@ class DAKApiHubGenerator:
         
         return html_content
     
-    def post_process_dak_api_html(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None, jsonld_docs: List[Dict] = None) -> bool:
+    def post_process_dak_api_html(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None, jsonld_docs: List[Dict] = None, existing_openapi_html_content: Optional[str] = None) -> bool:
         """
         Post-process the dak-api.html file to inject DAK API content.
         
@@ -2019,6 +2102,7 @@ class DAKApiHubGenerator:
             openapi_docs: List of OpenAPI documentation info
             enumeration_docs: List of enumeration endpoint documentation info
             jsonld_docs: List of JSON-LD vocabulary documentation info
+            existing_openapi_html_content: Existing HTML content from input/images/openapi/index.html
             
         Returns:
             True if successful, False otherwise
@@ -2048,7 +2132,7 @@ class DAKApiHubGenerator:
             
             # Generate the HTML content for the hub
             self.logger.info("Generating hub HTML content...")
-            hub_content = self.generate_hub_html_content(schema_docs, openapi_docs, enumeration_docs, jsonld_docs)
+            hub_content = self.generate_hub_html_content(schema_docs, openapi_docs, enumeration_docs, jsonld_docs, existing_openapi_html_content)
             self.logger.info(f"Generated hub content length: {len(hub_content)} characters")
             
             if len(hub_content) < 100:
@@ -2087,10 +2171,10 @@ def main():
     # Parse command line arguments first
     if len(sys.argv) == 1:
         output_dir = "output"
-        openapi_dir = "output"  # Changed to look in output directory for generated OpenAPI wrappers
+        openapi_dir = "input/images/openapi"  # Default to existing OpenAPI documentation location
     elif len(sys.argv) == 2:
         output_dir = sys.argv[1]
-        openapi_dir = sys.argv[1]  # Use same directory for both schemas and OpenAPI wrappers
+        openapi_dir = "input/images/openapi"  # Default to existing OpenAPI documentation location
     else:
         output_dir = sys.argv[1]
         openapi_dir = sys.argv[2]
@@ -2246,7 +2330,25 @@ def main():
     # Find existing OpenAPI files
     logger.info("=== OPENAPI FILE DETECTION PHASE ===")
     openapi_files = openapi_detector.find_openapi_files(openapi_dir)
-    logger.info(f"OpenAPI detection completed - found {len(openapi_files)} files")
+    logger.info(f"OpenAPI detection completed - found {len(openapi_files)} files in source directory")
+    
+    # Also check for OpenAPI files in output directory (copied by IG publisher)
+    output_openapi_dir = os.path.join(output_dir, "images", "openapi")
+    output_openapi_files = openapi_detector.find_openapi_files(output_openapi_dir)
+    logger.info(f"Found {len(output_openapi_files)} existing OpenAPI files in output directory")
+    
+    # Extract existing HTML content from OpenAPI documentation
+    logger.info("=== EXISTING OPENAPI HTML CONTENT DETECTION ===")
+    existing_openapi_html_content = openapi_detector.find_existing_html_content(openapi_dir)
+    if existing_openapi_html_content:
+        logger.info("Found existing OpenAPI HTML content that will be incorporated into DAK API hub")
+    else:
+        # Also try the output directory location
+        existing_openapi_html_content = openapi_detector.find_existing_html_content(output_openapi_dir)
+        if existing_openapi_html_content:
+            logger.info("Found existing OpenAPI HTML content in output directory that will be incorporated into DAK API hub")
+        else:
+            logger.info("No existing OpenAPI HTML content found")
     
     # Generate schema documentation
     logger.info("=== SCHEMA DOCUMENTATION GENERATION PHASE ===")
@@ -2580,14 +2682,23 @@ def main():
             all_openapi_files.append(file_path)
             seen_filenames.add(filename)
     
-    # Add existing files if not already seen
+    # Add existing files from source directory if not already seen
     if openapi_files:
         for file_path in openapi_files:
             filename = os.path.basename(file_path)
             if filename not in seen_filenames:
                 all_openapi_files.append(file_path)
                 seen_filenames.add(filename)
-        logger.info(f"Added {len([f for f in openapi_files if os.path.basename(f) not in seen_filenames])} new existing OpenAPI files")
+        logger.info(f"Added {len([f for f in openapi_files if os.path.basename(f) not in seen_filenames])} new existing OpenAPI files from source")
+    
+    # Add existing files from output directory (copied by IG publisher) if not already seen
+    if output_openapi_files:
+        for file_path in output_openapi_files:
+            filename = os.path.basename(file_path)
+            if filename not in seen_filenames:
+                all_openapi_files.append(file_path)
+                seen_filenames.add(filename)
+        logger.info(f"Added {len([f for f in output_openapi_files if os.path.basename(f) not in seen_filenames])} existing OpenAPI files from output")
     
     logger.info(f"Total unique OpenAPI files: {len(all_openapi_files)}")
     
@@ -2597,8 +2708,11 @@ def main():
             openapi_filename = os.path.basename(openapi_path)
             logger.info(f"Processing OpenAPI file: {openapi_filename}")
             
-            # Use direct path to OpenAPI file in output directory (no subdirectory)
-            relative_path = openapi_filename
+            # Determine the correct relative path based on file location
+            if "images/openapi" in openapi_path:
+                relative_path = f"images/openapi/{openapi_filename}"
+            else:
+                relative_path = openapi_filename
             
             # Create cleaner title from filename
             clean_name = openapi_filename.replace('.openapi.json', '').replace('.openapi.yaml', '').replace('.yaml', '').replace('.json', '')
@@ -2655,7 +2769,7 @@ def main():
     qa_reporter.add_success("Starting DAK API hub post-processing phase")
     
     try:
-        success = hub_generator.post_process_dak_api_html(output_dir, schema_docs, openapi_docs, enumeration_docs, jsonld_docs)
+        success = hub_generator.post_process_dak_api_html(output_dir, schema_docs, openapi_docs, enumeration_docs, jsonld_docs, existing_openapi_html_content)
         
         if success:
             total_docs = len(schema_docs['valueset']) + len(schema_docs['logical_model']) + len(openapi_docs) + len(enumeration_docs) + len(jsonld_docs)
