@@ -769,7 +769,6 @@ class SchemaDocumentationRenderer:
                 html_content += f"""
     <div class="schema-links">
         <p><strong>Schema ID:</strong> <a href="{schema_id}">{schema_id}</a></p>
-        <p><strong>FHIR Page:</strong> <a href="{fhir_url}">View full FHIR definition</a></p>
     </div>
 """
             
@@ -1197,7 +1196,6 @@ details pre {{
                     
                     html_content += f"""
 <p><strong>Schema ID:</strong> <a href="{schema_id}" target="_blank">{schema_id}</a></p>
-<p><strong>FHIR Page:</strong> <a href="{fhir_url}">View full FHIR definition</a></p>
 """
                 
                 # Handle enum values for ValueSets

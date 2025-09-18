@@ -282,6 +282,27 @@ class SchemaGenerator:
         self.logger = logger
         self.canonical_base = canonical_base
         
+        # Determine the actual base URL for schema files - use GitHub Pages URL if available
+        # Check for GitHub environment variables to determine the correct URL
+        import os
+        github_repository = os.environ.get('GITHUB_REPOSITORY', '').lower()
+        github_ref_name = os.environ.get('GITHUB_REF_NAME', '')
+        is_default_branch = os.environ.get('IS_DEFAULT_BRANCH', 'false').lower() == 'true'
+        
+        if github_repository == 'worldhealthorganization/smart-base':
+            if is_default_branch:
+                # Main branch deploys to root
+                self.schema_base_url = "https://worldhealthorganization.github.io/smart-base"
+            elif github_ref_name:
+                # Other branches deploy to branches subdirectory
+                self.schema_base_url = f"https://worldhealthorganization.github.io/smart-base/branches/{github_ref_name}"
+            else:
+                # Fallback to canonical base
+                self.schema_base_url = canonical_base
+        else:
+            # For other repositories or local development, use canonical base
+            self.schema_base_url = canonical_base
+        
         # FHIR datatype to JSON Schema type mapping
         self.type_mapping = {
             'string': {'type': 'string'},
@@ -327,13 +348,13 @@ class SchemaGenerator:
             # Extract base URL from canonical URL and use StructureDefinition-{name} pattern
             # e.g., http://smart.who.int/base/StructureDefinition/Animal -> http://smart.who.int/base/StructureDefinition-Animal.schema.json
             if '/StructureDefinition/' in model_url:
-                base_url = model_url.split('/StructureDefinition/')[0]
-                schema_id = f"{base_url}/StructureDefinition-{model_name}.schema.json"
+                # Use the schema base URL (GitHub Pages) instead of the canonical URL for accessibility
+                schema_id = f"{self.schema_base_url}/StructureDefinition-{model_name}.schema.json"
             else:
                 # Fallback if URL doesn't follow expected pattern
-                schema_id = f"{model_url}-{model_name}.schema.json"
+                schema_id = f"{self.schema_base_url}/StructureDefinition-{model_name}.schema.json"
         else:
-            schema_id = f"{self.canonical_base}/StructureDefinition-{model_name}.schema.json"
+            schema_id = f"{self.schema_base_url}/StructureDefinition-{model_name}.schema.json"
         
         schema = {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -430,9 +451,8 @@ class SchemaGenerator:
         if fhir_type.startswith('http') and '/StructureDefinition/' in fhir_type:
             # Extract model name and create reference using StructureDefinition-{name} pattern
             model_name = fhir_type.split('/StructureDefinition/')[-1]
-            base_url = fhir_type.split('/StructureDefinition/')[0]
             return {
-                "$ref": f"{base_url}/StructureDefinition-{model_name}.schema.json"
+                "$ref": f"{self.schema_base_url}/StructureDefinition-{model_name}.schema.json"
             }
         
         # Handle ValueSet bindings
