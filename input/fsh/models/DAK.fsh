@@ -8,7 +8,7 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
 * id 1..1 string "DAK ID" "Identifier for the DAK (e.g., smart.who.int.base)"
 * name 1..1 string "DAK Name" "Short name for the DAK (e.g., Base)"
 * title 1..1 string "DAK Title" "Full title of the DAK (e.g., SMART Base)"
-* description 1..1 string "DAK Description" "Description of the DAK"
+* description[x] 1..1 string or uri "DAK Description" "Description of the DAK - either Markdown content or a URI to a Markdown file (absolute or relative to repository root)"
 * version 1..1 string "DAK Version" "Version of the DAK"
 * status 1..1 code "DAK Status" "Publication status of the DAK"
 * publicationUrl 1..1 url "Publication URL" "Canonical URL for the DAK (e.g., http://smart.who.int/base)"
@@ -20,17 +20,7 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
   * name 1..1 string "Publisher Name" "Name of the publishing organization"
   * url 0..1 url "Publisher URL" "URL of the publishing organization"
 
-// Content structure (pages and menu)
-* pages 0..* BackboneElement "Pages" "Custom pages included in the DAK"
-  * filename 1..1 string "Page Filename" "Filename of the page (e.g., index.md)"
-  * title 1..1 string "Page Title" "Title of the page"
 
-* menu 0..* BackboneElement "Menu Structure" "Navigation menu structure for the DAK"
-  * title 1..1 string "Menu Title" "Title of the menu item"
-  * url 1..1 string "Menu URL" "URL of the menu item"
-  * subItems 0..* BackboneElement "Sub Menu Items" "Sub-menu items"
-    * title 1..1 string "Sub-item Title" "Title of the sub-menu item"
-    * url 1..1 string "Sub-item URL" "URL of the sub-menu item"
 
 
 

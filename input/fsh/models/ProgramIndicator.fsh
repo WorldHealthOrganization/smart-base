@@ -4,9 +4,10 @@ Description: "Logical Model for representing Program Indicators from a DAK. Core
 
 * ^status = #active
 * id 1..1 id "Indicator ID" "Identifier for the program indicator"
+* description[x] 0..1 string or uri "Description" "Description of the program indicator - either Markdown content or a URI to a Markdown file (absolute or relative to repository root)"
 * name 1..1 string "Name" "Name of the indicator"
 * definition 1..1 string "Definition" "Definition of what the indicator measures"
 * numerator 1..1 string "Numerator" "Description of the numerator calculation"
 * denominator 1..1 string "Denominator" "Description of the denominator calculation"
 * disaggregation 1..1 string "Disaggregation" "Description of how the indicator should be disaggregated"
-* references 0..* id "References" "References to Dublin Core metadata elements providing additional context"
+* references 0..* id "References" "References to Health Intervention IDs providing additional context"

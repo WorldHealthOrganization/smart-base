@@ -5,7 +5,7 @@ Description: "Logical Model for representing Generic Personas from a DAK. Depict
 * ^status = #active
 * title 1..1 string "Title" "Title of the persona"
 * id 1..1 id "Persona ID" "Identifier for the persona"
-* description 1..1 string "Description" "Description of the persona"
+* description[x] 1..1 string or uri "Description" "Description of the persona - either Markdown content or a URI to a Markdown file (absolute or relative to repository root)"
 * otherNames 0..* string "Other Names/Examples" "Other names or examples for the persona"
 * iscoCode 0..* code "ISCO Code" "ISCO-08 codes for occupation classification"
 * iscoCode from ISCO08ValueSet (extensible)
