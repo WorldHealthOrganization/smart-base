@@ -88,13 +88,25 @@ jobs:
       - name: Comment on PR - Build started
         if: steps.find_pr.outputs.IS_PR == 'true'
         run: |
-          python3 input/scripts/pr_comment_start.py \
-            "${{ steps.find_pr.outputs.PR_NUMBER }}" \
-            "${{ github.repository }}" \
-            "${{ github.run_id }}" \
-            "${{ github.sha }}" \
-            "${{ github.head_ref || github.ref_name }}" \
-            "${{ secrets.GITHUB_TOKEN }}"
+          # Check if PR comment script exists locally, download if needed
+          if [ ! -f "input/scripts/pr_comment_start.py" ]; then
+            echo "PR comment script not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/pr_comment_start.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/pr_comment_start.py" 2>/dev/null || echo "Failed to download pr_comment_start.py"
+          fi
+          
+          # Run PR comment script if available
+          if [ -f "input/scripts/pr_comment_start.py" ]; then
+            python3 input/scripts/pr_comment_start.py \
+              "${{ steps.find_pr.outputs.PR_NUMBER }}" \
+              "${{ github.repository }}" \
+              "${{ github.run_id }}" \
+              "${{ github.sha }}" \
+              "${{ github.head_ref || github.ref_name }}" \
+              "${{ secrets.GITHUB_TOKEN }}"
+          else
+            echo "⚠️ PR comment script not available, skipping build start comment"
+          fi
 
       - name: Get branch name
         run: |
@@ -364,11 +376,23 @@ jobs:
       - name: Comment on PR - Deployment completed
         if: steps.find_pr.outputs.IS_PR == 'true' && (success() || failure())
         run: |
-          python3 input/scripts/pr_comment_finish.py \
-            "${{ steps.find_pr.outputs.PR_NUMBER }}" \
-            "${{ github.repository }}" \
-            "${{ github.run_id }}" \
-            "${{ github.sha }}" \
-            "${{ github.head_ref || github.ref_name }}" \
-            "${{ job.status }}" \
-            "${{ secrets.GITHUB_TOKEN }}"
+          # Check if PR comment script exists locally, download if needed
+          if [ ! -f "input/scripts/pr_comment_finish.py" ]; then
+            echo "PR comment script not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/pr_comment_finish.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/pr_comment_finish.py" 2>/dev/null || echo "Failed to download pr_comment_finish.py"
+          fi
+          
+          # Run PR comment script if available
+          if [ -f "input/scripts/pr_comment_finish.py" ]; then
+            python3 input/scripts/pr_comment_finish.py \
+              "${{ steps.find_pr.outputs.PR_NUMBER }}" \
+              "${{ github.repository }}" \
+              "${{ github.run_id }}" \
+              "${{ github.sha }}" \
+              "${{ github.head_ref || github.ref_name }}" \
+              "${{ job.status }}" \
+              "${{ secrets.GITHUB_TOKEN }}"
+          else
+            echo "⚠️ PR comment script not available, skipping deployment complete comment"
+          fi
