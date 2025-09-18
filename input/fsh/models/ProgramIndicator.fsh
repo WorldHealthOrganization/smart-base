@@ -9,4 +9,4 @@ Description: "Logical Model for representing Program Indicators from a DAK. Core
 * numerator 1..1 string "Numerator" "Description of the numerator calculation"
 * denominator 1..1 string "Denominator" "Description of the denominator calculation"
 * disaggregation 1..1 string "Disaggregation" "Description of how the indicator should be disaggregated"
-* references 0..* id "References" "References to Dublin Core metadata elements providing additional context"
+* references 0..* id "References" "References to Health Intervention IDs providing additional context"
