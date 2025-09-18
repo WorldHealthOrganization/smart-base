@@ -360,73 +360,62 @@ class OpenAPIDetector:
             return None
         
         try:
+            from bs4 import BeautifulSoup
+            
             self.logger.info(f"Found existing OpenAPI HTML content at: {index_html_path}")
             with open(index_html_path, 'r', encoding='utf-8') as f:
                 html_content = f.read()
             
-            # Extract the main content from the existing HTML
-            # Look for the main content within the body, excluding head/scripts
-            import re
+            # Parse the HTML using BeautifulSoup
+            soup = BeautifulSoup(html_content, 'html.parser')
             
-            # Try to extract content between <body> and </body>
-            body_match = re.search(r'<body[^>]*>(.*?)</body>', html_content, re.DOTALL | re.IGNORECASE)
-            if body_match:
-                body_content = body_match.group(1)
+            # Extract the body content
+            body = soup.find('body')
+            if not body:
+                self.logger.warning("No <body> tag found in existing index.html")
+                return None
+            
+            # Remove script tags and other non-content elements
+            for script in body.find_all(['script', 'noscript']):
+                script.decompose()
+            
+            # Look for the main content container
+            # Try common container patterns
+            content_container = (
+                body.find('div', class_=lambda x: x and 'container' in x.lower()) or
+                body.find('div', class_=lambda x: x and 'content' in x.lower()) or
+                body.find('main') or
+                body.find('div', id=lambda x: x and 'content' in x.lower()) or
+                body
+            )
+            
+            if content_container:
+                # Get the inner HTML content
+                extracted_content = str(content_container)
                 
-                # Clean up the content for injection - remove scripts and extract meaningful content
-                # Remove script tags
-                body_content = re.sub(r'<script[^>]*>.*?</script>', '', body_content, flags=re.DOTALL | re.IGNORECASE)
+                # If we got the whole body, remove the body tags
+                if content_container == body:
+                    # Remove body tag but keep its content
+                    extracted_content = extracted_content.replace('<body>', '').replace('</body>', '')
+                    # Clean up any attributes from body tag
+                    if extracted_content.startswith('<body '):
+                        end_tag = extracted_content.find('>')
+                        if end_tag != -1:
+                            extracted_content = extracted_content[end_tag + 1:]
                 
-                # Extract the main container content
-                container_match = re.search(r'<div[^>]*class[^>]*container[^>]*>(.*?)</div>', body_content, re.DOTALL | re.IGNORECASE)
-                if container_match:
-                    content = container_match.group(1)
-                else:
-                    content = body_content
-                
-                self.logger.info(f"Extracted {len(content)} characters of HTML content from existing index.html")
-                return content.strip()
+                self.logger.info(f"Extracted {len(extracted_content)} characters of HTML content from existing index.html")
+                return extracted_content.strip()
             else:
-                self.logger.warning("Could not extract body content from existing index.html")
+                self.logger.warning("Could not find suitable content container in existing index.html")
                 return None
                 
-        except Exception as e:
-            self.logger.error(f"Error reading existing HTML content: {e}")
+        except ImportError:
+            self.logger.error("BeautifulSoup not available. Please install beautifulsoup4: pip install beautifulsoup4")
             return None
-    
-    def copy_openapi_files_to_output(self, openapi_dir: str, output_dir: str) -> List[str]:
-        """Copy OpenAPI specification files (not HTML) to output directory for access."""
-        import shutil
-        copied_files = []
-        
-        if not os.path.exists(openapi_dir):
-            self.logger.info(f"OpenAPI directory does not exist: {openapi_dir}")
-            return copied_files
-        
-        try:
-            for root, dirs, files in os.walk(openapi_dir):
-                for file in files:
-                    # Copy OpenAPI specification files (json, yaml) but not HTML/CSS/JS
-                    if (file.endswith(('.json', '.yaml', '.yml')) and 
-                        file.lower() != 'index.html' and
-                        ('openapi' in file.lower() or 'swagger' in file.lower() or 'api' in file.lower())):
-                        
-                        source_path = os.path.join(root, file)
-                        dest_path = os.path.join(output_dir, file)
-                        
-                        try:
-                            shutil.copy2(source_path, dest_path)
-                            copied_files.append(file)
-                            self.logger.info(f"Copied OpenAPI file: {file} to output directory")
-                        except Exception as e:
-                            self.logger.warning(f"Failed to copy {file}: {e}")
-            
-            self.logger.info(f"Copied {len(copied_files)} OpenAPI specification files to output directory")
-            return copied_files
-            
         except Exception as e:
-            self.logger.error(f"Error copying OpenAPI files: {e}")
-            return copied_files
+            self.logger.error(f"Error parsing existing HTML content: {e}")
+            return None
+
 
 
 class OpenAPIWrapper:
@@ -2343,7 +2332,12 @@ def main():
     # Find existing OpenAPI files
     logger.info("=== OPENAPI FILE DETECTION PHASE ===")
     openapi_files = openapi_detector.find_openapi_files(openapi_dir)
-    logger.info(f"OpenAPI detection completed - found {len(openapi_files)} files")
+    logger.info(f"OpenAPI detection completed - found {len(openapi_files)} files in source directory")
+    
+    # Also check for OpenAPI files in output directory (copied by IG publisher)
+    output_openapi_dir = os.path.join(output_dir, "images", "openapi")
+    output_openapi_files = openapi_detector.find_openapi_files(output_openapi_dir)
+    logger.info(f"Found {len(output_openapi_files)} existing OpenAPI files in output directory")
     
     # Extract existing HTML content from OpenAPI documentation
     logger.info("=== EXISTING OPENAPI HTML CONTENT DETECTION ===")
@@ -2351,17 +2345,12 @@ def main():
     if existing_openapi_html_content:
         logger.info("Found existing OpenAPI HTML content that will be incorporated into DAK API hub")
     else:
-        logger.info("No existing OpenAPI HTML content found")
-    
-    # Copy existing OpenAPI specification files to output directory
-    logger.info("=== COPYING EXISTING OPENAPI FILES ===")
-    copied_openapi_files = openapi_detector.copy_openapi_files_to_output(openapi_dir, output_dir)
-    if copied_openapi_files:
-        logger.info(f"Copied {len(copied_openapi_files)} existing OpenAPI files to output directory")
-        for filename in copied_openapi_files:
-            logger.info(f"  ✅ {filename}")
-    else:
-        logger.info("No existing OpenAPI specification files to copy")
+        # Also try the output directory location
+        existing_openapi_html_content = openapi_detector.find_existing_html_content(output_openapi_dir)
+        if existing_openapi_html_content:
+            logger.info("Found existing OpenAPI HTML content in output directory that will be incorporated into DAK API hub")
+        else:
+            logger.info("No existing OpenAPI HTML content found")
     
     # Generate schema documentation
     logger.info("=== SCHEMA DOCUMENTATION GENERATION PHASE ===")
@@ -2695,24 +2684,23 @@ def main():
             all_openapi_files.append(file_path)
             seen_filenames.add(filename)
     
-    # Add existing files if not already seen
+    # Add existing files from source directory if not already seen
     if openapi_files:
         for file_path in openapi_files:
             filename = os.path.basename(file_path)
             if filename not in seen_filenames:
                 all_openapi_files.append(file_path)
                 seen_filenames.add(filename)
-        logger.info(f"Added {len([f for f in openapi_files if os.path.basename(f) not in seen_filenames])} new existing OpenAPI files")
+        logger.info(f"Added {len([f for f in openapi_files if os.path.basename(f) not in seen_filenames])} new existing OpenAPI files from source")
     
-    # Add copied existing OpenAPI files from the source directory 
-    if copied_openapi_files:
-        for filename in copied_openapi_files:
+    # Add existing files from output directory (copied by IG publisher) if not already seen
+    if output_openapi_files:
+        for file_path in output_openapi_files:
+            filename = os.path.basename(file_path)
             if filename not in seen_filenames:
-                # The file is now in the output directory
-                file_path = os.path.join(output_dir, filename)
                 all_openapi_files.append(file_path)
                 seen_filenames.add(filename)
-        logger.info(f"Added {len([f for f in copied_openapi_files if f not in seen_filenames])} copied existing OpenAPI files")
+        logger.info(f"Added {len([f for f in output_openapi_files if os.path.basename(f) not in seen_filenames])} existing OpenAPI files from output")
     
     logger.info(f"Total unique OpenAPI files: {len(all_openapi_files)}")
     
@@ -2722,8 +2710,11 @@ def main():
             openapi_filename = os.path.basename(openapi_path)
             logger.info(f"Processing OpenAPI file: {openapi_filename}")
             
-            # Use direct path to OpenAPI file in output directory (no subdirectory)
-            relative_path = openapi_filename
+            # Determine the correct relative path based on file location
+            if "images/openapi" in openapi_path:
+                relative_path = f"images/openapi/{openapi_filename}"
+            else:
+                relative_path = openapi_filename
             
             # Create cleaner title from filename
             clean_name = openapi_filename.replace('.openapi.json', '').replace('.openapi.yaml', '').replace('.yaml', '').replace('.json', '')
