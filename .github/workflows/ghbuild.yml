@@ -165,7 +165,7 @@ jobs:
 
       - name: Check for DAK configuration
         run: |
-          if [  inputs.do_dak == false ]; then
+          if [ "${{ inputs.do_dak }}" == "false" ]; then
             echo "Not generating DAK"
             exit 0
           fi
