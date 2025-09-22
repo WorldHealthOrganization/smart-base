@@ -710,7 +710,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
         
         # Add system information if available
         if system:
-            code_instance["fhir:system"] = system
+            code_instance["fhir:CodeSystem"] = system
         
         graph.append(code_instance)
     
