@@ -11,7 +11,7 @@ All FHIR-specific properties used in the JSON-LD vocabularies are properly decla
 ```json
 {
   "@context": {
-    "@vocab": "https://worldhealthorganization.github.io/smart-trust/ValueSet-KeyUsage.jsonld",
+    "@vocab": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
     "fhir": "http://hl7.org/fhir/",
     "fhir:code": "http://hl7.org/fhir/code",
     "fhir:system": "http://hl7.org/fhir/system",
@@ -36,10 +36,10 @@ The main ValueSet enumeration uses [`schema:Enumeration`](https://schema.org/Enu
 
 ```json
 {
-  "id": "https://worldhealthorganization.github.io/smart-trust/ValueSet-KeyUsage.jsonld",
+  "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
   "type": "schema:Enumeration",
-  "name": "Key Usage Enumeration",
-  "comment": "Allowed values for key usage."
+  "name": "Smart Guidelines Persona Types Enumeration",
+  "comment": "Allowed values for smart guidelines persona types."
 }
 ```
 
@@ -51,10 +51,10 @@ Individual codes within the ValueSet use the enumeration class URL as their type
 
 ```json
 {
-  "id": "http://example.org/fhir/CodeSystem/KeyUsage#digitalSignature",
-  "type": "https://worldhealthorganization.github.io/smart-trust/ValueSet-KeyUsage.jsonld",
-  "name": "Digital Signature",
-  "fhir:code": "digitalSignature"
+  "id": "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key",
+  "type": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
+  "name": "Key Persona",
+  "fhir:code": "key"
 }
 ```
 
@@ -69,11 +69,11 @@ The property definition uses [`rdf:Property`](http://www.w3.org/1999/02/22-rdf-s
 
 ```json
 {
-  "id": "https://worldhealthorganization.github.io/smart-trust/vocab#keyusage",
+  "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld#sgpersonatypesvs",
   "type": "rdf:Property",
-  "name": "keyusage",
+  "name": "sgpersonatypesvs",
   "schema:rangeIncludes": {
-    "id": "https://worldhealthorganization.github.io/smart-trust/ValueSet-KeyUsage.jsonld"
+    "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld"
   }
 }
 ```
@@ -100,13 +100,13 @@ Applications consuming these JSON-LD vocabularies can:
 ## Example SPARQL Query
 
 ```sparql
-PREFIX ex: <https://worldhealthorganization.github.io/smart-trust/>
+PREFIX base: <https://worldhealthorganization.github.io/smart-base/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX fhir: <http://hl7.org/fhir/>
 
-# Find all codes in the KeyUsage enumeration
+# Find all codes in the SGPersonaTypesVS enumeration
 SELECT ?code ?display WHERE {
-  ?codeInstance a ex:ValueSet-KeyUsage.jsonld ;
+  ?codeInstance a base:ValueSet-SGPersonaTypesVS.jsonld ;
                 rdfs:label ?display ;
                 fhir:code ?code .
 }

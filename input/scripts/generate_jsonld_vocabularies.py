@@ -386,18 +386,16 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
             base_url = valueset_url.split('/ValueSet/')[0]
             # JSON-LD file URL follows the pattern: base_url/ValueSet-{id}.jsonld
             jsonld_file_url = f"{base_url}/ValueSet-{valueset_id}.jsonld"
-            vocab_base = f"{base_url}/vocab"
         else:
             # Fallback for non-standard URLs
             jsonld_file_url = f"{valueset_url}/ValueSet-{valueset_id}.jsonld"
-            vocab_base = f"{valueset_url}/vocab"
     else:
-        jsonld_file_url = f"http://example.com/ValueSet-{valueset_id}.jsonld"
-        vocab_base = "http://example.com/vocab"
+        jsonld_file_url = f"http://smart.who.int/base/ValueSet-{valueset_id}.jsonld"
     
     # Create enumeration class IRI - use the JSON-LD file URL as the base
     enumeration_class_iri = jsonld_file_url
-    property_iri = f"{vocab_base}#{valueset_id.lower()}"
+    # Property IRI - define property within the JSON-LD document itself
+    property_iri = f"{jsonld_file_url}#{valueset_id.lower()}"
     
     # JSON-LD context - @vocab should point to the JSON-LD file URL
     context = {

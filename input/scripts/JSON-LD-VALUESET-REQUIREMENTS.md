@@ -23,7 +23,7 @@ To use WHO SMART Base ValueSet JSON-LD vocabularies in your own JSON-LD document
       }
     }
   ],
-  "yourProperty": "http://your-system.org/CodeSystem/YourCodes#specificCode"
+  "yourProperty": "http://smart.who.int/base/CodeSystem/YourCodes#specificCode"
 }
 ```
 
@@ -34,19 +34,19 @@ When using multiple ValueSet vocabularies:
 ```json
 {
   "@context": [
-    "https://worldhealthorganization.github.io/smart-base/ValueSet-DiagnosticCodes.jsonld",
-    "https://worldhealthorganization.github.io/smart-base/ValueSet-ProcedureCodes.jsonld",
+    "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
+    "https://worldhealthorganization.github.io/smart-base/ValueSet-ISCO08ValueSet.jsonld",
     {
-      "diagnosis": {
+      "personaType": {
         "@type": "@id",
         "schema:rangeIncludes": {
-          "@id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DiagnosticCodes.jsonld"
+          "@id": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld"
         }
       },
-      "procedure": {
+      "occupation": {
         "@type": "@id", 
         "schema:rangeIncludes": {
-          "@id": "https://worldhealthorganization.github.io/smart-base/ValueSet-ProcedureCodes.jsonld"
+          "@id": "https://worldhealthorganization.github.io/smart-base/ValueSet-ISCO08ValueSet.jsonld"
         }
       }
     }
@@ -62,8 +62,8 @@ Use the full IRI of the code as defined in the ValueSet JSON-LD:
 
 ```json
 {
-  "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-KeyUsage.jsonld",
-  "keyUsage": "http://example.org/fhir/CodeSystem/KeyUsage#digitalSignature"
+  "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
+  "personaType": "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key"
 }
 ```
 
@@ -74,7 +74,7 @@ Reference codes using their FHIR properties for explicit semantics:
 ```json
 {
   "@context": [
-    "https://worldhealthorganization.github.io/smart-base/ValueSet-KeyUsage.jsonld",
+    "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
     {
       "selectedCode": {
         "@type": "@id",
@@ -88,9 +88,9 @@ Reference codes using their FHIR properties for explicit semantics:
     }
   ],
   "selectedCode": {
-    "@id": "http://example.org/fhir/CodeSystem/KeyUsage#digitalSignature",
-    "fhir:code": "digitalSignature",
-    "fhir:system": "http://example.org/fhir/CodeSystem/KeyUsage"
+    "@id": "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key",
+    "fhir:code": "key",
+    "fhir:system": "http://smart.who.int/base/CodeSystem/SGPersonaTypes"
   }
 }
 ```
@@ -101,10 +101,10 @@ When specifying multiple values from a ValueSet:
 
 ```json
 {
-  "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-KeyUsage.jsonld",
-  "allowedKeyUsages": [
-    "http://example.org/fhir/CodeSystem/KeyUsage#digitalSignature",
-    "http://example.org/fhir/CodeSystem/KeyUsage#keyEncipherment"
+  "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
+  "allowedPersonaTypes": [
+    "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key",
+    "http://smart.who.int/base/CodeSystem/SGPersonaTypes#related"
   ]
 }
 ```
@@ -131,18 +131,18 @@ const valueSetSchema = {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
-    "keyUsage": {
+    "personaType": {
       "type": "string",
       "enum": [
-        "http://example.org/fhir/CodeSystem/KeyUsage#digitalSignature",
-        "http://example.org/fhir/CodeSystem/KeyUsage#keyEncipherment"
+        "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key",
+        "http://smart.who.int/base/CodeSystem/SGPersonaTypes#related"
       ]
     }
   }
 };
 
 const validate = ajv.compile(valueSetSchema);
-const data = { keyUsage: "http://example.org/fhir/CodeSystem/KeyUsage#digitalSignature" };
+const data = { personaType: "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key" };
 
 if (validate(data)) {
   console.log('Valid!');
@@ -163,12 +163,12 @@ import requests
 import json
 
 # Load ValueSet JSON Schema
-schema_url = "https://worldhealthorganization.github.io/smart-base/ValueSet-KeyUsage.schema.json"
+schema_url = "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.schema.json"
 schema = requests.get(schema_url).json()
 
 # Data to validate
 data = {
-    "keyUsage": "http://example.org/fhir/CodeSystem/KeyUsage#digitalSignature"
+    "personaType": "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key"
 }
 
 try:
@@ -190,8 +190,8 @@ npm install jsonld
 const jsonld = require('jsonld');
 
 const doc = {
-  "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-KeyUsage.jsonld",
-  "keyUsage": "http://example.org/fhir/CodeSystem/KeyUsage#digitalSignature"
+  "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
+  "personaType": "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key"
 };
 
 // Expand to check for valid JSON-LD
@@ -220,8 +220,8 @@ from pyld import jsonld
 import json
 
 doc = {
-    "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-KeyUsage.jsonld",
-    "keyUsage": "http://example.org/fhir/CodeSystem/KeyUsage#digitalSignature"
+    "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
+    "personaType": "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key"
 }
 
 try:
@@ -251,7 +251,7 @@ from rdflib.plugins.stores import sparqlstore
 
 # Load the ValueSet JSON-LD into an RDF graph
 g = Graph()
-g.parse("https://worldhealthorganization.github.io/smart-base/ValueSet-KeyUsage.jsonld", format="json-ld")
+g.parse("https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld", format="json-ld")
 
 # Define namespaces
 FHIR = Namespace("http://hl7.org/fhir/")
@@ -261,7 +261,7 @@ VALUESET = Namespace("https://worldhealthorganization.github.io/smart-base/")
 def validate_code(code_uri):
     query = f"""
     ASK {{
-        <{code_uri}> a <https://worldhealthorganization.github.io/smart-base/ValueSet-KeyUsage.jsonld> .
+        <{code_uri}> a <https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld> .
     }}
     """
     
@@ -269,7 +269,7 @@ def validate_code(code_uri):
     return bool(result)
 
 # Test validation
-code_to_validate = "http://example.org/fhir/CodeSystem/KeyUsage#digitalSignature"
+code_to_validate = "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key"
 is_valid = validate_code(code_to_validate)
 print(f"Code {code_to_validate} is {'valid' if is_valid else 'invalid'}")
 ```
@@ -280,19 +280,19 @@ print(f"Code {code_to_validate} is {'valid' if is_valid else 'invalid'}")
 
 ```turtle
 @prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix ex: <https://example.org/> .
+@prefix base: <https://worldhealthorganization.github.io/smart-base/> .
 @prefix fhir: <http://hl7.org/fhir/> .
 @prefix valueset: <https://worldhealthorganization.github.io/smart-base/> .
 
-ex:KeyUsageShape
+base:PersonaTypeShape
     a sh:NodeShape ;
-    sh:targetClass ex:Document ;
+    sh:targetClass base:Document ;
     sh:property [
-        sh:path ex:keyUsage ;
-        sh:class valueset:ValueSet-KeyUsage.jsonld ;
+        sh:path base:personaType ;
+        sh:class valueset:ValueSet-SGPersonaTypesVS.jsonld ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:message "keyUsage must be a valid value from the KeyUsage ValueSet" ;
+        sh:message "personaType must be a valid value from the SGPersonaTypesVS ValueSet" ;
     ] .
 ```
 
@@ -340,12 +340,12 @@ When using ValueSet JSON-LD vocabularies with FHIR Logical Models:
 {
   "@context": [
     "https://worldhealthorganization.github.io/smart-base/LogicalModel-YourModel.jsonld",
-    "https://worldhealthorganization.github.io/smart-base/ValueSet-YourValueSet.jsonld"
+    "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld"
   ],
   "@type": "LogicalModel-YourModel",
   "codeProperty": {
-    "@type": "https://worldhealthorganization.github.io/smart-base/ValueSet-YourValueSet.jsonld",
-    "@id": "http://your-system.org/CodeSystem/YourCodes#specificCode"
+    "@type": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
+    "@id": "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key"
   }
 }
 ```
@@ -362,12 +362,12 @@ logical_model_schema = {
         "codeProperty": {
             "type": "object",
             "properties": {
-                "@type": {"const": "https://worldhealthorganization.github.io/smart-base/ValueSet-YourValueSet.jsonld"},
+                "@type": {"const": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld"},
                 "@id": {
                     "type": "string",
                     "enum": [
-                        "http://your-system.org/CodeSystem/YourCodes#code1",
-                        "http://your-system.org/CodeSystem/YourCodes#code2"
+                        "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key",
+                        "http://smart.who.int/base/CodeSystem/SGPersonaTypes#related"
                     ]
                 }
             },
@@ -461,7 +461,7 @@ async function loadValueSetWithFallback(valueSetUrl) {
     <script>
         async function validateUserInput(userCode) {
             const doc = {
-                "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-KeyUsage.jsonld",
+                "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
                 "userSelection": userCode
             };
             
