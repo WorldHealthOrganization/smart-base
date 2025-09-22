@@ -392,108 +392,60 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     else:
         jsonld_file_url = f"http://smart.who.int/base/ValueSet-{valueset_id}.jsonld"
     
-    # Create enumeration class IRI - use the JSON-LD file URL as the base
-    enumeration_class_iri = jsonld_file_url
-    # Property IRI - use proper base URI structure
-    property_iri = f"http://smart.who.int/base/vocab#{valueset_id.lower()}"
-    
-    # JSON-LD context - all terms properly defined without @vocab
+    # JSON-LD context - minimal, only multi-use terms
     context = {
         "@version": 1.1,
-        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-        "schema": "https://schema.org/",
         "fhir": "http://hl7.org/fhir/",
-        "prov": "http://www.w3.org/ns/prov#",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "id": "@id",
-        "type": "@type",
         "name": "rdfs:label",
-        "comment": "rdfs:comment",
-        "version": "schema:version",
-        "date": "schema:dateCreated",
-        "publisher": "schema:publisher",
-        "generatedAt": {
-            "@id": "prov:generatedAtTime",
-            "@type": "xsd:dateTime"
-        },
         "fhir:code": "http://hl7.org/fhir/code",
-        "fhir:system": "http://hl7.org/fhir/system",
-        "fhir:valueSet": "http://hl7.org/fhir/valueSet",
-        # Define concise terms for common types
-        "Enumeration": "schema:Enumeration",
-        "Property": "rdf:Property", 
-        "Entity": "prov:Entity"
+        "fhir:CodeSystem": "http://hl7.org/fhir/CodeSystem",
+        "generatedAt": {
+            "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+            "@type": "xsd:dateTime"
+        }
     }
     
-    # Start building the @graph
+    # Start building the @graph - only codes, no enumeration class
     graph = []
     
-    # 1. Define the Enumeration class
-    enumeration_class = {
-        "id": enumeration_class_iri,
-        "type": "Enumeration",
-        "name": f"{valueset_title} Enumeration",
-        "comment": valueset_description
-    }
-    
-    # Add metadata if available
-    if valueset_version:
-        enumeration_class["version"] = valueset_version
-    if valueset_date:
-        enumeration_class["date"] = valueset_date
-    if valueset_publisher:
-        enumeration_class["publisher"] = valueset_publisher
-    if valueset_url:
-        enumeration_class["fhir:valueSet"] = valueset_url
-    
-    # Add generation timestamp for provenance
-    from datetime import datetime
-    enumeration_class["generatedAt"] = datetime.utcnow().isoformat() + "Z"
-    
-    graph.append(enumeration_class)
-    
-    # 2. Declare each code as a member (instance) of the Enumeration
+    # Only include code instances, no enumeration class definition
     for item in codes_with_display:
         code = item['code']
         display = item['display']
         system = item.get('system', '')
         
-        # Generate canonical IRI for the code
-        code_iri = generate_canonical_iri(code, valueset_url, system)
+        # Generate IRI for the code using CodeSystem.jsonld pattern
+        if system:
+            # Extract CodeSystem ID from system URI
+            if '/' in system:
+                cs_id = system.split('/')[-1]
+            else:
+                cs_id = system
+            code_iri = f"{system}.jsonld#{code}"
+        else:
+            # Fallback if no system available
+            code_iri = f"http://smart.who.int/base/CodeSystem-{valueset_id}.jsonld#{code}"
         
         code_instance = {
             "id": code_iri,
-            "type": enumeration_class_iri,
             "name": display,
             "fhir:code": code
         }
         
         # Add system information if available
         if system:
-            code_instance["fhir:system"] = system
+            code_instance["fhir:CodeSystem"] = system
         
         graph.append(code_instance)
-    
-    # 3. Declare a property whose allowed range is the Enumeration
-    property_definition = {
-        "id": property_iri,
-        "type": "Property",
-        "name": valueset_id.lower(),
-        "comment": f"Property for selecting a value from the {valueset_title} enumeration.",
-        "schema:rangeIncludes": {"id": enumeration_class_iri}
-    }
-    
-    # Add domain information if this is a specific use case
-    # For now, we'll leave the domain open as this is a general enumeration
-    
-    graph.append(property_definition)
     
     # Create the complete JSON-LD document with named graph
     jsonld_vocab = {
         "@context": context,
         "@id": jsonld_file_url,
-        "@type": "Entity",
+        "@type": "https://smart.who.int/base/DataTypes#ValueSetVocabulary",
         "generatedAt": datetime.utcnow().isoformat() + "Z",
         "@graph": graph
     }
