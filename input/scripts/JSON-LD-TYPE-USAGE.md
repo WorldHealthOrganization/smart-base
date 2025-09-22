@@ -15,9 +15,15 @@ All FHIR-specific properties used in the JSON-LD vocabularies are properly decla
   "@context": {
     "@vocab": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
     "fhir": "http://hl7.org/fhir/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "fhir:code": "http://hl7.org/fhir/code",
     "fhir:system": "http://hl7.org/fhir/system",
-    "fhir:valueSet": "http://hl7.org/fhir/valueSet"
+    "fhir:valueSet": "http://hl7.org/fhir/valueSet",
+    "generatedAt": {
+      "@id": "prov:generatedAtTime",
+      "@type": "xsd:dateTime"
+    }
   }
 }
 ```
@@ -28,11 +34,39 @@ All FHIR-specific properties used in the JSON-LD vocabularies are properly decla
 - **`fhir:system`**: Maps to `http://hl7.org/fhir/system` - represents the IRI (Internationalized Resource Identifier) of the [FHIR CodeSystem](http://hl7.org/fhir/R4/codesystem.html) that defines the code
 - **`fhir:valueSet`**: Maps to `http://hl7.org/fhir/valueSet` - links back to the original [FHIR ValueSet](http://hl7.org/fhir/R4/valueset.html) canonical IRI
 
+### Provenance Properties
+
+- **`generatedAt`**: Maps to `prov:generatedAtTime` with type `xsd:dateTime` - timestamps when the vocabulary was generated following [W3C PROV](https://www.w3.org/TR/prov-o/) standards
+- **Document type**: `prov:Entity` indicates the JSON-LD document is a provenance-tracked entity
+
 These declarations ensure that the JSON-LD is valid according to [JSON-LD specification](https://www.w3.org/TR/json-ld11/) and can be properly processed by [RDF tools](https://www.w3.org/TR/rdf11-concepts/) and [semantic web frameworks](https://www.w3.org/2001/sw/wiki/Tools).
 
 ## Understanding IRIs in JSON-LD
 
 **IRI (Internationalized Resource Identifier)** is the standard way to identify resources in RDF and JSON-LD. All `id` fields in our JSON-LD vocabularies use IRIs to provide globally unique identifiers. Learn more about IRIs in the [RFC 3987 specification](https://tools.ietf.org/html/rfc3987).
+
+## JSON-LD Named Graphs
+
+The JSON-LD vocabularies use [named graphs](https://www.w3.org/TR/json-ld11/#named-graphs) to organize vocabulary content. Each vocabulary document is structured as a named graph with:
+
+- **Document IRI**: The JSON-LD file IRI serves as the named graph identifier
+- **Document type**: `prov:Entity` to indicate it's a provenance-tracked entity
+- **Generation timestamp**: `generatedAt` property with ISO 8601 timestamp
+- **Content graph**: The `@graph` array contains all vocabulary definitions
+
+```json
+{
+  "@context": { /* context definitions */ },
+  "@id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
+  "@type": "prov:Entity",
+  "generatedAt": "2023-12-07T10:30:00Z",
+  "@graph": [
+    /* vocabulary content */
+  ]
+}
+```
+
+This structure follows [W3C Provenance Ontology (PROV)](https://www.w3.org/TR/prov-o/) standards for tracking generation metadata.
 
 ## Type Hierarchy
 
@@ -136,11 +170,14 @@ During development, preview versions are available at:
 This implementation follows these established standards:
 
 - [JSON-LD 1.1 Specification](https://www.w3.org/TR/json-ld11/) - Core JSON-LD syntax and semantics
+- [JSON-LD 1.1 Named Graphs](https://www.w3.org/TR/json-ld11/#named-graphs) - Named graph structure and organization
 - [RDF 1.1 Concepts and Abstract Syntax](https://www.w3.org/TR/rdf11-concepts/) - RDF data model
 - [RDF Schema 1.1](https://www.w3.org/TR/rdf-schema/) - RDF vocabulary description language
 - [FHIR R4 Specification](http://hl7.org/fhir/R4/) - Healthcare data exchange standard
 - [Schema.org Vocabulary](https://schema.org/) - Structured data vocabulary
 - [SPARQL 1.1 Query Language](https://www.w3.org/TR/sparql11-query/) - RDF query language
+- [W3C Provenance Ontology (PROV)](https://www.w3.org/TR/prov-o/) - Provenance vocabulary and data model
+- [XML Schema Part 2: Datatypes](https://www.w3.org/TR/xmlschema-2/) - Data type definitions
 
 ## Related Specifications
 
@@ -148,3 +185,5 @@ This implementation follows these established standards:
 - [JSON Schema](https://json-schema.org/) - JSON data validation
 - [Dublin Core Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) - Metadata vocabulary
 - [SKOS (Simple Knowledge Organization System)](https://www.w3.org/TR/skos-reference/) - Knowledge organization vocabularies
+- [W3C Provenance Ontology (PROV)](https://www.w3.org/TR/prov-o/) - Provenance vocabulary and data model
+- [XML Schema Part 2: Datatypes](https://www.w3.org/TR/xmlschema-2/) - Data type definitions

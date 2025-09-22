@@ -10,6 +10,27 @@ This document provides comprehensive requirements and guidelines for using JSON-
 
 In JSON-LD and RDF contexts, we use **IRIs (Internationalized Resource Identifiers)** rather than URLs. While they look similar, IRIs provide globally unique identification for resources in semantic web contexts. Learn more: [RFC 3987](https://tools.ietf.org/html/rfc3987)
 
+## JSON-LD Named Graphs Structure
+
+WHO SMART Base ValueSet vocabularies use [JSON-LD named graphs](https://www.w3.org/TR/json-ld11/#named-graphs) to organize content. Each vocabulary document follows this structure:
+
+```json
+{
+  "@context": { /* context definitions */ },
+  "@id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
+  "@type": "prov:Entity",
+  "generatedAt": "2023-12-07T10:30:00Z",
+  "@graph": [
+    /* vocabulary definitions */
+  ]
+}
+```
+
+This provides:
+- **Document identification**: The `@id` identifies the vocabulary as a whole
+- **Provenance tracking**: `@type` and `generatedAt` follow [W3C PROV](https://www.w3.org/TR/prov-o/) standards
+- **Content organization**: `@graph` contains all vocabulary definitions in a named graph structure
+
 ## 1. JSON-LD Context Declaration
 
 ### 1.1 Basic Context Setup

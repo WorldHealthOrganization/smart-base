@@ -404,6 +404,8 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
         "schema": "https://schema.org/",
         "fhir": "http://hl7.org/fhir/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
         "id": "@id",
         "type": "@type",
         "name": "rdfs:label",
@@ -411,6 +413,10 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
         "version": "schema:version",
         "date": "schema:dateCreated",
         "publisher": "schema:publisher",
+        "generatedAt": {
+            "@id": "prov:generatedAtTime",
+            "@type": "xsd:dateTime"
+        },
         "fhir:code": "http://hl7.org/fhir/code",
         "fhir:system": "http://hl7.org/fhir/system",
         "fhir:valueSet": "http://hl7.org/fhir/valueSet"
@@ -436,6 +442,10 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
         enumeration_class["publisher"] = valueset_publisher
     if valueset_url:
         enumeration_class["fhir:valueSet"] = valueset_url
+    
+    # Add generation timestamp for provenance
+    from datetime import datetime
+    enumeration_class["generatedAt"] = datetime.utcnow().isoformat() + "Z"
     
     graph.append(enumeration_class)
     
@@ -475,9 +485,12 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     
     graph.append(property_definition)
     
-    # Create the complete JSON-LD document
+    # Create the complete JSON-LD document with named graph
     jsonld_vocab = {
         "@context": context,
+        "@id": jsonld_file_url,
+        "@type": "prov:Entity",
+        "generatedAt": datetime.utcnow().isoformat() + "Z",
         "@graph": graph
     }
     
