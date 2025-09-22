@@ -718,7 +718,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     jsonld_vocab = {
         "@context": context,
         "@id": jsonld_file_url,
-        "@type": "https://smart.who.int/base/DataTypes#ValueSetVocabulary",
+        "@type": "http://www.w3.org/ns/prov#Entity",
         "generatedAt": datetime.utcnow().isoformat() + "Z",
         "@graph": graph
     }
