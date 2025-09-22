@@ -2,7 +2,31 @@
 
 ## Overview
 
-The JSON-LD vocabularies generated for FHIR ValueSets use RDF types to establish semantic relationships between concepts. This document explains how the `type` property is used in the generated JSON-LD.
+The JSON-LD vocabularies generated for FHIR ValueSets use RDF types to establish semantic relationships between concepts. This document explains how the `type` property is used in the generated JSON-LD and how FHIR properties are properly declared.
+
+## FHIR Property Declarations
+
+All FHIR-specific properties used in the JSON-LD vocabularies are properly declared in the `@context` section following JSON-LD specification requirements:
+
+```json
+{
+  "@context": {
+    "@vocab": "https://worldhealthorganization.github.io/smart-trust/ValueSet-KeyUsage.jsonld",
+    "fhir": "http://hl7.org/fhir/",
+    "fhir:code": "http://hl7.org/fhir/code",
+    "fhir:system": "http://hl7.org/fhir/system",
+    "fhir:valueSet": "http://hl7.org/fhir/valueSet"
+  }
+}
+```
+
+### FHIR Property Definitions
+
+- **`fhir:code`**: Maps to `http://hl7.org/fhir/code` - represents the actual code value from the FHIR CodeSystem
+- **`fhir:system`**: Maps to `http://hl7.org/fhir/system` - represents the URI of the CodeSystem that defines the code
+- **`fhir:valueSet`**: Maps to `http://hl7.org/fhir/valueSet` - links back to the original FHIR ValueSet canonical URL
+
+These declarations ensure that the JSON-LD is valid according to JSON-LD specification and can be properly processed by RDF tools and semantic web frameworks.
 
 ## Type Hierarchy
 

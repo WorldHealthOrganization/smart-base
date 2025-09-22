@@ -667,7 +667,10 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
         "comment": "rdfs:comment",
         "version": "schema:version",
         "date": "schema:dateCreated",
-        "publisher": "schema:publisher"
+        "publisher": "schema:publisher",
+        "fhir:code": "http://hl7.org/fhir/code",
+        "fhir:system": "http://hl7.org/fhir/system",
+        "fhir:valueSet": "http://hl7.org/fhir/valueSet"
     }
     
     # Start building the @graph
