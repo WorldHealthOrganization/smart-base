@@ -390,21 +390,17 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
             # Fallback for non-standard URLs
             jsonld_file_url = f"{valueset_url}/ValueSet-{valueset_id}.jsonld"
     else:
-        jsonld_file_url = f"http://smart.who.int/base/ValueSet-{valueset_id}.jsonld"
+        jsonld_file_url = f"https://smart.who.int/base/ValueSet-{valueset_id}.jsonld"
     
     # JSON-LD context - minimal, only multi-use terms
     context = {
         "@version": 1.1,
-        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-        "fhir": "http://hl7.org/fhir/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "name": "http://www.w3.org/2000/01/rdf-schema#label",
+        "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
         "id": "@id",
-        "name": "rdfs:label",
-        "fhir:code": "http://hl7.org/fhir/code",
-        "fhir:CodeSystem": "http://hl7.org/fhir/CodeSystem",
         "generatedAt": {
             "@id": "http://www.w3.org/ns/prov#generatedAtTime",
-            "@type": "xsd:dateTime"
+            "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
         }
     }
     
@@ -427,7 +423,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
             code_iri = f"{system}.jsonld#{code}"
         else:
             # Fallback if no system available
-            code_iri = f"http://smart.who.int/base/CodeSystem-{valueset_id}.jsonld#{code}"
+            code_iri = f"https://smart.who.int/base/CodeSystem-{valueset_id}.jsonld#{code}"
         
         code_instance = {
             "id": code_iri,
@@ -445,7 +441,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     jsonld_vocab = {
         "@context": context,
         "@id": jsonld_file_url,
-        "@type": "https://smart.who.int/base/DataTypes#ValueSetVocabulary",
+        "@type": "http://www.w3.org/ns/prov#Entity",
         "generatedAt": datetime.utcnow().isoformat() + "Z",
         "@graph": graph
     }

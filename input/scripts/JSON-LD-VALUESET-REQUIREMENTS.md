@@ -16,12 +16,32 @@ WHO SMART Base ValueSet vocabularies use [JSON-LD named graphs](https://www.w3.o
 
 ```json
 {
-  "@context": { /* context definitions */ },
-  "@id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
-  "@type": "prov:Entity",
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
   "generatedAt": "2023-12-07T10:30:00Z",
   "@graph": [
-    /* vocabulary definitions */
+    {
+      "id": "https://smart.who.int/base/CodeSystem/DecisionTableActions.jsonld#output",
+      "name": "Output",
+      "fhir:code": "output",
+      "fhir:CodeSystem": "https://smart.who.int/base/CodeSystem/DecisionTableActions"
+    },
+    {
+      "id": "https://smart.who.int/base/CodeSystem/DecisionTableActions.jsonld#guidance", 
+      "name": "Guidance",
+      "fhir:code": "guidance",
+      "fhir:CodeSystem": "https://smart.who.int/base/CodeSystem/DecisionTableActions"
+    }
   ]
 }
 ```
@@ -42,18 +62,18 @@ To use WHO SMART Base ValueSet JSON-LD vocabularies in your own JSON-LD document
   "@context": [
     {
       "@version": 1.1,
-      "DecisionTableActions": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld"
+      "DecisionTableActions": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld"
     },
     {
       "action": {
         "@type": "@id",
         "schema:rangeIncludes": {
-          "@id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld"
+          "@id": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld"
         }
       }
     }
   ],
-  "action": "http://smart.who.int/base/CodeSystem/DecisionTableActions#output"
+  "action": "https://smart.who.int/base/CodeSystem/DecisionTableActions.jsonld#output"
 }
 ```
 
@@ -66,20 +86,20 @@ When using multiple ValueSet vocabularies:
   "@context": [
     {
       "@version": 1.1,
-      "DecisionTableActions": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
-      "CDSCv1": "https://worldhealthorganization.github.io/smart-base/ValueSet-CDSCv1.jsonld"
+      "DecisionTableActions": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+      "CDSCv1": "https://smart.who.int/base/ValueSet-CDSCv1.jsonld"
     },
     {
       "action": {
         "@type": "@id",
         "schema:rangeIncludes": {
-          "@id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld"
+          "@id": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld"
         }
       },
       "systemCategory": {
         "@type": "@id", 
         "schema:rangeIncludes": {
-          "@id": "https://worldhealthorganization.github.io/smart-base/ValueSet-CDSCv1.jsonld"
+          "@id": "https://smart.who.int/base/ValueSet-CDSCv1.jsonld"
         }
       }
     }
@@ -95,8 +115,8 @@ Use the full IRI of the code as defined in the ValueSet JSON-LD:
 
 ```json
 {
-  "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
-  "action": "http://smart.who.int/base/CodeSystem/DecisionTableActions#output"
+  "@context": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+  "action": "https://smart.who.int/base/CodeSystem/DecisionTableActions.jsonld#output"
 }
 ```
 
@@ -107,12 +127,12 @@ Reference codes using their FHIR properties for explicit semantics:
 ```json
 {
   "@context": [
-    "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
+    "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
     {
       "selectedCode": {
         "@type": "@id",
         "fhir:code": {
-          "@type": "xsd:string"
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
         },
         "fhir:system": {
           "@type": "@id"
@@ -121,10 +141,77 @@ Reference codes using their FHIR properties for explicit semantics:
     }
   ],
   "selectedCode": {
-    "@id": "http://smart.who.int/base/CodeSystem/DecisionTableActions#guidance",
+    "@id": "https://smart.who.int/base/CodeSystem/DecisionTableActions.jsonld#guidance",
     "fhir:code": "guidance",
-    "fhir:system": "http://smart.who.int/base/CodeSystem/DecisionTableActions"
+    "fhir:system": "https://smart.who.int/base/CodeSystem/DecisionTableActions"
   }
+}
+```
+
+## 2.3 Using @base for Short Fragment References
+
+You can use JSON-LD's `@base` feature to create shorter references to codes from ValueSet vocabularies. This allows you to reference codes using fragment identifiers instead of full IRIs.
+
+### 2.3.1 Document-level @base
+
+Set `@base` at the document level to reference codes with short fragment syntax:
+
+```json
+{
+  "@context": {
+    "@version": 1.1,
+    "@base": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+    "action": {
+      "@id": "https://example.com/action",
+      "@type": "@id"
+    }
+  },
+  "action": "#output"
+}
+```
+
+This expands to the full IRI: `https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld#output`
+
+### 2.3.2 Property-level @base
+
+Alternatively, you can set `@base` at the property level for more granular control:
+
+```json
+{
+  "@context": {
+    "@version": 1.1,
+    "action": {
+      "@base": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+      "@id": "https://example.com/action",
+      "@type": "@id"
+    }
+  },
+  "action": "#output"
+}
+```
+
+**Note**: Property-level `@base` is **not** part of the JSON-LD 1.1 specification and should not be used. Always use document-level `@base` as shown in section 2.3.1.
+
+### 2.3.3 Multiple ValueSet @base Usage
+
+When working with multiple ValueSets, use document-level `@base` for the primary vocabulary and full IRIs for others:
+
+```json
+{
+  "@context": {
+    "@version": 1.1,
+    "@base": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+    "primaryAction": {
+      "@id": "https://example.com/primaryAction", 
+      "@type": "@id"
+    },
+    "secondaryAction": {
+      "@id": "https://example.com/secondaryAction",
+      "@type": "@id"
+    }
+  },
+  "primaryAction": "#output",
+  "secondaryAction": "https://smart.who.int/base/ValueSet-OtherActions.jsonld#guidance"
 }
 ```
 
@@ -134,11 +221,11 @@ When specifying multiple values from a ValueSet:
 
 ```json
 {
-  "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
+  "@context": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
   "allowedActions": [
-    "http://smart.who.int/base/CodeSystem/DecisionTableActions#output",
-    "http://smart.who.int/base/CodeSystem/DecisionTableActions#guidance",
-    "http://smart.who.int/base/CodeSystem/DecisionTableActions#annotation"
+    "https://smart.who.int/base/CodeSystem/DecisionTableActions#output",
+    "https://smart.who.int/base/CodeSystem/DecisionTableActions#guidance",
+    "https://smart.who.int/base/CodeSystem/DecisionTableActions#annotation"
   ]
 }
 ```
@@ -168,16 +255,16 @@ const valueSetSchema = {
     "action": {
       "type": "string",
       "enum": [
-        "http://smart.who.int/base/CodeSystem/DecisionTableActions#output",
-        "http://smart.who.int/base/CodeSystem/DecisionTableActions#guidance",
-        "http://smart.who.int/base/CodeSystem/DecisionTableActions#annotation"
+        "https://smart.who.int/base/CodeSystem/DecisionTableActions#output",
+        "https://smart.who.int/base/CodeSystem/DecisionTableActions#guidance",
+        "https://smart.who.int/base/CodeSystem/DecisionTableActions#annotation"
       ]
     }
   }
 };
 
 const validate = ajv.compile(valueSetSchema);
-const data = { action: "http://smart.who.int/base/CodeSystem/DecisionTableActions#output" };
+const data = { action: "https://smart.who.int/base/CodeSystem/DecisionTableActions#output" };
 
 if (validate(data)) {
   console.log('Valid!');
@@ -198,12 +285,12 @@ import requests
 import json
 
 # Load ValueSet JSON Schema
-schema_url = "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.schema.json"
+schema_url = "https://smart.who.int/base/ValueSet-DecisionTableActions.schema.json"
 schema = requests.get(schema_url).json()
 
 # Data to validate
 data = {
-    "action": "http://smart.who.int/base/CodeSystem/DecisionTableActions#guidance"
+    "action": "https://smart.who.int/base/CodeSystem/DecisionTableActions#guidance"
 }
 
 try:
@@ -225,8 +312,8 @@ npm install jsonld
 const jsonld = require('jsonld');
 
 const doc = {
-  "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
-  "action": "http://smart.who.int/base/CodeSystem/DecisionTableActions#annotation"
+  "@context": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+  "action": "https://smart.who.int/base/CodeSystem/DecisionTableActions#annotation"
 };
 
 // Expand to check for valid JSON-LD
@@ -255,8 +342,8 @@ from pyld import jsonld
 import json
 
 doc = {
-    "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
-    "action": "http://smart.who.int/base/CodeSystem/DecisionTableActions#output"
+    "@context": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+    "action": "https://smart.who.int/base/CodeSystem/DecisionTableActions#output"
 }
 
 try:
@@ -286,17 +373,17 @@ from rdflib.plugins.stores import sparqlstore
 
 # Load the ValueSet JSON-LD into an RDF graph
 g = Graph()
-g.parse("https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld", format="json-ld")
+g.parse("https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld", format="json-ld")
 
 # Define namespaces
 FHIR = Namespace("http://hl7.org/fhir/")
-VALUESET = Namespace("https://worldhealthorganization.github.io/smart-base/")
+VALUESET = Namespace("https://smart.who.int/base/")
 
 # Validate that a code exists in the ValueSet
 def validate_code(code_uri):
     query = f"""
     ASK {{
-        <{code_uri}> a <https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld> .
+        <{code_uri}> a <https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld> .
     }}
     """
     
@@ -304,7 +391,7 @@ def validate_code(code_uri):
     return bool(result)
 
 # Test validation
-code_to_validate = "http://smart.who.int/base/CodeSystem/DecisionTableActions#guidance"
+code_to_validate = "https://smart.who.int/base/CodeSystem/DecisionTableActions#guidance"
 is_valid = validate_code(code_to_validate)
 print(f"Code {code_to_validate} is {'valid' if is_valid else 'invalid'}")
 ```
@@ -315,9 +402,9 @@ print(f"Code {code_to_validate} is {'valid' if is_valid else 'invalid'}")
 
 ```turtle
 @prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix base: <https://worldhealthorganization.github.io/smart-base/> .
+@prefix base: <https://smart.who.int/base/> .
 @prefix fhir: <http://hl7.org/fhir/> .
-@prefix valueset: <https://worldhealthorganization.github.io/smart-base/> .
+@prefix valueset: <https://smart.who.int/base/> .
 
 base:DecisionTableActionShape
     a sh:NodeShape ;
@@ -374,13 +461,13 @@ When using ValueSet JSON-LD vocabularies with FHIR Logical Models:
 ```json
 {
   "@context": [
-    "https://worldhealthorganization.github.io/smart-base/LogicalModel-YourModel.jsonld",
-    "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld"
+    "https://smart.who.int/base/LogicalModel-YourModel.jsonld",
+    "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld"
   ],
   "@type": "LogicalModel-YourModel",
   "codeProperty": {
-    "@type": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
-    "@id": "http://smart.who.int/base/CodeSystem/DecisionTableActions#output"
+    "@type": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+    "@id": "https://smart.who.int/base/CodeSystem/DecisionTableActions#output"
   }
 }
 ```
@@ -397,13 +484,13 @@ logical_model_schema = {
         "codeProperty": {
             "type": "object",
             "properties": {
-                "@type": {"const": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld"},
+                "@type": {"const": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld"},
                 "@id": {
                     "type": "string",
                     "enum": [
-                        "http://smart.who.int/base/CodeSystem/DecisionTableActions#output",
-                        "http://smart.who.int/base/CodeSystem/DecisionTableActions#guidance",
-                        "http://smart.who.int/base/CodeSystem/DecisionTableActions#annotation"
+                        "https://smart.who.int/base/CodeSystem/DecisionTableActions#output",
+                        "https://smart.who.int/base/CodeSystem/DecisionTableActions#guidance",
+                        "https://smart.who.int/base/CodeSystem/DecisionTableActions#annotation"
                     ]
                 }
             },
@@ -497,7 +584,7 @@ async function loadValueSetWithFallback(valueSetUrl) {
     <script>
         async function validateUserInput(userCode) {
             const doc = {
-                "@context": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
+                "@context": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
                 "userSelection": userCode
             };
             
@@ -590,25 +677,25 @@ This document ensures compliance with:
 
 All smart-base ValueSets generate corresponding JSON-LD vocabularies accessible at:
 
-- **DecisionTableActions**: `https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld`
+- **DecisionTableActions**: `https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld`
   - Codes: `output`, `guidance`, `annotation`
-- **CDSCv1**: `https://worldhealthorganization.github.io/smart-base/ValueSet-CDSCv1.jsonld`
+- **CDSCv1**: `https://smart.who.int/base/ValueSet-CDSCv1.jsonld`
   - Codes: `A`, `B`, `C`, etc. (Digital Health System Categories)
-- **ISCO08ValueSet**: `https://worldhealthorganization.github.io/smart-base/ValueSet-ISCO08ValueSet.jsonld`
+- **ISCO08ValueSet**: `https://smart.who.int/base/ValueSet-ISCO08ValueSet.jsonld`
   - Codes: Occupation codes from International Labour Organization
-- **SGPersonaTypes**: `https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld`
+- **SGPersonaTypes**: `https://smart.who.int/base/ValueSet-SGPersonaTypesVS.jsonld`
   - Codes: `key`, `related`, `system`, `hardware`
 
 ### 10.2 Preview Access During Development
 
 During development and pull request review, preview versions are available at:
 ```
-https://worldhealthorganization.github.io/smart-base/branches/{branch-name}/ValueSet-{ValueSetId}.jsonld
+https://smart.who.int/base/branches/{branch-name}/ValueSet-{ValueSetId}.jsonld
 ```
 
 For example, this PR's changes can be previewed at:
 ```
-https://worldhealthorganization.github.io/smart-base/branches/fix-164/ValueSet-DecisionTableActions.jsonld
+https://smart.who.int/base/branches/fix-164/ValueSet-DecisionTableActions.jsonld
 ```
 
 ### 10.3 Verification Examples
@@ -618,11 +705,11 @@ You can verify the JSON-LD vocabulary structure by fetching any of these IRIs di
 ```bash
 # Fetch DecisionTableActions vocabulary
 curl -H "Accept: application/ld+json" \
-  "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld"
+  "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld"
 
 # Fetch CDSCv1 vocabulary  
 curl -H "Accept: application/ld+json" \
-  "https://worldhealthorganization.github.io/smart-base/ValueSet-CDSCv1.jsonld"
+  "https://smart.who.int/base/ValueSet-CDSCv1.jsonld"
 ```
 
 This requirements document provides comprehensive guidance for implementing robust, standards-compliant systems that use WHO SMART Base JSON-LD ValueSet vocabularies with actual working examples.

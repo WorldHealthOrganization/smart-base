@@ -4,39 +4,26 @@
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "schema": "https://schema.org/",
-    "fhir": "http://hl7.org/fhir/",
     "xsd": "http://www.w3.org/2001/XMLSchema#"
   },
   "@id": "https://smart.who.int/base/DataTypes.jsonld",
   "@graph": [
     {
-      "@id": "https://smart.who.int/base/DataTypes#ValueSetVocabulary",
-      "@type": "rdfs:Class",
-      "rdfs:label": "ValueSet JSON-LD Vocabulary",
-      "rdfs:comment": "A JSON-LD vocabulary document representing a FHIR ValueSet as a schema:Enumeration with code instances.",
-      "rdfs:subClassOf": "schema:Enumeration"
-    },
-    {
-      "@id": "https://smart.who.int/base/DataTypes#LogicalModelVocabulary", 
-      "@type": "rdfs:Class",
-      "rdfs:label": "Logical Model JSON-LD Vocabulary",
-      "rdfs:comment": "A JSON-LD vocabulary document representing a FHIR Logical Model structure.",
-      "rdfs:subClassOf": "schema:StructuredValue"
-    },
-    {
-      "@id": "https://smart.who.int/base/DataTypes#FHIRCode",
-      "@type": "rdfs:Datatype",
+      "@id": "https://smart.who.int/base/DataTypes#code",
+      "@type": "rdfs:Property",
       "rdfs:label": "FHIR Code",
-      "rdfs:comment": "A string which has at least one character and no leading or trailing whitespace, and where there is no whitespace other than single spaces in the contents. This datatype can be bound to a ValueSet.",
-      "rdfs:subClassOf": "xsd:token",
+      "rdfs:comment": "A string which has at least one character and no leading or trailing whitespace, and where there is no whitespace other than single spaces in the contents. This property can be bound to a ValueSet.",
+      "rdfs:domain": "rdfs:Resource",
+      "rdfs:range": "xsd:token",
       "schema:pattern": "[^\\s]+(\\s[^\\s]+)*"
     },
     {
-      "@id": "https://smart.who.int/base/DataTypes#FHIRUri",
-      "@type": "rdfs:Datatype", 
-      "rdfs:label": "FHIR URI",
-      "rdfs:comment": "A Uniform Resource Identifier Reference (RFC 3986). Note: URIs are case sensitive.",
-      "rdfs:subClassOf": "xsd:anyURI"
+      "@id": "https://smart.who.int/base/DataTypes#CodeSystem",
+      "@type": "rdfs:Property",
+      "rdfs:label": "FHIR CodeSystem",
+      "rdfs:comment": "A URI that identifies the code system that defines the meaning of the symbol in the code.",
+      "rdfs:domain": "rdfs:Resource",
+      "rdfs:range": "xsd:anyURI"
     }
   ]
 }
