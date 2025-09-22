@@ -395,11 +395,10 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     # JSON-LD context - minimal, only multi-use terms
     context = {
         "@version": 1.1,
-        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-        "fhir": "http://hl7.org/fhir/",
+        "name": "http://www.w3.org/2000/01/rdf-schema#label",
+        "fhir": "http://smart.who.int/base/DataTypes.jsonld",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
         "id": "@id",
-        "name": "rdfs:label",
         "fhir:code": "http://hl7.org/fhir/code",
         "fhir:CodeSystem": "http://hl7.org/fhir/CodeSystem",
         "generatedAt": {

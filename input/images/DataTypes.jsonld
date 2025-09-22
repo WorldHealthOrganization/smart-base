@@ -24,19 +24,21 @@
       "rdfs:subClassOf": "schema:StructuredValue"
     },
     {
-      "@id": "https://smart.who.int/base/DataTypes#FHIRCode",
-      "@type": "rdfs:Datatype",
+      "@id": "https://smart.who.int/base/DataTypes#code",
+      "@type": "rdfs:Property",
       "rdfs:label": "FHIR Code",
-      "rdfs:comment": "A string which has at least one character and no leading or trailing whitespace, and where there is no whitespace other than single spaces in the contents. This datatype can be bound to a ValueSet.",
-      "rdfs:subClassOf": "xsd:token",
+      "rdfs:comment": "A string which has at least one character and no leading or trailing whitespace, and where there is no whitespace other than single spaces in the contents. This property can be bound to a ValueSet.",
+      "rdfs:domain": "rdfs:Resource",
+      "rdfs:range": "xsd:token",
       "schema:pattern": "[^\\s]+(\\s[^\\s]+)*"
     },
     {
-      "@id": "https://smart.who.int/base/DataTypes#FHIRUri",
-      "@type": "rdfs:Datatype", 
-      "rdfs:label": "FHIR URI",
-      "rdfs:comment": "A Uniform Resource Identifier Reference (RFC 3986). Note: URIs are case sensitive.",
-      "rdfs:subClassOf": "xsd:anyURI"
+      "@id": "https://smart.who.int/base/DataTypes#CodeSystem",
+      "@type": "rdfs:Property",
+      "rdfs:label": "FHIR CodeSystem",
+      "rdfs:comment": "A URI that identifies the code system that defines the meaning of the symbol in the code.",
+      "rdfs:domain": "rdfs:Resource",
+      "rdfs:range": "xsd:anyURI"
     }
   ]
 }

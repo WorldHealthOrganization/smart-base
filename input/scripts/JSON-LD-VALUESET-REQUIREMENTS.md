@@ -128,6 +128,73 @@ Reference codes using their FHIR properties for explicit semantics:
 }
 ```
 
+## 2.3 Using @base for Short Fragment References
+
+You can use JSON-LD's `@base` feature to create shorter references to codes from ValueSet vocabularies. This allows you to reference codes using fragment identifiers instead of full IRIs.
+
+### 2.3.1 Document-level @base
+
+Set `@base` at the document level to reference codes with short fragment syntax:
+
+```json
+{
+  "@context": {
+    "@version": 1.1,
+    "@base": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+    "action": {
+      "@id": "https://example.com/action",
+      "@type": "@id"
+    }
+  },
+  "action": "#output"
+}
+```
+
+This expands to the full IRI: `https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld#output`
+
+### 2.3.2 Property-level @base
+
+Alternatively, you can set `@base` at the property level for more granular control:
+
+```json
+{
+  "@context": {
+    "@version": 1.1,
+    "action": {
+      "@base": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+      "@id": "https://example.com/action",
+      "@type": "@id"
+    }
+  },
+  "action": "#output"
+}
+```
+
+**Note**: Property-level `@base` is **not** part of the JSON-LD 1.1 specification and should not be used. Always use document-level `@base` as shown in section 2.3.1.
+
+### 2.3.3 Multiple ValueSet @base Usage
+
+When working with multiple ValueSets, use document-level `@base` for the primary vocabulary and full IRIs for others:
+
+```json
+{
+  "@context": {
+    "@version": 1.1,
+    "@base": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+    "primaryAction": {
+      "@id": "https://example.com/primaryAction", 
+      "@type": "@id"
+    },
+    "secondaryAction": {
+      "@id": "https://example.com/secondaryAction",
+      "@type": "@id"
+    }
+  },
+  "primaryAction": "#output",
+  "secondaryAction": "https://smart.who.int/base/ValueSet-OtherActions.jsonld#guidance"
+}
+```
+
 ### 2.3 Array of Values
 
 When specifying multiple values from a ValueSet:
