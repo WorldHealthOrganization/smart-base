@@ -4,6 +4,8 @@
 
 The JSON-LD vocabularies generated for FHIR ValueSets use [RDF](https://www.w3.org/TR/rdf11-concepts/) types to establish semantic relationships between concepts. This document explains how the `type` property is used in the generated [JSON-LD](https://www.w3.org/TR/json-ld11/) and how [FHIR](http://hl7.org/fhir/R4/) properties are properly declared.
 
+All examples in this document use actual working ValueSets from the smart-base repository that can be accessed at their generated JSON-LD URLs.
+
 ## FHIR Property Declarations
 
 All FHIR-specific properties used in the JSON-LD vocabularies are properly declared in the `@context` section following [JSON-LD 1.1 specification](https://www.w3.org/TR/json-ld11/#the-context) requirements:
@@ -11,7 +13,7 @@ All FHIR-specific properties used in the JSON-LD vocabularies are properly decla
 ```json
 {
   "@context": {
-    "@vocab": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
+    "@vocab": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
     "fhir": "http://hl7.org/fhir/",
     "fhir:code": "http://hl7.org/fhir/code",
     "fhir:system": "http://hl7.org/fhir/system",
@@ -23,10 +25,14 @@ All FHIR-specific properties used in the JSON-LD vocabularies are properly decla
 ### FHIR Property Definitions
 
 - **`fhir:code`**: Maps to `http://hl7.org/fhir/code` - represents the actual code value from the [FHIR CodeSystem](http://hl7.org/fhir/R4/codesystem.html)
-- **`fhir:system`**: Maps to `http://hl7.org/fhir/system` - represents the URI of the [FHIR CodeSystem](http://hl7.org/fhir/R4/codesystem.html) that defines the code
-- **`fhir:valueSet`**: Maps to `http://hl7.org/fhir/valueSet` - links back to the original [FHIR ValueSet](http://hl7.org/fhir/R4/valueset.html) canonical URL
+- **`fhir:system`**: Maps to `http://hl7.org/fhir/system` - represents the IRI (Internationalized Resource Identifier) of the [FHIR CodeSystem](http://hl7.org/fhir/R4/codesystem.html) that defines the code
+- **`fhir:valueSet`**: Maps to `http://hl7.org/fhir/valueSet` - links back to the original [FHIR ValueSet](http://hl7.org/fhir/R4/valueset.html) canonical IRI
 
 These declarations ensure that the JSON-LD is valid according to [JSON-LD specification](https://www.w3.org/TR/json-ld11/) and can be properly processed by [RDF tools](https://www.w3.org/TR/rdf11-concepts/) and [semantic web frameworks](https://www.w3.org/2001/sw/wiki/Tools).
+
+## Understanding IRIs in JSON-LD
+
+**IRI (Internationalized Resource Identifier)** is the standard way to identify resources in RDF and JSON-LD. All `id` fields in our JSON-LD vocabularies use IRIs to provide globally unique identifiers. Learn more about IRIs in the [RFC 3987 specification](https://tools.ietf.org/html/rfc3987).
 
 ## Type Hierarchy
 
@@ -36,10 +42,10 @@ The main ValueSet enumeration uses [`schema:Enumeration`](https://schema.org/Enu
 
 ```json
 {
-  "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
+  "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
   "type": "schema:Enumeration",
-  "name": "Smart Guidelines Persona Types Enumeration",
-  "comment": "Allowed values for smart guidelines persona types."
+  "name": "Smart Guidelines Decision Table Actions Enumeration",
+  "comment": "Value Set for Smart Guidelines Documentation Decision Table Actions"
 }
 ```
 
@@ -47,14 +53,14 @@ This indicates that the ValueSet defines a controlled vocabulary enumeration com
 
 ### 2. Code Instance Types
 
-Individual codes within the ValueSet use the enumeration class URL as their type, following [RDF/RDFS semantics](https://www.w3.org/TR/rdf-schema/) for class membership:
+Individual codes within the ValueSet use the enumeration class IRI as their type, following [RDF/RDFS semantics](https://www.w3.org/TR/rdf-schema/) for class membership:
 
 ```json
 {
-  "id": "http://smart.who.int/base/CodeSystem/SGPersonaTypes#key",
-  "type": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld",
-  "name": "Key Persona",
-  "fhir:code": "key"
+  "id": "http://smart.who.int/base/CodeSystem/DecisionTableActions#output",
+  "type": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
+  "name": "Output",
+  "fhir:code": "output"
 }
 ```
 
@@ -69,11 +75,11 @@ The property definition uses [`rdf:Property`](http://www.w3.org/1999/02/22-rdf-s
 
 ```json
 {
-  "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld#sgpersonatypesvs",
+  "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld#decisiontableactions",
   "type": "rdf:Property",
-  "name": "sgpersonatypesvs",
+  "name": "decisiontableactions",
   "schema:rangeIncludes": {
-    "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-SGPersonaTypesVS.jsonld"
+    "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld"
   }
 }
 ```
@@ -104,15 +110,26 @@ PREFIX base: <https://worldhealthorganization.github.io/smart-base/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX fhir: <http://hl7.org/fhir/>
 
-# Find all codes in the SGPersonaTypesVS enumeration
+# Find all codes in the DecisionTableActions enumeration
 SELECT ?code ?display WHERE {
-  ?codeInstance a base:ValueSet-SGPersonaTypesVS.jsonld ;
+  ?codeInstance a base:ValueSet-DecisionTableActions.jsonld ;
                 rdfs:label ?display ;
                 fhir:code ?code .
 }
 ```
 
 This query leverages the type relationships to find all codes belonging to a specific ValueSet enumeration, following [SPARQL 1.1 query syntax](https://www.w3.org/TR/sparql11-query/).
+
+## Working with Actual Smart-Base ValueSets
+
+You can access the actual generated JSON-LD vocabularies for smart-base ValueSets at URLs following this pattern:
+
+- **DecisionTableActions**: `https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld`
+- **CDSCv1**: `https://worldhealthorganization.github.io/smart-base/ValueSet-CDSCv1.jsonld` 
+- **ISCO08ValueSet**: `https://worldhealthorganization.github.io/smart-base/ValueSet-ISCO08ValueSet.jsonld`
+
+During development, preview versions are available at:
+`https://worldhealthorganization.github.io/smart-base/branches/{branch-name}/ValueSet-{ValueSetId}.jsonld`
 
 ## Standards Compliance
 
