@@ -13,7 +13,10 @@ All FHIR-specific properties used in the JSON-LD vocabularies are properly decla
 ```json
 {
   "@context": {
-    "@vocab": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
+    "@version": 1.1,
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "schema": "https://schema.org/",
     "fhir": "http://hl7.org/fhir/",
     "prov": "http://www.w3.org/ns/prov#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
@@ -31,7 +34,7 @@ All FHIR-specific properties used in the JSON-LD vocabularies are properly decla
 }
 ```
 
-The context defines concise terms for common types to reduce verbosity while maintaining semantic meaning through context expansion.
+The context defines concise terms for common types to reduce verbosity while maintaining semantic meaning through context expansion. All terms are properly declared with their full namespace IRIs, eliminating the need for `@vocab`.
 
 ### FHIR Property Definitions
 
@@ -114,7 +117,7 @@ The property definition uses [`rdf:Property`](http://www.w3.org/1999/02/22-rdf-s
 
 ```json
 {
-  "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld#decisiontableactions",
+  "id": "http://smart.who.int/base/vocab#decisiontableactions",
   "type": "Property",
   "name": "decisiontableactions",
   "schema:rangeIncludes": {
@@ -124,6 +127,23 @@ The property definition uses [`rdf:Property`](http://www.w3.org/1999/02/22-rdf-s
 ```
 
 This uses the concise term `Property` defined in the active context, which maps to `rdf:Property`. This creates an [RDF property](https://www.w3.org/TR/rdf-schema/#ch_property) that can be used in data to reference values from the enumeration, with [`schema:rangeIncludes`](https://schema.org/rangeIncludes) specifying the allowed value types.
+
+### Property Definition Purpose
+
+The rdf:Property definition serves as a semantic bridge between applications and ValueSet enumerations:
+
+**Purpose:**
+- **Semantic typing**: Enables applications to understand that the term is a property
+- **Range constraint**: Specifies that values must come from the specific enumeration
+- **Validation support**: Tools can validate that property values are valid enumeration members
+- **Documentation**: Provides human-readable description of the property's purpose
+- **RDF integration**: Enables SPARQL queries and semantic reasoning over the vocabulary
+
+**Benefits:**
+- **Type safety**: Applications can validate property assignments at runtime
+- **IDE support**: Code completion and type checking in JSON-LD aware editors
+- **Documentation generation**: Automatic API documentation from vocabulary definitions
+- **Interoperability**: Standard RDF property semantics enable cross-system integration
 
 ## JSON-LD Verbosity Optimization
 

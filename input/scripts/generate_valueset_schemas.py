@@ -649,12 +649,12 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     
     # Create enumeration class IRI - use the JSON-LD file URL as the base
     enumeration_class_iri = jsonld_file_url
-    # Property IRI - define property within the JSON-LD document itself
-    property_iri = f"{jsonld_file_url}#{valueset_id.lower()}"
+    # Property IRI - use proper base URI structure
+    property_iri = f"http://smart.who.int/base/vocab#{valueset_id.lower()}"
     
-    # JSON-LD context - @vocab should point to the JSON-LD file URL
+    # JSON-LD context - all terms properly defined without @vocab
     context = {
-        "@vocab": jsonld_file_url,
+        "@version": 1.1,
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
         "schema": "https://schema.org/",
