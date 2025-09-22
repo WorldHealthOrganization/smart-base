@@ -10,20 +10,6 @@
   "@id": "https://smart.who.int/base/DataTypes.jsonld",
   "@graph": [
     {
-      "@id": "https://smart.who.int/base/DataTypes#ValueSetVocabulary",
-      "@type": "rdfs:Class",
-      "rdfs:label": "ValueSet JSON-LD Vocabulary",
-      "rdfs:comment": "A JSON-LD vocabulary document representing a FHIR ValueSet as a schema:Enumeration with code instances.",
-      "rdfs:subClassOf": "schema:Enumeration"
-    },
-    {
-      "@id": "https://smart.who.int/base/DataTypes#LogicalModelVocabulary", 
-      "@type": "rdfs:Class",
-      "rdfs:label": "Logical Model JSON-LD Vocabulary",
-      "rdfs:comment": "A JSON-LD vocabulary document representing a FHIR Logical Model structure.",
-      "rdfs:subClassOf": "schema:StructuredValue"
-    },
-    {
       "@id": "https://smart.who.int/base/DataTypes#code",
       "@type": "rdfs:Property",
       "rdfs:label": "FHIR Code",

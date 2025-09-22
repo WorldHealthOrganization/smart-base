@@ -397,13 +397,10 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
         "@version": 1.1,
         "name": "http://www.w3.org/2000/01/rdf-schema#label",
         "fhir": "http://smart.who.int/base/DataTypes.jsonld",
-        "xsd": "http://www.w3.org/2001/XMLSchema#",
         "id": "@id",
-        "fhir:code": "http://hl7.org/fhir/code",
-        "fhir:CodeSystem": "http://hl7.org/fhir/CodeSystem",
         "generatedAt": {
             "@id": "http://www.w3.org/ns/prov#generatedAtTime",
-            "@type": "xsd:dateTime"
+            "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
         }
     }
     
@@ -444,7 +441,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     jsonld_vocab = {
         "@context": context,
         "@id": jsonld_file_url,
-        "@type": "https://smart.who.int/base/DataTypes#ValueSetVocabulary",
+        "@type": "http://www.w3.org/ns/prov#Entity",
         "generatedAt": datetime.utcnow().isoformat() + "Z",
         "@graph": graph
     }
