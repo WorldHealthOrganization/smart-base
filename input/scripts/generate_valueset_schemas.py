@@ -349,7 +349,7 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
     # Construct schema $id based on ValueSet canonical URL pattern
     if valueset_url:
         # Extract base URL from canonical URL
-        # e.g., http://smart.who.int/base/ValueSet/DecisionTableActions -> http://smart.who.int/base
+        # e.g., https://smart.who.int/base/ValueSet/DecisionTableActions -> https://smart.who.int/base
         if '/ValueSet/' in valueset_url:
             base_url = valueset_url.split('/ValueSet/')[0]
             schema_id = f"{base_url}/ValueSet-{valueset_id}.schema.json"
@@ -645,12 +645,12 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
             # Fallback for non-standard URLs
             jsonld_file_url = f"{valueset_url}/ValueSet-{valueset_id}.jsonld"
     else:
-        jsonld_file_url = f"http://smart.who.int/base/ValueSet-{valueset_id}.jsonld"
+        jsonld_file_url = f"https://smart.who.int/base/ValueSet-{valueset_id}.jsonld"
     
     # Create enumeration class IRI - use the JSON-LD file URL as the base
     enumeration_class_iri = jsonld_file_url
     # Property IRI - use proper base URI structure
-    property_iri = f"http://smart.who.int/base/vocab#{valueset_id.lower()}"
+    property_iri = f"https://smart.who.int/base/vocab#{valueset_id.lower()}"
     
     # JSON-LD context - all terms properly defined without @vocab
     context = {
@@ -700,7 +700,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
             code_iri = f"{system}.jsonld#{code}"
         else:
             # Fallback if no system available
-            code_iri = f"http://smart.who.int/base/CodeSystem-{valueset_id}.jsonld#{code}"
+            code_iri = f"https://smart.who.int/base/CodeSystem-{valueset_id}.jsonld#{code}"
         
         code_instance = {
             "id": code_iri,

@@ -390,13 +390,13 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
             # Fallback for non-standard URLs
             jsonld_file_url = f"{valueset_url}/ValueSet-{valueset_id}.jsonld"
     else:
-        jsonld_file_url = f"http://smart.who.int/base/ValueSet-{valueset_id}.jsonld"
+        jsonld_file_url = f"https://smart.who.int/base/ValueSet-{valueset_id}.jsonld"
     
     # JSON-LD context - minimal, only multi-use terms
     context = {
         "@version": 1.1,
         "name": "http://www.w3.org/2000/01/rdf-schema#label",
-        "fhir": "http://smart.who.int/base/DataTypes.jsonld#",
+        "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
         "id": "@id",
         "generatedAt": {
             "@id": "http://www.w3.org/ns/prov#generatedAtTime",
@@ -423,7 +423,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
             code_iri = f"{system}.jsonld#{code}"
         else:
             # Fallback if no system available
-            code_iri = f"http://smart.who.int/base/CodeSystem-{valueset_id}.jsonld#{code}"
+            code_iri = f"https://smart.who.int/base/CodeSystem-{valueset_id}.jsonld#{code}"
         
         code_instance = {
             "id": code_iri,

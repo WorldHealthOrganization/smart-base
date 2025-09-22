@@ -7,10 +7,10 @@
     "fhir": "http://hl7.org/fhir/",
     "xsd": "http://www.w3.org/2001/XMLSchema#"
   },
-  "@id": "http://smart.who.int/base/DataTypes.jsonld",
+  "@id": "https://smart.who.int/base/DataTypes.jsonld",
   "@graph": [
     {
-      "@id": "http://smart.who.int/base/DataTypes#code",
+      "@id": "https://smart.who.int/base/DataTypes#code",
       "@type": "rdfs:Property",
       "rdfs:label": "FHIR Code",
       "rdfs:comment": "A string which has at least one character and no leading or trailing whitespace, and where there is no whitespace other than single spaces in the contents. This property can be bound to a ValueSet.",
@@ -19,7 +19,7 @@
       "schema:pattern": "[^\\s]+(\\s[^\\s]+)*"
     },
     {
-      "@id": "http://smart.who.int/base/DataTypes#CodeSystem",
+      "@id": "https://smart.who.int/base/DataTypes#CodeSystem",
       "@type": "rdfs:Property",
       "rdfs:label": "FHIR CodeSystem",
       "rdfs:comment": "A URI that identifies the code system that defines the meaning of the symbol in the code.",
