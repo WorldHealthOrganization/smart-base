@@ -40,7 +40,10 @@ To use WHO SMART Base ValueSet JSON-LD vocabularies in your own JSON-LD document
 ```json
 {
   "@context": [
-    "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
+    {
+      "@version": 1.1,
+      "DecisionTableActions": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld"
+    },
     {
       "action": {
         "@type": "@id",
@@ -61,8 +64,11 @@ When using multiple ValueSet vocabularies:
 ```json
 {
   "@context": [
-    "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
-    "https://worldhealthorganization.github.io/smart-base/ValueSet-CDSCv1.jsonld",
+    {
+      "@version": 1.1,
+      "DecisionTableActions": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
+      "CDSCv1": "https://worldhealthorganization.github.io/smart-base/ValueSet-CDSCv1.jsonld"
+    },
     {
       "action": {
         "@type": "@id",
