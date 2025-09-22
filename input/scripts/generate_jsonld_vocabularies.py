@@ -380,23 +380,28 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     elif 'date' in valueset_resource:
         valueset_date = valueset_resource['date']
     
-    # Determine base vocabulary IRI
+    # Determine JSON-LD file URL and vocabulary base IRI
     if valueset_url:
         if '/ValueSet/' in valueset_url:
             base_url = valueset_url.split('/ValueSet/')[0]
+            # JSON-LD file URL follows the pattern: base_url/ValueSet-{id}.jsonld
+            jsonld_file_url = f"{base_url}/ValueSet-{valueset_id}.jsonld"
             vocab_base = f"{base_url}/vocab"
         else:
+            # Fallback for non-standard URLs
+            jsonld_file_url = f"{valueset_url}/ValueSet-{valueset_id}.jsonld"
             vocab_base = f"{valueset_url}/vocab"
     else:
+        jsonld_file_url = f"http://example.com/ValueSet-{valueset_id}.jsonld"
         vocab_base = "http://example.com/vocab"
     
-    # Create enumeration class IRI
-    enumeration_class_iri = f"{vocab_base}#{valueset_id}Enumeration"
+    # Create enumeration class IRI - use the JSON-LD file URL as the base
+    enumeration_class_iri = jsonld_file_url
     property_iri = f"{vocab_base}#{valueset_id.lower()}"
     
-    # JSON-LD context
+    # JSON-LD context - @vocab should point to the JSON-LD file URL
     context = {
-        "@vocab": f"{vocab_base}#",
+        "@vocab": jsonld_file_url,
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
         "schema": "https://schema.org/",
