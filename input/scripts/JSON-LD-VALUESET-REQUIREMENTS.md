@@ -19,14 +19,14 @@ WHO SMART Base ValueSet vocabularies use [JSON-LD named graphs](https://www.w3.o
   "@context": {
     "@version": 1.1,
     "name": "http://www.w3.org/2000/01/rdf-schema#label",
-    "fhir": "http://smart.who.int/base/DataTypes.jsonld",
+    "fhir": "http://smart.who.int/base/DataTypes.jsonld#",
     "id": "@id",
     "generatedAt": {
       "@id": "http://www.w3.org/ns/prov#generatedAtTime",
       "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
     }
   },
-  "@id": "https://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+  "@id": "http://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
   "@type": "http://www.w3.org/ns/prov#Entity",
   "generatedAt": "2023-12-07T10:30:00Z",
   "@graph": [

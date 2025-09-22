@@ -396,7 +396,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     context = {
         "@version": 1.1,
         "name": "http://www.w3.org/2000/01/rdf-schema#label",
-        "fhir": "http://smart.who.int/base/DataTypes.jsonld",
+        "fhir": "http://smart.who.int/base/DataTypes.jsonld#",
         "id": "@id",
         "generatedAt": {
             "@id": "http://www.w3.org/ns/prov#generatedAtTime",
