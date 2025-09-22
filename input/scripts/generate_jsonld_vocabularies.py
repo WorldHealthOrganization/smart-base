@@ -419,7 +419,11 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
         },
         "fhir:code": "http://hl7.org/fhir/code",
         "fhir:system": "http://hl7.org/fhir/system",
-        "fhir:valueSet": "http://hl7.org/fhir/valueSet"
+        "fhir:valueSet": "http://hl7.org/fhir/valueSet",
+        # Define concise terms for common types
+        "Enumeration": "schema:Enumeration",
+        "Property": "rdf:Property", 
+        "Entity": "prov:Entity"
     }
     
     # Start building the @graph
@@ -428,7 +432,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     # 1. Define the Enumeration class
     enumeration_class = {
         "id": enumeration_class_iri,
-        "type": "schema:Enumeration",
+        "type": "Enumeration",
         "name": f"{valueset_title} Enumeration",
         "comment": valueset_description
     }
@@ -474,7 +478,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     # 3. Declare a property whose allowed range is the Enumeration
     property_definition = {
         "id": property_iri,
-        "type": "rdf:Property",
+        "type": "Property",
         "name": valueset_id.lower(),
         "comment": f"Property for selecting a value from the {valueset_title} enumeration.",
         "schema:rangeIncludes": {"id": enumeration_class_iri}
@@ -489,7 +493,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     jsonld_vocab = {
         "@context": context,
         "@id": jsonld_file_url,
-        "@type": "prov:Entity",
+        "@type": "Entity",
         "generatedAt": datetime.utcnow().isoformat() + "Z",
         "@graph": graph
     }

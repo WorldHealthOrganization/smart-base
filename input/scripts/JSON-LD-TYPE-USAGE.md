@@ -23,10 +23,15 @@ All FHIR-specific properties used in the JSON-LD vocabularies are properly decla
     "generatedAt": {
       "@id": "prov:generatedAtTime",
       "@type": "xsd:dateTime"
-    }
+    },
+    "Enumeration": "schema:Enumeration",
+    "Property": "rdf:Property",
+    "Entity": "prov:Entity"
   }
 }
 ```
+
+The context defines concise terms for common types to reduce verbosity while maintaining semantic meaning through context expansion.
 
 ### FHIR Property Definitions
 
@@ -77,13 +82,13 @@ The main ValueSet enumeration uses [`schema:Enumeration`](https://schema.org/Enu
 ```json
 {
   "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld",
-  "type": "schema:Enumeration",
+  "type": "Enumeration",
   "name": "Smart Guidelines Decision Table Actions Enumeration",
   "comment": "Value Set for Smart Guidelines Documentation Decision Table Actions"
 }
 ```
 
-This indicates that the ValueSet defines a controlled vocabulary enumeration compatible with [Schema.org](https://schema.org/).
+This uses the concise term `Enumeration` defined in the active context, which maps to `schema:Enumeration`. This indicates that the ValueSet defines a controlled vocabulary enumeration compatible with [Schema.org](https://schema.org/).
 
 ### 2. Code Instance Types
 
@@ -110,7 +115,7 @@ The property definition uses [`rdf:Property`](http://www.w3.org/1999/02/22-rdf-s
 ```json
 {
   "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld#decisiontableactions",
-  "type": "rdf:Property",
+  "type": "Property",
   "name": "decisiontableactions",
   "schema:rangeIncludes": {
     "id": "https://worldhealthorganization.github.io/smart-base/ValueSet-DecisionTableActions.jsonld"
@@ -118,7 +123,29 @@ The property definition uses [`rdf:Property`](http://www.w3.org/1999/02/22-rdf-s
 }
 ```
 
-This creates an [RDF property](https://www.w3.org/TR/rdf-schema/#ch_property) that can be used in data to reference values from the enumeration, with [`schema:rangeIncludes`](https://schema.org/rangeIncludes) specifying the allowed value types.
+This uses the concise term `Property` defined in the active context, which maps to `rdf:Property`. This creates an [RDF property](https://www.w3.org/TR/rdf-schema/#ch_property) that can be used in data to reference values from the enumeration, with [`schema:rangeIncludes`](https://schema.org/rangeIncludes) specifying the allowed value types.
+
+## JSON-LD Verbosity Optimization
+
+The vocabularies use concise terms defined in the `@context` to reduce verbosity while maintaining full semantic meaning:
+
+### Before (verbose):
+```json
+{
+  "type": "schema:Enumeration",
+  "@type": "prov:Entity"
+}
+```
+
+### After (concise):
+```json
+{
+  "type": "Enumeration",
+  "@type": "Entity"
+}
+```
+
+This follows [JSON-LD best practices](https://www.w3.org/TR/json-ld11/#dfn-term) for [active context](https://www.w3.org/TR/json-ld11/#dfn-active-context) usage, reducing file size and improving readability while preserving full RDF semantics through context expansion.
 
 ## Benefits of This Type System
 
