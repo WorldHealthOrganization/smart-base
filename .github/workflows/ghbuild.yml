@@ -185,16 +185,16 @@ jobs:
             curl -L -f -o "input/scripts/update_sushi_config.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/update_sushi_config.py" 2>/dev/null || echo "Failed to download update_sushi_config.py"
           fi
           
-          # First, generate DAK configuration from sushi config
+          # First, generate DAK configuration from sushi config (only if smart.who.int.base is a dependency and dak.json doesn't exist)
           if [ -f "input/scripts/generate_dak_from_sushi.py" ]; then
             echo "Running generate_dak_from_sushi.py..."
             python3 input/scripts/generate_dak_from_sushi.py
-            echo "✅ DAK configuration generated from sushi config"
+            echo "✅ DAK configuration processing completed"
           else
             echo "⚠️ generate_dak_from_sushi.py not available, skipping DAK generation"
           fi
           
-          # Then, update sushi config with DAK API settings (only if smart.who.int.base is a dependency)
+          # Then, update sushi config with DAK API settings (checks if dak.json is present)
           if [ -f "input/scripts/update_sushi_config.py" ]; then
             echo "Running update_sushi_config.py..."
             python3 input/scripts/update_sushi_config.py

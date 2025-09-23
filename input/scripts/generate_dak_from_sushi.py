@@ -70,6 +70,38 @@ def generate_dak_json(sushi_config: Dict[str, Any]) -> Dict[str, Any]:
     return dak
 
 
+def check_smart_base_dependency(sushi_config: Dict[str, Any]) -> bool:
+    """Check if this repository should generate DAK configuration."""
+    
+    # Check if this is the smart-base repository
+    repo_id = sushi_config.get('id', '')
+    is_smart_base_repo = repo_id == 'smart.who.int.base'
+    
+    if is_smart_base_repo:
+        print(f"This is the smart-base repository (id: {repo_id})")
+        return True
+    
+    # Check if smart-base is listed as a dependency
+    dependencies = sushi_config.get('dependencies', {})
+    
+    # Check for various possible smart-base dependency names
+    smart_base_patterns = [
+        'smart-base',
+        'smart.who.int.base',
+        'who.smart.base',
+        'smart.base'
+    ]
+    
+    for dep_name in dependencies.keys():
+        for pattern in smart_base_patterns:
+            if pattern in dep_name.lower():
+                print(f"Found smart-base dependency: {dep_name}")
+                return True
+    
+    print("This is not the smart-base repository and smart-base is not listed as a dependency. Skipping DAK generation.")
+    return False
+
+
 def main():
     """Main function to process command line arguments and generate dak.json."""
     
@@ -89,10 +121,21 @@ def main():
         print(f"Error: {sushi_path} does not exist")
         sys.exit(1)
     
+    # Check if dak.json already exists
+    if output_path.exists():
+        print(f"DAK configuration already exists at {output_path}, skipping generation")
+        return
+    
     print(f"Reading sushi configuration from: {sushi_path}")
     
-    # Load and convert
+    # Load and check dependencies
     sushi_config = load_sushi_config(sushi_path)
+    
+    # Check if we should generate DAK configuration
+    if not check_smart_base_dependency(sushi_config):
+        return
+    
+    # Generate DAK configuration
     dak_config = generate_dak_json(sushi_config)
     
     # Write output
