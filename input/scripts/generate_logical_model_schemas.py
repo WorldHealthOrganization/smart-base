@@ -356,11 +356,17 @@ class SchemaGenerator:
         else:
             schema_id = f"{self.schema_base_url}/StructureDefinition-{model_name}.schema.json"
         
+        # Collect ValueSets used in this logical model for JSON-LD context
+        valuesets_used = set()
+        for element in logical_model['elements']:
+            if element.get('valueset'):
+                valuesets_used.add(element['valueset'])
+        
         schema = {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "$id": schema_id,
             "title": logical_model.get('title', logical_model['name']),
-            "description": logical_model.get('description', f"JSON Schema for {logical_model['name']} Logical Model. Generated from StructureDefinition."),
+            "description": logical_model.get('description', f"JSON Schema for {logical_model['name']} Logical Model. Generated from StructureDefinition. Supports both FHIR and JSON-LD representations."),
             "type": "object",
             "properties": {
                 "resourceType": {
@@ -372,11 +378,67 @@ class SchemaGenerator:
             "required": ["resourceType"]
         }
         
+        # Add JSON-LD context support if ValueSets are used
+        if valuesets_used:
+            jsonld_context = {
+                "@version": 1.1,
+                "fhir": "http://hl7.org/fhir/"
+            }
+            
+            # Add ValueSet context entries
+            for vs in valuesets_used:
+                jsonld_context[vs] = f"{self.canonical_base}/ValueSet-{vs}.jsonld"
+            
+            # Add JSON-LD context properties to schema
+            schema["properties"]["@context"] = {
+                "description": "JSON-LD context for this logical model with ValueSet vocabularies",
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "URI reference to external JSON-LD context"
+                    },
+                    {
+                        "type": "object",
+                        "description": "Inline JSON-LD context",
+                        "properties": {
+                            "@version": {"type": "number", "const": 1.1},
+                            "fhir": {"type": "string", "const": "http://hl7.org/fhir/"}
+                        },
+                        "additionalProperties": {
+                            "type": "string",
+                            "format": "uri"
+                        }
+                    },
+                    {
+                        "type": "array",
+                        "description": "Array of JSON-LD context objects/URIs",
+                        "items": {
+                            "anyOf": [
+                                {"type": "string", "format": "uri"},
+                                {"type": "object"}
+                            ]
+                        }
+                    }
+                ]
+            }
+            
+            schema["properties"]["@type"] = {
+                "type": "string",
+                "description": f"JSON-LD type identifier for {logical_model['name']} logical model",
+                "examples": [f"LogicalModel-{model_name}"]
+            }
+        
         # Add metadata including canonical URI using resourceDefinition
         schema["resourceDefinition"] = model_url if model_url else f"{self.canonical_base}/StructureDefinition/{model_name}"
         
         if logical_model.get('parent'):
             schema["fhir:parent"] = logical_model['parent']
+        
+        # Add JSON-LD support metadata
+        if valuesets_used:
+            schema["jsonld:valuesets"] = list(valuesets_used)
+            schema["jsonld:contextTemplate"] = jsonld_context
         
         # Process elements
         for element in logical_model['elements']:
@@ -455,23 +517,74 @@ class SchemaGenerator:
                 "$ref": f"{self.schema_base_url}/StructureDefinition-{model_name}.schema.json"
             }
         
-        # Handle ValueSet bindings
+        # Handle ValueSet bindings with JSON-LD support
         if valueset:
+            # Construct the ValueSet JSON-LD IRI
+            valueset_jsonld_iri = f"{self.canonical_base}/ValueSet-{valueset}.jsonld"
+            
             if fhir_type == 'code':
-                # Reference the ValueSet schema
+                # For code fields, support both plain string and JSON-LD structure
                 return {
-                    "$ref": f"ValueSet-{valueset}.schema.json"
+                    "oneOf": [
+                        {
+                            "type": "string",
+                            "description": f"Code from ValueSet {valueset} (plain string)"
+                        },
+                        {
+                            "type": "object",
+                            "description": f"Code from ValueSet {valueset} (JSON-LD structure)",
+                            "properties": {
+                                "@type": {
+                                    "type": "string",
+                                    "const": valueset_jsonld_iri,
+                                    "description": f"JSON-LD type reference to ValueSet {valueset}"
+                                },
+                                "@id": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": f"Full IRI of the code from ValueSet {valueset}"
+                                }
+                            },
+                            "required": ["@type", "@id"],
+                            "additionalProperties": False
+                        }
+                    ],
+                    "description": f"Code from ValueSet {valueset}. Can be a plain string or JSON-LD structure with @type and @id."
                 }
             elif fhir_type in ['Coding', 'CodeableConcept']:
-                # For Coding/CodeableConcept type with ValueSet, we might want to be more specific
+                # For Coding/CodeableConcept types, support both FHIR structure and JSON-LD structure
                 return {
-                    "type": "object",
-                    "description": f"{fhir_type} from ValueSet {valueset}",
-                    "properties": {
-                        "system": {"type": "string"},
-                        "code": {"$ref": f"ValueSet-{valueset}.schema.json"},
-                        "display": {"type": "string"}
-                    }
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "description": f"FHIR {fhir_type} from ValueSet {valueset}",
+                            "properties": {
+                                "system": {"type": "string", "description": "Code system URI"},
+                                "code": {"type": "string", "description": "Code value"},
+                                "display": {"type": "string", "description": "Human readable display text"}
+                            },
+                            "required": ["system", "code"]
+                        },
+                        {
+                            "type": "object",
+                            "description": f"{fhir_type} from ValueSet {valueset} (JSON-LD structure)",
+                            "properties": {
+                                "@type": {
+                                    "type": "string",
+                                    "const": valueset_jsonld_iri,
+                                    "description": f"JSON-LD type reference to ValueSet {valueset}"
+                                },
+                                "@id": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": f"Full IRI of the code from ValueSet {valueset}"
+                                }
+                            },
+                            "required": ["@type", "@id"],
+                            "additionalProperties": False
+                        }
+                    ],
+                    "description": f"{fhir_type} from ValueSet {valueset}. Supports both FHIR Coding structure and JSON-LD structure."
                 }
         
         # Use type mapping
