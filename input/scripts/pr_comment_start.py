@@ -16,6 +16,13 @@ import re
 import requests
 from urllib.parse import quote
 
+# Try to import DAK URL utilities, fallback to inline implementation if not available
+try:
+    from dak_url_utils import get_deployment_urls
+    DAK_UTILS_AVAILABLE = True
+except ImportError:
+    DAK_UTILS_AVAILABLE = False
+
 
 def sanitize_input(value: str) -> str:
     """Sanitize input to prevent injection attacks."""
@@ -55,16 +62,29 @@ def validate_run_id(run_id: str) -> int:
 def generate_deployment_url(branch: str) -> str:
     """Generate deployment URL with proper sanitization."""
     branch = sanitize_input(branch)
+    repository = os.getenv('GITHUB_REPOSITORY', 'WorldHealthOrganization/smart-base')
     
+    # Use DAK-aware URL generation if available
+    if DAK_UTILS_AVAILABLE:
+        try:
+            deployment_url, _ = get_deployment_urls(branch, repository)
+            return deployment_url
+        except Exception:
+            # Fallback to default implementation if DAK utils fail
+            pass
+    
+    # Default GitHub Pages implementation
     if branch == 'main':
-        return 'https://worldhealthorganization.github.io/smart-base/'
+        return f'https://{repository.split("/")[0].lower()}.github.io/{repository.split("/")[1]}/'
     else:
         # Extract branch suffix after last slash for URL
         branch_for_url = branch.split('/')[-1] if '/' in branch else branch
         branch_for_url = sanitize_input(branch_for_url)
         # URL encode the branch name for safety
         branch_encoded = quote(branch_for_url, safe='')
-        return f'https://worldhealthorganization.github.io/smart-base/branches/{branch_encoded}/'
+        profile = repository.split('/')[0].lower()
+        repo = repository.split('/')[1]
+        return f'https://{profile}.github.io/{repo}/branches/{branch_encoded}/'
 
 
 def post_pr_comment(pr_number: int, repository: str, run_id: int, sha: str, branch: str, github_token: str) -> str:
