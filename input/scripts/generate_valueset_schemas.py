@@ -599,7 +599,8 @@ def generate_canonical_iri(code: str, valueset_url: str, system_uri: str = None)
         # Use the base URL from the ValueSet canonical URL
         if '/ValueSet/' in valueset_url:
             base_url = valueset_url.split('/ValueSet/')[0]
-            return f"{base_url}/CodeSystem/{code}"
+            valueset_id = valueset_url.split('/ValueSet/')[-1]
+            return f"{base_url}/ValueSet-{valueset_id}.jsonld#{code}"
         else:
             # Fallback pattern
             return f"{valueset_url}#{code}"
@@ -700,7 +701,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
             code_iri = f"{system}.jsonld#{code}"
         else:
             # Fallback if no system available
-            code_iri = f"https://smart.who.int/base/CodeSystem-{valueset_id}.jsonld#{code}"
+            code_iri = f"https://smart.who.int/base/ValueSet-{valueset_id}.jsonld#{code}"
         
         code_instance = {
             "id": code_iri,

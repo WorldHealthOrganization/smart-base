@@ -423,7 +423,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
             code_iri = f"{system}.jsonld#{code}"
         else:
             # Fallback if no system available
-            code_iri = f"https://smart.who.int/base/CodeSystem-{valueset_id}.jsonld#{code}"
+            code_iri = f"https://smart.who.int/base/ValueSet-{valueset_id}.jsonld#{code}"
         
         code_instance = {
             "id": code_iri,
