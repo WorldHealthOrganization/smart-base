@@ -148,24 +148,8 @@ jobs:
 
 
 
-      - name: Check for DAK configuration
-        run: |
-          if [ "${{ inputs.do_dak }}" == "false" ]; then
-            echo "Not generating DAK"
-            exit 0
-          fi
-          echo "DAK processing enabled, checking for dak.json..."
-          if [ -f "dak.json" ]; then
-            echo "✅ Found dak.json - DAK processing will be enabled"
-            echo "DAK_ENABLED=true" >> $GITHUB_ENV
-          else
-            echo "⚠️ do_dak=true but no dak.json found in repository root"
-            echo "DAK processing will be skipped"
-            echo "DAK_ENABLED=false" >> $GITHUB_ENV
-          fi
-
       - name: Prepare DAK environment
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+        if: inputs.do_dak != 'false'
         run: |
           echo "Preparing DAK environment with configuration scripts..."
           
@@ -201,6 +185,22 @@ jobs:
             echo "✅ Sushi configuration updated for DAK API"
           else
             echo "⚠️ update_sushi_config.py not available, skipping sushi config update"
+          fi
+
+      - name: Check for DAK configuration
+        run: |
+          if [ "${{ inputs.do_dak }}" == "false" ]; then
+            echo "Not generating DAK"
+            exit 0
+          fi
+          echo "DAK processing enabled, checking for dak.json..."
+          if [ -f "dak.json" ]; then
+            echo "✅ Found dak.json - DAK processing will be enabled"
+            echo "DAK_ENABLED=true" >> $GITHUB_ENV
+          else
+            echo "⚠️ do_dak=true but no dak.json found in repository root"
+            echo "DAK processing will be skipped"
+            echo "DAK_ENABLED=false" >> $GITHUB_ENV
           fi
 
       - name: DAK Preprocessing - Generate DMN Questionnaires
