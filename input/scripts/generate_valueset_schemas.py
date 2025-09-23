@@ -691,14 +691,15 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
         display = item['display']
         system = item.get('system', '')
         
-        # Generate IRI for the code using CodeSystem.jsonld pattern
+        # Generate IRI for the code using ValueSet.jsonld pattern
         if system:
-            # Extract CodeSystem ID from system URI
-            if '/' in system:
-                cs_id = system.split('/')[-1]
+            # Extract base URL to construct ValueSet-based IRI
+            if valueset_url and '/ValueSet/' in valueset_url:
+                base_url = valueset_url.split('/ValueSet/')[0]
+                code_iri = f"{base_url}/ValueSet-{valueset_id}.jsonld#{code}"
             else:
-                cs_id = system
-            code_iri = f"{system}.jsonld#{code}"
+                # Fallback if valueset_url doesn't follow expected pattern
+                code_iri = f"https://smart.who.int/base/ValueSet-{valueset_id}.jsonld#{code}"
         else:
             # Fallback if no system available
             code_iri = f"https://smart.who.int/base/ValueSet-{valueset_id}.jsonld#{code}"
