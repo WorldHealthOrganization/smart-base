@@ -25,6 +25,29 @@ from pathlib import Path
 from datetime import datetime
 
 
+def transform_codesystem_url(system_url: str) -> str:
+    """
+    Transform FHIR CodeSystem URL from slash format to hyphen format for JSON-LD.
+    
+    Args:
+        system_url: Original system URL (e.g., "http://smart.who.int/base/CodeSystem/SGPersonaTypes")
+        
+    Returns:
+        Transformed URL (e.g., "http://smart.who.int/base/CodeSystem-SGPersonaTypes")
+    """
+    if not system_url:
+        return system_url
+    
+    # Transform /CodeSystem/ to /CodeSystem-
+    if '/CodeSystem/' in system_url:
+        # Split at /CodeSystem/ and rejoin with /CodeSystem-
+        parts = system_url.split('/CodeSystem/')
+        if len(parts) == 2:
+            return f"{parts[0]}/CodeSystem-{parts[1]}"
+    
+    return system_url
+
+
 def setup_logging() -> logging.Logger:
     """Configure logging for the script."""
     logging.basicConfig(
@@ -434,7 +457,7 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
         
         # Add system information if available
         if system:
-            code_instance["fhir:CodeSystem"] = system
+            code_instance["fhir:CodeSystem"] = transform_codesystem_url(system)
         
         graph.append(code_instance)
     
