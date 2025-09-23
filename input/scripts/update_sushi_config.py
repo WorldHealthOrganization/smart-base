@@ -3,6 +3,7 @@ import sys
 import os
 import json
 import glob
+import re
 from datetime import datetime
 from typing import Dict, List, Any, Optional
 
@@ -90,6 +91,73 @@ class QAReporter:
         except Exception as e:
             print(f"Error saving QA report to {output_path}: {e}")
             return False
+
+def parse_fsh_file(file_path: str) -> Optional[Dict[str, Any]]:
+    """
+    Parse a FSH file to extract basic metadata.
+    Returns a dictionary with resource type, id, name, title, and description.
+    """
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Initialize result dictionary
+        result = {
+            'source_file': file_path,
+            'resource_type': None,
+            'id': None,
+            'name': None,
+            'title': None,
+            'description': None
+        }
+        
+        # Look for Logical Model definitions
+        logical_match = re.search(r'^Logical:\s*(\S+)', content, re.MULTILINE)
+        if logical_match:
+            result['resource_type'] = 'StructureDefinition'
+            result['kind'] = 'logical'
+            result['id'] = logical_match.group(1)
+            result['name'] = logical_match.group(1)
+        
+        # Look for ValueSet definitions
+        valueset_match = re.search(r'^ValueSet:\s*(\S+)', content, re.MULTILINE)
+        if valueset_match:
+            result['resource_type'] = 'ValueSet'
+            result['id'] = valueset_match.group(1)
+            result['name'] = valueset_match.group(1)
+        
+        # Extract Title
+        title_match = re.search(r'^Title:\s*"([^"]*)"', content, re.MULTILINE)
+        if title_match:
+            result['title'] = title_match.group(1)
+        else:
+            # Fallback to name if title not found
+            result['title'] = result.get('name', result.get('id', 'Unknown'))
+        
+        # Extract Description (handle both single-line and multi-line formats)
+        # First try triple-quoted format to avoid matching the first two quotes of """
+        multiline_desc_match = re.search(r'Description:\s*"""(.*?)"""', content, re.DOTALL)
+        if multiline_desc_match:
+            # Clean up the description by removing extra whitespace and newlines
+            desc = multiline_desc_match.group(1).strip()
+            # Replace multiple whitespace with single space
+            desc = re.sub(r'\s+', ' ', desc)
+            result['description'] = desc
+        else:
+            # Try single-quoted format
+            description_match = re.search(r'^Description:\s*"([^"]*)"', content, re.MULTILINE)
+            if description_match:
+                result['description'] = description_match.group(1)
+        
+        # Only return if we found a valid resource type
+        if result['resource_type'] and result['id']:
+            return result
+        
+        return None
+        
+    except Exception as e:
+        print(f"  Warning: Error parsing FSH file {file_path}: {e}")
+        return None
 
 def create_dak_api_md_if_needed(qa_reporter: QAReporter):
     """Create dak-api.md file with proper content if it doesn't exist."""
@@ -275,6 +343,148 @@ def scan_for_valuesets_and_create_placeholders(qa_reporter: QAReporter):
                     qa_reporter.add_file_processed(fhir_file, "error")
         else:
             qa_reporter.add_warning(f"Directory not found: {input_resources_dir}")
+        
+        # Scan input/fsh/models directory for Logical Model FSH files
+        fsh_models_dir = 'input/fsh/models'
+        qa_reporter.add_file_expected(fsh_models_dir)
+        
+        if os.path.exists(fsh_models_dir):
+            print(f"Scanning {fsh_models_dir} for Logical Model FSH files...")
+            qa_reporter.add_success(f"Found directory: {fsh_models_dir}")
+            fsh_files = glob.glob(os.path.join(fsh_models_dir, '*.fsh'))
+            qa_reporter.add_success(f"Found {len(fsh_files)} FSH files in {fsh_models_dir}")
+            
+            for fsh_file in fsh_files:
+                try:
+                    parsed_resource = parse_fsh_file(fsh_file)
+                    if parsed_resource and parsed_resource['resource_type'] == 'StructureDefinition' and parsed_resource.get('kind') == 'logical':
+                        resource_id = parsed_resource['id']
+                        # Check if already found in fsh-generated or input/resources
+                        if not any(lm['id'] == resource_id for lm in logical_models):
+                            logical_models.append({
+                                'id': resource_id,
+                                'name': parsed_resource.get('name', resource_id),
+                                'title': parsed_resource.get('title', resource_id),
+                                'description': parsed_resource.get('description', ''),
+                                'source_file': fsh_file
+                            })
+                            print(f"  Found Logical Model (FSH): {resource_id}")
+                            qa_reporter.add_success(f"Found Logical Model (FSH): {resource_id}",
+                                                   {"source_file": fsh_file, "title": parsed_resource.get('title', resource_id)})
+                            qa_reporter.add_file_processed(fsh_file, "logical_model_detected")
+                        else:
+                            qa_reporter.add_warning(f"Duplicate Logical Model {resource_id} found in {fsh_models_dir} (already found elsewhere)")
+                    else:
+                        qa_reporter.add_file_processed(fsh_file, "not_logical_model")
+                        
+                except Exception as e:
+                    print(f"  Warning: Error processing {fsh_file}: {e}")
+                    qa_reporter.add_warning(f"Error processing {fsh_file}: {e}")
+                    qa_reporter.add_file_processed(fsh_file, "error")
+        else:
+            qa_reporter.add_warning(f"Directory not found: {fsh_models_dir}")
+        
+        # Scan input/fsh/valuesets directory for ValueSet FSH files
+        fsh_valuesets_dir = 'input/fsh/valuesets'
+        qa_reporter.add_file_expected(fsh_valuesets_dir)
+        
+        if os.path.exists(fsh_valuesets_dir):
+            print(f"Scanning {fsh_valuesets_dir} for ValueSet FSH files...")
+            qa_reporter.add_success(f"Found directory: {fsh_valuesets_dir}")
+            fsh_files = glob.glob(os.path.join(fsh_valuesets_dir, '*.fsh'))
+            qa_reporter.add_success(f"Found {len(fsh_files)} FSH files in {fsh_valuesets_dir}")
+            
+            for fsh_file in fsh_files:
+                try:
+                    parsed_resource = parse_fsh_file(fsh_file)
+                    if parsed_resource and parsed_resource['resource_type'] == 'ValueSet':
+                        resource_id = parsed_resource['id']
+                        # Check if already found in fsh-generated or input/resources
+                        if not any(vs['id'] == resource_id for vs in valuesets):
+                            valuesets.append({
+                                'id': resource_id,
+                                'name': parsed_resource.get('name', resource_id),
+                                'title': parsed_resource.get('title', resource_id),
+                                'description': parsed_resource.get('description', ''),
+                                'source_file': fsh_file
+                            })
+                            print(f"  Found ValueSet (FSH): {resource_id}")
+                            qa_reporter.add_success(f"Found ValueSet (FSH): {resource_id}",
+                                                   {"source_file": fsh_file, "title": parsed_resource.get('title', resource_id)})
+                            qa_reporter.add_file_processed(fsh_file, "valueset_detected")
+                        else:
+                            qa_reporter.add_warning(f"Duplicate ValueSet {resource_id} found in {fsh_valuesets_dir} (already found elsewhere)")
+                    else:
+                        qa_reporter.add_file_processed(fsh_file, "not_valueset")
+                        
+                except Exception as e:
+                    print(f"  Warning: Error processing {fsh_file}: {e}")
+                    qa_reporter.add_warning(f"Error processing {fsh_file}: {e}")
+                    qa_reporter.add_file_processed(fsh_file, "error")
+        else:
+            qa_reporter.add_warning(f"Directory not found: {fsh_valuesets_dir}")
+        
+        # Scan input/models directory for JSON FHIR files (if it exists)
+        input_models_dir = 'input/models'
+        qa_reporter.add_file_expected(input_models_dir)
+        
+        if os.path.exists(input_models_dir):
+            print(f"Scanning {input_models_dir} for FHIR JSON files...")
+            qa_reporter.add_success(f"Found directory: {input_models_dir}")
+            json_files = glob.glob(os.path.join(input_models_dir, '*.json'))
+            qa_reporter.add_success(f"Found {len(json_files)} JSON files in {input_models_dir}")
+            
+            for json_file in json_files:
+                try:
+                    with open(json_file, 'r', encoding='utf-8') as f:
+                        resource = json.load(f)
+                    
+                    resource_type = resource.get('resourceType', '')
+                    resource_id = resource.get('id', '')
+                    
+                    if resource_type == 'StructureDefinition' and resource_id:
+                        kind = resource.get('kind', '')
+                        if kind == 'logical':
+                            # Check if already found elsewhere
+                            if not any(lm['id'] == resource_id for lm in logical_models):
+                                logical_models.append({
+                                    'id': resource_id,
+                                    'name': resource.get('name', resource_id),
+                                    'title': resource.get('title', resource_id),
+                                    'description': resource.get('description', ''),
+                                    'source_file': json_file
+                                })
+                                print(f"  Found Logical Model (JSON): {resource_id}")
+                                qa_reporter.add_success(f"Found Logical Model (input/models): {resource_id}",
+                                                       {"source_file": json_file, "title": resource.get('title', resource_id)})
+                                qa_reporter.add_file_processed(json_file, "logical_model_detected")
+                            else:
+                                qa_reporter.add_warning(f"Duplicate Logical Model {resource_id} found in input/models (already found elsewhere)")
+                    elif resource_type == 'ValueSet' and resource_id:
+                        # Check if already found elsewhere
+                        if not any(vs['id'] == resource_id for vs in valuesets):
+                            valuesets.append({
+                                'id': resource_id,
+                                'name': resource.get('name', resource_id),
+                                'title': resource.get('title', resource_id),
+                                'description': resource.get('description', ''),
+                                'source_file': json_file
+                            })
+                            print(f"  Found ValueSet (JSON): {resource_id}")
+                            qa_reporter.add_success(f"Found ValueSet (input/models): {resource_id}",
+                                                   {"source_file": json_file, "title": resource.get('title', resource_id)})
+                            qa_reporter.add_file_processed(json_file, "valueset_detected")
+                        else:
+                            qa_reporter.add_warning(f"Duplicate ValueSet {resource_id} found in input/models (already found elsewhere)")
+                    else:
+                        qa_reporter.add_file_processed(json_file, "other_resource")
+                            
+                except Exception as e:
+                    print(f"  Warning: Error reading {json_file}: {e}")
+                    qa_reporter.add_warning(f"Error reading {json_file}: {e}")
+                    qa_reporter.add_file_processed(json_file, "error")
+        else:
+            qa_reporter.add_warning(f"Directory not found: {input_models_dir}")
         
         # Create placeholder markdown files for all found resources
         pagecontent_dir = 'input/pagecontent'
