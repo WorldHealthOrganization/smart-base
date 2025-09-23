@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhealthorganization.github.io/smart-base/branches/copilot/fix-162/StructureDefinition-Requirements.schema.json",
+  "title": "Functional and Non-Functional Requirements (DAK)",
+  "description": "Logical Model for representing Functional and Non-Functional Requirements from a DAK. A high-level list of core functions and capabilities that the system must have to meet the end users' needs.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "Requirements",
+      "description": "Resource type identifier for Requirements logical model"
+    },
+    "description[x]": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "format": "uri"
+        }
+      ],
+      "description": "Description of the requirements - either Markdown content or a URI to a Markdown file (absolute or relative to repository root)"
+    },
+    "functional": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Reference"
+      },
+      "description": "Functional requirements for the system that reference https://worldhealthorganization.github.io/smart-base/branches/fix-152/StructureDefinition-FunctionalRequirement.html"
+    },
+    "nonfunctional": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Reference"
+      },
+      "description": "Non-functional requirements for the system that reference https://worldhealthorganization.github.io/smart-base/branches/fix-152/StructureDefinition-NonFunctionalRequirement.html"
+    }
+  },
+  "required": [
+    "resourceType"
+  ],
+  "resourceDefinition": "http://smart.who.int/base/StructureDefinition/Requirements",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}

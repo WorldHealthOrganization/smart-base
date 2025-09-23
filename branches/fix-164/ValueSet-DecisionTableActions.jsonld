@@ -1,0 +1,39 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "fhir": "http://hl7.org/fhir/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "id": "@id",
+    "name": "rdfs:label",
+    "fhir:code": "http://hl7.org/fhir/code",
+    "fhir:CodeSystem": "http://hl7.org/fhir/CodeSystem",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "xsd:dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-DecisionTableActions.jsonld",
+  "@type": "https://smart.who.int/base/DataTypes#ValueSetVocabulary",
+  "generatedAt": "2025-09-22T22:23:05.869547Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/CodeSystem/DecisionTableActions.jsonld#output",
+      "name": "Output",
+      "fhir:code": "output",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem/DecisionTableActions"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/DecisionTableActions.jsonld#guidance",
+      "name": "Guidance",
+      "fhir:code": "guidance",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem/DecisionTableActions"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/DecisionTableActions.jsonld#annotation",
+      "name": "Annotation",
+      "fhir:code": "annotation",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem/DecisionTableActions"
+    }
+  ]
+}

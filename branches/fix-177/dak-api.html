@@ -1,0 +1,1154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>DAK API Documentation Hub - SMART Base v0.2.0</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+    <link href="assets/css/fa-all.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/project.css" rel="stylesheet"/>
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+    <link href="assets/css/who.css" rel="stylesheet"/>
+    <link href="assets/css/lforms.min.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script src="assets/js/prism.js"></script>
+
+    <style type="text/css">h2{--heading-prefix:"5"}
+    h3,h4,h5,h6{--heading-prefix:"5"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+
+      <div id="segment-navbar" class="segment">  <!-- segment-navbar -->
+        <div id="stripe"> </div>
+        <div class="container">  <!-- container -->
+          <!-- HEADER CONTENT -->
+  
+          <nav class="navbar navbar-inverse">
+            <!--status-bar-->
+            <div class="container">
+              <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+              </button>
+              <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+              <div class="nav-collapse collapse navbar-inverse-collapse">
+                <!-- menu.xml  -->
+
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">Indices
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="artifacts.html">Artifact Index</a>
+      </li>
+      <li>
+        <a href="dak-api.html">DAK API</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+              </div>  <!-- /.nav-collapse -->
+
+              <div class="sf_colsIn col-md-8  navbar-right-container" data-sf-element="LanguageSelectorSearch" data-placeholder-label="Language Selector and Search" style="display: flex; justify-content: flex-end; align-items: center;">
+                <!-- This div will be pushed to the right -->
+                <div class="language-selector" style="margin-left: auto; background-color: #00477d; color: white;">
+                  <i class="fa fa-language fa-lg"></i>
+                  <label for="language-selector"> </label>
+                  <select onChange="openLink(value)" id="language-selector" name="language-selector">
+                    <option disabled selected>Select language</option>
+                    <option value="en" class="selected">English</option>
+                  </select>
+                  <i class="fas fa-angle-down"></i>
+                </div>
+                <!-- Search Content -->
+              </div>
+            </div>  <!-- /.container -->
+          </nav>  <!-- /.navbar -->
+        <!-- /HEADER CONTENT -->
+        </div>  <!-- /container -->
+      </div>  <!-- /segment-navbar -->
+      
+
+      <div class="container" style=" justify-content: space-between; align-items: left;">
+
+        <!-- Placeholder for child template header declarations -->
+<div id="project-nav">
+    <a id="who-logo" no-external="true" href="index.html">
+        
+    </a>
+</div>
+
+ <div id="family-nav">
+  <a id="fhir-logo" no-external="true" href="http://hl7.org/fhir">  </a>
+</div> 
+
+
+        <div id="ig-status" class="ig-status-draft">
+          <p><span style="font-size:12pt;font-weight:bold">SMART Base</span>
+            <br/>
+            <span style="display:inline-block;">0.2.0 - ci-build
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><b>DAK API Documentation Hub</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">SMART Base, published by WHO. This guide is not an authorized publication; it is the continuous build for version 0.2.0  built by the FHIR (HL7&reg; FHIR&reg; Standard) CI Build. This version is based on the current content of <a href='https://github.com/WorldHealthOrganization/smart-base/tree/copilot/fix-177'>https://github.com/WorldHealthOrganization/smart-base/tree/copilot/fix-177</a> and changes regularly. See the <a href='http://smart.who.int/base/history.html'>Directory of published versions</a></p><!--EndReleaseHeader-->
+  <h2>DAK API Documentation Hub</h2>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+    <p><!-- white space is critical inside of capture --></p>
+<div>
+<!-- do not remove - needed to prevent Jekyll from adding a p tag to any non block level element in the markdown.-->
+</div>
+<h1 id="dak-api-documentation-hub">DAK API Documentation Hub</h1>
+
+<p>This page provides access to Data Access Kit (DAK) API documentation and schemas.</p>
+
+<h2 class="no_toc no_toc text-delta" id="table-of-contents">Table of Contents</h2>
+
+<ol id="markdown-toc">
+  <li><a href="#dak-api-documentation-hub" id="markdown-toc-dak-api-documentation-hub">DAK API Documentation Hub</a></li>
+</ol>
+
+
+<div class="dak-api-hub">
+    <h2>DAK API Documentation Hub</h2>
+    
+    <p>This page provides comprehensive documentation for all available DAK (Data Access Kit) API endpoints and schemas. 
+    The DAK API provides structured access to ValueSet enumerations and Logical Model definitions used throughout this implementation guide.</p>
+
+    <h3>API Enumeration Endpoints</h3>
+    
+    <p>These endpoints provide lists of all available schemas and vocabularies of each type:</p>
+    
+    <div class="enumeration-endpoints">
+
+        <div class="endpoint-card">
+            <h4><a href="ValueSets-enumeration.html">ValueSets.schema.json</a></h4>
+            <p>Enumeration of all available ValueSet schemas</p>
+            <div class="endpoint-list">
+                <h5>Available Endpoints:</h5>
+                <ul>
+                    <li><a href="ValueSet-DecisionTableActions.schema.json">ValueSet-DecisionTableActions.schema.json</a> - JSON Schema for Smart Guidelines Decision Table Actions Schema</li>
+                    <li><a href="ValueSet-DecisionTableActions.jsonld">ValueSet-DecisionTableActions.jsonld</a> - JSON-LD vocabulary for Smart Guidelines Decision Table Actions Schema</li>
+                    <li><a href="ValueSet-CDSCv1.schema.json">ValueSet-CDSCv1.schema.json</a> - JSON Schema for Classification of Digital Health System Categories v1 Schema</li>
+                    <li><a href="ValueSet-CDSCv1.jsonld">ValueSet-CDSCv1.jsonld</a> - JSON-LD vocabulary for Classification of Digital Health System Categories v1 Schema</li>
+                    <li><a href="ValueSet-CDHIv1.schema.json">ValueSet-CDHIv1.schema.json</a> - JSON Schema for Classification of Digital Health Interventions v1 Schema</li>
+                    <li><a href="ValueSet-CDHIv1.jsonld">ValueSet-CDHIv1.jsonld</a> - JSON-LD vocabulary for Classification of Digital Health Interventions v1 Schema</li>
+                    <li><a href="ValueSet-ISCO08ValueSet.schema.json">ValueSet-ISCO08ValueSet.schema.json</a> - JSON Schema for ISCO-08 Value Set Schema</li>
+                    <li><a href="ValueSet-ISCO08ValueSet.jsonld">ValueSet-ISCO08ValueSet.jsonld</a> - JSON-LD vocabulary for ISCO-08 Value Set Schema</li>
+                    <li><a href="ValueSet-SGPersonaTypesVS.schema.json">ValueSet-SGPersonaTypesVS.schema.json</a> - JSON Schema for Smart Guidelines Persona Types Value Set Schema</li>
+                    <li><a href="ValueSet-SGPersonaTypesVS.jsonld">ValueSet-SGPersonaTypesVS.jsonld</a> - JSON-LD vocabulary for Smart Guidelines Persona Types Value Set Schema</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="endpoint-card">
+            <h4><a href="LogicalModels-enumeration.html">LogicalModels.schema.json</a></h4>
+            <p>Enumeration of all available Logical Model schemas</p>
+            <div class="endpoint-list">
+                <h5>Available Endpoints:</h5>
+                <ul>
+                    <li><a href="StructureDefinition-Requirements.schema.json">StructureDefinition-Requirements.schema.json</a> - JSON Schema for Functional and Non-Functional Requirements (DAK)</li>
+                    <li><a href="StructureDefinition-HealthInterventions.schema.json">StructureDefinition-HealthInterventions.schema.json</a> - JSON Schema for Health Interventions and Recommendations (DAK)</li>
+                    <li><a href="StructureDefinition-CoreDataElement.schema.json">StructureDefinition-CoreDataElement.schema.json</a> - JSON Schema for Core Data Element (DAK)</li>
+                    <li><a href="StructureDefinition-ProgramIndicator.schema.json">StructureDefinition-ProgramIndicator.schema.json</a> - JSON Schema for Program Indicator (DAK)</li>
+                    <li><a href="StructureDefinition-TestScenario.schema.json">StructureDefinition-TestScenario.schema.json</a> - JSON Schema for Test Scenario (DAK)</li>
+                    <li><a href="StructureDefinition-GenericPersona.schema.json">StructureDefinition-GenericPersona.schema.json</a> - JSON Schema for Generic Persona (DAK)</li>
+                    <li><a href="StructureDefinition-DecisionSupportLogic.schema.json">StructureDefinition-DecisionSupportLogic.schema.json</a> - JSON Schema for Decision-Support Logic (DAK)</li>
+                    <li><a href="StructureDefinition-Persona.schema.json">StructureDefinition-Persona.schema.json</a> - JSON Schema for Persona (DAK)</li>
+                    <li><a href="StructureDefinition-DublinCore.schema.json">StructureDefinition-DublinCore.schema.json</a> - JSON Schema for Dublin Core Metadata Element Set</li>
+                    <li><a href="StructureDefinition-NonFunctionalRequirement.schema.json">StructureDefinition-NonFunctionalRequirement.schema.json</a> - JSON Schema for Non-Functional Requirement (DAK)</li>
+                    <li><a href="StructureDefinition-UserScenario.schema.json">StructureDefinition-UserScenario.schema.json</a> - JSON Schema for User Scenario (DAK)</li>
+                    <li><a href="StructureDefinition-FunctionalRequirement.schema.json">StructureDefinition-FunctionalRequirement.schema.json</a> - JSON Schema for Functional Requirement (DAK)</li>
+                    <li><a href="StructureDefinition-BusinessProcessWorkflow.schema.json">StructureDefinition-BusinessProcessWorkflow.schema.json</a> - JSON Schema for Business Process Workflow (DAK)</li>
+                    <li><a href="StructureDefinition-SushiConfigLogicalModel.schema.json">StructureDefinition-SushiConfigLogicalModel.schema.json</a> - JSON Schema for SUSHI Configuration Logical Model</li>
+                    <li><a href="StructureDefinition-DAK.schema.json">StructureDefinition-DAK.schema.json</a> - JSON Schema for Digital Adaptation Kit (DAK)</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <h3>ValueSet Schemas (5 available)</h3>
+    
+    <p>JSON Schema definitions for FHIR ValueSets, providing structured enumeration of allowed code values:</p>
+    
+    <div class="schema-grid">
+
+        <div class="schema-card">
+            <h4><a href="ValueSet-DecisionTableActions.html">Smart Guidelines Decision Table Actions Schema</a></h4>
+            <p>JSON Schema for Smart Guidelines Decision Table Actions ValueSet codes. Generated from FHIR expansions using IRI format.</p>
+            <div class="schema-links">
+                <a href="ValueSet-DecisionTableActions.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="ValueSet-DecisionTableActions.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="ValueSet-DecisionTableActions.displays.json" class="schema-link" title="Display Names">🏷️ Displays</a>
+                <a href="ValueSet-DecisionTableActions.jsonld" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>
+                <a href="ValueSet-DecisionTableActions.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="ValueSet-CDSCv1.html">Classification of Digital Health System Categories v1 Schema</a></h4>
+            <p>JSON Schema for Classification of Digital Health System Categories v1 ValueSet codes. Generated from FHIR expansions using IRI format.</p>
+            <div class="schema-links">
+                <a href="ValueSet-CDSCv1.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="ValueSet-CDSCv1.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="ValueSet-CDSCv1.displays.json" class="schema-link" title="Display Names">🏷️ Displays</a>
+                <a href="ValueSet-CDSCv1.jsonld" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>
+                <a href="ValueSet-CDSCv1.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="ValueSet-CDHIv1.html">Classification of Digital Health Interventions v1 Schema</a></h4>
+            <p>JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions using IRI format.</p>
+            <div class="schema-links">
+                <a href="ValueSet-CDHIv1.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="ValueSet-CDHIv1.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="ValueSet-CDHIv1.displays.json" class="schema-link" title="Display Names">🏷️ Displays</a>
+                <a href="ValueSet-CDHIv1.jsonld" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>
+                <a href="ValueSet-CDHIv1.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="ValueSet-ISCO08ValueSet.html">ISCO-08 Value Set Schema</a></h4>
+            <p>JSON Schema for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions using IRI format.</p>
+            <div class="schema-links">
+                <a href="ValueSet-ISCO08ValueSet.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="ValueSet-ISCO08ValueSet.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="ValueSet-ISCO08ValueSet.displays.json" class="schema-link" title="Display Names">🏷️ Displays</a>
+                <a href="ValueSet-ISCO08ValueSet.jsonld" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>
+                <a href="ValueSet-ISCO08ValueSet.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="ValueSet-SGPersonaTypesVS.html">Smart Guidelines Persona Types Value Set Schema</a></h4>
+            <p>JSON Schema for Smart Guidelines Persona Types Value Set ValueSet codes. Generated from FHIR expansions using IRI format.</p>
+            <div class="schema-links">
+                <a href="ValueSet-SGPersonaTypesVS.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="ValueSet-SGPersonaTypesVS.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="ValueSet-SGPersonaTypesVS.displays.json" class="schema-link" title="Display Names">🏷️ Displays</a>
+                <a href="ValueSet-SGPersonaTypesVS.jsonld" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>
+                <a href="ValueSet-SGPersonaTypesVS.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+    </div>
+
+    <h3>Logical Model Schemas (15 available)</h3>
+    
+    <p>JSON Schema definitions for FHIR Logical Models, defining structured data elements and their relationships:</p>
+    
+    <div class="schema-grid">
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-Requirements.html">Functional and Non-Functional Requirements (DAK)</a></h4>
+            <p>Logical Model for representing Functional and Non-Functional Requirements from a DAK. A high-level list of core functions and capabilities that the system must have to meet the end users' needs.</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-Requirements.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-Requirements.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-Requirements.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-HealthInterventions.html">Health Interventions and Recommendations (DAK)</a></h4>
+            <p>Logical Model for representing Health Interventions and Recommendations from a DAK. Overview of the health interventions and WHO, regional or national recommendations included within the DAK.</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-HealthInterventions.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-HealthInterventions.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-HealthInterventions.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-CoreDataElement.html">Core Data Element (DAK)</a></h4>
+            <p>Logical Model for representing Core Data Elements from a DAK. Data elements are required throughout the different points of a workflow and are mapped to established concept mapping standards.</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-CoreDataElement.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-CoreDataElement.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-CoreDataElement.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-ProgramIndicator.html">Program Indicator (DAK)</a></h4>
+            <p>Logical Model for representing Program Indicators from a DAK. Core set of indicators that need to be aggregated for decision-making, performance metrics and subnational and national reporting.</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-ProgramIndicator.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-ProgramIndicator.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-ProgramIndicator.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-TestScenario.html">Test Scenario (DAK)</a></h4>
+            <p>Logical Model for representing Test Scenarios from a DAK. A set of test scenarios to validate an implementation of the DAK.</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-TestScenario.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-TestScenario.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-TestScenario.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-GenericPersona.html">Generic Persona (DAK)</a></h4>
+            <p>Logical Model for representing Generic Personas from a DAK. Depiction of the human and system actors. Human actors are end users, supervisors and related stakeholders who would be interacting with the digital system or involved in the clinical care, public health or health system pathway.</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-GenericPersona.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-GenericPersona.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-GenericPersona.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-DecisionSupportLogic.html">Decision-Support Logic (DAK)</a></h4>
+            <p>Logical Model for representing Decision-Support Logic from a DAK. Decision-support logic and algorithms to support appropriate service delivery in accordance with WHO clinical, public health and data use guidelines.</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-DecisionSupportLogic.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-DecisionSupportLogic.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-DecisionSupportLogic.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-Persona.html">Persona (DAK)</a></h4>
+            <p>Logical Model for representing Personas from a DAK</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-Persona.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-Persona.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-Persona.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-DublinCore.html">Dublin Core Metadata Element Set</a></h4>
+            <p>Logical Model representing Dublin Core metadata elements as defined at https://www.dublincore.org/specifications/dublin-core/dcmi-terms/</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-DublinCore.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-DublinCore.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-DublinCore.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-NonFunctionalRequirement.html">Non-Functional Requirement (DAK)</a></h4>
+            <p>Logical Model for representing non-functional requirement from a DAK</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-NonFunctionalRequirement.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-NonFunctionalRequirement.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-NonFunctionalRequirement.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-UserScenario.html">User Scenario (DAK)</a></h4>
+            <p>Logical Model for representing User Scenarios from a DAK. Narratives that describe how the different personas may interact with each other.</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-UserScenario.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-UserScenario.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-UserScenario.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-FunctionalRequirement.html">Functional Requirement (DAK)</a></h4>
+            <p>Logical Model for representing functional requirement from a DAK</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-FunctionalRequirement.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-FunctionalRequirement.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-FunctionalRequirement.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-BusinessProcessWorkflow.html">Business Process Workflow (DAK)</a></h4>
+            <p>Logical Model for representing Generic Business Processes and Workflows from a DAK. A business process is a set of related activities or tasks performed together to achieve the objectives of the health programme area.</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-BusinessProcessWorkflow.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-BusinessProcessWorkflow.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-BusinessProcessWorkflow.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-SushiConfigLogicalModel.html">SUSHI Configuration Logical Model</a></h4>
+            <p>Logical model defining the structure of sushi-config.yaml files used for FHIR Implementation Guide configuration. This model captures the essential metadata and configuration parameters needed for IG publishing.</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-SushiConfigLogicalModel.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-SushiConfigLogicalModel.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-SushiConfigLogicalModel.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-DAK.html">Digital Adaptation Kit (DAK)</a></h4>
+            <p>Logical Model for representing a complete Digital Adaptation Kit (DAK) with metadata and all 9 DAK components</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-DAK.html" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
+                <a href="StructureDefinition-DAK.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-DAK.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+    </div>
+
+    <h3>OpenAPI Documentation</h3>
+    
+    <p>Complete API specification documentation for all available endpoints:</p>
+    
+    <div class="schema-grid">
+
+        <div class="schema-card">
+            <h4>ValueSet-DecisionTableActions Endpoints</h4>
+            <p>API endpoints for Smart Guidelines Decision Table Actions Schema</p>
+            <div class="schema-links">
+                <a href="ValueSet-DecisionTableActions.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="ValueSet-DecisionTableActions.jsonld" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>
+                <a href="ValueSet-DecisionTableActions.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>ValueSet-CDSCv1 Endpoints</h4>
+            <p>API endpoints for Classification of Digital Health System Categories v1 Schema</p>
+            <div class="schema-links">
+                <a href="ValueSet-CDSCv1.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="ValueSet-CDSCv1.jsonld" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>
+                <a href="ValueSet-CDSCv1.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>ValueSet-CDHIv1 Endpoints</h4>
+            <p>API endpoints for Classification of Digital Health Interventions v1 Schema</p>
+            <div class="schema-links">
+                <a href="ValueSet-CDHIv1.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="ValueSet-CDHIv1.jsonld" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>
+                <a href="ValueSet-CDHIv1.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>ValueSet-ISCO08ValueSet Endpoints</h4>
+            <p>API endpoints for ISCO-08 Value Set Schema</p>
+            <div class="schema-links">
+                <a href="ValueSet-ISCO08ValueSet.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="ValueSet-ISCO08ValueSet.jsonld" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>
+                <a href="ValueSet-ISCO08ValueSet.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>ValueSet-SGPersonaTypesVS Endpoints</h4>
+            <p>API endpoints for Smart Guidelines Persona Types Value Set Schema</p>
+            <div class="schema-links">
+                <a href="ValueSet-SGPersonaTypesVS.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="ValueSet-SGPersonaTypesVS.jsonld" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>
+                <a href="ValueSet-SGPersonaTypesVS.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-Requirements Endpoints</h4>
+            <p>API endpoints for Functional and Non-Functional Requirements (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-Requirements.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-Requirements.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-HealthInterventions Endpoints</h4>
+            <p>API endpoints for Health Interventions and Recommendations (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-HealthInterventions.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-HealthInterventions.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-CoreDataElement Endpoints</h4>
+            <p>API endpoints for Core Data Element (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-CoreDataElement.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-CoreDataElement.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-ProgramIndicator Endpoints</h4>
+            <p>API endpoints for Program Indicator (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-ProgramIndicator.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-ProgramIndicator.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-TestScenario Endpoints</h4>
+            <p>API endpoints for Test Scenario (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-TestScenario.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-TestScenario.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-GenericPersona Endpoints</h4>
+            <p>API endpoints for Generic Persona (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-GenericPersona.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-GenericPersona.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-DecisionSupportLogic Endpoints</h4>
+            <p>API endpoints for Decision-Support Logic (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-DecisionSupportLogic.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-DecisionSupportLogic.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-Persona Endpoints</h4>
+            <p>API endpoints for Persona (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-Persona.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-Persona.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-DublinCore Endpoints</h4>
+            <p>API endpoints for Dublin Core Metadata Element Set</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-DublinCore.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-DublinCore.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-NonFunctionalRequirement Endpoints</h4>
+            <p>API endpoints for Non-Functional Requirement (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-NonFunctionalRequirement.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-NonFunctionalRequirement.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-UserScenario Endpoints</h4>
+            <p>API endpoints for User Scenario (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-UserScenario.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-UserScenario.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-FunctionalRequirement Endpoints</h4>
+            <p>API endpoints for Functional Requirement (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-FunctionalRequirement.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-FunctionalRequirement.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-BusinessProcessWorkflow Endpoints</h4>
+            <p>API endpoints for Business Process Workflow (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-BusinessProcessWorkflow.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-BusinessProcessWorkflow.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-SushiConfigLogicalModel Endpoints</h4>
+            <p>API endpoints for SUSHI Configuration Logical Model</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-SushiConfigLogicalModel.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-SushiConfigLogicalModel.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-DAK Endpoints</h4>
+            <p>API endpoints for Digital Adaptation Kit (DAK)</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-DAK.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="StructureDefinition-DAK.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>ValueSets Enumeration Endpoint</h4>
+            <p>Complete list of all available ValueSet schemas</p>
+            <div class="schema-links">
+                <a href="ValueSets.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="ValueSets-enumeration.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>LogicalModels Enumeration Endpoint</h4>
+            <p>Complete list of all available Logical Model schemas</p>
+            <div class="schema-links">
+                <a href="LogicalModels.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
+                <a href="LogicalModels-enumeration.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-ProgramIndicator API</h4>
+            <p>OpenAPI specification for StructureDefinition-ProgramIndicator</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-ProgramIndicator.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-ProgramIndicator.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-BusinessProcessWorkflow API</h4>
+            <p>OpenAPI specification for StructureDefinition-BusinessProcessWorkflow</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-BusinessProcessWorkflow.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-BusinessProcessWorkflow.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-TestScenario API</h4>
+            <p>OpenAPI specification for StructureDefinition-TestScenario</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-TestScenario.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-TestScenario.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>ValueSet-CDHIv1 API</h4>
+            <p>OpenAPI specification for ValueSet-CDHIv1</p>
+            <div class="schema-links">
+                <a href="ValueSet-CDHIv1.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="ValueSet-CDHIv1.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>ValueSet-CDSCv1 API</h4>
+            <p>OpenAPI specification for ValueSet-CDSCv1</p>
+            <div class="schema-links">
+                <a href="ValueSet-CDSCv1.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="ValueSet-CDSCv1.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-Persona API</h4>
+            <p>OpenAPI specification for StructureDefinition-Persona</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-Persona.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-Persona.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>ValueSet-DecisionTableActions API</h4>
+            <p>OpenAPI specification for ValueSet-DecisionTableActions</p>
+            <div class="schema-links">
+                <a href="ValueSet-DecisionTableActions.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="ValueSet-DecisionTableActions.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-HealthInterventions API</h4>
+            <p>OpenAPI specification for StructureDefinition-HealthInterventions</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-HealthInterventions.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-HealthInterventions.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-DAK API</h4>
+            <p>OpenAPI specification for StructureDefinition-DAK</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-DAK.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-DAK.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>ValueSet-ISCO08ValueSet API</h4>
+            <p>OpenAPI specification for ValueSet-ISCO08ValueSet</p>
+            <div class="schema-links">
+                <a href="ValueSet-ISCO08ValueSet.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="ValueSet-ISCO08ValueSet.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-GenericPersona API</h4>
+            <p>OpenAPI specification for StructureDefinition-GenericPersona</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-GenericPersona.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-GenericPersona.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-CoreDataElement API</h4>
+            <p>OpenAPI specification for StructureDefinition-CoreDataElement</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-CoreDataElement.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-CoreDataElement.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-FunctionalRequirement API</h4>
+            <p>OpenAPI specification for StructureDefinition-FunctionalRequirement</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-FunctionalRequirement.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-FunctionalRequirement.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-SushiConfigLogicalModel API</h4>
+            <p>OpenAPI specification for StructureDefinition-SushiConfigLogicalModel</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-SushiConfigLogicalModel.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-SushiConfigLogicalModel.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-Requirements API</h4>
+            <p>OpenAPI specification for StructureDefinition-Requirements</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-Requirements.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-Requirements.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-UserScenario API</h4>
+            <p>OpenAPI specification for StructureDefinition-UserScenario</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-UserScenario.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-UserScenario.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-NonFunctionalRequirement API</h4>
+            <p>OpenAPI specification for StructureDefinition-NonFunctionalRequirement</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-NonFunctionalRequirement.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-NonFunctionalRequirement.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>LogicalModels-enumeration API</h4>
+            <p>OpenAPI specification for LogicalModels-enumeration</p>
+            <div class="schema-links">
+                <a href="LogicalModels-enumeration.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-DublinCore API</h4>
+            <p>OpenAPI specification for StructureDefinition-DublinCore</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-DublinCore.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-DublinCore.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>ValueSets-enumeration API</h4>
+            <p>OpenAPI specification for ValueSets-enumeration</p>
+            <div class="schema-links">
+                <a href="ValueSets-enumeration.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>ValueSet-SGPersonaTypesVS API</h4>
+            <p>OpenAPI specification for ValueSet-SGPersonaTypesVS</p>
+            <div class="schema-links">
+                <a href="ValueSet-SGPersonaTypesVS.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="ValueSet-SGPersonaTypesVS.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+        <div class="schema-card">
+            <h4>StructureDefinition-DecisionSupportLogic API</h4>
+            <p>OpenAPI specification for StructureDefinition-DecisionSupportLogic</p>
+            <div class="schema-links">
+                <a href="StructureDefinition-DecisionSupportLogic.html" class="schema-link" title="API Documentation">📖 Documentation</a>
+                <a href="StructureDefinition-DecisionSupportLogic.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>
+            </div>
+        </div>
+
+    </div>
+
+    <h3>Using the DAK API</h3>
+    
+    <div class="usage-info">
+        <h4>Schema Validation</h4>
+        <p>Each JSON Schema can be used to validate data structures in your applications. 
+        The schemas follow the JSON Schema Draft 2020-12 specification and include:</p>
+        <ul>
+            <li>Type definitions and constraints</li>
+            <li>Property descriptions and examples</li>
+            <li>Required field specifications</li>
+            <li>Enumeration values with links to definitions</li>
+        </ul>
+        
+        <h4>JSON-LD Semantic Integration</h4>
+        <p>The JSON-LD vocabularies provide semantic web integration for ValueSet enumerations. Each vocabulary includes:</p>
+        <ul>
+            <li>Enumeration class definitions with schema.org compatibility</li>
+            <li>Individual code instances with canonical IRIs</li>
+            <li>Property definitions with range constraints</li>
+            <li>FHIR metadata integration (system URIs, ValueSet references)</li>
+        </ul>
+        
+        <h4>Integration with FHIR</h4>
+        <p>All schemas are derived from the FHIR definitions in this implementation guide. 
+        Each schema page includes links to the corresponding FHIR resource definitions for complete context.</p>
+        
+        <h4>API Endpoints</h4>
+        <p>The enumeration endpoints provide machine-readable lists of all available schemas, 
+        making it easy to discover and integrate with the available data structures programmatically.</p>
+    </div>
+</div>
+
+<style>
+/* DAK API Hub styling that integrates with IG theme */
+.dak-api-hub {
+    margin: 1rem 0;
+}
+
+.enumeration-endpoints, .schema-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.endpoint-card, .schema-card {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 1rem;
+    background: #f8f9fa;
+    transition: box-shadow 0.2s ease;
+}
+
+.endpoint-card:hover, .schema-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.endpoint-card h4, .schema-card h4 {
+    margin: 0 0 0.5rem 0;
+    color: #00477d;
+}
+
+.endpoint-card h4 a, .schema-card h4 a {
+    color: #00477d;
+    text-decoration: none;
+}
+
+.endpoint-card h4 a:hover, .schema-card h4 a:hover {
+    color: #0070A1;
+    text-decoration: underline;
+}
+
+.endpoint-card p, .schema-card p {
+    margin: 0 0 0.5rem 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.endpoint-list {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.endpoint-list h5 {
+    margin: 0 0 0.5rem 0;
+    color: #00477d;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.endpoint-list ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    list-style-type: disc;
+}
+
+.endpoint-list li {
+    margin: 0.25rem 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.endpoint-list a {
+    color: #17a2b8;
+    text-decoration: none;
+    font-family: monospace;
+    font-weight: 500;
+}
+
+.endpoint-list a:hover {
+    color: #138496;
+    text-decoration: underline;
+}
+
+.schema-links {
+    margin: 0.75rem 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.schema-link {
+    display: inline-block;
+    background-color: #17a2b8;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.schema-link:hover {
+    background-color: #138496;
+    color: white;
+    text-decoration: none;
+}
+
+.schema-link.fhir-link {
+    background-color: #28a745;
+}
+
+.schema-link.fhir-link:hover {
+    background-color: #218838;
+}
+
+.usage-info {
+    background: #e7f3ff;
+    border: 1px solid #b8daff;
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.usage-info h4 {
+    color: #00477d;
+    margin-top: 1rem;
+}
+
+.usage-info h4:first-child {
+    margin-top: 0;
+}
+
+.usage-info ul {
+    margin: 0.5rem 0;
+}
+
+.usage-info li {
+    margin: 0.25rem 0;
+}
+
+/* JSON-LD specific styling */
+.jsonld-list {
+    margin: 0.75rem 0 0 0;
+    padding: 0.75rem;
+    background: #fff;
+    border: 1px solid #e1ecf4;
+    border-radius: 4px;
+}
+
+.jsonld-item {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-left: 3px solid #17a2b8;
+    background: #f8f9fa;
+}
+
+.jsonld-item:last-child {
+    margin-bottom: 0;
+}
+
+.jsonld-link {
+    font-weight: 600;
+    color: #17a2b8;
+    text-decoration: none;
+    margin-bottom: 0.25rem;
+}
+
+.jsonld-link:hover {
+    color: #138496;
+    text-decoration: underline;
+}
+
+.jsonld-description {
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-style: italic;
+}
+</style>
+
+<hr>
+
+<p><em>This documentation hub is automatically generated from the available schema and API definitions.</em></p>
+
+
+
+
+</div>
+</div>  <!-- /inner-wrapper -->
+</div>  <!-- /row -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-content -->
+
+<script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+<script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+
+<script type="text/javascript" src="assets/js/window-hash.js"> </script>
+<a name="bottom"> </a>
+<div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+<div class="container">  <!-- container -->
+
+<div class="inner-wrapper">
+  <p>
+    IG &#169; 2023+ <a style="color:var(--footer-hyperlink-text-color)" href="http://who.int">WHO</a>.  Package smart.who.int.base#0.2.0 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>. Generated <span title="Tue, Sep 23, 2025 13:32+0000">2025-09-23</span>
+    <br/>
+    <span style="color: var(--footer-highlight-text-color)">
+                Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="qa.html">QA Report</a>
+                 
+                
+| <a style="color: #81BEF7" target="_blank" href="http://smart.who.int/base/history.html">Version History</a> | <a style="color: #81BEF7" rel="license" href="license.html">License</a>
+    </span>
+  </p>
+</div>  <!-- /inner-wrapper -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-footer -->
+
+<div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+<div class="container">  <!-- container -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-post-footer -->
+
+<!-- JS and analytics only. -->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+<script type="text/javascript" src="assets/js/respond.min.js"> </script>
+<script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+<script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+<script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+<script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+<!-- Analytics Below
+================================================== -->
+
+
+
+

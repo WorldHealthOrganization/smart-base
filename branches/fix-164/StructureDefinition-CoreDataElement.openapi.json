@@ -1,0 +1,78 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Core Data Element (DAK) API",
+    "description": "Logical Model for representing Core Data Elements from a DAK. Data elements are required throughout the different points of a workflow and are mapped to established concept mapping standards.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-CoreDataElement.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-CoreDataElement",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-CoreDataElement.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-CoreDataElement",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-CoreDataElement.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-CoreDataElement": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://worldhealthorganization.github.io/smart-base/branches/copilot/fix-164/StructureDefinition-CoreDataElement.schema.json",
+        "title": "Core Data Element (DAK)",
+        "description": "Logical Model for representing Core Data Elements from a DAK. Data elements are required throughout the different points of a workflow and are mapped to established concept mapping standards.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "CoreDataElement",
+            "description": "Resource type identifier for CoreDataElement logical model"
+          },
+          "code": {
+            "type": "string",
+            "description": "Code that identifies the concept"
+          },
+          "display": {
+            "type": "string",
+            "description": "Text displayed to the user"
+          },
+          "definition": {
+            "type": "string",
+            "description": "Formal definition of the data element"
+          },
+          "description[x]": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string",
+                "format": "uri"
+              }
+            ],
+            "description": "Description of the core data element - either Markdown content or a URI to a Markdown file (absolute or relative to repository root)"
+          }
+        },
+        "required": [
+          "resourceType",
+          "code",
+          "display",
+          "definition"
+        ],
+        "resourceDefinition": "http://smart.who.int/base/StructureDefinition/CoreDataElement",
+        "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+      }
+    }
+  }
+}

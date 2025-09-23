@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ValueSet xmlns="http://hl7.org/fhir">
+  <id value="ISCO08ValueSet"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: ValueSet ISCO08ValueSet</b></p><a name="ISCO08ValueSet"> </a><a name="hcISCO08ValueSet"> </a><ul><li>Include all codes defined in <a href="CodeSystem-ISCO08.html"><code>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</code></a></li></ul></div>
+  </text>
+  <url value="http://smart.who.int/base/ValueSet/ISCO08ValueSet"/>
+  <version value="0.2.0"/>
+  <name value="ISCO08ValueSet"/>
+  <title value="ISCO-08 Value Set"/>
+  <status value="active"/>
+  <experimental value="false"/>
+  <date value="2025-09-22T23:54:53+00:00"/>
+  <publisher value="WHO"/>
+  <contact>
+    <name value="WHO"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://who.int"/>
+    </telecom>
+  </contact>
+  <description value="Extensible value set of ISCO-08 codes for persona classification"/>
+  <compose>
+    <include>
+      <system value="http://www.ilo.org/public/english/bureau/stat/isco/isco08/"/>
+    </include>
+  </compose>
+</ValueSet>

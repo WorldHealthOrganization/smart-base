@@ -1,0 +1,1868 @@
+{
+  "resourceType" : "Bundle",
+  "id" : "a34e0a78-546c-4d96-9c02-1624bfb306e8",
+  "meta" : {
+    "lastUpdated" : "2025-09-23T00:57:41.903+00:00"
+  },
+  "type" : "collection",
+  "entry" : [{
+    "fullUrl" : "http://smart.who.int/base/ValueSet/CDHIv1",
+    "resource" : {
+      "resourceType" : "ValueSet",
+      "text" : {
+        "status" : "generated",
+        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"/><p style=\"border: black 1px dotted; background-color: #EEEEEE; padding: 8px; margin-bottom: 8px\">Expansion performed internally based on <a href=\"CodeSystem-CDHIv1.html\">codesystem Classification of Digital Health Interventions v1 v0.2.0 (CodeSystem)</a></p><p>This value set contains 119 concepts</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>System</b></td><td><b>Display</b></td><td><b><a href=\"ValueSet-CDHIv1.html\">Hierarchy of the Classification of Digital Health Interventions v1</a></b></td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.0\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.460\">1.0</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Clients</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.461\">1.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Targeted client communication</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.1.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.461.461\">1.1.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit health event alerts to specific population group(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.1.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.461.462\">1.1.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit targeted health information to client(s) based on health status or demographics</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.1.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.461.463\">1.1.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit targeted alerts and reminders to client(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.1.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.461.464\">1.1.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit diagnostics result, or availability of result, to client(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.462\">1.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Untargeted client communication</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.2.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.462.461\">1.2.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit untargeted health information to an undefined population</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.2.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.462.462\">1.2.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit untargeted</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.463\">1.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Client to client communication</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.3.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.463.461\">1.3.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Peer group for clients</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.464\">1.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Personal health tracking</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.4.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.464.461\">1.4.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Access by client to own medical records</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.4.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.464.462\">1.4.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Self monitoring of health or diagnostic data by client 1.4.3 Active data capture/ documentation by client</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.4.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.464.463\">1.4.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Active data capture/ documentation by client</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.5\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.465\">1.5</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Citizen‐based reporting</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.5.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.465.461\">1.5.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Reporting of health system feedback by clients</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.5.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.465.462\">1.5.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Reporting of public health events by clients</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.6\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.466\">1.6</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>On‐demand information services to clients</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.6.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.466.461\">1.6.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Client look‐up of health information</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.7\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.467\">1.7</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Client financial transactions</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.7.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.467.461\">1.7.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit or manage out‐of‐pocket payments by client(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.7.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.467.462\">1.7.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit or manage vouchers to client(s) for health services</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-1.7.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-1.467.463\">1.7.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit or manage incentives to client(s) for health services</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.0\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.460\">2.0</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Health workers</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.461\">2.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Client identification and registration</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.1.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.461.461\">2.1.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Verify client unique identity</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.1.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.461.462\">2.1.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Enrol client for health services/clinical care plan</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.462\">2.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Client health records</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.2.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.462.461\">2.2.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Longitudinal tracking of clients’ health status and services</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.2.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.462.462\">2.2.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Manage client’s structured clinical records</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.2.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.462.463\">2.2.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Manage client’s unstructured clinical records</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.2.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.462.464\">2.2.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Routine health indicator data collection and management</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.463\">2.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Health worker decision support</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.3.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.463.461\">2.3.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Provide prompts and alerts based according to protocol</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.3.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.463.462\">2.3.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Provide checklist according to protocol</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.3.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.463.463\">2.3.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Screen clients by risk or other health status</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.464\">2.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Telemedicine</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.4.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.464.461\">2.4.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Consultations between remote client and health worker</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.4.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.464.462\">2.4.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Remote monitoring of client health or diagnostic data by provider</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.4.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.464.463\">2.4.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmission of medical data to health worker</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.4.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.464.464\">2.4.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Consultations for case management between health worker(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.5\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.465\">2.5</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Health worker communication</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.5.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.465.461\">2.5.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Communication from health worker(s) to supervisor</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.5.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.465.462\">2.5.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Communication and performance feedback to health worker(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.5.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.465.463\">2.5.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit routine news and workflow notifications to health worker(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.5.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.465.464\">2.5.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit non‐routine health event alerts to health worker(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.5.5\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.465.465\">2.5.5</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Peer group for health workers</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.6\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.466\">2.6</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Referral co‐ordination</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.6.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.466.461\">2.6.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Coordinate emergency response and transport</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.6.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.466.462\">2.6.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Manage referrals between points of service within health sector</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.6.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.466.463\">2.6.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Manage referrals between health and other sectors</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.7\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.467\">2.7</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Health worker activity planning and scheduling</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.7.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.467.461\">2.7.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Identify client(s) in need of services</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.7.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.467.462\">2.7.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Schedule health worker's activities</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.8\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.468\">2.8</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Health worker training</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.8.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.468.461\">2.8.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Provide training content to health worker(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.8.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.468.462\">2.8.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Assess capacity of health worker(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.9\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.469\">2.9</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Prescription and medication management</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.9.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.469.461\">2.9.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit or track prescription orders</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.9.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.469.462\">2.9.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Track client's medication consumption</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.9.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.469.463\">2.9.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Report adverse drug events</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.10\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.4610\">2.10</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Laboratory and Diagnostics Imaging Management</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.10.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.4610.461\">2.10.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit diagnostic result to health worker</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.10.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.4610.462\">2.10.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit and track diagnostic orders</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.10.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.4610.463\">2.10.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Capture diagnostic results from digital devices</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-2.10.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-2.4610.464\">2.10.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Track biological specimens</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.0\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.460\">3.0</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Health system managers</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.461\">3.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Human resource management</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.1.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.461.461\">3.1.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>List health workforce cadres and related identification information</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.1.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.461.462\">3.1.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Monitor performance of health worker(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.1.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.461.463\">3.1.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Manage certification/registration of health worker(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.1.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.461.464\">3.1.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Record training credentials of health worker(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.462\">3.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Supply chain management</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.2.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.462.461\">3.2.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Manage inventory and distribution of health commodities</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.2.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.462.462\">3.2.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Notify stock levels of health commodities</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.2.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.462.463\">3.2.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Monitor cold‐chain sensitive commodities</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.2.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.462.464\">3.2.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Register licensed drugs and health commodities</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.2.5\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.462.465\">3.2.5</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Manage procurement of commodities</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.2.6\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.462.466\">3.2.6</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Report counterfeit or substandard drugs by clients</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.463\">3.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Public health event notification</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.3.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.463.461\">3.3.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Notification of public health events from point of diagnosis</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.464\">3.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Civil Registration and Vital Statistics</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.4.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.464.461\">3.4.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Notify birth event</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.4.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.464.462\">3.4.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Register birth event</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.4.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.464.463\">3.4.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Certify birth event</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.4.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.464.464\">3.4.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Notify death event</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.4.5\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.464.465\">3.4.5</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Register death event</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.4.6\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.464.466\">3.4.6</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Certify death event</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.5\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.465\">3.5</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Health financing</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.5.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.465.461\">3.5.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Register and verify client insurance membership</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.5.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.465.462\">3.5.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Track insurance billing and claims submission</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.5.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.465.463\">3.5.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Track and manage insurance reimbursement</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.5.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.465.464\">3.5.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit routine payroll payment to health worker(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.5.5\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.465.465\">3.5.5</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Transmit or manage incentives to health worker(s)</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.5.6\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.465.466\">3.5.6</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Manage budget and expenditures</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.6\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.466\">3.6</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Equipment and asset management</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.6.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.466.461\">3.6.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Monitor status of health equipment</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.6.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.466.462\">3.6.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Track regulation and licensing of medical equipment</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.7\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.467\">3.7</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Facility management</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.7.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.467.461\">3.7.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>List health facilities and related information</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-3.7.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-3.467.462\">3.7.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Assess health facilities</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.0\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.460\">4.0</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Data services</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.461\">4.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Data collection, management, and use</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.1.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.461.461\">4.1.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Non‐routine data collection and management</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.1.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.461.462\">4.1.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Data storage and aggregation</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.1.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.461.463\">4.1.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Data synthesis and visualisation</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.1.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.461.464\">4.1.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Automated analysis of data to generate new information or predictions on future events</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.462\">4.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Data coding</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.2.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.462.461\">4.2.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Parse unstructured data into structured data</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.2.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.462.462\">4.2.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Merge, de‐duplicate, and curate coded datasets or terminologies</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.2.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.462.463\">4.2.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Classify disease codes or cause of mortality</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.463\">4.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Location mapping</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.3.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.463.461\">4.3.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Map location of health facilities/structures</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.3.2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.463.462\">4.3.2</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Map location of health events</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.3.3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.463.463\">4.3.3</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Map location of clients and households</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.3.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.463.464\">4.3.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Map location of health worker</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.464\">4.4</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Data exchange and interoperability</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDHIv1-4.4.1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDHIv1.html#CDHIv1-4.464.461\">4.4.1</a></td><td>http://smart.who.int/base/CodeSystem/CDHIv1</td><td>Data exchange across systems</td><td><span title=\"SOURCEISBROADERTHANTARGET\">&gt;</span>ValueSet-CDHIv1.html</td></tr></table></div>"
+      },
+      "url" : "http://smart.who.int/base/ValueSet/CDHIv1",
+      "version" : "0.2.0",
+      "name" : "CDHIv1",
+      "title" : "Classification of Digital Health Interventions v1",
+      "status" : "active",
+      "experimental" : true,
+      "date" : "2025-09-23T00:56:49+00:00",
+      "expansion" : {
+        "identifier" : "urn:uuid:c85a354f-e455-4afb-b5f7-5cb3376ddf40",
+        "timestamp" : "2025-09-23T00:59:44+00:00",
+        "total" : 119,
+        "offset" : 0,
+        "parameter" : [{
+          "name" : "count",
+          "valueInteger" : 1000
+        },
+        {
+          "name" : "offset",
+          "valueInteger" : 0
+        },
+        {
+          "name" : "excludeNested",
+          "valueBoolean" : false
+        },
+        {
+          "name" : "used-codesystem",
+          "valueUri" : "http://smart.who.int/base/CodeSystem/CDHIv1|0.2.0"
+        }],
+        "contains" : [{
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.0",
+          "display" : "Clients"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.1",
+          "display" : "Targeted client communication"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.1.1",
+          "display" : "Transmit health event alerts to specific population group(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.1.2",
+          "display" : "Transmit targeted health information to client(s) based on health status or demographics"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.1.3",
+          "display" : "Transmit targeted alerts and reminders to client(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.1.4",
+          "display" : "Transmit diagnostics result, or availability of result, to client(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.2",
+          "display" : "Untargeted client communication"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.2.1",
+          "display" : "Transmit untargeted health information to an undefined population"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.2.2",
+          "display" : "Transmit untargeted"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.3",
+          "display" : "Client to client communication"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.3.1",
+          "display" : "Peer group for clients"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.4",
+          "display" : "Personal health tracking"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.4.1",
+          "display" : "Access by client to own medical records"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.4.2",
+          "display" : "Self monitoring of health or diagnostic data by client 1.4.3 Active data capture/ documentation by client"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.4.3",
+          "display" : "Active data capture/ documentation by client"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.5",
+          "display" : "Citizen‐based reporting"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.5.1",
+          "display" : "Reporting of health system feedback by clients"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.5.2",
+          "display" : "Reporting of public health events by clients"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.6",
+          "display" : "On‐demand information services to clients"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.6.1",
+          "display" : "Client look‐up of health information"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.7",
+          "display" : "Client financial transactions"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.7.1",
+          "display" : "Transmit or manage out‐of‐pocket payments by client(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.7.2",
+          "display" : "Transmit or manage vouchers to client(s) for health services"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "1.7.3",
+          "display" : "Transmit or manage incentives to client(s) for health services"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.0",
+          "display" : "Health workers"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.1",
+          "display" : "Client identification and registration"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.1.1",
+          "display" : "Verify client unique identity"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.1.2",
+          "display" : "Enrol client for health services/clinical care plan"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.2",
+          "display" : "Client health records"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.2.1",
+          "display" : "Longitudinal tracking of clients’ health status and services"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.2.2",
+          "display" : "Manage client’s structured clinical records"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.2.3",
+          "display" : "Manage client’s unstructured clinical records"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.2.4",
+          "display" : "Routine health indicator data collection and management"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.3",
+          "display" : "Health worker decision support"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.3.1",
+          "display" : "Provide prompts and alerts based according to protocol"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.3.2",
+          "display" : "Provide checklist according to protocol"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.3.3",
+          "display" : "Screen clients by risk or other health status"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.4",
+          "display" : "Telemedicine"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.4.1",
+          "display" : "Consultations between remote client and health worker"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.4.2",
+          "display" : "Remote monitoring of client health or diagnostic data by provider"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.4.3",
+          "display" : "Transmission of medical data to health worker"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.4.4",
+          "display" : "Consultations for case management between health worker(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.5",
+          "display" : "Health worker communication"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.5.1",
+          "display" : "Communication from health worker(s) to supervisor"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.5.2",
+          "display" : "Communication and performance feedback to health worker(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.5.3",
+          "display" : "Transmit routine news and workflow notifications to health worker(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.5.4",
+          "display" : "Transmit non‐routine health event alerts to health worker(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.5.5",
+          "display" : "Peer group for health workers"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.6",
+          "display" : "Referral co‐ordination"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.6.1",
+          "display" : "Coordinate emergency response and transport"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.6.2",
+          "display" : "Manage referrals between points of service within health sector"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.6.3",
+          "display" : "Manage referrals between health and other sectors"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.7",
+          "display" : "Health worker activity planning and scheduling"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.7.1",
+          "display" : "Identify client(s) in need of services"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.7.2",
+          "display" : "Schedule health worker's activities"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.8",
+          "display" : "Health worker training"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.8.1",
+          "display" : "Provide training content to health worker(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.8.2",
+          "display" : "Assess capacity of health worker(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.9",
+          "display" : "Prescription and medication management"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.9.1",
+          "display" : "Transmit or track prescription orders"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.9.2",
+          "display" : "Track client's medication consumption"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.9.3",
+          "display" : "Report adverse drug events"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.10",
+          "display" : "Laboratory and Diagnostics Imaging Management"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.10.1",
+          "display" : "Transmit diagnostic result to health worker"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.10.2",
+          "display" : "Transmit and track diagnostic orders"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.10.3",
+          "display" : "Capture diagnostic results from digital devices"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "2.10.4",
+          "display" : "Track biological specimens"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.0",
+          "display" : "Health system managers"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.1",
+          "display" : "Human resource management"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.1.1",
+          "display" : "List health workforce cadres and related identification information"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.1.2",
+          "display" : "Monitor performance of health worker(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.1.3",
+          "display" : "Manage certification/registration of health worker(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.1.4",
+          "display" : "Record training credentials of health worker(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.2",
+          "display" : "Supply chain management"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.2.1",
+          "display" : "Manage inventory and distribution of health commodities"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.2.2",
+          "display" : "Notify stock levels of health commodities"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.2.3",
+          "display" : "Monitor cold‐chain sensitive commodities"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.2.4",
+          "display" : "Register licensed drugs and health commodities"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.2.5",
+          "display" : "Manage procurement of commodities"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.2.6",
+          "display" : "Report counterfeit or substandard drugs by clients"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.3",
+          "display" : "Public health event notification"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.3.1",
+          "display" : "Notification of public health events from point of diagnosis"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.4",
+          "display" : "Civil Registration and Vital Statistics"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.4.1",
+          "display" : "Notify birth event"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.4.2",
+          "display" : "Register birth event"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.4.3",
+          "display" : "Certify birth event"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.4.4",
+          "display" : "Notify death event"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.4.5",
+          "display" : "Register death event"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.4.6",
+          "display" : "Certify death event"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.5",
+          "display" : "Health financing"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.5.1",
+          "display" : "Register and verify client insurance membership"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.5.2",
+          "display" : "Track insurance billing and claims submission"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.5.3",
+          "display" : "Track and manage insurance reimbursement"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.5.4",
+          "display" : "Transmit routine payroll payment to health worker(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.5.5",
+          "display" : "Transmit or manage incentives to health worker(s)"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.5.6",
+          "display" : "Manage budget and expenditures"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.6",
+          "display" : "Equipment and asset management"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.6.1",
+          "display" : "Monitor status of health equipment"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.6.2",
+          "display" : "Track regulation and licensing of medical equipment"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.7",
+          "display" : "Facility management"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.7.1",
+          "display" : "List health facilities and related information"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "3.7.2",
+          "display" : "Assess health facilities"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.0",
+          "display" : "Data services"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.1",
+          "display" : "Data collection, management, and use"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.1.1",
+          "display" : "Non‐routine data collection and management"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.1.2",
+          "display" : "Data storage and aggregation"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.1.3",
+          "display" : "Data synthesis and visualisation"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.1.4",
+          "display" : "Automated analysis of data to generate new information or predictions on future events"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.2",
+          "display" : "Data coding"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.2.1",
+          "display" : "Parse unstructured data into structured data"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.2.2",
+          "display" : "Merge, de‐duplicate, and curate coded datasets or terminologies"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.2.3",
+          "display" : "Classify disease codes or cause of mortality"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.3",
+          "display" : "Location mapping"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.3.1",
+          "display" : "Map location of health facilities/structures"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.3.2",
+          "display" : "Map location of health events"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.3.3",
+          "display" : "Map location of clients and households"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.3.4",
+          "display" : "Map location of health worker"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.4",
+          "display" : "Data exchange and interoperability"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDHIv1",
+          "code" : "4.4.1",
+          "display" : "Data exchange across systems"
+        }]
+      }
+    }
+  },
+  {
+    "fullUrl" : "http://smart.who.int/base/ValueSet/CDSCv1",
+    "resource" : {
+      "resourceType" : "ValueSet",
+      "text" : {
+        "status" : "generated",
+        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"/><p style=\"border: black 1px dotted; background-color: #EEEEEE; padding: 8px; margin-bottom: 8px\">Expansion performed internally based on <a href=\"CodeSystem-CDSCv1.html\">codesystem Classification of Digital Health System Categories v1 v0.2.0 (CodeSystem)</a></p><p>This value set contains 25 concepts</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>System</b></td><td><b>Display</b></td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-A\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-A\">A</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Census, population information &amp; data warehouse</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-B\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-B\">B</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Civil Registration and Vital Statistics</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-C\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-C\">C</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Client applications</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-D\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-D\">D</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Client communication system</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-E\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-E\">E</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Clinical terminology and classifications</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-F\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-F\">F</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Community-based Information System</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-G\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-G\">G</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Data interchange interoperability and accessibility</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-H\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-H\">H</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Electronic Medical Record</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-I\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-I\">I</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Emergency response system</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-J\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-J\">J</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Environmental monitoring systems</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-K\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-K\">K</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Facility Management Information System</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-L\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-L\">L</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Geographic Information Systems</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-M\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-M\">M</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Health finance and insurance system</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-N\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-N\">N</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Health Management Information System</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-O\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-O\">O</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Human Resource Information System</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-P\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-P\">P</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Identification registries and directories</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-Q\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-Q\">Q</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Knowledge Management</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-R\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-R\">R</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Laboratory and Diagnostic System</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-S\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-S\">S</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Learning and Training System</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-T\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-T\">T</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Logistics Management Information System</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-U\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-U\">U</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Pharmacy Information System</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-V\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-V\">V</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Public health and disease surveillance</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-W\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-W\">W</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Research information system</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-X\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-X\">X</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>SHR and health information repositories</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/CDSCv1-Y\"> </a>\u00a0\u00a0<a href=\"CodeSystem-CDSCv1.html#CDSCv1-Y\">Y</a></td><td>http://smart.who.int/base/CodeSystem/CDSCv1</td><td>Telemedicine</td></tr></table></div>"
+      },
+      "url" : "http://smart.who.int/base/ValueSet/CDSCv1",
+      "version" : "0.2.0",
+      "name" : "CDSCv1",
+      "title" : "Classification of Digital Health System Categories v1",
+      "status" : "active",
+      "experimental" : true,
+      "date" : "2025-09-23T00:56:49+00:00",
+      "expansion" : {
+        "identifier" : "urn:uuid:7fe7338e-3759-45f5-b124-3fbd2053b40d",
+        "timestamp" : "2025-09-23T00:59:44+00:00",
+        "total" : 25,
+        "offset" : 0,
+        "parameter" : [{
+          "name" : "count",
+          "valueInteger" : 1000
+        },
+        {
+          "name" : "offset",
+          "valueInteger" : 0
+        },
+        {
+          "name" : "excludeNested",
+          "valueBoolean" : false
+        },
+        {
+          "name" : "used-codesystem",
+          "valueUri" : "http://smart.who.int/base/CodeSystem/CDSCv1|0.2.0"
+        }],
+        "contains" : [{
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "A",
+          "display" : "Census, population information & data warehouse"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "B",
+          "display" : "Civil Registration and Vital Statistics"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "C",
+          "display" : "Client applications"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "D",
+          "display" : "Client communication system"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "E",
+          "display" : "Clinical terminology and classifications"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "F",
+          "display" : "Community-based Information System"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "G",
+          "display" : "Data interchange interoperability and accessibility"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "H",
+          "display" : "Electronic Medical Record"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "I",
+          "display" : "Emergency response system"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "J",
+          "display" : "Environmental monitoring systems"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "K",
+          "display" : "Facility Management Information System"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "L",
+          "display" : "Geographic Information Systems"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "M",
+          "display" : "Health finance and insurance system"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "N",
+          "display" : "Health Management Information System"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "O",
+          "display" : "Human Resource Information System"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "P",
+          "display" : "Identification registries and directories"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "Q",
+          "display" : "Knowledge Management"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "R",
+          "display" : "Laboratory and Diagnostic System"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "S",
+          "display" : "Learning and Training System"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "T",
+          "display" : "Logistics Management Information System"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "U",
+          "display" : "Pharmacy Information System"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "V",
+          "display" : "Public health and disease surveillance"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "W",
+          "display" : "Research information system"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "X",
+          "display" : "SHR and health information repositories"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/CDSCv1",
+          "code" : "Y",
+          "display" : "Telemedicine"
+        }]
+      }
+    }
+  },
+  {
+    "fullUrl" : "http://smart.who.int/base/ValueSet/DecisionTableActions",
+    "resource" : {
+      "resourceType" : "ValueSet",
+      "text" : {
+        "status" : "generated",
+        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"/><p style=\"border: black 1px dotted; background-color: #EEEEEE; padding: 8px; margin-bottom: 8px\">Expansion performed internally based on <a href=\"CodeSystem-DecisionTableActions.html\">codesystem Smart Guidelines Actions (columns) for Decision Tables v0.2.0 (CodeSystem)</a></p><p>This value set contains 3 concepts</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>System</b></td><td><b>Display</b></td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/DecisionTableActions-output\"> </a>\u00a0\u00a0<a href=\"CodeSystem-DecisionTableActions.html#DecisionTableActions-output\">output</a></td><td>http://smart.who.int/base/CodeSystem/DecisionTableActions</td><td>Output</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/DecisionTableActions-guidance\"> </a>\u00a0\u00a0<a href=\"CodeSystem-DecisionTableActions.html#DecisionTableActions-guidance\">guidance</a></td><td>http://smart.who.int/base/CodeSystem/DecisionTableActions</td><td>Guidance</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/DecisionTableActions-annotation\"> </a>\u00a0\u00a0<a href=\"CodeSystem-DecisionTableActions.html#DecisionTableActions-annotation\">annotation</a></td><td>http://smart.who.int/base/CodeSystem/DecisionTableActions</td><td>Annotation</td></tr></table></div>"
+      },
+      "url" : "http://smart.who.int/base/ValueSet/DecisionTableActions",
+      "version" : "0.2.0",
+      "name" : "DecisionTableActions",
+      "title" : "Smart Guidelines Decision Table Actions",
+      "status" : "active",
+      "experimental" : true,
+      "date" : "2025-09-23T00:56:49+00:00",
+      "expansion" : {
+        "identifier" : "urn:uuid:7970a565-b0ee-467c-81cf-acdf245c9cc6",
+        "timestamp" : "2025-09-23T00:59:44+00:00",
+        "total" : 3,
+        "offset" : 0,
+        "parameter" : [{
+          "name" : "count",
+          "valueInteger" : 1000
+        },
+        {
+          "name" : "offset",
+          "valueInteger" : 0
+        },
+        {
+          "name" : "excludeNested",
+          "valueBoolean" : false
+        },
+        {
+          "name" : "used-codesystem",
+          "valueUri" : "http://smart.who.int/base/CodeSystem/DecisionTableActions|0.2.0"
+        }],
+        "contains" : [{
+          "system" : "http://smart.who.int/base/CodeSystem/DecisionTableActions",
+          "code" : "output",
+          "display" : "Output"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/DecisionTableActions",
+          "code" : "guidance",
+          "display" : "Guidance"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/DecisionTableActions",
+          "code" : "annotation",
+          "display" : "Annotation"
+        }]
+      }
+    }
+  },
+  {
+    "fullUrl" : "http://smart.who.int/base/ValueSet/ISCO08ValueSet",
+    "resource" : {
+      "resourceType" : "ValueSet",
+      "text" : {
+        "status" : "generated",
+        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"/><p style=\"border: black 1px dotted; background-color: #EEEEEE; padding: 8px; margin-bottom: 8px\">Expansion performed internally based on <a href=\"CodeSystem-ISCO08.html\">codesystem International Standard Classification of Occupations 2008 v0.2.0 (CodeSystem)</a></p><p>This value set contains 182 concepts</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>System</b></td><td><b>Display</b></td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-0\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-0\">0</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Armed Forces Occupations</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1\">1</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Managers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2\">2</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-3\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-3\">3</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Technicians and Associate Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-4\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-4\">4</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Clerical Support Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-5\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-5\">5</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Service and Sales Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-6\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-6\">6</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Skilled Agricultural, Forestry and Fishery Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-7\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-7\">7</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Craft and Related Trades Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-8\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-8\">8</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Plant and Machine Operators and Assemblers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-9\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-9\">9</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Elementary Occupations</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-11\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-11\">11</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Chief Executives, Senior Officials and Legislators</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-12\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-12\">12</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Administrative and Commercial Managers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-13\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-13\">13</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Production and Specialised Services Managers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-14\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-14\">14</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Hospitality, Retail and Other Services Managers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-21\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-21\">21</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Science and Engineering Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-22\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-22\">22</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Health Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-23\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-23\">23</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Teaching Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-24\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-24\">24</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Business and Administration Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-25\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-25\">25</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Information and Communications Technology Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-26\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-26\">26</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Legal, Social and Cultural Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-31\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-31\">31</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Science and Engineering Associate Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-32\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-32\">32</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Health Associate Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-33\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-33\">33</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Business and Administration Associate Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-34\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-34\">34</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Legal, Social, Cultural and Related Associate Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-35\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-35\">35</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Information and Communications Technicians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-41\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-41\">41</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>General and Keyboard Clerks</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-42\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-42\">42</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Customer Services Clerks</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-43\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-43\">43</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Numerical and Material Recording Clerks</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-44\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-44\">44</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Other Clerical Support Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-51\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-51\">51</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Personal Service Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-52\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-52\">52</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Sales Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-53\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-53\">53</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Personal Care Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-54\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-54\">54</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Protective Services Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-61\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-61\">61</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Market-oriented Skilled Agricultural Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-62\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-62\">62</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Market-oriented Skilled Forestry, Fishery and Hunting Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-63\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-63\">63</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Subsistence Farmers, Fishers, Hunters and Gatherers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-71\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-71\">71</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Building and Related Trades Workers, Excluding Electricians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-72\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-72\">72</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Metal, Machinery and Related Trades Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-73\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-73\">73</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Handicraft and Printing Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-74\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-74\">74</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Electrical and Electronic Trades Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-75\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-75\">75</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Food Processing, Wood Working, Garment and Other Craft and Related Trades Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-81\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-81\">81</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Stationary Plant and Machine Operators</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-82\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-82\">82</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Assemblers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-83\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-83\">83</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Drivers and Mobile Plant Operators</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-91\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-91\">91</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Cleaners and Helpers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-92\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-92\">92</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Agricultural, Forestry and Fishery Labourers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-93\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-93\">93</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Labourers in Mining, Construction, Manufacturing and Transport</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-94\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-94\">94</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Food Preparation Assistants</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-95\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-95\">95</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Street and Related Sales and Service Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-96\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-96\">96</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Refuse Workers and Other Elementary Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-111\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-111\">111</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Legislators and Senior Officials</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-112\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-112\">112</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Managing Directors and Chief Executives</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-121\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-121\">121</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Business Services and Administration Managers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-122\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-122\">122</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Sales, Marketing and Development Managers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-211\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-211\">211</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Physical and Earth Science Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-212\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-212\">212</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Mathematicians, Actuaries and Statisticians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-213\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-213\">213</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Life Science Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-214\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-214\">214</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Engineering Professionals (excluding Electrotechnology)</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-215\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-215\">215</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Electrotechnology Engineers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-216\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-216\">216</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Architects, Planners, Surveyors and Designers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-221\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-221\">221</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Medical Doctors</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-222\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-222\">222</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Nursing and Midwifery Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-223\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-223\">223</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Traditional and Complementary Medicine Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-224\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-224\">224</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Paramedical Practitioners</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-225\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-225\">225</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Veterinarians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-226\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-226\">226</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Other Health Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-231\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-231\">231</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>University and Higher Education Teachers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-232\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-232\">232</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Vocational Education Teachers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-233\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-233\">233</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Secondary Education Teachers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-234\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-234\">234</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Primary School and Early Childhood Teachers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-235\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-235\">235</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Other Teaching Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-311\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-311\">311</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Physical and Engineering Science Technicians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-312\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-312\">312</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Mining, Manufacturing and Construction Supervisors</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-313\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-313\">313</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Process Control Technicians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-314\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-314\">314</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Life Science Technicians and Related Associate Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-315\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-315\">315</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Ship and Aircraft Controllers and Technicians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-321\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-321\">321</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Medical and Pharmaceutical Technicians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-322\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-322\">322</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Nursing and Midwifery Associate Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-323\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-323\">323</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Traditional and Complementary Medicine Associate Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-324\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-324\">324</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Veterinary Technicians and Assistants</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-325\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-325\">325</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Other Health Associate Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-411\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-411\">411</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>General Office Clerks</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-412\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-412\">412</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Secretaries (general)</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-413\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-413\">413</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Keyboard Operators</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-511\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-511\">511</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Travel Attendants, Conductors and Guides</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-512\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-512\">512</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Cooks</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-513\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-513\">513</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Waiters and Bartenders</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-514\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-514\">514</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Hairdressers, Beauticians and Related Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-515\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-515\">515</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Building and Housekeeping Supervisors</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-516\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-516\">516</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Other Personal Services Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-711\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-711\">711</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Building Frame and Related Trades Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-712\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-712\">712</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Building Finishers and Related Trades Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-713\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-713\">713</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Painters, Building Structure Cleaners and Related Trades Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-811\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-811\">811</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Mining and Mineral Processing Plant Operators</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-812\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-812\">812</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Metal Processing and Finishing Plant Operators</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-813\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-813\">813</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Chemical and Photographic Products Plant and Machine Operators</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-911\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-911\">911</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Domestic, Hotel and Office Cleaners and Helpers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-912\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-912\">912</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Vehicle, Window, Laundry and Other Hand Cleaning Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-913\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-913\">913</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Helpers in Food Preparation</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1111\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1111\">1111</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Legislators</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1112\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1112\">1112</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Senior Government Officials</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1113\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1113\">1113</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Traditional Chiefs and Heads of Villages</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1114\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1114\">1114</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Senior Officials of Special-Interest Organizations</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1120\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1120\">1120</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Managing Directors and Chief Executives</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1211\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1211\">1211</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Finance Managers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1212\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1212\">1212</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Human Resource Managers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1213\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1213\">1213</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Policy and Planning Managers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1219\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1219\">1219</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Business Services and Administration Managers Not Elsewhere Classified</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1221\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1221\">1221</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Sales and Marketing Managers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1222\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1222\">1222</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Advertising and Public Relations Managers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-1223\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-1223\">1223</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Research and Development Managers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2111\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2111\">2111</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Physicists and Astronomers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2112\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2112\">2112</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Meteorologists</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2113\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2113\">2113</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Chemists</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2114\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2114\">2114</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Geologists and Geophysicists</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2120\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2120\">2120</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Mathematicians, Actuaries and Statisticians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2131\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2131\">2131</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Biologists, Botanists, Zoologists and Related Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2132\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2132\">2132</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Farming, Forestry and Fisheries Advisers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2133\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2133\">2133</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Environmental Protection Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2141\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2141\">2141</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Industrial and Production Engineers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2142\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2142\">2142</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Civil Engineers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2143\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2143\">2143</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Environmental Engineers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2144\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2144\">2144</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Mechanical Engineers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2145\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2145\">2145</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Chemical Engineers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2146\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2146\">2146</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Mining Engineers, Metallurgists and Related Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2149\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2149\">2149</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Engineering Professionals Not Elsewhere Classified</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2151\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2151\">2151</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Electrical Engineers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2152\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2152\">2152</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Electronics Engineers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2153\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2153\">2153</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Telecommunications Engineers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2161\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2161\">2161</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Building Architects</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2162\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2162\">2162</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Landscape Architects</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2163\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2163\">2163</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Product and Garment Designers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2164\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2164\">2164</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Town and Traffic Planners</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2165\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2165\">2165</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Cartographers and Surveyors</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2166\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2166\">2166</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Graphic and Multimedia Designers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2211\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2211\">2211</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Generalist Medical Practitioners</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2212\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2212\">2212</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Specialist Medical Practitioners</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2221\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2221\">2221</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Nursing Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2222\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2222\">2222</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Midwifery Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2230\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2230\">2230</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Traditional and Complementary Medicine Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2240\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2240\">2240</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Paramedical Practitioners</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2250\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2250\">2250</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Veterinarians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2261\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2261\">2261</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Dentists</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2262\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2262\">2262</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Pharmacists</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2263\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2263\">2263</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Environmental and Occupational Health and Hygiene Professionals</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2264\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2264\">2264</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Physiotherapists</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2265\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2265\">2265</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Dietitians and Nutritionists</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2266\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2266\">2266</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Audiologists and Speech Therapists</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2267\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2267\">2267</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Optometrists and Ophthalmic Opticians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-2269\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-2269\">2269</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Health Professionals Not Elsewhere Classified</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-3111\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-3111\">3111</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Chemical and Physical Science Technicians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-3112\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-3112\">3112</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Civil Engineering Technicians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-3113\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-3113\">3113</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Electrical Engineering Technicians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-3114\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-3114\">3114</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Electronics Engineering Technicians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-3115\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-3115\">3115</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Mechanical Engineering Technicians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-3116\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-3116\">3116</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Chemical Engineering Technicians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-3117\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-3117\">3117</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Mining and Metallurgical Technicians</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-3118\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-3118\">3118</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Draughtspersons</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-3119\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-3119\">3119</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Physical and Engineering Science Technicians Not Elsewhere Classified</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-4110\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-4110\">4110</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>General Office Clerks</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-4120\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-4120\">4120</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Secretaries (general)</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-4131\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-4131\">4131</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Typists and Word Processing Operators</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-4132\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-4132\">4132</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Data Entry Clerks</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-5111\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-5111\">5111</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Travel Attendants and Travel Stewards</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-5112\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-5112\">5112</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Transport Conductors</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-5113\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-5113\">5113</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Travel Guides</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-6111\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-6111\">6111</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Field Crop and Vegetable Growers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-6112\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-6112\">6112</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Tree and Shrub Crop Growers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-6113\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-6113\">6113</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Gardeners, Horticultural and Nursery Growers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-6114\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-6114\">6114</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Mixed Crop Growers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-7111\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-7111\">7111</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>House Builders</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-7112\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-7112\">7112</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Bricklayers and Related Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-7113\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-7113\">7113</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Stonemasons, Stone Cutters, Splitters and Carvers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-7114\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-7114\">7114</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Concrete Placers, Concrete Finishers and Related Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-8111\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-8111\">8111</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Miners and Quarriers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-8112\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-8112\">8112</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Mineral and Stone Processing Plant Operators</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-8113\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-8113\">8113</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Well Drillers and Borers and Related Workers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-9111\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-9111\">9111</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Domestic Cleaners and Helpers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-9112\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-9112\">9112</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Cleaners and Helpers in Offices, Hotels and Other Establishments</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-9211\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-9211\">9211</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Crop Farm Labourers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-9212\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-9212\">9212</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Livestock Farm Labourers</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://www.ilo.org/public/english/bureau/stat/isco/isco08/-9213\"> </a>\u00a0\u00a0<a href=\"CodeSystem-ISCO08.html#ISCO08-9213\">9213</a></td><td>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</td><td>Mixed Crop and Livestock Farm Labourers</td></tr></table></div>"
+      },
+      "url" : "http://smart.who.int/base/ValueSet/ISCO08ValueSet",
+      "version" : "0.2.0",
+      "name" : "ISCO08ValueSet",
+      "title" : "ISCO-08 Value Set",
+      "status" : "active",
+      "experimental" : false,
+      "date" : "2025-09-23T00:56:49+00:00",
+      "expansion" : {
+        "identifier" : "urn:uuid:d31a95b2-fe1f-40cb-9082-1425ed564c2c",
+        "timestamp" : "2025-09-23T00:59:45+00:00",
+        "total" : 182,
+        "offset" : 0,
+        "parameter" : [{
+          "name" : "count",
+          "valueInteger" : 1000
+        },
+        {
+          "name" : "offset",
+          "valueInteger" : 0
+        },
+        {
+          "name" : "excludeNested",
+          "valueBoolean" : false
+        },
+        {
+          "name" : "used-codesystem",
+          "valueUri" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/|0.2.0"
+        }],
+        "contains" : [{
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "0",
+          "display" : "Armed Forces Occupations"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1",
+          "display" : "Managers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2",
+          "display" : "Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "3",
+          "display" : "Technicians and Associate Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "4",
+          "display" : "Clerical Support Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "5",
+          "display" : "Service and Sales Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "6",
+          "display" : "Skilled Agricultural, Forestry and Fishery Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "7",
+          "display" : "Craft and Related Trades Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "8",
+          "display" : "Plant and Machine Operators and Assemblers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "9",
+          "display" : "Elementary Occupations"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "11",
+          "display" : "Chief Executives, Senior Officials and Legislators"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "12",
+          "display" : "Administrative and Commercial Managers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "13",
+          "display" : "Production and Specialised Services Managers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "14",
+          "display" : "Hospitality, Retail and Other Services Managers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "21",
+          "display" : "Science and Engineering Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "22",
+          "display" : "Health Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "23",
+          "display" : "Teaching Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "24",
+          "display" : "Business and Administration Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "25",
+          "display" : "Information and Communications Technology Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "26",
+          "display" : "Legal, Social and Cultural Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "31",
+          "display" : "Science and Engineering Associate Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "32",
+          "display" : "Health Associate Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "33",
+          "display" : "Business and Administration Associate Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "34",
+          "display" : "Legal, Social, Cultural and Related Associate Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "35",
+          "display" : "Information and Communications Technicians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "41",
+          "display" : "General and Keyboard Clerks"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "42",
+          "display" : "Customer Services Clerks"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "43",
+          "display" : "Numerical and Material Recording Clerks"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "44",
+          "display" : "Other Clerical Support Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "51",
+          "display" : "Personal Service Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "52",
+          "display" : "Sales Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "53",
+          "display" : "Personal Care Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "54",
+          "display" : "Protective Services Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "61",
+          "display" : "Market-oriented Skilled Agricultural Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "62",
+          "display" : "Market-oriented Skilled Forestry, Fishery and Hunting Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "63",
+          "display" : "Subsistence Farmers, Fishers, Hunters and Gatherers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "71",
+          "display" : "Building and Related Trades Workers, Excluding Electricians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "72",
+          "display" : "Metal, Machinery and Related Trades Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "73",
+          "display" : "Handicraft and Printing Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "74",
+          "display" : "Electrical and Electronic Trades Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "75",
+          "display" : "Food Processing, Wood Working, Garment and Other Craft and Related Trades Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "81",
+          "display" : "Stationary Plant and Machine Operators"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "82",
+          "display" : "Assemblers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "83",
+          "display" : "Drivers and Mobile Plant Operators"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "91",
+          "display" : "Cleaners and Helpers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "92",
+          "display" : "Agricultural, Forestry and Fishery Labourers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "93",
+          "display" : "Labourers in Mining, Construction, Manufacturing and Transport"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "94",
+          "display" : "Food Preparation Assistants"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "95",
+          "display" : "Street and Related Sales and Service Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "96",
+          "display" : "Refuse Workers and Other Elementary Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "111",
+          "display" : "Legislators and Senior Officials"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "112",
+          "display" : "Managing Directors and Chief Executives"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "121",
+          "display" : "Business Services and Administration Managers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "122",
+          "display" : "Sales, Marketing and Development Managers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "211",
+          "display" : "Physical and Earth Science Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "212",
+          "display" : "Mathematicians, Actuaries and Statisticians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "213",
+          "display" : "Life Science Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "214",
+          "display" : "Engineering Professionals (excluding Electrotechnology)"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "215",
+          "display" : "Electrotechnology Engineers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "216",
+          "display" : "Architects, Planners, Surveyors and Designers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "221",
+          "display" : "Medical Doctors"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "222",
+          "display" : "Nursing and Midwifery Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "223",
+          "display" : "Traditional and Complementary Medicine Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "224",
+          "display" : "Paramedical Practitioners"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "225",
+          "display" : "Veterinarians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "226",
+          "display" : "Other Health Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "231",
+          "display" : "University and Higher Education Teachers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "232",
+          "display" : "Vocational Education Teachers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "233",
+          "display" : "Secondary Education Teachers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "234",
+          "display" : "Primary School and Early Childhood Teachers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "235",
+          "display" : "Other Teaching Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "311",
+          "display" : "Physical and Engineering Science Technicians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "312",
+          "display" : "Mining, Manufacturing and Construction Supervisors"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "313",
+          "display" : "Process Control Technicians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "314",
+          "display" : "Life Science Technicians and Related Associate Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "315",
+          "display" : "Ship and Aircraft Controllers and Technicians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "321",
+          "display" : "Medical and Pharmaceutical Technicians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "322",
+          "display" : "Nursing and Midwifery Associate Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "323",
+          "display" : "Traditional and Complementary Medicine Associate Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "324",
+          "display" : "Veterinary Technicians and Assistants"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "325",
+          "display" : "Other Health Associate Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "411",
+          "display" : "General Office Clerks"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "412",
+          "display" : "Secretaries (general)"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "413",
+          "display" : "Keyboard Operators"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "511",
+          "display" : "Travel Attendants, Conductors and Guides"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "512",
+          "display" : "Cooks"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "513",
+          "display" : "Waiters and Bartenders"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "514",
+          "display" : "Hairdressers, Beauticians and Related Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "515",
+          "display" : "Building and Housekeeping Supervisors"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "516",
+          "display" : "Other Personal Services Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "711",
+          "display" : "Building Frame and Related Trades Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "712",
+          "display" : "Building Finishers and Related Trades Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "713",
+          "display" : "Painters, Building Structure Cleaners and Related Trades Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "811",
+          "display" : "Mining and Mineral Processing Plant Operators"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "812",
+          "display" : "Metal Processing and Finishing Plant Operators"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "813",
+          "display" : "Chemical and Photographic Products Plant and Machine Operators"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "911",
+          "display" : "Domestic, Hotel and Office Cleaners and Helpers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "912",
+          "display" : "Vehicle, Window, Laundry and Other Hand Cleaning Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "913",
+          "display" : "Helpers in Food Preparation"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1111",
+          "display" : "Legislators"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1112",
+          "display" : "Senior Government Officials"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1113",
+          "display" : "Traditional Chiefs and Heads of Villages"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1114",
+          "display" : "Senior Officials of Special-Interest Organizations"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1120",
+          "display" : "Managing Directors and Chief Executives"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1211",
+          "display" : "Finance Managers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1212",
+          "display" : "Human Resource Managers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1213",
+          "display" : "Policy and Planning Managers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1219",
+          "display" : "Business Services and Administration Managers Not Elsewhere Classified"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1221",
+          "display" : "Sales and Marketing Managers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1222",
+          "display" : "Advertising and Public Relations Managers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "1223",
+          "display" : "Research and Development Managers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2111",
+          "display" : "Physicists and Astronomers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2112",
+          "display" : "Meteorologists"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2113",
+          "display" : "Chemists"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2114",
+          "display" : "Geologists and Geophysicists"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2120",
+          "display" : "Mathematicians, Actuaries and Statisticians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2131",
+          "display" : "Biologists, Botanists, Zoologists and Related Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2132",
+          "display" : "Farming, Forestry and Fisheries Advisers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2133",
+          "display" : "Environmental Protection Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2141",
+          "display" : "Industrial and Production Engineers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2142",
+          "display" : "Civil Engineers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2143",
+          "display" : "Environmental Engineers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2144",
+          "display" : "Mechanical Engineers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2145",
+          "display" : "Chemical Engineers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2146",
+          "display" : "Mining Engineers, Metallurgists and Related Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2149",
+          "display" : "Engineering Professionals Not Elsewhere Classified"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2151",
+          "display" : "Electrical Engineers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2152",
+          "display" : "Electronics Engineers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2153",
+          "display" : "Telecommunications Engineers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2161",
+          "display" : "Building Architects"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2162",
+          "display" : "Landscape Architects"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2163",
+          "display" : "Product and Garment Designers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2164",
+          "display" : "Town and Traffic Planners"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2165",
+          "display" : "Cartographers and Surveyors"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2166",
+          "display" : "Graphic and Multimedia Designers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2211",
+          "display" : "Generalist Medical Practitioners"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2212",
+          "display" : "Specialist Medical Practitioners"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2221",
+          "display" : "Nursing Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2222",
+          "display" : "Midwifery Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2230",
+          "display" : "Traditional and Complementary Medicine Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2240",
+          "display" : "Paramedical Practitioners"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2250",
+          "display" : "Veterinarians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2261",
+          "display" : "Dentists"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2262",
+          "display" : "Pharmacists"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2263",
+          "display" : "Environmental and Occupational Health and Hygiene Professionals"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2264",
+          "display" : "Physiotherapists"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2265",
+          "display" : "Dietitians and Nutritionists"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2266",
+          "display" : "Audiologists and Speech Therapists"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2267",
+          "display" : "Optometrists and Ophthalmic Opticians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "2269",
+          "display" : "Health Professionals Not Elsewhere Classified"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "3111",
+          "display" : "Chemical and Physical Science Technicians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "3112",
+          "display" : "Civil Engineering Technicians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "3113",
+          "display" : "Electrical Engineering Technicians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "3114",
+          "display" : "Electronics Engineering Technicians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "3115",
+          "display" : "Mechanical Engineering Technicians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "3116",
+          "display" : "Chemical Engineering Technicians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "3117",
+          "display" : "Mining and Metallurgical Technicians"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "3118",
+          "display" : "Draughtspersons"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "3119",
+          "display" : "Physical and Engineering Science Technicians Not Elsewhere Classified"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "4110",
+          "display" : "General Office Clerks"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "4120",
+          "display" : "Secretaries (general)"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "4131",
+          "display" : "Typists and Word Processing Operators"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "4132",
+          "display" : "Data Entry Clerks"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "5111",
+          "display" : "Travel Attendants and Travel Stewards"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "5112",
+          "display" : "Transport Conductors"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "5113",
+          "display" : "Travel Guides"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "6111",
+          "display" : "Field Crop and Vegetable Growers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "6112",
+          "display" : "Tree and Shrub Crop Growers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "6113",
+          "display" : "Gardeners, Horticultural and Nursery Growers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "6114",
+          "display" : "Mixed Crop Growers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "7111",
+          "display" : "House Builders"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "7112",
+          "display" : "Bricklayers and Related Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "7113",
+          "display" : "Stonemasons, Stone Cutters, Splitters and Carvers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "7114",
+          "display" : "Concrete Placers, Concrete Finishers and Related Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "8111",
+          "display" : "Miners and Quarriers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "8112",
+          "display" : "Mineral and Stone Processing Plant Operators"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "8113",
+          "display" : "Well Drillers and Borers and Related Workers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "9111",
+          "display" : "Domestic Cleaners and Helpers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "9112",
+          "display" : "Cleaners and Helpers in Offices, Hotels and Other Establishments"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "9211",
+          "display" : "Crop Farm Labourers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "9212",
+          "display" : "Livestock Farm Labourers"
+        },
+        {
+          "system" : "http://www.ilo.org/public/english/bureau/stat/isco/isco08/",
+          "code" : "9213",
+          "display" : "Mixed Crop and Livestock Farm Labourers"
+        }]
+      }
+    }
+  },
+  {
+    "fullUrl" : "http://smart.who.int/base/ValueSet/SGPersonaTypesVS",
+    "resource" : {
+      "resourceType" : "ValueSet",
+      "text" : {
+        "status" : "generated",
+        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"/><p style=\"border: black 1px dotted; background-color: #EEEEEE; padding: 8px; margin-bottom: 8px\">Expansion performed internally based on <a href=\"CodeSystem-SGPersonaTypes.html\">codesystem SMART Guidelines Persona Types v0.2.0 (CodeSystem)</a></p><p>This value set contains 4 concepts</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>System</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/SGPersonaTypes-key\"> </a>\u00a0\u00a0<a href=\"CodeSystem-SGPersonaTypes.html#SGPersonaTypes-key\">key</a></td><td>http://smart.who.int/base/CodeSystem/SGPersonaTypes</td><td>Key Persona</td><td>Key Persona for workflows in this DAK</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/SGPersonaTypes-related\"> </a>\u00a0\u00a0<a href=\"CodeSystem-SGPersonaTypes.html#SGPersonaTypes-related\">related</a></td><td>http://smart.who.int/base/CodeSystem/SGPersonaTypes</td><td>Related Persona</td><td>Related Personas that don't directly enact in any workflow in this DAK</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/SGPersonaTypes-system\"> </a>\u00a0\u00a0<a href=\"CodeSystem-SGPersonaTypes.html#SGPersonaTypes-system\">system</a></td><td>http://smart.who.int/base/CodeSystem/SGPersonaTypes</td><td>System</td><td>Digital Systems that interact in this DAK</td></tr><tr><td style=\"white-space:nowrap\"><a name=\"x-http://smart.who.int/base/CodeSystem/SGPersonaTypes-hardware\"> </a>\u00a0\u00a0<a href=\"CodeSystem-SGPersonaTypes.html#SGPersonaTypes-hardware\">hardware</a></td><td>http://smart.who.int/base/CodeSystem/SGPersonaTypes</td><td>Hardware Device</td><td>Hardware devices required to perform workflows in the DAK</td></tr></table></div>"
+      },
+      "url" : "http://smart.who.int/base/ValueSet/SGPersonaTypesVS",
+      "version" : "0.2.0",
+      "name" : "SGPersonaTypesVS",
+      "title" : "Smart Guidelines Persona Types Value Set",
+      "status" : "active",
+      "experimental" : true,
+      "date" : "2025-09-23T00:56:49+00:00",
+      "expansion" : {
+        "identifier" : "urn:uuid:3e718f46-cbe0-421e-8db7-4dc07dccdd51",
+        "timestamp" : "2025-09-23T00:59:45+00:00",
+        "total" : 4,
+        "offset" : 0,
+        "parameter" : [{
+          "name" : "count",
+          "valueInteger" : 1000
+        },
+        {
+          "name" : "offset",
+          "valueInteger" : 0
+        },
+        {
+          "name" : "excludeNested",
+          "valueBoolean" : false
+        },
+        {
+          "name" : "used-codesystem",
+          "valueUri" : "http://smart.who.int/base/CodeSystem/SGPersonaTypes|0.2.0"
+        }],
+        "contains" : [{
+          "system" : "http://smart.who.int/base/CodeSystem/SGPersonaTypes",
+          "code" : "key",
+          "display" : "Key Persona"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/SGPersonaTypes",
+          "code" : "related",
+          "display" : "Related Persona"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/SGPersonaTypes",
+          "code" : "system",
+          "display" : "System"
+        },
+        {
+          "system" : "http://smart.who.int/base/CodeSystem/SGPersonaTypes",
+          "code" : "hardware",
+          "display" : "Hardware Device"
+        }]
+      }
+    }
+  }]
+}

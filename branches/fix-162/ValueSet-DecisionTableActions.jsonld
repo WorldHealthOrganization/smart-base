@@ -1,0 +1,58 @@
+{
+  "@context": {
+    "@vocab": "http://smart.who.int/base/vocab#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "schema": "https://schema.org/",
+    "fhir": "http://hl7.org/fhir/",
+    "id": "@id",
+    "type": "@type",
+    "name": "rdfs:label",
+    "comment": "rdfs:comment",
+    "version": "schema:version",
+    "date": "schema:dateCreated",
+    "publisher": "schema:publisher"
+  },
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/vocab#DecisionTableActionsEnumeration",
+      "type": "schema:Enumeration",
+      "name": "Smart Guidelines Decision Table Actions Enumeration",
+      "comment": "Allowed values for the Smart Guidelines Decision Table Actions enumeration.",
+      "version": "0.2.0",
+      "date": "2025-09-18T14:48:54+00:00",
+      "publisher": "World Health Organization",
+      "fhir:valueSet": "http://smart.who.int/base/ValueSet/DecisionTableActions"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/DecisionTableActions#output",
+      "type": "http://smart.who.int/base/vocab#DecisionTableActionsEnumeration",
+      "name": "Output",
+      "fhir:code": "output",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/DecisionTableActions"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/DecisionTableActions#guidance",
+      "type": "http://smart.who.int/base/vocab#DecisionTableActionsEnumeration",
+      "name": "Guidance",
+      "fhir:code": "guidance",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/DecisionTableActions"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/DecisionTableActions#annotation",
+      "type": "http://smart.who.int/base/vocab#DecisionTableActionsEnumeration",
+      "name": "Annotation",
+      "fhir:code": "annotation",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/DecisionTableActions"
+    },
+    {
+      "id": "http://smart.who.int/base/vocab#decisiontableactions",
+      "type": "rdf:Property",
+      "name": "decisiontableactions",
+      "comment": "Property for selecting a value from the Smart Guidelines Decision Table Actions enumeration.",
+      "schema:rangeIncludes": {
+        "id": "http://smart.who.int/base/vocab#DecisionTableActionsEnumeration"
+      }
+    }
+  ]
+}
