@@ -2,7 +2,7 @@
 
 <!-- DAK_API_PLACEHOLDER: ValueSet-DocumentationSection -->
 
-
+Value Set for Smart Guidelines Documentation Section to autogenerate documentation from artifacts
 
 ---
 

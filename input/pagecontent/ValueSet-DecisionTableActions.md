@@ -2,7 +2,7 @@
 
 <!-- DAK_API_PLACEHOLDER: ValueSet-DecisionTableActions -->
 
-
+Value Set for Smart Guidelines Documentation Decision Table Actions
 
 ---
 
