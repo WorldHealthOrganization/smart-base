@@ -16,7 +16,9 @@ The current DAK Logical Model (https://worldhealthorganization.github.io/smart-b
 
 The requirement is to allow each component to be **either**:
 1. An inline instance of the component (current behavior)
-2. A URL reference to an external instance of that component
+2. A canonical reference (FHIR canonical URL/URI) to an external instance of that component
+
+**Note**: References should support both absolute canonical URLs (e.g., `http://smart.who.int/base/GenericPersona/midwife`) and relative canonical references (e.g., `GenericPersona/midwife`), not just file paths.
 
 ### Important Context
 
@@ -133,13 +135,13 @@ Use FHIR `Reference()` type to point to logical model instances, similar to how 
 ## Option 3: Backbone Element with Content Choice
 
 ### Description
-Create a wrapper BackboneElement that contains either the inline content OR a URL reference.
+Create a wrapper BackboneElement that contains either the inline content OR a canonical reference.
 
 ### Implementation
 ```fsh
 // In DAK.fsh:
 * indicators 0..* BackboneElement "Program Indicators" "..."
-  * content[x] 1..1 ProgramIndicator or url "Content" "Either inline indicator or URL to indicator"
+  * content[x] 1..1 ProgramIndicator or canonical "Content" "Either inline indicator or canonical reference"
 ```
 
 ### Pros
@@ -147,6 +149,7 @@ Create a wrapper BackboneElement that contains either the inline content OR a UR
 - Single array in JSON with uniform structure
 - Clear that each entry is either inline or reference
 - Easier to process programmatically
+- **Uses FHIR canonical type** for references
 
 ### Cons
 - Adds an extra nesting level
@@ -167,7 +170,10 @@ Create a wrapper BackboneElement that contains either the inline content OR a UR
       }
     },
     {
-      "contentUrl": "http://example.org/indicators/IND002.json"
+      "contentCanonical": "http://smart.who.int/base/ProgramIndicator/standard-coverage"
+    },
+    {
+      "contentCanonical": "ProgramIndicator/timeliness-indicator"
     }
   ]
 }
@@ -176,13 +182,13 @@ Create a wrapper BackboneElement that contains either the inline content OR a UR
 ## Option 4: Separate Arrays for Inline and Referenced
 
 ### Description
-Create two separate arrays: one for inline components and one for references.
+Create two separate arrays: one for inline components and one for canonical references.
 
 ### Implementation
 ```fsh
 // In DAK.fsh:
 * indicators 0..* ProgramIndicator "Program Indicators (Inline)" "Inline program indicators"
-* indicatorsReference 0..* url "Program Indicators (Reference)" "References to external program indicators"
+* indicatorsRef 0..* canonical "Program Indicator References" "Canonical references to external program indicators (e.g., http://smart.who.int/base/ProgramIndicator/IND001 or ProgramIndicator/IND001)"
 ```
 
 ### Pros
@@ -190,6 +196,8 @@ Create two separate arrays: one for inline components and one for references.
 - No choice types needed
 - Easy to process: check both arrays
 - Explicit distinction between inline and referenced
+- **Uses FHIR canonical type** for proper URL handling
+- Supports both absolute and relative canonical references
 
 ### Cons
 - Doubles the number of fields in DAK LM
@@ -208,21 +216,22 @@ Create two separate arrays: one for inline components and one for references.
       "definition": "Percentage vaccinated"
     }
   ],
-  "indicatorsReference": [
-    "http://example.org/indicators/IND002.json"
+  "indicatorsRef": [
+    "http://smart.who.int/base/ProgramIndicator/standard-coverage",
+    "ProgramIndicator/timeliness-indicator"
   ]
 }
 ```
 
-## Option 5: URI Field in Each Component
+## Option 5: Canonical Reference Field in Each Component
 
 ### Description
-Add an optional URI field to each component logical model that, when present, indicates the content should be fetched from that URI instead of using inline data.
+Add an optional canonical reference field to each component logical model that supports FHIR canonical URLs for referencing external component instances.
 
 ### Implementation
 ```fsh
 // In ProgramIndicator.fsh and all other component models:
-* reference 0..1 url "Reference URL" "If present, the component instance should be fetched from this URL instead of using inline fields"
+* reference 0..1 canonical "Canonical Reference" "Canonical URL referencing an external component instance. Supports both absolute (http://smart.who.int/base/ProgramIndicator/IND001) and relative (ProgramIndicator/IND001) references. When present, other fields may provide metadata only."
 
 // DAK.fsh remains unchanged:
 * indicators 0..* ProgramIndicator "Program Indicators" "..."
@@ -232,20 +241,41 @@ Add an optional URI field to each component logical model that, when present, in
 - No changes to DAK.fsh needed
 - Each component can be inline or referenced
 - Uniform pattern across all components
-- Validates well
-- **Consistent with existing `source` pattern** used in DecisionSupportLogic and BusinessProcessWorkflow
+- **Uses proper FHIR canonical type** for references
+- Supports absolute and relative canonical URLs
+- Can include metadata (id, title) alongside reference
+- **Best option for canonical reference support**
 
 ### Cons
 - Requires changing all 9 component logical models
-- Potentially confusing: what if both reference URL and inline data are present?
-- Need validation rules to ensure consistency
-- Name conflict: `reference` might conflict with FHIR's Reference type
+- Need validation rules: what if both reference and full inline data are present?
+- Semantic: should minimal metadata be allowed when reference is present?
 
 ### Example JSON Instance
 ```json
 {
   "resourceType": "DAK",
   "id": "example",
+  "indicators": [
+    {
+      "id": "IND001",
+      "name": "Vaccination coverage",
+      "definition": "Percentage vaccinated",
+      "numerator": "Number vaccinated",
+      "denominator": "Total population"
+    },
+    {
+      "id": "IND002",
+      "reference": "http://smart.who.int/base/ProgramIndicator/standard-coverage"
+    },
+    {
+      "id": "IND003",
+      "name": "Timeliness",
+      "reference": "ProgramIndicator/timeliness-indicator"
+    }
+  ]
+}
+```
   "indicators": [
     {
       "id": "IND001",
@@ -350,13 +380,25 @@ This approach:
    - For all others: Component instance JSON files
 4. Add validation guidance (e.g., if source is present, other fields may be minimal/optional)
 
-### Alternative Recommendation: **Option 5 - URI Field with Different Name**
+### Alternative Recommendation: **Option 5 - Canonical Reference Field** ⭐⭐⭐⭐⭐
 
-If semantic clarity is more important than consistency with existing `source` fields:
-1. ✅ Very clear that this is a reference to a component instance
-2. ✅ No confusion with process definition files
-3. ✅ Uses a distinct field name like `reference`, `instanceUrl`, or `contentUrl`
-4. ❌ Less consistent with existing pattern
+**For proper canonical reference support, Option 5 is the best choice:**
+
+1. ✅ **Uses FHIR canonical type** designed for referencing instances
+2. ✅ Supports both absolute and relative canonical URLs
+3. ✅ Very clear that this is a reference to a component instance
+4. ✅ No confusion with process definition files
+5. ✅ Can include minimal metadata (id, title) alongside reference
+6. ✅ Cleanest JSON structure
+7. ❌ Less consistent with existing `source` pattern
+
+**Best for**: Projects prioritizing proper FHIR canonical references over consistency with existing patterns.
+
+**Implementation:**
+```fsh
+// Add to all component models:
+* reference 0..1 canonical "Canonical Reference" "Canonical URL to external instance"
+```
 
 ### Secondary Alternative: **Option 4 - Separate Arrays**
 
@@ -396,7 +438,7 @@ Description: "..."
 * source 1..1 uri "Source" "Link to an external resource containing the workflow. This can be either: (1) A BPMN file containing the workflow definition, or (2) A JSON file containing a complete BusinessProcessWorkflow instance. Source URI could be absolute or relative to the root of the DAK"
 ```
 
-### For Option 5 - New Reference Field:
+### For Option 5 - Canonical Reference Field (Best for Canonical):
 
 ```fsh
 // Example change to ProgramIndicator.fsh:
@@ -405,13 +447,29 @@ Title: "Program Indicator (DAK)"
 Description: "..."
 
 * ^status = #active
-* reference 0..1 url "Instance Reference" "URL to an external JSON file containing a complete ProgramIndicator instance. When reference is provided, other fields may be omitted or provide minimal metadata."
+* reference 0..1 canonical "Canonical Reference" "Canonical URL referencing an external ProgramIndicator instance. Supports both absolute canonical URLs (e.g., http://smart.who.int/base/ProgramIndicator/IND001) and relative references (e.g., ProgramIndicator/IND001). When reference is provided, other fields may provide minimal metadata only."
 * id 1..1 id "Indicator ID" "..."
 * description[x] 0..1 string or uri "Description" "..."
 // ... rest of fields remain the same
 ```
 
-### For Option 4 - Separate Arrays:
+**Example for GenericPersona:**
+```fsh
+Logical: GenericPersona
+Title: "Generic Persona (DAK)"
+Description: "..."
+
+* ^status = #active
+* reference 0..1 canonical "Canonical Reference" "Canonical URL to external GenericPersona (e.g., http://smart.who.int/base/GenericPersona/midwife or GenericPersona/clinical-officer)"
+* title 1..1 string "Title" "Title of the persona"
+* id 1..1 id "Persona ID" "Identifier for the persona"
+* description[x] 1..1 string or uri "Description" "Description of the persona"
+* otherNames 0..* string "Other Names/Examples" "Other names or examples"
+* iscoCode 0..* code "ISCO Code" "ISCO-08 codes"
+* iscoCode from ISCO08ValueSet (extensible)
+```
+
+### For Option 4 - Separate Arrays with Canonical:
 
 ```fsh
 // Example change to DAK.fsh:
@@ -420,7 +478,15 @@ Description: "..."
 
 // New:
 * indicators 0..* ProgramIndicator "Program Indicators" "Core set of indicators (inline definitions)"
-* indicatorsRef 0..* url "Program Indicator References" "References to externally defined program indicators (JSON files containing ProgramIndicator instances)"
+* indicatorsRef 0..* canonical "Program Indicator References" "Canonical references to external indicators (e.g., http://smart.who.int/base/ProgramIndicator/IND001 or ProgramIndicator/IND001)"
+```
+
+**Example for GenericPersona:**
+```fsh
+// In DAK.fsh:
+* personas 0..* GenericPersona "Generic Personas (Inline)" "Inline persona definitions"
+* personasRef 0..* canonical "Generic Persona References" "Canonical references (e.g., http://smart.who.int/base/GenericPersona/midwife or GenericPersona/clinical-officer)"
+```
 ```
 
 ## Validation Rules

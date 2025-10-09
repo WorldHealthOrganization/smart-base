@@ -3,7 +3,9 @@
 ## Request
 Allow DAK Logical Model component instances to be either:
 1. **Inline**: Full component content embedded in dak.json
-2. **Referenced**: URL pointing to an external component instance
+2. **Referenced**: Canonical reference (URL/URI) pointing to an external component instance
+
+**Note**: References should support FHIR canonical URLs (e.g., `http://smart.who.int/base/GenericPersona/midwife`) and relative references (e.g., `GenericPersona/midwife`).
 
 ## Current State
 - 9 component types in DAK.fsh (healthInterventions, personas, userScenarios, etc.)
