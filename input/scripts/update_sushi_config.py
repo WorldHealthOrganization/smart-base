@@ -519,11 +519,16 @@ def scan_for_valuesets_and_create_placeholders(qa_reporter: QAReporter):
                     qa_reporter.add_warning(f"Error checking existing file {md_path}: {e}")
             
             if should_create:
+                # Get the source file path relative to repository root
+                source_file = valueset.get('source_file', 'Unknown')
                 placeholder_content = f"""# {valueset['title']}
 
 <!-- DAK_API_PLACEHOLDER: ValueSet-{valueset['id']} -->
+<!-- SOURCE: {source_file} -->
 
 {valueset.get('description', 'ValueSet documentation will be generated during post-processing.')}
+
+**Source:** `{source_file}`
 
 ---
 
@@ -562,11 +567,16 @@ def scan_for_valuesets_and_create_placeholders(qa_reporter: QAReporter):
                     qa_reporter.add_warning(f"Error checking existing file {md_path}: {e}")
             
             if should_create:
+                # Get the source file path relative to repository root
+                source_file = logical_model.get('source_file', 'Unknown')
                 placeholder_content = f"""# {logical_model['title']}
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-{logical_model['id']} -->
+<!-- SOURCE: {source_file} -->
 
 {logical_model.get('description', 'Logical Model documentation will be generated during post-processing.')}
+
+**Source:** `{source_file}`
 
 ---
 
