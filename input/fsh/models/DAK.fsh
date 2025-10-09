@@ -24,13 +24,13 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
 
 
 
-// 9 DAK Components with cardinality 0..*
-* healthInterventions 0..* HealthInterventions "Health Interventions and Recommendations" "Overview of the health interventions and WHO, regional or national recommendations included within the DAK"
-* personas 0..* GenericPersona "Generic Personas" "Depiction of the human and system actors"
-* userScenarios 0..* UserScenario "User Scenarios" "Narratives that describe how the different personas may interact with each other"
-* businessProcesses 0..* BusinessProcessWorkflow "Generic Business Processes and Workflows" "Business processes and workflows for achieving health programme objectives"
-* dataElements 0..* CoreDataElement "Core Data Elements" "Data elements required throughout the different points of a workflow"
-* decisionLogic 0..* DecisionSupportLogic "Decision-Support Logic" "Decision-support logic and algorithms to support appropriate service delivery"
-* indicators 0..* ProgramIndicator "Program Indicators" "Core set of indicators for decision-making, performance metrics and reporting"
-* requirements 0..* Requirements "Functional and Non-Functional Requirements" "High-level list of core functions and capabilities that the system must have"
-* testScenarios 0..* TestScenario "Test Scenarios" "Set of test scenarios to validate an implementation of the DAK"
+// 9 DAK Components with cardinality 0..* - each component can be either a URL, canonical reference, or inline instance
+* healthInterventions[x] 0..* url or canonical or HealthInterventions "Health Interventions and Recommendations" "Each health intervention is either: (1) URL to retrieve definition from input/ or external source, (2) canonical reference, or (3) inline HealthInterventions instance data"
+* personas[x] 0..* url or canonical or GenericPersona "Generic Personas" "Each persona is either: (1) URL to retrieve definition from input/ or external source, (2) canonical reference, or (3) inline GenericPersona instance data"
+* userScenarios[x] 0..* url or canonical or UserScenario "User Scenarios" "Each user scenario is either: (1) URL to retrieve definition from input/ or external source, (2) canonical reference, or (3) inline UserScenario instance data"
+* businessProcesses[x] 0..* url or canonical or BusinessProcessWorkflow "Generic Business Processes and Workflows" "Each business process is either: (1) URL to retrieve definition from input/ or external source, (2) canonical reference, or (3) inline BusinessProcessWorkflow instance data"
+* dataElements[x] 0..* url or canonical or CoreDataElement "Core Data Elements" "Each data element is either: (1) URL to retrieve definition from input/ or external source, (2) canonical reference, or (3) inline CoreDataElement instance data"
+* decisionLogic[x] 0..* url or canonical or DecisionSupportLogic "Decision-Support Logic" "Each decision logic is either: (1) URL to retrieve definition from input/ or external source, (2) canonical reference, or (3) inline DecisionSupportLogic instance data"
+* indicators[x] 0..* url or canonical or ProgramIndicator "Program Indicators" "Each indicator is either: (1) URL to retrieve definition from input/ or external source, (2) canonical reference, or (3) inline ProgramIndicator instance data"
+* requirements[x] 0..* url or canonical or Requirements "Functional and Non-Functional Requirements" "Each requirement is either: (1) URL to retrieve definition from input/ or external source, (2) canonical reference, or (3) inline Requirements instance data"
+* testScenarios[x] 0..* url or canonical or TestScenario "Test Scenarios" "Each test scenario is either: (1) URL to retrieve definition from input/ or external source, (2) canonical reference, or (3) inline TestScenario instance data"
