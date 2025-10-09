@@ -14,6 +14,7 @@ and outputs dak.json to the current directory.
 """
 
 import json
+import os
 import sys
 import yaml
 from pathlib import Path
@@ -48,20 +49,77 @@ def convert_publisher(sushi_publisher: Any) -> Dict[str, str]:
         return {"name": ""}
 
 
+def generate_publication_url(repo_name: str, canonical_url: str) -> str:
+    """Generate publication URL based on repository ownership and name."""
+    # Check if this is a WorldHealthOrganization repository
+    if os.getenv('GITHUB_REPOSITORY', '').startswith('WorldHealthOrganization/'):
+        # Extract stub by removing 'smart-' prefix if present
+        stub = repo_name
+        if stub.startswith('smart-'):
+            stub = stub[6:]  # Remove 'smart-' prefix
+        return f"https://smart.who.int/{stub}"
+    else:
+        # For non-WHO repositories, use canonical URL or default pattern
+        if canonical_url:
+            return canonical_url
+        # Fallback to GitHub Pages pattern
+        github_repo = os.getenv('GITHUB_REPOSITORY', '')
+        if github_repo:
+            return f"https://{github_repo.split('/')[0]}.github.io/{github_repo.split('/')[1]}"
+        return canonical_url or ""
+
+
+def generate_preview_url(repo_name: str) -> str:
+    """Generate preview URL for current CI build."""
+    github_repo = os.getenv('GITHUB_REPOSITORY', '')
+    if github_repo:
+        profile, repo = github_repo.split('/')
+        return f"https://{profile}.github.io/{repo}"
+    # Fallback for local development
+    return f"https://worldhealthorganization.github.io/{repo_name}"
+
+
+def is_release_branch() -> bool:
+    """Check if current branch is a release branch (prefixed with 'release-')."""
+    branch_name = os.getenv('GITHUB_REF_NAME', os.getenv('BRANCH_NAME', ''))
+    return branch_name.startswith('release-')
+
+
 def generate_dak_json(sushi_config: Dict[str, Any]) -> Dict[str, Any]:
     """Generate dak.json structure from sushi-config.yaml."""
+    
+    # Extract repository information
+    repo_id = sushi_config.get("id", "")
+    repo_name = repo_id.split('.')[-1] if '.' in repo_id else repo_id
+    canonical_url = sushi_config.get("canonical", "")
+    
+    # Generate URLs based on branch type and repository ownership
+    if is_release_branch():
+        # For release branches, use publication URL for canonical references
+        publication_url = generate_publication_url(repo_name, canonical_url)
+        preview_url = generate_preview_url(repo_name)
+        # Use publication URL as canonical URL for release branches
+        effective_canonical = publication_url
+    else:
+        # For non-release branches, use preview URL
+        publication_url = generate_publication_url(repo_name, canonical_url)
+        preview_url = generate_preview_url(repo_name)
+        # Use preview URL as canonical URL for development branches
+        effective_canonical = preview_url
     
     # Core DAK identity (mapped from sushi config)
     dak = {
         "resourceType": "DAK",
         "resourceDefinition": "http://smart.who.int/base/StructureDefinition/DAK",
-        "id": sushi_config.get("id", ""),
+        "id": repo_id,
         "name": sushi_config.get("name", ""),
         "title": sushi_config.get("title", ""),
         "description": sushi_config.get("description", ""),
         "version": sushi_config.get("version", "0.1.0"),
         "status": sushi_config.get("status", "draft"),
-        "publicationUrl": sushi_config.get("canonical", ""),
+        "publicationUrl": publication_url,
+        "previewUrl": preview_url,
+        "canonicalUrl": effective_canonical,
         "license": sushi_config.get("license", "CC0-1.0"),
         "copyrightYear": sushi_config.get("copyrightYear", str(datetime.now().year)),
         "publisher": convert_publisher(sushi_config.get("publisher", {}))
@@ -146,6 +204,9 @@ def main():
         print(f"DAK ID: {dak_config['id']}")
         print(f"DAK Title: {dak_config['title']}")
         print(f"Publication URL: {dak_config['publicationUrl']}")
+        print(f"Preview URL: {dak_config['previewUrl']}")
+        print(f"Canonical URL: {dak_config['canonicalUrl']}")
+        print(f"Is Release Branch: {is_release_branch()}")
     except IOError as e:
         print(f"Error writing output file: {e}")
         sys.exit(1)

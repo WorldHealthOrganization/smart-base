@@ -11,7 +11,9 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
 * description[x] 1..1 string or uri "DAK Description" "Description of the DAK - either Markdown content or a URI to a Markdown file (absolute or relative to repository root)"
 * version 1..1 string "DAK Version" "Version of the DAK"
 * status 1..1 code "DAK Status" "Publication status of the DAK"
-* publicationUrl 1..1 url "Publication URL" "Canonical URL for the DAK (e.g., http://smart.who.int/base)"
+* publicationUrl 1..1 url "Publication URL" "Canonical URL for the published DAK (e.g., https://smart.who.int/base for WHO repositories)"
+* previewUrl 1..1 url "Preview URL" "Preview URL for the current CI build (e.g., https://worldhealthorganization.github.io/smart-base)"
+* canonicalUrl 1..1 url "Canonical URL" "The canonical URL to use for this DAK instance - equals publicationUrl for release branches, previewUrl for development branches"
 * license 1..1 code "License" "License under which the DAK is published"
 * copyrightYear 1..1 string "Copyright Year" "Year or year range for copyright"
 
