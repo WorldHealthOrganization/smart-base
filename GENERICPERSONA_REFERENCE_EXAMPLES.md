@@ -29,6 +29,107 @@ Description: "..."
 
 ---
 
+## Recommended Pattern: Choice with Optional Source Field
+
+Based on the feedback, when using a choice type (reference OR actual instance), the `source` should be an **optional data element** that can be associated with the component to provide provenance information.
+
+### FSH Change to GenericPersona (with optional source)
+
+```fsh
+Logical: GenericPersona
+Title: "Generic Persona (DAK)"
+Description: "Logical Model for representing Generic Personas from a DAK. Depiction of the human and system actors."
+
+* ^status = #active
+* source 0..1 uri "Source" "Optional source URI indicating where this persona definition comes from. Can be used with both inline instances and references for provenance tracking."
+* title 1..1 string "Title" "Title of the persona"
+* id 1..1 id "Persona ID" "Identifier for the persona"
+* description[x] 1..1 string or uri "Description" "Description of the persona - either Markdown content or a URI to a Markdown file"
+* otherNames 0..* string "Other Names/Examples" "Other names or examples for the persona"
+* iscoCode 0..* code "ISCO Code" "ISCO-08 codes for occupation classification"
+* iscoCode from ISCO08ValueSet (extensible)
+```
+
+### FSH Change to DAK.fsh (choice type)
+
+```fsh
+// Change from:
+* personas 0..* GenericPersona "Generic Personas" "..."
+
+// To:
+* personas[x] 0..* GenericPersona or canonical "Generic Personas" "Either inline persona instances OR canonical references to external personas"
+```
+
+### Example JSON Instance
+
+```json
+{
+  "resourceType": "DAK",
+  "id": "smart.who.int.anc",
+  "name": "ANC",
+  
+  "personasGenericPersona": [
+    {
+      "id": "P01",
+      "title": "Community Health Worker",
+      "description": "Provides basic ANC services at community level",
+      "source": "http://who.int/personas/definitions/chw-v1",
+      "otherNames": ["CHW", "Village Health Worker"],
+      "iscoCode": ["3253"]
+    },
+    {
+      "id": "P02",
+      "title": "Midwife",
+      "description": "Provides skilled maternal care",
+      "iscoCode": ["2222"]
+    }
+  ],
+  
+  "personasCanonical": [
+    "http://smart.who.int/base/GenericPersona/clinical-officer",
+    "GenericPersona/anc-coordinator"
+  ]
+}
+```
+
+### Key Points
+
+1. **`source` is optional (0..1)** - Can be omitted when not needed
+2. **Works with both patterns**:
+   - When persona is inline: `source` provides provenance/origin information
+   - When using canonical reference: The reference itself points to the persona definition
+3. **Canonical choice type** - Uses proper FHIR canonical type for references
+4. **Single logical model** - GenericPersona definition includes optional source field
+
+### Processing Logic
+
+```javascript
+async function getAllPersonas(dak) {
+  const personas = [];
+  
+  // Process inline personas
+  if (dak.personasGenericPersona) {
+    for (const persona of dak.personasGenericPersona) {
+      personas.push(persona);
+      // persona.source provides optional provenance info
+    }
+  }
+  
+  // Process canonical references
+  if (dak.personasCanonical) {
+    for (const canonical of dak.personasCanonical) {
+      const resolved = await resolveCanonical(canonical);
+      personas.push(resolved);
+      // resolved.source might provide provenance from the referenced resource
+    }
+  }
+  
+  return personas;
+}
+```
+
+---
+
 ## Option 1: Choice Type with URL (Simple References)
 
 ### FSH Change to GenericPersona
@@ -503,6 +604,21 @@ async function resolveCanonical(canonical) {
 ## Summary
 
 For supporting **canonical IDs/URIs** (not just file paths), the best options are:
+
+### ⭐ **Recommended Pattern: Choice Type with Optional Source**
+
+Based on feedback, the preferred approach is:
+- **Use choice type in DAK.fsh**: `personas[x] 0..* GenericPersona or canonical`
+- **Add optional source field to GenericPersona**: `source 0..1 uri`
+- **Benefits**: 
+  - Clean separation between inline instances and canonical references
+  - Optional provenance tracking via source field
+  - Single logical model definition
+  - Proper FHIR canonical support
+
+See the "Recommended Pattern" section above for complete FSH examples.
+
+### Other Viable Options:
 
 1. **Option 5** (Reference field with canonical type) - Best for clean JSON and proper FHIR canonical support
 2. **Option 4** (Separate arrays with canonical type) - Best for explicit separation
