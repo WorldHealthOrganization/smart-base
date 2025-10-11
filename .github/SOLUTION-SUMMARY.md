@@ -17,37 +17,62 @@ External tools were checking for `sushi-config.yaml` to identify DAK repositorie
 
 ## Solution Provided
 
-### 1. Comprehensive Detection Guide
+### 1. DAK Repository List (Completely Eliminates 404s!)
+
+**Created `input/pagecontent/dak-repositories.json`** - A curated JSON file with all WHO DAK repositories:
+
+```javascript
+// Fetch once - NO 404 errors!
+const response = await fetch(
+  'https://worldhealthorganization.github.io/smart-base/dak-repositories.json'
+);
+const data = await response.json();
+
+// Check in-memory - no API calls needed!
+function isDAKRepository(owner, repo) {
+  return data.repositories.some(
+    r => r.owner === owner && r.name === repo
+  );
+}
+```
+
+**Benefits:**
+- ✅ **Zero 404 errors** - One request for entire organization
+- ✅ **Instant checks** - In-memory lookup, no API calls
+- ✅ **Complete metadata** - Titles, URLs, descriptions included
+
+### 2. Comprehensive Detection Guide
+
 Created `.github/DAK-REPOSITORY-DETECTION.md` with:
-- ✅ Best practices for identifying DAK repositories
+- ✅ Primary method: Fetch DAK repository list (NO 404s!)
+- ✅ Fallback method: Check for `dak.json` with proper error handling
 - ✅ Production-ready JavaScript and Python code examples
-- ✅ Proper 404 error handling patterns
 - ✅ Console error suppression techniques
 - ✅ Rate limiting and caching strategies
 
-### 2. Better Detection Method
-**Old approach (problematic):**
+### 3. Better Detection Method
+**Old approach (generates 404s):**
 ```javascript
 // Check for sushi-config.yaml - generates many 404s
 GET /repos/{owner}/{repo}/contents/sushi-config.yaml
 ```
 
-**New approach (recommended):**
+**New approach (RECOMMENDED - zero 404s):**
 ```javascript
-// Check for dak.json - specific to DAK repos only
-GET /repos/{owner}/{repo}/contents/dak.json
+// Method 1: Use curated list (NO 404s!)
+const list = await fetch('https://worldhealthorganization.github.io/smart-base/dak-repositories.json');
+const data = await list.json();
+const isDak = data.repositories.some(r => r.name === 'smart-base');
 
-// Handle 404 gracefully
-if (response.status === 404) {
-  // Expected - not a DAK repository
-  return false;
-}
+// Method 2 (fallback): Check dak.json with error handling
+const response = await fetch('/repos/WHO/smart-base/contents/dak.json');
+if (response.status === 404) return false; // No console error
 ```
 
-### 3. Marker File
+### 4. Marker File
 Added `.dak-repository` lightweight marker for even more efficient scanning using HEAD requests.
 
-### 4. Documentation Updates
+### 5. Documentation Updates
 - Updated README.md
 - Updated index.md
 - Added clear guidance on how to detect DAK repos properly
@@ -58,17 +83,43 @@ Added `.dak-repository` lightweight marker for even more efficient scanning usin
 1. Tool scans 100 GitHub repos
 2. Checks each for `sushi-config.yaml`
 3. Gets 404s for 90+ repos (expected)
-4. Console filled with red error messages
+4. **Console filled with red error messages** ❌
 5. Still unclear which are DAK repos (sushi-config exists in non-DAK FHIR IGs too)
 
 ### After (Solution):
-1. Tool scans repos checking for `dak.json` (DAK-specific)
-2. Implements proper 404 handling from guide
-3. 404s are handled silently (expected for non-DAK repos)
-4. Console stays clean
-5. Clear identification of DAK repos only
+1. Tool fetches DAK repository list ONCE
+2. Checks repos against in-memory list
+3. **Zero 404 errors!** ✅
+4. **Clean console output** ✅
+5. Instant lookups, no API rate limiting
+6. Clear identification of DAK repos only
 
-## Code Example: Proper 404 Handling
+## Code Example: Zero 404 Errors
+
+```javascript
+async function scanForDAKRepos() {
+  // Fetch list once - NO 404s!
+  const response = await fetch(
+    'https://worldhealthorganization.github.io/smart-base/dak-repositories.json'
+  );
+  const data = await response.json();
+  
+  // Check against in-memory list - NO API calls, NO 404s!
+  function isDAKRepository(owner, repo) {
+    return data.repositories.some(
+      r => r.owner === owner && r.name === repo
+    );
+  }
+  
+  // Example: Check if smart-base is a DAK repo
+  const isDak = isDAKRepository('WorldHealthOrganization', 'smart-base');
+  console.log('Is DAK:', isDak); // true, no 404 errors!
+}
+```
+
+## Code Example: Fallback with Proper 404 Handling
+
+If the list is unavailable, fall back to individual checks:
 
 ```javascript
 async function isDAKRepository(owner, repo) {

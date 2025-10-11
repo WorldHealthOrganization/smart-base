@@ -23,7 +23,7 @@ The repository includes both:
 
 ### DAK Repository Detection
 
-This repository contains a `dak.json` file that serves as the primary indicator for external tools to identify WHO SMART Guidelines DAK repositories. For guidance on programmatically detecting DAK repositories without generating unnecessary 404 errors, see the [DAK Repository Detection Guide](.github/DAK-REPOSITORY-DETECTION.md).
+This repository contains a `dak.json` file that serves as the primary indicator for external tools to identify WHO SMART Guidelines DAK repositories. Additionally, a curated list of all WHO DAK repositories is available at `dak-repositories.json` for efficient scanning without 404 errors. For guidance on programmatically detecting DAK repositories without generating unnecessary 404 errors, see the [DAK Repository Detection Guide](.github/DAK-REPOSITORY-DETECTION.md).
 
 ### Core FHIR Profiles and Extensions
 This ImplementationGuide contains base profiles, extensions, and common dependencies that serve as the foundation for all WHO SMART Guidelines Implementation Guides. These artifacts define the standardized approach for representing clinical knowledge in a computable format.
