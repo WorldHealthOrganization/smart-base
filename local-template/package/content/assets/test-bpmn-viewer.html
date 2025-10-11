@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BPMN Viewer Test</title>
+    <link rel="stylesheet" href="bpmn.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #0093d0;
+        }
+        .info {
+            background: #e5f4fa;
+            border: 1px solid #0093d0;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .info h2 {
+            margin-top: 0;
+            color: #0093d0;
+        }
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>BPMN Viewer Test Page</h1>
+    
+    <div class="info">
+        <h2>About This Test</h2>
+        <p>This page demonstrates the BPMN viewer with the following features:</p>
+        <ul>
+            <li><strong>240px preview height</strong> - 50% taller than the original 160px</li>
+            <li><strong>Compact single-line file info</strong> - File name and action buttons in one line</li>
+            <li><strong>requestAnimationFrame viewport fitting</strong> - Replaces setTimeout for better timing</li>
+            <li><strong>Diagnostic logging</strong> - Open browser console to see detailed dimension logs</li>
+            <li><strong>Container dimension validation</strong> - Waits for non-zero dimensions before zoom</li>
+        </ul>
+        <p>Open your browser's developer console (F12) to see diagnostic output including:</p>
+        <ul>
+            <li>Container dimensions (offsetWidth, offsetHeight, clientWidth, clientHeight)</li>
+            <li>Viewport transform states before and after zoom</li>
+            <li>requestAnimationFrame callbacks and timing</li>
+            <li>Recovery attempts if viewport transform becomes all zeros</li>
+        </ul>
+    </div>
+
+    <h2>Example BPMN Preview</h2>
+    <p>Below is a BPMN preview container. In a real implementation, this would load a .bpmn file.</p>
+    
+    <div class="bpmn-preview-container" data-bpmn-url="sample.bpmn">
+        <div class="bpmn-file-info">
+            <span class="bpmn-file-name">Sample Business Process</span>
+            <div class="bpmn-file-actions">
+                <a href="sample.svg" target="_blank">SVG</a>
+                <a href="sample.bpmn" target="_blank">BPMN</a>
+            </div>
+        </div>
+        <div class="bpmn-canvas-container">
+            <div class="bpmn-canvas"></div>
+        </div>
+    </div>
+
+    <div class="info">
+        <h2>Expected Console Output</h2>
+        <p>When the page loads, you should see diagnostic logs like:</p>
+        <pre><code>[BPMN Viewer] Found 1 BPMN preview container(s)
+[BPMN Viewer] Loading BpmnJS from CDN: https://unpkg.com/bpmn-js@17.2.1/...
+[BPMN Viewer] Initializing viewer 1/1 {bpmnUrl: "sample.bpmn"}
+[BPMN Viewer] Initial container dimensions: {container.offsetWidth: 1160, ...}
+[BPMN Viewer] Container dimensions check: {offsetWidth: 1160, hasValidDimensions: true}
+[BPMN Viewer] fitViewportWithRAF called
+[BPMN Viewer] First RAF callback: layout should be painted
+[BPMN Viewer] Container has valid dimensions, proceeding with callback
+[BPMN Viewer] Second RAF callback: executing zoom
+[BPMN Viewer] Pre-zoom state: {viewbox.x: 0, viewbox.scale: 1, ...}
+[BPMN Viewer] Viewport transform before zoom: matrix(1 0 0 1 0 0)
+[BPMN Viewer] Post-zoom state: {viewbox.scale: 0.85, ...}
+[BPMN Viewer] Viewport transform after zoom: matrix(0.85 0 0 0.85 100 50)</code></pre>
+    </div>
+
+    <h2>Implementation Details</h2>
+    <div class="info">
+        <h3>Key Improvements from PR 1082</h3>
+        <ul>
+            <li><strong>requestAnimationFrame instead of setTimeout</strong>: Uses nested RAF calls to ensure the browser has painted the container and all dimensions are computed before attempting viewport zoom.</li>
+            <li><strong>Dimension validation</strong>: Checks multiple dimension properties (offsetWidth, offsetHeight, clientWidth, clientHeight, boundingClientRect, computedStyle) to ensure the container is ready.</li>
+            <li><strong>Waiting mechanism</strong>: If container dimensions are still zero, waits up to 50 RAF cycles (about 833ms at 60fps) before proceeding.</li>
+            <li><strong>Diagnostic logging</strong>: Comprehensive logging shows exactly when and why viewport fitting succeeds or fails, including the viewport matrix transform values.</li>
+            <li><strong>Recovery fallback</strong>: If viewport transform ends up as all zeros after zoom, attempts manual viewbox recovery.</li>
+        </ul>
+    </div>
+
+    <script src="bpmn-viewer.js"></script>
+</body>
+</html>
