@@ -1,0 +1,15 @@
+# WHO SMART Guidelines DAK Repository
+
+This file serves as a lightweight marker to identify this repository as a WHO SMART Guidelines Digital Adaptation Kit (DAK) repository.
+
+External tools can check for this file's existence using a GitHub API HEAD request, which is more efficient than a GET request and avoids downloading file content:
+
+```bash
+# Check if repository is a DAK repository (returns 200 if yes, 404 if no)
+curl -I https://api.github.com/repos/WorldHealthOrganization/smart-base/contents/.dak-repository
+```
+
+For comprehensive DAK metadata, see the `dak.json` file in the repository root.
+
+For guidance on detecting DAK repositories programmatically, see:
+https://github.com/WorldHealthOrganization/smart-base/blob/main/.github/DAK-REPOSITORY-DETECTION.md

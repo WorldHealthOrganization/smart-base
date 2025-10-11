@@ -4,6 +4,12 @@ This implementation guide contains base conformance resources for use in all WHO
 
 See the [SMART IG Starter Kit](https://smart.who.int/ig-starter-kit/) for more information on building and using WHO SMART Guidelines.
 
+### DAK (Digital Adaptation Kit) Repository Detection
+
+This repository contains a `dak.json` file in the root directory, which serves as the primary indicator that this is a WHO SMART Guidelines DAK repository. External tools and applications should check for the presence of `dak.json` when scanning repositories to determine if they contain DAK content. This approach avoids unnecessary 404 errors that would occur when checking for `sushi-config.yaml`, which is present in all FHIR Implementation Guides, not just DAK repositories.
+
+For detailed guidance on detecting DAK repositories programmatically, see the [DAK Repository Detection Guide](https://github.com/WorldHealthOrganization/smart-base/blob/main/.github/DAK-REPOSITORY-DETECTION.md).
+
 ### DAK (Digital Adaptation Kit) URL Handling
 
 For repositories that contain a `dak.json` file in the root directory, this implementation guide provides enhanced URL handling for publication and preview scenarios:
