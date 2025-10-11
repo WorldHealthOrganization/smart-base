@@ -133,12 +133,29 @@
       <xsl:value-of select="$newline"/>
       <xsl:for-each select="$actorProcesses">
 	<xsl:variable name="url" select="concat(@name,'.svg')"/>
+	<xsl:variable name="bpmnUrl" select="concat(@name,'.bpmn')"/>
 	<xsl:text>* </xsl:text><xsl:value-of select="@name"/><xsl:text>(</xsl:text><xsl:value-of select="@name"/><xsl:text>)</xsl:text><xsl:value-of select="$newline"/>
 	<xsl:text>  (see [Concept Defintion](Codesystem-DAK.html#</xsl:text><xsl:value-of select="@id"/><xsl:text>))</xsl:text><xsl:value-of select="$newline"/><xsl:value-of select="$newline"/>
-	<!-- <xsl:text >  </xsl:text><div style="width:90%; display:block" class='businessprocess'><object width="90%"  type="image/svg+xml"><xsl:attribute name="data"><xsl:value-of select="@name"/></xsl:attribute></object></div><xsl:value-of select="$newline"/>-->
-	<!-- <xsl:text >  &lt;div style="width:90%; display:block" class='businessprocess'&gt;&lt;object width="90%"  type="image/svg+xml" data="</xsl:text><xsl:value-of select="@name"/><xsl:text>"&gt;&lt;/object&gt;&lt;/div&gt;></xsl:text><xsl:value-of select="$newline"/> -->
-	<xsl:text disable-output-escaping="yes">&lt;div style="width:90%; display:block" class='businessprocess'&gt;
-	&lt;object type="image/svg+xml"&gt;&lt;xsl:attribute name="data"&gt;&lt;xsl:value-of select="$url"/&gt;&lt;/xsl:attribute&gt;&lt;/object&gt;
+	<!-- BPMN Preview Container with interactive viewer -->
+	<xsl:text disable-output-escaping="yes">&lt;div class="bpmn-preview-container" data-bpmn-url="</xsl:text>
+	<xsl:value-of select="$bpmnUrl"/>
+	<xsl:text disable-output-escaping="yes">"&gt;
+	&lt;div class="bpmn-file-info"&gt;
+	&lt;span class="bpmn-file-name"&gt;</xsl:text>
+	<xsl:value-of select="@name"/>
+	<xsl:text disable-output-escaping="yes">&lt;/span&gt;
+	&lt;div class="bpmn-file-actions"&gt;
+	&lt;a href="</xsl:text>
+	<xsl:value-of select="$url"/>
+	<xsl:text disable-output-escaping="yes">" target="_blank"&gt;SVG&lt;/a&gt;
+	&lt;a href="</xsl:text>
+	<xsl:value-of select="$bpmnUrl"/>
+	<xsl:text disable-output-escaping="yes">" target="_blank"&gt;BPMN&lt;/a&gt;
+	&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class="bpmn-canvas-container"&gt;
+	&lt;div class="bpmn-canvas"&gt;&lt;/div&gt;
+	&lt;/div&gt;
 	&lt;/div&gt;
 	</xsl:text>
 	<xsl:variable name="actorQuestionnaires" select=".//bpmn:userTask"/>

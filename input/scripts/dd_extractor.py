@@ -160,7 +160,21 @@ class dd_extractor(extractor):
             code_definition['defintion'] += f"\n\nSee Business Process {display}:" \
                 + f" [SVG]({link_svg}) [BPMN]({link_bpmn})\n"
             img_alt = stringer.xml_escape(display)
-            code_definition['defintion'] +=  f"<img src='{link_svg}' class='bpmn' alt='{img_alt}'/>\n"
+            
+            # Add BPMN preview container with interactive viewer
+            code_definition['defintion'] += f"""<div class="bpmn-preview-container" data-bpmn-url="{link_bpmn}">
+<div class="bpmn-file-info">
+<span class="bpmn-file-name">{display}</span>
+<div class="bpmn-file-actions">
+<a href="{link_svg}" target="_blank">SVG</a>
+<a href="{link_bpmn}" target="_blank">BPMN</a>
+</div>
+</div>
+<div class="bpmn-canvas-container">
+<div class="bpmn-canvas"></div>
+</div>
+</div>
+"""
         return True
 
     def process_code_regular(self,code,row,code_definition:dict):
