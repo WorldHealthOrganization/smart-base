@@ -1,12 +1,14 @@
 Logical: DublinCore
+Parent: SGLogicalModel
 Title: "Dublin Core Metadata Element Set"
 Description: "Logical Model representing Dublin Core metadata elements as defined at https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
 
 * ^status = #active
+* ^publisher = "World Health Organization (WHO)"
 * title 0..1 string "Title" "A name given to the resource"
 * creator 0..* string "Creator" "An entity responsible for making the resource"
 * subject 0..* string "Subject" "The topic of the resource"
-* description 0..1 string "Description" "An account of the resource"
+* description 0..1 markdown "Description" "An account of the resource"
 * publisher 0..1 string "Publisher" "An entity responsible for making the resource available"
 * contributor 0..* string "Contributor" "An entity responsible for making contributions to the resource"
 * date 0..1 date "Date" "A point or period of time associated with an event in the lifecycle of the resource"

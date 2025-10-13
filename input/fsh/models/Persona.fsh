@@ -1,11 +1,13 @@
 Logical:       Persona
+Parent: SGLogicalModel
 Title:	       "Persona (DAK)"
 Description:   "Logical Model for representing Personas from a DAK"
 
 * ^status = #active
-* id 1..1 id "Requirement ID" "An identifier or code for the requirement"
+* ^publisher = "World Health Organization (WHO)"
+* id 1..1 id "Persona ID" "An identifier or code for the persona"
 * name 1..1 string "Name" "Name"
-* description 1..1 string "Description" "Description of the persona"
+* description 1..1 markdown "Description" "Description of the persona"
 * ISCO 0..* CodeableConcept "ISCO Code" "ISCO Code"
 * type 1..1 code "Type of Persona" "Persona Types: Key/Related/System/Hardware Device"
 * type from SGPersonaTypesVS
