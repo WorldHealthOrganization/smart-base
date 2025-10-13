@@ -10,7 +10,7 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
 * id 1..1 string "DAK ID" "Identifier for the DAK (e.g., smart.who.int.base)"
 * name 1..1 string "DAK Name" "Short name for the DAK (e.g., Base)"
 * title 1..1 string "DAK Title" "Full title of the DAK (e.g., SMART Base)"
-* description 1..1 markdown "DAK Description" "Description of the DAK in Markdown format"
+* description[x] 1..1 string or uri "DAK Description" "Description of the DAK - either Markdown content or a URI to a Markdown file (absolute or relative to repository root)"
 * version 1..1 string "DAK Version" "Version of the DAK"
 * status 1..1 code "DAK Status" "Publication status of the DAK"
 * publicationUrl 1..1 url "Publication URL" "Canonical URL for the published DAK (e.g., https://smart.who.int/base for WHO repositories)"

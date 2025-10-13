@@ -6,7 +6,7 @@ Description: "Logical Model for representing Program Indicators from a DAK. Core
 * ^status = #active
 * ^publisher = "World Health Organization (WHO)"
 * id 1..1 id "Indicator ID" "Identifier for the program indicator"
-* description 0..1 markdown "Description" "Description of the program indicator in Markdown format"
+* description[x] 0..1 string or uri "Description" "Description of the program indicator - either Markdown content or a URI to a Markdown file (absolute or relative to repository root)"
 * name 1..1 string "Name" "Name of the indicator"
 * definition 1..1 markdown "Definition" "Definition of what the indicator measures"
 * numerator 1..1 markdown "Numerator" "Description of the numerator calculation"

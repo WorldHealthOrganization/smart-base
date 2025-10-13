@@ -7,5 +7,5 @@ Description: "Logical Model for representing User Scenarios from a DAK. Narrativ
 * ^publisher = "World Health Organization (WHO)"
 * title 1..1 string "Title" "Title of the user scenario"
 * id 1..1 id "Scenario ID" "An identifier for the user scenario"
-* description 1..1 markdown "Description" "Description of the scenario in Markdown format"
+* description[x] 1..1 string or uri "Description" "Description of the scenario - either Markdown content or a URI to a Markdown file (absolute or relative to repository root, like input/pagecontent/scenario-XYZ.md)"
 * personas 0..* id "Personas" "References to persona IDs that participate in this scenario"

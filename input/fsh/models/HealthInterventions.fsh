@@ -6,5 +6,5 @@ Description: "Logical Model for representing Health Interventions and Recommenda
 * ^status = #active
 * ^publisher = "World Health Organization (WHO)"
 * id 1..1 id "Health Intervention ID" "An identifier for the health intervention"
-* description 0..1 markdown "Description" "Description of the health intervention in Markdown format"
+* description[x] 0..1 string or uri "Description" "Description of the health intervention - either Markdown content or a URI to a Markdown file (absolute or relative to repository root)"
 * reference 1..* DublinCore "Reference" "Reference data element using Dublin Core metadata"
