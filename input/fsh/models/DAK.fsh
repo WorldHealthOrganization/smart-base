@@ -3,6 +3,7 @@ Title: "Digital Adaptation Kit (DAK)"
 Description: "Logical Model for representing a complete Digital Adaptation Kit (DAK) with metadata and all 9 DAK components"
 
 * ^status = #active
+* ^publisher = "World Health Organization (WHO)"
 
 // Core DAK metadata fields (aligned with dak.json structure)
 * id 1..1 string "DAK ID" "Identifier for the DAK (e.g., smart.who.int.base)"

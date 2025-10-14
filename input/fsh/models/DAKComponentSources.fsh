@@ -10,6 +10,7 @@ Source reference for Health Interventions - exactly one of the following must be
 - instance: Inline HealthInterventions instance data
 """
 * ^status = #active
+* ^publisher = "World Health Organization (WHO)"
 * url 0..1 url "URL" "URL to retrieve HealthInterventions definition from input/ or external source"
 * canonical 0..1 canonical "Canonical" "Canonical URI pointing to the HealthInterventions definition"
 * canonical ^type[0].targetProfile = "http://smart.who.int/base/StructureDefinition/HealthInterventions"
@@ -24,6 +25,7 @@ Source reference for Generic Persona - exactly one of the following must be prov
 - instance: Inline GenericPersona instance data
 """
 * ^status = #active
+* ^publisher = "World Health Organization (WHO)"
 * url 0..1 url "URL" "URL to retrieve GenericPersona definition from input/ or external source"
 * canonical 0..1 canonical "Canonical" "Canonical URI pointing to the GenericPersona definition"
 * canonical ^type[0].targetProfile = "http://smart.who.int/base/StructureDefinition/GenericPersona"
@@ -38,6 +40,7 @@ Source reference for User Scenario - exactly one of the following must be provid
 - instance: Inline UserScenario instance data
 """
 * ^status = #active
+* ^publisher = "World Health Organization (WHO)"
 * url 0..1 url "URL" "URL to retrieve UserScenario definition from input/ or external source"
 * canonical 0..1 canonical "Canonical" "Canonical URI pointing to the UserScenario definition"
 * canonical ^type[0].targetProfile = "http://smart.who.int/base/StructureDefinition/UserScenario"
@@ -52,6 +55,7 @@ Source reference for Business Process Workflow - exactly one of the following mu
 - instance: Inline BusinessProcessWorkflow instance data
 """
 * ^status = #active
+* ^publisher = "World Health Organization (WHO)"
 * url 0..1 url "URL" "URL to retrieve BusinessProcessWorkflow definition from input/ or external source"
 * canonical 0..1 canonical "Canonical" "Canonical URI pointing to the BusinessProcessWorkflow definition"
 * canonical ^type[0].targetProfile = "http://smart.who.int/base/StructureDefinition/BusinessProcessWorkflow"
@@ -66,6 +70,7 @@ Source reference for Core Data Element - exactly one of the following must be pr
 - instance: Inline CoreDataElement instance data
 """
 * ^status = #active
+* ^publisher = "World Health Organization (WHO)"
 * url 0..1 url "URL" "URL to retrieve CoreDataElement definition from input/ or external source"
 * canonical 0..1 canonical "Canonical" "Canonical URI pointing to the CoreDataElement definition"
 * canonical ^type[0].targetProfile = "http://smart.who.int/base/StructureDefinition/CoreDataElement"
@@ -80,6 +85,7 @@ Source reference for Decision Support Logic - exactly one of the following must 
 - instance: Inline DecisionSupportLogic instance data
 """
 * ^status = #active
+* ^publisher = "World Health Organization (WHO)"
 * url 0..1 url "URL" "URL to retrieve DecisionSupportLogic definition from input/ or external source"
 * canonical 0..1 canonical "Canonical" "Canonical URI pointing to the DecisionSupportLogic definition"
 * canonical ^type[0].targetProfile = "http://smart.who.int/base/StructureDefinition/DecisionSupportLogic"
@@ -94,6 +100,7 @@ Source reference for Program Indicator - exactly one of the following must be pr
 - instance: Inline ProgramIndicator instance data
 """
 * ^status = #active
+* ^publisher = "World Health Organization (WHO)"
 * url 0..1 url "URL" "URL to retrieve ProgramIndicator definition from input/ or external source"
 * canonical 0..1 canonical "Canonical" "Canonical URI pointing to the ProgramIndicator definition"
 * canonical ^type[0].targetProfile = "http://smart.who.int/base/StructureDefinition/ProgramIndicator"
@@ -108,6 +115,7 @@ Source reference for Requirements - exactly one of the following must be provide
 - instance: Inline Requirements instance data
 """
 * ^status = #active
+* ^publisher = "World Health Organization (WHO)"
 * url 0..1 url "URL" "URL to retrieve Requirements definition from input/ or external source"
 * canonical 0..1 canonical "Canonical" "Canonical URI pointing to the Requirements definition"
 * canonical ^type[0].targetProfile = "http://smart.who.int/base/StructureDefinition/Requirements"
@@ -122,6 +130,7 @@ Source reference for Test Scenario - exactly one of the following must be provid
 - instance: Inline TestScenario instance data
 """
 * ^status = #active
+* ^publisher = "World Health Organization (WHO)"
 * url 0..1 url "URL" "URL to retrieve TestScenario definition from input/ or external source"
 * canonical 0..1 canonical "Canonical" "Canonical URI pointing to the TestScenario definition"
 * canonical ^type[0].targetProfile = "http://smart.who.int/base/StructureDefinition/TestScenario"

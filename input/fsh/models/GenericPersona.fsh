@@ -3,6 +3,7 @@ Title: "Generic Persona (DAK)"
 Description: "Logical Model for representing Generic Personas from a DAK. Depiction of the human and system actors. Human actors are end users, supervisors and related stakeholders who would be interacting with the digital system or involved in the clinical care, public health or health system pathway."
 
 * ^status = #active
+* ^publisher = "World Health Organization (WHO)"
 * title 1..1 string "Title" "Title of the persona"
 * id 1..1 id "Persona ID" "Identifier for the persona"
 * description[x] 1..1 string or uri "Description" "Description of the persona - either Markdown content or a URI to a Markdown file (absolute or relative to repository root)"
