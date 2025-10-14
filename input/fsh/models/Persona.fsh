@@ -1,5 +1,4 @@
 Logical:       Persona
-Parent: SGLogicalModel
 Title:	       "Persona (DAK)"
 Description:   "Logical Model for representing Personas from a DAK"
 

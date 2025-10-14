@@ -1,5 +1,4 @@
 Logical: UserScenario
-Parent: SGLogicalModel
 Title: "User Scenario (DAK)"
 Description: "Logical Model for representing User Scenarios from a DAK. Narratives that describe how the different personas may interact with each other."
 

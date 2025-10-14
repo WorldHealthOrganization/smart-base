@@ -1,5 +1,4 @@
 Logical: DecisionSupportLogic
-Parent: SGLogicalModel
 Title: "Decision-Support Logic (DAK)"
 Description: "Logical Model for representing Decision-Support Logic from a DAK. Decision-support logic and algorithms to support appropriate service delivery in accordance with WHO clinical, public health and data use guidelines."
 

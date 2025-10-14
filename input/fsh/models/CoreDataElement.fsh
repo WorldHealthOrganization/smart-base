@@ -1,5 +1,4 @@
 Logical: CoreDataElement
-Parent: SGLogicalModel
 Title: "Core Data Element (DAK)"
 Description: "Logical Model for representing Core Data Elements from a DAK. A core data element can be one of: a ValueSet, a CodeSystem, a ConceptMap, or a Logical Model adherent to SGLogicalModel. This is the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs."
 

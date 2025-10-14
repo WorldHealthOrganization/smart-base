@@ -1,5 +1,4 @@
 Logical: BusinessProcessWorkflow
-Parent: SGLogicalModel
 Title: "Business Process Workflow (DAK)"
 Description: "Logical Model for representing Generic Business Processes and Workflows from a DAK. A business process is a set of related activities or tasks performed together to achieve the objectives of the health programme area."
 

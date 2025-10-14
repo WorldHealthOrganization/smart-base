@@ -1,5 +1,4 @@
 Logical: Requirements
-Parent: SGLogicalModel
 Title: "Functional and Non-Functional Requirements (DAK)"
 Description: "Logical Model for representing Functional and Non-Functional Requirements from a DAK. A high-level list of core functions and capabilities that the system must have to meet the end users' needs."
 

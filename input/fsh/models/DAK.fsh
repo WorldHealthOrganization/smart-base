@@ -1,5 +1,4 @@
 Logical: DAK
-Parent: SGLogicalModel
 Title: "Digital Adaptation Kit (DAK)"
 Description: "Logical Model for representing a complete Digital Adaptation Kit (DAK) with metadata and all 9 DAK components"
 

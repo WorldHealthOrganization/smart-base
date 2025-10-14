@@ -1,5 +1,4 @@
 Logical: ProgramIndicator
-Parent: SGLogicalModel
 Title: "Program Indicator (DAK)"
 Description: "Logical Model for representing Program Indicators from a DAK. Core set of indicators that need to be aggregated for decision-making, performance metrics and subnational and national reporting."
 

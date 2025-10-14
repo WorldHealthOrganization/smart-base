@@ -1,5 +1,4 @@
 Logical:       FunctionalRequirement
-Parent: SGLogicalModel
 Title:	       "Functional Requirement (DAK)"
 Description:   "Logical Model for representing functional requirement from a DAK"
 

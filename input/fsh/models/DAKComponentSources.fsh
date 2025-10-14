@@ -2,7 +2,6 @@
 // Each component can be referenced via URL, canonical, or provided as inline instance data
 
 Logical: HealthInterventionsSource
-Parent: SGLogicalModel
 Title: "Health Interventions Source"
 Description: """
 Source reference for Health Interventions - exactly one of the following must be provided:
@@ -18,7 +17,6 @@ Source reference for Health Interventions - exactly one of the following must be
 * instance 0..1 HealthInterventions "Instance" "Inline HealthInterventions instance data"
 
 Logical: GenericPersonaSource
-Parent: SGLogicalModel
 Title: "Generic Persona Source"
 Description: """
 Source reference for Generic Persona - exactly one of the following must be provided:
@@ -34,7 +32,6 @@ Source reference for Generic Persona - exactly one of the following must be prov
 * instance 0..1 GenericPersona "Instance" "Inline GenericPersona instance data"
 
 Logical: UserScenarioSource
-Parent: SGLogicalModel
 Title: "User Scenario Source"
 Description: """
 Source reference for User Scenario - exactly one of the following must be provided:
@@ -50,7 +47,6 @@ Source reference for User Scenario - exactly one of the following must be provid
 * instance 0..1 UserScenario "Instance" "Inline UserScenario instance data"
 
 Logical: BusinessProcessWorkflowSource
-Parent: SGLogicalModel
 Title: "Business Process Workflow Source"
 Description: """
 Source reference for Business Process Workflow - exactly one of the following must be provided:
@@ -66,7 +62,6 @@ Source reference for Business Process Workflow - exactly one of the following mu
 * instance 0..1 BusinessProcessWorkflow "Instance" "Inline BusinessProcessWorkflow instance data"
 
 Logical: CoreDataElementSource
-Parent: SGLogicalModel
 Title: "Core Data Element Source"
 Description: """
 Source reference for Core Data Element - exactly one of the following must be provided:
@@ -82,7 +77,6 @@ Source reference for Core Data Element - exactly one of the following must be pr
 * instance 0..1 CoreDataElement "Instance" "Inline CoreDataElement instance data"
 
 Logical: DecisionSupportLogicSource
-Parent: SGLogicalModel
 Title: "Decision Support Logic Source"
 Description: """
 Source reference for Decision Support Logic - exactly one of the following must be provided:
@@ -98,7 +92,6 @@ Source reference for Decision Support Logic - exactly one of the following must 
 * instance 0..1 DecisionSupportLogic "Instance" "Inline DecisionSupportLogic instance data"
 
 Logical: ProgramIndicatorSource
-Parent: SGLogicalModel
 Title: "Program Indicator Source"
 Description: """
 Source reference for Program Indicator - exactly one of the following must be provided:
@@ -114,7 +107,6 @@ Source reference for Program Indicator - exactly one of the following must be pr
 * instance 0..1 ProgramIndicator "Instance" "Inline ProgramIndicator instance data"
 
 Logical: RequirementsSource
-Parent: SGLogicalModel
 Title: "Requirements Source"
 Description: """
 Source reference for Requirements - exactly one of the following must be provided:
@@ -130,7 +122,6 @@ Source reference for Requirements - exactly one of the following must be provide
 * instance 0..1 Requirements "Instance" "Inline Requirements instance data"
 
 Logical: TestScenarioSource
-Parent: SGLogicalModel
 Title: "Test Scenario Source"
 Description: """
 Source reference for Test Scenario - exactly one of the following must be provided:

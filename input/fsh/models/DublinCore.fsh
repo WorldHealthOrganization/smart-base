@@ -1,5 +1,4 @@
 Logical: DublinCore
-Parent: SGLogicalModel
 Title: "Dublin Core Metadata Element Set"
 Description: "Logical Model representing Dublin Core metadata elements as defined at https://www.dublincore.org/specifications/dublin-core/dcmi-terms/"
 

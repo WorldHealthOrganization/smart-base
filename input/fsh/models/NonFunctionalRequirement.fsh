@@ -1,5 +1,4 @@
 Logical:       NonFunctionalRequirement
-Parent: SGLogicalModel
 Title:	       "Non-Functional Requirement (DAK)"
 Description:   "Logical Model for representing non-functional requirement from a DAK"
 
