@@ -76,35 +76,43 @@ Source reference for Core Data Element - exactly one of the following must be pr
 * canonical ^type[0].targetProfile = "http://smart.who.int/base/StructureDefinition/CoreDataElement"
 * instance 0..1 CoreDataElement "Instance" "Inline CoreDataElement instance data"
 
-Logical: DecisionSupportLogicSource
-Title: "Decision Support Logic Source"
+Logical: DecisionSupportLogicSet
+Title: "Decision Support Logic Set"
 Description: """
-Source reference for Decision Support Logic - exactly one of the following must be provided:
+Group set reference for Decision Support Logic - exactly one of the following must be provided:
 - url (url data type): URL to retrieve DecisionSupportLogic definition from input/ or external source
 - canonical (canonical data type): Canonical URI pointing to the DecisionSupportLogic definition
 - instance: Inline DecisionSupportLogic instance data
 """
 * ^status = #active
 * ^publisher = "World Health Organization (WHO)"
+* group 1..1 BackboneElement "Group" "Group"
+  * id 1..1 id "Id" "Group identifier"
+  * code 1..1 code "group code" "Meaning of the group"
+  * description 0..1 markdown "Description" "sumamry description"
 * url 0..1 url "URL" "URL to retrieve DecisionSupportLogic definition from input/ or external source"
-* canonical 0..1 canonical "Canonical" "Canonical URI pointing to the DecisionSupportLogic definition"
+* canonical 0..* canonical "Canonical" "Canonical URI pointing to the DecisionSupportLogic definitions"
 * canonical ^type[0].targetProfile = "http://smart.who.int/base/StructureDefinition/DecisionSupportLogic"
-* instance 0..1 DecisionSupportLogic "Instance" "Inline DecisionSupportLogic instance data"
+* instance 0..* DecisionSupportLogic "Instance" "Inline DecisionSupportLogic instance data"
 
-Logical: ProgramIndicatorSource
-Title: "Program Indicator Source"
+Logical: ProgramIndicatorSet
+Title: "Program Indicator Set"
 Description: """
-Source reference for Program Indicator - exactly one of the following must be provided:
-- url (url data type): URL to retrieve ProgramIndicator definition from input/ or external source
-- canonical (canonical data type): Canonical URI pointing to the ProgramIndicator definition
+Grouped set reference for Program Indicator - exactly one of the following ways must be used to provide links to Program Indicators:
+- url (url data type): URL to retrieve ProgramIndicator definitions from input/ or external source
+- canonical (canonical data type): Canonical URI pointing to the ProgramIndicators
 - instance: Inline ProgramIndicator instance data
 """
 * ^status = #active
 * ^publisher = "World Health Organization (WHO)"
-* url 0..1 url "URL" "URL to retrieve ProgramIndicator definition from input/ or external source"
-* canonical 0..1 canonical "Canonical" "Canonical URI pointing to the ProgramIndicator definition"
+* group 1..1 BackboneElement "Group" "Group"
+  * id 1..1 id "Id" "Group identifier"
+  * code 1..1 code "group code" "Meaning of the group"
+  * description 0..1 markdown "Description" "sumamry description"
+* url 0..1 url "URL" "URL to retrieve ProgramIndicator definitions from input/ or external source"
+* canonical 0..* canonical "Canonical" "Canonical URI pointing to the ProgramIndicator definition"
 * canonical ^type[0].targetProfile = "http://smart.who.int/base/StructureDefinition/ProgramIndicator"
-* instance 0..1 ProgramIndicator "Instance" "Inline ProgramIndicator instance data"
+* instance 0..* ProgramIndicator "Instance" "Inline ProgramIndicator instance data"
 
 Logical: RequirementsSource
 Title: "Requirements Source"
