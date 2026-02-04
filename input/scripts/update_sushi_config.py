@@ -8,6 +8,13 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional
 
 
+# FSH parsing regex patterns
+LOGICAL_PATTERN = r'^Logical:\s+(\S+)'
+VALUESET_PATTERN = r'^ValueSet:\s+(\S+)'
+TITLE_PATTERN = r'^Title:\s*"([^"]+)"'
+DESCRIPTION_PATTERN = r'^Description:\s*"([^"]+)"'
+
+
 class QAReporter:
     """Handles QA reporting for pre-processing and post-processing steps."""
     
@@ -165,18 +172,18 @@ def parse_fsh_file_for_logical_model(fsh_file: str, qa_reporter: QAReporter) -> 
             content = f.read()
         
         # Look for Logical: declaration
-        logical_match = re.search(r'^Logical:\s+(\S+)', content, re.MULTILINE)
+        logical_match = re.search(LOGICAL_PATTERN, content, re.MULTILINE)
         if not logical_match:
             return None
         
         model_id = logical_match.group(1)
         
         # Extract title
-        title_match = re.search(r'^Title:\s*"([^"]+)"', content, re.MULTILINE)
+        title_match = re.search(TITLE_PATTERN, content, re.MULTILINE)
         title = title_match.group(1) if title_match else model_id
         
         # Extract description
-        desc_match = re.search(r'^Description:\s*"([^"]+)"', content, re.MULTILINE)
+        desc_match = re.search(DESCRIPTION_PATTERN, content, re.MULTILINE)
         description = desc_match.group(1) if desc_match else ""
         
         return {
@@ -201,18 +208,18 @@ def parse_fsh_file_for_valueset(fsh_file: str, qa_reporter: QAReporter) -> Optio
             content = f.read()
         
         # Look for ValueSet: declaration
-        valueset_match = re.search(r'^ValueSet:\s+(\S+)', content, re.MULTILINE)
+        valueset_match = re.search(VALUESET_PATTERN, content, re.MULTILINE)
         if not valueset_match:
             return None
         
         valueset_id = valueset_match.group(1)
         
         # Extract title
-        title_match = re.search(r'^Title:\s*"([^"]+)"', content, re.MULTILINE)
+        title_match = re.search(TITLE_PATTERN, content, re.MULTILINE)
         title = title_match.group(1) if title_match else valueset_id
         
         # Extract description
-        desc_match = re.search(r'^Description:\s*"([^"]+)"', content, re.MULTILINE)
+        desc_match = re.search(DESCRIPTION_PATTERN, content, re.MULTILINE)
         description = desc_match.group(1) if desc_match else ""
         
         return {
