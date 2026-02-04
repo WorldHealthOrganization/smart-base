@@ -512,9 +512,10 @@ class SchemaGenerator:
         # Handle StructureDefinition URLs - these should reference other logical model schemas
         if fhir_type.startswith('http') and '/StructureDefinition/' in fhir_type:
             # Extract model name and create reference using StructureDefinition-{name} pattern
+            # Use relative path for $ref to allow local resolution
             model_name = fhir_type.split('/StructureDefinition/')[-1]
             return {
-                "$ref": f"{self.schema_base_url}/StructureDefinition-{model_name}.schema.json"
+                "$ref": f"StructureDefinition-{model_name}.schema.json"
             }
         
         # Handle ValueSet bindings with JSON-LD support
