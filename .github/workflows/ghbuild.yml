@@ -63,6 +63,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml
+
       - name: Find PR number
         id: find_pr
         run: |
@@ -153,9 +163,6 @@ jobs:
         run: |
           echo "Preparing DAK environment with configuration scripts..."
           
-          # Install required Python dependencies
-          pip install pyyaml
-          
           # Check if DAK preparation scripts exist locally, download if needed
           if [ ! -f "input/scripts/generate_dak_from_sushi.py" ]; then
             echo "DAK generation script not found locally, downloading from smart-base repository..."
@@ -234,9 +241,6 @@ jobs:
         if: (inputs.do_dak != 'false') && (env.DAK_ENABLED == 'true')
         run: |
           echo "Generating FHIR Questionnaires from DMN files before IG publisher runs..."
-          
-          # Install required Python dependencies for questionnaire generation
-          pip install lxml
           
           # Check if questionnaire generation files exist locally
           if [ ! -f "input/scripts/dmn_questionnaire_generator.py" ]; then
@@ -322,12 +326,29 @@ jobs:
           fi
 
           echo "Running command: $CMD"
-          
-          docker run --rm \
+
+          # Start container with entrypoint (sets up sushi, jekyll, etc.) and keep it running
+          docker run -d --name ig-run \
             -v ${{ github.workspace }}:/work \
             -w /work \
             hl7fhir/ig-publisher-base:latest \
-            sh -c "$CMD"
+            sleep infinity
+
+          # Wait for entrypoint to finish setup
+          sleep 5
+
+          # Install Python as root
+          docker exec --user root ig-run sh -c '\
+            apt-get update && \
+            apt-get install -y --no-install-recommends python3 python3-pip python3-venv && \
+            ln -sf /usr/bin/python3 /usr/bin/python && \
+            pip3 install --break-system-packages "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml'
+
+          # Run publisher as the default user
+          docker exec -w /work ig-run sh -c "$CMD"
+
+          # Cleanup
+          docker rm -f ig-run
      
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
@@ -341,9 +362,6 @@ jobs:
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
           echo "Generating JSON schemas from FHIR resources..."
-          
-          # Install required Python dependencies for schema generation
-          pip install pyyaml
           
           # Check if schema generation files exist locally, download if needed
           if [ ! -f "input/scripts/generate_logical_model_schemas.py" ]; then
@@ -370,9 +388,6 @@ jobs:
         run: |
           echo "Generating JSON-LD vocabularies from ValueSet expansions..."
           
-          # Install required Python dependencies
-          pip install pyyaml
-          
           # Check if JSON-LD generation files exist locally, download if needed
           if [ ! -f "input/scripts/generate_jsonld_vocabularies.py" ]; then
             echo "JSON-LD vocabulary generator not found locally, downloading from smart-base repository..."
@@ -392,9 +407,6 @@ jobs:
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
           echo "Generating DAK API documentation hub..."
-          
-          # Install required Python dependencies
-          pip install pyyaml
           
           # Check if API hub generation files exist locally, download if needed
           if [ ! -f "input/scripts/generate_dak_api_hub.py" ]; then
