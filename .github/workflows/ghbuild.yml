@@ -328,6 +328,7 @@ jobs:
           echo "Running command: $CMD"
           
           docker run --rm \
+            --user root \
             -v ${{ github.workspace }}:/work \
             -w /work \
             hl7fhir/ig-publisher-base:latest \
