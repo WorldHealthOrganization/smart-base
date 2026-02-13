@@ -331,7 +331,12 @@ jobs:
             -v ${{ github.workspace }}:/work \
             -w /work \
             hl7fhir/ig-publisher-base:latest \
-            sh -c "apt-get update && apt-get install -y python3 python3-pip && ln -sf /usr/bin/python3 /usr/bin/python && $CMD"
+            sh -c "\
+              apt-get update && \
+              apt-get install -y --no-install-recommends python3 python3-pip python3-venv && \
+              ln -sf /usr/bin/python3 /usr/bin/python && \
+              pip3 install --break-system-packages 'GitPython>=3.1.40' 'PyYAML>=6.0' 'requests>=2.28.0' lxml && \
+              $CMD"
      
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
