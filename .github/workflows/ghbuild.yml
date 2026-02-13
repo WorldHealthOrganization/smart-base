@@ -68,6 +68,12 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml
+
+
       - name: Find PR number
         id: find_pr
         run: |
