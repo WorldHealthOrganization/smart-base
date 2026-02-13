@@ -329,15 +329,17 @@ jobs:
           
           docker run --rm \
             --user root \
+            --entrypoint /bin/sh \
             -v ${{ github.workspace }}:/work \
             -w /work \
+            -e CMD="$CMD" \
             hl7fhir/ig-publisher-base:latest \
-            sh -c "\
+            -c '\
               apt-get update && \
               apt-get install -y --no-install-recommends python3 python3-pip python3-venv && \
               ln -sf /usr/bin/python3 /usr/bin/python && \
-              pip3 install --break-system-packages 'GitPython>=3.1.40' 'PyYAML>=6.0' 'requests>=2.28.0' lxml && \
-              $CMD"
+              pip3 install --break-system-packages "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml && \
+              su -s /bin/sh publisher -c "$CMD"'
      
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
