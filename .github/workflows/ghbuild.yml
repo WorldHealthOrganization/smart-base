@@ -327,18 +327,28 @@ jobs:
 
           echo "Running command: $CMD"
 
-          docker run --rm \
-            --user root \
-            --entrypoint /bin/sh \
+          # Start container with entrypoint (sets up sushi, jekyll, etc.) and keep it running
+          docker run -d --name ig-run \
             -v ${{ github.workspace }}:/work \
             -w /work \
-            -e PUBLISHER_CMD="$CMD" \
             hl7fhir/ig-publisher-base:latest \
-            -c 'apt-get update && \
-              apt-get install -y --no-install-recommends python3 python3-pip python3-venv && \
-              ln -sf /usr/bin/python3 /usr/bin/python && \
-              pip3 install --break-system-packages "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml && \
-              eval "$PUBLISHER_CMD"'
+            sleep infinity
+
+          # Wait for entrypoint to finish setup
+          sleep 5
+
+          # Install Python as root
+          docker exec --user root ig-run sh -c '\
+            apt-get update && \
+            apt-get install -y --no-install-recommends python3 python3-pip python3-venv && \
+            ln -sf /usr/bin/python3 /usr/bin/python && \
+            pip3 install --break-system-packages "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml'
+
+          # Run publisher as the default user
+          docker exec -w /work ig-run sh -c "$CMD"
+
+          # Cleanup
+          docker rm -f ig-run
      
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
