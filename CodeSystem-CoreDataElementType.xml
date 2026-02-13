@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CodeSystem xmlns="http://hl7.org/fhir">
+  <id value="CoreDataElementType"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: CodeSystem CoreDataElementType</b></p><a name="CoreDataElementType"> </a><a name="hcCoreDataElementType"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/CoreDataElementType</code> defines the following codes:</p><table class="codes"><tr><td style="white-space:nowrap"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style="white-space:nowrap">valueset<a name="CoreDataElementType-valueset"> </a></td><td>ValueSet</td><td>Reference to a FHIR ValueSet resource</td></tr><tr><td style="white-space:nowrap">codesystem<a name="CoreDataElementType-codesystem"> </a></td><td>CodeSystem</td><td>Reference to a FHIR CodeSystem resource</td></tr><tr><td style="white-space:nowrap">conceptmap<a name="CoreDataElementType-conceptmap"> </a></td><td>ConceptMap</td><td>Reference to a FHIR ConceptMap resource</td></tr><tr><td style="white-space:nowrap">logicalmodel<a name="CoreDataElementType-logicalmodel"> </a></td><td>Logical Model</td><td>Reference to a Logical Model adherent to SGLogicalModel</td></tr></table></div>
+  </text>
+  <url value="http://smart.who.int/base/CodeSystem/CoreDataElementType"/>
+  <version value="0.2.0"/>
+  <name value="CoreDataElementType"/>
+  <title value="Core Data Element Type"/>
+  <status value="active"/>
+  <experimental value="false"/>
+  <date value="2026-02-13T20:26:50+00:00"/>
+  <publisher value="WHO"/>
+  <contact>
+    <name value="WHO"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://who.int"/>
+    </telecom>
+  </contact>
+  <description value="CodeSystem for Core Data Element types - defines the type of FHIR resource that a Core Data Element references."/>
+  <caseSensitive value="true"/>
+  <content value="complete"/>
+  <count value="4"/>
+  <concept>
+    <code value="valueset"/>
+    <display value="ValueSet"/>
+    <definition value="Reference to a FHIR ValueSet resource"/>
+  </concept>
+  <concept>
+    <code value="codesystem"/>
+    <display value="CodeSystem"/>
+    <definition value="Reference to a FHIR CodeSystem resource"/>
+  </concept>
+  <concept>
+    <code value="conceptmap"/>
+    <display value="ConceptMap"/>
+    <definition value="Reference to a FHIR ConceptMap resource"/>
+  </concept>
+  <concept>
+    <code value="logicalmodel"/>
+    <display value="Logical Model"/>
+    <definition value="Reference to a Logical Model adherent to SGLogicalModel"/>
+  </concept>
+</CodeSystem>

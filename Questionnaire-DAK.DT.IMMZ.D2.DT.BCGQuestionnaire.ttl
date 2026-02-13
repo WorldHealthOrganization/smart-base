@@ -1,0 +1,181 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/Questionnaire/DAK.DT.IMMZ.D2.DT.BCGQuestionnaire> a fhir:Questionnaire ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "DAK.DT.IMMZ.D2.DT.BCGQuestionnaire"] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "extensions" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Questionnaire DAK.DT.IMMZ.D2.DT.BCGQuestionnaire</b></p><a name=\"DAK.DT.IMMZ.D2.DT.BCGQuestionnaire\"> </a><a name=\"hcDAK.DT.IMMZ.D2.DT.BCGQuestionnaire\"> </a><b>Structure</b><table border=\"1\" cellpadding=\"0\" cellspacing=\"0\" style=\"border: 1px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top;\"><tr style=\"border: 2px #F0F0F0 solid; font-size: 11px; font-family: verdana; vertical-align: top\"><th style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; padding-top: 3px; padding-bottom: 3px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/formats.html#table\" title=\"The linkID for the item\">LinkID</a></th><th style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; padding-top: 3px; padding-bottom: 3px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/formats.html#table\" title=\"Text for the item\">Text</a></th><th style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; padding-top: 3px; padding-bottom: 3px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/formats.html#table\" title=\"Minimum and Maximum # of times the item can appear in the instance\">Cardinality</a></th><th style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; padding-top: 3px; padding-bottom: 3px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/formats.html#table\" title=\"The type of the item\">Type</a></th><th style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; padding-top: 3px; padding-bottom: 3px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/formats.html#table\" title=\"Additional information about the item\">Description &amp; Constraints</a><span style=\"float: right\"><a href=\"https://hl7.org/fhir/R4/formats.html#table\" title=\"Legend for this format\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC\" alt=\"doco\" style=\"background-color: inherit\"/></a></span></th></tr><tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck1.png)\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon_q_root.gif\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"QuestionnaireRoot\" class=\"hierarchy\"/> DAK.DT.IMMZ.D2.DT.BCGQuestionnaire</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">This questionnaire supports the decision logic for: IMMZ.D2 Determine required vaccination(s) if any</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"/><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Questionnaire</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">http://smart.who.int/base/Questionnaire/DAK.DT.IMMZ.D2.DT.BCGQuestionnaire#0.2.0</td></tr>#xD;\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck10.png)\" id=\"item.input.DAK.DT.IMMZ.D2.DT.BCG.NumberofBCGprimaryseriesdosesadministered\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-coding.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"coding\" class=\"hierarchy\"/> input.DAK.DT.IMMZ.D2.DT.BCG.NumberofBCGprimaryseriesdosesadministered</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Number of BCG primary series doses administered</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..1</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/codesystem-item-type.html#item-type-choice\">choice</a></td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Options: <a href=\"#opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.NumberofBCGprimaryseriesdosesadministered\">2 options</a></td></tr>#xD;\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck10.png)\" id=\"item.input.DAK.DT.IMMZ.D2.DT.BCG.Age\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-coding.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"coding\" class=\"hierarchy\"/> input.DAK.DT.IMMZ.D2.DT.BCG.Age</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Age</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..1</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/codesystem-item-type.html#item-type-choice\">choice</a></td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Options: <a href=\"#opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.Age\">3 options</a></td></tr>#xD;\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck10.png)\" id=\"item.input.DAK.DT.IMMZ.D2.DT.BCG.HIVstatus\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-coding.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"coding\" class=\"hierarchy\"/> input.DAK.DT.IMMZ.D2.DT.BCG.HIVstatus</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">HIV status</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..1</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/codesystem-item-type.html#item-type-choice\">choice</a></td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Options: <a href=\"#opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.HIVstatus\">2 options</a></td></tr>#xD;\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck10.png)\" id=\"item.input.DAK.DT.IMMZ.D2.DT.BCG.CurrentlyonART\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-coding.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"coding\" class=\"hierarchy\"/> input.DAK.DT.IMMZ.D2.DT.BCG.CurrentlyonART</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Currently on ART</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..1</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/codesystem-item-type.html#item-type-choice\">choice</a></td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Options: <a href=\"#opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.CurrentlyonART\">2 options</a></td></tr>#xD;\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck10.png)\" id=\"item.input.DAK.DT.IMMZ.D2.DT.BCG.Immunologicallystable\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-coding.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"coding\" class=\"hierarchy\"/> input.DAK.DT.IMMZ.D2.DT.BCG.Immunologicallystable</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Immunologically stable</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..1</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/codesystem-item-type.html#item-type-choice\">choice</a></td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Options: <a href=\"#opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.Immunologicallystable\">2 options</a></td></tr>#xD;\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck10.png)\" id=\"item.input.DAK.DT.IMMZ.D2.DT.BCG.TBinfectiontestresult\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-coding.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"coding\" class=\"hierarchy\"/> input.DAK.DT.IMMZ.D2.DT.BCG.TBinfectiontestresult</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">TB infection test result</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..1</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/codesystem-item-type.html#item-type-choice\">choice</a></td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Options: <a href=\"#opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.TBinfectiontestresult\">3 options</a></td></tr>#xD;\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: #F7F7F7\"><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck10.png)\" id=\"item.input.DAK.DT.IMMZ.D2.DT.BCG.Timepassedsincealivevaccinewasadministered\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-coding.png\" alt=\".\" style=\"background-color: #F7F7F7; background-color: inherit\" title=\"coding\" class=\"hierarchy\"/> input.DAK.DT.IMMZ.D2.DT.BCG.Timepassedsincealivevaccinewasadministered</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Time passed since a live vaccine was administered</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..1</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/codesystem-item-type.html#item-type-choice\">choice</a></td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: #F7F7F7; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Options: <a href=\"#opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.Timepassedsincealivevaccinewasadministered\">3 options</a></td></tr>#xD;\n<tr style=\"border: 1px #F0F0F0 solid; padding:0px; vertical-align: top; background-color: white\"><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px; white-space: nowrap; background-image: url(tbl_bck00.png)\" id=\"item.input.DAK.DT.IMMZ.D2.DT.BCG.Clinicallywell\" class=\"hierarchy\"><img src=\"tbl_spacer.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"tbl_vjoin_end.png\" alt=\".\" style=\"background-color: inherit\" class=\"hierarchy\"/><img src=\"icon-q-coding.png\" alt=\".\" style=\"background-color: white; background-color: inherit\" title=\"coding\" class=\"hierarchy\"/> input.DAK.DT.IMMZ.D2.DT.BCG.Clinicallywell</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Clinically well</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">0..1</td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\"><a href=\"https://hl7.org/fhir/R4/codesystem-item-type.html#item-type-choice\">choice</a></td><td style=\"vertical-align: top; text-align : var(--ig-left,left); background-color: white; border: 1px #F0F0F0 solid; padding:0px 4px 0px 4px\" class=\"hierarchy\">Options: <a href=\"#opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.Clinicallywell\">2 options</a></td></tr>#xD;\n<tr><td colspan=\"5\" class=\"hierarchy\"><br/><a href=\"https://hl7.org/fhir/R4/formats.html#table\" title=\"Legend for this format\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC\" alt=\"doco\" style=\"background-color: inherit\"/> Documentation for this format</a></td></tr></table><hr/><p><b>Options Sets</b></p><a name=\"opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.NumberofBCGprimaryseriesdosesadministered\"> </a><p><b>Answer options for input.DAK.DT.IMMZ.D2.DT.BCG.NumberofBCGprimaryseriesdosesadministered </b></p><ul><li style=\"font-size: 11px\">No BCG primary series dose was administered</li><li style=\"font-size: 11px\">One BCG primary series dose was administered</li></ul><a name=\"opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.Age\"> </a><p><b>Answer options for input.DAK.DT.IMMZ.D2.DT.BCG.Age </b></p><ul><li style=\"font-size: 11px\">Clients age is between 28 days and 5 years</li><li style=\"font-size: 11px\">Clients age is less than or equal to 28 days</li><li style=\"font-size: 11px\">Clients age is more than 5 years</li></ul><a name=\"opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.HIVstatus\"> </a><p><b>Answer options for input.DAK.DT.IMMZ.D2.DT.BCG.HIVstatus </b></p><ul><li style=\"font-size: 11px\">Clients HIV status is negative or unknown</li><li style=\"font-size: 11px\">Clients HIV status is positive</li></ul><a name=\"opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.CurrentlyonART\"> </a><p><b>Answer options for input.DAK.DT.IMMZ.D2.DT.BCG.CurrentlyonART </b></p><ul><li style=\"font-size: 11px\">Client is currently not receiving antiretroviral therapy</li><li style=\"font-size: 11px\">Client is currently receiving antiretroviral therapy</li></ul><a name=\"opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.Immunologicallystable\"> </a><p><b>Answer options for input.DAK.DT.IMMZ.D2.DT.BCG.Immunologicallystable </b></p><ul><li style=\"font-size: 11px\">Client is immunologically stable</li><li style=\"font-size: 11px\">Client is not immunologically stable</li></ul><a name=\"opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.TBinfectiontestresult\"> </a><p><b>Answer options for input.DAK.DT.IMMZ.D2.DT.BCG.TBinfectiontestresult </b></p><ul><li style=\"font-size: 11px\">Clients TB infection test result is negative</li><li style=\"font-size: 11px\">Clients TB infection test result is positive</li><li style=\"font-size: 11px\">Clients TB infection test result is unknown (test not done or no result yet)</li></ul><a name=\"opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.Timepassedsincealivevaccinewasadministered\"> </a><p><b>Answer options for input.DAK.DT.IMMZ.D2.DT.BCG.Timepassedsincealivevaccinewasadministered </b></p><ul><li style=\"font-size: 11px\">Live vaccine was administered in the last four weeks</li><li style=\"font-size: 11px\">No live vaccine was administered</li><li style=\"font-size: 11px\">No live vaccine was administered in the last four weeks</li></ul><a name=\"opt-item.input.DAK.DT.IMMZ.D2.DT.BCG.Clinicallywell\"> </a><p><b>Answer options for input.DAK.DT.IMMZ.D2.DT.BCG.Clinicallywell </b></p><ul><li style=\"font-size: 11px\">Client is clinically well</li><li style=\"font-size: 11px\">Client is not clinically well</li></ul></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:url [
+     fhir:v "http://smart.who.int/base/Questionnaire/DAK.DT.IMMZ.D2.DT.BCGQuestionnaire"^^xsd:anyURI ;
+     fhir:l <http://smart.who.int/base/Questionnaire/DAK.DT.IMMZ.D2.DT.BCGQuestionnaire>
+  ] ; # 
+  fhir:version [ fhir:v "0.2.0"] ; # 
+  fhir:name [ fhir:v "DAK.DT.IMMZ.D2.DT.BCGQuestionnaire"] ; # 
+  fhir:title [ fhir:v "IMMZ.D2 Determine required vaccination(s) if any"] ; # 
+  fhir:status [ fhir:v "draft"] ; # 
+  fhir:experimental [ fhir:v true] ; # 
+  fhir:date [ fhir:v "2026-02-13T20:26:50+00:00"^^xsd:dateTime] ; # 
+  fhir:publisher [ fhir:v "WHO"] ; # 
+  fhir:contact ( [
+     fhir:name [ fhir:v "WHO" ] ;
+     fhir:telecom ( [
+       fhir:system [ fhir:v "url" ] ;
+       fhir:value [ fhir:v "http://who.int" ]
+     ] )
+  ] ) ; # 
+  fhir:description [ fhir:v "This questionnaire supports the decision logic for: IMMZ.D2 Determine required vaccination(s) if any"] ; # 
+  fhir:item ( [
+     fhir:linkId [ fhir:v "input.DAK.DT.IMMZ.D2.DT.BCG.NumberofBCGprimaryseriesdosesadministered" ] ;
+     fhir:text [ fhir:v "Number of BCG primary series doses administered" ] ;
+     fhir:type [ fhir:v "choice" ] ;
+     fhir:required [ fhir:v false ] ;
+     fhir:answerOption ( [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "No BCG primary series dose was administered"
+       ]
+     ] [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "One BCG primary series dose was administered"
+       ]
+     ] )
+  ] [
+     fhir:linkId [ fhir:v "input.DAK.DT.IMMZ.D2.DT.BCG.Age" ] ;
+     fhir:text [ fhir:v "Age" ] ;
+     fhir:type [ fhir:v "choice" ] ;
+     fhir:required [ fhir:v false ] ;
+     fhir:answerOption ( [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Clients age is between 28 days and 5 years"
+       ]
+     ] [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Clients age is less than or equal to 28 days"
+       ]
+     ] [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Clients age is more than 5 years"
+       ]
+     ] )
+  ] [
+     fhir:linkId [ fhir:v "input.DAK.DT.IMMZ.D2.DT.BCG.HIVstatus" ] ;
+     fhir:text [ fhir:v "HIV status" ] ;
+     fhir:type [ fhir:v "choice" ] ;
+     fhir:required [ fhir:v false ] ;
+     fhir:answerOption ( [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Clients HIV status is negative or unknown"
+       ]
+     ] [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Clients HIV status is positive"
+       ]
+     ] )
+  ] [
+     fhir:linkId [ fhir:v "input.DAK.DT.IMMZ.D2.DT.BCG.CurrentlyonART" ] ;
+     fhir:text [ fhir:v "Currently on ART" ] ;
+     fhir:type [ fhir:v "choice" ] ;
+     fhir:required [ fhir:v false ] ;
+     fhir:answerOption ( [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Client is currently not receiving antiretroviral therapy"
+       ]
+     ] [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Client is currently receiving antiretroviral therapy"
+       ]
+     ] )
+  ] [
+     fhir:linkId [ fhir:v "input.DAK.DT.IMMZ.D2.DT.BCG.Immunologicallystable" ] ;
+     fhir:text [ fhir:v "Immunologically stable" ] ;
+     fhir:type [ fhir:v "choice" ] ;
+     fhir:required [ fhir:v false ] ;
+     fhir:answerOption ( [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Client is immunologically stable"
+       ]
+     ] [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Client is not immunologically stable"
+       ]
+     ] )
+  ] [
+     fhir:linkId [ fhir:v "input.DAK.DT.IMMZ.D2.DT.BCG.TBinfectiontestresult" ] ;
+     fhir:text [ fhir:v "TB infection test result" ] ;
+     fhir:type [ fhir:v "choice" ] ;
+     fhir:required [ fhir:v false ] ;
+     fhir:answerOption ( [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Clients TB infection test result is negative"
+       ]
+     ] [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Clients TB infection test result is positive"
+       ]
+     ] [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Clients TB infection test result is unknown (test not done or no result yet)"
+       ]
+     ] )
+  ] [
+     fhir:linkId [ fhir:v "input.DAK.DT.IMMZ.D2.DT.BCG.Timepassedsincealivevaccinewasadministered" ] ;
+     fhir:text [ fhir:v "Time passed since a live vaccine was administered" ] ;
+     fhir:type [ fhir:v "choice" ] ;
+     fhir:required [ fhir:v false ] ;
+     fhir:answerOption ( [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Live vaccine was administered in the last four weeks"
+       ]
+     ] [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "No live vaccine was administered"
+       ]
+     ] [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "No live vaccine was administered in the last four weeks"
+       ]
+     ] )
+  ] [
+     fhir:linkId [ fhir:v "input.DAK.DT.IMMZ.D2.DT.BCG.Clinicallywell" ] ;
+     fhir:text [ fhir:v "Clinically well" ] ;
+     fhir:type [ fhir:v "choice" ] ;
+     fhir:required [ fhir:v false ] ;
+     fhir:answerOption ( [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Client is clinically well"
+       ]
+     ] [
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Client is not clinically well"
+       ]
+     ] )
+  ] ) . # 
+
+# -------------------------------------------------------------------------------------
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CodeSystem xmlns="http://hl7.org/fhir">
+  <id value="SGPersonaTypes"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: CodeSystem SGPersonaTypes</b></p><a name="SGPersonaTypes"> </a><a name="hcSGPersonaTypes"> </a><p>This case-insensitive code system <code>http://smart.who.int/base/CodeSystem/SGPersonaTypes</code> defines the following codes:</p><table class="codes"><tr><td style="white-space:nowrap"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style="white-space:nowrap">key<a name="SGPersonaTypes-key"> </a></td><td>Key Persona</td><td>Key Persona for workflows in this DAK</td></tr><tr><td style="white-space:nowrap">related<a name="SGPersonaTypes-related"> </a></td><td>Related Persona</td><td>Related Personas that don't directly enact in any workflow in this DAK</td></tr><tr><td style="white-space:nowrap">system<a name="SGPersonaTypes-system"> </a></td><td>System</td><td>Digital Systems that interact in this DAK</td></tr><tr><td style="white-space:nowrap">hardware<a name="SGPersonaTypes-hardware"> </a></td><td>Hardware Device</td><td>Hardware devices required to perform workflows in the DAK</td></tr></table></div>
+  </text>
+  <url value="http://smart.who.int/base/CodeSystem/SGPersonaTypes"/>
+  <version value="0.2.0"/>
+  <name value="SGPersonaTypes"/>
+  <title value="SMART Guidelines Persona Types"/>
+  <status value="active"/>
+  <experimental value="true"/>
+  <date value="2025-09-18T01:57:17+00:00"/>
+  <publisher value="WHO"/>
+  <contact>
+    <name value="WHO"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://who.int"/>
+    </telecom>
+  </contact>
+  <description value="CodeSystem for SMART Guidelines Persona Types"/>
+  <caseSensitive value="false"/>
+  <content value="complete"/>
+  <count value="4"/>
+  <concept>
+    <code value="key"/>
+    <display value="Key Persona"/>
+    <definition value="Key Persona for workflows in this DAK"/>
+  </concept>
+  <concept>
+    <code value="related"/>
+    <display value="Related Persona"/>
+    <definition value="Related Personas that don't directly enact in any workflow in this DAK"/>
+  </concept>
+  <concept>
+    <code value="system"/>
+    <display value="System"/>
+    <definition value="Digital Systems that interact in this DAK"/>
+  </concept>
+  <concept>
+    <code value="hardware"/>
+    <display value="Hardware Device"/>
+    <definition value="Hardware devices required to perform workflows in the DAK"/>
+  </concept>
+</CodeSystem>

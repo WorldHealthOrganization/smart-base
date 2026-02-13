@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ValueSet xmlns="http://hl7.org/fhir">
+  <id value="CoreDataElementTypeVS"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: ValueSet CoreDataElementTypeVS</b></p><a name="CoreDataElementTypeVS"> </a><a name="hcCoreDataElementTypeVS"> </a><ul><li>Include all codes defined in <a href="CodeSystem-CoreDataElementType.html"><code>http://smart.who.int/base/CodeSystem/CoreDataElementType</code></a><span title="Version is not explicitly stated, which means it is fixed to the version provided in this specification"> version &#x1F4E6;0.2.0</span></li></ul></div>
+  </text>
+  <url value="http://smart.who.int/base/ValueSet/CoreDataElementTypeVS"/>
+  <version value="0.2.0"/>
+  <name value="CoreDataElementTypeVS"/>
+  <title value="Core Data Element Type Value Set"/>
+  <status value="active"/>
+  <experimental value="false"/>
+  <date value="2025-10-14T12:39:49+00:00"/>
+  <publisher value="WHO"/>
+  <contact>
+    <name value="WHO"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://who.int"/>
+    </telecom>
+  </contact>
+  <description value="Value set of core data element types"/>
+  <compose>
+    <include>
+      <system value="http://smart.who.int/base/CodeSystem/CoreDataElementType"/>
+    </include>
+  </compose>
+</ValueSet>

@@ -1,0 +1,45 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "fhir": "http://hl7.org/fhir/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "id": "@id",
+    "name": "rdfs:label",
+    "fhir:code": "http://hl7.org/fhir/code",
+    "fhir:CodeSystem": "http://hl7.org/fhir/CodeSystem",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "xsd:dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-SGPersonaTypesVS.jsonld",
+  "@type": "https://smart.who.int/base/DataTypes#ValueSetVocabulary",
+  "generatedAt": "2025-09-22T22:23:05.871693Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/CodeSystem/SGPersonaTypes.jsonld#key",
+      "name": "Key Persona",
+      "fhir:code": "key",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem/SGPersonaTypes"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/SGPersonaTypes.jsonld#related",
+      "name": "Related Persona",
+      "fhir:code": "related",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem/SGPersonaTypes"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/SGPersonaTypes.jsonld#system",
+      "name": "System",
+      "fhir:code": "system",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem/SGPersonaTypes"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/SGPersonaTypes.jsonld#hardware",
+      "name": "Hardware Device",
+      "fhir:code": "hardware",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem/SGPersonaTypes"
+    }
+  ]
+}

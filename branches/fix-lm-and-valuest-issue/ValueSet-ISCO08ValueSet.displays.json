@@ -1,0 +1,588 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-ISCO08ValueSet.displays.json",
+  "title": "ISCO-08 Value Set Display Values",
+  "description": "Display values for ISCO-08 Value Set ValueSet codes. Generated from FHIR expansions.",
+  "type": "object",
+  "properties": {
+    "fhir:displays": {
+      "type": "object",
+      "description": "Multilingual display values for ValueSet codes using IRI format to match JSON schema enum values",
+      "patternProperties": {
+        "^https?://.*": {
+          "type": "object",
+          "description": "Display values for a specific IRI-formatted code by language",
+          "properties": {
+            "en": {
+              "type": "string",
+              "description": "English display value"
+            }
+          },
+          "patternProperties": {
+            "^[a-z]{2}(-[A-Z]{2})?$": {
+              "type": "string",
+              "description": "Display value in the specified language (ISO 639-1 code)"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "fhir:displays"
+  ],
+  "additionalProperties": true,
+  "fhir:displays": {
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/0": {
+      "en": "Armed Forces Occupations"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1": {
+      "en": "Managers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2": {
+      "en": "Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3": {
+      "en": "Technicians and Associate Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/4": {
+      "en": "Clerical Support Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/5": {
+      "en": "Service and Sales Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/6": {
+      "en": "Skilled Agricultural, Forestry and Fishery Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/7": {
+      "en": "Craft and Related Trades Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/8": {
+      "en": "Plant and Machine Operators and Assemblers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/9": {
+      "en": "Elementary Occupations"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/11": {
+      "en": "Chief Executives, Senior Officials and Legislators"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/12": {
+      "en": "Administrative and Commercial Managers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/13": {
+      "en": "Production and Specialised Services Managers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/14": {
+      "en": "Hospitality, Retail and Other Services Managers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/21": {
+      "en": "Science and Engineering Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/22": {
+      "en": "Health Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/23": {
+      "en": "Teaching Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/24": {
+      "en": "Business and Administration Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/25": {
+      "en": "Information and Communications Technology Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/26": {
+      "en": "Legal, Social and Cultural Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/31": {
+      "en": "Science and Engineering Associate Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/32": {
+      "en": "Health Associate Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/33": {
+      "en": "Business and Administration Associate Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/34": {
+      "en": "Legal, Social, Cultural and Related Associate Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/35": {
+      "en": "Information and Communications Technicians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/41": {
+      "en": "General and Keyboard Clerks"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/42": {
+      "en": "Customer Services Clerks"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/43": {
+      "en": "Numerical and Material Recording Clerks"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/44": {
+      "en": "Other Clerical Support Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/51": {
+      "en": "Personal Service Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/52": {
+      "en": "Sales Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/53": {
+      "en": "Personal Care Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/54": {
+      "en": "Protective Services Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/61": {
+      "en": "Market-oriented Skilled Agricultural Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/62": {
+      "en": "Market-oriented Skilled Forestry, Fishery and Hunting Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/63": {
+      "en": "Subsistence Farmers, Fishers, Hunters and Gatherers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/71": {
+      "en": "Building and Related Trades Workers, Excluding Electricians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/72": {
+      "en": "Metal, Machinery and Related Trades Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/73": {
+      "en": "Handicraft and Printing Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/74": {
+      "en": "Electrical and Electronic Trades Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/75": {
+      "en": "Food Processing, Wood Working, Garment and Other Craft and Related Trades Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/81": {
+      "en": "Stationary Plant and Machine Operators"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/82": {
+      "en": "Assemblers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/83": {
+      "en": "Drivers and Mobile Plant Operators"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/91": {
+      "en": "Cleaners and Helpers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/92": {
+      "en": "Agricultural, Forestry and Fishery Labourers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/93": {
+      "en": "Labourers in Mining, Construction, Manufacturing and Transport"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/94": {
+      "en": "Food Preparation Assistants"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/95": {
+      "en": "Street and Related Sales and Service Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/96": {
+      "en": "Refuse Workers and Other Elementary Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/111": {
+      "en": "Legislators and Senior Officials"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/112": {
+      "en": "Managing Directors and Chief Executives"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/121": {
+      "en": "Business Services and Administration Managers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/122": {
+      "en": "Sales, Marketing and Development Managers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/211": {
+      "en": "Physical and Earth Science Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/212": {
+      "en": "Mathematicians, Actuaries and Statisticians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/213": {
+      "en": "Life Science Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/214": {
+      "en": "Engineering Professionals (excluding Electrotechnology)"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/215": {
+      "en": "Electrotechnology Engineers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/216": {
+      "en": "Architects, Planners, Surveyors and Designers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/221": {
+      "en": "Medical Doctors"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/222": {
+      "en": "Nursing and Midwifery Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/223": {
+      "en": "Traditional and Complementary Medicine Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/224": {
+      "en": "Paramedical Practitioners"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/225": {
+      "en": "Veterinarians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/226": {
+      "en": "Other Health Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/231": {
+      "en": "University and Higher Education Teachers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/232": {
+      "en": "Vocational Education Teachers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/233": {
+      "en": "Secondary Education Teachers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/234": {
+      "en": "Primary School and Early Childhood Teachers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/235": {
+      "en": "Other Teaching Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/311": {
+      "en": "Physical and Engineering Science Technicians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/312": {
+      "en": "Mining, Manufacturing and Construction Supervisors"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/313": {
+      "en": "Process Control Technicians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/314": {
+      "en": "Life Science Technicians and Related Associate Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/315": {
+      "en": "Ship and Aircraft Controllers and Technicians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/321": {
+      "en": "Medical and Pharmaceutical Technicians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/322": {
+      "en": "Nursing and Midwifery Associate Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/323": {
+      "en": "Traditional and Complementary Medicine Associate Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/324": {
+      "en": "Veterinary Technicians and Assistants"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/325": {
+      "en": "Other Health Associate Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/411": {
+      "en": "General Office Clerks"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/412": {
+      "en": "Secretaries (general)"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/413": {
+      "en": "Keyboard Operators"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/511": {
+      "en": "Travel Attendants, Conductors and Guides"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/512": {
+      "en": "Cooks"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/513": {
+      "en": "Waiters and Bartenders"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/514": {
+      "en": "Hairdressers, Beauticians and Related Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/515": {
+      "en": "Building and Housekeeping Supervisors"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/516": {
+      "en": "Other Personal Services Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/711": {
+      "en": "Building Frame and Related Trades Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/712": {
+      "en": "Building Finishers and Related Trades Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/713": {
+      "en": "Painters, Building Structure Cleaners and Related Trades Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/811": {
+      "en": "Mining and Mineral Processing Plant Operators"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/812": {
+      "en": "Metal Processing and Finishing Plant Operators"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/813": {
+      "en": "Chemical and Photographic Products Plant and Machine Operators"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/911": {
+      "en": "Domestic, Hotel and Office Cleaners and Helpers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/912": {
+      "en": "Vehicle, Window, Laundry and Other Hand Cleaning Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/913": {
+      "en": "Helpers in Food Preparation"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1111": {
+      "en": "Legislators"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1112": {
+      "en": "Senior Government Officials"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1113": {
+      "en": "Traditional Chiefs and Heads of Villages"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1114": {
+      "en": "Senior Officials of Special-Interest Organizations"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1120": {
+      "en": "Managing Directors and Chief Executives"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1211": {
+      "en": "Finance Managers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1212": {
+      "en": "Human Resource Managers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1213": {
+      "en": "Policy and Planning Managers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1219": {
+      "en": "Business Services and Administration Managers Not Elsewhere Classified"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1221": {
+      "en": "Sales and Marketing Managers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1222": {
+      "en": "Advertising and Public Relations Managers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1223": {
+      "en": "Research and Development Managers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2111": {
+      "en": "Physicists and Astronomers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2112": {
+      "en": "Meteorologists"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2113": {
+      "en": "Chemists"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2114": {
+      "en": "Geologists and Geophysicists"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2120": {
+      "en": "Mathematicians, Actuaries and Statisticians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2131": {
+      "en": "Biologists, Botanists, Zoologists and Related Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2132": {
+      "en": "Farming, Forestry and Fisheries Advisers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2133": {
+      "en": "Environmental Protection Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2141": {
+      "en": "Industrial and Production Engineers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2142": {
+      "en": "Civil Engineers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2143": {
+      "en": "Environmental Engineers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2144": {
+      "en": "Mechanical Engineers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2145": {
+      "en": "Chemical Engineers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2146": {
+      "en": "Mining Engineers, Metallurgists and Related Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2149": {
+      "en": "Engineering Professionals Not Elsewhere Classified"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2151": {
+      "en": "Electrical Engineers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2152": {
+      "en": "Electronics Engineers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2153": {
+      "en": "Telecommunications Engineers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2161": {
+      "en": "Building Architects"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2162": {
+      "en": "Landscape Architects"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2163": {
+      "en": "Product and Garment Designers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2164": {
+      "en": "Town and Traffic Planners"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2165": {
+      "en": "Cartographers and Surveyors"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2166": {
+      "en": "Graphic and Multimedia Designers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2211": {
+      "en": "Generalist Medical Practitioners"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2212": {
+      "en": "Specialist Medical Practitioners"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2221": {
+      "en": "Nursing Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2222": {
+      "en": "Midwifery Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2230": {
+      "en": "Traditional and Complementary Medicine Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2240": {
+      "en": "Paramedical Practitioners"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2250": {
+      "en": "Veterinarians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2261": {
+      "en": "Dentists"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2262": {
+      "en": "Pharmacists"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2263": {
+      "en": "Environmental and Occupational Health and Hygiene Professionals"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2264": {
+      "en": "Physiotherapists"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2265": {
+      "en": "Dietitians and Nutritionists"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2266": {
+      "en": "Audiologists and Speech Therapists"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2267": {
+      "en": "Optometrists and Ophthalmic Opticians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2269": {
+      "en": "Health Professionals Not Elsewhere Classified"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3111": {
+      "en": "Chemical and Physical Science Technicians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3112": {
+      "en": "Civil Engineering Technicians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3113": {
+      "en": "Electrical Engineering Technicians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3114": {
+      "en": "Electronics Engineering Technicians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3115": {
+      "en": "Mechanical Engineering Technicians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3116": {
+      "en": "Chemical Engineering Technicians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3117": {
+      "en": "Mining and Metallurgical Technicians"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3118": {
+      "en": "Draughtspersons"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3119": {
+      "en": "Physical and Engineering Science Technicians Not Elsewhere Classified"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/4110": {
+      "en": "General Office Clerks"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/4120": {
+      "en": "Secretaries (general)"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/4131": {
+      "en": "Typists and Word Processing Operators"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/4132": {
+      "en": "Data Entry Clerks"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/5111": {
+      "en": "Travel Attendants and Travel Stewards"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/5112": {
+      "en": "Transport Conductors"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/5113": {
+      "en": "Travel Guides"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/6111": {
+      "en": "Field Crop and Vegetable Growers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/6112": {
+      "en": "Tree and Shrub Crop Growers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/6113": {
+      "en": "Gardeners, Horticultural and Nursery Growers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/6114": {
+      "en": "Mixed Crop Growers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/7111": {
+      "en": "House Builders"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/7112": {
+      "en": "Bricklayers and Related Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/7113": {
+      "en": "Stonemasons, Stone Cutters, Splitters and Carvers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/7114": {
+      "en": "Concrete Placers, Concrete Finishers and Related Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/8111": {
+      "en": "Miners and Quarriers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/8112": {
+      "en": "Mineral and Stone Processing Plant Operators"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/8113": {
+      "en": "Well Drillers and Borers and Related Workers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/9111": {
+      "en": "Domestic Cleaners and Helpers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/9112": {
+      "en": "Cleaners and Helpers in Offices, Hotels and Other Establishments"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/9211": {
+      "en": "Crop Farm Labourers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/9212": {
+      "en": "Livestock Farm Labourers"
+    },
+    "http://www.ilo.org/public/english/bureau/stat/isco/isco08/9213": {
+      "en": "Mixed Crop and Livestock Farm Labourers"
+    }
+  },
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/ISCO08ValueSet",
+  "fhir:version": "0.2.0",
+  "fhir:expansionTimestamp": "2025-10-09T20:46:03+00:00"
+}

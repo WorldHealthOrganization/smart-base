@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-DecisionSupportLogic.schema.json",
+  "title": "Decision-Support Logic (DAK)",
+  "description": "Logical Model for representing Decision-Support Logic from a DAK. Decision-support logic and algorithms to support appropriate service delivery in accordance with WHO clinical, public health and data use guidelines.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "DecisionSupportLogic",
+      "description": "Resource type identifier for DecisionSupportLogic logical model"
+    },
+    "source": {
+      "type": "string",
+      "format": "uri",
+      "description": "Link to a DMN file containing the decision logic"
+    }
+  },
+  "required": [
+    "resourceType",
+    "source"
+  ],
+  "resourceDefinition": "http://smart.who.int/base/StructureDefinition/DecisionSupportLogic",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}

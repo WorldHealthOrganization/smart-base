@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ValueSet xmlns="http://hl7.org/fhir">
+  <id value="SGPersonaTypesVS"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: ValueSet SGPersonaTypesVS</b></p><a name="SGPersonaTypesVS"> </a><a name="hcSGPersonaTypesVS"> </a><ul><li>Include all codes defined in <a href="CodeSystem-SGPersonaTypes.html"><code>http://smart.who.int/base/CodeSystem/SGPersonaTypes</code></a></li></ul></div>
+  </text>
+  <url value="http://smart.who.int/base/ValueSet/SGPersonaTypesVS"/>
+  <version value="0.2.0"/>
+  <name value="SGPersonaTypesVS"/>
+  <title value="Smart Guidelines Persona Types Value Set"/>
+  <status value="active"/>
+  <experimental value="true"/>
+  <date value="2025-09-18T01:57:17+00:00"/>
+  <publisher value="WHO"/>
+  <contact>
+    <name value="WHO"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://who.int"/>
+    </telecom>
+  </contact>
+  <description value="Value Set for Smart Guidelines Persona Section to autogenerate documentation from artifacts"/>
+  <compose>
+    <include>
+      <system value="http://smart.who.int/base/CodeSystem/SGPersonaTypes"/>
+    </include>
+  </compose>
+</ValueSet>

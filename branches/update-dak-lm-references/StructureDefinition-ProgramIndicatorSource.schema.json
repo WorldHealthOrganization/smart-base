@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhealthorganization.github.io/smart-base/branches/copilot/update-dak-lm-references/StructureDefinition-ProgramIndicatorSource.schema.json",
+  "title": "Program Indicator Source",
+  "description": "Source reference for Program Indicator - can be URL, canonical reference, or inline instance",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "ProgramIndicatorSource",
+      "description": "Resource type identifier for ProgramIndicatorSource logical model"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to retrieve ProgramIndicator definition from input/ or external source"
+    },
+    "canonical": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical URI pointing to the ProgramIndicator definition"
+    },
+    "instance": {
+      "$ref": "https://worldhealthorganization.github.io/smart-base/branches/copilot/update-dak-lm-references/StructureDefinition-ProgramIndicator.schema.json",
+      "description": "Inline ProgramIndicator instance data"
+    }
+  },
+  "required": [
+    "resourceType"
+  ],
+  "resourceDefinition": "http://smart.who.int/base/StructureDefinition/ProgramIndicatorSource",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}

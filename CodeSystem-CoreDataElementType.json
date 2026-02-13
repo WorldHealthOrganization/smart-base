@@ -1,0 +1,47 @@
+{
+  "resourceType" : "CodeSystem",
+  "id" : "CoreDataElementType",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem CoreDataElementType</b></p><a name=\"CoreDataElementType\"> </a><a name=\"hcCoreDataElementType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/CoreDataElementType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">valueset<a name=\"CoreDataElementType-valueset\"> </a></td><td>ValueSet</td><td>Reference to a FHIR ValueSet resource</td></tr><tr><td style=\"white-space:nowrap\">codesystem<a name=\"CoreDataElementType-codesystem\"> </a></td><td>CodeSystem</td><td>Reference to a FHIR CodeSystem resource</td></tr><tr><td style=\"white-space:nowrap\">conceptmap<a name=\"CoreDataElementType-conceptmap\"> </a></td><td>ConceptMap</td><td>Reference to a FHIR ConceptMap resource</td></tr><tr><td style=\"white-space:nowrap\">logicalmodel<a name=\"CoreDataElementType-logicalmodel\"> </a></td><td>Logical Model</td><td>Reference to a Logical Model adherent to SGLogicalModel</td></tr></table></div>"
+  },
+  "url" : "http://smart.who.int/base/CodeSystem/CoreDataElementType",
+  "version" : "0.2.0",
+  "name" : "CoreDataElementType",
+  "title" : "Core Data Element Type",
+  "status" : "active",
+  "experimental" : false,
+  "date" : "2026-02-13T20:26:50+00:00",
+  "publisher" : "WHO",
+  "contact" : [{
+    "name" : "WHO",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://who.int"
+    }]
+  }],
+  "description" : "CodeSystem for Core Data Element types - defines the type of FHIR resource that a Core Data Element references.",
+  "caseSensitive" : true,
+  "content" : "complete",
+  "count" : 4,
+  "concept" : [{
+    "code" : "valueset",
+    "display" : "ValueSet",
+    "definition" : "Reference to a FHIR ValueSet resource"
+  },
+  {
+    "code" : "codesystem",
+    "display" : "CodeSystem",
+    "definition" : "Reference to a FHIR CodeSystem resource"
+  },
+  {
+    "code" : "conceptmap",
+    "display" : "ConceptMap",
+    "definition" : "Reference to a FHIR ConceptMap resource"
+  },
+  {
+    "code" : "logicalmodel",
+    "display" : "Logical Model",
+    "definition" : "Reference to a Logical Model adherent to SGLogicalModel"
+  }]
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhealthorganization.github.io/smart-base/branches/copilot/fix-177/StructureDefinition-GenericPersona.schema.json",
+  "title": "Generic Persona (DAK)",
+  "description": "Logical Model for representing Generic Personas from a DAK. Depiction of the human and system actors. Human actors are end users, supervisors and related stakeholders who would be interacting with the digital system or involved in the clinical care, public health or health system pathway.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "GenericPersona",
+      "description": "Resource type identifier for GenericPersona logical model"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the persona"
+    },
+    "id": {
+      "type": "string",
+      "description": "Identifier for the persona"
+    },
+    "description[x]": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "format": "uri"
+        }
+      ],
+      "description": "Description of the persona - either Markdown content or a URI to a Markdown file (absolute or relative to repository root)"
+    },
+    "otherNames": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Other names or examples for the persona"
+    },
+    "iscoCode": {
+      "type": "array",
+      "items": {
+        "$ref": "ValueSet-ISCO08ValueSet.schema.json"
+      },
+      "description": "ISCO-08 codes for occupation classification"
+    }
+  },
+  "required": [
+    "resourceType",
+    "title",
+    "id",
+    "description[x]"
+  ],
+  "resourceDefinition": "http://smart.who.int/base/StructureDefinition/GenericPersona",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}

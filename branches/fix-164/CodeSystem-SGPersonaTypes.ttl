@@ -1,0 +1,54 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/SGPersonaTypes> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "SGPersonaTypes"] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem SGPersonaTypes</b></p><a name=\"SGPersonaTypes\"> </a><a name=\"hcSGPersonaTypes\"> </a><p>This case-insensitive code system <code>http://smart.who.int/base/CodeSystem/SGPersonaTypes</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">key<a name=\"SGPersonaTypes-key\"> </a></td><td>Key Persona</td><td>Key Persona for workflows in this DAK</td></tr><tr><td style=\"white-space:nowrap\">related<a name=\"SGPersonaTypes-related\"> </a></td><td>Related Persona</td><td>Related Personas that don't directly enact in any workflow in this DAK</td></tr><tr><td style=\"white-space:nowrap\">system<a name=\"SGPersonaTypes-system\"> </a></td><td>System</td><td>Digital Systems that interact in this DAK</td></tr><tr><td style=\"white-space:nowrap\">hardware<a name=\"SGPersonaTypes-hardware\"> </a></td><td>Hardware Device</td><td>Hardware devices required to perform workflows in the DAK</td></tr></table></div>"^^rdf:XMLLiteral
+  ] ; # 
+  fhir:url [ fhir:v "http://smart.who.int/base/CodeSystem/SGPersonaTypes"^^xsd:anyURI] ; # 
+  fhir:version [ fhir:v "0.2.0"] ; # 
+  fhir:name [ fhir:v "SGPersonaTypes"] ; # 
+  fhir:title [ fhir:v "SMART Guidelines Persona Types"] ; # 
+  fhir:status [ fhir:v "active"] ; # 
+  fhir:experimental [ fhir:v true] ; # 
+  fhir:date [ fhir:v "2025-09-22T22:18:10+00:00"^^xsd:dateTime] ; # 
+  fhir:publisher [ fhir:v "WHO"] ; # 
+  fhir:contact ( [
+     fhir:name [ fhir:v "WHO" ] ;
+     fhir:telecom ( [
+       fhir:system [ fhir:v "url" ] ;
+       fhir:value [ fhir:v "http://who.int" ]
+     ] )
+  ] ) ; # 
+  fhir:description [ fhir:v "CodeSystem for SMART Guidelines Persona Types"] ; # 
+  fhir:caseSensitive [ fhir:v false] ; # 
+  fhir:content [ fhir:v "complete"] ; # 
+  fhir:count [ fhir:v "4"^^xsd:nonNegativeInteger] ; # 
+  fhir:concept ( [
+     fhir:code [ fhir:v "key" ] ;
+     fhir:display [ fhir:v "Key Persona" ] ;
+     fhir:definition [ fhir:v "Key Persona for workflows in this DAK" ]
+  ] [
+     fhir:code [ fhir:v "related" ] ;
+     fhir:display [ fhir:v "Related Persona" ] ;
+     fhir:definition [ fhir:v "Related Personas that don't directly enact in any workflow in this DAK" ]
+  ] [
+     fhir:code [ fhir:v "system" ] ;
+     fhir:display [ fhir:v "System" ] ;
+     fhir:definition [ fhir:v "Digital Systems that interact in this DAK" ]
+  ] [
+     fhir:code [ fhir:v "hardware" ] ;
+     fhir:display [ fhir:v "Hardware Device" ] ;
+     fhir:definition [ fhir:v "Hardware devices required to perform workflows in the DAK" ]
+  ] ) . # 
+
+# -------------------------------------------------------------------------------------
+

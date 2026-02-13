@@ -1,0 +1,212 @@
+{
+  "@context": {
+    "@vocab": "http://smart.who.int/base/vocab#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "schema": "https://schema.org/",
+    "fhir": "http://hl7.org/fhir/",
+    "id": "@id",
+    "type": "@type",
+    "name": "rdfs:label",
+    "comment": "rdfs:comment",
+    "version": "schema:version",
+    "date": "schema:dateCreated",
+    "publisher": "schema:publisher"
+  },
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "type": "schema:Enumeration",
+      "name": "Classification of Digital Health System Categories v1 Enumeration",
+      "comment": "Allowed values for the Classification of Digital Health System Categories v1 enumeration.",
+      "version": "0.2.0",
+      "date": "2025-09-18T14:48:54+00:00",
+      "publisher": "World Health Organization",
+      "fhir:valueSet": "http://smart.who.int/base/ValueSet/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#A",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Census, population information & data warehouse",
+      "fhir:code": "A",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#B",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Civil Registration and Vital Statistics",
+      "fhir:code": "B",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#C",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Client applications",
+      "fhir:code": "C",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#D",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Client communication system",
+      "fhir:code": "D",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#E",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Clinical terminology and classifications",
+      "fhir:code": "E",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#F",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Community-based Information System",
+      "fhir:code": "F",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#G",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Data interchange interoperability and accessibility",
+      "fhir:code": "G",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#H",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Electronic Medical Record",
+      "fhir:code": "H",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#I",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Emergency response system",
+      "fhir:code": "I",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#J",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Environmental monitoring systems",
+      "fhir:code": "J",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#K",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Facility Management Information System",
+      "fhir:code": "K",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#L",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Geographic Information Systems",
+      "fhir:code": "L",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#M",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Health finance and insurance system",
+      "fhir:code": "M",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#N",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Health Management Information System",
+      "fhir:code": "N",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#O",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Human Resource Information System",
+      "fhir:code": "O",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#P",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Identification registries and directories",
+      "fhir:code": "P",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#Q",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Knowledge Management",
+      "fhir:code": "Q",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#R",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Laboratory and Diagnostic System",
+      "fhir:code": "R",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#S",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Learning and Training System",
+      "fhir:code": "S",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#T",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Logistics Management Information System",
+      "fhir:code": "T",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#U",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Pharmacy Information System",
+      "fhir:code": "U",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#V",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Public health and disease surveillance",
+      "fhir:code": "V",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#W",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Research information system",
+      "fhir:code": "W",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#X",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "SHR and health information repositories",
+      "fhir:code": "X",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/CodeSystem/CDSCv1#Y",
+      "type": "http://smart.who.int/base/vocab#CDSCv1Enumeration",
+      "name": "Telemedicine",
+      "fhir:code": "Y",
+      "fhir:system": "http://smart.who.int/base/CodeSystem/CDSCv1"
+    },
+    {
+      "id": "http://smart.who.int/base/vocab#cdscv1",
+      "type": "rdf:Property",
+      "name": "cdscv1",
+      "comment": "Property for selecting a value from the Classification of Digital Health System Categories v1 enumeration.",
+      "schema:rangeIncludes": {
+        "id": "http://smart.who.int/base/vocab#CDSCv1Enumeration"
+      }
+    }
+  ]
+}

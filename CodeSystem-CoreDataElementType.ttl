@@ -1,0 +1,57 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/CoreDataElementType> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "CoreDataElementType"] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem CoreDataElementType</b></p><a name=\"CoreDataElementType\"> </a><a name=\"hcCoreDataElementType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/CoreDataElementType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">valueset<a name=\"CoreDataElementType-valueset\"> </a></td><td>ValueSet</td><td>Reference to a FHIR ValueSet resource</td></tr><tr><td style=\"white-space:nowrap\">codesystem<a name=\"CoreDataElementType-codesystem\"> </a></td><td>CodeSystem</td><td>Reference to a FHIR CodeSystem resource</td></tr><tr><td style=\"white-space:nowrap\">conceptmap<a name=\"CoreDataElementType-conceptmap\"> </a></td><td>ConceptMap</td><td>Reference to a FHIR ConceptMap resource</td></tr><tr><td style=\"white-space:nowrap\">logicalmodel<a name=\"CoreDataElementType-logicalmodel\"> </a></td><td>Logical Model</td><td>Reference to a Logical Model adherent to SGLogicalModel</td></tr></table></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:url [
+     fhir:v "http://smart.who.int/base/CodeSystem/CoreDataElementType"^^xsd:anyURI ;
+     fhir:l <http://smart.who.int/base/CodeSystem/CoreDataElementType>
+  ] ; # 
+  fhir:version [ fhir:v "0.2.0"] ; # 
+  fhir:name [ fhir:v "CoreDataElementType"] ; # 
+  fhir:title [ fhir:v "Core Data Element Type"] ; # 
+  fhir:status [ fhir:v "active"] ; # 
+  fhir:experimental [ fhir:v false] ; # 
+  fhir:date [ fhir:v "2026-02-13T20:26:50+00:00"^^xsd:dateTime] ; # 
+  fhir:publisher [ fhir:v "WHO"] ; # 
+  fhir:contact ( [
+     fhir:name [ fhir:v "WHO" ] ;
+     fhir:telecom ( [
+       fhir:system [ fhir:v "url" ] ;
+       fhir:value [ fhir:v "http://who.int" ]
+     ] )
+  ] ) ; # 
+  fhir:description [ fhir:v "CodeSystem for Core Data Element types - defines the type of FHIR resource that a Core Data Element references."] ; # 
+  fhir:caseSensitive [ fhir:v true] ; # 
+  fhir:content [ fhir:v "complete"] ; # 
+  fhir:count [ fhir:v "4"^^xsd:nonNegativeInteger] ; # 
+  fhir:concept ( [
+     fhir:code [ fhir:v "valueset" ] ;
+     fhir:display [ fhir:v "ValueSet" ] ;
+     fhir:definition [ fhir:v "Reference to a FHIR ValueSet resource" ]
+  ] [
+     fhir:code [ fhir:v "codesystem" ] ;
+     fhir:display [ fhir:v "CodeSystem" ] ;
+     fhir:definition [ fhir:v "Reference to a FHIR CodeSystem resource" ]
+  ] [
+     fhir:code [ fhir:v "conceptmap" ] ;
+     fhir:display [ fhir:v "ConceptMap" ] ;
+     fhir:definition [ fhir:v "Reference to a FHIR ConceptMap resource" ]
+  ] [
+     fhir:code [ fhir:v "logicalmodel" ] ;
+     fhir:display [ fhir:v "Logical Model" ] ;
+     fhir:definition [ fhir:v "Reference to a Logical Model adherent to SGLogicalModel" ]
+  ] ) . # 
+
+# -------------------------------------------------------------------------------------
+

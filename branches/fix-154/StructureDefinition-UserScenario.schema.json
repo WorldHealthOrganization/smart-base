@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-UserScenario.schema.json",
+  "title": "User Scenario (DAK)",
+  "description": "Logical Model for representing User Scenarios from a DAK. Narratives that describe how the different personas may interact with each other.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "UserScenario",
+      "description": "Resource type identifier for UserScenario logical model"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the user scenario"
+    },
+    "id": {
+      "type": "string",
+      "description": "An identifier for the user scenario"
+    },
+    "personas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "References to persona IDs that participate in this scenario"
+    }
+  },
+  "required": [
+    "resourceType",
+    "title",
+    "id"
+  ],
+  "resourceDefinition": "http://smart.who.int/base/StructureDefinition/UserScenario",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}

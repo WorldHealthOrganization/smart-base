@@ -1,0 +1,1311 @@
+{
+  "@context": {
+    "@vocab": "http://smart.who.int/base/vocab#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "schema": "https://schema.org/",
+    "fhir": "http://hl7.org/fhir/",
+    "id": "@id",
+    "type": "@type",
+    "name": "rdfs:label",
+    "comment": "rdfs:comment",
+    "version": "schema:version",
+    "date": "schema:dateCreated",
+    "publisher": "schema:publisher"
+  },
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "type": "schema:Enumeration",
+      "name": "ISCO-08 Value Set Enumeration",
+      "comment": "Allowed values for the ISCO-08 Value Set enumeration.",
+      "version": "0.2.0",
+      "date": "2025-09-18T02:01:33+00:00",
+      "publisher": "World Health Organization",
+      "fhir:valueSet": "http://smart.who.int/base/ValueSet/ISCO08ValueSet"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/0",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Armed Forces Occupations",
+      "fhir:code": "0",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Managers",
+      "fhir:code": "1",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Professionals",
+      "fhir:code": "2",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Technicians and Associate Professionals",
+      "fhir:code": "3",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/4",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Clerical Support Workers",
+      "fhir:code": "4",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/5",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Service and Sales Workers",
+      "fhir:code": "5",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/6",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Skilled Agricultural, Forestry and Fishery Workers",
+      "fhir:code": "6",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/7",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Craft and Related Trades Workers",
+      "fhir:code": "7",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/8",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Plant and Machine Operators and Assemblers",
+      "fhir:code": "8",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/9",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Elementary Occupations",
+      "fhir:code": "9",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/11",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Chief Executives, Senior Officials and Legislators",
+      "fhir:code": "11",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/12",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Administrative and Commercial Managers",
+      "fhir:code": "12",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/13",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Production and Specialised Services Managers",
+      "fhir:code": "13",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/14",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Hospitality, Retail and Other Services Managers",
+      "fhir:code": "14",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/21",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Science and Engineering Professionals",
+      "fhir:code": "21",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/22",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Health Professionals",
+      "fhir:code": "22",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/23",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Teaching Professionals",
+      "fhir:code": "23",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/24",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Business and Administration Professionals",
+      "fhir:code": "24",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/25",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Information and Communications Technology Professionals",
+      "fhir:code": "25",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/26",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Legal, Social and Cultural Professionals",
+      "fhir:code": "26",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/31",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Science and Engineering Associate Professionals",
+      "fhir:code": "31",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/32",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Health Associate Professionals",
+      "fhir:code": "32",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/33",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Business and Administration Associate Professionals",
+      "fhir:code": "33",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/34",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Legal, Social, Cultural and Related Associate Professionals",
+      "fhir:code": "34",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/35",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Information and Communications Technicians",
+      "fhir:code": "35",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/41",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "General and Keyboard Clerks",
+      "fhir:code": "41",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/42",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Customer Services Clerks",
+      "fhir:code": "42",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/43",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Numerical and Material Recording Clerks",
+      "fhir:code": "43",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/44",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Other Clerical Support Workers",
+      "fhir:code": "44",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/51",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Personal Service Workers",
+      "fhir:code": "51",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/52",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Sales Workers",
+      "fhir:code": "52",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/53",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Personal Care Workers",
+      "fhir:code": "53",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/54",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Protective Services Workers",
+      "fhir:code": "54",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/61",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Market-oriented Skilled Agricultural Workers",
+      "fhir:code": "61",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/62",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Market-oriented Skilled Forestry, Fishery and Hunting Workers",
+      "fhir:code": "62",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/63",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Subsistence Farmers, Fishers, Hunters and Gatherers",
+      "fhir:code": "63",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/71",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Building and Related Trades Workers, Excluding Electricians",
+      "fhir:code": "71",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/72",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Metal, Machinery and Related Trades Workers",
+      "fhir:code": "72",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/73",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Handicraft and Printing Workers",
+      "fhir:code": "73",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/74",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Electrical and Electronic Trades Workers",
+      "fhir:code": "74",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/75",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Food Processing, Wood Working, Garment and Other Craft and Related Trades Workers",
+      "fhir:code": "75",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/81",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Stationary Plant and Machine Operators",
+      "fhir:code": "81",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/82",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Assemblers",
+      "fhir:code": "82",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/83",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Drivers and Mobile Plant Operators",
+      "fhir:code": "83",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/91",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Cleaners and Helpers",
+      "fhir:code": "91",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/92",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Agricultural, Forestry and Fishery Labourers",
+      "fhir:code": "92",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/93",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Labourers in Mining, Construction, Manufacturing and Transport",
+      "fhir:code": "93",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/94",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Food Preparation Assistants",
+      "fhir:code": "94",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/95",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Street and Related Sales and Service Workers",
+      "fhir:code": "95",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/96",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Refuse Workers and Other Elementary Workers",
+      "fhir:code": "96",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/111",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Legislators and Senior Officials",
+      "fhir:code": "111",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/112",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Managing Directors and Chief Executives",
+      "fhir:code": "112",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/121",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Business Services and Administration Managers",
+      "fhir:code": "121",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/122",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Sales, Marketing and Development Managers",
+      "fhir:code": "122",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/211",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Physical and Earth Science Professionals",
+      "fhir:code": "211",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/212",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Mathematicians, Actuaries and Statisticians",
+      "fhir:code": "212",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/213",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Life Science Professionals",
+      "fhir:code": "213",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/214",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Engineering Professionals (excluding Electrotechnology)",
+      "fhir:code": "214",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/215",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Electrotechnology Engineers",
+      "fhir:code": "215",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/216",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Architects, Planners, Surveyors and Designers",
+      "fhir:code": "216",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/221",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Medical Doctors",
+      "fhir:code": "221",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/222",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Nursing and Midwifery Professionals",
+      "fhir:code": "222",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/223",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Traditional and Complementary Medicine Professionals",
+      "fhir:code": "223",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/224",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Paramedical Practitioners",
+      "fhir:code": "224",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/225",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Veterinarians",
+      "fhir:code": "225",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/226",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Other Health Professionals",
+      "fhir:code": "226",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/231",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "University and Higher Education Teachers",
+      "fhir:code": "231",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/232",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Vocational Education Teachers",
+      "fhir:code": "232",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/233",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Secondary Education Teachers",
+      "fhir:code": "233",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/234",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Primary School and Early Childhood Teachers",
+      "fhir:code": "234",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/235",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Other Teaching Professionals",
+      "fhir:code": "235",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/311",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Physical and Engineering Science Technicians",
+      "fhir:code": "311",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/312",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Mining, Manufacturing and Construction Supervisors",
+      "fhir:code": "312",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/313",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Process Control Technicians",
+      "fhir:code": "313",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/314",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Life Science Technicians and Related Associate Professionals",
+      "fhir:code": "314",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/315",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Ship and Aircraft Controllers and Technicians",
+      "fhir:code": "315",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/321",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Medical and Pharmaceutical Technicians",
+      "fhir:code": "321",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/322",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Nursing and Midwifery Associate Professionals",
+      "fhir:code": "322",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/323",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Traditional and Complementary Medicine Associate Professionals",
+      "fhir:code": "323",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/324",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Veterinary Technicians and Assistants",
+      "fhir:code": "324",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/325",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Other Health Associate Professionals",
+      "fhir:code": "325",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/411",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "General Office Clerks",
+      "fhir:code": "411",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/412",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Secretaries (general)",
+      "fhir:code": "412",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/413",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Keyboard Operators",
+      "fhir:code": "413",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/511",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Travel Attendants, Conductors and Guides",
+      "fhir:code": "511",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/512",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Cooks",
+      "fhir:code": "512",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/513",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Waiters and Bartenders",
+      "fhir:code": "513",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/514",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Hairdressers, Beauticians and Related Workers",
+      "fhir:code": "514",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/515",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Building and Housekeeping Supervisors",
+      "fhir:code": "515",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/516",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Other Personal Services Workers",
+      "fhir:code": "516",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/711",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Building Frame and Related Trades Workers",
+      "fhir:code": "711",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/712",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Building Finishers and Related Trades Workers",
+      "fhir:code": "712",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/713",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Painters, Building Structure Cleaners and Related Trades Workers",
+      "fhir:code": "713",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/811",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Mining and Mineral Processing Plant Operators",
+      "fhir:code": "811",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/812",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Metal Processing and Finishing Plant Operators",
+      "fhir:code": "812",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/813",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Chemical and Photographic Products Plant and Machine Operators",
+      "fhir:code": "813",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/911",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Domestic, Hotel and Office Cleaners and Helpers",
+      "fhir:code": "911",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/912",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Vehicle, Window, Laundry and Other Hand Cleaning Workers",
+      "fhir:code": "912",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/913",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Helpers in Food Preparation",
+      "fhir:code": "913",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1111",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Legislators",
+      "fhir:code": "1111",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1112",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Senior Government Officials",
+      "fhir:code": "1112",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1113",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Traditional Chiefs and Heads of Villages",
+      "fhir:code": "1113",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1114",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Senior Officials of Special-Interest Organizations",
+      "fhir:code": "1114",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1120",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Managing Directors and Chief Executives",
+      "fhir:code": "1120",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1211",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Finance Managers",
+      "fhir:code": "1211",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1212",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Human Resource Managers",
+      "fhir:code": "1212",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1213",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Policy and Planning Managers",
+      "fhir:code": "1213",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1219",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Business Services and Administration Managers Not Elsewhere Classified",
+      "fhir:code": "1219",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1221",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Sales and Marketing Managers",
+      "fhir:code": "1221",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1222",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Advertising and Public Relations Managers",
+      "fhir:code": "1222",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/1223",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Research and Development Managers",
+      "fhir:code": "1223",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2111",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Physicists and Astronomers",
+      "fhir:code": "2111",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2112",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Meteorologists",
+      "fhir:code": "2112",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2113",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Chemists",
+      "fhir:code": "2113",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2114",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Geologists and Geophysicists",
+      "fhir:code": "2114",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2120",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Mathematicians, Actuaries and Statisticians",
+      "fhir:code": "2120",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2131",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Biologists, Botanists, Zoologists and Related Professionals",
+      "fhir:code": "2131",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2132",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Farming, Forestry and Fisheries Advisers",
+      "fhir:code": "2132",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2133",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Environmental Protection Professionals",
+      "fhir:code": "2133",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2141",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Industrial and Production Engineers",
+      "fhir:code": "2141",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2142",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Civil Engineers",
+      "fhir:code": "2142",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2143",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Environmental Engineers",
+      "fhir:code": "2143",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2144",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Mechanical Engineers",
+      "fhir:code": "2144",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2145",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Chemical Engineers",
+      "fhir:code": "2145",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2146",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Mining Engineers, Metallurgists and Related Professionals",
+      "fhir:code": "2146",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2149",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Engineering Professionals Not Elsewhere Classified",
+      "fhir:code": "2149",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2151",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Electrical Engineers",
+      "fhir:code": "2151",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2152",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Electronics Engineers",
+      "fhir:code": "2152",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2153",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Telecommunications Engineers",
+      "fhir:code": "2153",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2161",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Building Architects",
+      "fhir:code": "2161",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2162",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Landscape Architects",
+      "fhir:code": "2162",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2163",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Product and Garment Designers",
+      "fhir:code": "2163",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2164",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Town and Traffic Planners",
+      "fhir:code": "2164",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2165",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Cartographers and Surveyors",
+      "fhir:code": "2165",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2166",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Graphic and Multimedia Designers",
+      "fhir:code": "2166",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2211",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Generalist Medical Practitioners",
+      "fhir:code": "2211",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2212",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Specialist Medical Practitioners",
+      "fhir:code": "2212",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2221",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Nursing Professionals",
+      "fhir:code": "2221",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2222",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Midwifery Professionals",
+      "fhir:code": "2222",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2230",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Traditional and Complementary Medicine Professionals",
+      "fhir:code": "2230",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2240",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Paramedical Practitioners",
+      "fhir:code": "2240",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2250",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Veterinarians",
+      "fhir:code": "2250",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2261",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Dentists",
+      "fhir:code": "2261",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2262",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Pharmacists",
+      "fhir:code": "2262",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2263",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Environmental and Occupational Health and Hygiene Professionals",
+      "fhir:code": "2263",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2264",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Physiotherapists",
+      "fhir:code": "2264",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2265",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Dietitians and Nutritionists",
+      "fhir:code": "2265",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2266",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Audiologists and Speech Therapists",
+      "fhir:code": "2266",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2267",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Optometrists and Ophthalmic Opticians",
+      "fhir:code": "2267",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/2269",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Health Professionals Not Elsewhere Classified",
+      "fhir:code": "2269",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3111",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Chemical and Physical Science Technicians",
+      "fhir:code": "3111",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3112",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Civil Engineering Technicians",
+      "fhir:code": "3112",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3113",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Electrical Engineering Technicians",
+      "fhir:code": "3113",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3114",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Electronics Engineering Technicians",
+      "fhir:code": "3114",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3115",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Mechanical Engineering Technicians",
+      "fhir:code": "3115",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3116",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Chemical Engineering Technicians",
+      "fhir:code": "3116",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3117",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Mining and Metallurgical Technicians",
+      "fhir:code": "3117",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3118",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Draughtspersons",
+      "fhir:code": "3118",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/3119",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Physical and Engineering Science Technicians Not Elsewhere Classified",
+      "fhir:code": "3119",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/4110",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "General Office Clerks",
+      "fhir:code": "4110",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/4120",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Secretaries (general)",
+      "fhir:code": "4120",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/4131",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Typists and Word Processing Operators",
+      "fhir:code": "4131",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/4132",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Data Entry Clerks",
+      "fhir:code": "4132",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/5111",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Travel Attendants and Travel Stewards",
+      "fhir:code": "5111",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/5112",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Transport Conductors",
+      "fhir:code": "5112",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/5113",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Travel Guides",
+      "fhir:code": "5113",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/6111",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Field Crop and Vegetable Growers",
+      "fhir:code": "6111",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/6112",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Tree and Shrub Crop Growers",
+      "fhir:code": "6112",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/6113",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Gardeners, Horticultural and Nursery Growers",
+      "fhir:code": "6113",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/6114",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Mixed Crop Growers",
+      "fhir:code": "6114",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/7111",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "House Builders",
+      "fhir:code": "7111",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/7112",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Bricklayers and Related Workers",
+      "fhir:code": "7112",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/7113",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Stonemasons, Stone Cutters, Splitters and Carvers",
+      "fhir:code": "7113",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/7114",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Concrete Placers, Concrete Finishers and Related Workers",
+      "fhir:code": "7114",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/8111",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Miners and Quarriers",
+      "fhir:code": "8111",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/8112",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Mineral and Stone Processing Plant Operators",
+      "fhir:code": "8112",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/8113",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Well Drillers and Borers and Related Workers",
+      "fhir:code": "8113",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/9111",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Domestic Cleaners and Helpers",
+      "fhir:code": "9111",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/9112",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Cleaners and Helpers in Offices, Hotels and Other Establishments",
+      "fhir:code": "9112",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/9211",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Crop Farm Labourers",
+      "fhir:code": "9211",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/9212",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Livestock Farm Labourers",
+      "fhir:code": "9212",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/9213",
+      "type": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration",
+      "name": "Mixed Crop and Livestock Farm Labourers",
+      "fhir:code": "9213",
+      "fhir:system": "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"
+    },
+    {
+      "id": "http://smart.who.int/base/vocab#isco08valueset",
+      "type": "rdf:Property",
+      "name": "isco08valueset",
+      "comment": "Property for selecting a value from the ISCO-08 Value Set enumeration.",
+      "schema:rangeIncludes": {
+        "id": "http://smart.who.int/base/vocab#ISCO08ValueSetEnumeration"
+      }
+    }
+  ]
+}

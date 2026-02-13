@@ -1,0 +1,45 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/ValueSet/CoreDataElementTypeVS> a fhir:ValueSet ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "CoreDataElementTypeVS"] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet CoreDataElementTypeVS</b></p><a name=\"CoreDataElementTypeVS\"> </a><a name=\"hcCoreDataElementTypeVS\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-CoreDataElementType.html\"><code>http://smart.who.int/base/CodeSystem/CoreDataElementType</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version ?0.2.0</span></li></ul></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:url [
+     fhir:v "http://smart.who.int/base/ValueSet/CoreDataElementTypeVS"^^xsd:anyURI ;
+     fhir:l <http://smart.who.int/base/ValueSet/CoreDataElementTypeVS>
+  ] ; # 
+  fhir:version [ fhir:v "0.2.0"] ; # 
+  fhir:name [ fhir:v "CoreDataElementTypeVS"] ; # 
+  fhir:title [ fhir:v "Core Data Element Type Value Set"] ; # 
+  fhir:status [ fhir:v "active"] ; # 
+  fhir:experimental [ fhir:v false] ; # 
+  fhir:date [ fhir:v "2026-02-13T20:26:50+00:00"^^xsd:dateTime] ; # 
+  fhir:publisher [ fhir:v "WHO"] ; # 
+  fhir:contact ( [
+     fhir:name [ fhir:v "WHO" ] ;
+     fhir:telecom ( [
+       fhir:system [ fhir:v "url" ] ;
+       fhir:value [ fhir:v "http://who.int" ]
+     ] )
+  ] ) ; # 
+  fhir:description [ fhir:v "Value set of core data element types"] ; # 
+  fhir:compose [
+     fhir:include ( [
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/CoreDataElementType"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/CoreDataElementType>
+       ]
+     ] )
+  ] . # 
+
+# -------------------------------------------------------------------------------------
+

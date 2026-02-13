@@ -1,0 +1,80 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Generic Persona (DAK) API",
+    "description": "Logical Model for representing Generic Personas from a DAK. Depiction of the human and system actors. Human actors are end users, supervisors and related stakeholders who would be interacting with the digital system or involved in the clinical care, public health or health system pathway.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-GenericPersona.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-GenericPersona",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-GenericPersona.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-GenericPersona",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-GenericPersona.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-GenericPersona": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-GenericPersona.schema.json",
+        "title": "Generic Persona (DAK)",
+        "description": "Logical Model for representing Generic Personas from a DAK. Depiction of the human and system actors. Human actors are end users, supervisors and related stakeholders who would be interacting with the digital system or involved in the clinical care, public health or health system pathway.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "GenericPersona",
+            "description": "Resource type identifier for GenericPersona logical model"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the persona"
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier for the persona"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the persona"
+          },
+          "otherNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Other names or examples for the persona"
+          },
+          "iscoCode": {
+            "type": "array",
+            "items": {
+              "$ref": "ValueSet-ISCO08ValueSet.schema.json"
+            },
+            "description": "ISCO-08 codes for occupation classification"
+          }
+        },
+        "required": [
+          "resourceType",
+          "title",
+          "id",
+          "description"
+        ],
+        "resourceDefinition": "http://smart.who.int/base/StructureDefinition/GenericPersona",
+        "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+      }
+    }
+  }
+}

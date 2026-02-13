@@ -1,0 +1,65 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Business Process Workflow Source API",
+    "description": "Source reference for Business Process Workflow - can be URL, canonical reference, or inline instance",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-BusinessProcessWorkflowSource.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-BusinessProcessWorkflowSource",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-BusinessProcessWorkflowSource.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-BusinessProcessWorkflowSource",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-BusinessProcessWorkflowSource.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-BusinessProcessWorkflowSource": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://worldhealthorganization.github.io/smart-base/branches/copilot/update-dak-lm-references/StructureDefinition-BusinessProcessWorkflowSource.schema.json",
+        "title": "Business Process Workflow Source",
+        "description": "Source reference for Business Process Workflow - can be URL, canonical reference, or inline instance",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "BusinessProcessWorkflowSource",
+            "description": "Resource type identifier for BusinessProcessWorkflowSource logical model"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to retrieve BusinessProcessWorkflow definition from input/ or external source"
+          },
+          "canonical": {
+            "type": "string",
+            "format": "uri",
+            "description": "Canonical URI pointing to the BusinessProcessWorkflow definition"
+          },
+          "instance": {
+            "$ref": "https://worldhealthorganization.github.io/smart-base/branches/copilot/update-dak-lm-references/StructureDefinition-BusinessProcessWorkflow.schema.json",
+            "description": "Inline BusinessProcessWorkflow instance data"
+          }
+        },
+        "required": [
+          "resourceType"
+        ],
+        "resourceDefinition": "http://smart.who.int/base/StructureDefinition/BusinessProcessWorkflowSource",
+        "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+      }
+    }
+  }
+}

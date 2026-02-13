@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-Requirements.schema.json",
+  "title": "Functional and Non-Functional Requirements (DAK)",
+  "description": "Logical Model for representing Functional and Non-Functional Requirements from a DAK. A high-level list of core functions and capabilities that the system must have to meet the end users' needs.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "Requirements",
+      "description": "Resource type identifier for Requirements logical model"
+    },
+    "functional": {
+      "type": "string",
+      "description": "Functional requirements for the system"
+    },
+    "nonfunctional": {
+      "type": "string",
+      "description": "Non-functional requirements for the system"
+    }
+  },
+  "required": [
+    "resourceType"
+  ],
+  "resourceDefinition": "http://smart.who.int/base/StructureDefinition/Requirements",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}
