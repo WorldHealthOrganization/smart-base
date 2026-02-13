@@ -311,18 +311,6 @@ jobs:
           entrypoint: /bin/sh
           args: -c "mkdir -p /var/lib/.fhir && chown $(id -u):$(id -g) /var/lib/.fhir"
 
-      - name: Install Python in publisher image
-        run: |
-          docker run --name ig-python --user root --entrypoint /bin/sh \
-            hl7fhir/ig-publisher-base:latest -c '\
-              apt-get update && \
-              apt-get install -y --no-install-recommends python3 python3-pip python3-venv && \
-              ln -sf /usr/bin/python3 /usr/bin/python && \
-              pip3 install --break-system-packages "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml && \
-              apt-get clean && rm -rf /var/lib/apt/lists/*'
-          docker commit --change 'ENTRYPOINT []' ig-python hl7fhir/ig-publisher-base:latest
-          docker rm ig-python
-
       - name: Run the IG publisher with optional tx
         run: |
           echo "TX input: ${{ inputs.tx }}"
@@ -338,12 +326,19 @@ jobs:
           fi
 
           echo "Running command: $CMD"
-          
+
           docker run --rm \
+            --user root \
+            --entrypoint /bin/sh \
             -v ${{ github.workspace }}:/work \
             -w /work \
+            -e PUBLISHER_CMD="$CMD" \
             hl7fhir/ig-publisher-base:latest \
-            sh -c "$CMD"
+            -c 'apt-get update && \
+              apt-get install -y --no-install-recommends python3 python3-pip python3-venv && \
+              ln -sf /usr/bin/python3 /usr/bin/python && \
+              pip3 install --break-system-packages "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml && \
+              eval "$PUBLISHER_CMD"'
      
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
