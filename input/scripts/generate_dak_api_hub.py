@@ -670,19 +670,30 @@ class HTMLProcessor:
             
             # Look for the DAK_API_CONTENT comment marker
             comment_marker = '<!-- DAK_API_CONTENT -->'
+            hub_start_marker = '<!-- DAK_API_HUB_START -->'
+            hub_end_marker = '<!-- DAK_API_HUB_END -->'
             
-            if comment_marker not in html_content:
+            if comment_marker in html_content:
+                self.logger.info(f"✅ Found DAK_API_CONTENT comment marker")
+                # Replace the comment marker with the actual content
+                new_html_content = html_content.replace(comment_marker, content)
+                replaced_existing = False
+            elif hub_start_marker in html_content and hub_end_marker in html_content:
+                self.logger.info(f"✅ Found DAK_API_HUB start/end markers — replacing previously injected content")
+                start_idx = html_content.index(hub_start_marker)
+                end_idx = html_content.index(hub_end_marker) + len(hub_end_marker)
+                if start_idx >= end_idx - len(hub_end_marker):
+                    self.logger.error(f"❌ DAK_API_HUB markers are in wrong order or overlapping in {html_file_path}")
+                    return False
+                new_html_content = html_content[:start_idx] + content + html_content[end_idx:]
+                replaced_existing = True
+            else:
                 self.logger.error(f"❌ DAK_API_CONTENT comment marker not found in {html_file_path}")
                 self.logger.info("Available content sample for debugging:")
                 # Show a sample to help debug
                 sample_content = html_content[:1000] if len(html_content) > 1000 else html_content
                 self.logger.info(f"Sample content: {sample_content}")
                 return False
-            
-            self.logger.info(f"✅ Found DAK_API_CONTENT comment marker")
-            
-            # Replace the comment marker with the actual content
-            new_html_content = html_content.replace(comment_marker, content)
             
             self.logger.info(f"📏 Content replacement: original={len(html_content)}, new={len(new_html_content)}")
             
@@ -696,6 +707,9 @@ class HTMLProcessor:
             
             if size_increase > 100:  # If we added substantial content
                 self.logger.info(f"✅ Content injection appears successful (substantial size increase)")
+                return True
+            elif replaced_existing:
+                self.logger.info(f"✅ Content replacement successful (replaced existing hub content, size change: {size_increase})")
                 return True
             else:
                 self.logger.warning(f"⚠️  Content injection may have failed (minimal size increase: {size_increase})")
@@ -1600,8 +1614,8 @@ class DAKApiHubGenerator:
         if jsonld_docs is None:
             jsonld_docs = []
         
-        # Start building the HTML content
-        html_content = """
+        # Start building the HTML content (wrapped with markers so re-runs can replace it)
+        html_content = """<!-- DAK_API_HUB_START -->
 <div class="dak-api-hub">
     <h2>DAK API Documentation Hub</h2>
     
@@ -1986,6 +2000,7 @@ class DAKApiHubGenerator:
 <hr>
 
 <p><em>This documentation hub is automatically generated from the available schema and API definitions.</em></p>
+<!-- DAK_API_HUB_END -->
 """
         
         return html_content
