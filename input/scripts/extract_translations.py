@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-WHO SMART Guidelines Translation Extraction Script
+SMART Guidelines Translation Extraction Script
 
 Extracts translatable strings from visual and architectural diagram sources
 into Gettext .pot template files for Weblate-based localisation.
 
-Targeted source types (aligned with WHO L3 Authoring SOP):
+Targeted source types (aligned with the L3 Authoring SOP):
   - PlantUML  (.plantuml)  in input/images-source/
   - Custom SVG (.svg)      in input/images/
   - ArchiMate  (.archimate) in input/archimate/
@@ -25,8 +25,6 @@ Options:
     --output-dir DIR       Override a single output directory for all .pot
                            files (useful for testing)
     --help / -h            Print this help
-
-Author: WHO SMART Guidelines Team
 """
 
 import argparse
@@ -563,7 +561,7 @@ def collect_entries(
 def main() -> int:
     """Entry point."""
     parser = argparse.ArgumentParser(
-        description="Extract translatable strings from WHO SMART diagram sources into .pot files",
+        description="Extract translatable strings from SMART diagram sources into .pot files",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
