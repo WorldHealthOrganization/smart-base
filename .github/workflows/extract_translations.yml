@@ -61,7 +61,20 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      # ── Gate all translation work on DAK being enabled ──────────────────
+      - name: Check for DAK configuration
+        id: dak_check
+        run: |
+          if [ -f "dak.json" ]; then
+            echo "DAK_ENABLED=true" >> "$GITHUB_OUTPUT"
+            echo "✅ dak.json found — translation extraction is enabled"
+          else
+            echo "DAK_ENABLED=false" >> "$GITHUB_OUTPUT"
+            echo "⚠️ dak.json not found — skipping extraction (DAK not enabled)"
+          fi
+
       - name: Set up Python
+        if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -69,12 +82,14 @@ jobs:
           cache-dependency-path: input/scripts/requirements.txt
 
       - name: Install Python dependencies
+        if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         run: pip install -r input/scripts/requirements.txt
 
       # ── Derive canonical URL from sushi-config.yaml if not supplied ─────
       # User inputs are passed via environment variables, NEVER interpolated
       # directly into shell commands, to prevent script-injection attacks.
       - name: Extract canonical URL from sushi-config.yaml
+        if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         id: canonical
         env:
           INPUT_CANONICAL: ${{ inputs.canonical_url }}
@@ -88,6 +103,7 @@ jobs:
           fi
 
       - name: Extract .pot translation template files
+        if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         env:
           INPUT_IG_ROOT: ${{ inputs.ig_root }}
           CANONICAL_URL: ${{ steps.canonical.outputs.url }}
@@ -98,6 +114,7 @@ jobs:
 
       # ── Commit any updated .pot files back to the branch ────────────────
       - name: Commit updated translation templates
+        if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         env:
           ACTOR: ${{ github.actor }}
         run: |
