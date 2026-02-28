@@ -2430,6 +2430,44 @@ def main():
     
     # Process ValueSet schemas (collect metadata and generate OpenAPI wrappers)
     logger.info(f"Processing {len(schemas['valueset'])} ValueSet schemas...")
+
+    def generate_individual_schema_page(schema_path: str, schema_type: str, html_filename: str, title: str) -> None:
+        """Generate an individual HTML documentation page for a schema.
+
+        If an IG-publisher-generated HTML already exists, inject the narrative
+        content at the appropriate section.  Otherwise create a new standalone
+        page using dak-api.html as a template.
+        """
+        doc_content = schema_doc_renderer.generate_schema_documentation_html(schema_path, schema_type, output_dir)
+        if not doc_content:
+            logger.warning(f"  ⚠️ Failed to generate schema documentation content for {os.path.basename(schema_path)}")
+            return
+        html_path = os.path.join(output_dir, html_filename)
+        if os.path.exists(html_path):
+            # Inject into existing IG-publisher-generated HTML at appropriate point
+            try:
+                with open(html_path, 'r', encoding='utf-8') as f:
+                    existing_html = f.read()
+                injection_point = schema_doc_renderer._find_injection_point(existing_html, schema_type)
+                if injection_point is not None:
+                    updated_html = existing_html[:injection_point] + doc_content + existing_html[injection_point:]
+                    with open(html_path, 'w', encoding='utf-8') as f:
+                        f.write(updated_html)
+                    logger.info(f"  ✅ Injected schema documentation into existing {html_filename}")
+                else:
+                    logger.warning(f"  ⚠️ No injection point found in existing {html_filename}")
+            except Exception as inject_err:
+                logger.warning(f"  ⚠️ Failed to inject into existing {html_filename}: {inject_err}")
+        else:
+            # Create new standalone HTML page using dak-api.html as template
+            new_html = html_processor.create_html_template_from_existing(dak_api_html_path, title, doc_content)
+            if new_html:
+                with open(html_path, 'w', encoding='utf-8') as f:
+                    f.write(new_html)
+                logger.info(f"  ✅ Created standalone documentation page: {html_filename}")
+            else:
+                logger.warning(f"  ⚠️ Failed to create documentation page for {os.path.basename(schema_path)}")
+
     for i, schema_path in enumerate(schemas['valueset'], 1):
         logger.info(f"Processing ValueSet schema {i}/{len(schemas['valueset'])}: {schema_path}")
         try:
@@ -2489,6 +2527,9 @@ def main():
                 logger.info(f"  Found JSON-LD file: {jsonld_filename}")
             
             schema_docs['valueset'].append(schema_doc_entry)
+            
+            # Generate individual HTML documentation page with narrative and cross-links
+            generate_individual_schema_page(schema_path, 'valueset', html_filename, title)
             
             logger.info(f"  ✅ Added ValueSet schema to hub documentation: {schema_name}")
                 
@@ -2551,6 +2592,9 @@ def main():
                 logger.info(f"  Found OpenAPI file: {openapi_filename}")
             
             schema_docs['logical_model'].append(schema_doc_entry)
+            
+            # Generate individual HTML documentation page with narrative and cross-links
+            generate_individual_schema_page(schema_path, 'logical_model', html_filename, title)
             
             logger.info(f"  ✅ Added Logical Model schema to hub documentation: {schema_name}")
                 
