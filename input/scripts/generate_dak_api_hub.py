@@ -24,7 +24,7 @@ import os
 import sys
 import logging
 import re
-from typing import Dict, List, Optional, Any, Tuple
+from typing import Dict, List, Optional, Any, Tuple, Union
 from pathlib import Path
 from urllib.parse import urlparse
 from datetime import datetime
@@ -2052,26 +2052,34 @@ class DAKApiHubGenerator:
   </body>
 </html>"""
 
-    def generate_openapi_index_html(self, output_dir: str, openapi_input_dir: str,
+    def generate_openapi_index_html(self, output_dir: str,
+                                    openapi_input_dirs: Union[str, List[str]],
                                     schema_docs: Dict[str, List[Dict]],
                                     existing_openapi_html_content: Optional[str] = None) -> Optional[str]:
         """
         Generate output/openapi/index.html with Swagger UI, combining:
           1. Generated schema OpenAPI specs from the output directory.
-          2. External OpenAPI specs copied from openapi_input_dir (if present).
-          3. Optional existing HTML content extracted from openapi_input_dir/index.html.
+          2. External OpenAPI specs copied from each directory in openapi_input_dirs (if present).
+          3. Optional existing HTML content extracted from the first index.html found.
 
         Args:
             output_dir: IG output directory.
-            openapi_input_dir: Source directory for external OpenAPI specs (input/openapi).
-                               May not exist; the method handles that gracefully.
+            openapi_input_dirs: One or more source directories for external OpenAPI specs
+                                (e.g. ``input/openapi``, ``input/images/openapi``).
+                                Accepts either a single string or a list of strings.
+                                Directories that do not exist are silently skipped.
             schema_docs: Dictionary with schema documentation info.
-            existing_openapi_html_content: Existing HTML content from openapi_input_dir/index.html.
+            existing_openapi_html_content: Existing HTML content from an index.html found in
+                                           one of the input directories.
 
         Returns:
             Path to the generated index.html, or None if generation failed.
         """
         import shutil
+
+        # Normalise to a list so the rest of the code is uniform
+        if isinstance(openapi_input_dirs, str):
+            openapi_input_dirs = [openapi_input_dirs]
 
         try:
             openapi_output_dir = os.path.join(output_dir, "openapi")
@@ -2095,10 +2103,16 @@ class DAKApiHubGenerator:
                         'name': schema_doc['title']
                     })
 
-            # Copy external OpenAPI files (if the input/openapi dir exists) and add to the list.
+            # Copy external OpenAPI files from each input directory and add to the spec list.
+            # Files are de-duplicated by filename (first directory wins).
             # All OpenAPI spec files and their supporting assets (e.g. referenced schemas) are
             # copied so that relative references within the specs continue to resolve correctly.
-            if os.path.exists(openapi_input_dir):
+            seen_filenames: set = set()
+            for openapi_input_dir in openapi_input_dirs:
+                if not os.path.exists(openapi_input_dir):
+                    self.logger.info(f"No external OpenAPI directory found at: {openapi_input_dir}")
+                    continue
+                self.logger.info(f"Scanning external OpenAPI directory: {openapi_input_dir}")
                 for filename in sorted(os.listdir(openapi_input_dir)):
                     src_path = os.path.join(openapi_input_dir, filename)
                     if not os.path.isfile(src_path) or filename.lower() == 'index.html':
@@ -2108,14 +2122,16 @@ class DAKApiHubGenerator:
                     if ext not in ('.json', '.yaml', '.yml', '.png', '.svg', '.css', '.js'):
                         self.logger.debug(f"Skipping non-asset file: {filename}")
                         continue
+                    if filename in seen_filenames:
+                        self.logger.debug(f"Skipping duplicate file (already copied): {filename}")
+                        continue
+                    seen_filenames.add(filename)
                     dst_path = os.path.join(openapi_output_dir, filename)
                     shutil.copy2(src_path, dst_path)
                     self.logger.info(f"Copied external OpenAPI file: {filename}")
                     if ext in ('.json', '.yaml', '.yml'):
                         spec_name = os.path.splitext(filename)[0]
                         swagger_urls.append({'url': f"./{filename}", 'name': spec_name})
-            else:
-                self.logger.info(f"No external OpenAPI directory found at: {openapi_input_dir}")
 
             html = self._generate_swagger_ui_html(swagger_urls, existing_openapi_html_content)
 
@@ -2371,6 +2387,11 @@ def main():
     logger.info("=== OPENAPI FILE DETECTION PHASE ===")
     openapi_files = openapi_detector.find_openapi_files(openapi_dir)
     logger.info(f"OpenAPI detection completed - found {len(openapi_files)} files in source directory")
+
+    # Also check the legacy input/images/openapi location
+    legacy_openapi_dir = "input/images/openapi"
+    legacy_openapi_files = openapi_detector.find_openapi_files(legacy_openapi_dir)
+    logger.info(f"Found {len(legacy_openapi_files)} existing OpenAPI files in legacy directory")
     
     # Also check for OpenAPI files in output directory (copied by IG publisher)
     output_openapi_dir = os.path.join(output_dir, "images", "openapi")
@@ -2378,17 +2399,16 @@ def main():
     logger.info(f"Found {len(output_openapi_files)} existing OpenAPI files in output directory")
     
     # Extract existing HTML content from OpenAPI documentation
+    # Check all candidate directories in priority order; use the first one found.
     logger.info("=== EXISTING OPENAPI HTML CONTENT DETECTION ===")
-    existing_openapi_html_content = openapi_detector.find_existing_html_content(openapi_dir)
-    if existing_openapi_html_content:
-        logger.info("Found existing OpenAPI HTML content that will be incorporated into DAK API hub")
-    else:
-        # Also try the output directory location
-        existing_openapi_html_content = openapi_detector.find_existing_html_content(output_openapi_dir)
+    existing_openapi_html_content = None
+    for _html_dir in [openapi_dir, legacy_openapi_dir, output_openapi_dir]:
+        existing_openapi_html_content = openapi_detector.find_existing_html_content(_html_dir)
         if existing_openapi_html_content:
-            logger.info("Found existing OpenAPI HTML content in output directory that will be incorporated into DAK API hub")
-        else:
-            logger.info("No existing OpenAPI HTML content found")
+            logger.info(f"Found existing OpenAPI HTML content in: {_html_dir}")
+            break
+    if not existing_openapi_html_content:
+        logger.info("No existing OpenAPI HTML content found")
     
     # Generate schema documentation
     logger.info("=== SCHEMA DOCUMENTATION GENERATION PHASE ===")
@@ -2843,7 +2863,7 @@ def main():
     logger.info("=== OPENAPI INDEX GENERATION PHASE ===")
     try:
         openapi_index_path = hub_generator.generate_openapi_index_html(
-            output_dir, openapi_dir, schema_docs, existing_openapi_html_content
+            output_dir, [openapi_dir, legacy_openapi_dir], schema_docs, existing_openapi_html_content
         )
         if openapi_index_path:
             logger.info(f"✅ Generated OpenAPI index: {openapi_index_path}")
