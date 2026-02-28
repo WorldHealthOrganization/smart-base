@@ -291,6 +291,30 @@ jobs:
             echo "⚠️ DMN transformation script not available, skipping DMN transformation"
           fi
 
+      - name: DAK Preprocessing - Inject diagram translations
+        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+        run: |
+          echo "Injecting translations into diagram sources before IG publisher runs..."
+
+          # Check if injection script exists locally, download if needed
+          if [ ! -f "input/scripts/inject_translations.py" ]; then
+            echo "Translation injection script not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/inject_translations.py" \
+              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/inject_translations.py" \
+              2>/dev/null || echo "Failed to download inject_translations.py"
+          else
+            echo "Using local inject_translations.py"
+          fi
+
+          # Run injection if script is available
+          if [ -f "input/scripts/inject_translations.py" ]; then
+            python3 input/scripts/inject_translations.py
+            echo "✅ Diagram translations injected successfully"
+          else
+            echo "⚠️ Translation injection script not available, skipping"
+          fi
+
       - name: Update the image to the latest publisher
         uses: docker://hl7fhir/ig-publisher-base:latest
         with:

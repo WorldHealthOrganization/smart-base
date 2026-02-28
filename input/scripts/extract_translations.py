@@ -469,7 +469,7 @@ def write_pot(
             deduped[key] = []
         deduped[key].append((entry.source_file, entry.line_number, entry.context_url))
 
-    now = datetime.datetime.utcnow()
+    now = datetime.datetime.now(datetime.timezone.utc)
     timestamp = now.strftime("%Y-%m-%d %H:%M+0000")
     year = now.year
 
@@ -513,44 +513,46 @@ def collect_entries(
     """
     result: Dict[str, List[TranslationEntry]] = {}
 
+    # Helper: scan a directory for source files and collect entries.
+    # Returns None when the directory does not exist or contains no matching
+    # files so the caller can skip writing an empty .pot for that component.
+    def _scan(
+        src_dir: str,
+        patterns: List[str],
+        extractor_fn,
+    ) -> Optional[List[TranslationEntry]]:
+        if not os.path.isdir(src_dir):
+            return None
+        found: List[TranslationEntry] = []
+        for pat in patterns:
+            for fpath in sorted(glob_module.glob(os.path.join(src_dir, pat))):
+                rel = os.path.relpath(fpath, ig_root)
+                found.extend(extractor_fn(rel, canonical))
+        return found if found else None
+
     # --- PlantUML in input/images-source/ ---
     plantuml_dir = os.path.join(ig_root, "input", "images-source")
-    plantuml_pot = os.path.join(plantuml_dir, "translations", "diagrams.pot")
-    plantuml_entries: List[TranslationEntry] = []
-    for fpath in glob_module.glob(os.path.join(plantuml_dir, "*.plantuml")):
-        rel = os.path.relpath(fpath, ig_root)
-        plantuml_entries.extend(extract_plantuml(rel, canonical))
-    result[plantuml_pot] = plantuml_entries
+    plantuml_entries = _scan(plantuml_dir, ["*.plantuml"], extract_plantuml)
+    if plantuml_entries is not None:
+        result[os.path.join(plantuml_dir, "translations", "diagrams.pot")] = plantuml_entries
 
     # --- Custom SVG in input/images/ ---
     images_dir = os.path.join(ig_root, "input", "images")
-    images_pot = os.path.join(images_dir, "translations", "images.pot")
-    svg_entries: List[TranslationEntry] = []
-    for fpath in glob_module.glob(os.path.join(images_dir, "*.svg")):
-        rel = os.path.relpath(fpath, ig_root)
-        svg_entries.extend(extract_svg(rel, canonical))
-    result[images_pot] = svg_entries
+    svg_entries = _scan(images_dir, ["*.svg"], extract_svg)
+    if svg_entries is not None:
+        result[os.path.join(images_dir, "translations", "images.pot")] = svg_entries
 
     # --- ArchiMate in input/archimate/ ---
     archimate_dir = os.path.join(ig_root, "input", "archimate")
-    archimate_pot = os.path.join(archimate_dir, "translations", "models.pot")
-    archimate_entries: List[TranslationEntry] = []
-    if os.path.isdir(archimate_dir):
-        for fpath in glob_module.glob(os.path.join(archimate_dir, "*.archimate")):
-            rel = os.path.relpath(fpath, ig_root)
-            archimate_entries.extend(extract_archimate(rel, canonical))
-    result[archimate_pot] = archimate_entries
+    archimate_entries = _scan(archimate_dir, ["*.archimate"], extract_archimate)
+    if archimate_entries is not None:
+        result[os.path.join(archimate_dir, "translations", "models.pot")] = archimate_entries
 
     # --- UML diagrams in input/diagrams/ (SVG and XML) ---
     diagrams_dir = os.path.join(ig_root, "input", "diagrams")
-    diagrams_pot = os.path.join(diagrams_dir, "translations", "diagrams.pot")
-    diagrams_entries: List[TranslationEntry] = []
-    if os.path.isdir(diagrams_dir):
-        for ext in ("*.svg", "*.xml"):
-            for fpath in glob_module.glob(os.path.join(diagrams_dir, ext)):
-                rel = os.path.relpath(fpath, ig_root)
-                diagrams_entries.extend(extract_svg(rel, canonical))
-    result[diagrams_pot] = diagrams_entries
+    diagrams_entries = _scan(diagrams_dir, ["*.svg", "*.xml"], extract_svg)
+    if diagrams_entries is not None:
+        result[os.path.join(diagrams_dir, "translations", "diagrams.pot")] = diagrams_entries
 
     return result
 
@@ -588,6 +590,10 @@ def main() -> int:
     logger.info(f"Extracting translations from {ig_root} (canonical: {canonical})")
 
     per_component = collect_entries(ig_root, canonical)
+
+    if not per_component:
+        logger.info("No diagram source files found — nothing to extract")
+        return 0
 
     total_written = 0
     for pot_path, entries in per_component.items():
