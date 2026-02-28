@@ -359,6 +359,13 @@ jobs:
           name: qa-json-artifact
           path: ./output/qa.json  # Adjust the path based on where qa.json is located
 
+      - name: Fix output directory ownership for DAK post-processing
+        run: |
+          # The IG publisher runs in Docker as root, so output/ files are root-owned.
+          # Python post-processing scripts run as the GitHub Actions runner (non-root)
+          # and must be able to write schema files and modify HTML pages.
+          sudo chown -R "$USER:$USER" ./output || true
+
       - name: DAK Postprocessing - Generate JSON Schemas
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |

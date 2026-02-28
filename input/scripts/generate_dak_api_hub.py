@@ -29,6 +29,11 @@ from pathlib import Path
 from urllib.parse import urlparse
 from datetime import datetime
 
+# Minimum code-block content size (in characters) to trigger dynamic source loading.
+# Static pre-formatted blocks smaller than this threshold are left as-is to avoid
+# replacing small illustrative code snippets with fetch-based loaders.
+_MIN_SOURCE_SIZE_FOR_DYNAMIC_LOADING = 500
+
 
 def setup_logging() -> logging.Logger:
     """Configure logging for the script."""
@@ -1676,6 +1681,176 @@ class SchemaDocumentationRenderer:
         
         return html_content
 
+    def _replace_lang_source(self, html: str, lang: str, label: str, src_file: str) -> str:
+        """
+        Replace one language's static pre-formatted source block with a dynamic loader.
+
+        The FHIR IG Publisher embeds full source code in ``<pre class="LANG">`` blocks
+        at publication time.  This replaces those blocks with a tiny ``<code>`` element
+        plus a ``<script>`` that fetches the raw source file on-demand and applies
+        Prism.js syntax highlighting.
+
+        Args:
+            html: Full HTML content of the page
+            lang: Source language / class name ('json', 'xml', 'ttl')
+            label: Human-readable label ('JSON', 'XML', 'TTL')
+            src_file: Relative URL of the raw source file to fetch (same directory)
+
+        Returns:
+            Updated HTML string
+        """
+        # Match <pre> opening tags whose class contains the language word.
+        # <pre> cannot be nested in HTML, so the first </pre> after each opening
+        # tag is always its matching close.
+        pre_open_re = re.compile(
+            r'<pre\b([^>]*?\bclass="[^"]*?\b' + re.escape(lang) + r'\b[^"]*?"[^>]*)>',
+            re.IGNORECASE
+        )
+        close_tag = '</pre>'
+        close_tag_lower = close_tag.lower()
+
+        parts: List[str] = []
+        pos = 0
+        occurrence = 0
+
+        while pos < len(html):
+            m = pre_open_re.search(html, pos)
+            if not m:
+                break
+
+            body_start = m.end()
+            close_pos = html.lower().find(close_tag_lower, body_start)
+            if close_pos < 0:
+                break  # malformed HTML; stop processing
+
+            pre_content = html[body_start:close_pos]
+
+            # Only replace blocks that contain a <code> element with substantial content.
+            code_match = re.search(r'<code([^>]*)>([\s\S]*?)</code>', pre_content, re.IGNORECASE)
+            if not code_match or len(code_match.group(2).strip()) < _MIN_SOURCE_SIZE_FOR_DYNAMIC_LOADING:
+                # Keep this block unchanged; preserve everything from pos through </pre>
+                parts.append(html[pos:close_pos + len(close_tag)])
+                pos = close_pos + len(close_tag)
+                continue
+
+            # Everything before this <pre>
+            parts.append(html[pos:m.start()])
+
+            # Build a stable, unique element ID: lang + sanitized filename + occurrence index
+            occurrence += 1
+            safe_name = re.sub(r'[^a-z0-9]', '-', src_file.lower())
+            el_id = 'dyn-{}-{}-{}'.format(lang, safe_name, occurrence)
+
+            # Fetch body differs by format: JSON gets pretty-printed via JSON.stringify
+            if lang == 'json':
+                fetch_body = (
+                    'fetch("{f}").then(function(r){{return r.json();}}).then(function(d){{'
+                    'el.textContent=JSON.stringify(d,null,2);'
+                    'if(window.Prism&&Prism.languages.json)Prism.highlightElement(el);}})'.format(f=src_file)
+                )
+            else:
+                fetch_body = (
+                    'fetch("{f}").then(function(r){{return r.text();}}).then(function(t){{'
+                    'el.textContent=t;'
+                    'if(window.Prism&&Prism.languages["{l}"])Prism.highlightElement(el);}})'.format(
+                        f=src_file, l=lang)
+                )
+
+            loader = (
+                '<pre class="{l}"><code id="{id}" class="language-{l}" style="display:block;">'
+                'Loading {label} source&#8230;</code></pre>'
+                '<script>(function(){{'
+                'var el=document.getElementById("{id}");if(!el)return;'
+                'function loadSrc(){{if(el.dataset.loaded)return;el.dataset.loaded="1";'
+                '{fb}'
+                '.catch(function(e){{el.textContent="Could not load {label}: "+e.message;}});'
+                '}}'
+                # Activate on Bootstrap tab-shown event
+                'document.addEventListener("shown.bs.tab",function(e){{'
+                'var h=e.target&&(e.target.getAttribute("href")||e.target.getAttribute("data-bs-target")||"");'
+                'if(h==="#{l}"||h.startsWith("#{l}-"))loadSrc();'
+                '}});'
+                # Also load if the containing tab-pane is already active on page load
+                'function checkActive(){{var p=el.closest&&el.closest(".tab-pane");'
+                'if(p&&(p.classList.contains("active")||p.classList.contains("show")))loadSrc();}}'
+                'if(document.readyState!=="loading")checkActive();'
+                'else document.addEventListener("DOMContentLoaded",checkActive);'
+                '}})()</script>'
+            ).format(l=lang, id=el_id, label=label, fb=fetch_body)
+
+            parts.append(loader)
+            pos = close_pos + len(close_tag)
+
+        parts.append(html[pos:])
+        return ''.join(parts)
+
+    def replace_static_source_with_dynamic_loading(self, output_dir: str) -> int:
+        """
+        Replace large static pre-formatted source code in JSON / XML / TTL tabs with
+        dynamic Prism.js loaders across all FHIR resource HTML pages.
+
+        The FHIR IG Publisher embeds the full resource source in ``<pre class="json">``
+        / ``<pre class="xml">`` / ``<pre class="ttl">`` blocks at publication time,
+        which inflates every page significantly.  This method removes that embedded
+        content and replaces it with a small JavaScript snippet that fetches the
+        corresponding raw source file (already present in the output directory) on
+        demand, then applies Prism.js syntax highlighting — zero CDN requests, zero
+        build step.
+
+        Args:
+            output_dir: Directory produced by the FHIR IG Publisher
+
+        Returns:
+            Number of HTML files modified
+        """
+        FORMATS = [
+            ('json', 'JSON'),
+            ('xml', 'XML'),
+            ('ttl', 'TTL'),
+        ]
+
+        modified = 0
+        try:
+            html_files = sorted(f for f in os.listdir(output_dir) if f.endswith('.html'))
+        except OSError as e:
+            self.logger.error(f'Cannot list output dir {output_dir}: {e}')
+            return 0
+
+        for html_file in html_files:
+            base_name = html_file[:-5]  # strip .html
+            html_path = os.path.join(output_dir, html_file)
+
+            # Quick skip: only process files that have at least one raw source counterpart
+            src_exists = {
+                ext: os.path.exists(os.path.join(output_dir, f'{base_name}.{ext}'))
+                for ext, _ in FORMATS
+            }
+            if not any(src_exists.values()):
+                continue
+
+            try:
+                with open(html_path, 'r', encoding='utf-8', errors='replace') as f:
+                    html = f.read()
+
+                original = html
+                for ext, label in FORMATS:
+                    if src_exists[ext]:
+                        html = self._replace_lang_source(html, ext, label, f'{base_name}.{ext}')
+
+                if html != original:
+                    with open(html_path, 'w', encoding='utf-8') as f:
+                        f.write(html)
+                    modified += 1
+                    self.logger.info(f'Dynamic source loading applied to {html_file}')
+
+            except Exception as e:
+                self.logger.warning(f'Could not process {html_file}: {e}')
+
+        self.logger.info(
+            f'Dynamic source loading: {modified}/{len(html_files)} HTML files modified'
+        )
+        return modified
+
 
 class DAKApiHubGenerator:
     """Generates the unified DAK API documentation hub."""
@@ -3011,6 +3186,14 @@ def main():
         logger.info(f"Total content items to include in hub: {total_content_items}")
         qa_reporter.add_success(f"Total content items to include in hub: {total_content_items}")
     
+    # Replace static pre-formatted source in all FHIR resource HTML pages with dynamic loaders
+    logger.info("=== DYNAMIC SOURCE LOADING PHASE ===")
+    try:
+        dynamic_count = schema_doc_renderer.replace_static_source_with_dynamic_loading(output_dir)
+        qa_reporter.add_success(f"Dynamic source loading applied to {dynamic_count} HTML files")
+    except Exception as e:
+        logger.warning(f"Dynamic source loading phase failed (non-fatal): {e}")
+
     # Post-process the DAK API hub
     logger.info("=== DAK API HUB POST-PROCESSING PHASE ===")
     qa_reporter.add_success("Starting DAK API hub post-processing phase")
