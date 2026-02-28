@@ -17,6 +17,12 @@ on:
     paths:
       - 'input/pages/**.md'
       - 'input/pagecontent/**.md'
+      - 'input/images/**.svg'
+      - 'input/images/**.plantuml'
+      - 'input/images/**.uml'
+      - 'input/images-src/**.svg'
+      - 'input/images-src/**.plantuml'
+      - 'input/images-src/**.uml'
       - 'input/scripts/md_to_pot.py'
   workflow_dispatch:
 
