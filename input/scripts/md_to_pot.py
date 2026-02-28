@@ -2,14 +2,14 @@
 """
 md_to_pot.py - Extract translatable strings from Markdown files into PO/POT format.
 
-Scans input/pagecontent/ for Markdown files and generates:
+Scans input/pages/ and input/pagecontent/ for Markdown files and generates:
   - input/translations/messages.pot   (merged template for Weblate)
   - input/translations/<lang>/LC_MESSAGES/messages.po  (per-language stubs)
 
 Supported UN languages: ar, zh, fr, ru, es  (English is the source)
 
 Usage:
-    python3 input/scripts/md_to_pot.py [--pagecontent-dir DIR] [--translations-dir DIR]
+    python3 input/scripts/md_to_pot.py [--source-dir DIR [--source-dir DIR ...]] [--translations-dir DIR]
 """
 
 import argparse

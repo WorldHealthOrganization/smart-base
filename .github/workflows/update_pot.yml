@@ -15,6 +15,7 @@ on:
     branches:
       - main
     paths:
+      - 'input/pages/**.md'
       - 'input/pagecontent/**.md'
       - 'input/scripts/md_to_pot.py'
   workflow_dispatch:
