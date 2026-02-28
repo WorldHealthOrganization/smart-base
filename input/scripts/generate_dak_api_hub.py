@@ -921,14 +921,12 @@ class SchemaDocumentationRenderer:
                 html_content += """    </div>
 """
             
-            # Show full schema as collapsible JSON
-            schema_json_str = json.dumps(schema_data, indent=2)
+            # Link to the schema file rather than embedding pre-formatted JSON.
+            # The JSON Schema tab (for logical model pages) loads the file lazily;
+            # here we provide a direct download link for other page types.
             html_content += f"""
     <div class="schema-json">
-        <details>
-            <summary>Full Schema (JSON)</summary>
-            <pre><code class="language-json">{schema_json_str}</code></pre>
-        </details>
+        <p><a href="{schema_filename}" target="_blank" class="schema-link">&#128196; Download full JSON schema ({schema_filename})</a></p>
     </div>
 </div>
 
@@ -978,32 +976,22 @@ class SchemaDocumentationRenderer:
     color: #6c757d;
 }}
 
-details {{
-    margin: 1rem 0;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
-    padding: 0;
-}}
-
-details summary {{
-    background: #f8f9fa;
-    padding: 0.75rem;
-    cursor: pointer;
-    border-bottom: 1px solid #dee2e6;
+.schema-link {{
+    display: inline-block;
+    background-color: #17a2b8;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 0.8rem;
     font-weight: 500;
+    transition: background-color 0.2s ease;
 }}
 
-details[open] summary {{
-    border-bottom: 1px solid #dee2e6;
-}}
-
-details pre {{
-    margin: 1rem;
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 4px;
-    padding: 1rem;
-    overflow-x: auto;
+.schema-link:hover {{
+    background-color: #138496;
+    color: white;
+    text-decoration: none;
 }}
 </style>
 
@@ -1018,6 +1006,205 @@ details pre {{
             self.logger.error(f"Error generating schema documentation for {schema_path}: {e}")
             return ""
     
+    def _find_closing_div(self, html: str, start: int) -> int:
+        """
+        Find the position after the closing </div> of a div starting at `start`.
+
+        Counts div nesting depth to handle nested elements correctly.
+
+        Args:
+            html: HTML string to search
+            start: Position of the opening <div tag
+
+        Returns:
+            Position after the matching </div>, or -1 if not found
+        """
+        depth = 0
+        i = start
+        n = len(html)
+        while i < n:
+            j = html.find('<', i)
+            if j == -1:
+                break
+            # Opening div
+            if j + 4 <= n and html[j:j+4].lower() == '<div' and (j + 4 >= n or html[j+4] in ' \t\n\r>/'):
+                end_tag = html.find('>', j)
+                if end_tag == -1:
+                    break
+                if end_tag > 0 and html[end_tag - 1] == '/':
+                    # Self-closing <div/> – no depth change
+                    i = end_tag + 1
+                else:
+                    depth += 1
+                    i = end_tag + 1
+            # Closing div
+            elif html[j:j+6].lower() == '</div>':
+                depth -= 1
+                if depth == 0:
+                    return j + 6
+                i = j + 6
+            else:
+                i = j + 1
+        return -1
+
+    def _generate_schema_tab_pane_html(self, schema_filename: str, tab_id: str) -> str:
+        """
+        Generate the HTML for a JSON Schema tab pane that lazily loads the schema
+        file via JavaScript (no pre-formatted JSON embedded in the HTML).
+
+        Args:
+            schema_filename: Filename of the .schema.json file (relative URL)
+            tab_id: Unique ID for the tab / pane element
+
+        Returns:
+            HTML string for the tab pane
+        """
+        return (
+            f'<div role="tabpanel" class="tab-pane" id="{tab_id}">\n'
+            f'<div class="schema-tab-content" style="padding:1rem;">\n'
+            f'<h3>JSON Schema</h3>\n'
+            f'<p><a href="{schema_filename}" target="_blank" '
+            f'class="btn btn-sm btn-outline-secondary">'
+            f'&#128196; Download {schema_filename}</a></p>\n'
+            f'<pre id="{tab_id}-display" '
+            f'style="background:#f8f9fa;border:1px solid #dee2e6;border-radius:4px;'
+            f'padding:1rem;overflow-x:auto;max-height:600px;overflow-y:auto;'
+            f'white-space:pre-wrap;font-size:0.85em;">Loading schema&#8230;</pre>\n'
+            f'</div>\n'
+            f'<script>\n'
+            f'(function(){{\n'
+            f'  function loadSchema(){{\n'
+            f'    var el=document.getElementById("{tab_id}-display");\n'
+            f'    if(!el||el.dataset.loaded)return;\n'
+            f'    el.dataset.loaded="1";\n'
+            f'    fetch("{schema_filename}")\n'
+            f'      .then(function(r){{return r.json();}})\n'
+            f'      .then(function(d){{el.textContent=JSON.stringify(d,null,2);}})\n'
+            f'      .catch(function(e){{el.textContent="Error loading schema: "+e.message;}});\n'
+            f'  }}\n'
+            f'  var link=document.getElementById("{tab_id}-head");\n'
+            f'  if(link){{\n'
+            f'    link.addEventListener("shown.bs.tab",loadSchema);\n'
+            f'    if(link.classList.contains("active")){{loadSchema();}}\n'
+            f'  }}else{{\n'
+            f'    document.addEventListener("DOMContentLoaded",loadSchema);\n'
+            f'  }}\n'
+            f'}})();\n'
+            f'</script>\n'
+            f'</div>'
+        )
+
+    def _inject_schema_as_new_tab(self, html_content: str, schema_filename: str,
+                                   spec_name: str) -> Optional[str]:
+        """
+        Add a JSON Schema tab to the Bootstrap tab structure generated by the
+        FHIR IG publisher.
+
+        1. Locates the nav-tabs <ul> and appends a new <li> tab button.
+        2. Locates the tab-content <div> and appends a new tab pane whose
+           content is loaded on demand via JavaScript fetch.
+
+        Args:
+            html_content: Full HTML of the StructureDefinition page
+            schema_filename: Basename of the schema file (e.g. 'StructureDefinition-DAK.schema.json')
+            spec_name: Resource name (e.g. 'StructureDefinition-DAK')
+
+        Returns:
+            Updated HTML string, or None if the required tab structure was not found
+        """
+        try:
+            safe_id = re.sub(r'[^a-zA-Z0-9]', '-', spec_name).lower()
+            safe_id = re.sub(r'-+', '-', safe_id).strip('-')
+            tab_id = f'dak-json-schema-{safe_id}'
+
+            # ── Step 1: Insert new tab button before </ul> of the nav-tabs ──────────
+            nav_tabs_re = re.compile(
+                r'(<ul[^>]*class="[^"]*(?:nav-tabs|fhir-nav-tabs)[^"]*"[^>]*>)(.*?)(</ul>)',
+                re.DOTALL | re.IGNORECASE,
+            )
+            nav_match = nav_tabs_re.search(html_content)
+            if not nav_match:
+                self.logger.warning(
+                    f'nav-tabs <ul> not found in {spec_name}.html – skipping tab injection'
+                )
+                return None
+
+            new_li = (
+                f'\n<li role="presentation" class="nav-item">'
+                f'<a role="tab" class="nav-link" id="{tab_id}-head" '
+                f'href="#{tab_id}" aria-controls="{tab_id}" '
+                f'data-bs-toggle="tab">JSON Schema</a>'
+                f'</li>\n'
+            )
+            updated_nav = nav_match.group(1) + nav_match.group(2) + new_li + nav_match.group(3)
+            html_content = (
+                html_content[:nav_match.start()]
+                + updated_nav
+                + html_content[nav_match.end():]
+            )
+
+            # ── Step 2: Find tab-content <div> and append new tab pane ───────────
+            tab_content_re = re.compile(
+                r'<div[^>]*class="[^"]*tab-content[^"]*"[^>]*>',
+                re.IGNORECASE,
+            )
+            tc_match = tab_content_re.search(html_content)
+            if not tc_match:
+                self.logger.warning(
+                    f'tab-content <div> not found in {spec_name}.html – skipping tab injection'
+                )
+                return None
+
+            # Find the last tab-pane div inside tab-content and insert after it.
+            tab_pane_re = re.compile(
+                r'<div[^>]*class="[^"]*tab-pane[^"]*"[^>]*>',
+                re.IGNORECASE,
+            )
+            last_pane_end = -1
+            for pane_match in tab_pane_re.finditer(html_content, tc_match.end()):
+                end = self._find_closing_div(html_content, pane_match.start())
+                if end > 0:
+                    last_pane_end = end
+
+            tab_pane_html = self._generate_schema_tab_pane_html(schema_filename, tab_id)
+
+            if last_pane_end > 0:
+                # Insert after the last existing tab pane
+                html_content = (
+                    html_content[:last_pane_end]
+                    + '\n' + tab_pane_html + '\n'
+                    + html_content[last_pane_end:]
+                )
+            else:
+                # No existing tab panes – insert immediately before the closing </div>
+                # of the tab-content div.  Use _find_closing_div to locate the
+                # matching end tag, then insert just before it.
+                tc_div_end = self._find_closing_div(html_content, tc_match.start())
+                if tc_div_end < 0:
+                    self.logger.warning(
+                        f'Cannot locate end of tab-content in {spec_name}.html'
+                    )
+                    return None
+                # tc_div_end points to the character *after* </div>, so the closing
+                # tag itself begins 6 characters earlier.
+                insert_pos = tc_div_end - 6
+                self.logger.warning(
+                    f'No existing tab-panes found in {spec_name}.html; '
+                    f'inserting schema pane before tab-content closing tag'
+                )
+                html_content = (
+                    html_content[:insert_pos]
+                    + '\n' + tab_pane_html + '\n'
+                    + html_content[insert_pos:]
+                )
+
+            self.logger.info(f'Added JSON Schema tab to {spec_name}.html')
+            return html_content
+
+        except Exception as exc:
+            self.logger.error(f'Error adding schema tab for {spec_name}: {exc}')
+            return None
+
     def _find_injection_point(self, html_content: str, schema_type: str) -> Optional[int]:
         """
         Find the appropriate injection point in FHIR IG generated HTML content.
@@ -1141,6 +1328,28 @@ details pre {{
             
             # Check for the placeholder marker
             placeholder_marker = f'<!-- DAK_API_PLACEHOLDER: {spec_name} -->'
+
+            # For logical model pages, try to inject as a new Bootstrap tab first.
+            # This places the JSON Schema in its own tab rather than inline under
+            # the Content tab, and the schema JSON is loaded lazily via JavaScript
+            # to avoid bloating the HTML with pre-formatted content.
+            if schema_type == 'logical_model' and placeholder_marker not in html_content:
+                schema_filename = f'{spec_name}.schema.json'
+                updated_html = self._inject_schema_as_new_tab(
+                    html_content, schema_filename, spec_name
+                )
+                if updated_html is not None:
+                    with open(html_path, 'w', encoding='utf-8') as f:
+                        f.write(updated_html)
+                    self.logger.info(
+                        f'Injected JSON Schema tab into {html_path}'
+                    )
+                    return html_filename
+                else:
+                    self.logger.warning(
+                        f'Tab injection failed for {spec_name}; falling back to inline injection'
+                    )
+
             if placeholder_marker not in html_content:
                 self.logger.warning(f"Placeholder marker not found in {html_path}. Searching for appropriate FHIR IG content section.")
                 # Find the appropriate injection point based on content type
@@ -1312,14 +1521,12 @@ details pre {{
 <p><strong>Required fields:</strong> {', '.join(required)}</p>
 """
                 
-                # Show full schema as collapsible JSON
-                import json
-                schema_json_str = json.dumps(schema_def, indent=2)
+                # Show link to full schema file instead of embedding pre-formatted JSON.
+                # The schema file is loaded lazily by the JSON Schema tab (for logical
+                # model pages) or via a direct download link here.
+                schema_file_ref = openapi_filename.replace('.openapi.json', '.schema.json').replace('.openapi.yaml', '.schema.json')
                 html_content += f"""
-<details class="schema-details">
-<summary>Full Schema (JSON)</summary>
-<pre><code class="language-json">{schema_json_str}</code></pre>
-</details>
+<p><a href="{schema_file_ref}" target="_blank" class="schema-link">&#128196; View full JSON schema ({schema_file_ref})</a></p>
 """
                 
                 html_content += """
@@ -1388,31 +1595,22 @@ details pre {{
   color: #6c757d;
 }
 
-.schema-details {
-  margin: 1rem 0;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-}
-
-.schema-details summary {
-  background: #f8f9fa;
-  padding: 0.75rem;
-  cursor: pointer;
-  border-bottom: 1px solid #dee2e6;
+.schema-link {
+  display: inline-block;
+  background-color: #17a2b8;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  text-decoration: none;
+  font-size: 0.8rem;
   font-weight: 500;
+  transition: background-color 0.2s ease;
 }
 
-.schema-details[open] summary {
-  border-bottom: 1px solid #dee2e6;
-}
-
-.schema-details pre {
-  margin: 1rem;
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 4px;
-  padding: 1rem;
-  overflow-x: auto;
+.schema-link:hover {
+  background-color: #138496;
+  color: white;
+  text-decoration: none;
 }
 
 .properties-list {
