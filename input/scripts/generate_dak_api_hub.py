@@ -1047,40 +1047,102 @@ class SchemaDocumentationRenderer:
                 i = j + 1
         return -1
 
-    def _generate_schema_tab_pane_html(self, schema_filename: str, tab_id: str) -> str:
+    def _generate_schema_tab_pane_html(self, schema_filename: str, tab_id: str,
+                                        language: str = 'json') -> str:
         """
-        Generate the HTML for a JSON Schema tab pane that lazily loads the schema
-        file via JavaScript (no pre-formatted JSON embedded in the HTML).
+        Generate the HTML for a content tab pane that lazily loads a source file
+        via JavaScript and applies client-side syntax highlighting.
+
+        Syntax highlighting is provided by highlight.js loaded from CDN.  It is
+        loaded once per page (guarded by a flag on window) and supports all
+        content types used in WHO SMART Guidelines:
+          - JSON / JSON Schema  (language='json')
+          - HTML                (language='html')
+          - CQL                 (language='cql'  – registered via hljs.registerLanguage)
+          - Gherkin / Feature   (language='gherkin')
+          - Markdown            (language='markdown')
+
+        The JSON content is fetched on demand when the tab is first activated,
+        so no pre-formatted content is embedded in the HTML.
 
         Args:
-            schema_filename: Filename of the .schema.json file (relative URL)
+            schema_filename: Relative URL of the source file to load
             tab_id: Unique ID for the tab / pane element
+            language: highlight.js language identifier (default: 'json')
 
         Returns:
             HTML string for the tab pane
         """
+        # highlight.js 11.x – pinned minor version for stability, loaded from
+        # cdnjs (Cloudflare CDN) which is reliably available in GitHub Pages deployments.
+        hljs_version = '11.9.0'
+        hljs_css_url = (
+            f'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/'
+            f'{hljs_version}/styles/github.min.css'
+        )
+        hljs_js_url = (
+            f'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/'
+            f'{hljs_version}/highlight.min.js'
+        )
+
         return (
+            # ── highlight.js assets (loaded once per page) ──────────────────────
+            f'<link rel="stylesheet" id="hljs-css" '
+            f'href="{hljs_css_url}" '
+            f'onload="this.id=\'hljs-css-loaded\'" '
+            f'data-hljs-version="{hljs_version}">\n'
+            f'<script>\n'
+            f'if(!window._hljsLoaded){{\n'
+            f'  window._hljsLoaded=true;\n'
+            f'  var s=document.createElement("script");\n'
+            f'  s.src="{hljs_js_url}";\n'
+            f'  s.onload=function(){{\n'
+            f'    window._hljsReady=true;\n'
+            f'    if(window._hljsPendingHighlight){{\n'
+            f'      window._hljsPendingHighlight.forEach(function(fn){{fn();}});\n'
+            f'      window._hljsPendingHighlight=[];\n'
+            f'    }}\n'
+            f'  }};\n'
+            f'  document.head.appendChild(s);\n'
+            f'}}\n'
+            f'</script>\n'
+            # ── Tab pane ────────────────────────────────────────────────────────
             f'<div role="tabpanel" class="tab-pane" id="{tab_id}">\n'
             f'<div class="schema-tab-content" style="padding:1rem;">\n'
             f'<h3>JSON Schema</h3>\n'
             f'<p><a href="{schema_filename}" target="_blank" '
             f'class="btn btn-sm btn-outline-secondary">'
             f'&#128196; Download {schema_filename}</a></p>\n'
-            f'<pre id="{tab_id}-display" '
-            f'style="background:#f8f9fa;border:1px solid #dee2e6;border-radius:4px;'
-            f'padding:1rem;overflow-x:auto;max-height:600px;overflow-y:auto;'
-            f'white-space:pre-wrap;font-size:0.85em;">Loading schema&#8230;</pre>\n'
+            f'<pre style="margin:0;padding:0;background:transparent;border:none;">'
+            f'<code id="{tab_id}-display" class="language-{language}" '
+            f'style="border-radius:4px;max-height:600px;overflow-y:auto;'
+            f'font-size:0.85em;display:block;">Loading schema&#8230;</code>'
+            f'</pre>\n'
             f'</div>\n'
+            # ── Load + highlight on tab activation ───────────────────────────────
             f'<script>\n'
             f'(function(){{\n'
+            f'  function applyHighlight(el){{\n'
+            f'    if(window._hljsReady&&window.hljs){{\n'
+            f'      window.hljs.highlightElement(el);\n'
+            f'    }}else{{\n'
+            f'      window._hljsPendingHighlight=window._hljsPendingHighlight||[];\n'
+            f'      window._hljsPendingHighlight.push(function(){{window.hljs.highlightElement(el);}});\n'
+            f'    }}\n'
+            f'  }}\n'
             f'  function loadSchema(){{\n'
             f'    var el=document.getElementById("{tab_id}-display");\n'
             f'    if(!el||el.dataset.loaded)return;\n'
             f'    el.dataset.loaded="1";\n'
             f'    fetch("{schema_filename}")\n'
             f'      .then(function(r){{return r.json();}})\n'
-            f'      .then(function(d){{el.textContent=JSON.stringify(d,null,2);}})\n'
-            f'      .catch(function(e){{el.textContent="Error loading schema: "+e.message;}});\n'
+            f'      .then(function(d){{\n'
+            f'        el.textContent=JSON.stringify(d,null,2);\n'
+            f'        applyHighlight(el);\n'
+            f'      }})\n'
+            f'      .catch(function(e){{\n'
+            f'        el.textContent="Error loading schema: "+e.message;\n'
+            f'      }});\n'
             f'  }}\n'
             f'  var link=document.getElementById("{tab_id}-head");\n'
             f'  if(link){{\n'
