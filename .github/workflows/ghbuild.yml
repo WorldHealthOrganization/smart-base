@@ -126,8 +126,10 @@ jobs:
           echo ${{ github.head_ref }}
           echo ${{ github.ref_name }}
           echo ${GITHUB_REF#refs/heads/}
-          echo "BRANCH_DIR=${GITHUB_REF##*/}" 
-          echo "BRANCH_DIR=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          # For PR events github.ref is refs/pull/NNN/merge; use head_ref (source branch) instead
+          RAW_BRANCH="${{ github.head_ref || github.ref_name }}"
+          echo "BRANCH_DIR=${RAW_BRANCH##*/}"
+          echo "BRANCH_DIR=${RAW_BRANCH##*/}" >> $GITHUB_ENV
           echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
       - name: Echo branch name and check if it's the default branch
@@ -367,7 +369,9 @@ jobs:
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
           echo "Making output directory writable for DAK postprocessing scripts..."
-          if sudo chmod -R a+w output/ 2>/dev/null; then
+          if sudo chown -R $(id -u):$(id -g) output/ 2>/dev/null; then
+            echo "✅ Output directory ownership transferred to runner user (sudo chown)"
+          elif sudo chmod -R a+w output/ 2>/dev/null; then
             echo "✅ Output directory permissions updated (sudo chmod)"
           elif chmod -R u+w output/ 2>/dev/null; then
             echo "✅ Output directory permissions updated (chmod u+w)"
