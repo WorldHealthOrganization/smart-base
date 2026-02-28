@@ -458,17 +458,14 @@ jobs:
           COMMIT="${{ github.sha }}"
           BRANCH="${{ env.BRANCH_DIR }}"
           # Fetch the previously deployed index.html so we can carry forward its log
+          # Use curl (not git fetch) to avoid touching gh-pages ref and racing the deploy action
           PREV_HTML_ARG=""
-          if git fetch origin gh-pages 2>/dev/null; then
-            if git show origin/gh-pages:branches/${BRANCH}/index.html \
-                > /tmp/prev-deploy-index.html 2>/dev/null; then
-              PREV_HTML_ARG="--prev-html /tmp/prev-deploy-index.html"
-              echo "Found previous deployment log for branch ${BRANCH}"
-            else
-              echo "No previous deployment found for branch ${BRANCH} – starting fresh log"
-            fi
+          PREV_URL="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/gh-pages/branches/${BRANCH}/index.html"
+          if curl -sSf -o /tmp/prev-deploy-index.html "$PREV_URL" 2>/dev/null; then
+            PREV_HTML_ARG="--prev-html /tmp/prev-deploy-index.html"
+            echo "Found previous deployment log for branch ${BRANCH}"
           else
-            echo "Could not fetch gh-pages branch – skipping cross-build log carry-forward"
+            echo "No previous deployment found for branch ${BRANCH} – starting fresh log"
           fi
           # Stamp each build phase in order; first call carries forward cross-build history
           python3 input/scripts/stamp_deploy_metadata.py output/index.html \
