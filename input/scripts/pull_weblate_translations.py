@@ -22,7 +22,7 @@ Usage:
 
 Options:
     --weblate-url URL    Weblate base URL  (default: https://hosted.weblate.org)
-    --project SLUG       Weblate project slug (default: who-smart-base)
+    --project SLUG       Weblate project slug (default: worldhealthorganization-smart-base)
     --component SLUG     Restrict to one component slug (default: all)
     --language CODE      Restrict to one language code  (default: all)
     --output-root DIR    Repository root for output directories (default: .)
@@ -266,7 +266,7 @@ def pull_translations(
             # https://docs.weblate.org/en/latest/api.html#authentication
             "Authorization": f"Token {api_token}",
             "Accept": "text/x-po",
-            "User-Agent": "WHO-SMART-Base-CI/1.0",
+            "User-Agent": "SMART-Base-CI/1.0",
         }
     )
 
@@ -317,8 +317,8 @@ def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--project",
-        default="who-smart-base",
-        help="Weblate project slug (default: who-smart-base)",
+        default="worldhealthorganization-smart-base",
+        help="Weblate project slug (default: worldhealthorganization-smart-base)",
     )
     parser.add_argument(
         "--component",

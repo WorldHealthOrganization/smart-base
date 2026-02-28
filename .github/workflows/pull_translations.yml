@@ -1,4 +1,4 @@
-# Retrieve WHO SMART Guidelines translations from Weblate API
+# Retrieve SMART Guidelines translations from Weblate API
 #
 # Pulls the latest approved .po files via the Weblate REST API and commits
 # them to the repository.  The repository is always the "puller" and stays
@@ -27,7 +27,7 @@ on:
       project_slug:
         description: 'Weblate project slug'
         required: false
-        default: 'who-smart-base'
+        default: 'worldhealthorganization-smart-base'
       component:
         description: 'Component to pull (blank = all)'
         required: false
@@ -99,7 +99,7 @@ jobs:
         run: |
           python input/scripts/pull_weblate_translations.py \
             --weblate-url "${INPUT_WEBLATE_URL:-https://hosted.weblate.org}" \
-            --project     "${INPUT_PROJECT:-who-smart-base}" \
+            --project     "${INPUT_PROJECT:-worldhealthorganization-smart-base}" \
             --component   "${INPUT_COMPONENT:-}" \
             --language    "${INPUT_LANGUAGE:-}" \
             --output-root "."
