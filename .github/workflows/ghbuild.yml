@@ -360,6 +360,7 @@ jobs:
           path: ./output/qa.json  # Adjust the path based on where qa.json is located
 
       - name: Fix output directory ownership for DAK post-processing
+        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
           # The IG publisher runs in Docker as root, so output/ files are root-owned.
           # Python post-processing scripts run as the GitHub Actions runner (non-root)
