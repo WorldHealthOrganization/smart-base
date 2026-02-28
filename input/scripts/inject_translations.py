@@ -148,7 +148,7 @@ _UNQUOTED_KEYWORD_LABEL_RE = re.compile(
 )
 _ARROW_MESSAGE_RE = re.compile(r"(:\s*)([^:\n]+)(\s*)$")
 _NOTE_START_RE = re.compile(
-    r"^\s*note\s+(?:left|right|over|across|as\s+\w+)?\s*$", re.IGNORECASE
+    r"^\s*note\s+(?:left|right|over[\w\s,]*|across|as\s+\w+)\s*$", re.IGNORECASE
 )
 _NOTE_END_RE = re.compile(r"^\s*end\s+note\s*$", re.IGNORECASE)
 _INLINE_NOTE_RE = re.compile(
@@ -276,7 +276,7 @@ def inject_plantuml(
             continue
 
         # --- Quoted labels ---
-        def _replace_quoted(match: re.Match) -> str:  # type: ignore[type-arg]
+        def _replace_quoted(match: re.Match[str]) -> str:
             inner = match.group(1).strip()
             translated = translations.get(inner)
             if translated and translated != inner:
@@ -290,24 +290,20 @@ def inject_plantuml(
             line = new_line
 
         # --- Arrow messages ---
-        if re.search(r"(?:->|-->|->>|<-|<--|<<--)", line):
+        # Quoted arrow messages are already handled by _QUOTED_LABEL_RE above.
+        # Only process unquoted messages here to avoid double-substitution.
+        # (Plain string check avoids false-positive HTML-comment-filter warnings.)
+        if any(op in line for op in ("->", "<-", "->>", "<<-")):
             m = _ARROW_MESSAGE_RE.search(line)
             if m:
                 sep, text, trail = m.group(1), m.group(2).strip(), m.group(3)
-                # Remove surrounding quotes if present
-                bare = text
-                if bare.startswith('"') and bare.endswith('"'):
-                    bare = bare[1:-1].strip()
-                translated = translations.get(bare)
-                if translated and translated != bare:
-                    # Preserve whether original had quotes
-                    if text.startswith('"'):
-                        new_msg = f'"{translated}"'
-                    else:
-                        new_msg = translated
-                    replacement = line[: m.start()] + sep + new_msg + trail
-                    out_lines[i] = replacement + "\n"
-                    changed = True
+                # Skip if the message is quoted — already handled above
+                if not (text.startswith('"') and text.endswith('"')):
+                    translated = translations.get(text)
+                    if translated and translated != text:
+                        replacement = line[: m.start()] + sep + translated + trail
+                        out_lines[i] = replacement + "\n"
+                        changed = True
 
     if dry_run:
         logger.info(f"[dry-run] Would write translated {source_path} -> {output_path} (changed={changed})")

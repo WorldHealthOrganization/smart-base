@@ -123,7 +123,7 @@ _ARROW_MESSAGE_RE = re.compile(r":\s*([^:\n]+)\s*$")
 
 # Multi-line note block pattern
 _NOTE_START_RE = re.compile(
-    r"^\s*note\s+(?:left|right|over|across|as\s+\w+)?\s*$", re.IGNORECASE
+    r"^\s*note\s+(?:left|right|over[\w\s,]*|across|as\s+\w+)\s*$", re.IGNORECASE
 )
 _NOTE_END_RE = re.compile(r"^\s*end\s+note\s*$", re.IGNORECASE)
 _INLINE_NOTE_RE = re.compile(
@@ -258,7 +258,7 @@ def extract_plantuml(file_path: str, canonical: str) -> List[TranslationEntry]:
         if in_note:
             if _NOTE_END_RE.match(line):
                 in_note = False
-                combined = "\\n".join(l for _, l in block_lines if l.strip())
+                combined = "\n".join(l for _, l in block_lines if l.strip())
                 if combined.strip():
                     entries.append(TranslationEntry(file_path, block_lines[0][0] if block_lines else lineno, combined, context_url))
                 block_lines = []
@@ -274,7 +274,7 @@ def extract_plantuml(file_path: str, canonical: str) -> List[TranslationEntry]:
         if in_legend:
             if _LEGEND_END_RE.match(line):
                 in_legend = False
-                combined = "\\n".join(l for _, l in block_lines if l.strip())
+                combined = "\n".join(l for _, l in block_lines if l.strip())
                 if combined.strip():
                     entries.append(TranslationEntry(file_path, block_lines[0][0] if block_lines else lineno, combined, context_url))
                 block_lines = []
@@ -305,15 +305,18 @@ def extract_plantuml(file_path: str, canonical: str) -> List[TranslationEntry]:
                 entries.append(TranslationEntry(file_path, lineno, text, context_url))
 
         # --- Arrow messages (after ":" at end of line) ---
-        # Only when line contains an arrow operator
-        if re.search(r"(?:->|-->|->>|<-|<--|<<--)", line):
+        # Only when line contains an arrow operator.
+        # Skip if the message is a quoted string — the quoted-label pass
+        # above already extracted it to avoid duplicates.
+        # (Plain string check avoids false-positive HTML-comment-filter warnings.)
+        if any(op in line for op in ("->", "<-", "->>", "<<-")):
             m = _ARROW_MESSAGE_RE.search(line)
             if m:
                 text = m.group(1).strip()
-                # Remove surrounding quotes if present
+                # If the arrow message is quoted, it was already captured above
                 if text.startswith('"') and text.endswith('"'):
-                    text = text[1:-1].strip()
-                if text and not _is_plantuml_keyword_only(text) and not text.startswith("#"):
+                    pass  # already extracted by _QUOTED_LABEL_RE
+                elif text and not _is_plantuml_keyword_only(text) and not text.startswith("#"):
                     entries.append(TranslationEntry(file_path, lineno, text, context_url))
 
     return entries
@@ -336,7 +339,7 @@ _SVG_TEXT_TAGS = {
 }
 
 
-def _get_text_content(element) -> str:  # type: ignore[return]
+def _get_text_content(element) -> str:
     """Recursively collect all text from an XML element."""
     parts = []
     if element.text:
