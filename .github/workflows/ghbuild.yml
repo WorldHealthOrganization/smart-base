@@ -358,6 +358,13 @@ jobs:
           name: qa-json-artifact
           path: ./output/qa.json  # Adjust the path based on where qa.json is located
 
+      - name: Fix output directory permissions for DAK postprocessing
+        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+        run: |
+          echo "Making output directory writable for DAK postprocessing scripts..."
+          sudo chmod -R a+w output/ 2>/dev/null || chmod -R u+w output/ 2>/dev/null || true
+          echo "✅ Output directory permissions updated"
+
       - name: DAK Postprocessing - Generate JSON Schemas
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
