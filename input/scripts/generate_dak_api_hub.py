@@ -1053,28 +1053,62 @@ class SchemaDocumentationRenderer:
         Generate the HTML for a content tab pane that lazily loads a source file
         via JavaScript and applies client-side syntax highlighting.
 
-        Syntax highlighting is provided by highlight.js loaded from CDN.  It is
-        loaded once per page (guarded by a flag on window) and supports all
-        content types used in WHO SMART Guidelines:
-          - JSON / JSON Schema  (language='json')
-          - HTML                (language='html')
-          - CQL                 (language='cql'  – registered via hljs.registerLanguage)
-          - Gherkin / Feature   (language='gherkin')
-          - Markdown            (language='markdown')
+        Cross-domain / CORS note
+        ------------------------
+        The ``fetch()`` call uses a *relative* URL (same directory as the HTML
+        page), so it is always same-origin regardless of whether the site is
+        deployed to github.io, smart.who.int, or any other domain.  There is no
+        cross-origin request and therefore no CORS error is possible.
 
-        The JSON content is fetched on demand when the tab is first activated,
-        so no pre-formatted content is embedded in the HTML.
+        Syntax-highlighter strategy
+        ---------------------------
+        Three options are considered for colorized display:
+
+        1. **Prism.js** (preferred — zero extra network request)
+           The FHIR IG Publisher's standard template (hl7.fhir.template /
+           who.template.root) already bundles Prism.js for its own code blocks.
+           When ``window.Prism`` is available we call
+           ``Prism.highlightElement(el)`` — no CDN request, no CSP concern, and
+           the colour theme already matches the rest of the page.
+           Supported languages: json, html, markdown (built-in);
+           gherkin via the ``prism-gherkin`` component already shipped with the
+           publisher template.  Languages not registered in Prism (e.g. cql)
+           produce a falsy ``Prism.languages[language]`` and fall through to
+           highlight.js automatically — no silent failure.
+
+        2. **highlight.js 11.x** (CDN fallback — loaded asynchronously on demand)
+           Loaded from cdnjs (Cloudflare CDN) only when Prism is absent.
+           ``createElement('script')`` is used so the load is non-blocking.
+           Requires that the site's Content Security Policy (CSP) allows
+           ``script-src https://cdnjs.cloudflare.com``.  A pending-highlight
+           queue ensures elements are coloured even if the tab is activated
+           before the script finishes loading.
+           Pros: very broad language coverage, pinned version, lightweight.
+           Cons: external network dependency; may be blocked by strict CSP.
+
+        3. **CodeMirror** — *not used here*
+           Full interactive editor; 6× heavier than highlight.js; designed for
+           editing not read-only display.  Overkill for this use case.
+
+        4. **Plain formatted text** (graceful degradation)
+           If both Prism and highlight.js are unavailable, the JSON is still
+           pretty-printed via ``JSON.stringify(d, null, 2)`` — fully readable,
+           just without colours.
+
+        The ``language`` parameter selects the grammar for both Prism and
+        highlight.js (both accept ``json``, ``html``, ``markdown``,
+        ``gherkin``).
 
         Args:
-            schema_filename: Relative URL of the source file to load
+            schema_filename: Relative URL of the source file to load.
+                             Must be same-origin (relative path).
             tab_id: Unique ID for the tab / pane element
-            language: highlight.js language identifier (default: 'json')
+            language: Syntax-highlighter language identifier (default: 'json')
 
         Returns:
             HTML string for the tab pane
         """
-        # highlight.js 11.x – pinned minor version for stability, loaded from
-        # cdnjs (Cloudflare CDN) which is reliably available in GitHub Pages deployments.
+        # highlight.js 11.x – loaded from cdnjs only when Prism is absent.
         hljs_version = '11.9.0'
         hljs_css_url = (
             f'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/'
@@ -1086,26 +1120,6 @@ class SchemaDocumentationRenderer:
         )
 
         return (
-            # ── highlight.js assets (loaded once per page) ──────────────────────
-            f'<link rel="stylesheet" id="hljs-css" '
-            f'href="{hljs_css_url}" '
-            f'onload="this.id=\'hljs-css-loaded\'" '
-            f'data-hljs-version="{hljs_version}">\n'
-            f'<script>\n'
-            f'if(!window._hljsLoaded){{\n'
-            f'  window._hljsLoaded=true;\n'
-            f'  var s=document.createElement("script");\n'
-            f'  s.src="{hljs_js_url}";\n'
-            f'  s.onload=function(){{\n'
-            f'    window._hljsReady=true;\n'
-            f'    if(window._hljsPendingHighlight){{\n'
-            f'      window._hljsPendingHighlight.forEach(function(fn){{fn();}});\n'
-            f'      window._hljsPendingHighlight=[];\n'
-            f'    }}\n'
-            f'  }};\n'
-            f'  document.head.appendChild(s);\n'
-            f'}}\n'
-            f'</script>\n'
             # ── Tab pane ────────────────────────────────────────────────────────
             f'<div role="tabpanel" class="tab-pane" id="{tab_id}">\n'
             f'<div class="schema-tab-content" style="padding:1rem;">\n'
@@ -1120,14 +1134,35 @@ class SchemaDocumentationRenderer:
             f'</pre>\n'
             f'</div>\n'
             # ── Load + highlight on tab activation ───────────────────────────────
+            # fetch() uses a relative URL → always same-origin → no CORS issue.
             f'<script>\n'
             f'(function(){{\n'
+            f'  // applyHighlight: Prism first (already on page from FHIR IG publisher\n'
+            f'  // template), then hljs from CDN, then plain text fallback.\n'
+            f'  // Prism.languages[lang] guard ensures unsupported languages (e.g. cql)\n'
+            f'  // fall through to hljs rather than failing silently.\n'
             f'  function applyHighlight(el){{\n'
-            f'    if(window._hljsReady&&window.hljs){{\n'
-            f'      window.hljs.highlightElement(el);\n'
+            f'    if(window.Prism&&Prism.languages["{language}"]){{\n'
+            f'      Prism.highlightElement(el);\n'
+            f'    }}else if(window.hljs){{\n'
+            f'      hljs.highlightElement(el);\n'
             f'    }}else{{\n'
+            f'      // hljs not loaded yet – load it from CDN (only once per page)\n'
             f'      window._hljsPendingHighlight=window._hljsPendingHighlight||[];\n'
-            f'      window._hljsPendingHighlight.push(function(){{window.hljs.highlightElement(el);}});\n'
+            f'      window._hljsPendingHighlight.push(function(){{hljs.highlightElement(el);}});\n'
+            f'      if(!window._hljsLoading){{\n'
+            f'        window._hljsLoading=true;\n'
+            f'        var lnk=document.createElement("link");\n'
+            f'        lnk.rel="stylesheet";lnk.href="{hljs_css_url}";\n'
+            f'        document.head.appendChild(lnk);\n'
+            f'        var s=document.createElement("script");\n'
+            f'        s.src="{hljs_js_url}";\n'
+            f'        s.onload=function(){{\n'
+            f'          (window._hljsPendingHighlight||[]).forEach(function(fn){{fn();}});\n'
+            f'          window._hljsPendingHighlight=[];\n'
+            f'        }};\n'
+            f'        document.head.appendChild(s);\n'
+            f'      }}\n'
             f'    }}\n'
             f'  }}\n'
             f'  function loadSchema(){{\n'
