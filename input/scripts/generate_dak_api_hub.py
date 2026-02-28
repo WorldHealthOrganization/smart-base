@@ -1622,6 +1622,14 @@ class DAKApiHubGenerator:
     <p>This page provides access to all available DAK (Data Access Kit) API endpoints and schemas.
     The DAK API provides structured access to ValueSet enumerations and Logical Model definitions used throughout this implementation guide.</p>
 
+    <h3>OpenAPI Documentation</h3>
+
+    <p>Interactive Swagger UI documentation for all generated schemas and external API specifications is available in the OpenAPI documentation hub:</p>
+
+    <div class="openapi-hub-link">
+        <a href="openapi/index.html" class="schema-link openapi-link">&#128214; View OpenAPI Documentation</a>
+    </div>
+
     <h3>Using the DAK API</h3>
     
     <div class="usage-info">
@@ -1651,14 +1659,6 @@ class DAKApiHubGenerator:
         <h4>API Endpoints</h4>
         <p>The enumeration endpoints provide machine-readable lists of all available schemas, 
         making it easy to discover and integrate with the available data structures programmatically.</p>
-    </div>
-
-    <h3>OpenAPI Documentation</h3>
-
-    <p>Interactive Swagger UI documentation for all generated schemas and external API specifications is available in the OpenAPI documentation hub:</p>
-
-    <div class="openapi-hub-link">
-        <a href="openapi/index.html" class="schema-link openapi-link">&#128214; View OpenAPI Documentation</a>
     </div>
 """
         
@@ -1717,83 +1717,6 @@ class DAKApiHubGenerator:
         </div>
 """
             
-            html_content += """
-    </div>
-"""
-        
-        # Add ValueSet Schemas section
-        if schema_docs['valueset']:
-            html_content += f"""
-    <h3>ValueSet Schemas ({len(schema_docs['valueset'])} available)</h3>
-    
-    <p>JSON Schema definitions for FHIR ValueSets, providing structured enumeration of allowed code values:</p>
-    
-    <div class="schema-grid">
-"""
-            for schema_doc in schema_docs['valueset']:
-                html_content += f"""
-        <div class="schema-card">
-            <h4><a href="{schema_doc['html_file']}">{schema_doc['title']}</a></h4>
-            <p>{schema_doc['description']}</p>
-            <div class="schema-links">
-                <a href="{schema_doc['html_file']}" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
-                <a href="{schema_doc.get('schema_file', '')}" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>"""
-                
-                # Add displays file link if it exists
-                if schema_doc.get('displays_file'):
-                    html_content += f"""
-                <a href="{schema_doc['displays_file']}" class="schema-link" title="Display Names">🏷️ Displays</a>"""
-                
-                # Add JSON-LD file link if it exists
-                if schema_doc.get('jsonld_file'):
-                    html_content += f"""
-                <a href="{schema_doc['jsonld_file']}" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>"""
-                
-                # Add OpenAPI wrapper link if it exists
-                if schema_doc.get('openapi_file'):
-                    html_content += f"""
-                <a href="{schema_doc['openapi_file']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>"""
-                
-                html_content += """
-            </div>
-        </div>
-"""
-            html_content += """
-    </div>
-"""
-        
-        # Add Logical Model Schemas section
-        if schema_docs['logical_model']:
-            html_content += f"""
-    <h3>Logical Model Schemas ({len(schema_docs['logical_model'])} available)</h3>
-    
-    <p>JSON Schema definitions for FHIR Logical Models, defining structured data elements and their relationships:</p>
-    
-    <div class="schema-grid">
-"""
-            for schema_doc in schema_docs['logical_model']:
-                html_content += f"""
-        <div class="schema-card">
-            <h4><a href="{schema_doc['html_file']}">{schema_doc['title']}</a></h4>
-            <p>{schema_doc['description']}</p>
-            <div class="schema-links">
-                <a href="{schema_doc['html_file']}" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
-                <a href="{schema_doc.get('schema_file', '')}" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>"""
-                
-                # Add displays file link if it exists
-                if schema_doc.get('displays_file'):
-                    html_content += f"""
-                <a href="{schema_doc['displays_file']}" class="schema-link" title="Display Names">🏷️ Displays</a>"""
-                
-                # Add OpenAPI wrapper link if it exists
-                if schema_doc.get('openapi_file'):
-                    html_content += f"""
-                <a href="{schema_doc['openapi_file']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>"""
-                
-                html_content += """
-            </div>
-        </div>
-"""
             html_content += """
     </div>
 """
