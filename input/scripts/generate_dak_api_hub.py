@@ -1388,18 +1388,27 @@ class SchemaDocumentationRenderer:
             # generate_logical_model_schemas.py (which runs before this script in
             # the CI pipeline) so it will be present at deployment time.
             # Never fall back to the raw FHIR .json StructureDefinition file.
-            if schema_type == 'logical_model' and placeholder_marker not in html_content:
+            # NOTE: the tab injection is attempted unconditionally — even when a
+            # DAK_API_PLACEHOLDER is present (e.g. StructureDefinition-DAK.html).
+            # When the placeholder is present, we update html_content in place and
+            # then continue to the placeholder-replacement block below so that
+            # BOTH the JSON Schema tab and the OpenAPI content are injected.
+            if schema_type == 'logical_model':
                 schema_filename = f'{spec_name}.schema.json'
                 updated_html = self._inject_schema_as_new_tab(
                     html_content, schema_filename, spec_name
                 )
                 if updated_html is not None:
-                    with open(html_path, 'w', encoding='utf-8') as f:
-                        f.write(updated_html)
+                    html_content = updated_html
                     self.logger.info(
                         f'Injected JSON Schema tab into {html_path}'
                     )
-                    return html_filename
+                    # When there is no placeholder the tab injection is the only
+                    # change; write the file and return immediately.
+                    if placeholder_marker not in html_content:
+                        with open(html_path, 'w', encoding='utf-8') as f:
+                            f.write(html_content)
+                        return html_filename
                 else:
                     self.logger.warning(
                         f'Tab injection failed for {spec_name}; falling back to inline injection'
