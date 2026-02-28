@@ -16,3 +16,9 @@ PyYAML>=6.0.0
 
 # HTTP requests for PR comment scripts (pr_comment_start.py, pr_comment_finish.py)
 requests>=2.31.0
+
+# Gettext PO/POT file handling for translation extraction (md_to_pot.py)
+polib>=1.2.0
+
+# Markdown-to-PO conversion for Weblate translation pipeline (md_to_pot.py)
+mdpo>=2.1.0

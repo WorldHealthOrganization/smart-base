@@ -1,0 +1,50 @@
+# Weblate configuration for WHO SMART Base translation project.
+# Documentation: https://docs.weblate.org/en/latest/admin/projects.html
+
+# ---------------------------------------------------------------------------
+# Project-level settings
+# ---------------------------------------------------------------------------
+project:
+  name: WHO SMART Base
+  slug: smart-base
+  web: https://smart.who.int/base
+
+# ---------------------------------------------------------------------------
+# Translation component — Markdown documentation pages
+# ---------------------------------------------------------------------------
+# Source language: English (en)
+# Target languages: Arabic (ar), Chinese (zh), French (fr), Russian (ru), Spanish (es)
+#
+# File layout:
+#   input/translations/messages.pot           → source template
+#   input/translations/<lang>/LC_MESSAGES/messages.po  → per-language PO files
+#
+# The POT template is regenerated automatically by the "Update POT files"
+# GitHub Actions workflow (see .github/workflows/update_pot.yml) whenever
+# the source Markdown files in input/pagecontent/ change.
+
+component:
+  name: Documentation
+  slug: documentation
+  vcs: git
+  repo: https://github.com/WorldHealthOrganization/smart-base
+  push: git@github.com:WorldHealthOrganization/smart-base.git
+  branch: main
+  # Glob pattern Weblate uses to locate PO files.
+  # The "*" is replaced by the language code (ar, zh, fr, ru, es).
+  filemask: input/translations/*/LC_MESSAGES/messages.po
+  # Template for creating new languages and for fuzzy/obsolete entry detection.
+  template: input/translations/messages.pot
+  # File format understood by Weblate
+  file_format: po
+  # Base file used when adding a new language
+  new_base: input/translations/messages.pot
+  # Source language code
+  source_language: en
+  # Languages Weblate should manage
+  languages:
+    - ar
+    - zh
+    - fr
+    - ru
+    - es

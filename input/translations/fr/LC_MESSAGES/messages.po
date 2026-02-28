@@ -1,0 +1,191 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: WHO SMART Base\n"
+"Report-Msgid-Bugs-To: https://github.com/WorldHealthOrganization/smart-base/issues\n"
+"POT-Creation-Date: 2026-02-28 15:51+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: fr <LL@li.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: changes.md
+msgid "### Version 1.0.0"
+msgstr ""
+
+#: changes.md
+msgid "Initial Release"
+msgstr ""
+
+#: dak-api.md
+msgid "# DAK API Documentation Hub"
+msgstr ""
+
+#: dak-api.md
+msgid ""
+"This page provides access to Data Access Kit (DAK) API documentation and "
+"schemas."
+msgstr ""
+
+#: dak-api.md
+msgid ""
+"## Table of Contents\n"
+"{: .no_toc .text-delta }"
+msgstr ""
+
+#: dak-api.md
+msgid ""
+"1. TOC\n"
+"{:toc}"
+msgstr ""
+
+#: dak-api.md
+msgid "<!-- DAK_API_CONTENT -->"
+msgstr ""
+
+#: downloads.md
+msgid "# Downloads"
+msgstr ""
+
+#: index.md
+msgid "### Overview"
+msgstr ""
+
+#: index.md
+msgid ""
+"This implementation guide contains base conformance resources for use in all"
+" WHO SMART Guidelines implementation guides."
+msgstr ""
+
+#: index.md
+msgid ""
+"See the [SMART IG Starter Kit](https://smart.who.int/ig-starter-kit/) for "
+"more information on building and using WHO SMART Guidelines."
+msgstr ""
+
+#: index.md
+msgid "### DAK (Digital Adaptation Kit) URL Handling"
+msgstr ""
+
+#: index.md
+msgid ""
+"For repositories that contain a `dak.json` file in the root directory, this "
+"implementation guide provides enhanced URL handling for publication and "
+"preview scenarios:"
+msgstr ""
+
+#: index.md
+msgid ""
+"#### Publication URLs\n"
+"- **WHO Repositories**: For repositories owned by `WorldHealthOrganization`, the publication URL follows the pattern `https://smart.who.int/{stub}` where `{stub}` is the repository name with any `smart-` prefix removed.\n"
+"- **Other Repositories**: Use the canonical URL specified in `sushi-config.yaml` or fall back to GitHub Pages pattern."
+msgstr ""
+
+#: index.md
+msgid ""
+"#### Preview URLs\n"
+"- **All Repositories**: Preview URLs use the GitHub Pages pattern `https://{profile}.github.io/{repo}` for current CI builds."
+msgstr ""
+
+#: index.md
+msgid ""
+"#### Branch-Based URL Selection\n"
+"- **Release Branches** (prefixed with `release-`): Use publication URLs for canonical references and resource identifiers.\n"
+"- **Development Branches**: Use preview URLs for canonical references and resource identifiers."
+msgstr ""
+
+#: index.md
+msgid ""
+"The DAK configuration is automatically regenerated during CI builds to "
+"ensure URLs are appropriate for the current branch context."
+msgstr ""
+
+#: index.md
+msgid "### Dependencies"
+msgstr ""
+
+#: index.md
+msgid "### Cross Version Analysis"
+msgstr ""
+
+#: index.md
+msgid "### Global Profiles"
+msgstr ""
+
+#: index.md
+msgid "### IP Statements"
+msgstr ""
+
+#: license.md
+msgid "# Creative Commons Attribution 3.0 IGO (CC-BY-3.0-IGO)"
+msgstr ""
+
+#: license.md
+msgid "## Summary"
+msgstr ""
+
+#: license.md
+msgid ""
+"This is a human-readable summary of the [Creative Commons Attribution 3.0 "
+"IGO (CC-BY-3.0-IGO) "
+"License](https://creativecommons.org/licenses/by/3.0/igo/). This summary is "
+"not a substitute for the full license text."
+msgstr ""
+
+#: license.md
+msgid "Under this license, you are free to:"
+msgstr ""
+
+#: license.md
+msgid ""
+"- Share: Copy and redistribute the material in any medium or format.\n"
+"- Adapt: Remix, transform, and build upon the material for any purpose, even commercially."
+msgstr ""
+
+#: license.md
+msgid "Under the following conditions:"
+msgstr ""
+
+#: license.md
+msgid ""
+"- Attribution: You must give appropriate credit, provide a link to the "
+"license, and indicate if changes were made. You may do so in any reasonable "
+"manner, but not in any way that suggests the licensor endorses you or your "
+"use."
+msgstr ""
+
+#: license.md
+msgid ""
+"- No Additional Restrictions: You may not apply legal terms or technological"
+" measures that legally restrict others from doing anything the license "
+"permits."
+msgstr ""
+
+#: license.md
+msgid ""
+"- International Government Organizations (IGOs): This license is "
+"specifically designed for works created by International Government "
+"Organizations."
+msgstr ""
+
+#: license.md
+msgid "## License Text"
+msgstr ""
+
+#: license.md
+msgid ""
+"This work is licensed under the [Creative Commons Attribution 3.0 IGO (CC-"
+"BY-3.0-IGO) License](https://creativecommons.org/licenses/by/3.0/igo/)."
+msgstr ""
+
+#: license.md
+msgid ""
+"To view a copy of this license, visit "
+"[https://creativecommons.org/licenses/by/3.0/igo/](https://creativecommons.org/licenses/by/3.0/igo/)"
+" or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042,"
+" USA."
+msgstr ""
