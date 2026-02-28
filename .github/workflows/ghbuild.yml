@@ -123,9 +123,10 @@ jobs:
           echo ${{ github.head_ref }}
           echo ${{ github.ref_name }}
           echo ${GITHUB_REF#refs/heads/}
-          echo "BRANCH_DIR=${GITHUB_REF##*/}" 
-          echo "BRANCH_DIR=${GITHUB_REF##*/}" >> $GITHUB_ENV
-          echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+          ACTUAL_BRANCH="${{ github.head_ref || github.ref_name }}"
+          echo "BRANCH_DIR=${ACTUAL_BRANCH##*/}"
+          echo "BRANCH_DIR=${ACTUAL_BRANCH##*/}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${ACTUAL_BRANCH}" >> $GITHUB_ENV
 
       - name: Echo branch name and check if it's the default branch
         run: |
