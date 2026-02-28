@@ -1,18 +1,16 @@
 # Retrieve WHO SMART Guidelines translations from Weblate API
 #
-# This workflow pulls the latest approved .po translation files from the
-# Weblate REST API and commits them to the repository.  It is the
-# "puller" side of the translation pipeline — the repository is always
-# in control of when translated strings land in the codebase.
+# Pulls the latest approved .po files via the Weblate REST API and commits
+# them to the repository.  The repository is always the "puller" and stays
+# in full control of when translated strings land in the codebase.
 #
-# Trigger options (all from the GitHub Actions UI):
-#   - Run workflow button with optional inputs (language, component)
-#   - Scheduled nightly pull (can be enabled by un-commenting the schedule block)
+# All download / validation logic lives in:
+#   input/scripts/pull_weblate_translations.py
 #
 # Required repository secret:
-#   WEBLATE_API_TOKEN   — a Weblate API token with read access to the project.
-#                         Create one at: https://hosted.weblate.org/accounts/profile/#api
-#                         Then add it at: Settings → Secrets → Actions → New secret
+#   WEBLATE_API_TOKEN  — Weblate API token with at least read access.
+#     Create:  https://hosted.weblate.org/accounts/profile/#api
+#     Add:     Settings → Secrets and variables → Actions → New secret
 #
 # Weblate API docs: https://docs.weblate.org/en/latest/api.html
 
@@ -23,7 +21,7 @@ on:
   workflow_dispatch:
     inputs:
       weblate_url:
-        description: 'Weblate base URL (e.g. https://hosted.weblate.org)'
+        description: 'Weblate base URL'
         required: false
         default: 'https://hosted.weblate.org'
       project_slug:
@@ -31,7 +29,7 @@ on:
         required: false
         default: 'who-smart-base'
       component:
-        description: 'Component to pull (leave blank for all)'
+        description: 'Component to pull (blank = all)'
         required: false
         default: ''
         type: choice
@@ -43,7 +41,7 @@ on:
           - archimate-models
           - uml-diagrams
       language:
-        description: 'Language code to pull (leave blank for all 6 UN languages)'
+        description: 'Language code to pull (blank = all 6 UN languages)'
         required: false
         default: ''
         type: choice
@@ -54,14 +52,9 @@ on:
           - fr
           - ru
           - es
-      only_reviewed:
-        description: 'Only download reviewed/approved translations'
-        required: false
-        default: true
-        type: boolean
 
   # ── Optional scheduled nightly pull ────────────────────────────────────
-  # Uncomment the lines below to enable a nightly automatic pull.
+  # Uncomment to enable automatic nightly pulls:
   # schedule:
   #   - cron: '0 2 * * *'   # 02:00 UTC every day
 
@@ -75,163 +68,70 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write   # needed to push the .po files back to the branch
+      contents: write   # required to commit .po files back to the branch
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Use a PAT if you need to push back to a protected branch;
-          # GITHUB_TOKEN is sufficient for unprotected branches.
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set parameters
-        id: params
-        run: |
-          WEBLATE_URL="${{ github.event.inputs.weblate_url || 'https://hosted.weblate.org' }}"
-          PROJECT="${{ github.event.inputs.project_slug || 'who-smart-base' }}"
-          COMPONENT_FILTER="${{ github.event.inputs.component }}"
-          LANG_FILTER="${{ github.event.inputs.language }}"
-          ONLY_REVIEWED="${{ github.event.inputs.only_reviewed || 'true' }}"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: input/scripts/requirements.txt
 
-          echo "weblate_url=${WEBLATE_URL}"   >> $GITHUB_OUTPUT
-          echo "project=${PROJECT}"            >> $GITHUB_OUTPUT
-          echo "component_filter=${COMPONENT_FILTER}" >> $GITHUB_OUTPUT
-          echo "lang_filter=${LANG_FILTER}"    >> $GITHUB_OUTPUT
-          echo "only_reviewed=${ONLY_REVIEWED}" >> $GITHUB_OUTPUT
+      - name: Install Python dependencies
+        run: pip install -r input/scripts/requirements.txt
 
-      # ── Component → output directory mapping ────────────────────────────
-      # Each line: <weblate-component-slug>  <repo-translations-directory>
-      - name: Resolve component → directory mapping
-        id: mapping
-        run: |
-          # Build a newline-separated list of "slug:dir" pairs to process
-          declare -A COMP_MAP
-          COMP_MAP["fhir-resources"]="input/fsh/translations"
-          COMP_MAP["plantuml-diagrams"]="input/images-source/translations"
-          COMP_MAP["svg-images"]="input/images/translations"
-          COMP_MAP["archimate-models"]="input/archimate/translations"
-          COMP_MAP["uml-diagrams"]="input/diagrams/translations"
-
-          FILTER="${{ steps.params.outputs.component_filter }}"
-          PAIRS=""
-          for slug in "${!COMP_MAP[@]}"; do
-            if [ -z "$FILTER" ] || [ "$FILTER" = "$slug" ]; then
-              PAIRS="${PAIRS}${slug}:${COMP_MAP[$slug]}\n"
-            fi
-          done
-          # Write to a temp file so later steps can read it
-          printf "%b" "$PAIRS" > /tmp/comp_map.txt
-          echo "Resolved components:"
-          cat /tmp/comp_map.txt
-
-      # ── Pull .po files from Weblate API ─────────────────────────────────
+      # ── All download logic is in the Python script ──────────────────────
+      # User inputs are passed via environment variables, NEVER interpolated
+      # directly into shell commands, to prevent script-injection attacks.
       - name: Download .po files from Weblate
         env:
-          WEBLATE_API_TOKEN: ${{ secrets.WEBLATE_API_TOKEN }}
+          WEBLATE_API_TOKEN:  ${{ secrets.WEBLATE_API_TOKEN }}
+          INPUT_WEBLATE_URL:  ${{ inputs.weblate_url }}
+          INPUT_PROJECT:      ${{ inputs.project_slug }}
+          INPUT_COMPONENT:    ${{ inputs.component }}
+          INPUT_LANGUAGE:     ${{ inputs.language }}
         run: |
-          set -euo pipefail
+          python input/scripts/pull_weblate_translations.py \
+            --weblate-url "${INPUT_WEBLATE_URL:-https://hosted.weblate.org}" \
+            --project     "${INPUT_PROJECT:-who-smart-base}" \
+            --component   "${INPUT_COMPONENT:-}" \
+            --language    "${INPUT_LANGUAGE:-}" \
+            --output-root "."
 
-          WEBLATE_URL="${{ steps.params.outputs.weblate_url }}"
-          PROJECT="${{ steps.params.outputs.project }}"
-          LANG_FILTER="${{ steps.params.outputs.lang_filter }}"
-          ONLY_REVIEWED="${{ steps.params.outputs.only_reviewed }}"
-
-          # Six UN official languages
-          ALL_LANGS="ar zh fr ru es"
-
-          if [ -n "$LANG_FILTER" ]; then
-            LANGS="$LANG_FILTER"
-          else
-            LANGS="$ALL_LANGS"
-          fi
-
-          if [ -z "${WEBLATE_API_TOKEN:-}" ]; then
-            echo "❌ WEBLATE_API_TOKEN secret is not set."
-            echo "   Add it at: Settings → Secrets and variables → Actions → New repository secret"
-            exit 1
-          fi
-
-          DOWNLOADED=0
-          SKIPPED=0
-          ERRORS=0
-
-          while IFS=: read -r SLUG DIR; do
-            [ -z "$SLUG" ] && continue
-            mkdir -p "$DIR"
-
-            for LANG in $LANGS; do
-              echo "──────────────────────────────────────────────────"
-              echo "Component : $SLUG  Language: $LANG  → $DIR/${LANG}.po"
-
-              # Weblate API endpoint for a single translation file:
-              # GET /api/translations/<project>/<component>/<lang>/file/
-              # Adding ?format=po forces Gettext PO output regardless of storage format.
-              API_URL="${WEBLATE_URL}/api/translations/${PROJECT}/${SLUG}/${LANG}/file/?format=po"
-
-              HTTP_CODE=$(curl -s -o "${DIR}/${LANG}.po.tmp" -w "%{http_code}" \
-                --header "Authorization: Token ${WEBLATE_API_TOKEN}" \
-                --header "Accept: text/x-po" \
-                "$API_URL")
-
-              if [ "$HTTP_CODE" = "200" ]; then
-                # Validate the downloaded file looks like a .po file
-                if grep -q "^msgid" "${DIR}/${LANG}.po.tmp" 2>/dev/null; then
-                  mv "${DIR}/${LANG}.po.tmp" "${DIR}/${LANG}.po"
-                  echo "  ✅ Downloaded (${HTTP_CODE})"
-                  DOWNLOADED=$((DOWNLOADED + 1))
-                else
-                  echo "  ⚠️  Response was not a valid .po file — skipping"
-                  rm -f "${DIR}/${LANG}.po.tmp"
-                  SKIPPED=$((SKIPPED + 1))
-                fi
-              elif [ "$HTTP_CODE" = "404" ]; then
-                echo "  ℹ️  Translation not found (404) — no .po file created"
-                rm -f "${DIR}/${LANG}.po.tmp"
-                SKIPPED=$((SKIPPED + 1))
-              else
-                echo "  ❌ Unexpected HTTP ${HTTP_CODE} — skipping"
-                rm -f "${DIR}/${LANG}.po.tmp"
-                ERRORS=$((ERRORS + 1))
-              fi
-            done
-          done < /tmp/comp_map.txt
-
-          echo ""
-          echo "══════════════════════════════════════════════════"
-          echo "Summary: ${DOWNLOADED} downloaded, ${SKIPPED} skipped, ${ERRORS} errors"
-          if [ "$ERRORS" -gt 0 ]; then
-            exit 1
-          fi
-
-      # ── Commit and push updated .po files ───────────────────────────────
+      # ── Commit any updated .po files back to the branch ─────────────────
       - name: Commit updated translations
+        env:
+          ACTOR: ${{ github.actor }}
+          INPUT_COMPONENT: ${{ inputs.component }}
+          INPUT_LANGUAGE:  ${{ inputs.language }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Stage only the translation files (not any other working tree changes)
-          git add \
-            'input/fsh/translations/*.po' \
-            'input/images-source/translations/*.po' \
-            'input/images/translations/*.po' \
-            'input/archimate/translations/*.po' \
-            'input/diagrams/translations/*.po' \
+          # Stage only translation .po files
+          git add -- \
+            'input/fsh/translations/' \
+            'input/images-source/translations/' \
+            'input/images/translations/' \
+            'input/archimate/translations/' \
+            'input/diagrams/translations/' \
             2>/dev/null || true
 
           if git diff --cached --quiet; then
-            echo "ℹ️  No translation changes to commit"
+            echo "No translation changes to commit."
           else
             TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
-            COMP_FILTER="${{ github.event.inputs.component || 'all' }}"
-            LANG_FILTER="${{ github.event.inputs.language  || 'all' }}"
-            ACTOR="${{ github.actor }}"
-            MSG="chore: update translations from Weblate [${TIMESTAMP}]"$'\n'
-            MSG+=$'\n'"Pulled via Weblate API by GitHub Actions."$'\n'
+            MSG="chore: update translations from Weblate [${TIMESTAMP}]"$'\n\n'
+            MSG+="Pulled via Weblate API by GitHub Actions."$'\n'
             MSG+="Triggered by: ${ACTOR}"$'\n'
-            MSG+="Component filter: ${COMP_FILTER}"$'\n'
-            MSG+="Language filter:  ${LANG_FILTER}"
+            MSG+="Component filter: ${INPUT_COMPONENT:-all}"$'\n'
+            MSG+="Language filter:  ${INPUT_LANGUAGE:-all}"
             git commit -m "$MSG"
             git push
-            echo "✅ Translations committed and pushed"
           fi
