@@ -1299,9 +1299,8 @@ class SchemaDocumentationRenderer:
             schema_body = (
                 f'<div style="padding:1rem;">\n'
                 f'<h2>JSON Schema</h2>\n'
-                f'<p><a href="{schema_filename}" download '
-                f'class="btn btn-sm btn-outline-secondary">'
-                f'&#128196; Download {schema_filename}</a></p>\n'
+                f'<p><a href="{schema_filename}">Raw JSON Schema</a>'
+                f' | <a href="{schema_filename}" download>Download</a></p>\n'
                 f'<pre style="background:#f5f5f5;padding:1rem;border-radius:4px;">'
                 f'<code id="{tab_id}-display" class="language-json" '
                 f'style="font-size:0.85em;white-space:pre-wrap;display:block;">'
