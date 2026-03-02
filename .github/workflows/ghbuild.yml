@@ -47,7 +47,7 @@ on:
 # Use a shared group suffix so only one build deploys to gh-pages at a time
 concurrency:
   group: ${{ github.workflow }}-gh-pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
