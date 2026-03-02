@@ -1909,7 +1909,7 @@ class SchemaDocumentationRenderer:
 
         Args:
             html: Full HTML content of the page
-            lang: Source language / class name ('json', 'xml', 'ttl')
+            lang: Source language / class name ('json', 'xml', 'turtle')
             label: Human-readable label ('JSON', 'XML', 'TTL')
             src_file: Relative URL of the raw source file to fetch (same directory)
             allow_classless: When True, also replace ``<pre>`` blocks that have no
@@ -2032,7 +2032,7 @@ class SchemaDocumentationRenderer:
         dynamic Prism.js loaders across all FHIR resource HTML pages.
 
         The FHIR IG Publisher embeds the full resource source in ``<pre class="json">``
-        / ``<pre class="xml">`` / ``<pre class="ttl">`` blocks at publication time,
+        / ``<pre class="xml">`` / ``<pre class="turtle">`` blocks at publication time,
         which inflates every page significantly.  This method removes that embedded
         content and replaces it with a small JavaScript snippet that fetches the
         corresponding raw source file (already present in the output directory) on
@@ -2045,10 +2045,14 @@ class SchemaDocumentationRenderer:
         Returns:
             Number of HTML files modified
         """
+        # Each tuple is (prism_class, label, file_ext).
+        # prism_class: CSS class on <pre> and Prism language name used in the loader JS.
+        # file_ext: actual source file extension (.json / .xml / .ttl).
+        # Note: the FHIR IG Publisher uses class="turtle" (not "ttl") on TTL <pre> blocks.
         FORMATS = [
-            ('json', 'JSON'),
-            ('xml', 'XML'),
-            ('ttl', 'TTL'),
+            ('json', 'JSON', 'json'),
+            ('xml',  'XML',  'xml'),
+            ('turtle', 'TTL', 'ttl'),  # IG Publisher: <pre class="turtle">, source file *.ttl
         ]
 
         modified = 0
@@ -2067,15 +2071,15 @@ class SchemaDocumentationRenderer:
             # "Foo.profile.{ext}.{ext}").  Detect that pattern and remap the source
             # file name accordingly; fall back to the generic "{base_name}.{ext}" for
             # all other pages (e.g. pages that embed multiple formats inline).
-            def _src_for_ext(ext: str) -> str:
-                suffix = f'.profile.{ext}'
+            def _src_for_ext(file_ext: str) -> str:
+                suffix = f'.profile.{file_ext}'
                 if base_name.endswith(suffix):
-                    return base_name[:-len(suffix)] + '.' + ext
-                return f'{base_name}.{ext}'
+                    return base_name[:-len(suffix)] + '.' + file_ext
+                return f'{base_name}.{file_ext}'
 
             src_exists = {
-                ext: os.path.exists(os.path.join(output_dir, _src_for_ext(ext)))
-                for ext, _ in FORMATS
+                file_ext: os.path.exists(os.path.join(output_dir, _src_for_ext(file_ext)))
+                for _, _, file_ext in FORMATS
             }
             if not any(src_exists.values()):
                 continue
@@ -2085,14 +2089,14 @@ class SchemaDocumentationRenderer:
                     html = f.read()
 
                 original = html
-                for ext, label in FORMATS:
-                    if src_exists[ext]:
+                for prism_class, label, file_ext in FORMATS:
+                    if src_exists[file_ext]:
                         # On format-specific pages (e.g. Foo.profile.xml.html), the FHIR IG
                         # Publisher sometimes emits <pre><code> blocks without a class
                         # attribute. Pass allow_classless=True so those are also replaced.
-                        is_format_page = base_name.endswith(f'.profile.{ext}')
+                        is_format_page = base_name.endswith(f'.profile.{file_ext}')
                         html = self._replace_lang_source(
-                            html, ext, label, _src_for_ext(ext),
+                            html, prism_class, label, _src_for_ext(file_ext),
                             allow_classless=is_format_page
                         )
 
