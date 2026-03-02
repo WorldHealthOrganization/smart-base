@@ -419,55 +419,152 @@ class OpenAPIDetector:
 
 
 class OpenAPIWrapper:
-    """Creates OpenAPI 3.0 wrappers for JSON schemas."""
-    
+    """Creates OpenAPI 3.1 wrappers for JSON schemas."""
+
+    # Name of the shared base component added to every generated OpenAPI spec.
+    FHIR_SCHEMA_BASE_NAME = "FHIRSchemaBase"
+
+    # Schema component that documents metadata properties shared by all
+    # FHIR-derived logical model schemas.  Individual schemas inherit from this
+    # via ``allOf`` and override each property with a ``const`` value that pins
+    # it to the exact StructureDefinition URL / parent type for that model.
+    FHIR_SCHEMA_BASE = {
+        "title": "FHIR Schema Base",
+        "description": (
+            "Base schema providing metadata properties shared by all "
+            "FHIR-derived logical model schemas."
+        ),
+        "type": "object",
+        "properties": {
+            "resourceDefinition": {
+                "type": "string",
+                "format": "uri",
+                "description": (
+                    "Canonical URI of the FHIR StructureDefinition "
+                    "that defines this logical model."
+                ),
+            },
+            "fhir:parent": {
+                "type": "string",
+                "description": (
+                    "Parent FHIR base type that this logical model is "
+                    "derived from."
+                ),
+            },
+            "jsonld:valuesets": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": (
+                    "ValueSet identifiers used in this logical model "
+                    "for JSON-LD context generation."
+                ),
+            },
+            "jsonld:contextTemplate": {
+                "type": "object",
+                "description": "JSON-LD context template for this logical model.",
+            },
+        },
+    }
+
+    # Root-level FHIR / JSON-LD metadata keys that are lifted out of the raw
+    # JSON Schema and expressed as ``const``-constrained properties in the
+    # ``allOf`` composition with ``FHIRSchemaBase``.
+    _FHIR_BASE_KEYS = frozenset([
+        "resourceDefinition",
+        "fhir:parent",
+        "jsonld:valuesets",
+        "jsonld:contextTemplate",
+    ])
+
     def __init__(self, logger: logging.Logger, canonical_base: str = "http://smart.who.int/base"):
         self.logger = logger
         self.canonical_base = canonical_base
-    
-    # Non-standard custom properties that must be renamed to ``x-``-prefixed
-    # OpenAPI extension fields.  ``$schema``, ``$id``, and ``const`` are native
-    # JSON Schema 2020-12 keywords and are fully supported in OpenAPI 3.1 so
-    # they do NOT appear in this mapping.
-    _EXTENSION_RENAMES = {
-        "resourceDefinition": "x-resourceDefinition",
-        "fhir:parent": "x-fhir-parent",
-        "jsonld:valuesets": "x-jsonld-valuesets",
-        "jsonld:contextTemplate": "x-jsonld-contextTemplate",
-    }
 
     def sanitize_schema_for_openapi(self, schema: Any) -> Any:
         """
-        Recursively adapt a JSON Schema document for use inside an OpenAPI 3.1
+        Adapt a JSON Schema document for use inside an OpenAPI 3.1
         ``components/schemas`` entry.
 
         OpenAPI 3.1 is fully aligned with JSON Schema 2020-12, so standard
         keywords such as ``$schema``, ``$id``, and ``const`` are kept as-is.
-        Non-standard FHIR / JSON-LD extension properties are renamed to
-        ``x-``-prefixed OpenAPI extension fields so that the information is
-        preserved while remaining spec-compliant.
+
+        FHIR-specific root-level metadata fields (``resourceDefinition``,
+        ``fhir:parent``, ``jsonld:valuesets``, ``jsonld:contextTemplate``) are
+        lifted out of the raw schema and re-expressed as typed, ``const``-
+        pinned properties inside an ``allOf`` composition that references the
+        shared :attr:`FHIR_SCHEMA_BASE_NAME` component.  This lets all
+        FHIR-based schemas inherit from a single documented base while each
+        schema preserves its exact metadata values.
+
+        Nested ``dict`` / ``list`` values that do *not* contain FHIR metadata
+        keys are passed through unchanged.
 
         Args:
             schema: A JSON-Schema-compatible dict (or any nested value).
 
         Returns:
-            A new dict (or original value) safe for use inside an OpenAPI 3.1
+            A new dict (or original value) valid inside an OpenAPI 3.1
             ``components/schemas`` entry.
         """
         if not isinstance(schema, dict):
             return schema
 
+        # Separate FHIR metadata keys from the rest of the schema.
+        fhir_meta = {k: schema[k] for k in self._FHIR_BASE_KEYS if k in schema}
+
         result = {}
         for key, value in schema.items():
-            target_key = self._EXTENSION_RENAMES.get(key, key)
+            if key in self._FHIR_BASE_KEYS:
+                continue  # handled below via allOf composition
             if isinstance(value, dict):
-                result[target_key] = self.sanitize_schema_for_openapi(value)
+                result[key] = self.sanitize_schema_for_openapi(value)
             elif isinstance(value, list):
-                result[target_key] = [
+                result[key] = [
                     self.sanitize_schema_for_openapi(item) for item in value
                 ]
             else:
-                result[target_key] = value
+                result[key] = value
+
+        if fhir_meta:
+            # Build per-schema property overrides that pin each metadata field
+            # to its specific value using ``const``.
+            specific_props = {}
+            if "resourceDefinition" in fhir_meta:
+                specific_props["resourceDefinition"] = {
+                    "type": "string",
+                    "format": "uri",
+                    "const": fhir_meta["resourceDefinition"],
+                }
+            if "fhir:parent" in fhir_meta:
+                specific_props["fhir:parent"] = {
+                    "type": "string",
+                    "const": fhir_meta["fhir:parent"],
+                }
+            if "jsonld:valuesets" in fhir_meta:
+                specific_props["jsonld:valuesets"] = {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "const": fhir_meta["jsonld:valuesets"],
+                }
+            if "jsonld:contextTemplate" in fhir_meta:
+                specific_props["jsonld:contextTemplate"] = {
+                    "type": "object",
+                    "const": fhir_meta["jsonld:contextTemplate"],
+                }
+
+            allof_entries = [
+                {"$ref": f"#/components/schemas/{self.FHIR_SCHEMA_BASE_NAME}"}
+            ]
+            if specific_props:
+                allof_entries.append({
+                    "type": "object",
+                    "properties": specific_props,
+                })
+
+            # Merge with any existing allOf so we never overwrite it.
+            existing = result.get("allOf", [])
+            result["allOf"] = existing + allof_entries
+
         return result
 
     def create_wrapper_for_schema(self, schema_path: str, schema_type: str, output_dir: str) -> Optional[str]:
@@ -532,7 +629,8 @@ class OpenAPIWrapper:
                 },
                 "components": {
                     "schemas": {
-                        schema_name: self.sanitize_schema_for_openapi(schema)
+                        self.FHIR_SCHEMA_BASE_NAME: self.FHIR_SCHEMA_BASE,
+                        schema_name: self.sanitize_schema_for_openapi(schema),
                     }
                 }
             }
@@ -615,7 +713,8 @@ class OpenAPIWrapper:
                 },
                 "components": {
                     "schemas": {
-                        "EnumerationResponse": self.sanitize_schema_for_openapi(enum_schema)
+                        self.FHIR_SCHEMA_BASE_NAME: self.FHIR_SCHEMA_BASE,
+                        "EnumerationResponse": self.sanitize_schema_for_openapi(enum_schema),
                     }
                 }
             }
