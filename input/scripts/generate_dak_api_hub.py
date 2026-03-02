@@ -1896,6 +1896,66 @@ class SchemaDocumentationRenderer:
         
         return html_content
 
+    def _build_fhir_restore_js(self, link_map: dict, lang: str) -> str:
+        """Return JavaScript (with {{ }} doubled for .format()-safety) that re-applies
+        FHIR documentation links on Prism-highlighted source content.
+
+        The FHIR IG Publisher embeds ``<a href>`` links around property/element names in
+        the static ``<pre>`` blocks.  After dynamic loading fetches the raw source file
+        those links are absent.  This snippet runs inside the ``setTimeout`` after
+        ``Prism.highlight()`` to restore them by scanning the highlighted HTML for the
+        known token spans produced by Prism for each source format.
+
+        Args:
+            link_map: Mapping of ``{text: url}`` extracted from the static HTML block.
+            lang: Prism language name ('json', 'xml', 'turtle').
+
+        Returns:
+            JavaScript code with ``{`` and ``}`` doubled so it is safe to embed inside
+            a ``.format()`` template.  Returns empty string when link_map is empty or
+            lang is unsupported.
+        """
+        if not link_map:
+            return ''
+
+        links_json = json.dumps(link_map)
+
+        if lang == 'json':
+            # Prism JSON: property keys → <span class="token property">"key"</span>
+            js = (
+                'var FL=' + links_json + ';'
+                'el.innerHTML=el.innerHTML.replace('
+                '/(<span class="token property">)"([^"]+)"(<\\/span>)/g,'
+                "function(m,o,k,c){return FL[k]?o+'\"<a href=\"'+FL[k]+'\">'+(k)+'</a>\"'+c:m;});"
+            )
+        elif lang == 'xml':
+            # Prism markup: element names follow the &lt;[/] punctuation span;
+            # attribute names are in attr-name spans.
+            js = (
+                'var FL=' + links_json + ';'
+                'el.innerHTML=el.innerHTML.replace('
+                '/(<span class="token punctuation">&lt;\\/?<\\/span>)([A-Za-z][A-Za-z0-9._:-]*)/g,'
+                "function(m,lt,nm){return FL[nm]?lt+'<a href=\"'+FL[nm]+'\">'+(nm)+'</a>':m;}"
+                ').replace('
+                '/(<span class="token attr-name">)([A-Za-z][A-Za-z0-9._:-]*)(<\\/span>)/g,'
+                "function(m,p,n,s){return FL[n]?p+'<a href=\"'+FL[n]+'\">'+(n)+'</a>'+s:m;});"
+            )
+        elif lang == 'turtle':
+            # Turtle: scan all Prism span text for matching FHIR predicate names
+            # (e.g. fhir:id, fhir:text).  Keys shorter than 3 chars are skipped to
+            # avoid false positives on punctuation tokens.
+            js = (
+                'var FL=' + links_json + ';'
+                'el.innerHTML=el.innerHTML.replace('
+                '/(<span[^>]*>)([^<]+)(<\\/span>)/g,'
+                "function(m,p,t,s){var k=t.trim();return(FL[k]&&k.length>2)?p+'<a href=\"'+FL[k]+'\">'+(t)+'</a>'+s:m;});"
+            )
+        else:
+            return ''
+
+        # Double { and } so this JS survives being embedded inside a .format() template.
+        return js.replace('{', '{{').replace('}', '}}')
+
     def _replace_lang_source(self, html: str, lang: str, label: str, src_file: str,
                              allow_classless: bool = False) -> str:
         """
@@ -1973,29 +2033,48 @@ class SchemaDocumentationRenderer:
             safe_name = re.sub(r'[^a-z0-9]', '-', src_file.lower())
             el_id = 'dyn-{}-{}-{}'.format(lang, safe_name, occurrence)
 
+            # Extract FHIR documentation links from the static source block so they
+            # can be restored after Prism re-highlights the dynamically fetched content.
+            # The IG Publisher embeds <a href="URL">text</a> around property/element names.
+            # Only hl7.org/fhir URLs are included; the anchor text must be plain (no tags).
+            link_map: Dict[str, str] = {}
+            for lm in re.finditer(r'<a\s+href="([^"]+)"[^>]*>([^<]+)</a>',
+                                   code_match.group(2)):
+                url, text = lm.group(1), lm.group(2).strip()
+                # Accept only canonical FHIR spec URLs to avoid injecting arbitrary content.
+                if text and url.startswith('http://hl7.org/fhir/'):
+                    link_map[text] = url
+            fhir_restore = self._build_fhir_restore_js(link_map, lang)
+
             # Fetch body differs by format: JSON gets pretty-printed via JSON.stringify.
             # Content is fetched asynchronously via fetch().then(); once received the raw
             # text is shown immediately, then Prism.highlight() (synchronous, no Web Worker)
             # is deferred via setTimeout(fn,0) so it doesn't block the UI.
             # We avoid Prism.highlightElement() which spawns a Web Worker and throws
             # "Cannot read properties of undefined (reading 'payload')" on some pages.
+            # fhir_restore (already {{ }}-escaped) runs inside the same setTimeout to
+            # re-apply FHIR documentation links after highlighting.
             if lang == 'json':
                 fetch_body = (
                     'fetch("{f}").then(function(r){{return r.json();}}).then(function(d){{'
                     'var txt=JSON.stringify(d,null,2);'
                     'el.textContent=txt;'
                     'if(window.Prism&&Prism.languages.json)'
-                    '{{setTimeout(function(){{el.innerHTML=Prism.highlight(txt,Prism.languages.json,"json");}},0);}}'
-                    '}})'.format(f=src_file)
-                )
+                    '{{setTimeout(function(){{el.innerHTML=Prism.highlight(txt,Prism.languages.json,"json");'
+                    + fhir_restore +
+                    '}},0);}}'
+                    '}})'
+                ).format(f=src_file)
             else:
                 fetch_body = (
                     'fetch("{f}").then(function(r){{return r.text();}}).then(function(t){{'
                     'el.textContent=t;'
                     'if(window.Prism&&Prism.languages["{l}"])'
-                    '{{setTimeout(function(){{el.innerHTML=Prism.highlight(t,Prism.languages["{l}"],"{l}");}},0);}}'
-                    '}})'.format(f=src_file, l=lang)
-                )
+                    '{{setTimeout(function(){{el.innerHTML=Prism.highlight(t,Prism.languages["{l}"],"{l}");'
+                    + fhir_restore +
+                    '}},0);}}'
+                    '}})'
+                ).format(f=src_file, l=lang)
 
             loader = (
                 '<pre class="{l}"><code id="{id}" class="language-{l}" style="display:block;">'
