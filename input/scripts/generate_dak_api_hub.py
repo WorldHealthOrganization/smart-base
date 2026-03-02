@@ -1373,6 +1373,51 @@ class SchemaDocumentationRenderer:
                 f'</div>\n'
                 f'<script>\n'
                 f'(function(){{\n'
+                # Map JSON Schema "type" values to hl7.org/fhir/R4 spec URLs.
+                # "number" is JSON Schema's representation of FHIR's decimal type.
+                f'  var FHIR_TYPE_LINKS={{\n'
+                f'    "string":"http://hl7.org/fhir/R4/datatypes.html#string",\n'
+                f'    "boolean":"http://hl7.org/fhir/R4/datatypes.html#boolean",\n'
+                f'    "integer":"http://hl7.org/fhir/R4/datatypes.html#integer",\n'
+                f'    "number":"http://hl7.org/fhir/R4/datatypes.html#decimal"\n'
+                f'  }};\n'
+                # After Prism highlights the JSON, post-process the innerHTML to
+                # add <a href> links around FHIR type names and absolute $ref URLs.
+                # Prism marks property keys as <span class="token property"> and
+                # string values as <span class="token string">, separated by a
+                # <span class="token operator">:</span> element.  The pattern must
+                # bridge that operator span: property</span><span…>…</span> value.
+                f'  function addFhirLinks(el){{\n'
+                f'    var html=el.innerHTML;\n'
+                # Link FHIR primitive type values under "type" keys.
+                # Matches HTML like:
+                #   <span class="token property">&quot;type&quot;</span>
+                #   <span class="token operator">:</span> 
+                #   <span class="token string">&quot;string&quot;</span>
+                f'    Object.keys(FHIR_TYPE_LINKS).forEach(function(t){{\n'
+                f'      var url=FHIR_TYPE_LINKS[t];\n'
+                f'      html=html.replace(\n'
+                f'        new RegExp(\n'
+                f'          \'(<span class="token property">&quot;type&quot;</span><span[^>]*>[^<]*</span>[^<]*)\'\n'
+                f'          +\'(<span class="token string">&quot;\'+t+\'&quot;</span>)\',\n'
+                f'          \'g\'\n'
+                f'        ),\n'
+                f'        \'$1<a href="\'+url+\'" target="_blank" rel="noopener noreferrer">$2</a>\'\n'
+                f'      );\n'
+                f'    }});\n'
+                # Link absolute hl7.org/fhir $ref values.
+                # Matches HTML like:
+                #   <span class="token property">&quot;$ref&quot;</span>
+                #   <span class="token operator">:</span> 
+                #   <span class="token string">&quot;http://hl7.org/fhir/...&quot;</span>
+                f'    html=html.replace(\n'
+                f'      /(<span class="token property">&quot;\\$ref&quot;<\\/span><span[^>]*>[^<]*<\\/span>[^<]*)(<span class="token string">&quot;(http:\\/\\/hl7\\.org\\/fhir[^&"]*?)&quot;<\\/span>)/g,\n'
+                f'      function(m,pre,span,href){{\n'
+                f'        return pre+\'<a href="\'+href+\'" target="_blank" rel="noopener noreferrer">\'+span+\'</a>\';\n'
+                f'      }}\n'
+                f'    );\n'
+                f'    el.innerHTML=html;\n'
+                f'  }}\n'
                 f'  function loadSchema(){{\n'
                 f'    var el=document.getElementById("{tab_id}-display");\n'
                 f'    if(!el)return;\n'
@@ -1382,6 +1427,7 @@ class SchemaDocumentationRenderer:
                 f'        el.textContent=JSON.stringify(d,null,2);\n'
                 f'        if(window.Prism&&Prism.languages.json){{\n'
                 f'          Prism.highlightElement(el);\n'
+                f'          addFhirLinks(el);\n'
                 f'        }}\n'
                 f'      }})\n'
                 f'      .catch(function(e){{\n'
