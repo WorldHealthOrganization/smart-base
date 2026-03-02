@@ -126,11 +126,10 @@ jobs:
           echo ${{ github.head_ref }}
           echo ${{ github.ref_name }}
           echo ${GITHUB_REF#refs/heads/}
-          # For PR events github.ref is refs/pull/NNN/merge; use head_ref (source branch) instead
-          RAW_BRANCH="${{ github.head_ref || github.ref_name }}"
-          echo "BRANCH_DIR=${RAW_BRANCH##*/}"
-          echo "BRANCH_DIR=${RAW_BRANCH##*/}" >> $GITHUB_ENV
-          echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+          ACTUAL_BRANCH="${{ github.head_ref || github.ref_name }}"
+          echo "BRANCH_DIR=${ACTUAL_BRANCH##*/}"
+          echo "BRANCH_DIR=${ACTUAL_BRANCH##*/}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${ACTUAL_BRANCH}" >> $GITHUB_ENV
 
       - name: Echo branch name and check if it's the default branch
         run: |
@@ -389,19 +388,13 @@ jobs:
           name: qa-json-artifact
           path: ./output/qa.json  # Adjust the path based on where qa.json is located
 
-      - name: Fix output directory permissions for DAK postprocessing
+      - name: Fix output directory ownership for DAK post-processing
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
-          echo "Making output directory writable for DAK postprocessing scripts..."
-          if sudo chown -R $(id -u):$(id -g) output/ 2>/dev/null; then
-            echo "✅ Output directory ownership transferred to runner user (sudo chown)"
-          elif sudo chmod -R a+w output/ 2>/dev/null; then
-            echo "✅ Output directory permissions updated (sudo chmod)"
-          elif chmod -R u+w output/ 2>/dev/null; then
-            echo "✅ Output directory permissions updated (chmod u+w)"
-          else
-            echo "⚠️ Could not update output directory permissions – postprocessing writes may fail"
-          fi
+          # The IG publisher runs in Docker as root, so output/ files are root-owned.
+          # Python post-processing scripts run as the GitHub Actions runner (non-root)
+          # and must be able to write schema files and modify HTML pages.
+          sudo chown -R "$USER:$USER" ./output || true
 
       - name: DAK Postprocessing - Generate JSON Schemas
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
