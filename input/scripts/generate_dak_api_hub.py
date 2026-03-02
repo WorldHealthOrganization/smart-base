@@ -1274,15 +1274,21 @@ class SchemaDocumentationRenderer:
 
             header_html = html_content[:nav_match.start()] + nav_section
 
-            # ── Extract footer (segment-content end → end of file) ────────────
+            # ── Extract footer (inner-wrapper end → end of file) ──────────────
+            # The FHIR IG Publisher wraps content in:
+            #   segment-content > container > row > inner-wrapper > col-12 > nav-tabs
+            # We need to close col-12, inner-wrapper, row, container before the
+            # segment-content closing comment.  Anchoring on <!-- /inner-wrapper -->
+            # (the first occurrence after the nav tabs) lets us pick up all four
+            # closing </div> tags reliably without hardcoding their count.
             footer_re = re.compile(
-                r'</div>\s*<!--\s*/segment-content\s*-->', re.IGNORECASE
+                r'</div>\s*<!--\s*/inner-wrapper\s*-->', re.IGNORECASE
             )
             footer_match = footer_re.search(html_content, nav_match.end())
             footer_html = (
-                html_content[footer_match.start():]
+                '\n</div>\n' + html_content[footer_match.start():]
                 if footer_match
-                else '</div></div></div>'
+                else '\n</div>\n</div>\n</div>\n</div>\n</div>'
             )
 
             # ── Generate schema content for the standalone page ───────────────
