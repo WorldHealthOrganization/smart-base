@@ -45,8 +45,8 @@ on:
 
 # Concurrency controls to prevent multiple builds on same repo/branch
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.repository }}-gh-pages
+  cancel-in-progress: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
