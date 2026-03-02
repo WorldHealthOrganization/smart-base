@@ -2004,12 +2004,15 @@ class SchemaDocumentationRenderer:
         links_json = json.dumps(effective_map)
 
         if lang == 'json':
-            # Prism JSON: property keys → <span class="token property">"key"</span>
+            # Prism JSON: property keys → <span class="token property">&quot;key&quot;</span>
+            # Note: Prism.highlight() encodes " as &quot; in its HTML output, so
+            # el.innerHTML contains &quot; around property names, not plain ".
+            # The regex matches either &quot; or " to handle both Prism versions.
             js = (
                 'var FL=' + links_json + ';'
                 'el.innerHTML=el.innerHTML.replace('
-                '/(<span class="token property">)"([^"]+)"(<\\/span>)/g,'
-                "function(m,o,k,c){return FL[k]?o+'\"<a href=\"'+FL[k]+'\">'+(k)+'</a>\"'+c:m;});"
+                '/(<span class="token property">)(?:&quot;|")([A-Za-z0-9_$@-]+)(?:&quot;|")(<\\/span>)/g,'
+                "function(m,o,k,c){return FL[k]?o+'&quot;<a href=\"'+FL[k]+'\">'+(k)+'</a>&quot;'+c:m;});"
             )
         elif lang == 'xml':
             # Prism markup: element names follow the &lt;[/] punctuation span;
