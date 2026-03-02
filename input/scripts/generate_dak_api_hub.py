@@ -425,6 +425,45 @@ class OpenAPIWrapper:
         self.logger = logger
         self.canonical_base = canonical_base
     
+    # JSON Schema keywords and custom extensions not supported in OpenAPI 3.0
+    _OPENAPI_UNSUPPORTED_KEYWORDS = frozenset([
+        "$schema", "$id", "resourceDefinition", "fhir:parent",
+        "jsonld:valuesets", "jsonld:contextTemplate",
+    ])
+
+    def sanitize_schema_for_openapi(self, schema: Any) -> Any:
+        """
+        Recursively remove JSON Schema keywords and custom extensions that are
+        not valid in OpenAPI 3.0 schemas, and convert ``const`` to
+        ``enum: [value]`` for compatibility.
+
+        Args:
+            schema: A JSON-Schema-compatible dict (or any nested value).
+
+        Returns:
+            A new dict (or original value) safe for use inside an OpenAPI 3.0
+            ``components/schemas`` entry.
+        """
+        if not isinstance(schema, dict):
+            return schema
+
+        result = {}
+        for key, value in schema.items():
+            if key in self._OPENAPI_UNSUPPORTED_KEYWORDS:
+                continue
+            if key == "const":
+                # OpenAPI 3.0 does not support `const`; use single-value enum
+                result["enum"] = [value]
+            elif isinstance(value, dict):
+                result[key] = self.sanitize_schema_for_openapi(value)
+            elif isinstance(value, list):
+                result[key] = [
+                    self.sanitize_schema_for_openapi(item) for item in value
+                ]
+            else:
+                result[key] = value
+        return result
+
     def create_wrapper_for_schema(self, schema_path: str, schema_type: str, output_dir: str) -> Optional[str]:
         """
         Create an OpenAPI 3.0 wrapper for a JSON schema.
@@ -487,7 +526,7 @@ class OpenAPIWrapper:
                 },
                 "components": {
                     "schemas": {
-                        schema_name: schema
+                        schema_name: self.sanitize_schema_for_openapi(schema)
                     }
                 }
             }
@@ -570,7 +609,7 @@ class OpenAPIWrapper:
                 },
                 "components": {
                     "schemas": {
-                        "EnumerationResponse": enum_schema
+                        "EnumerationResponse": self.sanitize_schema_for_openapi(enum_schema)
                     }
                 }
             }
