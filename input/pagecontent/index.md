@@ -1,5 +1,28 @@
 ### Overview
 
+**WHO SMART Guidelines** (Standards-based, Machine-readable, Adaptive, Requirements-based, and Testable) are a set of WHO clinical guidelines that have been transformed into a computable, interoperable format. They enable countries to rapidly adopt, adapt, and implement WHO recommendations within their digital health systems by providing structured, machine-readable clinical content.
+
+A **Digital Adaptation Kit (DAK)** is the primary artefact of WHO SMART Guidelines. It is a structured, standardised package of clinical and operational content that represents a WHO health intervention in a computable form. Each DAK contains:
+
+- **Health interventions and recommendations** – the clinical guidance from WHO
+- **Generic personas** – representative end-users and actors in the health system
+- **User scenarios** – narrative descriptions of how the guidance is used in practice
+- **Business processes and workflows** – step-by-step care pathways
+- **Core data elements** – the data dictionary for the health domain
+- **Decision-support logic** – computable clinical decision rules
+- **Functional and non-functional requirements** – system capability requirements
+- **Program indicators** – aggregate measures and metrics for monitoring and evaluation
+- **Test scenarios** – structured tests to validate conformance
+
+The diagram below illustrates the nine components of a WHO DAK and how they relate to one another:
+
+<figure>
+  <img src="L2_DAK_components_3x3_logoimage.svg"
+       alt="WHO Digital Adaptation Kit – nine-component overview diagram"
+       style="width:40em; max-width:100%; height:auto;" />
+  <figcaption>Figure 1 – The nine components of a WHO Digital Adaptation Kit (DAK)</figcaption>
+</figure>
+
 This implementation guide contains base conformance resources for use in all WHO SMART Guidelines implementation guides.
 
 See the [SMART IG Starter Kit](https://smart.who.int/ig-starter-kit/) for more information on building and using WHO SMART Guidelines.
