@@ -11,6 +11,7 @@ A **Digital Adaptation Kit (DAK)** is the primary artefact of WHO SMART Guidelin
 - **Core data elements** – the data dictionary for the health domain
 - **Decision-support logic** – computable clinical decision rules
 - **Functional and non-functional requirements** – system capability requirements
+- **Program indicators** – aggregate measures and metrics for monitoring and evaluation
 - **Test scenarios** – structured tests to validate conformance
 
 The diagram below illustrates the nine components of a WHO DAK and how they relate to one another:
