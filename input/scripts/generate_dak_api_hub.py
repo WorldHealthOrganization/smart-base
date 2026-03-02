@@ -24,7 +24,7 @@ import os
 import sys
 import logging
 import re
-from typing import Dict, List, Optional, Any, Tuple
+from typing import Dict, List, Optional, Any, Tuple, Union
 from pathlib import Path
 from urllib.parse import urlparse
 from datetime import datetime
@@ -670,19 +670,49 @@ class HTMLProcessor:
             
             # Look for the DAK_API_CONTENT comment marker
             comment_marker = '<!-- DAK_API_CONTENT -->'
+            hub_start_marker = '<!-- DAK_API_HUB_START -->'
+            hub_end_marker = '<!-- DAK_API_HUB_END -->'
             
-            if comment_marker not in html_content:
+            if comment_marker in html_content:
+                self.logger.info(f"✅ Found DAK_API_CONTENT comment marker")
+                # Replace the comment marker with the actual content
+                new_html_content = html_content.replace(comment_marker, content)
+                replaced_existing = False
+            elif hub_start_marker in html_content and hub_end_marker in html_content:
+                self.logger.info(f"✅ Found DAK_API_HUB start/end markers — replacing previously injected content")
+                start_idx = html_content.index(hub_start_marker)
+                end_idx = html_content.index(hub_end_marker) + len(hub_end_marker)
+                if start_idx >= end_idx - len(hub_end_marker):
+                    self.logger.error(f"❌ DAK_API_HUB markers are in wrong order or overlapping in {html_file_path}")
+                    return False
+                new_html_content = html_content[:start_idx] + content + html_content[end_idx:]
+                replaced_existing = True
+            elif '<div class="dak-api-hub">' in html_content:
+                # Legacy fallback: content was injected by an old script version that didn't add markers.
+                # Replace from the hub div up to (and including) the standard hub footer paragraph.
+                self.logger.info(f"✅ Found legacy dak-api-hub div — replacing old hub content without markers")
+                hub_div_marker = '<div class="dak-api-hub">'
+                start_idx = html_content.index(hub_div_marker)
+                legacy_end_text = '<p><em>This documentation hub is automatically generated from the available schema and API definitions.</em></p>'
+                end_marker_pos = html_content.find(legacy_end_text, start_idx)
+                if end_marker_pos != -1:
+                    end_idx = end_marker_pos + len(legacy_end_text)
+                else:
+                    # Backstop: replace up to the inner-wrapper comment that follows the content section
+                    inner_wrapper_pos = html_content.find('<!-- /inner-wrapper -->', start_idx)
+                    if inner_wrapper_pos == -1:
+                        self.logger.error(f"❌ Cannot find end of legacy dak-api-hub content in {html_file_path}")
+                        return False
+                    end_idx = inner_wrapper_pos
+                new_html_content = html_content[:start_idx] + content + html_content[end_idx:]
+                replaced_existing = True
+            else:
                 self.logger.error(f"❌ DAK_API_CONTENT comment marker not found in {html_file_path}")
                 self.logger.info("Available content sample for debugging:")
                 # Show a sample to help debug
                 sample_content = html_content[:1000] if len(html_content) > 1000 else html_content
                 self.logger.info(f"Sample content: {sample_content}")
                 return False
-            
-            self.logger.info(f"✅ Found DAK_API_CONTENT comment marker")
-            
-            # Replace the comment marker with the actual content
-            new_html_content = html_content.replace(comment_marker, content)
             
             self.logger.info(f"📏 Content replacement: original={len(html_content)}, new={len(new_html_content)}")
             
@@ -696,6 +726,9 @@ class HTMLProcessor:
             
             if size_increase > 100:  # If we added substantial content
                 self.logger.info(f"✅ Content injection appears successful (substantial size increase)")
+                return True
+            elif replaced_existing:
+                self.logger.info(f"✅ Content replacement successful (replaced existing hub content, size change: {size_increase})")
                 return True
             else:
                 self.logger.warning(f"⚠️  Content injection may have failed (minimal size increase: {size_increase})")
@@ -1600,13 +1633,52 @@ class DAKApiHubGenerator:
         if jsonld_docs is None:
             jsonld_docs = []
         
-        # Start building the HTML content
-        html_content = """
+        # Start building the HTML content (wrapped with markers so re-runs can replace it)
+        html_content = """<!-- DAK_API_HUB_START -->
 <div class="dak-api-hub">
     <h2>DAK API Documentation Hub</h2>
     
-    <p>This page provides comprehensive documentation for all available DAK (Data Access Kit) API endpoints and schemas. 
+    <p>This page provides access to all available DAK (Data Access Kit) API endpoints and schemas.
     The DAK API provides structured access to ValueSet enumerations and Logical Model definitions used throughout this implementation guide.</p>
+
+    <h3>OpenAPI Documentation</h3>
+
+    <p>Interactive Swagger UI documentation for all generated schemas and external API specifications is available in the OpenAPI documentation hub:</p>
+
+    <div class="openapi-hub-link">
+        <a href="openapi/index.html" class="schema-link openapi-link">&#128214; View OpenAPI Documentation</a>
+    </div>
+
+    <h3>Using the DAK API</h3>
+    
+    <div class="usage-info">
+        <h4>Schema Validation</h4>
+        <p>Each JSON Schema can be used to validate data structures in your applications. 
+        The schemas follow the JSON Schema Draft 2020-12 specification and include:</p>
+        <ul>
+            <li>Type definitions and constraints</li>
+            <li>Property descriptions and examples</li>
+            <li>Required field specifications</li>
+            <li>Enumeration values with links to definitions</li>
+        </ul>
+        
+        <h4>JSON-LD Semantic Integration</h4>
+        <p>The JSON-LD vocabularies provide semantic web integration for ValueSet enumerations. Each vocabulary includes:</p>
+        <ul>
+            <li>Enumeration class definitions with schema.org compatibility</li>
+            <li>Individual code instances with canonical IRIs</li>
+            <li>Property definitions with range constraints</li>
+            <li>FHIR metadata integration (system URIs, ValueSet references)</li>
+        </ul>
+        
+        <h4>Integration with FHIR</h4>
+        <p>All schemas are derived from the FHIR definitions in this implementation guide. 
+        Each schema page includes links to the corresponding FHIR resource definitions for complete context.</p>
+        
+        <h4>API Endpoints</h4>
+        <p>The enumeration endpoints provide machine-readable lists of all available schemas, 
+        making it easy to discover and integrate with the available data structures programmatically.</p>
+    </div>
 """
         
         # Add API Enumeration Endpoints section
@@ -1668,245 +1740,27 @@ class DAKApiHubGenerator:
     </div>
 """
         
-        # Add ValueSet Schemas section
-        if schema_docs['valueset']:
-            html_content += f"""
-    <h3>ValueSet Schemas ({len(schema_docs['valueset'])} available)</h3>
-    
-    <p>JSON Schema definitions for FHIR ValueSets, providing structured enumeration of allowed code values:</p>
-    
-    <div class="schema-grid">
-"""
-            for schema_doc in schema_docs['valueset']:
-                html_content += f"""
-        <div class="schema-card">
-            <h4><a href="{schema_doc['html_file']}">{schema_doc['title']}</a></h4>
-            <p>{schema_doc['description']}</p>
-            <div class="schema-links">
-                <a href="{schema_doc['html_file']}" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
-                <a href="{schema_doc.get('schema_file', '')}" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>"""
-                
-                # Add displays file link if it exists
-                if schema_doc.get('displays_file'):
-                    html_content += f"""
-                <a href="{schema_doc['displays_file']}" class="schema-link" title="Display Names">🏷️ Displays</a>"""
-                
-                # Add JSON-LD file link if it exists
-                if schema_doc.get('jsonld_file'):
-                    html_content += f"""
-                <a href="{schema_doc['jsonld_file']}" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>"""
-                
-                # Add OpenAPI wrapper link if it exists
-                if schema_doc.get('openapi_file'):
-                    html_content += f"""
-                <a href="{schema_doc['openapi_file']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>"""
-                
-                html_content += """
-            </div>
-        </div>
-"""
-            html_content += """
-    </div>
-"""
-        
-        # Add Logical Model Schemas section
-        if schema_docs['logical_model']:
-            html_content += f"""
-    <h3>Logical Model Schemas ({len(schema_docs['logical_model'])} available)</h3>
-    
-    <p>JSON Schema definitions for FHIR Logical Models, defining structured data elements and their relationships:</p>
-    
-    <div class="schema-grid">
-"""
-            for schema_doc in schema_docs['logical_model']:
-                html_content += f"""
-        <div class="schema-card">
-            <h4><a href="{schema_doc['html_file']}">{schema_doc['title']}</a></h4>
-            <p>{schema_doc['description']}</p>
-            <div class="schema-links">
-                <a href="{schema_doc['html_file']}" class="schema-link fhir-link" title="FHIR Resource Definition">🩺 FHIR</a>
-                <a href="{schema_doc.get('schema_file', '')}" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>"""
-                
-                # Add displays file link if it exists
-                if schema_doc.get('displays_file'):
-                    html_content += f"""
-                <a href="{schema_doc['displays_file']}" class="schema-link" title="Display Names">🏷️ Displays</a>"""
-                
-                # Add OpenAPI wrapper link if it exists
-                if schema_doc.get('openapi_file'):
-                    html_content += f"""
-                <a href="{schema_doc['openapi_file']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>"""
-                
-                html_content += """
-            </div>
-        </div>
-"""
-            html_content += """
-    </div>
-"""
-        
-        
-        # Add OpenAPI Documentation section (comprehensive listing)
-        if openapi_docs or schema_docs['valueset'] or schema_docs['logical_model']:
-            html_content += f"""
-    <h3>OpenAPI Documentation</h3>
-    
-    <p>Complete API specification documentation for all available endpoints:</p>
-    
-    <div class="schema-grid">
-"""
-            
-            # Add ValueSet schema endpoints as cards
-            for schema_doc in schema_docs['valueset']:
-                schema_name = schema_doc['schema_file'].replace('.schema.json', '')
-                
-                html_content += f"""
-        <div class="schema-card">
-            <h4>{schema_name} Endpoints</h4>
-            <p>API endpoints for {schema_doc['title']}</p>
-            <div class="schema-links">
-                <a href="{schema_doc['schema_file']}" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>"""
-                
-                # Add JSON-LD endpoint if available
-                if schema_doc.get('jsonld_file'):
-                    html_content += f"""
-                <a href="{schema_doc['jsonld_file']}" class="schema-link" title="JSON-LD Vocabulary">🗂️ JSON-LD</a>"""
-                
-                # Add OpenAPI specification if available
-                if schema_doc.get('openapi_file'):
-                    html_content += f"""
-                <a href="{schema_doc['openapi_file']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>"""
-                
-                html_content += """
-            </div>
-        </div>
-"""
-            
-            # Add LogicalModel schema endpoints as cards
-            for schema_doc in schema_docs['logical_model']:
-                schema_name = schema_doc['schema_file'].replace('.schema.json', '')
-                
-                html_content += f"""
-        <div class="schema-card">
-            <h4>{schema_name} Endpoints</h4>
-            <p>API endpoints for {schema_doc['title']}</p>
-            <div class="schema-links">
-                <a href="{schema_doc['schema_file']}" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>"""
-                
-                # Add OpenAPI specification if available
-                if schema_doc.get('openapi_file'):
-                    html_content += f"""
-                <a href="{schema_doc['openapi_file']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>"""
-                
-                html_content += """
-            </div>
-        </div>
-"""
-            
-            # Add enumeration endpoints as cards
-            for enum_doc in enumeration_docs:
-                if enum_doc['type'] == 'enumeration-valueset':
-                    html_content += f"""
-        <div class="schema-card">
-            <h4>ValueSets Enumeration Endpoint</h4>
-            <p>Complete list of all available ValueSet schemas</p>
-            <div class="schema-links">
-                <a href="ValueSets.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
-                <a href="ValueSets-enumeration.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
-            </div>
-        </div>
-"""
-                elif enum_doc['type'] == 'enumeration-logicalmodel':
-                    html_content += f"""
-        <div class="schema-card">
-            <h4>LogicalModels Enumeration Endpoint</h4>
-            <p>Complete list of all available Logical Model schemas</p>
-            <div class="schema-links">
-                <a href="LogicalModels.schema.json" class="schema-link" title="JSON Schema Definition">📄 JSON Schema</a>
-                <a href="LogicalModels-enumeration.openapi.json" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI</a>
-            </div>
-        </div>
-"""
-            
-            # Add OpenAPI documentation pages as cards
-            if openapi_docs:
-                for api_doc in openapi_docs:
-                    # Create documentation cards for all OpenAPI files, including those with HTML docs
-                    html_content += f"""
-        <div class="schema-card">
-            <h4>{api_doc['title']}</h4>
-            <p>{api_doc['description']}</p>
-            <div class="schema-links">"""
-                    
-                    # Add link to generated HTML documentation if available
-                    if api_doc.get('html_file'):
-                        html_content += f"""
-                <a href="{api_doc['html_file']}" class="schema-link" title="API Documentation">📖 Documentation</a>"""
-                    
-                    # Always add link to raw OpenAPI specification
-                    html_content += f"""
-                <a href="{api_doc['file_path']}" class="schema-link" title="OpenAPI Specification">🔗 OpenAPI Spec</a>"""
-                    
-                    html_content += """
-            </div>
-        </div>
-"""
-            
-            html_content += """
-    </div>
-"""
-        
-        # Add existing OpenAPI content if present
-        if existing_openapi_html_content:
-            html_content += """
-    <h3>Existing API Documentation</h3>
-    
-    <div class="existing-openapi-content">
-"""
-            # Add the extracted content from existing index.html
-            html_content += existing_openapi_html_content
-            html_content += """
-    </div>
-"""
-        
-        # Add usage information
         html_content += """
-    <h3>Using the DAK API</h3>
-    
-    <div class="usage-info">
-        <h4>Schema Validation</h4>
-        <p>Each JSON Schema can be used to validate data structures in your applications. 
-        The schemas follow the JSON Schema Draft 2020-12 specification and include:</p>
-        <ul>
-            <li>Type definitions and constraints</li>
-            <li>Property descriptions and examples</li>
-            <li>Required field specifications</li>
-            <li>Enumeration values with links to definitions</li>
-        </ul>
-        
-        <h4>JSON-LD Semantic Integration</h4>
-        <p>The JSON-LD vocabularies provide semantic web integration for ValueSet enumerations. Each vocabulary includes:</p>
-        <ul>
-            <li>Enumeration class definitions with schema.org compatibility</li>
-            <li>Individual code instances with canonical IRIs</li>
-            <li>Property definitions with range constraints</li>
-            <li>FHIR metadata integration (system URIs, ValueSet references)</li>
-        </ul>
-        
-        <h4>Integration with FHIR</h4>
-        <p>All schemas are derived from the FHIR definitions in this implementation guide. 
-        Each schema page includes links to the corresponding FHIR resource definitions for complete context.</p>
-        
-        <h4>API Endpoints</h4>
-        <p>The enumeration endpoints provide machine-readable lists of all available schemas, 
-        making it easy to discover and integrate with the available data structures programmatically.</p>
-    </div>
 </div>
 
 <style>
 /* DAK API Hub styling that integrates with IG theme */
 .dak-api-hub {
     margin: 1rem 0;
+}
+
+.openapi-hub-link {
+    margin: 1rem 0 1.5rem 0;
+}
+
+.openapi-link {
+    font-size: 1rem;
+    padding: 0.5rem 1.25rem;
+    background-color: #0d6efd;
+}
+
+.openapi-link:hover {
+    background-color: #0b5ed7;
 }
 
 .enumeration-endpoints, .schema-grid {
@@ -2088,10 +1942,169 @@ class DAKApiHubGenerator:
 <hr>
 
 <p><em>This documentation hub is automatically generated from the available schema and API definitions.</em></p>
+<!-- DAK_API_HUB_END -->
 """
         
         return html_content
-    
+
+    def _generate_swagger_ui_html(self, swagger_urls: List[Dict], existing_content: Optional[str] = None) -> str:
+        """
+        Generate a self-contained Swagger UI HTML page.
+
+        Args:
+            swagger_urls: List of {'url': ..., 'name': ...} dicts for Swagger UI.
+            existing_content: Optional HTML content to display above the Swagger UI.
+
+        Returns:
+            Complete HTML page as a string.
+        """
+        urls_json = json.dumps(swagger_urls, indent=2)
+
+        existing_section = ""
+        if existing_content:
+            existing_section = f"""
+  <div class="existing-api-content">
+    {existing_content}
+  </div>
+  <hr>
+"""
+
+        if swagger_urls:
+            swagger_section = f"""
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js"></script>
+  <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-standalone-preset.js"></script>
+  <script>
+  window.onload = function() {{
+    SwaggerUIBundle({{
+      urls: {urls_json},
+      dom_id: '#swagger-ui',
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+      layout: "StandaloneLayout"
+    }});
+  }};
+  </script>
+"""
+        else:
+            swagger_section = """
+  <p><em>No API specifications available. Add OpenAPI specification files to the
+  <code>input/openapi</code> directory or generate schemas through the DAK pipeline.</em></p>
+"""
+
+        return f"""<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>API Documentation</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css"
+          href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css">
+    <style>
+      body {{ margin: 0; padding: 0; }}
+      .existing-api-content {{ padding: 1rem 2rem; }}
+    </style>
+  </head>
+  <body>
+{existing_section}{swagger_section}
+  </body>
+</html>"""
+
+    def generate_openapi_index_html(self, output_dir: str,
+                                    openapi_input_dirs: Union[str, List[str]],
+                                    schema_docs: Dict[str, List[Dict]],
+                                    existing_openapi_html_content: Optional[str] = None) -> Optional[str]:
+        """
+        Generate output/openapi/index.html with Swagger UI, combining:
+          1. Generated schema OpenAPI specs from the output directory.
+          2. External OpenAPI specs copied from each directory in openapi_input_dirs (if present).
+          3. Optional existing HTML content extracted from the first index.html found.
+
+        Args:
+            output_dir: IG output directory.
+            openapi_input_dirs: One or more source directories for external OpenAPI specs
+                                (e.g. ``input/openapi``, ``input/images/openapi``).
+                                Accepts either a single string or a list of strings.
+                                Directories that do not exist are silently skipped.
+            schema_docs: Dictionary with schema documentation info.
+            existing_openapi_html_content: Existing HTML content from an index.html found in
+                                           one of the input directories.
+
+        Returns:
+            Path to the generated index.html, or None if generation failed.
+        """
+        import shutil
+
+        # Normalise to a list so the rest of the code is uniform
+        if isinstance(openapi_input_dirs, str):
+            openapi_input_dirs = [openapi_input_dirs]
+
+        try:
+            openapi_output_dir = os.path.join(output_dir, "openapi")
+            os.makedirs(openapi_output_dir, exist_ok=True)
+            self.logger.info(f"Created output OpenAPI directory: {openapi_output_dir}")
+
+            swagger_urls: List[Dict] = []
+
+            # Add generated schema OpenAPI specs (parent output dir, referenced with ../)
+            for schema_doc in schema_docs.get('valueset', []):
+                if schema_doc.get('openapi_file'):
+                    swagger_urls.append({
+                        'url': f"../{schema_doc['openapi_file']}",
+                        'name': schema_doc['title']
+                    })
+
+            for schema_doc in schema_docs.get('logical_model', []):
+                if schema_doc.get('openapi_file'):
+                    swagger_urls.append({
+                        'url': f"../{schema_doc['openapi_file']}",
+                        'name': schema_doc['title']
+                    })
+
+            # Copy external OpenAPI files from each input directory and add to the spec list.
+            # Files are de-duplicated by filename (first directory wins).
+            # All OpenAPI spec files and their supporting assets (e.g. referenced schemas) are
+            # copied so that relative references within the specs continue to resolve correctly.
+            seen_filenames: set = set()
+            for openapi_input_dir in openapi_input_dirs:
+                if not os.path.exists(openapi_input_dir):
+                    self.logger.info(f"No external OpenAPI directory found at: {openapi_input_dir}")
+                    continue
+                self.logger.info(f"Scanning external OpenAPI directory: {openapi_input_dir}")
+                for filename in sorted(os.listdir(openapi_input_dir)):
+                    src_path = os.path.join(openapi_input_dir, filename)
+                    if not os.path.isfile(src_path) or filename.lower() == 'index.html':
+                        continue
+                    # Only copy recognised spec and asset file types
+                    ext = os.path.splitext(filename)[1].lower()
+                    if ext not in ('.json', '.yaml', '.yml', '.png', '.svg', '.css', '.js'):
+                        self.logger.debug(f"Skipping non-asset file: {filename}")
+                        continue
+                    if filename in seen_filenames:
+                        self.logger.debug(f"Skipping duplicate file (already copied): {filename}")
+                        continue
+                    seen_filenames.add(filename)
+                    dst_path = os.path.join(openapi_output_dir, filename)
+                    shutil.copy2(src_path, dst_path)
+                    self.logger.info(f"Copied external OpenAPI file: {filename}")
+                    if ext in ('.json', '.yaml', '.yml'):
+                        spec_name = os.path.splitext(filename)[0]
+                        swagger_urls.append({'url': f"./{filename}", 'name': spec_name})
+
+            html = self._generate_swagger_ui_html(swagger_urls, existing_openapi_html_content)
+
+            index_path = os.path.join(openapi_output_dir, "index.html")
+            with open(index_path, 'w', encoding='utf-8') as f:
+                f.write(html)
+
+            self.logger.info(f"Generated OpenAPI index at: {index_path}")
+            return index_path
+
+        except Exception as e:
+            self.logger.error(f"Error generating OpenAPI index HTML: {e}")
+            import traceback
+            self.logger.error(traceback.format_exc())
+            return None
+
     def post_process_dak_api_html(self, output_dir: str, schema_docs: Dict[str, List[Dict]], openapi_docs: List[Dict], enumeration_docs: List[Dict] = None, jsonld_docs: List[Dict] = None, existing_openapi_html_content: Optional[str] = None) -> bool:
         """
         Post-process the dak-api.html file to inject DAK API content.
@@ -2171,10 +2184,10 @@ def main():
     # Parse command line arguments first
     if len(sys.argv) == 1:
         output_dir = "output"
-        openapi_dir = "input/images/openapi"  # Default to existing OpenAPI documentation location
+        openapi_dir = "input/openapi"  # Optional: externally defined APIs (e.g. smart-trust IG)
     elif len(sys.argv) == 2:
         output_dir = sys.argv[1]
-        openapi_dir = "input/images/openapi"  # Default to existing OpenAPI documentation location
+        openapi_dir = "input/openapi"  # Optional: externally defined APIs (e.g. smart-trust IG)
     else:
         output_dir = sys.argv[1]
         openapi_dir = sys.argv[2]
@@ -2331,6 +2344,11 @@ def main():
     logger.info("=== OPENAPI FILE DETECTION PHASE ===")
     openapi_files = openapi_detector.find_openapi_files(openapi_dir)
     logger.info(f"OpenAPI detection completed - found {len(openapi_files)} files in source directory")
+
+    # Also check the legacy input/images/openapi location
+    legacy_openapi_dir = "input/images/openapi"
+    legacy_openapi_files = openapi_detector.find_openapi_files(legacy_openapi_dir)
+    logger.info(f"Found {len(legacy_openapi_files)} existing OpenAPI files in legacy directory")
     
     # Also check for OpenAPI files in output directory (copied by IG publisher)
     output_openapi_dir = os.path.join(output_dir, "images", "openapi")
@@ -2338,17 +2356,16 @@ def main():
     logger.info(f"Found {len(output_openapi_files)} existing OpenAPI files in output directory")
     
     # Extract existing HTML content from OpenAPI documentation
+    # Check all candidate directories in priority order; use the first one found.
     logger.info("=== EXISTING OPENAPI HTML CONTENT DETECTION ===")
-    existing_openapi_html_content = openapi_detector.find_existing_html_content(openapi_dir)
-    if existing_openapi_html_content:
-        logger.info("Found existing OpenAPI HTML content that will be incorporated into DAK API hub")
-    else:
-        # Also try the output directory location
-        existing_openapi_html_content = openapi_detector.find_existing_html_content(output_openapi_dir)
+    existing_openapi_html_content = None
+    for _html_dir in [openapi_dir, legacy_openapi_dir, output_openapi_dir]:
+        existing_openapi_html_content = openapi_detector.find_existing_html_content(_html_dir)
         if existing_openapi_html_content:
-            logger.info("Found existing OpenAPI HTML content in output directory that will be incorporated into DAK API hub")
-        else:
-            logger.info("No existing OpenAPI HTML content found")
+            logger.info(f"Found existing OpenAPI HTML content in: {_html_dir}")
+            break
+    if not existing_openapi_html_content:
+        logger.info("No existing OpenAPI HTML content found")
     
     # Generate schema documentation
     logger.info("=== SCHEMA DOCUMENTATION GENERATION PHASE ===")
@@ -2798,6 +2815,22 @@ def main():
         logger.error(f"❌ Exception during DAK API hub post-processing: {e}")
         qa_reporter.add_error(f"Exception during DAK API hub post-processing: {e}")
         success = False
+
+    # Generate unified OpenAPI documentation index (output/openapi/index.html)
+    logger.info("=== OPENAPI INDEX GENERATION PHASE ===")
+    try:
+        openapi_index_path = hub_generator.generate_openapi_index_html(
+            output_dir, [openapi_dir, legacy_openapi_dir], schema_docs, existing_openapi_html_content
+        )
+        if openapi_index_path:
+            logger.info(f"✅ Generated OpenAPI index: {openapi_index_path}")
+            qa_reporter.add_success(f"Generated OpenAPI index: {openapi_index_path}")
+        else:
+            logger.warning("⚠️ OpenAPI index generation failed or produced no output")
+            qa_reporter.add_warning("OpenAPI index generation failed or produced no output")
+    except Exception as e:
+        logger.warning(f"⚠️ Exception during OpenAPI index generation: {e}")
+        qa_reporter.add_warning(f"Exception during OpenAPI index generation: {e}")
     
     # Always generate and save QA report, regardless of success/failure
     qa_status = "completed" if success else "completed_with_errors"

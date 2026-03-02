@@ -63,6 +63,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Record checkout timestamp
+        run: echo "TS_CHECKOUT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -374,6 +377,8 @@ jobs:
 
           # Cleanup
           docker rm -f ig-run
+
+          echo "TS_IG_BUILD=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
      
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
@@ -479,6 +484,49 @@ jobs:
           else
             echo "⚠️ update_translated_image_refs.py not available, skipping"
           fi
+
+
+      - name: Stamp deploy metadata
+        if: env.DAK_ENABLED == 'true'
+        run: |
+          if [ ! -f "output/index.html" ]; then
+            echo "output/index.html not found – skipping metadata stamp"
+            exit 0
+          fi
+          # Check/download stamp script
+          if [ ! -f "input/scripts/stamp_deploy_metadata.py" ]; then
+            curl -sSf -o "input/scripts/stamp_deploy_metadata.py" \
+              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/stamp_deploy_metadata.py" \
+              2>/dev/null || { echo "⚠️ Could not download stamp script"; exit 0; }
+          fi
+          # Ensure output/index.html is writable
+          sudo chmod a+w output/index.html 2>/dev/null || true
+          COMMIT="${{ github.sha }}"
+          BRANCH="${{ env.BRANCH_DIR }}"
+          # Fetch the previously deployed index.html so we can carry forward its log
+          # Use curl (not git fetch) to avoid touching gh-pages ref and racing the deploy action
+          PREV_HTML_ARG=""
+          PREV_URL="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/gh-pages/branches/${BRANCH}/index.html"
+          if curl -sSf -o /tmp/prev-deploy-index.html "$PREV_URL" 2>/dev/null; then
+            PREV_HTML_ARG="--prev-html /tmp/prev-deploy-index.html"
+            echo "Found previous deployment log for branch ${BRANCH}"
+          else
+            echo "No previous deployment found for branch ${BRANCH} – starting fresh log"
+          fi
+          # Stamp each build phase in order; first call carries forward cross-build history
+          python3 input/scripts/stamp_deploy_metadata.py output/index.html \
+            --step checkout --commit "$COMMIT" --branch "$BRANCH" \
+            --timestamp "${TS_CHECKOUT:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}" \
+            $PREV_HTML_ARG || true
+          python3 input/scripts/stamp_deploy_metadata.py output/index.html \
+            --step ig-build --commit "$COMMIT" --branch "$BRANCH" \
+            --timestamp "${TS_IG_BUILD:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}" || true
+          python3 input/scripts/stamp_deploy_metadata.py output/index.html \
+            --step postprocessing --commit "$COMMIT" --branch "$BRANCH" || true
+          python3 input/scripts/stamp_deploy_metadata.py output/index.html \
+            --step pre-deploy --commit "$COMMIT" --branch "$BRANCH" || true
+          echo "✅ Deploy metadata stamped in output/index.html"
+
 
       - name: Delete files >100MB before deployment
         run: |
