@@ -12,6 +12,8 @@ shell-metacharacter injection:
     PRUNE_CONFIRM         Must equal the literal string "CONFIRM".
     PRUNE_TARGET_BRANCH   Directory name under branches/ to remove.
                           Leave unset or empty to remove ALL deployed branches.
+                          Set to the literal string "NONE" to preserve all
+                          branch previews and only squash the commit history.
 
 Security measures
 -----------------
@@ -40,6 +42,8 @@ REQUIRED_BRANCH = "gh-pages"
 BRANCHES_DIR = "branches"
 EXPECTED_CONFIRM = "CONFIRM"
 ORPHAN_BRANCH = "gh-pages-squashed"
+# Sentinel value for target_branch: squash history only, do not delete any previews.
+SQUASH_ONLY_SENTINEL = "NONE"
 
 # Git env vars that could redirect operations to unexpected locations.
 # We strip these from every child-process environment so they cannot be
@@ -249,22 +253,28 @@ def prune_all() -> None:
 # ── History squash ─────────────────────────────────────────────────────────────
 
 
-def squash_and_push(commit_message: str) -> None:
+def squash_and_push(commit_message: str, *, force: bool = False) -> None:
     """Replace the gh-pages history with a single squashed commit and force-push.
 
     Strategy: create a new orphan branch (no prior history) from the current
     working tree, then force-push it to ``origin/gh-pages``.  This removes all
     accumulated deployment commits, keeping the repository lean.
+
+    When *force* is ``True`` the squash proceeds even if no files were modified
+    (i.e. the working tree is identical to HEAD).  Use this for the squash-only
+    mode where no branch previews are deleted but the history should still be
+    collapsed.
     """
     run_git("config", "user.name", "github-actions[bot]")
     run_git("config", "user.email", "github-actions[bot]@users.noreply.github.com")
     run_git("add", "-A")
 
-    # Nothing staged?  Nothing to do.
-    diff_result = run_git("diff", "--staged", "--quiet", check=False)
-    if diff_result.returncode == 0:
-        _warn("Nothing was staged – the repository is unchanged.")
-        return
+    if not force:
+        # Nothing staged?  Nothing to do.
+        diff_result = run_git("diff", "--staged", "--quiet", check=False)
+        if diff_result.returncode == 0:
+            _warn("Nothing was staged – the repository is unchanged.")
+            return
 
     # Orphan branch carries only the current tree, with no prior history.
     run_git("checkout", "--orphan", ORPHAN_BRANCH)
@@ -293,6 +303,14 @@ def main() -> None:
 
     validate_confirmation(confirm)
     validate_current_branch()
+
+    if target == SQUASH_ONLY_SENTINEL:
+        # Squash history only – do not remove any branch previews.
+        show_deployed_branches()
+        commit_msg = "Prune: squash gh-pages history (branch previews preserved)"
+        squash_and_push(commit_msg, force=True)
+        return
+
     validate_branches_dir()
     show_deployed_branches()
 

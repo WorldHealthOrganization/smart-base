@@ -30,8 +30,11 @@ on:
           This matches the last path component used when the branch was deployed
           (feature/my-branch is stored as my-branch under branches/).
           Leave empty to remove ALL entries under branches/.
-          Run the workflow once to see the full list of deployed branch names in
-          the job log, then re-run with the specific name you want to prune.
+          Set to the literal value NONE to preserve all branch previews and only
+          squash the gh-pages commit history (no files are deleted).
+          Run the workflow once with an empty value to see the full list of deployed
+          branch names in the job log, then re-run with the specific name you want
+          to prune.
         required: false
         type: string
         default: ''
