@@ -1918,9 +1918,19 @@ class SchemaDocumentationRenderer:
             base_name = html_file[:-5]  # strip .html
             html_path = os.path.join(output_dir, html_file)
 
-            # Quick skip: only process files that have at least one raw source counterpart
+            # The FHIR IG Publisher creates dedicated per-format view pages named
+            # "Foo.profile.{ext}.html" whose raw source file is "Foo.{ext}" (not
+            # "Foo.profile.{ext}.{ext}").  Detect that pattern and remap the source
+            # file name accordingly; fall back to the generic "{base_name}.{ext}" for
+            # all other pages (e.g. pages that embed multiple formats inline).
+            def _src_for_ext(ext: str) -> str:
+                suffix = f'.profile.{ext}'
+                if base_name.endswith(suffix):
+                    return base_name[:-len(suffix)] + '.' + ext
+                return f'{base_name}.{ext}'
+
             src_exists = {
-                ext: os.path.exists(os.path.join(output_dir, f'{base_name}.{ext}'))
+                ext: os.path.exists(os.path.join(output_dir, _src_for_ext(ext)))
                 for ext, _ in FORMATS
             }
             if not any(src_exists.values()):
@@ -1933,7 +1943,7 @@ class SchemaDocumentationRenderer:
                 original = html
                 for ext, label in FORMATS:
                     if src_exists[ext]:
-                        html = self._replace_lang_source(html, ext, label, f'{base_name}.{ext}')
+                        html = self._replace_lang_source(html, ext, label, _src_for_ext(ext))
 
                 if html != original:
                     with open(html_path, 'w', encoding='utf-8') as f:
