@@ -1985,19 +1985,37 @@ class DAKApiHubGenerator:
 """
 
         if swagger_urls:
+            first_url = swagger_urls[0]['url']
             swagger_section = f"""
+  <div id="definition-selector-bar">
+    <label for="definition-select">Select a definition:</label>
+    <select id="definition-select" onchange="switchDefinition(this.value)">
+    </select>
+  </div>
   <div id="swagger-ui"></div>
   <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js"></script>
-  <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-standalone-preset.js"></script>
   <script>
+  var swaggerUrls = {urls_json};
+  var ui;
   window.onload = function() {{
-    SwaggerUIBundle({{
-      urls: {urls_json},
+    var select = document.getElementById('definition-select');
+    swaggerUrls.forEach(function(item, idx) {{
+      var opt = document.createElement('option');
+      opt.value = item.url;
+      opt.textContent = item.name;
+      select.appendChild(opt);
+    }});
+    ui = SwaggerUIBundle({{
+      url: "{first_url}",
       dom_id: '#swagger-ui',
-      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-      layout: "StandaloneLayout"
+      presets: [SwaggerUIBundle.presets.apis],
+      layout: "BaseLayout"
     }});
   }};
+  function switchDefinition(url) {{
+    ui.specActions.updateUrl(url);
+    ui.specActions.download(url);
+  }}
   </script>
 """
         else:
@@ -2045,15 +2063,35 @@ class DAKApiHubGenerator:
       .who-header .header-title {{
         flex: 1;
       }}
-      /* Hide default Swagger UI topbar logo */
-      .swagger-ui .topbar .download-url-wrapper,
-      .swagger-ui .topbar-wrapper img,
-      .swagger-ui .topbar-wrapper .link {{
-        display: none;
-      }}
-      .swagger-ui .topbar {{
+      /* Definition selector bar below the header */
+      #definition-selector-bar {{
         background-color: #0070a1;
-        padding: 0.4rem 0;
+        color: #ffffff;
+        padding: 0.5rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        flex-wrap: wrap;
+      }}
+      #definition-selector-bar label {{
+        font-weight: 600;
+        white-space: nowrap;
+      }}
+      #definition-select {{
+        font-size: 0.9rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+        border: 1px solid rgba(255,255,255,0.6);
+        background-color: #ffffff;
+        color: #00477d;
+        min-width: 200px;
+        max-width: 100%;
+        flex: 1;
+      }}
+      /* Hide Swagger UI topbar entirely */
+      .swagger-ui .topbar {{
+        display: none;
       }}
       .existing-api-content {{ padding: 1rem 2rem; }}
     </style>
