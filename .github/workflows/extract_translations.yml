@@ -22,15 +22,6 @@ name: Extract Translation Templates
 on:
   # ── Manual trigger from the GitHub Actions UI ──────────────────────────
   workflow_dispatch:
-    inputs:
-      canonical_url:
-        description: 'IG canonical base URL (used for Weblate context links)'
-        required: false
-        default: ''
-      ig_root:
-        description: 'Repository root directory (leave blank for repo root)'
-        required: false
-        default: '.'
 
   # ── Optional: run automatically when diagram sources change ────────────
   # Uncomment to enable automatic extraction on push:
@@ -85,31 +76,20 @@ jobs:
         if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         run: pip install -r input/scripts/requirements.txt
 
-      # ── Derive canonical URL from sushi-config.yaml if not supplied ─────
-      # User inputs are passed via environment variables, NEVER interpolated
-      # directly into shell commands, to prevent script-injection attacks.
+      # ── Derive canonical URL from sushi-config.yaml ────────────────────
       - name: Extract canonical URL from sushi-config.yaml
         if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         id: canonical
-        env:
-          INPUT_CANONICAL: ${{ inputs.canonical_url }}
         run: |
-          if [ -n "${INPUT_CANONICAL}" ]; then
-            echo "url=${INPUT_CANONICAL}" >> "$GITHUB_OUTPUT"
-          else
-            # Parse the canonical field from sushi-config.yaml
-            CANONICAL=$(grep -m1 '^canonical:' sushi-config.yaml | awk '{print $2}' | tr -d "'\"")
-            echo "url=${CANONICAL}" >> "$GITHUB_OUTPUT"
-          fi
+          CANONICAL=$(grep -m1 '^canonical:' sushi-config.yaml | awk '{print $2}' | tr -d "'\"")
+          echo "url=${CANONICAL}" >> "$GITHUB_OUTPUT"
 
       - name: Extract .pot translation template files
         if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         env:
-          INPUT_IG_ROOT: ${{ inputs.ig_root }}
           CANONICAL_URL: ${{ steps.canonical.outputs.url }}
         run: |
           python input/scripts/extract_translations.py \
-            --ig-root    "${INPUT_IG_ROOT:-.}" \
             --canonical  "${CANONICAL_URL}"
 
       # ── Commit any updated .pot files back to the branch ────────────────
