@@ -485,6 +485,7 @@ jobs:
             echo "⚠️ update_translated_image_refs.py not available, skipping"
           fi
 
+
       - name: Stamp deploy metadata
         if: env.DAK_ENABLED == 'true'
         run: |
@@ -525,6 +526,7 @@ jobs:
           python3 input/scripts/stamp_deploy_metadata.py output/index.html \
             --step pre-deploy --commit "$COMMIT" --branch "$BRANCH" || true
           echo "✅ Deploy metadata stamped in output/index.html"
+
 
       - name: Delete files >100MB before deployment
         run: |
