@@ -24,6 +24,7 @@ import os
 import sys
 import logging
 import re
+import html as html_module
 from typing import Dict, List, Optional, Any, Tuple, Union
 from pathlib import Path
 from urllib.parse import urlparse
@@ -1636,23 +1637,18 @@ class DAKApiHubGenerator:
         # Start building the HTML content (wrapped with markers so re-runs can replace it)
         html_content = """<!-- DAK_API_HUB_START -->
 <div class="dak-api-hub">
-    <h2>DAK API Documentation Hub</h2>
-    
     <p>This page provides access to all available DAK (Data Access Kit) API endpoints and schemas.
     The DAK API provides structured access to ValueSet enumerations and Logical Model definitions used throughout this implementation guide.</p>
 
-    <h3>OpenAPI Documentation</h3>
+    <h2>OpenAPI Documentation</h2>
 
-    <p>Interactive Swagger UI documentation for all generated schemas and external API specifications is available in the OpenAPI documentation hub:</p>
+    <p>Interactive Swagger UI documentation for all generated schemas and external API specifications is available in the OpenAPI documentation hub:
+    <a href="openapi/index.html">View OpenAPI Documentation</a></p>
 
-    <div class="openapi-hub-link">
-        <a href="openapi/index.html" class="schema-link openapi-link">&#128214; View OpenAPI Documentation</a>
-    </div>
-
-    <h3>Using the DAK API</h3>
+    <h2>Using the DAK API</h2>
     
     <div class="usage-info">
-        <h4>Schema Validation</h4>
+        <h3>Schema Validation</h3>
         <p>Each JSON Schema can be used to validate data structures in your applications. 
         The schemas follow the JSON Schema Draft 2020-12 specification and include:</p>
         <ul>
@@ -1662,7 +1658,7 @@ class DAKApiHubGenerator:
             <li>Enumeration values with links to definitions</li>
         </ul>
         
-        <h4>JSON-LD Semantic Integration</h4>
+        <h3>JSON-LD Semantic Integration</h3>
         <p>The JSON-LD vocabularies provide semantic web integration for ValueSet enumerations. Each vocabulary includes:</p>
         <ul>
             <li>Enumeration class definitions with schema.org compatibility</li>
@@ -1671,20 +1667,53 @@ class DAKApiHubGenerator:
             <li>FHIR metadata integration (system URIs, ValueSet references)</li>
         </ul>
         
-        <h4>Integration with FHIR</h4>
+        <h3>Integration with FHIR</h3>
         <p>All schemas are derived from the FHIR definitions in this implementation guide. 
         Each schema page includes links to the corresponding FHIR resource definitions for complete context.</p>
         
-        <h4>API Endpoints</h4>
+        <h3>API Endpoints</h3>
         <p>The enumeration endpoints provide machine-readable lists of all available schemas, 
         making it easy to discover and integrate with the available data structures programmatically.</p>
     </div>
 """
         
-        # Add API Enumeration Endpoints section
+        # Add Logical Models section with cards
+        if schema_docs.get('logical_model'):
+            html_content += """
+    <h2>Logical Models</h2>
+    
+    <p>The following logical models define the structure for computable representations of WHO DAK content:</p>
+    
+    <div class="schema-grid">
+"""
+            for schema_doc in schema_docs['logical_model']:
+                schema_links = ""
+                html_file = html_module.escape(schema_doc.get('html_file', '#'))
+                schema_file = html_module.escape(schema_doc.get('schema_file', ''))
+                openapi_file = html_module.escape(schema_doc.get('openapi_file', ''))
+                title = html_module.escape(schema_doc.get('title', 'Untitled'))
+                description = html_module.escape(schema_doc.get('description', ''))
+                if schema_doc.get('html_file'):
+                    schema_links += f'<a href="{html_file}" class="schema-link fhir-link">FHIR Definition</a>'
+                if schema_doc.get('schema_file'):
+                    schema_links += f'<a href="{schema_file}" class="schema-link">JSON Schema</a>'
+                if schema_doc.get('openapi_file'):
+                    schema_links += f'<a href="{openapi_file}" class="schema-link">OpenAPI</a>'
+                html_content += f"""
+        <div class="schema-card">
+            <h4><a href="{html_file}">{title}</a></h4>
+            <p>{description}</p>
+            <div class="schema-links">{schema_links}</div>
+        </div>
+"""
+            html_content += """
+    </div>
+"""
+
+        # Add API Endpoints section
         if enumeration_docs:
             html_content += """
-    <h3>API Enumeration Endpoints</h3>
+    <h2>API Endpoints</h2>
     
     <p>These endpoints provide lists of all available schemas and vocabularies of each type:</p>
     
@@ -1747,20 +1776,6 @@ class DAKApiHubGenerator:
 /* DAK API Hub styling that integrates with IG theme */
 .dak-api-hub {
     margin: 1rem 0;
-}
-
-.openapi-hub-link {
-    margin: 1rem 0 1.5rem 0;
-}
-
-.openapi-link {
-    font-size: 1rem;
-    padding: 0.5rem 1.25rem;
-    background-color: #0d6efd;
-}
-
-.openapi-link:hover {
-    background-color: #0b5ed7;
 }
 
 .enumeration-endpoints, .schema-grid {
@@ -1881,12 +1896,12 @@ class DAKApiHubGenerator:
     margin: 1.5rem 0;
 }
 
-.usage-info h4 {
+.usage-info h3 {
     color: #00477d;
     margin-top: 1rem;
 }
 
-.usage-info h4:first-child {
+.usage-info h3:first-child {
     margin-top: 0;
 }
 
@@ -1994,17 +2009,60 @@ class DAKApiHubGenerator:
         return f"""<!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>API Documentation</title>
+    <title>OpenAPI Documentation - SMART Base</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css"
           href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css">
     <style>
-      body {{ margin: 0; padding: 0; }}
+      body {{ margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }}
+      /* WHO-styled header bar */
+      .who-header {{
+        background-color: #00477d;
+        color: #ffffff;
+        padding: 0.6rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+      }}
+      .who-header a.home-link {{
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: 1px solid rgba(255,255,255,0.6);
+        padding: 0.25rem 0.75rem;
+        border-radius: 3px;
+        transition: background-color 0.2s ease;
+      }}
+      .who-header a.home-link:hover {{
+        background-color: rgba(255,255,255,0.15);
+        text-decoration: none;
+      }}
+      .who-header .header-title {{
+        flex: 1;
+      }}
+      /* Hide default Swagger UI topbar logo */
+      .swagger-ui .topbar .download-url-wrapper,
+      .swagger-ui .topbar-wrapper img,
+      .swagger-ui .topbar-wrapper .link {{
+        display: none;
+      }}
+      .swagger-ui .topbar {{
+        background-color: #0070a1;
+        padding: 0.4rem 0;
+      }}
       .existing-api-content {{ padding: 1rem 2rem; }}
     </style>
   </head>
   <body>
+  <div class="who-header">
+    <a href="../index.html" class="home-link">&#8962; Home</a>
+    <span class="header-title">SMART Base &mdash; OpenAPI Documentation</span>
+  </div>
 {existing_section}{swagger_section}
   </body>
 </html>"""
