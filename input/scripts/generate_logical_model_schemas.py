@@ -415,9 +415,10 @@ class SchemaGenerator:
                 },
                 "required": ["resourceType"],
             }
-            # Process any explicitly declared elements (currently none)
-            for element in logical_model['elements']:
-                self.add_element_to_schema(schema, element)
+            # Properties for FHIRSchemaBase are all hardcoded above.
+            # The FSH elements use valid FHIR names; the generated schema uses
+            # the canonical JSON-LD property names (fhir:parent, etc.) that are
+            # already defined in the hardcoded block, so skip element processing.
             return schema
 
         # ------------------------------------------------------------------ #
