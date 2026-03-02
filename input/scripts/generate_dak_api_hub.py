@@ -1212,6 +1212,71 @@ class SchemaDocumentationRenderer:
             self.logger.error(f'Error adding schema tab for {spec_name}: {exc}')
             return None
 
+    def _inject_schema_tab_into_sibling_pages(
+        self, spec_name: str, schema_filename: str, output_dir: str
+    ) -> int:
+        """
+        Inject the JSON Schema tab into all sibling pages of a StructureDefinition.
+
+        The FHIR IG Publisher generates separate pages for each format view, e.g.
+        ``StructureDefinition-DAK-mappings.html``,
+        ``StructureDefinition-DAK.profile.json.html``.  Each page has its own copy
+        of the nav-tabs bar, so the JSON Schema tab must be added to every one of
+        them so that it is visible regardless of which tab the user is on.
+
+        The main content page (``{spec_name}.html``) and the generated schema view
+        page (``{spec_name}.schema.json.html``) are excluded — the former is handled
+        by the caller and the latter is the destination of the new tab.
+
+        Args:
+            spec_name:        Resource name (e.g. ``StructureDefinition-DAK``)
+            schema_filename:  Basename of the schema file
+            output_dir:       Directory produced by the FHIR IG Publisher
+
+        Returns:
+            Number of sibling pages updated.
+        """
+        schema_page = f'{spec_name}.schema.json.html'
+        main_page = f'{spec_name}.html'
+        count = 0
+
+        try:
+            html_files = [f for f in os.listdir(output_dir) if f.endswith('.html')]
+        except OSError as e:
+            self.logger.warning(f'Cannot list {output_dir} for sibling injection: {e}')
+            return 0
+
+        for html_file in html_files:
+            # Only process pages that belong to this spec (same name prefix)
+            if not (html_file.startswith(f'{spec_name}-')
+                    or html_file.startswith(f'{spec_name}.')):
+                continue
+            # Skip the main content page and the schema view page we are generating
+            if html_file in (main_page, schema_page):
+                continue
+
+            html_path = os.path.join(output_dir, html_file)
+            try:
+                with open(html_path, 'r', encoding='utf-8', errors='replace') as f:
+                    html_content = f.read()
+
+                updated = self._inject_schema_as_new_tab(
+                    html_content, schema_filename, spec_name
+                )
+                if updated is not None and updated != html_content:
+                    with open(html_path, 'w', encoding='utf-8') as f:
+                        f.write(updated)
+                    count += 1
+                    self.logger.info(
+                        f'Added JSON Schema tab to sibling page: {html_file}'
+                    )
+            except Exception as e:
+                self.logger.warning(
+                    f'Could not inject schema tab into {html_file}: {e}'
+                )
+
+        return count
+
     def _generate_schema_view_page(self, html_content: str, schema_filename: str,
                                     spec_name: str, output_dir: str) -> Optional[str]:
         """
@@ -1489,6 +1554,12 @@ class SchemaDocumentationRenderer:
                     # Generate the companion schema view page
                     self._generate_schema_view_page(
                         html_content, schema_filename, spec_name, output_dir
+                    )
+                    # Propagate the JSON Schema tab to all sibling pages
+                    # (Mappings, XML, JSON, TTL, Definitions, etc.) so it
+                    # appears on every tab, not just Content.
+                    self._inject_schema_tab_into_sibling_pages(
+                        spec_name, schema_filename, output_dir
                     )
                     # When there is no placeholder the tab injection is the only
                     # change; write the file and return immediately.
