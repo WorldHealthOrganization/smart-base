@@ -425,23 +425,33 @@ class OpenAPIWrapper:
         self.logger = logger
         self.canonical_base = canonical_base
     
-    # JSON Schema keywords and custom extensions not supported in OpenAPI 3.0
-    _OPENAPI_UNSUPPORTED_KEYWORDS = frozenset([
-        "$schema", "$id", "resourceDefinition", "fhir:parent",
-        "jsonld:valuesets", "jsonld:contextTemplate",
-    ])
+    # Non-standard custom properties that must be renamed to ``x-``-prefixed
+    # OpenAPI extension fields.  ``$schema``, ``$id``, and ``const`` are native
+    # JSON Schema 2020-12 keywords and are fully supported in OpenAPI 3.1 so
+    # they do NOT appear in this mapping.
+    _EXTENSION_RENAMES = {
+        "resourceDefinition": "x-resourceDefinition",
+        "fhir:parent": "x-fhir-parent",
+        "jsonld:valuesets": "x-jsonld-valuesets",
+        "jsonld:contextTemplate": "x-jsonld-contextTemplate",
+    }
 
     def sanitize_schema_for_openapi(self, schema: Any) -> Any:
         """
-        Recursively remove JSON Schema keywords and custom extensions that are
-        not valid in OpenAPI 3.0 schemas, and convert ``const`` to
-        ``enum: [value]`` for compatibility.
+        Recursively adapt a JSON Schema document for use inside an OpenAPI 3.1
+        ``components/schemas`` entry.
+
+        OpenAPI 3.1 is fully aligned with JSON Schema 2020-12, so standard
+        keywords such as ``$schema``, ``$id``, and ``const`` are kept as-is.
+        Non-standard FHIR / JSON-LD extension properties are renamed to
+        ``x-``-prefixed OpenAPI extension fields so that the information is
+        preserved while remaining spec-compliant.
 
         Args:
             schema: A JSON-Schema-compatible dict (or any nested value).
 
         Returns:
-            A new dict (or original value) safe for use inside an OpenAPI 3.0
+            A new dict (or original value) safe for use inside an OpenAPI 3.1
             ``components/schemas`` entry.
         """
         if not isinstance(schema, dict):
@@ -449,24 +459,20 @@ class OpenAPIWrapper:
 
         result = {}
         for key, value in schema.items():
-            if key in self._OPENAPI_UNSUPPORTED_KEYWORDS:
-                continue
-            if key == "const":
-                # OpenAPI 3.0 does not support `const`; use single-value enum
-                result["enum"] = [value]
-            elif isinstance(value, dict):
-                result[key] = self.sanitize_schema_for_openapi(value)
+            target_key = self._EXTENSION_RENAMES.get(key, key)
+            if isinstance(value, dict):
+                result[target_key] = self.sanitize_schema_for_openapi(value)
             elif isinstance(value, list):
-                result[key] = [
+                result[target_key] = [
                     self.sanitize_schema_for_openapi(item) for item in value
                 ]
             else:
-                result[key] = value
+                result[target_key] = value
         return result
 
     def create_wrapper_for_schema(self, schema_path: str, schema_type: str, output_dir: str) -> Optional[str]:
         """
-        Create an OpenAPI 3.0 wrapper for a JSON schema.
+        Create an OpenAPI 3.1 wrapper for a JSON schema.
         
         Args:
             schema_path: Path to the JSON schema file
@@ -498,7 +504,7 @@ class OpenAPIWrapper:
             
             # Create OpenAPI wrapper
             openapi_spec = {
-                "openapi": "3.0.3",
+                "openapi": "3.1.0",
                 "info": {
                     "title": f"{schema.get('title', schema_name)} API",
                     "description": schema.get('description', f"API for {schema_name} schema"),
@@ -547,7 +553,7 @@ class OpenAPIWrapper:
     
     def create_enumeration_wrapper(self, enum_schema_path: str, schema_type: str, output_dir: str) -> Optional[str]:
         """
-        Create an OpenAPI 3.0 wrapper for an enumeration schema.
+        Create an OpenAPI 3.1 wrapper for an enumeration schema.
         
         Args:
             enum_schema_path: Path to the enumeration schema file
@@ -580,7 +586,7 @@ class OpenAPIWrapper:
             
             # Create OpenAPI wrapper for the enumeration
             openapi_spec = {
-                "openapi": "3.0.3",
+                "openapi": "3.1.0",
                 "info": {
                     "title": api_title,
                     "description": api_description,
