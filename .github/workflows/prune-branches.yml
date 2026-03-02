@@ -1,0 +1,202 @@
+# Prune Deployed Branches
+# Removes one or all feature-branch previews from the gh-pages `branches/` directory
+# and squashes the gh-pages commit history to keep the repository small.
+#
+# Dispatch this workflow from the GitHub Actions UI (Actions → Prune Deployed Branches → Run workflow).
+#
+# NOTE: GitHub Actions workflow_dispatch only supports statically-defined choice lists.
+# Dynamic branch discovery is not natively available in the UI.  As the best practical
+# alternative, this workflow is split into two jobs:
+#   • discover – uses the GitHub API (no checkout needed, very fast) to list every
+#                subdirectory currently deployed under branches/ and validates the input.
+#                A user who types an invalid name receives a clear error with the full
+#                list of valid names before the slower prune job even starts.
+#   • prune    – runs only after discover succeeds; performs the checkout, deletion,
+#                and history squash.
+
+name: Prune Deployed Branches
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: >
+          Directory name of the deployed branch to remove (e.g. my-feature-branch).
+          This matches the last path component used when the branch was deployed
+          (feature/my-branch is stored as my-branch under branches/).
+          Leave empty to remove ALL entries under branches/.
+          Run the workflow once (with CONFIRM) to see a list of available names in the
+          discover job log before deciding what to prune.
+        required: false
+        type: string
+        default: ''
+      confirm:
+        description: >
+          Type CONFIRM to proceed.
+          Required as a safety gate before any files are deleted.
+        required: true
+        type: string
+        default: ''
+
+permissions:
+  contents: write   # needed to force-push the squashed gh-pages branch
+
+jobs:
+  # ── Job 1: discover ───────────────────────────────────────────────────────────
+  # Validates inputs and lists all deployed branches via the GitHub API.
+  # No checkout is needed, making this job very fast.
+  # The prune job will not start if this job fails.
+  discover:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate confirmation input
+        run: |
+          if [[ "${{ github.event.inputs.confirm }}" != "CONFIRM" ]]; then
+            echo "❌ You must type CONFIRM in the 'confirm' input to proceed."
+            exit 1
+          fi
+          echo "✅ Confirmation accepted."
+
+      - name: List deployed branches and validate target
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Fetching deployed branches from gh-pages/branches/ via GitHub API…"
+
+          # Query the GitHub Contents API for the branches/ directory on gh-pages.
+          # Returns a JSON array of entries; 404 means the directory does not exist yet.
+          HTTP_STATUS=$(curl -o /tmp/branches_list.json -w "%{http_code}" -fsSL \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/contents/branches?ref=gh-pages")
+
+          if [[ "$HTTP_STATUS" == "404" ]]; then
+            echo "⚠️  No branches/ directory found in gh-pages – nothing to prune."
+            exit 0
+          fi
+
+          if [[ "$HTTP_STATUS" != "200" ]]; then
+            echo "❌ GitHub API returned HTTP $HTTP_STATUS – cannot list deployed branches."
+            exit 1
+          fi
+
+          # Filter to directories only and list them
+          DIRS=$(jq -r '.[] | select(.type == "dir") | .name' /tmp/branches_list.json | sort)
+          COUNT=$(echo "$DIRS" | grep -c . || true)
+
+          echo "Found ${COUNT} deployed branch director(ies):"
+          echo "$DIRS" | while IFS= read -r b; do echo "  • $b"; done
+
+          # Validate target_branch when one is supplied
+          TARGET="${{ github.event.inputs.target_branch }}"
+          if [[ -z "$TARGET" ]]; then
+            echo ""
+            echo "ℹ️  No target_branch supplied – ALL of the above will be pruned."
+          else
+            # Guard against path-traversal attempts
+            if [[ "$TARGET" == *".."* || "$TARGET" == "/"* ]]; then
+              echo "❌ Invalid branch name '$TARGET' – path traversal is not allowed."
+              exit 1
+            fi
+
+            if ! echo "$DIRS" | grep -qx "$TARGET"; then
+              echo ""
+              echo "❌ '$TARGET' was not found among the deployed branches listed above."
+              exit 1
+            fi
+            echo ""
+            echo "✅ Target 'branches/${TARGET}' confirmed."
+          fi
+
+  # ── Job 2: prune ──────────────────────────────────────────────────────────────
+  # Performs the actual deletion and squashes gh-pages history to keep the repo small.
+  # Only runs when the discover job succeeds.
+  prune:
+    needs: discover
+    runs-on: ubuntu-latest
+
+    steps:
+      # Only the current snapshot is needed; full history is replaced by the orphan squash.
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          fetch-depth: 1
+
+      - name: Verify current branch is gh-pages
+        run: |
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          if [[ "$CURRENT_BRANCH" != "gh-pages" ]]; then
+            echo "❌ Expected gh-pages but found: $CURRENT_BRANCH"
+            exit 1
+          fi
+          echo "✅ Confirmed: on branch '$CURRENT_BRANCH'."
+
+      - name: Verify branches/ directory exists
+        run: |
+          if [[ ! -d "branches" ]]; then
+            echo "⚠️  No branches/ directory found – nothing to prune."
+            exit 0
+          fi
+          echo "✅ branches/ directory confirmed."
+
+      - name: Prune specific branch
+        if: github.event.inputs.target_branch != ''
+        run: |
+          TARGET="${{ github.event.inputs.target_branch }}"
+          echo "Removing branches/${TARGET} …"
+          rm -rf "branches/${TARGET}"
+          echo "✅ Removed branches/${TARGET}."
+
+      - name: Prune all deployed branches
+        if: github.event.inputs.target_branch == ''
+        run: |
+          echo "Removing entire branches/ directory …"
+          rm -rf branches
+          echo "✅ Removed branches/."
+
+      # ── Squash gh-pages history via orphan branch ─────────────────────────────
+      # Strategy: create a new orphan branch from the current working tree and
+      # force-push it to origin/gh-pages, replacing all prior history with a
+      # single commit to keep the repository lean.
+      - name: Configure git identity
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Stage deletions
+        run: git add -A
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --staged --quiet; then
+            echo "changes=false" >> "$GITHUB_OUTPUT"
+            echo "⚠️  Nothing was staged – repository is unchanged."
+          else
+            echo "changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create squashed orphan commit and force-push
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          TARGET="${{ github.event.inputs.target_branch }}"
+          if [[ -z "$TARGET" ]]; then
+            MSG="Prune: remove all deployed branch previews"
+          else
+            MSG="Prune: remove deployed branch preview for ${TARGET}"
+          fi
+
+          # Create an orphan branch (no prior history) from the current working tree
+          git checkout --orphan gh-pages-squashed
+          git add -A
+          git commit -m "$MSG"
+
+          # Replace the local gh-pages pointer and force-push
+          git branch -D gh-pages
+          git branch -m gh-pages
+          git push --force origin gh-pages
+
+          echo "✅ gh-pages history squashed and pushed."
+          echo "   Commit message: $MSG"
