@@ -687,6 +687,25 @@ class HTMLProcessor:
                     return False
                 new_html_content = html_content[:start_idx] + content + html_content[end_idx:]
                 replaced_existing = True
+            elif '<div class="dak-api-hub">' in html_content:
+                # Legacy fallback: content was injected by an old script version that didn't add markers.
+                # Replace from the hub div up to (and including) the standard hub footer paragraph.
+                self.logger.info(f"✅ Found legacy dak-api-hub div — replacing old hub content without markers")
+                hub_div_marker = '<div class="dak-api-hub">'
+                start_idx = html_content.index(hub_div_marker)
+                legacy_end_text = '<p><em>This documentation hub is automatically generated from the available schema and API definitions.</em></p>'
+                end_marker_pos = html_content.find(legacy_end_text, start_idx)
+                if end_marker_pos != -1:
+                    end_idx = end_marker_pos + len(legacy_end_text)
+                else:
+                    # Backstop: replace up to the inner-wrapper comment that follows the content section
+                    inner_wrapper_pos = html_content.find('<!-- /inner-wrapper -->', start_idx)
+                    if inner_wrapper_pos == -1:
+                        self.logger.error(f"❌ Cannot find end of legacy dak-api-hub content in {html_file_path}")
+                        return False
+                    end_idx = inner_wrapper_pos
+                new_html_content = html_content[:start_idx] + content + html_content[end_idx:]
+                replaced_existing = True
             else:
                 self.logger.error(f"❌ DAK_API_CONTENT comment marker not found in {html_file_path}")
                 self.logger.info("Available content sample for debugging:")
