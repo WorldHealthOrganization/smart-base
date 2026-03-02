@@ -1117,11 +1117,6 @@ class SchemaDocumentationRenderer:
             # Unregistered languages fall through to plain text gracefully.
             f'<script>\n'
             f'(function(){{\n'
-            f'  function applyHighlight(el){{\n'
-            f'    if(window.Prism&&Prism.languages["{language}"]){{\n'
-            f'      Prism.highlightElement(el);\n'
-            f'    }}\n'
-            f'  }}\n'
             f'  function loadSchema(){{\n'
             f'    var el=document.getElementById("{tab_id}-display");\n'
             f'    if(!el||el.dataset.loaded)return;\n'
@@ -1129,8 +1124,11 @@ class SchemaDocumentationRenderer:
             f'    fetch("{schema_filename}")\n'
             f'      .then(function(r){{return r.json();}})\n'
             f'      .then(function(d){{\n'
-            f'        el.textContent=JSON.stringify(d,null,2);\n'
-            f'        applyHighlight(el);\n'
+            f'        var txt=JSON.stringify(d,null,2);\n'
+            f'        el.textContent=txt;\n'
+            f'        if(window.Prism&&Prism.languages["{language}"]){{\n'
+            f'          setTimeout(function(){{el.innerHTML=Prism.highlight(txt,Prism.languages["{language}"],"{language}");}},0);\n'
+            f'        }}\n'
             f'      }})\n'
             f'      .catch(function(e){{\n'
             f'        el.textContent="Error loading schema: "+e.message;\n'
@@ -1424,10 +1422,13 @@ class SchemaDocumentationRenderer:
                 f'    fetch("{schema_filename}")\n'
                 f'      .then(function(r){{return r.json();}})\n'
                 f'      .then(function(d){{\n'
-                f'        el.textContent=JSON.stringify(d,null,2);\n'
+                f'        var txt=JSON.stringify(d,null,2);\n'
+                f'        el.textContent=txt;\n'
                 f'        if(window.Prism&&Prism.languages.json){{\n'
-                f'          Prism.highlightElement(el);\n'
-                f'          addFhirLinks(el);\n'
+                f'          setTimeout(function(){{\n'
+                f'            el.innerHTML=Prism.highlight(txt,Prism.languages.json,"json");\n'
+                f'            addFhirLinks(el);\n'
+                f'          }},0);\n'
                 f'        }}\n'
                 f'      }})\n'
                 f'      .catch(function(e){{\n'
@@ -1972,19 +1973,28 @@ class SchemaDocumentationRenderer:
             safe_name = re.sub(r'[^a-z0-9]', '-', src_file.lower())
             el_id = 'dyn-{}-{}-{}'.format(lang, safe_name, occurrence)
 
-            # Fetch body differs by format: JSON gets pretty-printed via JSON.stringify
+            # Fetch body differs by format: JSON gets pretty-printed via JSON.stringify.
+            # Content is fetched asynchronously via fetch().then(); once received the raw
+            # text is shown immediately, then Prism.highlight() (synchronous, no Web Worker)
+            # is deferred via setTimeout(fn,0) so it doesn't block the UI.
+            # We avoid Prism.highlightElement() which spawns a Web Worker and throws
+            # "Cannot read properties of undefined (reading 'payload')" on some pages.
             if lang == 'json':
                 fetch_body = (
                     'fetch("{f}").then(function(r){{return r.json();}}).then(function(d){{'
-                    'el.textContent=JSON.stringify(d,null,2);'
-                    'if(window.Prism&&Prism.languages.json)Prism.highlightElement(el);}})'.format(f=src_file)
+                    'var txt=JSON.stringify(d,null,2);'
+                    'el.textContent=txt;'
+                    'if(window.Prism&&Prism.languages.json)'
+                    '{{setTimeout(function(){{el.innerHTML=Prism.highlight(txt,Prism.languages.json,"json");}},0);}}'
+                    '}})'.format(f=src_file)
                 )
             else:
                 fetch_body = (
                     'fetch("{f}").then(function(r){{return r.text();}}).then(function(t){{'
                     'el.textContent=t;'
-                    'if(window.Prism&&Prism.languages["{l}"])Prism.highlightElement(el);}})'.format(
-                        f=src_file, l=lang)
+                    'if(window.Prism&&Prism.languages["{l}"])'
+                    '{{setTimeout(function(){{el.innerHTML=Prism.highlight(t,Prism.languages["{l}"],"{l}");}},0);}}'
+                    '}})'.format(f=src_file, l=lang)
                 )
 
             loader = (
