@@ -2001,9 +2001,10 @@ class SchemaDocumentationRenderer:
                 'var h=e.target&&(e.target.getAttribute("href")||e.target.getAttribute("data-bs-target")||"");'
                 'if(h==="#{l}"||h.startsWith("#{l}-"))loadSrc();'
                 '}});'
-                # Also load if the containing tab-pane is already active on page load
+                # Load immediately on standalone format pages (no .tab-pane parent),
+                # or if the containing tab-pane is already active on page load.
                 'function checkActive(){{var p=el.closest&&el.closest(".tab-pane");'
-                'if(p&&(p.classList.contains("active")||p.classList.contains("show")))loadSrc();}}'
+                'if(!p||p.classList.contains("active")||p.classList.contains("show"))loadSrc();}}'
                 'if(document.readyState!=="loading")checkActive();'
                 'else document.addEventListener("DOMContentLoaded",checkActive);'
                 '}})()</script>'
