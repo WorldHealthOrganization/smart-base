@@ -239,8 +239,16 @@ class StructureDefinitionParser:
         if element_name.startswith('extension'):
             return None
         
+        # Extract JsonSchemaName extension value (maps FHIR name → JSON schema property name)
+        json_schema_name = element_name
+        for ext in element.get('extension', []):
+            if ext.get('url', '').endswith('/JsonSchemaName'):
+                json_schema_name = ext.get('valueString', element_name)
+                break
+
         parsed_element = {
             'name': element_name,
+            'json_schema_name': json_schema_name,
             'path': path,
             'cardinality': f"{element.get('min', 0)}..{element.get('max', '*')}",
             'type': '',
@@ -308,6 +316,19 @@ class SchemaGenerator:
             # For other repositories or local development, use canonical base
             self.schema_base_url = canonical_base
         
+        # Maps FHIRSchemaBase FHIR element names to their JSON Schema property names.
+        # Populated when the FHIRSchemaBase model is processed (via JsonSchemaName extension);
+        # pre-seeded with canonical defaults so derived models that happen to be processed
+        # before FHIRSchemaBase still produce correct property names.  The values here must
+        # stay in sync with the JsonSchemaName extension declarations in FHIRSchemaBase.fsh;
+        # they are overwritten at runtime by the extension values when FHIRSchemaBase is
+        # processed, so a mismatch would only persist if FHIRSchemaBase is never parsed.
+        self._base_element_name_map: Dict[str, str] = {
+            'fhirParent': 'fhir:parent',
+            'jsonldValuesets': 'jsonld:valuesets',
+            'jsonldContextTemplate': 'jsonld:contextTemplate',
+        }
+
         # FHIR datatype to JSON Schema type mapping
         self.type_mapping = {
             'string': {'type': 'string'},
@@ -370,6 +391,17 @@ class SchemaGenerator:
         # properties rather than const-pinning resourceType to a specific id. #
         # ------------------------------------------------------------------ #
         if is_base:
+            # Build the element name map from JsonSchemaName extensions on each element.
+            # This updates the pre-seeded defaults with any values read from the model.
+            for elem in logical_model['elements']:
+                if elem.get('json_schema_name') and elem['json_schema_name'] != elem['name']:
+                    self._base_element_name_map[elem['name']] = elem['json_schema_name']
+
+            # Resolve property names from the map (falls back to FHIR element name)
+            fhir_parent_prop = self._base_element_name_map.get('fhirParent', 'fhirParent')
+            jsonld_valuesets_prop = self._base_element_name_map.get('jsonldValuesets', 'jsonldValuesets')
+            jsonld_ctx_template_prop = self._base_element_name_map.get('jsonldContextTemplate', 'jsonldContextTemplate')
+
             schema = {
                 "$schema": "https://json-schema.org/draft/2020-12/schema",
                 "$id": schema_id,
@@ -393,14 +425,14 @@ class SchemaGenerator:
                             "that defines this logical model."
                         ),
                     },
-                    "fhir:parent": {
+                    fhir_parent_prop: {
                         "type": "string",
                         "description": (
                             "Parent FHIR base type that this logical model is "
                             "derived from."
                         ),
                     },
-                    "jsonld:valuesets": {
+                    jsonld_valuesets_prop: {
                         "type": "array",
                         "items": {"type": "string"},
                         "description": (
@@ -408,17 +440,17 @@ class SchemaGenerator:
                             "for JSON-LD context generation."
                         ),
                     },
-                    "jsonld:contextTemplate": {
+                    jsonld_ctx_template_prop: {
                         "type": "object",
                         "description": "JSON-LD context template for this logical model.",
                     },
                 },
                 "required": ["resourceType"],
             }
-            # Properties for FHIRSchemaBase are all hardcoded above.
-            # The FSH elements use valid FHIR names; the generated schema uses
-            # the canonical JSON-LD property names (fhir:parent, etc.) that are
-            # already defined in the hardcoded block, so skip element processing.
+            # Property names for FHIRSchemaBase are resolved above from the
+            # JsonSchemaName extension values declared in FHIRSchemaBase.fsh.
+            # The FSH elements use valid FHIR names (no colons); the extension
+            # maps them to their canonical JSON / JSON-LD property names.
             return schema
 
         # ------------------------------------------------------------------ #
@@ -504,6 +536,8 @@ class SchemaGenerator:
 
         # Build allOf composition: inherit from FHIRSchemaBase and pin the
         # per-model FHIR metadata values using const.
+        # Property names are resolved from the base element name map (populated
+        # from the JsonSchemaName extension on FHIRSchemaBase elements).
         resource_def = model_url if model_url else f"{self.canonical_base}/StructureDefinition/{model_name}"
         specific_props: Dict[str, Any] = {
             "resourceDefinition": {
@@ -512,18 +546,21 @@ class SchemaGenerator:
                 "const": resource_def,
             },
         }
+        fhir_parent_prop = self._base_element_name_map.get('fhirParent', 'fhirParent')
+        jsonld_valuesets_prop = self._base_element_name_map.get('jsonldValuesets', 'jsonldValuesets')
+        jsonld_ctx_template_prop = self._base_element_name_map.get('jsonldContextTemplate', 'jsonldContextTemplate')
         if logical_model.get('parent'):
-            specific_props["fhir:parent"] = {
+            specific_props[fhir_parent_prop] = {
                 "type": "string",
                 "const": logical_model['parent'],
             }
         if valuesets_used:
-            specific_props["jsonld:valuesets"] = {
+            specific_props[jsonld_valuesets_prop] = {
                 "type": "array",
                 "items": {"type": "string"},
                 "const": sorted(valuesets_used),
             }
-            specific_props["jsonld:contextTemplate"] = {
+            specific_props[jsonld_ctx_template_prop] = {
                 "type": "object",
                 "const": jsonld_context,
             }
@@ -538,13 +575,15 @@ class SchemaGenerator:
     def add_element_to_schema(self, schema: Dict[str, Any], element: Dict[str, Any]):
         """Add an element to the JSON schema."""
         element_name = element['name']
+        # Use the JsonSchemaName extension value as the JSON property name when present
+        json_property_name = element.get('json_schema_name', element_name)
         cardinality = element['cardinality']
         element_type = element['type']
         valueset = element['valueset']
         
         # Determine if element is required
         if cardinality and cardinality.startswith('1'):
-            schema['required'].append(element_name)
+            schema['required'].append(json_property_name)
         
         # Handle choice types
         if element.get('choice', False):
@@ -587,7 +626,7 @@ class SchemaGenerator:
         elif element.get('short'):
             element_schema["description"] = element['short']
         
-        schema['properties'][element_name] = element_schema
+        schema['properties'][json_property_name] = element_schema
     
     def get_type_schema(self, fhir_type: str, valueset: str = '') -> Dict[str, Any]:
         """Get JSON schema for a FHIR type."""
