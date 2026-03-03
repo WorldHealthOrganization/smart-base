@@ -105,9 +105,12 @@ jobs:
           sleep 5
 
           # Install Python inside the container so run_ig_publisher.py can run there.
+          # The who.template.root ant script calls "python" (not "python3"), so we
+          # create a symlink to ensure compatibility.
           docker exec --user root ig-run sh -c \
             'apt-get update -qq \
              && apt-get install -y --no-install-recommends python3 python3-pip \
+             && ln -sf /usr/bin/python3 /usr/bin/python \
              && pip3 install --quiet --break-system-packages "PyYAML>=6.0" lxml requests'
 
           # TX_SERVER is forwarded to the container via -e; run_ig_publisher.py
