@@ -11,8 +11,8 @@
 
 name: FHIR IG Build and GitHub Pages Deployment
 
-# Controls when the action will run. 
-on: 
+# Controls when the action will run.
+on:
   workflow_call: # Reusable by other workflows
     inputs:
       tx:
@@ -25,10 +25,10 @@ on:
         default: true
   # Triggers the workflow on push or pull request events for any branch
   push:
-    branches-ignore:    
+    branches-ignore:
       - 'gh-pages'
   pull_request:
-    branches-ignore:    
+    branches-ignore:
       - 'gh-pages'
 
   # Allows you to run this workflow manually from the Actions tab
@@ -101,6 +101,13 @@ jobs:
 
       - name: Comment on PR - Build started
         if: steps.find_pr.outputs.IS_PR == 'true'
+        env:
+          PR_NUMBER: ${{ steps.find_pr.outputs.PR_NUMBER }}
+          GH_REPOSITORY: ${{ github.repository }}
+          GH_RUN_ID: ${{ github.run_id }}
+          GH_SHA: ${{ github.sha }}
+          GH_BRANCH: ${{ github.head_ref || github.ref_name }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Check if PR comment script exists locally, download if needed
           if [ ! -f "input/scripts/pr_comment_start.py" ]; then
@@ -108,29 +115,32 @@ jobs:
             mkdir -p input/scripts
             curl -L -f -o "input/scripts/pr_comment_start.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/pr_comment_start.py" 2>/dev/null || echo "Failed to download pr_comment_start.py"
           fi
-          
+
           # Run PR comment script if available
           if [ -f "input/scripts/pr_comment_start.py" ]; then
             python3 input/scripts/pr_comment_start.py \
-              "${{ steps.find_pr.outputs.PR_NUMBER }}" \
-              "${{ github.repository }}" \
-              "${{ github.run_id }}" \
-              "${{ github.sha }}" \
-              "${{ github.head_ref || github.ref_name }}" \
-              "${{ secrets.GITHUB_TOKEN }}"
+              "$PR_NUMBER" \
+              "$GH_REPOSITORY" \
+              "$GH_RUN_ID" \
+              "$GH_SHA" \
+              "$GH_BRANCH" \
+              "$GH_TOKEN"
           else
             echo "⚠️ PR comment script not available, skipping build start comment"
           fi
 
       - name: Get branch name
+        env:
+          GH_HEAD_REF: ${{ github.head_ref }}
+          GH_REF_NAME: ${{ github.ref_name }}
         run: |
-          echo ${{ github.head_ref }}
-          echo ${{ github.ref_name }}
-          echo ${GITHUB_REF#refs/heads/}
-          ACTUAL_BRANCH="${{ github.head_ref || github.ref_name }}"
+          echo "$GH_HEAD_REF"
+          echo "$GH_REF_NAME"
+          echo "${GITHUB_REF#refs/heads/}"
+          ACTUAL_BRANCH="${GH_HEAD_REF:-$GH_REF_NAME}"
           echo "BRANCH_DIR=${ACTUAL_BRANCH##*/}"
-          echo "BRANCH_DIR=${ACTUAL_BRANCH##*/}" >> $GITHUB_ENV
-          echo "BRANCH_NAME=${ACTUAL_BRANCH}" >> $GITHUB_ENV
+          echo "BRANCH_DIR=${ACTUAL_BRANCH##*/}" >> "$GITHUB_ENV"
+          echo "BRANCH_NAME=${ACTUAL_BRANCH}" >> "$GITHUB_ENV"
 
       - name: Echo branch name and check if it's the default branch
         run: |
@@ -167,20 +177,20 @@ jobs:
         if: inputs.do_dak != 'false'
         run: |
           echo "Preparing DAK environment with configuration scripts..."
-          
+
           # Check if DAK preparation scripts exist locally, download if needed
           if [ ! -f "input/scripts/generate_dak_from_sushi.py" ]; then
             echo "DAK generation script not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
             curl -L -f -o "input/scripts/generate_dak_from_sushi.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_from_sushi.py" 2>/dev/null || echo "Failed to download generate_dak_from_sushi.py"
           fi
-          
+
           if [ ! -f "input/scripts/update_sushi_config.py" ]; then
             echo "Sushi config update script not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
             curl -L -f -o "input/scripts/update_sushi_config.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/update_sushi_config.py" 2>/dev/null || echo "Failed to download update_sushi_config.py"
           fi
-          
+
           # First, generate DAK configuration from sushi config (only if smart.who.int.base is a dependency and dak.json doesn't exist)
           if [ -f "input/scripts/generate_dak_from_sushi.py" ]; then
             echo "Running generate_dak_from_sushi.py..."
@@ -189,7 +199,7 @@ jobs:
           else
             echo "⚠️ generate_dak_from_sushi.py not available, skipping DAK generation"
           fi
-          
+
           # Then, update sushi config with DAK API settings (checks if dak.json is present)
           if [ -f "input/scripts/update_sushi_config.py" ]; then
             echo "Running update_sushi_config.py..."
@@ -200,32 +210,36 @@ jobs:
           fi
 
       - name: Check for DAK configuration
+        env:
+          DO_DAK: ${{ inputs.do_dak }}
+          GH_REPOSITORY: ${{ github.repository }}
+          GH_REF_NAME: ${{ github.head_ref || github.ref_name }}
         run: |
-          if [ "${{ inputs.do_dak }}" == "false" ]; then
+          if [ "$DO_DAK" == "false" ]; then
             echo "Not generating DAK"
             exit 0
           fi
           echo "DAK processing enabled, checking for dak.json..."
           if [ -f "dak.json" ]; then
             echo "✅ Found dak.json - DAK processing will be enabled"
-            echo "DAK_ENABLED=true" >> $GITHUB_ENV
-            
+            echo "DAK_ENABLED=true" >> "$GITHUB_ENV"
+
             # Set repository context for DAK URL generation
-            echo "GITHUB_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
-            echo "GITHUB_REF_NAME=${{ github.head_ref || github.ref_name }}" >> $GITHUB_ENV
-            echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-            
+            echo "GITHUB_REPOSITORY=${GH_REPOSITORY}" >> "$GITHUB_ENV"
+            echo "GITHUB_REF_NAME=${GH_REF_NAME}" >> "$GITHUB_ENV"
+            echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> "$GITHUB_ENV"
+
           else
             echo "⚠️ do_dak=true but no dak.json found in repository root"
             echo "DAK processing will be skipped"
-            echo "DAK_ENABLED=false" >> $GITHUB_ENV
+            echo "DAK_ENABLED=false" >> "$GITHUB_ENV"
           fi
 
       - name: DAK Preprocessing - Regenerate DAK configuration with current context
         if: (inputs.do_dak != 'false') && (env.DAK_ENABLED == 'true')
         run: |
           echo "Regenerating DAK configuration with current branch context..."
-          
+
           # Check if DAK generation script exists locally, download if needed
           if [ ! -f "input/scripts/generate_dak_from_sushi.py" ]; then
             echo "DAK generation script not found locally, downloading from smart-base repository..."
@@ -233,7 +247,7 @@ jobs:
             curl -L -f -o "input/scripts/generate_dak_from_sushi.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_from_sushi.py" 2>/dev/null || echo "Failed to download generate_dak_from_sushi.py"
             curl -L -f -o "input/scripts/dak_url_utils.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/dak_url_utils.py" 2>/dev/null || echo "Failed to download dak_url_utils.py"
           fi
-          
+
           # Regenerate DAK configuration with current environment context
           if [ -f "input/scripts/generate_dak_from_sushi.py" ]; then
             python3 input/scripts/generate_dak_from_sushi.py
@@ -246,12 +260,12 @@ jobs:
         if: (inputs.do_dak != 'false') && (env.DAK_ENABLED == 'true')
         run: |
           echo "Generating FHIR Questionnaires from DMN files before IG publisher runs..."
-          
+
           # Check if questionnaire generation files exist locally
           if [ ! -f "input/scripts/dmn_questionnaire_generator.py" ]; then
             echo "DMN questionnaire generator not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
-            
+
             # Download questionnaire generator from smart-base repository
             if curl -L -f -o "input/scripts/dmn_questionnaire_generator.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/dmn_questionnaire_generator.py" 2>/dev/null; then
               echo "Downloaded questionnaire generator from main branch"
@@ -261,7 +275,7 @@ jobs:
           else
             echo "Using local DMN questionnaire generator"
           fi
-          
+
           # Run questionnaire generation if script is available
           if [ -f "input/scripts/dmn_questionnaire_generator.py" ]; then
             python3 input/scripts/dmn_questionnaire_generator.py
@@ -274,12 +288,12 @@ jobs:
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
           echo "Transforming DMN files to HTML before IG publisher runs..."
-          
+
           # Check if DMN transformation files exist locally
           if [ ! -f "input/scripts/transform_dmn.py" ]; then
             echo "DMN transformation files not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts input/includes
-            
+
             # Download transformation files from smart-base repository
             curl -L -f -o "input/scripts/transform_dmn.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/transform_dmn.py" 2>/dev/null || echo "Failed to download transform_dmn.py"
             curl -L -f -o "input/includes/dmn2html.xslt" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/includes/dmn2html.xslt" 2>/dev/null || echo "Failed to download dmn2html.xslt"
@@ -287,7 +301,7 @@ jobs:
           else
             echo "Using local DMN transformation files"
           fi
-          
+
           # Run DMN transformation if script is available
           if [ -f "input/scripts/transform_dmn.py" ]; then
             python3 input/scripts/transform_dmn.py
@@ -380,7 +394,7 @@ jobs:
           docker rm -f ig-run
 
           echo "TS_IG_BUILD=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
-     
+
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
         if: success()
@@ -401,7 +415,7 @@ jobs:
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
           echo "Generating JSON schemas from FHIR resources..."
-          
+
           # Check if schema generation files exist locally, download if needed
           if [ ! -f "input/scripts/generate_logical_model_schemas.py" ]; then
             echo "Schema generation files not found locally, downloading from smart-base repository..."
@@ -409,13 +423,13 @@ jobs:
             curl -L -f -o "input/scripts/generate_logical_model_schemas.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_logical_model_schemas.py" 2>/dev/null || echo "Failed to download logical model schema generator"
             curl -L -f -o "input/scripts/generate_valueset_schemas.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_valueset_schemas.py" 2>/dev/null || echo "Failed to download valueset schema generator"
           fi
-          
+
           # Generate logical model schemas
           if [ -f "input/scripts/generate_logical_model_schemas.py" ]; then
             python3 input/scripts/generate_logical_model_schemas.py
             echo "✅ Logical model schemas generated"
           fi
-          
+
           # Generate valueset schemas
           if [ -f "input/scripts/generate_valueset_schemas.py" ]; then
             python3 input/scripts/generate_valueset_schemas.py
@@ -426,14 +440,14 @@ jobs:
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
           echo "Generating JSON-LD vocabularies from ValueSet expansions..."
-          
+
           # Check if JSON-LD generation files exist locally, download if needed
           if [ ! -f "input/scripts/generate_jsonld_vocabularies.py" ]; then
             echo "JSON-LD vocabulary generator not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
             curl -L -f -o "input/scripts/generate_jsonld_vocabularies.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_jsonld_vocabularies.py" 2>/dev/null || echo "Failed to download JSON-LD vocabulary generator"
           fi
-          
+
           # Generate JSON-LD vocabularies
           if [ -f "input/scripts/generate_jsonld_vocabularies.py" ]; then
             python3 input/scripts/generate_jsonld_vocabularies.py
@@ -446,14 +460,14 @@ jobs:
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
           echo "Generating DAK API documentation hub..."
-          
+
           # Check if API hub generation files exist locally, download if needed
           if [ ! -f "input/scripts/generate_dak_api_hub.py" ]; then
             echo "DAK API hub generator not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
             curl -L -f -o "input/scripts/generate_dak_api_hub.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_api_hub.py" 2>/dev/null || echo "Failed to download DAK API hub generator"
           fi
-          
+
           # Generate DAK API hub
           if [ -f "input/scripts/generate_dak_api_hub.py" ]; then
             python3 input/scripts/generate_dak_api_hub.py
@@ -543,7 +557,7 @@ jobs:
           commit-message: Deploy candidate branch
           target-folder: branches/${{ env.BRANCH_DIR }}
           single-commit: true
-          clean: false 
+          clean: false
 
       - name: Deploy main
         uses: JamesIves/github-pages-deploy-action@v4.4.2
@@ -559,6 +573,14 @@ jobs:
 
       - name: Comment on PR - Deployment completed
         if: steps.find_pr.outputs.IS_PR == 'true' && (success() || failure())
+        env:
+          PR_NUMBER: ${{ steps.find_pr.outputs.PR_NUMBER }}
+          GH_REPOSITORY: ${{ github.repository }}
+          GH_RUN_ID: ${{ github.run_id }}
+          GH_SHA: ${{ github.sha }}
+          GH_BRANCH: ${{ github.head_ref || github.ref_name }}
+          JOB_STATUS: ${{ job.status }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Check if PR comment script exists locally, download if needed
           if [ ! -f "input/scripts/pr_comment_finish.py" ]; then
@@ -566,17 +588,17 @@ jobs:
             mkdir -p input/scripts
             curl -L -f -o "input/scripts/pr_comment_finish.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/pr_comment_finish.py" 2>/dev/null || echo "Failed to download pr_comment_finish.py"
           fi
-          
+
           # Run PR comment script if available
           if [ -f "input/scripts/pr_comment_finish.py" ]; then
             python3 input/scripts/pr_comment_finish.py \
-              "${{ steps.find_pr.outputs.PR_NUMBER }}" \
-              "${{ github.repository }}" \
-              "${{ github.run_id }}" \
-              "${{ github.sha }}" \
-              "${{ github.head_ref || github.ref_name }}" \
-              "${{ job.status }}" \
-              "${{ secrets.GITHUB_TOKEN }}"
+              "$PR_NUMBER" \
+              "$GH_REPOSITORY" \
+              "$GH_RUN_ID" \
+              "$GH_SHA" \
+              "$GH_BRANCH" \
+              "$JOB_STATUS" \
+              "$GH_TOKEN"
           else
             echo "⚠️ PR comment script not available, skipping deployment complete comment"
           fi
