@@ -32,9 +32,14 @@ Options::
     --ig-root DIR          Repository root (default: current directory)
     --publisher-jar PATH   Explicit path to publisher.jar
                            (default: auto-detected from input-cache/ or ../)
-    --tx URL               Terminology server URL; use ``n/a`` for offline mode
+    --tx URL               Terminology server URL; use ``n/a`` for offline mode.
+                           Falls back to the TX_SERVER environment variable.
     --skip-commit          Run publisher and detect .pot files but do not commit
     --commit-message MSG   Custom git commit message for the .pot update
+    --no-publisher         Skip the IG Publisher; only commit/push existing .pot files
+    --push                 After committing, pull-rebase and push to remote
+    --branch BRANCH        Target branch for push (or set BRANCH_NAME env var)
+    --actor NAME           GitHub actor for commit message (or set GITHUB_ACTOR env var)
     --help / -h            Print this help
 
 Author: WHO SMART Guidelines Team
@@ -48,6 +53,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 from pathlib import Path
 from typing import List, Optional
 
@@ -398,6 +404,148 @@ def _read_canonical_from_sushi(ig_root: str) -> Optional[str]:
 
 
 # ---------------------------------------------------------------------------
+# Input sanitization
+# ---------------------------------------------------------------------------
+
+_SAFE_BRANCH_RE = re.compile(r"^[a-zA-Z0-9._/\-]+$")
+_SAFE_ACTOR_RE = re.compile(r"^[a-zA-Z0-9._\-\[\]]+$")
+
+
+def _sanitize_tx(value: Optional[str]) -> Optional[str]:
+    """Return a validated terminology-server URL, or ``None`` if not provided.
+
+    Accepts ``None``, the string ``"n/a"`` (offline mode), or any
+    ``http(s)://`` URL.  All other values are rejected to prevent shell
+    injection when the value is forwarded to the IG Publisher command.
+
+    Args:
+        value: Raw TX server value from CLI arg or environment variable.
+
+    Returns:
+        Cleaned value, or ``None`` if *value* is falsy.
+
+    Raises:
+        ValueError: if *value* is present but does not match expected formats.
+    """
+    if not value:
+        return None
+    if value.lower() == "n/a":
+        return "n/a"
+    if re.match(r"^https?://[a-zA-Z0-9._~:/?#\[\]@!$&'()*+,;=%\-]+$", value):
+        return value
+    raise ValueError(
+        f"Unsafe --tx value: {value!r}. "
+        "Expected empty, 'n/a', or an http(s):// URL."
+    )
+
+
+def _sanitize_branch(value: Optional[str]) -> Optional[str]:
+    """Return a validated git branch name, or ``None`` if not provided.
+
+    Only alphanumerics and the characters ``.``, ``-``, ``/``, ``_`` are
+    permitted so that the value can be safely forwarded to ``git push``.
+
+    Args:
+        value: Raw branch name from CLI arg or environment variable.
+
+    Returns:
+        Cleaned value, or ``None`` if *value* is falsy.
+
+    Raises:
+        ValueError: if the branch name contains unsafe characters.
+    """
+    if not value:
+        return None
+    if not _SAFE_BRANCH_RE.match(value):
+        raise ValueError(
+            f"Unsafe branch name: {value!r}. "
+            "Branch names may only contain alphanumerics, '.', '-', '/', '_'."
+        )
+    if value.startswith("-"):
+        raise ValueError(
+            f"Unsafe branch name: {value!r}. "
+            "Branch names must not start with a dash."
+        )
+    return value
+
+
+def _sanitize_actor(value: Optional[str]) -> Optional[str]:
+    """Return a validated GitHub actor name, or ``None`` if not provided.
+
+    Used only in the commit message body; the result is never passed to a
+    shell.  Square brackets are allowed to accommodate the ``[bot]`` suffix.
+
+    Args:
+        value: Raw actor name from CLI arg or environment variable.
+
+    Returns:
+        Cleaned value, or ``None`` if *value* is falsy.
+
+    Raises:
+        ValueError: if the actor name contains unsafe characters.
+    """
+    if not value:
+        return None
+    if not _SAFE_ACTOR_RE.match(value):
+        raise ValueError(
+            f"Unsafe actor name: {value!r}. "
+            "Actor names may only contain alphanumerics, '.', '-', '_', '[', ']'."
+        )
+    return value
+
+
+# ---------------------------------------------------------------------------
+# git push
+# ---------------------------------------------------------------------------
+
+
+def git_push_with_retry(
+    ig_root: str,
+    branch: str,
+    max_retries: int = 3,
+) -> bool:
+    """Pull-rebase and push, retrying on transient network failures.
+
+    Args:
+        ig_root:     Repository root directory.
+        branch:      Target remote branch name (must already be sanitized).
+        max_retries: Maximum number of push attempts before giving up.
+
+    Returns:
+        ``True`` if the push succeeded, ``False`` otherwise.
+    """
+    for attempt in range(1, max_retries + 1):
+        try:
+            subprocess.run(
+                ["git", "pull", "--rebase", "origin", branch],
+                cwd=ig_root,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            subprocess.run(
+                ["git", "push"],
+                cwd=ig_root,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            logger.info("Translation templates pushed successfully.")
+            return True
+        except subprocess.CalledProcessError as exc:
+            wait = attempt * 10
+            logger.warning(
+                f"Push attempt {attempt}/{max_retries} failed: "
+                f"{exc.stderr.strip() if exc.stderr else exc}"
+            )
+            if attempt < max_retries:
+                logger.info(f"Retrying in {wait}s …")
+                time.sleep(wait)
+    logger.error(f"Failed to push after {max_retries} attempts.")
+    return False
+
+
+# ---------------------------------------------------------------------------
 # Full pipeline orchestrator
 # ---------------------------------------------------------------------------
 
@@ -408,6 +556,10 @@ def run_publisher_and_commit_pot(
     tx: Optional[str] = None,
     skip_commit: bool = False,
     commit_message: Optional[str] = None,
+    run_publisher: bool = True,
+    push: bool = False,
+    branch: Optional[str] = None,
+    actor: Optional[str] = None,
 ) -> bool:
     """Run the IG Publisher and automatically commit any updated .pot files.
 
@@ -421,6 +573,7 @@ def run_publisher_and_commit_pot(
        are committed.
     3. Collect all new/modified ``.pot`` files from the output directories.
     4. Stage and commit them (unless *skip_commit* is ``True``).
+    5. Push to remote (only when *push* is ``True``).
 
     Args:
         ig_root:        Repository root directory.
@@ -430,30 +583,39 @@ def run_publisher_and_commit_pot(
                         reports what it found, but does not create a git commit.
         commit_message: Custom commit message; a sensible default is used when
                         ``None``.
+        run_publisher:  When ``False`` skip the publisher invocation and
+                        ``extract_translations.py`` — useful when the publisher
+                        already ran (e.g. inside a Docker container) and only
+                        commit/push is needed.
+        push:           When ``True`` pull-rebase and push after committing.
+                        Requires *branch* to be set.
+        branch:         Remote branch name for the push step.
+        actor:          GitHub actor name included in the default commit message.
 
     Returns:
         ``True`` on success, ``False`` if the publisher failed or a git
         operation failed.
     """
-    # 1. Locate publisher jar
-    jar_path = find_publisher_jar(ig_root, publisher_jar)
-    if not jar_path:
-        logger.error(
-            "FHIR IG Publisher jar not found. "
-            "Run _updatePublisher.sh to download it, or supply --publisher-jar."
-        )
-        return False
+    if run_publisher:
+        # 1. Locate publisher jar
+        jar_path = find_publisher_jar(ig_root, publisher_jar)
+        if not jar_path:
+            logger.error(
+                "FHIR IG Publisher jar not found. "
+                "Run _updatePublisher.sh to download it, or supply --publisher-jar."
+            )
+            return False
 
-    # 2. Run IG Publisher — abort on failure to avoid partial commits
-    if not run_ig_publisher(ig_root, jar_path, tx=tx):
-        logger.error(
-            "IG Publisher failed. "
-            "Aborting .pot file commit to avoid committing incomplete templates."
-        )
-        return False
+        # 2. Run IG Publisher — abort on failure to avoid partial commits
+        if not run_ig_publisher(ig_root, jar_path, tx=tx):
+            logger.error(
+                "IG Publisher failed. "
+                "Aborting .pot file commit to avoid committing incomplete templates."
+            )
+            return False
 
-    # 2b. Run extract_translations.py to regenerate .pot files from diagram sources
-    _run_extract_translations(ig_root)
+        # 2b. Run extract_translations.py to regenerate .pot files from diagram sources
+        _run_extract_translations(ig_root)
 
     if skip_commit:
         logger.info("--skip-commit specified; skipping .pot detection and commit.")
@@ -469,7 +631,7 @@ def run_publisher_and_commit_pot(
     all_pot_paths: List[str] = list(unique_paths.keys())
 
     if not all_pot_paths:
-        logger.info("No .pot files found after IG Publisher run; nothing to commit.")
+        logger.info("No .pot files to commit.")
         return True
 
     logger.info(
@@ -481,12 +643,26 @@ def run_publisher_and_commit_pot(
         timestamp = datetime.datetime.now(datetime.timezone.utc).strftime(
             "%Y-%m-%d %H:%M UTC"
         )
+        actor_suffix = f"\nTriggered by: {actor}" if actor else ""
         commit_message = (
             f"chore: update translation templates (.pot) [{timestamp}]\n\n"
-            "Regenerated by run_ig_publisher.py after IG Publisher run."
+            f"Regenerated via IG Publisher and extract_translations.py."
+            f"{actor_suffix}"
         )
 
-    return git_stage_and_commit(ig_root, all_pot_paths, commit_message)
+    if not git_stage_and_commit(ig_root, all_pot_paths, commit_message):
+        return False
+
+    # 5. Push (optional)
+    if push:
+        if not branch:
+            logger.error(
+                "--push requires --branch or the BRANCH_NAME environment variable."
+            )
+            return False
+        return git_push_with_retry(ig_root, branch)
+
+    return True
 
 
 # ---------------------------------------------------------------------------
@@ -522,7 +698,10 @@ def main() -> int:
         "--tx",
         default=None,
         metavar="URL",
-        help="Terminology server URL. Use 'n/a' to disable external lookups.",
+        help=(
+            "Terminology server URL. Use 'n/a' to disable external lookups. "
+            "Falls back to the TX_SERVER environment variable."
+        ),
     )
     parser.add_argument(
         "--skip-commit",
@@ -539,6 +718,43 @@ def main() -> int:
         metavar="MSG",
         help="Custom git commit message for the .pot file update commit.",
     )
+    parser.add_argument(
+        "--no-publisher",
+        action="store_true",
+        default=False,
+        help=(
+            "Skip the IG Publisher invocation and extract_translations.py. "
+            "Only detect, commit, and optionally push .pot files already present. "
+            "Useful when the publisher already ran in a separate step."
+        ),
+    )
+    parser.add_argument(
+        "--push",
+        action="store_true",
+        default=False,
+        help=(
+            "After committing, pull-rebase and push to remote. "
+            "Requires --branch or the BRANCH_NAME environment variable."
+        ),
+    )
+    parser.add_argument(
+        "--branch",
+        default=None,
+        metavar="BRANCH",
+        help=(
+            "Target git branch for the push step. "
+            "Falls back to the BRANCH_NAME environment variable."
+        ),
+    )
+    parser.add_argument(
+        "--actor",
+        default=None,
+        metavar="NAME",
+        help=(
+            "GitHub actor name included in the default commit message. "
+            "Falls back to the GITHUB_ACTOR environment variable."
+        ),
+    )
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -546,12 +762,25 @@ def main() -> int:
     ig_root = os.path.abspath(args.ig_root)
     logger.info(f"IG root: {ig_root}")
 
+    # Sanitize inputs — prefer explicit CLI args, fall back to environment variables.
+    try:
+        tx = _sanitize_tx(args.tx or os.environ.get("TX_SERVER"))
+        branch = _sanitize_branch(args.branch or os.environ.get("BRANCH_NAME"))
+        actor = _sanitize_actor(args.actor or os.environ.get("GITHUB_ACTOR"))
+    except ValueError as exc:
+        logger.error(str(exc))
+        return 1
+
     success = run_publisher_and_commit_pot(
         ig_root=ig_root,
         publisher_jar=args.publisher_jar,
-        tx=args.tx,
+        tx=tx,
         skip_commit=args.skip_commit,
         commit_message=args.commit_message,
+        run_publisher=not args.no_publisher,
+        push=args.push,
+        branch=branch,
+        actor=actor,
     )
 
     return 0 if success else 1

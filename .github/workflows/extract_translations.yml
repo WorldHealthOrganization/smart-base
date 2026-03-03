@@ -8,8 +8,10 @@
 # The IG output is NOT deployed to GitHub Pages — this workflow is translation-
 # extraction only and does not modify ghbuild.yml.
 #
-# Translation extraction logic lives in:
-#   input/scripts/extract_translations.py
+# All business logic (command construction, git add/commit/push with retry)
+# lives in input/scripts/run_ig_publisher.py.  All GitHub context values are
+# passed via environment variables — never interpolated directly into shell
+# commands — so that untrusted input cannot inject shell commands.
 #
 # Weblate component → .pot file mapping (aligned with weblate.yaml):
 #   fhir-resources      → input/fsh/translations/base.pot        (IG Publisher)
@@ -87,86 +89,48 @@ jobs:
           entrypoint: /bin/sh
           args: -c "mkdir -p /var/lib/.fhir && chown $(id -u):$(id -g) /var/lib/.fhir"
 
+      # TX_SERVER and GH_WORKSPACE are passed via env: so that the untrusted
+      # inputs.tx value is never interpolated directly into a shell command.
       - name: Run IG Publisher (no deployment)
+        env:
+          TX_SERVER: ${{ inputs.tx }}
+          GH_WORKSPACE: ${{ github.workspace }}
         run: |
-          CMD="java -Xmx6g -jar ./input-cache/publisher.jar publisher \
-            -ig . \
-            -package-cache-folder ./fhir-package-cache"
-
-          if [ -n "${{ inputs.tx }}" ]; then
-            CMD="$CMD -tx ${{ inputs.tx }}"
-          fi
-
-          echo "Running command: $CMD"
-
           docker run -d --name ig-run \
-            -v ${{ github.workspace }}:/work \
+            -v "${GH_WORKSPACE}:/work" \
             -w /work \
             hl7fhir/ig-publisher-base:latest \
             sleep infinity
 
           sleep 5
 
-          docker exec -w /work ig-run sh -c "$CMD"
+          # Install Python inside the container so run_ig_publisher.py can run there.
+          docker exec --user root ig-run sh -c \
+            'apt-get update -qq \
+             && apt-get install -y --no-install-recommends python3 python3-pip \
+             && pip3 install --quiet --break-system-packages "PyYAML>=6.0" lxml requests'
+
+          # TX_SERVER is forwarded to the container via -e; run_ig_publisher.py
+          # reads and sanitizes it from the environment — no shell interpolation.
+          docker exec -w /work -e TX_SERVER ig-run \
+            python3 input/scripts/run_ig_publisher.py --ig-root . --skip-commit
 
           docker rm -f ig-run
 
-      - name: Extract translation templates (.pot) from diagram sources
-        run: |
-          echo "Extracting translation templates (.pot) from diagram sources..."
-
-          # Check if extraction script exists locally, download if needed
-          if [ ! -f "input/scripts/extract_translations.py" ]; then
-            echo "Translation extraction script not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/extract_translations.py" \
-              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/extract_translations.py" \
-              2>/dev/null || echo "Failed to download extract_translations.py"
-          fi
-
-          if [ -f "input/scripts/extract_translations.py" ]; then
-            CANONICAL=$(python3 -c "import yaml; cfg=yaml.safe_load(open('sushi-config.yaml')); print(cfg.get('canonical',''))" 2>/dev/null || echo "")
-            python3 input/scripts/extract_translations.py \
-              --ig-root "." \
-              --canonical "${CANONICAL}"
-            echo "✅ Diagram translation templates extracted"
-          else
-            echo "⚠️ Translation extraction script not available, skipping"
-          fi
-
-      - name: Commit and push updated .pot files
-        env:
-          ACTOR: ${{ github.actor }}
+      - name: Configure git for commits
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add -- \
-            'input/fsh/translations/' \
-            'input/images-source/translations/' \
-            'input/images/translations/' \
-            'input/archimate/translations/' \
-            'input/diagrams/translations/' \
-            2>/dev/null || true
-
-          if git diff --cached --quiet; then
-            echo "No translation template changes to commit."
-            exit 0
-          fi
-
-          TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
-          MSG="chore: update translation templates (.pot) [${TIMESTAMP}]"$'\n\n'
-          MSG+="Regenerated via IG Publisher and extract_translations.py."$'\n'
-          MSG+="Triggered by: ${ACTOR}"
-          git commit -m "$MSG"
-
-          # Pull and rebase to handle any commits that landed since checkout,
-          # then push.  Retry up to 3 times.
-          for i in 1 2 3; do
-            git pull --rebase origin "${{ github.ref_name }}" && git push \
-              && { echo "✅ Translation templates committed and pushed"; exit 0; }
-            echo "Push attempt ${i} failed, retrying in $((i * 10)) seconds..."
-            sleep "$((i * 10))"
-          done
-          echo "⚠️ Failed to push translation templates after 3 attempts"
-          exit 1
+      # BRANCH_NAME and GITHUB_ACTOR are passed via env: so that these GitHub
+      # context values are never interpolated directly into shell commands.
+      # run_ig_publisher.py reads, validates, and uses them internally.
+      - name: Commit and push translation templates
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: |
+          python3 input/scripts/run_ig_publisher.py \
+            --ig-root . \
+            --no-publisher \
+            --push
