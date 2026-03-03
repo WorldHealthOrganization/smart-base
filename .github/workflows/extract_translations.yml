@@ -1,14 +1,13 @@
 # Extract translation template (.pot) files from diagram sources
 #
-# Runs the full IG Publisher build (via ghbuild.yml) so that all FHIR output
-# is available, then extracts Gettext .pot template files used by Weblate for
-# localisation as part of the DAK postprocessing step.
+# Scans diagram source files and extracts Gettext .pot template files used
+# by Weblate for localisation.  The FHIR IG Publisher build is NOT required
+# because extraction reads only the source files in the repository.
 #
 # Translation extraction logic lives in:
 #   input/scripts/extract_translations.py
 #
 # Weblate component → .pot file mapping (aligned with weblate.yaml):
-#   fhir-resources      → input/fsh/translations/base.pot
 #   plantuml-diagrams   → input/images-source/translations/diagrams.pot
 #   svg-images          → input/images/translations/images.pot
 #   archimate-models    → input/archimate/translations/models.pot
@@ -36,24 +35,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Run the full IG build (including IG Publisher) as a prerequisite —
-  # the IG Publisher must complete successfully before translations are extracted.
-  build:
-    uses: ./.github/workflows/ghbuild.yml
-    permissions:
-      contents: write        # required to deploy gh-pages
-      pull-requests: write   # required to comment on pull requests
-    with:
-      do_dak: true
-    secrets: inherit
-
-  # Extract .pot files and commit them back to the branch.
-  # This runs after the IG build completes (satisfying the requirement that
-  # the IG Publisher has run), then does a fresh checkout so the push is
-  # against the latest HEAD — avoiding the race-condition rejection.
+  # Extract .pot files directly from source files and commit them back to
+  # the branch.  No IG Publisher build is required — extraction only reads
+  # diagram source files already present in the repository.
   commit-translations:
     name: Extract and commit translation templates
-    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -118,7 +104,7 @@ jobs:
 
           TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
           MSG="chore: update translation templates (.pot) [${TIMESTAMP}]"$'\n\n'
-          MSG+="Regenerated via extract_translations.py after IG Publisher run."$'\n'
+          MSG+="Regenerated via extract_translations.py from diagram sources."$'\n'
           MSG+="Triggered by: ${ACTOR}"
           git commit -m "$MSG"
 
