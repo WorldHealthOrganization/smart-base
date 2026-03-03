@@ -96,6 +96,7 @@ jobs:
             echo "⚠️ Translation extraction script not available, skipping"
           fi
 
+
       - name: Commit and push updated .pot files
         env:
           ACTOR: ${{ github.actor }}
@@ -132,3 +133,4 @@ jobs:
           done
           echo "⚠️ Failed to push translation templates after 3 attempts"
           exit 1
+

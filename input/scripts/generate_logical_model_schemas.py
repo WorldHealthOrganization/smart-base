@@ -277,7 +277,12 @@ class StructureDefinitionParser:
 
 class SchemaGenerator:
     """Generates JSON schemas from parsed logical models."""
-    
+
+    # Name of the FHIR Logical Model that serves as the base for all generated
+    # logical model schemas.  The schema produced for this model is referenced
+    # by every other generated schema via ``allOf``.
+    FHIR_SCHEMA_BASE_NAME = "FHIRSchemaBase"
+
     def __init__(self, logger: logging.Logger, canonical_base: str = "http://smart.who.int/base"):
         self.logger = logger
         self.canonical_base = canonical_base
@@ -339,23 +344,87 @@ class SchemaGenerator:
         }
     
     def generate_schema(self, logical_model: Dict[str, Any]) -> Dict[str, Any]:
-        """Generate JSON schema for a logical model."""
+        """Generate JSON schema for a logical model.
+
+        For the :attr:`FHIR_SCHEMA_BASE_NAME` model this method generates the
+        shared base schema that defines typed properties for the FHIR / JSON-LD
+        metadata fields (``resourceDefinition``, ``fhir:parent``, etc.) common
+        to all SMART Guidelines logical models.
+
+        For every *other* logical model the metadata fields are expressed as
+        ``const``-pinned property overrides inside an ``allOf`` composition that
+        references the generated
+        ``StructureDefinition-FHIRSchemaBase.schema.json`` file.  Root-level
+        JSON Schema annotations are NOT added to derived schemas.
+        """
         # Use the URL from the StructureDefinition if available, otherwise construct one
         model_url = logical_model.get('url', '')
         model_name = logical_model['name']
         
-        if model_url:
-            # Extract base URL from canonical URL and use StructureDefinition-{name} pattern
-            # e.g., http://smart.who.int/base/StructureDefinition/Animal -> http://smart.who.int/base/StructureDefinition-Animal.schema.json
-            if '/StructureDefinition/' in model_url:
-                # Use the schema base URL (GitHub Pages) instead of the canonical URL for accessibility
-                schema_id = f"{self.schema_base_url}/StructureDefinition-{model_name}.schema.json"
-            else:
-                # Fallback if URL doesn't follow expected pattern
-                schema_id = f"{self.schema_base_url}/StructureDefinition-{model_name}.schema.json"
-        else:
-            schema_id = f"{self.schema_base_url}/StructureDefinition-{model_name}.schema.json"
-        
+        schema_id = f"{self.schema_base_url}/StructureDefinition-{model_name}.schema.json"
+
+        is_base = (model_name == self.FHIR_SCHEMA_BASE_NAME)
+
+        # ------------------------------------------------------------------ #
+        # FHIRSchemaBase: generate the shared base schema with typed metadata #
+        # properties rather than const-pinning resourceType to a specific id. #
+        # ------------------------------------------------------------------ #
+        if is_base:
+            schema = {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "$id": schema_id,
+                "title": logical_model.get('title', logical_model['name']),
+                "description": logical_model.get(
+                    'description',
+                    "Base schema providing metadata properties shared by all "
+                    "SMART Guidelines logical model schemas."
+                ),
+                "type": "object",
+                "properties": {
+                    "resourceType": {
+                        "type": "string",
+                        "description": "Identifier for the logical model resource type",
+                    },
+                    "resourceDefinition": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": (
+                            "Canonical URI of the FHIR StructureDefinition "
+                            "that defines this logical model."
+                        ),
+                    },
+                    "fhir:parent": {
+                        "type": "string",
+                        "description": (
+                            "Parent FHIR base type that this logical model is "
+                            "derived from."
+                        ),
+                    },
+                    "jsonld:valuesets": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": (
+                            "ValueSet identifiers used in this logical model "
+                            "for JSON-LD context generation."
+                        ),
+                    },
+                    "jsonld:contextTemplate": {
+                        "type": "object",
+                        "description": "JSON-LD context template for this logical model.",
+                    },
+                },
+                "required": ["resourceType"],
+            }
+            # Properties for FHIRSchemaBase are all hardcoded above.
+            # The FSH elements use valid FHIR names; the generated schema uses
+            # the canonical JSON-LD property names (fhir:parent, etc.) that are
+            # already defined in the hardcoded block, so skip element processing.
+            return schema
+
+        # ------------------------------------------------------------------ #
+        # All other logical models: derive from FHIRSchemaBase via allOf.    #
+        # ------------------------------------------------------------------ #
+
         # Collect ValueSets used in this logical model for JSON-LD context
         valuesets_used = set()
         for element in logical_model['elements']:
@@ -429,21 +498,41 @@ class SchemaGenerator:
                 "examples": [f"LogicalModel-{model_name}"]
             }
         
-        # Add metadata including canonical URI using resourceDefinition
-        schema["resourceDefinition"] = model_url if model_url else f"{self.canonical_base}/StructureDefinition/{model_name}"
-        
-        if logical_model.get('parent'):
-            schema["fhir:parent"] = logical_model['parent']
-        
-        # Add JSON-LD support metadata
-        if valuesets_used:
-            schema["jsonld:valuesets"] = list(valuesets_used)
-            schema["jsonld:contextTemplate"] = jsonld_context
-        
         # Process elements
         for element in logical_model['elements']:
             self.add_element_to_schema(schema, element)
-        
+
+        # Build allOf composition: inherit from FHIRSchemaBase and pin the
+        # per-model FHIR metadata values using const.
+        resource_def = model_url if model_url else f"{self.canonical_base}/StructureDefinition/{model_name}"
+        specific_props: Dict[str, Any] = {
+            "resourceDefinition": {
+                "type": "string",
+                "format": "uri",
+                "const": resource_def,
+            },
+        }
+        if logical_model.get('parent'):
+            specific_props["fhir:parent"] = {
+                "type": "string",
+                "const": logical_model['parent'],
+            }
+        if valuesets_used:
+            specific_props["jsonld:valuesets"] = {
+                "type": "array",
+                "items": {"type": "string"},
+                "const": sorted(valuesets_used),
+            }
+            specific_props["jsonld:contextTemplate"] = {
+                "type": "object",
+                "const": jsonld_context,
+            }
+
+        schema["allOf"] = [
+            {"$ref": f"./StructureDefinition-{self.FHIR_SCHEMA_BASE_NAME}.schema.json"},
+            {"type": "object", "properties": specific_props},
+        ]
+
         return schema
     
     def add_element_to_schema(self, schema: Dict[str, Any], element: Dict[str, Any]):
