@@ -7,20 +7,8 @@ Description: "Base logical model providing the common schema metadata interface 
 * resourceType 0..1 string "Resource Type" "The FHIR resource type identifying this logical model resource"
 * resourceDefinition 0..1 uri "Resource Definition" "Canonical URI of the FHIR StructureDefinition that defines this logical model"
 * fhirParent 0..1 string "FHIR Parent" "The FHIR parent base type from which this logical model is derived (serialised as 'fhir:parent' in JSON)"
-* fhirParent ^extension[+].url = "http://smart.who.int/base/StructureDefinition/JsonSchemaName"
-* fhirParent ^extension[=].valueString = "fhir:parent"
+* fhirParent ^alias[0] = "fhir:parent"
 * jsonldValuesets 0..* uri "JSON-LD Value Sets" "ValueSet identifiers used in this logical model for JSON-LD context generation (serialised as 'jsonld:valuesets' in JSON)"
-* jsonldValuesets ^extension[+].url = "http://smart.who.int/base/StructureDefinition/JsonSchemaName"
-* jsonldValuesets ^extension[=].valueString = "jsonld:valuesets"
+* jsonldValuesets ^alias[0] = "jsonld:valuesets"
 * jsonldContextTemplate 0..1 string "JSON-LD Context Template" "JSON-LD context template for this logical model (serialised as 'jsonld:contextTemplate' in JSON)"
-* jsonldContextTemplate ^extension[+].url = "http://smart.who.int/base/StructureDefinition/JsonSchemaName"
-* jsonldContextTemplate ^extension[=].valueString = "jsonld:contextTemplate"
-
-Mapping: FHIRSchemaBaseToJsonSchemaNames
-Source: FHIRSchemaBase
-Target: "https://json-schema.org"
-Title: "JSON Schema Property Names"
-Description: "Maps FHIR element names to the JSON Schema property names used in the generated schema. Elements with colon-prefixed property names (e.g. fhir:parent, jsonld:valuesets) must use FHIR-conformant identifiers in the logical model because FHIR element names cannot contain colons."
-* fhirParent -> "fhir:parent"
-* jsonldValuesets -> "jsonld:valuesets"
-* jsonldContextTemplate -> "jsonld:contextTemplate"
+* jsonldContextTemplate ^alias[0] = "jsonld:contextTemplate"

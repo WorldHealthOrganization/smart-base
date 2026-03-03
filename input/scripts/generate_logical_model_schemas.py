@@ -239,12 +239,11 @@ class StructureDefinitionParser:
         if element_name.startswith('extension'):
             return None
         
-        # Extract JsonSchemaName extension value (maps FHIR name → JSON schema property name)
-        json_schema_name = element_name
-        for ext in element.get('extension', []):
-            if ext.get('url', '').endswith('/JsonSchemaName'):
-                json_schema_name = ext.get('valueString', element_name)
-                break
+        # Extract the JSON Schema property name for this element.
+        # First check ElementDefinition.alias[0] (set via ^alias[0] in FSH — visible on the
+        # Detailed Descriptions tab of the IG page); fall back to the element name.
+        aliases = element.get('alias', [])
+        json_schema_name = aliases[0] if aliases else element_name
 
         parsed_element = {
             'name': element_name,
@@ -317,11 +316,11 @@ class SchemaGenerator:
             self.schema_base_url = canonical_base
         
         # Maps FHIRSchemaBase FHIR element names to their JSON Schema property names.
-        # Populated when the FHIRSchemaBase model is processed (via JsonSchemaName extension);
+        # Populated when the FHIRSchemaBase model is processed (via ElementDefinition.alias[0]);
         # pre-seeded with canonical defaults so derived models that happen to be processed
         # before FHIRSchemaBase still produce correct property names.  The values here must
-        # stay in sync with the JsonSchemaName extension declarations in FHIRSchemaBase.fsh;
-        # they are overwritten at runtime by the extension values when FHIRSchemaBase is
+        # stay in sync with the ^alias[0] declarations in FHIRSchemaBase.fsh;
+        # they are overwritten at runtime by the alias values when FHIRSchemaBase is
         # processed, so a mismatch would only persist if FHIRSchemaBase is never parsed.
         self._base_element_name_map: Dict[str, str] = {
             'fhirParent': 'fhir:parent',
@@ -391,7 +390,7 @@ class SchemaGenerator:
         # properties rather than const-pinning resourceType to a specific id. #
         # ------------------------------------------------------------------ #
         if is_base:
-            # Build the element name map from JsonSchemaName extensions on each element.
+            # Build the element name map from alias[0] values on each element.
             # This updates the pre-seeded defaults with any values read from the model.
             for elem in logical_model['elements']:
                 if elem.get('json_schema_name') and elem['json_schema_name'] != elem['name']:
@@ -448,8 +447,8 @@ class SchemaGenerator:
                 "required": ["resourceType"],
             }
             # Property names for FHIRSchemaBase are resolved above from the
-            # JsonSchemaName extension values declared in FHIRSchemaBase.fsh.
-            # The FSH elements use valid FHIR names (no colons); the extension
+            # alias[0] values declared in FHIRSchemaBase.fsh.
+            # The FSH elements use valid FHIR names (no colons); the alias
             # maps them to their canonical JSON / JSON-LD property names.
             return schema
 
@@ -537,7 +536,7 @@ class SchemaGenerator:
         # Build allOf composition: inherit from FHIRSchemaBase and pin the
         # per-model FHIR metadata values using const.
         # Property names are resolved from the base element name map (populated
-        # from the JsonSchemaName extension on FHIRSchemaBase elements).
+        # from alias[0] values on FHIRSchemaBase elements).
         resource_def = model_url if model_url else f"{self.canonical_base}/StructureDefinition/{model_name}"
         specific_props: Dict[str, Any] = {
             "resourceDefinition": {
@@ -575,7 +574,7 @@ class SchemaGenerator:
     def add_element_to_schema(self, schema: Dict[str, Any], element: Dict[str, Any]):
         """Add an element to the JSON schema."""
         element_name = element['name']
-        # Use the JsonSchemaName extension value as the JSON property name when present
+        # Use alias[0] as the JSON property name when present (set via ^alias in FSH)
         json_property_name = element.get('json_schema_name', element_name)
         cardinality = element['cardinality']
         element_type = element['type']
