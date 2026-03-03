@@ -396,44 +396,6 @@ jobs:
           # and must be able to write schema files and modify HTML pages.
           sudo chown -R "$USER:$USER" ./output || true
 
-      - name: DAK Postprocessing - Extract translation templates (.pot)
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        run: |
-          echo "Extracting translation templates (.pot) from diagram sources..."
-
-          # Check if extraction script exists locally, download if needed
-          if [ ! -f "input/scripts/extract_translations.py" ]; then
-            echo "Translation extraction script not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/extract_translations.py" \
-              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/extract_translations.py" \
-              2>/dev/null || echo "Failed to download extract_translations.py"
-          fi
-
-          # Run extraction if script is available
-          if [ -f "input/scripts/extract_translations.py" ]; then
-            CANONICAL=$(python3 -c "import yaml; cfg=yaml.safe_load(open('sushi-config.yaml')); print(cfg.get('canonical',''))" 2>/dev/null || echo "")
-            python3 input/scripts/extract_translations.py \
-              --ig-root "." \
-              --canonical "${CANONICAL}"
-            echo "✅ Translation templates extracted"
-          else
-            echo "⚠️ Translation extraction script not available, skipping"
-          fi
-
-      - name: Upload translation templates artifact
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: translation-templates
-          path: |
-            input/fsh/translations/*.pot
-            input/images-source/translations/*.pot
-            input/images/translations/*.pot
-            input/archimate/translations/*.pot
-            input/diagrams/translations/*.pot
-          if-no-files-found: ignore
-
       - name: DAK Postprocessing - Generate JSON Schemas
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
