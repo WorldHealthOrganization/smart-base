@@ -122,6 +122,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+
       # BRANCH_NAME and GITHUB_ACTOR are passed via env: so that these GitHub
       # context values are never interpolated directly into shell commands.
       # run_ig_publisher.py reads, validates, and uses them internally.
@@ -134,3 +135,4 @@ jobs:
             --ig-root . \
             --no-publisher \
             --push
+

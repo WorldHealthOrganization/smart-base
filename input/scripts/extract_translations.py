@@ -327,13 +327,21 @@ def extract_plantuml(file_path: str, canonical: str) -> List[TranslationEntry]:
 # SVG namespace
 _SVG_NS = "http://www.w3.org/2000/svg"
 
-# Text-bearing SVG element tags (with/without namespace)
+# XHTML namespace (used in SVG <foreignObject> content)
+_XHTML_NS = "http://www.w3.org/1999/xhtml"
+
+# Text-bearing SVG element tags (with/without namespace).
+# Includes XHTML elements that appear inside <foreignObject> blocks.
 _SVG_TEXT_TAGS = {
     f"{{{_SVG_NS}}}text",
     f"{{{_SVG_NS}}}tspan",
     f"{{{_SVG_NS}}}title",
     f"{{{_SVG_NS}}}desc",
     "text", "tspan", "title", "desc",
+    f"{{{_XHTML_NS}}}div",
+    f"{{{_XHTML_NS}}}span",
+    f"{{{_XHTML_NS}}}p",
+    "div", "span", "p",
 }
 
 
