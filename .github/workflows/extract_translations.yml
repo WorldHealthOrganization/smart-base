@@ -112,31 +112,6 @@ jobs:
             --ig-root    "${INPUT_IG_ROOT:-.}" \
             --canonical  "${CANONICAL_URL}"
 
-      # ── Commit any updated .pot files back to the branch ────────────────
-      - name: Commit updated translation templates
-        if: steps.dak_check.outputs.DAK_ENABLED == 'true'
-        env:
-          ACTOR: ${{ github.actor }}
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Stage only .pot translation template files
-          git add -- \
-            'input/fsh/translations/' \
-            'input/images-source/translations/' \
-            'input/images/translations/' \
-            'input/archimate/translations/' \
-            'input/diagrams/translations/' \
-            2>/dev/null || true
-
-          if git diff --cached --quiet; then
-            echo "No translation template changes to commit."
-          else
-            TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
-            MSG="chore: update translation templates (.pot) [${TIMESTAMP}]"$'\n\n'
-            MSG+="Regenerated via extract_translations.py by GitHub Actions."$'\n'
-            MSG+="Triggered by: ${ACTOR}"
-            git commit -m "$MSG"
-            git push
-          fi
+      # .pot files are listed in .gitignore and are intentionally not committed.
+      # Translation templates are generated at build time and consumed by
+      # Weblate directly from the running workflow artifacts.
