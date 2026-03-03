@@ -16,3 +16,4 @@ Alias: $CPGCR = http://hl7.org/fhir/uv/cpg/StructureDefinition/cpg-communication
 Alias: $CPGKC = http://hl7.org/fhir/uv/cpg/StructureDefinition/cpg-knowledgeCapability
 Alias: $SGPersonaTypes = http://smart.who.int/base/CodeSystem/SGPersonaTypes
 Alias: $ISCO08 = http://www.ilo.org/public/english/bureau/stat/isco/isco08/
+Alias: $JsonSchemaName = http://smart.who.int/base/StructureDefinition/JsonSchemaName
