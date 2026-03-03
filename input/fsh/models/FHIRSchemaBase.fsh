@@ -7,15 +7,13 @@ Description: "Base logical model providing the common schema metadata interface 
 * resourceType 0..1 string "Resource Type" "The FHIR resource type identifying this logical model resource"
 * resourceDefinition 0..1 uri "Resource Definition" "Canonical URI of the FHIR StructureDefinition that defines this logical model"
 * fhirParent 0..1 string "FHIR Parent" "The FHIR parent base type from which this logical model is derived (serialised as 'fhir:parent' in JSON)"
-* jsonldValuesets 0..* uri "JSON-LD Value Sets" "ValueSet identifiers used in this logical model for JSON-LD context generation (serialised as 'jsonld:valuesets' in JSON)"
-* jsonldContextTemplate 0..1 string "JSON-LD Context Template" "JSON-LD context template for this logical model (serialised as 'jsonld:contextTemplate' in JSON)"
+* jsonldContext 0..1 string "JSON-LD Context" "JSON-LD context for this logical model (serialised as 'jsonld:context' in JSON)"
 
 Mapping: FHIRSchemaBaseToJsonSchemaPropertyNames
 Id: json-schema-property-names
 Source: FHIRSchemaBase
 Target: "https://json-schema.org"
 Title: "JSON Schema Property Names"
-Description: "Maps FHIR logical model element names to their JSON Schema property names. FHIR element names cannot contain colons, so elements such as fhirParent use FHIR-conformant identifiers in the logical model that differ from their JSON property names (e.g. fhir:parent, jsonld:valuesets, jsonld:contextTemplate)."
+Description: "Maps FHIR logical model element names to their JSON Schema property names. FHIR element names cannot contain colons, so elements such as fhirParent use FHIR-conformant identifiers in the logical model that differ from their JSON property names (e.g. fhir:parent, jsonld:context)."
 * fhirParent -> "fhir:parent"
-* jsonldValuesets -> "jsonld:valuesets"
-* jsonldContextTemplate -> "jsonld:contextTemplate"
+* jsonldContext -> "jsonld:context"

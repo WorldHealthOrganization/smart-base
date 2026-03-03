@@ -329,8 +329,7 @@ class SchemaGenerator:
         # processed, so a mismatch would only persist if FHIRSchemaBase is never parsed.
         self._base_element_name_map: Dict[str, str] = {
             'fhirParent': 'fhir:parent',
-            'jsonldValuesets': 'jsonld:valuesets',
-            'jsonldContextTemplate': 'jsonld:contextTemplate',
+            'jsonldContext': 'jsonld:context',
         }
 
         # FHIR datatype to JSON Schema type mapping
@@ -403,8 +402,7 @@ class SchemaGenerator:
 
             # Resolve property names from the map (falls back to FHIR element name)
             fhir_parent_prop = self._base_element_name_map.get('fhirParent', 'fhirParent')
-            jsonld_valuesets_prop = self._base_element_name_map.get('jsonldValuesets', 'jsonldValuesets')
-            jsonld_ctx_template_prop = self._base_element_name_map.get('jsonldContextTemplate', 'jsonldContextTemplate')
+            jsonld_ctx_prop = self._base_element_name_map.get('jsonldContext', 'jsonldContext')
 
             schema = {
                 "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -436,17 +434,9 @@ class SchemaGenerator:
                             "derived from."
                         ),
                     },
-                    jsonld_valuesets_prop: {
-                        "type": "array",
-                        "items": {"type": "string"},
-                        "description": (
-                            "ValueSet identifiers used in this logical model "
-                            "for JSON-LD context generation."
-                        ),
-                    },
-                    jsonld_ctx_template_prop: {
+                    jsonld_ctx_prop: {
                         "type": "object",
-                        "description": "JSON-LD context template for this logical model.",
+                        "description": "JSON-LD context for this logical model.",
                     },
                 },
                 "required": ["resourceType"],
@@ -551,20 +541,14 @@ class SchemaGenerator:
             },
         }
         fhir_parent_prop = self._base_element_name_map.get('fhirParent', 'fhirParent')
-        jsonld_valuesets_prop = self._base_element_name_map.get('jsonldValuesets', 'jsonldValuesets')
-        jsonld_ctx_template_prop = self._base_element_name_map.get('jsonldContextTemplate', 'jsonldContextTemplate')
+        jsonld_ctx_prop = self._base_element_name_map.get('jsonldContext', 'jsonldContext')
         if logical_model.get('parent'):
             specific_props[fhir_parent_prop] = {
                 "type": "string",
                 "const": logical_model['parent'],
             }
         if valuesets_used:
-            specific_props[jsonld_valuesets_prop] = {
-                "type": "array",
-                "items": {"type": "string"},
-                "const": sorted(valuesets_used),
-            }
-            specific_props[jsonld_ctx_template_prop] = {
+            specific_props[jsonld_ctx_prop] = {
                 "type": "object",
                 "const": jsonld_context,
             }
