@@ -39,12 +39,75 @@ jobs:
   # Run the full IG build (including IG Publisher) so that all generated
   # FHIR output is available before translations are extracted.
   # Translation extraction happens as a DAK postprocessing step inside
-  # ghbuild.yml after the IG Publisher completes.
+  # ghbuild.yml after the IG Publisher completes, and .pot files are
+  # uploaded as a workflow artifact for the commit job below.
   build:
     uses: ./.github/workflows/ghbuild.yml
     permissions:
-      contents: write        # required to push .pot files and deploy gh-pages
+      contents: write        # required to deploy gh-pages
       pull-requests: write   # required to comment on pull requests
     with:
       do_dak: true
     secrets: inherit
+
+  # Commit the extracted .pot files back to the branch.
+  # Running this as a separate job (after the long IG build) avoids the
+  # push-rejection race condition that occurred when the commit was made
+  # inside the build job minutes after checkout.
+  commit-translations:
+    name: Commit translation templates
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.ref }}
+
+      - name: Download translation templates artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: translation-templates
+          path: .
+        continue-on-error: true   # artifact may not exist if DAK was disabled or no .pot files changed
+
+      - name: Commit and push updated .pot files
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -- \
+            'input/fsh/translations/' \
+            'input/images-source/translations/' \
+            'input/images/translations/' \
+            'input/archimate/translations/' \
+            'input/diagrams/translations/' \
+            2>/dev/null || true
+
+          if git diff --cached --quiet; then
+            echo "No translation template changes to commit."
+            exit 0
+          fi
+
+          TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
+          MSG="chore: update translation templates (.pot) [${TIMESTAMP}]"$'\n\n'
+          MSG+="Regenerated via extract_translations.py after IG Publisher run."$'\n'
+          MSG+="Triggered by: ${ACTOR}"
+          git commit -m "$MSG"
+
+          # Pull and rebase to handle any commits that landed since checkout,
+          # then push.  Retry up to 3 times.
+          for i in 1 2 3; do
+            git pull --rebase origin "${{ github.ref_name }}" && git push \
+              && { echo "✅ Translation templates committed and pushed"; exit 0; }
+            echo "Push attempt ${i} failed, retrying in $((i * 10)) seconds..."
+            sleep "$((i * 10))"
+          done
+          echo "⚠️ Failed to push translation templates after 3 attempts"
+          exit 1

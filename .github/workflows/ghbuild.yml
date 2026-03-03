@@ -396,10 +396,8 @@ jobs:
           # and must be able to write schema files and modify HTML pages.
           sudo chown -R "$USER:$USER" ./output || true
 
-      - name: DAK Postprocessing - Extract and commit translation templates (.pot)
+      - name: DAK Postprocessing - Extract translation templates (.pot)
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        env:
-          ACTOR: ${{ github.actor }}
         run: |
           echo "Extracting translation templates (.pot) from diagram sources..."
 
@@ -423,29 +421,18 @@ jobs:
             echo "⚠️ Translation extraction script not available, skipping"
           fi
 
-          # Commit any updated .pot files back to the branch
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git add -- \
-            'input/fsh/translations/' \
-            'input/images-source/translations/' \
-            'input/images/translations/' \
-            'input/archimate/translations/' \
-            'input/diagrams/translations/' \
-            2>/dev/null || true
-
-          if git diff --cached --quiet; then
-            echo "No translation template changes to commit."
-          else
-            TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
-            MSG="chore: update translation templates (.pot) [${TIMESTAMP}]"$'\n\n'
-            MSG+="Regenerated via extract_translations.py after IG Publisher run."$'\n'
-            MSG+="Triggered by: ${ACTOR}"
-            git commit -m "$MSG"
-            git push
-            echo "✅ Translation templates committed and pushed"
-          fi
+      - name: Upload translation templates artifact
+        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: translation-templates
+          path: |
+            input/fsh/translations/*.pot
+            input/images-source/translations/*.pot
+            input/images/translations/*.pot
+            input/archimate/translations/*.pot
+            input/diagrams/translations/*.pot
+          if-no-files-found: ignore
 
       - name: DAK Postprocessing - Generate JSON Schemas
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
