@@ -1,0 +1,100 @@
+# Prune Deployed Branches
+# Removes one or all feature-branch previews from the gh-pages `branches/` directory
+# and squashes the gh-pages commit history to keep the repository small.
+#
+# Dispatch from the GitHub Actions UI:
+#   Actions → Prune Deployed Branches → Run workflow
+#
+# NOTE: GitHub Actions workflow_dispatch supports only statically-defined choice
+# lists; dynamic population of a dropdown is not natively available.
+# As the best practical alternative, the Python script (input/scripts/prune_branches.py)
+# lists every available deployed branch at the start of each run so the operator
+# can see the full set of valid names before re-running with a specific target.
+#
+# Injection protection:
+#   GitHub Actions inputs are passed to the Python script exclusively via
+#   environment variables set in the ``env:`` block of the run step.
+#   They are NEVER interpolated into the shell command string, so shell
+#   metacharacters in those values cannot execute arbitrary commands.
+#   The Python script performs its own strict validation and runs all git
+#   operations via subprocess with explicit argument lists (shell=False).
+
+name: Prune Deployed Branches
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: >
+          Directory name of the deployed branch to remove (e.g. my-feature-branch).
+          This matches the last path component used when the branch was deployed
+          (feature/my-branch is stored as my-branch under branches/).
+          Leave empty to remove ALL entries under branches/.
+          Run the workflow once to see the full list of deployed branch names in
+          the job log, then re-run with the specific name you want to prune.
+          Ignored when squash_only is true.
+        required: false
+        type: string
+        default: ''
+      squash_only:
+        description: >
+          When true, squash the gh-pages commit history without deleting any
+          branch previews. target_branch is ignored in this mode.
+        required: false
+        type: boolean
+        default: false
+      confirm:
+        description: >
+          Type CONFIRM to proceed.
+          Required as a safety gate before any files are deleted.
+        required: true
+        type: string
+        default: ''
+
+permissions:
+  contents: write   # needed to force-push the squashed gh-pages branch
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Fetch the prune script from the default branch ──────────────────────
+      # Sparse-checkout retrieves only the single script file, keeping this step
+      # fast regardless of how large the default branch is.
+      - name: Checkout prune script (default branch)
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            input/scripts/prune_branches.py
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+          path: scripts-source
+
+      # ── Fetch the gh-pages content to be pruned ─────────────────────────────
+      # fetch-depth: 1 is sufficient; the orphan-squash in the Python script
+      # replaces the entire history with a single new commit.
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          fetch-depth: 1
+          path: gh-pages-content
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # ── Run the prune script ─────────────────────────────────────────────────
+      # Inputs are passed via environment variables (not interpolated into the
+      # shell command string) so that shell metacharacters in the workflow inputs
+      # cannot be executed by the shell.  All validation, deletion, and git
+      # operations are handled inside the Python script.
+      - name: Run prune script
+        working-directory: gh-pages-content
+        env:
+          PRUNE_CONFIRM: ${{ github.event.inputs.confirm }}
+          PRUNE_SQUASH_ONLY: ${{ github.event.inputs.squash_only }}
+          PRUNE_TARGET_BRANCH: ${{ github.event.inputs.target_branch }}
+        run: python3 ../scripts-source/input/scripts/prune_branches.py
