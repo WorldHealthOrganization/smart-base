@@ -24,10 +24,85 @@ import os
 import sys
 import logging
 import re
+import html as html_module
 from typing import Dict, List, Optional, Any, Tuple, Union
 from pathlib import Path
 from urllib.parse import urlparse
 from datetime import datetime
+
+# Minimum code-block content size (in characters) to trigger dynamic source loading.
+# Static pre-formatted blocks smaller than this threshold are left as-is to avoid
+# replacing small illustrative code snippets with fetch-based loaders.
+_MIN_SOURCE_SIZE_FOR_DYNAMIC_LOADING = 500
+
+# Fallback FHIR R4 property name → documentation URL mapping used when the IG Publisher
+# does not embed <a href> links in the JSON format pages.  Covers the most common
+# top-level properties of StructureDefinition, ElementDefinition, and base Resource.
+# The extracted link_map (when non-empty) takes precedence over these defaults.
+_FHIR_R4_JSON_FALLBACK_LINKS: Dict[str, str] = {
+    # ---- Resource base (all FHIR R4 resources) ----
+    'resourceType':     'http://hl7.org/fhir/R4/resource.html#Resource.resourceType',
+    'id':               'http://hl7.org/fhir/R4/datatypes.html#id',
+    'meta':             'http://hl7.org/fhir/R4/resource.html#Resource.meta',
+    'implicitRules':    'http://hl7.org/fhir/R4/resource.html#Resource.implicitRules',
+    'language':         'http://hl7.org/fhir/R4/resource.html#Resource.language',
+    # ---- DomainResource ----
+    'text':             'http://hl7.org/fhir/R4/domainresource.html#DomainResource.text',
+    'contained':        'http://hl7.org/fhir/R4/domainresource.html#DomainResource.contained',
+    'extension':        'http://hl7.org/fhir/R4/domainresource.html#DomainResource.extension',
+    'modifierExtension':'http://hl7.org/fhir/R4/domainresource.html#DomainResource.modifierExtension',
+    # ---- StructureDefinition ----
+    'url':              'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.url',
+    'identifier':       'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.identifier',
+    'version':          'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.version',
+    'name':             'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.name',
+    'title':            'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.title',
+    'status':           'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.status',
+    'experimental':     'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.experimental',
+    'date':             'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.date',
+    'publisher':        'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.publisher',
+    'contact':          'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.contact',
+    'description':      'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.description',
+    'useContext':       'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.useContext',
+    'jurisdiction':     'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.jurisdiction',
+    'purpose':          'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.purpose',
+    'copyright':        'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.copyright',
+    'keyword':          'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.keyword',
+    'fhirVersion':      'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.fhirVersion',
+    'kind':             'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.kind',
+    'abstract':         'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.abstract',
+    'type':             'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.type',
+    'baseDefinition':   'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.baseDefinition',
+    'derivation':       'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.derivation',
+    'snapshot':         'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.snapshot',
+    'differential':     'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.differential',
+    'element':          'http://hl7.org/fhir/R4/elementdefinition.html',
+    # ---- ElementDefinition ----
+    'path':             'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.path',
+    'sliceName':        'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.sliceName',
+    'min':              'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.min',
+    'max':              'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.max',
+    'base':             'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.base',
+    'short':            'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.short',
+    'definition':       'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.definition',
+    'comment':          'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.comment',
+    'requirements':     'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.requirements',
+    'alias':            'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.alias',
+    'mustSupport':      'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.mustSupport',
+    'isModifier':       'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.isModifier',
+    'isModifierReason': 'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.isModifierReason',
+    'isSummary':        'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.isSummary',
+    'binding':          'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.binding',
+    'constraint':       'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.constraint',
+    'mapping':          'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.mapping',
+    # ---- Common FHIR datatypes ----
+    'system':           'http://hl7.org/fhir/R4/datatypes.html#Coding.system',
+    'code':             'http://hl7.org/fhir/R4/datatypes.html#code',
+    'display':          'http://hl7.org/fhir/R4/datatypes.html#Coding.display',
+    'value':            'http://hl7.org/fhir/R4/datatypes.html#id',
+    'valueSet':         'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.binding.valueSet',
+    'strength':         'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.binding.strength',
+}
 
 
 def setup_logging() -> logging.Logger:
@@ -983,14 +1058,12 @@ class SchemaDocumentationRenderer:
                 html_content += """    </div>
 """
             
-            # Show full schema as collapsible JSON
-            schema_json_str = json.dumps(schema_data, indent=2)
+            # Link to the schema file rather than embedding pre-formatted JSON.
+            # The JSON Schema tab (for logical model pages) loads the file lazily;
+            # here we provide a direct download link for other page types.
             html_content += f"""
     <div class="schema-json">
-        <details>
-            <summary>Full Schema (JSON)</summary>
-            <pre><code class="language-json">{schema_json_str}</code></pre>
-        </details>
+        <p><a href="{schema_filename}" target="_blank" class="schema-link">&#128196; Download full JSON schema ({schema_filename})</a></p>
     </div>
 </div>
 
@@ -1040,32 +1113,22 @@ class SchemaDocumentationRenderer:
     color: #6c757d;
 }}
 
-details {{
-    margin: 1rem 0;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
-    padding: 0;
-}}
-
-details summary {{
-    background: #f8f9fa;
-    padding: 0.75rem;
-    cursor: pointer;
-    border-bottom: 1px solid #dee2e6;
+.schema-link {{
+    display: inline-block;
+    background-color: #17a2b8;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 0.8rem;
     font-weight: 500;
+    transition: background-color 0.2s ease;
 }}
 
-details[open] summary {{
-    border-bottom: 1px solid #dee2e6;
-}}
-
-details pre {{
-    margin: 1rem;
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 4px;
-    padding: 1rem;
-    overflow-x: auto;
+.schema-link:hover {{
+    background-color: #138496;
+    color: white;
+    text-decoration: none;
 }}
 </style>
 
@@ -1080,6 +1143,449 @@ details pre {{
             self.logger.error(f"Error generating schema documentation for {schema_path}: {e}")
             return ""
     
+    def _find_closing_div(self, html: str, start: int) -> int:
+        """
+        Find the position after the closing </div> of a div starting at `start`.
+
+        Counts div nesting depth to handle nested elements correctly.
+
+        Args:
+            html: HTML string to search
+            start: Position of the opening <div tag
+
+        Returns:
+            Position after the matching </div>, or -1 if not found
+        """
+        depth = 0
+        i = start
+        n = len(html)
+        while i < n:
+            j = html.find('<', i)
+            if j == -1:
+                break
+            # Opening div
+            if j + 4 <= n and html[j:j+4].lower() == '<div' and (j + 4 >= n or html[j+4] in ' \t\n\r>/'):
+                end_tag = html.find('>', j)
+                if end_tag == -1:
+                    break
+                if end_tag > 0 and html[end_tag - 1] == '/':
+                    # Self-closing <div/> – no depth change
+                    i = end_tag + 1
+                else:
+                    depth += 1
+                    i = end_tag + 1
+            # Closing div
+            elif html[j:j+6].lower() == '</div>':
+                depth -= 1
+                if depth == 0:
+                    return j + 6
+                i = j + 6
+            else:
+                i = j + 1
+        return -1
+
+    def _generate_schema_tab_pane_html(self, schema_filename: str, tab_id: str,
+                                        language: str = 'json') -> str:
+        """
+        Generate the HTML for a content tab pane that lazily loads a source file
+        via JavaScript and applies client-side syntax highlighting.
+
+        Cross-domain / CORS note
+        ------------------------
+        The ``fetch()`` call uses a *relative* URL (same directory as the HTML
+        page), so it is always same-origin regardless of whether the site is
+        deployed to github.io, smart.who.int, or any other domain.  There is no
+        cross-origin request and therefore no CORS error is possible.
+
+        Syntax-highlighter strategy
+        ---------------------------
+        Syntax highlighting is provided exclusively by **Prism.js**, which is
+        already bundled by the FHIR IG Publisher's standard template
+        (hl7.fhir.template / who.template.root).  No CDN request is made, so
+        there are no Content Security Policy (CSP) concerns regardless of the
+        deployment domain.
+
+        ``Prism.highlightElement(el)`` is called when ``window.Prism`` is
+        available and the requested language grammar is registered.  Languages
+        not registered in Prism (``Prism.languages[language]`` is falsy, e.g.
+        ``cql``) fall through to plain formatted text — no silent failure.
+
+        Other options considered and rejected:
+
+        - **highlight.js** — requires an external CDN request; may be blocked
+          by strict CSP on domains such as smart.who.int.
+        - **CodeMirror** — full interactive editor, 6× heavier; designed for
+          editing not read-only display.
+
+        If Prism is unavailable the JSON is still pretty-printed via
+        ``JSON.stringify(d, null, 2)`` — fully readable, just without colours.
+
+        Args:
+            schema_filename: Relative URL of the source file to load.
+                             Must be same-origin (relative path).
+            tab_id: Unique ID for the tab / pane element
+            language: Prism language identifier (default: 'json')
+
+        Returns:
+            HTML string for the tab pane
+        """
+        return (
+            # ── Tab pane ────────────────────────────────────────────────────────
+            f'<div role="tabpanel" class="tab-pane" id="{tab_id}">\n'
+            f'<div class="schema-tab-content" style="padding:1rem;">\n'
+            f'<h3>JSON Schema</h3>\n'
+            f'<p><a href="{schema_filename}" target="_blank" '
+            f'class="btn btn-sm btn-outline-secondary">'
+            f'&#128196; Download {schema_filename}</a></p>\n'
+            f'<pre style="margin:0;padding:0;background:transparent;border:none;">'
+            f'<code id="{tab_id}-display" class="language-{language}" '
+            f'style="border-radius:4px;max-height:600px;overflow-y:auto;'
+            f'font-size:0.85em;display:block;">Loading schema&#8230;</code>'
+            f'</pre>\n'
+            f'</div>\n'
+            # ── Load + highlight on tab activation ───────────────────────────────
+            # fetch() uses a relative URL → always same-origin → no CORS issue.
+            # Syntax highlighting uses Prism.js only (no CDN dependency).
+            # Unregistered languages fall through to plain text gracefully.
+            f'<script>\n'
+            f'(function(){{\n'
+            f'  function loadSchema(){{\n'
+            f'    var el=document.getElementById("{tab_id}-display");\n'
+            f'    if(!el||el.dataset.loaded)return;\n'
+            f'    el.dataset.loaded="1";\n'
+            f'    fetch("{schema_filename}")\n'
+            f'      .then(function(r){{return r.json();}})\n'
+            f'      .then(function(d){{\n'
+            f'        var txt=JSON.stringify(d,null,2);\n'
+            f'        el.textContent=txt;\n'
+            f'        if(window.Prism&&Prism.languages["{language}"]){{\n'
+            f'          setTimeout(function(){{el.innerHTML=Prism.highlight(txt,Prism.languages["{language}"],"{language}");}},0);\n'
+            f'        }}\n'
+            f'      }})\n'
+            f'      .catch(function(e){{\n'
+            f'        el.textContent="Error loading schema: "+e.message;\n'
+            f'      }});\n'
+            f'  }}\n'
+            f'  var link=document.getElementById("{tab_id}-head");\n'
+            f'  if(link){{\n'
+            f'    link.addEventListener("shown.bs.tab",loadSchema);\n'
+            f'    if(link.classList.contains("active")){{loadSchema();}}\n'
+            f'  }}else{{\n'
+            f'    document.addEventListener("DOMContentLoaded",loadSchema);\n'
+            f'  }}\n'
+            f'}})();\n'
+            f'</script>\n'
+            f'</div>'
+        )
+
+    def _inject_schema_as_new_tab(self, html_content: str, schema_filename: str,
+                                   spec_name: str) -> Optional[str]:
+        """
+        Add a JSON Schema tab to the FHIR IG publisher's nav-tabs navigation.
+
+        The FHIR IG publisher uses Bootstrap Nav as *inter-page* navigation —
+        each tab is a link to a separate HTML page (e.g.
+        StructureDefinition-DAK-definitions.html, StructureDefinition-DAK.profile.xml.html).
+        There is NO tab-content / tab-pane structure on these pages.
+
+        This method adds a ``<li>`` linking to
+        ``{spec_name}.schema.json.html`` which is a companion page generated
+        by ``_generate_schema_view_page()``.
+
+        Args:
+            html_content: Full HTML of the StructureDefinition page
+            schema_filename: Basename of the schema file
+                             (e.g. 'StructureDefinition-DAK.schema.json')
+            spec_name: Resource name (e.g. 'StructureDefinition-DAK')
+
+        Returns:
+            Updated HTML string, or None if the nav-tabs <ul> was not found
+        """
+        try:
+            schema_page = f'{spec_name}.schema.json.html'
+
+            # Guard: skip if already injected
+            if schema_page in html_content:
+                self.logger.info(
+                    f'JSON Schema tab already present in {spec_name}.html – skipping'
+                )
+                return html_content
+
+            nav_tabs_re = re.compile(
+                r'(<ul[^>]*class="[^"]*(?:nav-tabs|fhir-nav-tabs)[^"]*"[^>]*>)(.*?)(</ul>)',
+                re.DOTALL | re.IGNORECASE,
+            )
+            nav_match = nav_tabs_re.search(html_content)
+            if not nav_match:
+                self.logger.warning(
+                    f'nav-tabs <ul> not found in {spec_name}.html – skipping tab injection'
+                )
+                return None
+
+            new_li = (
+                f'\n<li role="presentation">'
+                f'<a href="{schema_page}">JSON Schema</a>'
+                f'</li>\n'
+            )
+            updated_nav = (
+                nav_match.group(1) + nav_match.group(2) + new_li + nav_match.group(3)
+            )
+            html_content = (
+                html_content[:nav_match.start()]
+                + updated_nav
+                + html_content[nav_match.end():]
+            )
+            self.logger.info(f'Added JSON Schema tab link to {spec_name}.html')
+            return html_content
+
+        except Exception as exc:
+            self.logger.error(f'Error adding schema tab for {spec_name}: {exc}')
+            return None
+
+    def _inject_schema_tab_into_sibling_pages(
+        self, spec_name: str, schema_filename: str, output_dir: str
+    ) -> int:
+        """
+        Inject the JSON Schema tab into all sibling pages of a StructureDefinition.
+
+        The FHIR IG Publisher generates separate pages for each format view, e.g.
+        ``StructureDefinition-DAK-mappings.html``,
+        ``StructureDefinition-DAK.profile.json.html``.  Each page has its own copy
+        of the nav-tabs bar, so the JSON Schema tab must be added to every one of
+        them so that it is visible regardless of which tab the user is on.
+
+        The main content page (``{spec_name}.html``) and the generated schema view
+        page (``{spec_name}.schema.json.html``) are excluded — the former is handled
+        by the caller and the latter is the destination of the new tab.
+
+        Args:
+            spec_name:        Resource name (e.g. ``StructureDefinition-DAK``)
+            schema_filename:  Basename of the schema file
+            output_dir:       Directory produced by the FHIR IG Publisher
+
+        Returns:
+            Number of sibling pages updated.
+        """
+        schema_page = f'{spec_name}.schema.json.html'
+        main_page = f'{spec_name}.html'
+        count = 0
+
+        try:
+            html_files = [f for f in os.listdir(output_dir) if f.endswith('.html')]
+        except OSError as e:
+            self.logger.warning(f'Cannot list {output_dir} for sibling injection: {e}')
+            return 0
+
+        for html_file in html_files:
+            # Only process pages that belong to this spec (same name prefix)
+            if not (html_file.startswith(f'{spec_name}-')
+                    or html_file.startswith(f'{spec_name}.')):
+                continue
+            # Skip the main content page and the schema view page we are generating
+            if html_file in (main_page, schema_page):
+                continue
+
+            html_path = os.path.join(output_dir, html_file)
+            try:
+                with open(html_path, 'r', encoding='utf-8', errors='replace') as f:
+                    html_content = f.read()
+
+                updated = self._inject_schema_as_new_tab(
+                    html_content, schema_filename, spec_name
+                )
+                if updated is not None and updated != html_content:
+                    with open(html_path, 'w', encoding='utf-8') as f:
+                        f.write(updated)
+                    count += 1
+                    self.logger.info(
+                        f'Added JSON Schema tab to sibling page: {html_file}'
+                    )
+            except Exception as e:
+                self.logger.warning(
+                    f'Could not inject schema tab into {html_file}: {e}'
+                )
+
+        return count
+
+    def _generate_schema_view_page(self, html_content: str, schema_filename: str,
+                                    spec_name: str, output_dir: str) -> Optional[str]:
+        """
+        Generate a standalone ``{spec_name}.schema.json.html`` page.
+
+        The page reuses the head / header / nav-tabs from the original
+        StructureDefinition page, makes the JSON Schema tab the active tab
+        (Content tab becomes a normal link back to the original page), and
+        shows the schema content via a same-origin fetch + Prism.js highlight.
+
+        Args:
+            html_content: Full HTML of the StructureDefinition page **after**
+                          ``_inject_schema_as_new_tab`` has already added the
+                          JSON Schema ``<li>`` to the nav-tabs.
+            schema_filename: Basename of the ``.schema.json`` file
+            spec_name: Resource name (e.g. ``StructureDefinition-DAK``)
+            output_dir: Directory where the new HTML file will be written
+
+        Returns:
+            Filename of the generated page, or None on failure
+        """
+        try:
+            schema_page = f'{spec_name}.schema.json.html'
+            schema_page_path = os.path.join(output_dir, schema_page)
+
+            # ── Locate nav-tabs in the (already modified) html_content ────────
+            nav_tabs_re = re.compile(
+                r'(<ul[^>]*class="[^"]*(?:nav-tabs|fhir-nav-tabs)[^"]*"[^>]*>)(.*?)(</ul>)',
+                re.DOTALL | re.IGNORECASE,
+            )
+            nav_match = nav_tabs_re.search(html_content)
+            if not nav_match:
+                self.logger.warning(
+                    f'Cannot generate schema view page: nav-tabs not found in {spec_name}.html'
+                )
+                return None
+
+            # ── Transform nav-tabs for the schema view page ───────────────────
+            # 1. Remove active class from Content tab; change href="#" → "{spec_name}.html"
+            # 2. Make JSON Schema tab active; change its href to "#"
+            nav_section = html_content[nav_match.start():nav_match.end()]
+
+            # Content tab — flexible match for whitespace/attribute variations
+            # Matches: <li class="active"> ... <a href="#">Content</a> ... </li>
+            nav_section = re.sub(
+                r'<li[^>]*class="active"[^>]*>\s*<a[^>]*href="#"[^>]*>(\s*Content\s*)</a>\s*</li>',
+                f'<li>\n    <a href="{spec_name}.html">Content</a>\n  </li>',
+                nav_section,
+                flags=re.DOTALL | re.IGNORECASE,
+            )
+            # JSON Schema tab link → active (flexible whitespace)
+            nav_section = re.sub(
+                r'<li[^>]*>\s*<a[^>]*href="'
+                + re.escape(schema_page)
+                + r'"[^>]*>\s*JSON Schema\s*</a>\s*</li>',
+                '<li role="presentation" class="active"><a href="#">JSON Schema</a></li>',
+                nav_section,
+                flags=re.DOTALL | re.IGNORECASE,
+            )
+
+            header_html = html_content[:nav_match.start()] + nav_section
+
+            # ── Extract footer (inner-wrapper end → end of file) ──────────────
+            # The FHIR IG Publisher wraps content in:
+            #   segment-content > container > row > inner-wrapper > col-12 > nav-tabs
+            # We need to close col-12, inner-wrapper, row, container before the
+            # segment-content closing comment.  Anchoring on <!-- /inner-wrapper -->
+            # (the first occurrence after the nav tabs) lets us pick up all four
+            # closing </div> tags reliably without hardcoding their count.
+            footer_re = re.compile(
+                r'</div>\s*<!--\s*/inner-wrapper\s*-->', re.IGNORECASE
+            )
+            footer_match = footer_re.search(html_content, nav_match.end())
+            footer_html = (
+                '\n</div>\n' + html_content[footer_match.start():]
+                if footer_match
+                else '\n</div>\n</div>\n</div>\n</div>\n</div>'
+            )
+
+            # ── Generate schema content for the standalone page ───────────────
+            safe_id = re.sub(r'[^a-zA-Z0-9]', '-', spec_name).lower()
+            safe_id = re.sub(r'-+', '-', safe_id).strip('-')
+            tab_id = f'dak-json-schema-{safe_id}'
+
+            schema_body = (
+                f'<div style="padding:1rem;">\n'
+                f'<h2>JSON Schema</h2>\n'
+                f'<p><a href="{schema_filename}">Raw JSON Schema</a>'
+                f' | <a href="{schema_filename}" download>Download</a></p>\n'
+                f'<pre style="background:#f5f5f5;padding:1rem;border-radius:4px;">'
+                f'<code id="{tab_id}-display" class="language-json" '
+                f'style="font-size:0.85em;white-space:pre-wrap;display:block;">'
+                f'Loading schema&#8230;</code></pre>\n'
+                f'</div>\n'
+                f'<script>\n'
+                f'(function(){{\n'
+                # Map JSON Schema "type" values to hl7.org/fhir/R4 spec URLs.
+                # "number" is JSON Schema's representation of FHIR's decimal type.
+                f'  var FHIR_TYPE_LINKS={{\n'
+                f'    "string":"http://hl7.org/fhir/R4/datatypes.html#string",\n'
+                f'    "boolean":"http://hl7.org/fhir/R4/datatypes.html#boolean",\n'
+                f'    "integer":"http://hl7.org/fhir/R4/datatypes.html#integer",\n'
+                f'    "number":"http://hl7.org/fhir/R4/datatypes.html#decimal"\n'
+                f'  }};\n'
+                # After Prism highlights the JSON, post-process the innerHTML to
+                # add <a href> links around FHIR type names and absolute $ref URLs.
+                # Prism marks property keys as <span class="token property"> and
+                # string values as <span class="token string">, separated by a
+                # <span class="token operator">:</span> element.  The pattern must
+                # bridge that operator span: property</span><span…>…</span> value.
+                f'  function addFhirLinks(el){{\n'
+                f'    var html=el.innerHTML;\n'
+                # Link FHIR primitive type values under "type" keys.
+                # Matches HTML like:
+                #   <span class="token property">&quot;type&quot;</span>
+                #   <span class="token operator">:</span> 
+                #   <span class="token string">&quot;string&quot;</span>
+                f'    Object.keys(FHIR_TYPE_LINKS).forEach(function(t){{\n'
+                f'      var url=FHIR_TYPE_LINKS[t];\n'
+                f'      html=html.replace(\n'
+                f'        new RegExp(\n'
+                f'          \'(<span class="token property">&quot;type&quot;</span><span[^>]*>[^<]*</span>[^<]*)\'\n'
+                f'          +\'(<span class="token string">&quot;\'+t+\'&quot;</span>)\',\n'
+                f'          \'g\'\n'
+                f'        ),\n'
+                f'        \'$1<a href="\'+url+\'" target="_blank" rel="noopener noreferrer">$2</a>\'\n'
+                f'      );\n'
+                f'    }});\n'
+                # Link absolute hl7.org/fhir $ref values.
+                # Matches HTML like:
+                #   <span class="token property">&quot;$ref&quot;</span>
+                #   <span class="token operator">:</span> 
+                #   <span class="token string">&quot;http://hl7.org/fhir/...&quot;</span>
+                f'    html=html.replace(\n'
+                f'      /(<span class="token property">&quot;\\$ref&quot;<\\/span><span[^>]*>[^<]*<\\/span>[^<]*)(<span class="token string">&quot;(http:\\/\\/hl7\\.org\\/fhir[^&"]*?)&quot;<\\/span>)/g,\n'
+                f'      function(m,pre,span,href){{\n'
+                f'        return pre+\'<a href="\'+href+\'" target="_blank" rel="noopener noreferrer">\'+span+\'</a>\';\n'
+                f'      }}\n'
+                f'    );\n'
+                f'    el.innerHTML=html;\n'
+                f'  }}\n'
+                f'  function loadSchema(){{\n'
+                f'    var el=document.getElementById("{tab_id}-display");\n'
+                f'    if(!el)return;\n'
+                f'    fetch("{schema_filename}")\n'
+                f'      .then(function(r){{return r.json();}})\n'
+                f'      .then(function(d){{\n'
+                f'        var txt=JSON.stringify(d,null,2);\n'
+                f'        el.textContent=txt;\n'
+                f'        if(window.Prism&&Prism.languages.json){{\n'
+                f'          setTimeout(function(){{\n'
+                f'            el.innerHTML=Prism.highlight(txt,Prism.languages.json,"json");\n'
+                f'            addFhirLinks(el);\n'
+                f'          }},0);\n'
+                f'        }}\n'
+                f'      }})\n'
+                f'      .catch(function(e){{\n'
+                f'        el.textContent="Error loading {schema_filename}: "+e.message;\n'
+                f'      }});\n'
+                f'  }}\n'
+                f'  document.addEventListener("DOMContentLoaded",loadSchema);\n'
+                f'}})();\n'
+                f'</script>\n'
+            )
+
+            full_page = header_html + '\n\n' + schema_body + '\n\n' + footer_html
+
+            with open(schema_page_path, 'w', encoding='utf-8') as f:
+                f.write(full_page)
+
+            self.logger.info(f'Generated schema view page: {schema_page_path}')
+            return schema_page
+
+        except Exception as exc:
+            self.logger.error(
+                f'Error generating schema view page for {spec_name}: {exc}'
+            )
+            return None
+
     def _find_injection_point(self, html_content: str, schema_type: str) -> Optional[int]:
         """
         Find the appropriate injection point in FHIR IG generated HTML content.
@@ -1203,6 +1709,48 @@ details pre {{
             
             # Check for the placeholder marker
             placeholder_marker = f'<!-- DAK_API_PLACEHOLDER: {spec_name} -->'
+
+            # For logical model pages, always inject a JSON Schema tab pointing to
+            # {spec_name}.schema.json.  The schema is generated by
+            # generate_logical_model_schemas.py (which runs before this script in
+            # the CI pipeline) so it will be present at deployment time.
+            # Never fall back to the raw FHIR .json StructureDefinition file.
+            # NOTE: the tab injection is attempted unconditionally — even when a
+            # DAK_API_PLACEHOLDER is present (e.g. StructureDefinition-DAK.html).
+            # When the placeholder is present, we update html_content in place and
+            # then continue to the placeholder-replacement block below so that
+            # BOTH the JSON Schema tab and the OpenAPI content are injected.
+            if schema_type == 'logical_model':
+                schema_filename = f'{spec_name}.schema.json'
+                updated_html = self._inject_schema_as_new_tab(
+                    html_content, schema_filename, spec_name
+                )
+                if updated_html is not None:
+                    html_content = updated_html
+                    self.logger.info(
+                        f'Injected JSON Schema tab into {html_path}'
+                    )
+                    # Generate the companion schema view page
+                    self._generate_schema_view_page(
+                        html_content, schema_filename, spec_name, output_dir
+                    )
+                    # Propagate the JSON Schema tab to all sibling pages
+                    # (Mappings, XML, JSON, TTL, Definitions, etc.) so it
+                    # appears on every tab, not just Content.
+                    self._inject_schema_tab_into_sibling_pages(
+                        spec_name, schema_filename, output_dir
+                    )
+                    # When there is no placeholder the tab injection is the only
+                    # change; write the file and return immediately.
+                    if placeholder_marker not in html_content:
+                        with open(html_path, 'w', encoding='utf-8') as f:
+                            f.write(html_content)
+                        return html_filename
+                else:
+                    self.logger.warning(
+                        f'Tab injection failed for {spec_name}; falling back to inline injection'
+                    )
+
             if placeholder_marker not in html_content:
                 self.logger.warning(f"Placeholder marker not found in {html_path}. Searching for appropriate FHIR IG content section.")
                 # Find the appropriate injection point based on content type
@@ -1374,14 +1922,12 @@ details pre {{
 <p><strong>Required fields:</strong> {', '.join(required)}</p>
 """
                 
-                # Show full schema as collapsible JSON
-                import json
-                schema_json_str = json.dumps(schema_def, indent=2)
+                # Show link to full schema file instead of embedding pre-formatted JSON.
+                # The schema file is loaded lazily by the JSON Schema tab (for logical
+                # model pages) or via a direct download link here.
+                schema_file_ref = openapi_filename.replace('.openapi.json', '.schema.json').replace('.openapi.yaml', '.schema.json')
                 html_content += f"""
-<details class="schema-details">
-<summary>Full Schema (JSON)</summary>
-<pre><code class="language-json">{schema_json_str}</code></pre>
-</details>
+<p><a href="{schema_file_ref}" target="_blank" class="schema-link">&#128196; View full JSON schema ({schema_file_ref})</a></p>
 """
                 
                 html_content += """
@@ -1450,31 +1996,22 @@ details pre {{
   color: #6c757d;
 }
 
-.schema-details {
-  margin: 1rem 0;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-}
-
-.schema-details summary {
-  background: #f8f9fa;
-  padding: 0.75rem;
-  cursor: pointer;
-  border-bottom: 1px solid #dee2e6;
+.schema-link {
+  display: inline-block;
+  background-color: #17a2b8;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  text-decoration: none;
+  font-size: 0.8rem;
   font-weight: 500;
+  transition: background-color 0.2s ease;
 }
 
-.schema-details[open] summary {
-  border-bottom: 1px solid #dee2e6;
-}
-
-.schema-details pre {
-  margin: 1rem;
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 4px;
-  padding: 1rem;
-  overflow-x: auto;
+.schema-link:hover {
+  background-color: #138496;
+  color: white;
+  text-decoration: none;
 }
 
 .properties-list {
@@ -1490,6 +2027,331 @@ details pre {{
 """
         
         return html_content
+
+    def _build_fhir_restore_js(self, link_map: dict, lang: str) -> str:
+        """Return JavaScript (with {{ }} doubled for .format()-safety) that re-applies
+        FHIR documentation links on Prism-highlighted source content.
+
+        The FHIR IG Publisher embeds ``<a href>`` links around property/element names in
+        the static ``<pre>`` blocks.  After dynamic loading fetches the raw source file
+        those links are absent.  This snippet runs inside the ``setTimeout`` after
+        ``Prism.highlight()`` to restore them by scanning the highlighted HTML for the
+        known token spans produced by Prism for each source format.
+
+        For JSON format pages the FHIR IG Publisher sometimes does not embed ``<a href>``
+        links in the raw JSON source.  In those cases ``link_map`` is empty and a static
+        fallback map of common FHIR R4 property names is used instead so that users still
+        see FHIR documentation links on dynamically-loaded JSON views.
+
+        Args:
+            link_map: Mapping of ``{text: url}`` extracted from the static HTML block.
+            lang: Prism language name ('json', 'xml', 'turtle').
+
+        Returns:
+            JavaScript code with ``{`` and ``}`` doubled so it is safe to embed inside
+            a ``.format()`` template.  Returns empty string when link_map is empty and
+            no fallback is applicable, or lang is unsupported.
+        """
+        # For JSON, merge extracted links with the static fallback map.
+        # The extracted links (from the IG Publisher static HTML) take priority;
+        # fallback covers properties the IG Publisher does not link in JSON views.
+        if lang == 'json':
+            effective_map = dict(_FHIR_R4_JSON_FALLBACK_LINKS)
+            effective_map.update(link_map)  # extracted links override fallback
+        else:
+            effective_map = link_map
+
+        if not effective_map:
+            return ''
+
+        links_json = json.dumps(effective_map)
+
+        if lang == 'json':
+            # Prism JSON: property keys → <span class="token property">&quot;key&quot;</span>
+            # Note: Prism.highlight() encodes " as &quot; in its HTML output, so
+            # el.innerHTML contains &quot; around property names, not plain ".
+            # The regex matches either &quot; or " to handle both Prism versions.
+            js = (
+                'var FL=' + links_json + ';'
+                'el.innerHTML=el.innerHTML.replace('
+                '/(<span class="token property">)(?:&quot;|")([A-Za-z0-9_$@-]+)(?:&quot;|")(<\\/span>)/g,'
+                "function(m,o,k,c){return FL[k]?o+'&quot;<a href=\"'+FL[k]+'\">'+(k)+'</a>&quot;'+c:m;});"
+            )
+        elif lang == 'xml':
+            # Prism markup: element names follow the &lt;[/] punctuation span;
+            # attribute names are in attr-name spans.
+            js = (
+                'var FL=' + links_json + ';'
+                'el.innerHTML=el.innerHTML.replace('
+                '/(<span class="token punctuation">&lt;\\/?<\\/span>)([A-Za-z][A-Za-z0-9._:-]*)/g,'
+                "function(m,lt,nm){return FL[nm]?lt+'<a href=\"'+FL[nm]+'\">'+(nm)+'</a>':m;}"
+                ').replace('
+                '/(<span class="token attr-name">)([A-Za-z][A-Za-z0-9._:-]*)(<\\/span>)/g,'
+                "function(m,p,n,s){return FL[n]?p+'<a href=\"'+FL[n]+'\">'+(n)+'</a>'+s:m;});"
+            )
+        elif lang == 'turtle':
+            # Turtle: scan all Prism span text for matching FHIR predicate names
+            # (e.g. fhir:id, fhir:text).  Keys shorter than 3 chars are skipped to
+            # avoid false positives on punctuation tokens.
+            js = (
+                'var FL=' + links_json + ';'
+                'el.innerHTML=el.innerHTML.replace('
+                '/(<span[^>]*>)([^<]+)(<\\/span>)/g,'
+                "function(m,p,t,s){var k=t.trim();return(FL[k]&&k.length>2)?p+'<a href=\"'+FL[k]+'\">'+(t)+'</a>'+s:m;});"
+            )
+        else:
+            return ''
+
+        # Double { and } so this JS survives being embedded inside a .format() template.
+        return js.replace('{', '{{').replace('}', '}}')
+
+    def _replace_lang_source(self, html: str, lang: str, label: str, src_file: str,
+                             allow_classless: bool = False) -> str:
+        """
+        Replace one language's static pre-formatted source block with a dynamic loader.
+
+        The FHIR IG Publisher embeds full source code in ``<pre class="LANG">`` blocks
+        at publication time (and sometimes in ``<pre><code>`` blocks without a class on
+        format-specific pages).  This replaces those blocks with a tiny ``<code>`` element
+        plus a ``<script>`` that fetches the raw source file on-demand and applies
+        Prism.js syntax highlighting.
+
+        Args:
+            html: Full HTML content of the page
+            lang: Source language / class name ('json', 'xml', 'turtle')
+            label: Human-readable label ('JSON', 'XML', 'TTL')
+            src_file: Relative URL of the raw source file to fetch (same directory)
+            allow_classless: When True, also replace ``<pre>`` blocks that have no
+                ``class`` attribute (used for format-specific pages where the language
+                is known from the page name, e.g. ``StructureDefinition-DAK.profile.xml.html``).
+
+        Returns:
+            Updated HTML string
+        """
+        # Match <pre> opening tags whose class contains the language word.
+        # <pre> cannot be nested in HTML, so the first </pre> after each opening
+        # tag is always its matching close.
+        pre_open_re = re.compile(
+            r'<pre\b([^>]*?\bclass="[^"]*?\b' + re.escape(lang) + r'\b[^"]*?"[^>]*)>',
+            re.IGNORECASE
+        )
+        # For format-specific pages (allow_classless=True), also match <pre> tags that
+        # have no class attribute at all (the FHIR IG Publisher sometimes omits the class
+        # on per-format view pages like StructureDefinition-Foo.profile.xml.html).
+        classless_pre_re = re.compile(
+            r'<pre\b(?![^>]*\bclass=)[^>]*>',
+            re.IGNORECASE
+        ) if allow_classless else None
+        close_tag = '</pre>'
+        close_tag_lower = close_tag.lower()
+
+        parts: List[str] = []
+        pos = 0
+        occurrence = 0
+
+        while pos < len(html):
+            m = pre_open_re.search(html, pos)
+            # Also check the classless pattern when enabled; use whichever match comes first.
+            if classless_pre_re:
+                m2 = classless_pre_re.search(html, pos)
+                if m2 and (m is None or m2.start() < m.start()):
+                    m = m2
+            if not m:
+                break
+
+            body_start = m.end()
+            close_pos = html.lower().find(close_tag_lower, body_start)
+            if close_pos < 0:
+                break  # malformed HTML; stop processing
+
+            pre_content = html[body_start:close_pos]
+
+            # Only replace blocks that contain a <code> element with substantial content.
+            code_match = re.search(r'<code([^>]*)>([\s\S]*?)</code>', pre_content, re.IGNORECASE)
+            if not code_match or len(code_match.group(2).strip()) < _MIN_SOURCE_SIZE_FOR_DYNAMIC_LOADING:
+                # Keep this block unchanged; preserve everything from pos through </pre>
+                parts.append(html[pos:close_pos + len(close_tag)])
+                pos = close_pos + len(close_tag)
+                continue
+
+            # Everything before this <pre>
+            parts.append(html[pos:m.start()])
+
+            # Build a stable, unique element ID: lang + sanitized filename + occurrence index
+            occurrence += 1
+            safe_name = re.sub(r'[^a-z0-9]', '-', src_file.lower())
+            el_id = 'dyn-{}-{}-{}'.format(lang, safe_name, occurrence)
+
+            # Extract FHIR documentation links from the static source block so they
+            # can be restored after Prism re-highlights the dynamically fetched content.
+            # The IG Publisher embeds <a href="URL">text</a> around property/element names.
+            # Only hl7.org/fhir URLs are included; the anchor text must be plain (no tags).
+            # Use \s before href so the pattern matches href in any attribute position.
+            _href_re = re.compile(r'<a\b[^>]*\shref="([^"]+)"[^>]*>([^<]+)</a>')
+            link_map: Dict[str, str] = {}
+            for lm in _href_re.finditer(code_match.group(2)):
+                url, text = lm.group(1), lm.group(2).strip()
+                # Accept canonical FHIR spec URLs (http or https) to avoid injecting
+                # arbitrary content.
+                if text and re.search(r'https?://hl7\.org/fhir/', url):
+                    link_map[text] = url
+            fhir_restore = self._build_fhir_restore_js(link_map, lang)
+
+            # Fetch body differs by format: JSON gets pretty-printed via JSON.stringify.
+            # Content is fetched asynchronously via fetch().then(); once received the raw
+            # text is shown immediately, then Prism.highlight() (synchronous, no Web Worker)
+            # is deferred via setTimeout(fn,0) so it doesn't block the UI.
+            # We avoid Prism.highlightElement() which spawns a Web Worker and throws
+            # "Cannot read properties of undefined (reading 'payload')" on some pages.
+            # fhir_restore (already {{ }}-escaped) runs inside the same setTimeout to
+            # re-apply FHIR documentation links after highlighting.
+            if lang == 'json':
+                fetch_body = (
+                    'fetch("{f}").then(function(r){{return r.json();}}).then(function(d){{'
+                    'var txt=JSON.stringify(d,null,2);'
+                    'el.textContent=txt;'
+                    'if(window.Prism&&Prism.languages.json)'
+                    '{{setTimeout(function(){{el.innerHTML=Prism.highlight(txt,Prism.languages.json,"json");'
+                    + fhir_restore +
+                    '}},0);}}'
+                    '}})'
+                ).format(f=src_file)
+            else:
+                # For XML, fall back to Prism.languages.markup when Prism.languages.xml
+                # is not registered (some Prism.js builds only register the grammar as
+                # 'markup').  For turtle the language name matches the FHIR IG Publisher's
+                # registered name so no fallback is needed.
+                if lang == 'xml':
+                    grammar_expr = '(Prism.languages["{l}"]||Prism.languages.markup)'.format(l=lang)
+                else:
+                    grammar_expr = 'Prism.languages["{l}"]'.format(l=lang)
+                fetch_body = (
+                    'fetch("{f}").then(function(r){{return r.text();}}).then(function(t){{'
+                    'el.textContent=t;'
+                    'var _g={g};'
+                    'if(window.Prism&&_g)'
+                    '{{setTimeout(function(){{el.innerHTML=Prism.highlight(t,_g,"{l}");'
+                    + fhir_restore +
+                    '}},0);}}'
+                    '}})'
+                ).format(f=src_file, l=lang, g=grammar_expr)
+
+            loader = (
+                '<pre class="{l}"><code id="{id}" class="language-{l}" style="display:block;">'
+                'Loading {label} source&#8230;</code></pre>'
+                '<script>(function(){{'
+                'var el=document.getElementById("{id}");if(!el)return;'
+                'function loadSrc(){{if(el.dataset.loaded)return;el.dataset.loaded="1";'
+                '{fb}'
+                '.catch(function(e){{el.textContent="Could not load {label}: "+e.message;}});'
+                '}}'
+                # Activate on Bootstrap tab-shown event
+                'document.addEventListener("shown.bs.tab",function(e){{'
+                'var h=e.target&&(e.target.getAttribute("href")||e.target.getAttribute("data-bs-target")||"");'
+                'if(h==="#{l}"||h.startsWith("#{l}-"))loadSrc();'
+                '}});'
+                # Load immediately on standalone format pages (no .tab-pane parent),
+                # or if the containing tab-pane is already active on page load.
+                'function checkActive(){{var p=el.closest&&el.closest(".tab-pane");'
+                'if(!p||p.classList.contains("active")||p.classList.contains("show"))loadSrc();}}'
+                'if(document.readyState!=="loading")checkActive();'
+                'else document.addEventListener("DOMContentLoaded",checkActive);'
+                '}})()</script>'
+            ).format(l=lang, id=el_id, label=label, fb=fetch_body)
+
+            parts.append(loader)
+            pos = close_pos + len(close_tag)
+
+        parts.append(html[pos:])
+        return ''.join(parts)
+
+    def replace_static_source_with_dynamic_loading(self, output_dir: str) -> int:
+        """
+        Replace large static pre-formatted source code in JSON / XML / TTL tabs with
+        dynamic Prism.js loaders across all FHIR resource HTML pages.
+
+        The FHIR IG Publisher embeds the full resource source in ``<pre class="json">``
+        / ``<pre class="xml">`` / ``<pre class="turtle">`` blocks at publication time,
+        which inflates every page significantly.  This method removes that embedded
+        content and replaces it with a small JavaScript snippet that fetches the
+        corresponding raw source file (already present in the output directory) on
+        demand, then applies Prism.js syntax highlighting — zero CDN requests, zero
+        build step.
+
+        Args:
+            output_dir: Directory produced by the FHIR IG Publisher
+
+        Returns:
+            Number of HTML files modified
+        """
+        # Each tuple is (prism_class, label, file_ext).
+        # prism_class: CSS class on <pre> and Prism language name used in the loader JS.
+        # file_ext: actual source file extension (.json / .xml / .ttl).
+        # Note: the FHIR IG Publisher uses class="turtle" (not "ttl") on TTL <pre> blocks.
+        FORMATS = [
+            ('json', 'JSON', 'json'),
+            ('xml',  'XML',  'xml'),
+            ('turtle', 'TTL', 'ttl'),  # IG Publisher: <pre class="turtle">, source file *.ttl
+        ]
+
+        modified = 0
+        try:
+            html_files = sorted(f for f in os.listdir(output_dir) if f.endswith('.html'))
+        except OSError as e:
+            self.logger.error(f'Cannot list output dir {output_dir}: {e}')
+            return 0
+
+        for html_file in html_files:
+            base_name = html_file[:-5]  # strip .html
+            html_path = os.path.join(output_dir, html_file)
+
+            # The FHIR IG Publisher creates dedicated per-format view pages named
+            # "Foo.profile.{ext}.html" whose raw source file is "Foo.{ext}" (not
+            # "Foo.profile.{ext}.{ext}").  Detect that pattern and remap the source
+            # file name accordingly; fall back to the generic "{base_name}.{ext}" for
+            # all other pages (e.g. pages that embed multiple formats inline).
+            def _src_for_ext(file_ext: str) -> str:
+                suffix = f'.profile.{file_ext}'
+                if base_name.endswith(suffix):
+                    return base_name[:-len(suffix)] + '.' + file_ext
+                return f'{base_name}.{file_ext}'
+
+            src_exists = {
+                file_ext: os.path.exists(os.path.join(output_dir, _src_for_ext(file_ext)))
+                for _, _, file_ext in FORMATS
+            }
+            if not any(src_exists.values()):
+                continue
+
+            try:
+                with open(html_path, 'r', encoding='utf-8', errors='replace') as f:
+                    html = f.read()
+
+                original = html
+                for prism_class, label, file_ext in FORMATS:
+                    if src_exists[file_ext]:
+                        # On format-specific pages (e.g. Foo.profile.xml.html), the FHIR IG
+                        # Publisher sometimes emits <pre><code> blocks without a class
+                        # attribute. Pass allow_classless=True so those are also replaced.
+                        is_format_page = base_name.endswith(f'.profile.{file_ext}')
+                        html = self._replace_lang_source(
+                            html, prism_class, label, _src_for_ext(file_ext),
+                            allow_classless=is_format_page
+                        )
+
+                if html != original:
+                    with open(html_path, 'w', encoding='utf-8') as f:
+                        f.write(html)
+                    modified += 1
+                    self.logger.info(f'Dynamic source loading applied to {html_file}')
+
+            except Exception as e:
+                self.logger.warning(f'Could not process {html_file}: {e}')
+
+        self.logger.info(
+            f'Dynamic source loading: {modified}/{len(html_files)} HTML files modified'
+        )
+        return modified
 
 
 class DAKApiHubGenerator:
@@ -1665,23 +2527,18 @@ class DAKApiHubGenerator:
         # Start building the HTML content (wrapped with markers so re-runs can replace it)
         html_content = """<!-- DAK_API_HUB_START -->
 <div class="dak-api-hub">
-    <h2>DAK API Documentation Hub</h2>
-    
     <p>This page provides access to all available DAK (Data Access Kit) API endpoints and schemas.
     The DAK API provides structured access to ValueSet enumerations and Logical Model definitions used throughout this implementation guide.</p>
 
-    <h3>OpenAPI Documentation</h3>
+    <h2>OpenAPI Documentation</h2>
 
-    <p>Interactive Swagger UI documentation for all generated schemas and external API specifications is available in the OpenAPI documentation hub:</p>
+    <p>Interactive Swagger UI documentation for all generated schemas and external API specifications is available in the OpenAPI documentation hub:
+    <a href="openapi/index.html">View OpenAPI Documentation</a></p>
 
-    <div class="openapi-hub-link">
-        <a href="openapi/index.html" class="schema-link openapi-link">&#128214; View OpenAPI Documentation</a>
-    </div>
-
-    <h3>Using the DAK API</h3>
+    <h2>Using the DAK API</h2>
     
     <div class="usage-info">
-        <h4>Schema Validation</h4>
+        <h3>Schema Validation</h3>
         <p>Each JSON Schema can be used to validate data structures in your applications. 
         The schemas follow the JSON Schema Draft 2020-12 specification and include:</p>
         <ul>
@@ -1691,7 +2548,7 @@ class DAKApiHubGenerator:
             <li>Enumeration values with links to definitions</li>
         </ul>
         
-        <h4>JSON-LD Semantic Integration</h4>
+        <h3>JSON-LD Semantic Integration</h3>
         <p>The JSON-LD vocabularies provide semantic web integration for ValueSet enumerations. Each vocabulary includes:</p>
         <ul>
             <li>Enumeration class definitions with schema.org compatibility</li>
@@ -1700,20 +2557,53 @@ class DAKApiHubGenerator:
             <li>FHIR metadata integration (system URIs, ValueSet references)</li>
         </ul>
         
-        <h4>Integration with FHIR</h4>
+        <h3>Integration with FHIR</h3>
         <p>All schemas are derived from the FHIR definitions in this implementation guide. 
         Each schema page includes links to the corresponding FHIR resource definitions for complete context.</p>
         
-        <h4>API Endpoints</h4>
+        <h3>API Endpoints</h3>
         <p>The enumeration endpoints provide machine-readable lists of all available schemas, 
         making it easy to discover and integrate with the available data structures programmatically.</p>
     </div>
 """
         
-        # Add API Enumeration Endpoints section
+        # Add Logical Models section with cards
+        if schema_docs.get('logical_model'):
+            html_content += """
+    <h2>Logical Models</h2>
+    
+    <p>The following logical models define the structure for computable representations of WHO DAK content:</p>
+    
+    <div class="schema-grid">
+"""
+            for schema_doc in schema_docs['logical_model']:
+                schema_links = ""
+                html_file = html_module.escape(schema_doc.get('html_file', '#'))
+                schema_file = html_module.escape(schema_doc.get('schema_file', ''))
+                openapi_file = html_module.escape(schema_doc.get('openapi_file', ''))
+                title = html_module.escape(schema_doc.get('title', 'Untitled'))
+                description = html_module.escape(schema_doc.get('description', ''))
+                if schema_doc.get('html_file'):
+                    schema_links += f'<a href="{html_file}" class="schema-link fhir-link">FHIR Definition</a>'
+                if schema_doc.get('schema_file'):
+                    schema_links += f'<a href="{schema_file}" class="schema-link">JSON Schema</a>'
+                if schema_doc.get('openapi_file'):
+                    schema_links += f'<a href="{openapi_file}" class="schema-link">OpenAPI</a>'
+                html_content += f"""
+        <div class="schema-card">
+            <h4><a href="{html_file}">{title}</a></h4>
+            <p>{description}</p>
+            <div class="schema-links">{schema_links}</div>
+        </div>
+"""
+            html_content += """
+    </div>
+"""
+
+        # Add API Endpoints section
         if enumeration_docs:
             html_content += """
-    <h3>API Enumeration Endpoints</h3>
+    <h2>API Endpoints</h2>
     
     <p>These endpoints provide lists of all available schemas and vocabularies of each type:</p>
     
@@ -1776,20 +2666,6 @@ class DAKApiHubGenerator:
 /* DAK API Hub styling that integrates with IG theme */
 .dak-api-hub {
     margin: 1rem 0;
-}
-
-.openapi-hub-link {
-    margin: 1rem 0 1.5rem 0;
-}
-
-.openapi-link {
-    font-size: 1rem;
-    padding: 0.5rem 1.25rem;
-    background-color: #0d6efd;
-}
-
-.openapi-link:hover {
-    background-color: #0b5ed7;
 }
 
 .enumeration-endpoints, .schema-grid {
@@ -1910,12 +2786,12 @@ class DAKApiHubGenerator:
     margin: 1.5rem 0;
 }
 
-.usage-info h4 {
+.usage-info h3 {
     color: #00477d;
     margin-top: 1rem;
 }
 
-.usage-info h4:first-child {
+.usage-info h3:first-child {
     margin-top: 0;
 }
 
@@ -1999,19 +2875,37 @@ class DAKApiHubGenerator:
 """
 
         if swagger_urls:
+            first_url = swagger_urls[0]['url']
             swagger_section = f"""
+  <div id="definition-selector-bar">
+    <label for="definition-select">Select a definition:</label>
+    <select id="definition-select" onchange="switchDefinition(this.value)">
+    </select>
+  </div>
   <div id="swagger-ui"></div>
   <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js"></script>
-  <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-standalone-preset.js"></script>
   <script>
+  var swaggerUrls = {urls_json};
+  var ui;
   window.onload = function() {{
-    SwaggerUIBundle({{
-      urls: {urls_json},
+    var select = document.getElementById('definition-select');
+    swaggerUrls.forEach(function(item, idx) {{
+      var opt = document.createElement('option');
+      opt.value = item.url;
+      opt.textContent = item.name;
+      select.appendChild(opt);
+    }});
+    ui = SwaggerUIBundle({{
+      url: "{first_url}",
       dom_id: '#swagger-ui',
-      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-      layout: "StandaloneLayout"
+      presets: [SwaggerUIBundle.presets.apis],
+      layout: "BaseLayout"
     }});
   }};
+  function switchDefinition(url) {{
+    ui.specActions.updateUrl(url);
+    ui.specActions.download(url);
+  }}
   </script>
 """
         else:
@@ -2023,17 +2917,80 @@ class DAKApiHubGenerator:
         return f"""<!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>API Documentation</title>
+    <title>OpenAPI Documentation - SMART Base</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css"
           href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css">
     <style>
-      body {{ margin: 0; padding: 0; }}
+      body {{ margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }}
+      /* WHO-styled header bar */
+      .who-header {{
+        background-color: #00477d;
+        color: #ffffff;
+        padding: 0.6rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+      }}
+      .who-header a.home-link {{
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: 1px solid rgba(255,255,255,0.6);
+        padding: 0.25rem 0.75rem;
+        border-radius: 3px;
+        transition: background-color 0.2s ease;
+      }}
+      .who-header a.home-link:hover {{
+        background-color: rgba(255,255,255,0.15);
+        text-decoration: none;
+      }}
+      .who-header .header-title {{
+        flex: 1;
+      }}
+      /* Definition selector bar below the header */
+      #definition-selector-bar {{
+        background-color: #0070a1;
+        color: #ffffff;
+        padding: 0.5rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        flex-wrap: wrap;
+      }}
+      #definition-selector-bar label {{
+        font-weight: 600;
+        white-space: nowrap;
+      }}
+      #definition-select {{
+        font-size: 0.9rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+        border: 1px solid rgba(255,255,255,0.6);
+        background-color: #ffffff;
+        color: #00477d;
+        min-width: 200px;
+        max-width: 100%;
+        flex: 1;
+      }}
+      /* Hide Swagger UI topbar entirely */
+      .swagger-ui .topbar {{
+        display: none;
+      }}
       .existing-api-content {{ padding: 1rem 2rem; }}
     </style>
   </head>
   <body>
+  <div class="who-header">
+    <a href="../index.html" class="home-link">&#8962; Home</a>
+    <span class="header-title">SMART Base &mdash; OpenAPI Documentation</span>
+  </div>
 {existing_section}{swagger_section}
   </body>
 </html>"""
@@ -2810,6 +3767,14 @@ def main():
         logger.info(f"Total content items to include in hub: {total_content_items}")
         qa_reporter.add_success(f"Total content items to include in hub: {total_content_items}")
     
+    # Replace static pre-formatted source in all FHIR resource HTML pages with dynamic loaders
+    logger.info("=== DYNAMIC SOURCE LOADING PHASE ===")
+    try:
+        dynamic_count = schema_doc_renderer.replace_static_source_with_dynamic_loading(output_dir)
+        qa_reporter.add_success(f"Dynamic source loading applied to {dynamic_count} HTML files")
+    except Exception as e:
+        logger.warning(f"Dynamic source loading phase failed (non-fatal): {e}")
+
     # Post-process the DAK API hub
     logger.info("=== DAK API HUB POST-PROCESSING PHASE ===")
     qa_reporter.add_success("Starting DAK API hub post-processing phase")

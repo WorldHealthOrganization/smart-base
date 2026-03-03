@@ -1,13 +1,10 @@
 # Extract translation template (.pot) files from diagram sources
 #
-# Runs extract_translations.py to scan diagram source files
-# (PlantUML, SVG, ArchiMate, UML) and regenerate the Gettext .pot template
-# files used by Weblate for localisation.
+# Runs the full IG Publisher build (via ghbuild.yml) so that all FHIR output
+# is available, then extracts Gettext .pot template files used by Weblate for
+# localisation as part of the DAK postprocessing step.
 #
-# The generated .pot files are committed back to the branch so that Weblate
-# can detect new/changed translatable strings.
-#
-# Extraction logic lives in:
+# Translation extraction logic lives in:
 #   input/scripts/extract_translations.py
 #
 # Weblate component → .pot file mapping (aligned with weblate.yaml):
@@ -22,15 +19,6 @@ name: Extract Translation Templates
 on:
   # ── Manual trigger from the GitHub Actions UI ──────────────────────────
   workflow_dispatch:
-    inputs:
-      canonical_url:
-        description: 'IG canonical base URL (used for Weblate context links)'
-        required: false
-        default: ''
-      ig_root:
-        description: 'Repository root directory (leave blank for repo root)'
-        required: false
-        default: '.'
 
   # ── Optional: run automatically when diagram sources change ────────────
   # Uncomment to enable automatic extraction on push:
@@ -48,70 +36,101 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  extract-translations:
-    name: Extract .pot files from diagram sources
-    runs-on: ubuntu-latest
-
+  # Run the full IG build (including IG Publisher) as a prerequisite —
+  # the IG Publisher must complete successfully before translations are extracted.
+  build:
+    uses: ./.github/workflows/ghbuild.yml
     permissions:
-      contents: write   # required to commit .pot files back to the branch
+      contents: write        # required to deploy gh-pages
+      pull-requests: write   # required to comment on pull requests
+    with:
+      do_dak: true
+    secrets: inherit
+
+  # Extract .pot files and commit them back to the branch.
+  # This runs after the IG build completes (satisfying the requirement that
+  # the IG Publisher has run), then does a fresh checkout so the push is
+  # against the latest HEAD — avoiding the race-condition rejection.
+  commit-translations:
+    name: Extract and commit translation templates
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      # ── Gate all translation work on DAK being enabled ──────────────────
-      - name: Check for DAK configuration
-        id: dak_check
-        run: |
-          if [ -f "dak.json" ]; then
-            echo "DAK_ENABLED=true" >> "$GITHUB_OUTPUT"
-            echo "✅ dak.json found — translation extraction is enabled"
-          else
-            echo "DAK_ENABLED=false" >> "$GITHUB_OUTPUT"
-            echo "⚠️ dak.json not found — skipping extraction (DAK not enabled)"
-          fi
+          ref: ${{ github.ref }}
 
       - name: Set up Python
-        if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-          cache: pip
-          cache-dependency-path: input/scripts/requirements.txt
+          python-version: '3.11'
 
       - name: Install Python dependencies
-        if: steps.dak_check.outputs.DAK_ENABLED == 'true'
-        run: pip install -r input/scripts/requirements.txt
+        run: pip install "PyYAML>=6.0" lxml
 
-      # ── Derive canonical URL from sushi-config.yaml if not supplied ─────
-      # User inputs are passed via environment variables, NEVER interpolated
-      # directly into shell commands, to prevent script-injection attacks.
-      - name: Extract canonical URL from sushi-config.yaml
-        if: steps.dak_check.outputs.DAK_ENABLED == 'true'
-        id: canonical
-        env:
-          INPUT_CANONICAL: ${{ inputs.canonical_url }}
+      - name: Extract translation templates (.pot)
         run: |
-          if [ -n "${INPUT_CANONICAL}" ]; then
-            echo "url=${INPUT_CANONICAL}" >> "$GITHUB_OUTPUT"
-          else
-            # Parse the canonical field from sushi-config.yaml
-            CANONICAL=$(grep -m1 '^canonical:' sushi-config.yaml | awk '{print $2}' | tr -d "'\"")
-            echo "url=${CANONICAL}" >> "$GITHUB_OUTPUT"
+          echo "Extracting translation templates (.pot) from diagram sources..."
+
+          # Check if extraction script exists locally, download if needed
+          if [ ! -f "input/scripts/extract_translations.py" ]; then
+            echo "Translation extraction script not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/extract_translations.py" \
+              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/extract_translations.py" \
+              2>/dev/null || echo "Failed to download extract_translations.py"
           fi
 
-      - name: Extract .pot translation template files
-        if: steps.dak_check.outputs.DAK_ENABLED == 'true'
-        env:
-          INPUT_IG_ROOT: ${{ inputs.ig_root }}
-          CANONICAL_URL: ${{ steps.canonical.outputs.url }}
-        run: |
-          python input/scripts/extract_translations.py \
-            --ig-root    "${INPUT_IG_ROOT:-.}" \
-            --canonical  "${CANONICAL_URL}"
+          if [ -f "input/scripts/extract_translations.py" ]; then
+            CANONICAL=$(python3 -c "import yaml; cfg=yaml.safe_load(open('sushi-config.yaml')); print(cfg.get('canonical',''))" 2>/dev/null || echo "")
+            python3 input/scripts/extract_translations.py \
+              --ig-root "." \
+              --canonical "${CANONICAL}"
+            echo "✅ Translation templates extracted"
+          else
+            echo "⚠️ Translation extraction script not available, skipping"
+          fi
 
-      # .pot files are listed in .gitignore and are intentionally not committed.
-      # Translation templates are generated at build time and consumed by
-      # Weblate directly from the running workflow artifacts.
+
+      - name: Commit and push updated .pot files
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -- \
+            'input/fsh/translations/' \
+            'input/images-source/translations/' \
+            'input/images/translations/' \
+            'input/archimate/translations/' \
+            'input/diagrams/translations/' \
+            2>/dev/null || true
+
+          if git diff --cached --quiet; then
+            echo "No translation template changes to commit."
+            exit 0
+          fi
+
+          TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
+          MSG="chore: update translation templates (.pot) [${TIMESTAMP}]"$'\n\n'
+          MSG+="Regenerated via extract_translations.py after IG Publisher run."$'\n'
+          MSG+="Triggered by: ${ACTOR}"
+          git commit -m "$MSG"
+
+          # Pull and rebase to handle any commits that landed since checkout,
+          # then push.  Retry up to 3 times.
+          for i in 1 2 3; do
+            git pull --rebase origin "${{ github.ref_name }}" && git push \
+              && { echo "✅ Translation templates committed and pushed"; exit 0; }
+            echo "Push attempt ${i} failed, retrying in $((i * 10)) seconds..."
+            sleep "$((i * 10))"
+          done
+          echo "⚠️ Failed to push translation templates after 3 attempts"
+          exit 1
+
