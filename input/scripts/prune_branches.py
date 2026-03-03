@@ -10,10 +10,12 @@ by GitHub Actions are never interpolated by the shell, eliminating the risk of
 shell-metacharacter injection:
 
     PRUNE_CONFIRM         Must equal the literal string "CONFIRM".
+    PRUNE_SQUASH_ONLY     Set to "true" to squash the gh-pages history without
+                          deleting any branch previews.  When "true",
+                          PRUNE_TARGET_BRANCH is ignored.
     PRUNE_TARGET_BRANCH   Directory name under branches/ to remove.
                           Leave unset or empty to remove ALL deployed branches.
-                          Set to the literal string "NONE" to preserve all
-                          branch previews and only squash the commit history.
+                          Ignored when PRUNE_SQUASH_ONLY is "true".
 
 Security measures
 -----------------
@@ -42,8 +44,6 @@ REQUIRED_BRANCH = "gh-pages"
 BRANCHES_DIR = "branches"
 EXPECTED_CONFIRM = "CONFIRM"
 ORPHAN_BRANCH = "gh-pages-squashed"
-# Sentinel value for target_branch: squash history only, do not delete any previews.
-SQUASH_ONLY_SENTINEL = "NONE"
 
 # Git env vars that could redirect operations to unexpected locations.
 # We strip these from every child-process environment so they cannot be
@@ -299,12 +299,13 @@ def main() -> None:
     # values set by GitHub Actions are never processed by a shell and shell
     # metacharacters in the input cannot execute arbitrary commands.
     confirm = read_env("PRUNE_CONFIRM")
+    squash_only = read_env("PRUNE_SQUASH_ONLY").lower() == "true"
     target = read_env("PRUNE_TARGET_BRANCH")
 
     validate_confirmation(confirm)
     validate_current_branch()
 
-    if target == SQUASH_ONLY_SENTINEL:
+    if squash_only:
         # Squash history only – do not remove any branch previews.
         show_deployed_branches()
         commit_msg = "Prune: squash gh-pages history (branch previews preserved)"
