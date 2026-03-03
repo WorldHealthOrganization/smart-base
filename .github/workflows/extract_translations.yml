@@ -36,15 +36,99 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Run the full IG build (including IG Publisher) so that all generated
-  # FHIR output is available before translations are extracted.
-  # Translation extraction happens as a DAK postprocessing step inside
-  # ghbuild.yml after the IG Publisher completes.
+  # Run the full IG build (including IG Publisher) as a prerequisite —
+  # the IG Publisher must complete successfully before translations are extracted.
   build:
     uses: ./.github/workflows/ghbuild.yml
     permissions:
-      contents: write        # required to push .pot files and deploy gh-pages
+      contents: write        # required to deploy gh-pages
       pull-requests: write   # required to comment on pull requests
     with:
       do_dak: true
     secrets: inherit
+
+  # Extract .pot files and commit them back to the branch.
+  # This runs after the IG build completes (satisfying the requirement that
+  # the IG Publisher has run), then does a fresh checkout so the push is
+  # against the latest HEAD — avoiding the race-condition rejection.
+  commit-translations:
+    name: Extract and commit translation templates
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install "PyYAML>=6.0" lxml
+
+      - name: Extract translation templates (.pot)
+        run: |
+          echo "Extracting translation templates (.pot) from diagram sources..."
+
+          # Check if extraction script exists locally, download if needed
+          if [ ! -f "input/scripts/extract_translations.py" ]; then
+            echo "Translation extraction script not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/extract_translations.py" \
+              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/extract_translations.py" \
+              2>/dev/null || echo "Failed to download extract_translations.py"
+          fi
+
+          if [ -f "input/scripts/extract_translations.py" ]; then
+            CANONICAL=$(python3 -c "import yaml; cfg=yaml.safe_load(open('sushi-config.yaml')); print(cfg.get('canonical',''))" 2>/dev/null || echo "")
+            python3 input/scripts/extract_translations.py \
+              --ig-root "." \
+              --canonical "${CANONICAL}"
+            echo "✅ Translation templates extracted"
+          else
+            echo "⚠️ Translation extraction script not available, skipping"
+          fi
+
+      - name: Commit and push updated .pot files
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -- \
+            'input/fsh/translations/' \
+            'input/images-source/translations/' \
+            'input/images/translations/' \
+            'input/archimate/translations/' \
+            'input/diagrams/translations/' \
+            2>/dev/null || true
+
+          if git diff --cached --quiet; then
+            echo "No translation template changes to commit."
+            exit 0
+          fi
+
+          TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
+          MSG="chore: update translation templates (.pot) [${TIMESTAMP}]"$'\n\n'
+          MSG+="Regenerated via extract_translations.py after IG Publisher run."$'\n'
+          MSG+="Triggered by: ${ACTOR}"
+          git commit -m "$MSG"
+
+          # Pull and rebase to handle any commits that landed since checkout,
+          # then push.  Retry up to 3 times.
+          for i in 1 2 3; do
+            git pull --rebase origin "${{ github.ref_name }}" && git push \
+              && { echo "✅ Translation templates committed and pushed"; exit 0; }
+            echo "Push attempt ${i} failed, retrying in $((i * 10)) seconds..."
+            sleep "$((i * 10))"
+          done
+          echo "⚠️ Failed to push translation templates after 3 attempts"
+          exit 1
