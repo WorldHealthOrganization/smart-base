@@ -380,6 +380,9 @@ jobs:
           # Wait for entrypoint to finish setup
           sleep 5
 
+          # Mark /work as a safe directory to suppress git dubious ownership warnings
+          docker exec ig-run git config --global --add safe.directory /work
+
           # Install Python as root
           docker exec --user root ig-run sh -c '\
             apt-get update && \
