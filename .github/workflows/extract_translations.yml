@@ -1,13 +1,18 @@
-# Extract translation template (.pot) files from diagram sources
+# Extract translation template (.pot) files from FHIR resources and diagram sources
 #
-# Scans diagram source files and extracts Gettext .pot template files used
-# by Weblate for localisation.  The FHIR IG Publisher build is NOT required
-# because extraction reads only the source files in the repository.
+# Runs the FHIR IG Publisher to generate .pot files from FHIR resources and
+# markdown narrative, then runs extract_translations.py to generate .pot files
+# from diagram sources (PlantUML, SVG, ArchiMate).  The resulting .pot files
+# are committed back to the branch for Weblate to pick up.
+#
+# The IG output is NOT deployed to GitHub Pages — this workflow is translation-
+# extraction only and does not modify ghbuild.yml.
 #
 # Translation extraction logic lives in:
 #   input/scripts/extract_translations.py
 #
 # Weblate component → .pot file mapping (aligned with weblate.yaml):
+#   fhir-resources      → input/fsh/translations/base.pot        (IG Publisher)
 #   plantuml-diagrams   → input/images-source/translations/diagrams.pot
 #   svg-images          → input/images/translations/images.pot
 #   archimate-models    → input/archimate/translations/models.pot
@@ -18,6 +23,10 @@ name: Extract Translation Templates
 on:
   # ── Manual trigger from the GitHub Actions UI ──────────────────────────
   workflow_dispatch:
+    inputs:
+      tx:
+        description: 'Optional terminology server URL (use n/a for offline)'
+        required: false
 
   # ── Optional: run automatically when diagram sources change ────────────
   # Uncomment to enable automatic extraction on push:
@@ -35,11 +44,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Extract .pot files directly from source files and commit them back to
-  # the branch.  No IG Publisher build is required — extraction only reads
-  # diagram source files already present in the repository.
-  commit-translations:
-    name: Extract and commit translation templates
+  # Run the IG Publisher (to generate .pot from FHIR resources/markdown),
+  # then extract .pot files from diagram sources and commit them back to the
+  # branch.  No GitHub Pages deployment is performed.
+  build-and-extract:
+    name: Build IG and extract translation templates
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -57,9 +66,52 @@ jobs:
           python-version: '3.11'
 
       - name: Install Python dependencies
-        run: pip install "PyYAML>=6.0" lxml
+        run: |
+          python -m pip install --upgrade pip
+          pip install "PyYAML>=6.0" "requests>=2.28.0" lxml
 
-      - name: Extract translation templates (.pot)
+      - name: Download latest IG Publisher jar
+        uses: docker://hl7fhir/ig-publisher-base:latest
+        with:
+          args: curl -L https://github.com/HL7/fhir-ig-publisher/releases/latest/download/publisher.jar -o ./input-cache/publisher.jar --create-dirs
+
+      - name: Create package cache folder
+        uses: docker://hl7fhir/ig-publisher-base:latest
+        with:
+          entrypoint: /bin/sh
+          args: -c "mkdir -p ./fhir-package-cache && chown 1001:127 ./fhir-package-cache"
+
+      - name: Prepare FHIR home directory
+        uses: docker://hl7fhir/ig-publisher-base:latest
+        with:
+          entrypoint: /bin/sh
+          args: -c "mkdir -p /var/lib/.fhir && chown $(id -u):$(id -g) /var/lib/.fhir"
+
+      - name: Run IG Publisher (no deployment)
+        run: |
+          CMD="java -Xmx6g -jar ./input-cache/publisher.jar publisher \
+            -ig . \
+            -package-cache-folder ./fhir-package-cache"
+
+          if [ -n "${{ inputs.tx }}" ]; then
+            CMD="$CMD -tx ${{ inputs.tx }}"
+          fi
+
+          echo "Running command: $CMD"
+
+          docker run -d --name ig-run \
+            -v ${{ github.workspace }}:/work \
+            -w /work \
+            hl7fhir/ig-publisher-base:latest \
+            sleep infinity
+
+          sleep 5
+
+          docker exec -w /work ig-run sh -c "$CMD"
+
+          docker rm -f ig-run
+
+      - name: Extract translation templates (.pot) from diagram sources
         run: |
           echo "Extracting translation templates (.pot) from diagram sources..."
 
@@ -77,7 +129,7 @@ jobs:
             python3 input/scripts/extract_translations.py \
               --ig-root "." \
               --canonical "${CANONICAL}"
-            echo "✅ Translation templates extracted"
+            echo "✅ Diagram translation templates extracted"
           else
             echo "⚠️ Translation extraction script not available, skipping"
           fi
@@ -104,7 +156,7 @@ jobs:
 
           TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
           MSG="chore: update translation templates (.pot) [${TIMESTAMP}]"$'\n\n'
-          MSG+="Regenerated via extract_translations.py from diagram sources."$'\n'
+          MSG+="Regenerated via IG Publisher and extract_translations.py."$'\n'
           MSG+="Triggered by: ${ACTOR}"
           git commit -m "$MSG"
 
