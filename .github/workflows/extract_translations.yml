@@ -81,7 +81,8 @@ jobs:
         if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         id: canonical
         run: |
-          CANONICAL=$(grep -m1 '^canonical:' sushi-config.yaml | awk '{print $2}' | tr -d "'\"")
+          # Strip all characters not valid in a URL to prevent output injection
+          CANONICAL=$(grep -m1 '^canonical:' sushi-config.yaml | awk '{print $2}' | tr -d "'\"" | tr -cd 'A-Za-z0-9/:._-')
           echo "url=${CANONICAL}" >> "$GITHUB_OUTPUT"
 
       - name: Extract .pot translation template files
@@ -113,10 +114,12 @@ jobs:
           if git diff --cached --quiet; then
             echo "No translation template changes to commit."
           else
+            # Sanitize actor name to safe characters only
+            SAFE_ACTOR=$(echo "${ACTOR}" | tr -cd 'A-Za-z0-9._@-')
             TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
             MSG="chore: update translation templates (.pot) [${TIMESTAMP}]"$'\n\n'
             MSG+="Regenerated via extract_translations.py by GitHub Actions."$'\n'
-            MSG+="Triggered by: ${ACTOR}"
+            MSG+="Triggered by: ${SAFE_ACTOR}"
             git commit -m "$MSG"
             git push
           fi
