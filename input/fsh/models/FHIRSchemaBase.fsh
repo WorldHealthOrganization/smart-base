@@ -15,3 +15,12 @@ Description: "Base logical model providing the common schema metadata interface 
 * jsonldContextTemplate 0..1 string "JSON-LD Context Template" "JSON-LD context template for this logical model (serialised as 'jsonld:contextTemplate' in JSON)"
 * jsonldContextTemplate ^extension[+].url = "http://smart.who.int/base/StructureDefinition/JsonSchemaName"
 * jsonldContextTemplate ^extension[=].valueString = "jsonld:contextTemplate"
+
+Mapping: FHIRSchemaBaseToJsonSchemaNames
+Source: FHIRSchemaBase
+Target: "https://json-schema.org"
+Title: "JSON Schema Property Names"
+Description: "Maps FHIR element names to the JSON Schema property names used in the generated schema. Elements with colon-prefixed property names (e.g. fhir:parent, jsonld:valuesets) must use FHIR-conformant identifiers in the logical model because FHIR element names cannot contain colons."
+* fhirParent -> "fhir:parent"
+* jsonldValuesets -> "jsonld:valuesets"
+* jsonldContextTemplate -> "jsonld:contextTemplate"
