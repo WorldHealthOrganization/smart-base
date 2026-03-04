@@ -475,8 +475,15 @@ _MD_BOLD_RE = re.compile(r"\*{2,3}([^*]+)\*{2,3}")
 _MD_ITALIC_RE = re.compile(r"(?<!\*)\*([^*]+)\*(?!\*)|(?<!_)_([^_]+)_(?!_)")
 # Liquid control-flow / block tags — removed during text cleaning.
 _MD_LIQUID_TAG_RE = re.compile(r"\{%.*?%\}", re.DOTALL)
-# Liquid output expressions — preserved as gettext placeholders (e.g. {{ variable }}).
-# Not removed; retained in the msgid so translators can position them correctly.
+# Liquid output expressions (e.g. ``{{ variable }}``, ``{{ user.name }}``) are
+# transformed to gettext brace-format variables (``{variable}``, ``{user.name}``)
+# so that translators can see and reposition them in their translations.
+_MD_LIQUID_OUTPUT_RE = re.compile(r"\{\{\s*(.*?)\s*\}\}", re.DOTALL)
+# Detects simple dotted-identifier brace variables produced by the Liquid→gettext
+# transform — used to decide whether to emit ``#, python-brace-format`` in the POT.
+_MD_SIMPLE_BRACE_VAR_RE = re.compile(r"\{[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*\}")
+# Any brace group in the cleaned msgid (to detect presence of variables at all).
+_MD_ANY_BRACE_RE = re.compile(r"\{[^{}\n]+\}")
 # Kramdown / Jekyll attribute list syntax (e.g. {: .no_toc} or {:toc})
 _MD_KRAMDOWN_ATTR_RE = re.compile(r"^\{[:%][^}]*\}\s*$")
 # HTML block elements whose content must not be extracted (CSS, JS, pre-formatted)
@@ -501,9 +508,18 @@ def _clean_markdown_text(text: str) -> str:
     Removes inline code, emphasis markers, links (keeping link text), images
     (keeping alt text), HTML tags, and Liquid ``{% %}`` control tags.
 
-    Liquid output expressions (``{{ variable }}``) are **preserved** as-is so
-    that gettext treats them as positional placeholders and translators can
-    reposition them within their translations.
+    Liquid output expressions (``{{ variable }}``) are **transformed** into
+    gettext brace-format variables (``{variable}``) so that:
+
+    * Translators can see the placeholder and reposition it in their translation.
+    * ``plural forms`` in target languages can be expressed correctly relative
+      to the numeric variable (e.g. ``{count}``).
+    * ``msgfmt --check-format`` can validate variable consistency when the entry
+      is annotated with ``#, python-brace-format``.
+
+    The reverse transformation (``{variable}`` → ``{{ variable }}``) is
+    performed by :func:`inject_translations._gettext_to_liquid` when writing
+    translated Markdown files.
 
     Args:
         text: Raw markdown text fragment.
@@ -511,7 +527,10 @@ def _clean_markdown_text(text: str) -> str:
     Returns:
         Plain-text representation suitable for a msgid value.
     """
-    # Remove Liquid/Jekyll control tags ({% ... %}); keep {{ ... }} placeholders.
+    # Transform Liquid output expressions to gettext brace-format variables:
+    #   {{ expr }} → {expr}
+    text = _MD_LIQUID_OUTPUT_RE.sub(lambda m: "{" + m.group(1) + "}", text)
+    # Remove Liquid/Jekyll control tags ({% ... %}); output vars already handled.
     text = _MD_LIQUID_TAG_RE.sub("", text)
     # Remove HTML comments
     text = _MD_HTML_COMMENT_RE.sub("", text)
@@ -753,6 +772,17 @@ def write_pot(
             # Standard gettext file:line reference
             for src_file, lineno, _ in locations:
                 fh.write(f"#: {src_file}:{lineno}\n")
+
+            # Emit python-brace-format flag when the msgid contains brace
+            # variables produced by the Liquid {{ }} → {var} transformation.
+            # Only emit the flag when ALL brace groups are valid Python
+            # identifiers (possibly dotted) so that msgfmt --check-format
+            # can validate translations without false positives.
+            brace_vars = _MD_ANY_BRACE_RE.findall(msgid)
+            if brace_vars and all(
+                _MD_SIMPLE_BRACE_VAR_RE.fullmatch(v) for v in brace_vars
+            ):
+                fh.write("#, python-brace-format\n")
 
             escaped = _escape_pot(msgid)
             fh.write(f'msgid "{escaped}"\n')
