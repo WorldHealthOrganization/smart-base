@@ -2116,10 +2116,16 @@ class SchemaDocumentationRenderer:
         plus a ``<script>`` that fetches the raw source file on-demand and applies
         Prism.js syntax highlighting.
 
+        For CQL (Library resource pages), ``Raw CQL | Download CQL`` links are prepended
+        to each replaced block because the IG Publisher does not generate these links for
+        CQL the way it does for JSON / XML.  Prism.js does not ship a CQL grammar, so the
+        content is displayed as plain pre-formatted text (the fetch and display still work
+        correctly; only syntax colouring is absent).
+
         Args:
             html: Full HTML content of the page
-            lang: Source language / class name ('json', 'xml', 'turtle')
-            label: Human-readable label ('JSON', 'XML', 'TTL')
+            lang: Source language / class name ('json', 'xml', 'turtle', 'cql')
+            label: Human-readable label ('JSON', 'XML', 'TTL', 'CQL')
             src_file: Relative URL of the raw source file to fetch (same directory)
             allow_classless: When True, also replace ``<pre>`` blocks that have no
                 ``class`` attribute (used for format-specific pages where the language
@@ -2236,7 +2242,17 @@ class SchemaDocumentationRenderer:
                     '}})'
                 ).format(f=src_file, l=lang, g=grammar_expr)
 
+            # For CQL, the IG Publisher does not generate raw/download links the way it
+            # does for JSON and XML.  Prepend them here so users can access the raw file.
+            raw_download_prefix = ''
+            if lang == 'cql':
+                raw_download_prefix = (
+                    '<p><a href="' + src_file + '">Raw CQL</a>'
+                    ' | <a href="' + src_file + '" download>Download CQL</a></p>\n'
+                )
+
             loader = (
+                raw_download_prefix +
                 '<pre class="{l}"><code id="{id}" class="language-{l}" style="display:block;">'
                 'Loading {label} source&#8230;</code></pre>'
                 '<script>(function(){{'
@@ -2267,7 +2283,7 @@ class SchemaDocumentationRenderer:
 
     def replace_static_source_with_dynamic_loading(self, output_dir: str) -> int:
         """
-        Replace large static pre-formatted source code in JSON / XML / TTL tabs with
+        Replace large static pre-formatted source code in JSON / XML / TTL / CQL tabs with
         dynamic Prism.js loaders across all FHIR resource HTML pages.
 
         The FHIR IG Publisher embeds the full resource source in ``<pre class="json">``
@@ -2278,6 +2294,11 @@ class SchemaDocumentationRenderer:
         demand, then applies Prism.js syntax highlighting — zero CDN requests, zero
         build step.
 
+        For Library resource pages the IG Publisher also embeds CQL content in a
+        ``<pre class="cql">`` block.  This method replaces those blocks with a dynamic
+        loader and prepends ``Raw CQL | Download CQL`` links (the IG Publisher does not
+        generate these links for CQL the way it does for JSON / XML).
+
         Args:
             output_dir: Directory produced by the FHIR IG Publisher
 
@@ -2286,12 +2307,13 @@ class SchemaDocumentationRenderer:
         """
         # Each tuple is (prism_class, label, file_ext).
         # prism_class: CSS class on <pre> and Prism language name used in the loader JS.
-        # file_ext: actual source file extension (.json / .xml / .ttl).
+        # file_ext: actual source file extension (.json / .xml / .ttl / .cql).
         # Note: the FHIR IG Publisher uses class="turtle" (not "ttl") on TTL <pre> blocks.
         FORMATS = [
             ('json', 'JSON', 'json'),
             ('xml',  'XML',  'xml'),
             ('turtle', 'TTL', 'ttl'),  # IG Publisher: <pre class="turtle">, source file *.ttl
+            ('cql', 'CQL', 'cql'),     # Library CQL source; raw/download links are injected
         ]
 
         modified = 0
