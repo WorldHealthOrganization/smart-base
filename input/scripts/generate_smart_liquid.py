@@ -76,12 +76,15 @@ _FILE_HEADER = """\
   replaced with '_' to produce safe Liquid variable names.
 
   Variable naming: smart__<ResourceType>__<id_normalized>__<category>__<key>
-    url__canonical  – canonical URL (url field of the resource)
-    url__page       – HTML page path (e.g. StructureDefinition-Foo.html)
-    url__json       – JSON download path (e.g. StructureDefinition-Foo.json)
-    text__display   – human-readable label (title or name)
-    link__html      – HTML anchor element
-    elements__*     – scalar data elements (name, title, description, …)
+    url__canonical   – canonical URL (url field of the resource)
+    url__page        – HTML page path (e.g. StructureDefinition-Foo.html)
+    url__json        – JSON download path (e.g. StructureDefinition-Foo.json)
+    url__xml         – XML download path (e.g. StructureDefinition-Foo.xml)
+    url__ttl         – Turtle/RDF download path (e.g. StructureDefinition-Foo.ttl)
+    url__json_schema – JSON Schema path (logical models only; StructureDefinition-Foo.schema.json)
+    text__display    – human-readable label (title or name)
+    link__html       – HTML anchor element
+    elements__*      – scalar data elements (name, title, description, …)
 {%- endcomment -%}
 """
 
@@ -133,6 +136,29 @@ def build_page_filename(resource_type: str, resource_id: str) -> str:
 def build_json_filename(resource_type: str, resource_id: str) -> str:
     """Return the conventional IG Publisher JSON filename for a resource."""
     return f"{resource_type}-{resource_id}.json"
+
+
+def build_xml_filename(resource_type: str, resource_id: str) -> str:
+    """Return the conventional IG Publisher XML filename for a resource."""
+    return f"{resource_type}-{resource_id}.xml"
+
+
+def build_ttl_filename(resource_type: str, resource_id: str) -> str:
+    """Return the conventional IG Publisher Turtle (RDF) filename for a resource."""
+    return f"{resource_type}-{resource_id}.ttl"
+
+
+def build_json_schema_filename(resource_type: str, resource_id: str) -> str:
+    """Return the conventional IG Publisher JSON schema filename for a logical model."""
+    return f"{resource_type}-{resource_id}.schema.json"
+
+
+def is_logical_model(resource: Dict[str, Any]) -> bool:
+    """Return True if the resource is a StructureDefinition with kind='logical'."""
+    return (
+        resource.get('resourceType') == 'StructureDefinition'
+        and resource.get('kind') == 'logical'
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -198,12 +224,21 @@ def generate_assignments(
 
     page_file = build_page_filename(resource_type, resource_id)
     json_file = build_json_filename(resource_type, resource_id)
+    xml_file = build_xml_filename(resource_type, resource_id)
+    ttl_file = build_ttl_filename(resource_type, resource_id)
 
     # URL variables
     canonical_url = resource.get('url', '')
     lines.append(liquid_assign(var(resource_type, resource_id, 'url__canonical'), canonical_url))
     lines.append(liquid_assign(var(resource_type, resource_id, 'url__page'), page_file))
     lines.append(liquid_assign(var(resource_type, resource_id, 'url__json'), json_file))
+    lines.append(liquid_assign(var(resource_type, resource_id, 'url__xml'), xml_file))
+    lines.append(liquid_assign(var(resource_type, resource_id, 'url__ttl'), ttl_file))
+
+    # JSON Schema URL (logical models only)
+    if is_logical_model(resource):
+        json_schema_file = build_json_schema_filename(resource_type, resource_id)
+        lines.append(liquid_assign(var(resource_type, resource_id, 'url__json_schema'), json_schema_file))
 
     # Display text
     display = get_display(resource)
@@ -269,6 +304,10 @@ def generate_markdown_table(
         lines.append(row(var(resource_type, resource_id, 'url__canonical')))
         lines.append(row(var(resource_type, resource_id, 'url__page')))
         lines.append(row(var(resource_type, resource_id, 'url__json')))
+        lines.append(row(var(resource_type, resource_id, 'url__xml')))
+        lines.append(row(var(resource_type, resource_id, 'url__ttl')))
+        if is_logical_model(resource):
+            lines.append(row(var(resource_type, resource_id, 'url__json_schema')))
         lines.append(row(var(resource_type, resource_id, 'text__display')))
         lines.append(row(var(resource_type, resource_id, 'link__html')))
 

@@ -9,6 +9,9 @@ included in a page, along with their resolved values.
 | smart__StructureDefinition__DAK__url__canonical | {{ smart__StructureDefinition__DAK__url__canonical }} |
 | smart__StructureDefinition__DAK__url__page | {{ smart__StructureDefinition__DAK__url__page }} |
 | smart__StructureDefinition__DAK__url__json | {{ smart__StructureDefinition__DAK__url__json }} |
+| smart__StructureDefinition__DAK__url__xml | {{ smart__StructureDefinition__DAK__url__xml }} |
+| smart__StructureDefinition__DAK__url__ttl | {{ smart__StructureDefinition__DAK__url__ttl }} |
+| smart__StructureDefinition__DAK__url__json_schema | {{ smart__StructureDefinition__DAK__url__json_schema }} |
 | smart__StructureDefinition__DAK__text__display | {{ smart__StructureDefinition__DAK__text__display }} |
 | smart__StructureDefinition__DAK__link__html | {{ smart__StructureDefinition__DAK__link__html }} |
 | smart__StructureDefinition__DAK__elements__name | {{ smart__StructureDefinition__DAK__elements__name }} |
@@ -20,11 +23,12 @@ included in a page, along with their resolved values.
 | smart__ValueSet__SGPersonaTypesVS__url__canonical | {{ smart__ValueSet__SGPersonaTypesVS__url__canonical }} |
 | smart__ValueSet__SGPersonaTypesVS__url__page | {{ smart__ValueSet__SGPersonaTypesVS__url__page }} |
 | smart__ValueSet__SGPersonaTypesVS__url__json | {{ smart__ValueSet__SGPersonaTypesVS__url__json }} |
+| smart__ValueSet__SGPersonaTypesVS__url__xml | {{ smart__ValueSet__SGPersonaTypesVS__url__xml }} |
+| smart__ValueSet__SGPersonaTypesVS__url__ttl | {{ smart__ValueSet__SGPersonaTypesVS__url__ttl }} |
 | smart__ValueSet__SGPersonaTypesVS__text__display | {{ smart__ValueSet__SGPersonaTypesVS__text__display }} |
 | smart__ValueSet__SGPersonaTypesVS__link__html | {{ smart__ValueSet__SGPersonaTypesVS__link__html }} |
 | smart__ValueSet__SGPersonaTypesVS__elements__name | {{ smart__ValueSet__SGPersonaTypesVS__elements__name }} |
 | smart__ValueSet__SGPersonaTypesVS__elements__title | {{ smart__ValueSet__SGPersonaTypesVS__elements__title }} |
-| smart__ValueSet__SGPersonaTypesVS__elements__description | {{ smart__ValueSet__SGPersonaTypesVS__elements__description }} |
 | smart__ValueSet__SGPersonaTypesVS__elements__status | {{ smart__ValueSet__SGPersonaTypesVS__elements__status }} |
 | smart__ValueSet__SGPersonaTypesVS__elements__version | {{ smart__ValueSet__SGPersonaTypesVS__elements__version }} |
 
