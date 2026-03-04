@@ -3,13 +3,19 @@
 SMART Guidelines Translation Extraction Script
 
 Extracts translatable strings from visual and architectural diagram sources
-into Gettext .pot template files for Weblate-based localisation.
+and markdown narrative pages into Gettext .pot template files for
+Weblate-based localisation.
 
 Targeted source types (aligned with the L3 Authoring SOP):
   - PlantUML  (.plantuml)  in input/images-source/
   - Custom SVG (.svg)      in input/images/
   - ArchiMate  (.archimate) in input/archimate/
   - UML diagrams (.svg/.xml) in input/diagrams/
+  - Markdown pages (.md)    in input/pagecontent/   ← replaces IG Publisher markdown POT
+
+Note on Prism.js: syntax highlighting in generated pages is provided by
+Prism.js, which is already bundled by the base FHIR IG Publisher template
+(who.template.root).  No separate Prism.js load is required or performed.
 
 Each .pot file records:
   - #. Source: <relative-path>:<line>   — exact file/line location
@@ -450,8 +456,251 @@ def extract_archimate(file_path: str, canonical: str) -> List[TranslationEntry]:
 
 
 # ---------------------------------------------------------------------------
-# POT writer
+# Markdown extractor
 # ---------------------------------------------------------------------------
+
+# Patterns used by the markdown extractor
+_MD_FRONT_MATTER_DELIM = re.compile(r"^---\s*$")
+_MD_HEADING_RE = re.compile(r"^#{1,6}\s+(.+)$")
+_MD_CODE_FENCE_RE = re.compile(r"^(`{3,}|~{3,})")
+_MD_HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
+_MD_INLINE_CODE_RE = re.compile(r"`[^`]+`")
+_MD_LINK_RE = re.compile(r"\[([^\]]+)\]\([^)]*\)")
+_MD_IMAGE_RE = re.compile(r"!\[([^\]]*)\]\([^)]*\)")
+_MD_ANGLE_LINK_RE = re.compile(r"<https?://[^>]+>")
+_MD_HTML_TAG_RE = re.compile(r"<[^>]+>")
+# Match bold/italic emphasis separately to avoid backreference failures with
+# mismatched markers (e.g. *text_ or nested emphasis).
+_MD_BOLD_RE = re.compile(r"\*{2,3}([^*]+)\*{2,3}")
+_MD_ITALIC_RE = re.compile(r"(?<!\*)\*([^*]+)\*(?!\*)|(?<!_)_([^_]+)_(?!_)")
+_MD_LIQUID_TAG_RE = re.compile(r"\{%.*?%\}|\{\{.*?\}\}", re.DOTALL)
+# Kramdown / Jekyll attribute list syntax (e.g. {: .no_toc} or {:toc})
+_MD_KRAMDOWN_ATTR_RE = re.compile(r"^\{[:%][^}]*\}\s*$")
+# HTML block elements whose content must not be extracted (CSS, JS, pre-formatted)
+_MD_HTML_SKIP_OPEN_RE = re.compile(r"<(style|script|pre)\b", re.IGNORECASE)
+_MD_HTML_CLOSE_TAG_RE = re.compile(r"</(\w+)\s*>", re.IGNORECASE)
+# Horizontal rule pattern
+_MD_HLINE_RE = re.compile(r"^[-*_]{3,}\s*$")
+# Table separator row (e.g. |---|---|)
+_MD_TABLE_SEP_RE = re.compile(r"^\|[-| :]+\|?\s*$")
+# List item (unordered or ordered)
+_MD_LIST_ITEM_RE = re.compile(r"^(\s*)(?:[-*+]|\d+\.)\s+(.*)")
+# Blockquote line
+_MD_BLOCKQUOTE_RE = re.compile(r"^>+\s?(.*)")
+
+# Minimum character length for a string to be considered translatable
+_MD_MIN_TEXT_LEN: int = 3
+
+
+def _clean_markdown_text(text: str) -> str:
+    """Strip markdown formatting from a text fragment to obtain plain text.
+
+    Removes inline code, emphasis markers, links (keeping link text), images
+    (keeping alt text), HTML tags, and Liquid template tags.
+
+    Args:
+        text: Raw markdown text fragment.
+
+    Returns:
+        Plain-text representation suitable for a msgid value.
+    """
+    # Remove Liquid/Jekyll template tags
+    text = _MD_LIQUID_TAG_RE.sub("", text)
+    # Remove HTML comments
+    text = _MD_HTML_COMMENT_RE.sub("", text)
+    # Replace images with alt text
+    text = _MD_IMAGE_RE.sub(r"\1", text)
+    # Replace links with link text
+    text = _MD_LINK_RE.sub(r"\1", text)
+    # Remove angle-bracket auto-links
+    text = _MD_ANGLE_LINK_RE.sub("", text)
+    # Remove inline code spans
+    text = _MD_INLINE_CODE_RE.sub("", text)
+    # Strip bold/italic markers while keeping the content
+    text = _MD_BOLD_RE.sub(r"\1", text)
+    text = _MD_ITALIC_RE.sub(lambda m: m.group(1) or m.group(2), text)
+    # Remove remaining HTML tags
+    text = _MD_HTML_TAG_RE.sub("", text)
+    return text.strip()
+
+
+def extract_markdown(file_path: str, canonical: str) -> List[TranslationEntry]:
+    """Extract translatable strings from a Markdown narrative page.
+
+    This function replaces the FHIR IG Publisher's markdown POT generation
+    for ``input/pagecontent/`` files.  It extracts heading text and
+    paragraph/list-item text while skipping YAML front matter, fenced code
+    blocks, HTML ``<style>`` / ``<script>`` blocks, and lines that consist
+    entirely of markup or whitespace.
+
+    Args:
+        file_path: Relative path to the ``.md`` file (from ig_root).
+        canonical: IG canonical base URL.
+
+    Returns:
+        List of TranslationEntry objects.
+    """
+    entries: List[TranslationEntry] = []
+    context_url = _make_markdown_context_url(canonical, file_path)
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as fh:
+            lines = fh.readlines()
+    except OSError as exc:
+        logging.getLogger(__name__).warning(f"Cannot read {file_path}: {exc}")
+        return entries
+
+    in_front_matter = False
+    in_code_block = False
+    code_fence: Optional[str] = None
+    in_html_block = False      # inside <style>, <script>, or <pre> blocks
+    html_close_tag: str = ""   # closing tag we're waiting for
+    paragraph_lines: List[Tuple[int, str]] = []
+
+    def _flush_paragraph() -> None:
+        """Emit a TranslationEntry for the accumulated paragraph lines."""
+        if not paragraph_lines:
+            return
+        raw = " ".join(l for _, l in paragraph_lines)
+        text = _clean_markdown_text(raw)
+        if len(text) >= _MD_MIN_TEXT_LEN:
+            entries.append(TranslationEntry(
+                file_path, paragraph_lines[0][0], text, context_url
+            ))
+        paragraph_lines.clear()
+
+    for lineno, raw_line in enumerate(lines, start=1):
+        line = raw_line.rstrip("\n")
+
+        # --- YAML front matter ---
+        if lineno == 1 and _MD_FRONT_MATTER_DELIM.match(line):
+            in_front_matter = True
+            continue
+        if in_front_matter:
+            if _MD_FRONT_MATTER_DELIM.match(line) and lineno > 1:
+                in_front_matter = False
+            continue
+
+        # --- Fenced code blocks ---
+        fence_m = _MD_CODE_FENCE_RE.match(line)
+        if fence_m:
+            if not in_code_block:
+                _flush_paragraph()
+                in_code_block = True
+                # Store the full opening fence string so closing detection is
+                # correct for fences with more than 3 backticks/tildes.
+                code_fence = fence_m.group(1)
+            elif code_fence and line.startswith(code_fence[0] * len(code_fence)):
+                in_code_block = False
+                code_fence = None
+            continue
+        if in_code_block:
+            continue
+
+        stripped = line.strip()
+
+        # --- HTML blocks that should not be extracted (<style>, <script>, <pre>) ---
+        if in_html_block:
+            # Check for the precise closing tag using regex to avoid partial matches.
+            close_m = _MD_HTML_CLOSE_TAG_RE.search(stripped)
+            if close_m and close_m.group(1).lower() == html_close_tag:
+                in_html_block = False
+                html_close_tag = ""
+            continue
+        # Detect opening of a block-level HTML element whose content is not
+        # human-readable prose (style sheets, scripts, preformatted source).
+        open_m = _MD_HTML_SKIP_OPEN_RE.search(stripped)
+        if open_m:
+            tag_name = open_m.group(1).lower()
+            _flush_paragraph()
+            # Check if the closing tag appears on the same line.
+            close_m = _MD_HTML_CLOSE_TAG_RE.search(stripped)
+            if close_m and close_m.group(1).lower() == tag_name:
+                continue
+            in_html_block = True
+            html_close_tag = tag_name
+            continue
+
+        # --- Blank line: end of paragraph ---
+        if not stripped:
+            _flush_paragraph()
+            continue
+
+        # --- Headings ---
+        heading_m = _MD_HEADING_RE.match(line)
+        if heading_m:
+            _flush_paragraph()
+            text = _clean_markdown_text(heading_m.group(1))
+            if len(text) >= _MD_MIN_TEXT_LEN:
+                entries.append(TranslationEntry(file_path, lineno, text, context_url))
+            continue
+
+        # --- Horizontal rules / table separators (skip) ---
+        if _MD_HLINE_RE.match(stripped) or _MD_TABLE_SEP_RE.match(stripped):
+            _flush_paragraph()
+            continue
+
+        # --- List items: strip leading bullet/number, then treat as paragraph text ---
+        list_m = _MD_LIST_ITEM_RE.match(line)
+        if list_m:
+            _flush_paragraph()
+            item_text = list_m.group(2).strip()
+            text = _clean_markdown_text(item_text)
+            if len(text) >= _MD_MIN_TEXT_LEN:
+                entries.append(TranslationEntry(file_path, lineno, text, context_url))
+            continue
+
+        # --- Block-quote lines: strip leading "> " ---
+        bq_m = _MD_BLOCKQUOTE_RE.match(line)
+        if bq_m:
+            _flush_paragraph()
+            text = _clean_markdown_text(bq_m.group(1))
+            if len(text) >= _MD_MIN_TEXT_LEN:
+                entries.append(TranslationEntry(file_path, lineno, text, context_url))
+            continue
+
+        # --- Table rows: extract cell content ---
+        if stripped.startswith("|") and stripped.endswith("|"):
+            _flush_paragraph()
+            cells = [c.strip() for c in stripped.strip("|").split("|")]
+            for cell in cells:
+                text = _clean_markdown_text(cell)
+                if len(text) >= _MD_MIN_TEXT_LEN:
+                    entries.append(TranslationEntry(file_path, lineno, text, context_url))
+            continue
+
+        # --- Kramdown / Jekyll attribute lists (skip entirely) ---
+        if _MD_KRAMDOWN_ATTR_RE.match(stripped):
+            _flush_paragraph()
+            continue
+
+        # --- Continuation of a paragraph ---
+        paragraph_lines.append((lineno, stripped))
+
+    # Flush any remaining paragraph
+    _flush_paragraph()
+
+    return entries
+
+
+def _make_markdown_context_url(canonical: str, source_rel: str) -> str:
+    """Derive the published URL for a markdown page source file.
+
+    Markdown pages in ``input/pagecontent/foo.md`` are published as
+    ``<canonical>/foo.html``.
+
+    Args:
+        canonical: IG canonical base URL.
+        source_rel: Relative path to the source ``.md`` file.
+
+    Returns:
+        Absolute published URL string.
+    """
+    canonical = canonical.rstrip("/")
+    stem = Path(source_rel).stem
+    return f"{canonical}/{stem}.html"
+
+
 
 def write_pot(
     entries: List[TranslationEntry],
@@ -563,13 +812,25 @@ def collect_entries(
     if diagrams_entries is not None:
         result[os.path.join(diagrams_dir, "translations", "diagrams.pot")] = diagrams_entries
 
+    # --- Markdown narrative pages in input/pagecontent/ ---
+    # This replaces the FHIR IG Publisher's markdown POT generation.  The IG
+    # Publisher is now invoked with -generation-off so it only processes FHIR
+    # resources; markdown strings are extracted here via Python instead.
+    pagecontent_dir = os.path.join(ig_root, "input", "pagecontent")
+    pagecontent_entries = _scan(pagecontent_dir, ["*.md"], extract_markdown)
+    if pagecontent_entries is not None:
+        result[os.path.join(pagecontent_dir, "translations", "pages.pot")] = pagecontent_entries
+
     return result
 
 
 def main() -> int:
     """Entry point."""
     parser = argparse.ArgumentParser(
-        description="Extract translatable strings from SMART diagram sources into .pot files",
+        description=(
+            "Extract translatable strings from SMART diagram sources and "
+            "markdown narrative pages into .pot files"
+        ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
@@ -601,7 +862,7 @@ def main() -> int:
     per_component = collect_entries(ig_root, canonical)
 
     if not per_component:
-        logger.info("No diagram source files found — nothing to extract")
+        logger.info("No diagram or markdown source files found — nothing to extract")
         return 0
 
     total_written = 0
