@@ -476,14 +476,26 @@ _MD_ITALIC_RE = re.compile(r"(?<!\*)\*([^*]+)\*(?!\*)|(?<!_)_([^_]+)_(?!_)")
 # Liquid control-flow / block tags — removed during text cleaning.
 _MD_LIQUID_TAG_RE = re.compile(r"\{%.*?%\}", re.DOTALL)
 # Liquid output expressions (e.g. ``{{ variable }}``, ``{{ user.name }}``) are
-# transformed to gettext brace-format variables (``{variable}``, ``{user.name}``)
-# so that translators can see and reposition them in their translations.
+# transformed to gettext brace-format variables with a distinguishing prefix so
+# that only variables that originated from Liquid templates are ever back-converted
+# to ``{{ }}`` syntax during injection.  Variables whose source is not a Liquid
+# expression are left as plain text and never touched by the injector.
+#
+# Example:  ``{{ count }}`` → ``{lqd_count}``
 _MD_LIQUID_OUTPUT_RE = re.compile(r"\{\{\s*(.*?)\s*\}\}", re.DOTALL)
-# Detects simple dotted-identifier brace variables produced by the Liquid→gettext
-# transform — used to decide whether to emit ``#, python-brace-format`` in the POT.
-_MD_SIMPLE_BRACE_VAR_RE = re.compile(r"\{[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*\}")
-# Any brace group in the cleaned msgid (to detect presence of variables at all).
-_MD_ANY_BRACE_RE = re.compile(r"\{[^{}\n]+\}")
+# Prefix prepended to every Liquid output variable name in the gettext msgid.
+# The injector uses this prefix to distinguish Liquid-originated variables from
+# any other brace groups that may appear in a .po file.
+_LQD_PREFIX: str = "lqd_"
+# Detects prefixed brace variables produced by the Liquid→gettext transform that
+# are valid Python dotted identifiers — used to decide whether to emit the
+# ``#, python-brace-format`` flag in the POT.
+_MD_SIMPLE_BRACE_VAR_RE = re.compile(
+    r"\{lqd_[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*\}"
+)
+# Any prefixed brace group in the cleaned msgid (to detect presence of Liquid
+# variables at all; non-prefixed brace groups are ignored).
+_MD_ANY_BRACE_RE = re.compile(r"\{lqd_[^{}\n]+\}")
 # Kramdown / Jekyll attribute list syntax (e.g. {: .no_toc} or {:toc})
 _MD_KRAMDOWN_ATTR_RE = re.compile(r"^\{[:%][^}]*\}\s*$")
 # HTML block elements whose content must not be extracted (CSS, JS, pre-formatted)
@@ -509,17 +521,26 @@ def _clean_markdown_text(text: str) -> str:
     (keeping alt text), HTML tags, and Liquid ``{% %}`` control tags.
 
     Liquid output expressions (``{{ variable }}``) are **transformed** into
-    gettext brace-format variables (``{variable}``) so that:
+    prefixed gettext brace-format variables (``{lqd_variable}``) so that:
 
     * Translators can see the placeholder and reposition it in their translation.
     * ``plural forms`` in target languages can be expressed correctly relative
-      to the numeric variable (e.g. ``{count}``).
+      to the numeric variable (e.g. ``{lqd_count}``).
     * ``msgfmt --check-format`` can validate variable consistency when the entry
       is annotated with ``#, python-brace-format``.
+    * **Only** variables prefixed with ``lqd_`` are ever back-converted to
+      ``{{ }}`` syntax during injection, so any other ``{…}`` text in a
+      ``.po`` file is never accidentally treated as a Liquid expression.
 
-    The reverse transformation (``{variable}`` → ``{{ variable }}``) is
+    The reverse transformation (``{lqd_variable}`` → ``{{ variable }}``) is
     performed by :func:`inject_translations._gettext_to_liquid` when writing
     translated Markdown files.
+
+    Implementation note:  Liquid expressions are **tokenised** (replaced with
+    NUL-byte sentinels) before bold/italic processing so that underscores
+    inside variable names like ``{{ cell_var }}`` are never consumed by the
+    italic ``_..._`` regex.  The sentinels are then restored as ``{lqd_...}``
+    after all other markdown cleaning has been applied.
 
     Args:
         text: Raw markdown text fragment.
@@ -527,11 +548,18 @@ def _clean_markdown_text(text: str) -> str:
     Returns:
         Plain-text representation suitable for a msgid value.
     """
-    # Transform Liquid output expressions to gettext brace-format variables:
-    #   {{ expr }} → {expr}
-    text = _MD_LIQUID_OUTPUT_RE.sub(lambda m: "{" + m.group(1) + "}", text)
-    # Remove Liquid/Jekyll control tags ({% ... %}); output vars already handled.
+    # Remove Liquid/Jekyll control tags ({% ... %}) first.
     text = _MD_LIQUID_TAG_RE.sub("", text)
+    # Tokenise Liquid output expressions with NUL-byte sentinels so that the
+    # bold/italic regexes cannot accidentally consume underscores inside variable
+    # names (e.g. {{ cell_var }} → \x00LQD0\x00 so _cell_ is never seen).
+    _lqd_tokens: List[str] = []
+
+    def _save_lqd(m: re.Match) -> str:  # type: ignore[type-arg]
+        _lqd_tokens.append(m.group(1).strip())
+        return f"\x00LQD{len(_lqd_tokens) - 1}\x00"
+
+    text = _MD_LIQUID_OUTPUT_RE.sub(_save_lqd, text)
     # Remove HTML comments
     text = _MD_HTML_COMMENT_RE.sub("", text)
     # Replace images with alt text
@@ -547,6 +575,9 @@ def _clean_markdown_text(text: str) -> str:
     text = _MD_ITALIC_RE.sub(lambda m: m.group(1) or m.group(2), text)
     # Remove remaining HTML tags
     text = _MD_HTML_TAG_RE.sub("", text)
+    # Restore tokenised Liquid expressions as {lqd_expr} gettext variables.
+    for i, expr in enumerate(_lqd_tokens):
+        text = text.replace(f"\x00LQD{i}\x00", "{" + _LQD_PREFIX + expr + "}")
     return text.strip()
 
 

@@ -164,38 +164,54 @@ _LEGEND_END_RE = re.compile(r"^\s*end\s*legend\s*$", re.IGNORECASE)
 #
 # Markdown pages use Liquid templating (Jekyll/FHIR IG Publisher).  Output
 # expressions like ``{{ variable }}`` or ``{{ user.name }}`` must survive the
-# translation round-trip as gettext brace-format variables (``{variable}``).
+# translation round-trip as gettext brace-format variables.
 #
-# Forward  (extract → POT):  {{ expr }}  →  {expr}   (done in extract_translations.py)
-# Backward (PO  → markdown): {expr}      →  {{ expr }}  (done here before writing)
+# A distinguishing prefix (``lqd_``) is prepended during extraction so that
+# only variables that originated from Liquid templates are ever back-converted
+# to ``{{ }}`` syntax here.  Any other ``{something}`` that appears in a
+# translator's msgstr (not from a Liquid template) is left completely alone.
+#
+# Forward  (extract → POT):  {{ expr }}     →  {lqd_expr}   (extract_translations.py)
+# Backward (PO  → markdown): {lqd_expr}    →  {{ expr }}    (this file)
+# Untouched:                 {other_thing}  →  {other_thing} (never touched)
+
+# Prefix prepended to every Liquid output variable name.  Must match the
+# constant ``_LQD_PREFIX`` in extract_translations.py.
+_LQD_PREFIX: str = "lqd_"
 
 # Matches Liquid output expressions: {{ ... }}
 _LIQUID_OUTPUT_RE = re.compile(r"\{\{\s*(.*?)\s*\}\}", re.DOTALL)
-# Matches gettext brace-format variables: {anything-not-a-brace}
-_GETTEXT_BRACE_VAR_RE = re.compile(r"\{([^{}\n]+)\}")
+# Matches only prefixed gettext brace variables produced by our extractor:
+# {lqd_...} — leaves other {something} groups untouched.
+_GETTEXT_LQD_VAR_RE = re.compile(r"\{lqd_([^{}\n]+)\}")
 
 
 def _liquid_to_gettext(text: str) -> str:
-    """Convert Liquid output expressions to gettext brace-format variables.
+    """Convert Liquid output expressions to prefixed gettext brace-format variables.
 
-    ``{{ expr }}`` → ``{expr}``
+    ``{{ expr }}`` → ``{lqd_expr}``
 
     Used to derive the msgid key for a markdown text span so that the correct
     translation can be looked up from the .po dictionary.
     """
-    return _LIQUID_OUTPUT_RE.sub(lambda m: "{" + m.group(1) + "}", text)
+    return _LIQUID_OUTPUT_RE.sub(lambda m: "{" + _LQD_PREFIX + m.group(1) + "}", text)
 
 
 def _gettext_to_liquid(text: str) -> str:
-    """Convert gettext brace-format variables back to Liquid output expressions.
+    """Convert prefixed gettext brace-format variables back to Liquid output expressions.
 
-    ``{expr}`` → ``{{ expr }}``
+    ``{lqd_expr}`` → ``{{ expr }}``
+
+    Only ``{lqd_…}`` groups (produced by the extractor) are converted.  Any
+    other ``{something}`` groups that appear in the translated string are left
+    completely untouched so that non-Liquid brace text is never accidentally
+    wrapped in ``{{ }}``.
 
     Applied to the translated msgstr before writing it into the output
     Markdown file so that the Liquid templating engine can still evaluate
     the expressions at render time.
     """
-    return _GETTEXT_BRACE_VAR_RE.sub(lambda m: "{{ " + m.group(1) + " }}", text)
+    return _GETTEXT_LQD_VAR_RE.sub(lambda m: "{{ " + m.group(1) + " }}", text)
 
 
 # ---------------------------------------------------------------------------
@@ -221,13 +237,20 @@ def _clean_md_for_lookup(text: str) -> str:
     """Derive the gettext msgid for a raw Markdown text fragment.
 
     Mirrors ``extract_translations._clean_markdown_text``: applies the same
-    transformations so that the same key is produced and the translation can
-    be found in the .po dictionary.
+    transformations (including the Liquid tokenisation trick) so that the same
+    msgid key is produced and the translation can be found in the .po dictionary.
     """
-    # Transform Liquid output expressions to gettext brace-format variables.
-    text = _liquid_to_gettext(text)
-    # Remove Liquid/Jekyll control tags ({% ... %}).
+    # Remove Liquid/Jekyll control tags ({% ... %}) first.
     text = _MD_LIQUID_TAG_RE_INJ.sub("", text)
+    # Tokenise Liquid output expressions before bold/italic processing so that
+    # underscores inside variable names are not consumed by the italic regex.
+    _lqd_tokens: List[str] = []
+
+    def _save_lqd(m: re.Match) -> str:  # type: ignore[type-arg]
+        _lqd_tokens.append(m.group(1).strip())
+        return f"\x00LQD{len(_lqd_tokens) - 1}\x00"
+
+    text = _LIQUID_OUTPUT_RE.sub(_save_lqd, text)
     # Remove HTML comments.
     text = _MD_HTML_COMMENT_RE_INJ.sub("", text)
     # Replace images with alt text.
@@ -243,6 +266,9 @@ def _clean_md_for_lookup(text: str) -> str:
     text = _MD_ITALIC_RE_INJ.sub(lambda m: m.group(1) or m.group(2), text)
     # Remove remaining HTML tags.
     text = _MD_HTML_TAG_RE_INJ.sub("", text)
+    # Restore tokenised Liquid expressions as {lqd_expr} gettext variables.
+    for i, expr in enumerate(_lqd_tokens):
+        text = text.replace(f"\x00LQD{i}\x00", "{" + _LQD_PREFIX + expr + "}")
     return text.strip()
 
 
