@@ -1848,7 +1848,7 @@ class SchemaDocumentationRenderer:
   margin: 1rem 0;
 }
 
-.api-info .card, .schema-card, .endpoint-card {
+.api-info .card, .endpoint-card {
   background-color: #f8f9fa;
   border: 1px solid #dee2e6;
   border-radius: 0.375rem;
@@ -1856,7 +1856,7 @@ class SchemaDocumentationRenderer:
   margin: 1rem 0;
 }
 
-.schema-card h3, .endpoint-card h3 {
+.endpoint-card h3 {
   color: #00477d;
   margin-top: 0;
 }
@@ -1866,61 +1866,6 @@ class SchemaDocumentationRenderer:
 .badge-put { background-color: #ffc107; color: #212529; }
 .badge-delete { background-color: #dc3545; }
 .badge-patch { background-color: #6f42c1; }
-
-.enum-values {
-  background-color: #e7f3ff;
-  border: 1px solid #b8daff;
-  border-radius: 4px;
-  padding: 1rem;
-  margin: 1rem 0;
-}
-
-.enum-value {
-  display: inline-block;
-  background-color: #00477d;
-  color: white;
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
-  margin: 0.2rem;
-  font-size: 0.9rem;
-  text-decoration: none;
-}
-
-.enum-value:hover {
-  background-color: #0070A1;
-}
-
-.enum-truncated {
-  margin-top: 0.5rem;
-  font-style: italic;
-  color: #6c757d;
-}
-
-.schema-link {
-  display: inline-block;
-  background-color: #17a2b8;
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 3px;
-  text-decoration: none;
-  font-size: 0.8rem;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-}
-
-.schema-link:hover {
-  background-color: #138496;
-  color: white;
-  text-decoration: none;
-}
-
-.properties-list {
-  margin-left: 1rem;
-}
-
-.properties-list li {
-  margin: 0.5rem 0;
-}
 </style>
 
 <p><em>This documentation is automatically generated from the OpenAPI specification.</em></p>
