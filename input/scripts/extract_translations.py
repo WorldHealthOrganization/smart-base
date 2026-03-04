@@ -473,7 +473,10 @@ _MD_HTML_TAG_RE = re.compile(r"<[^>]+>")
 # mismatched markers (e.g. *text_ or nested emphasis).
 _MD_BOLD_RE = re.compile(r"\*{2,3}([^*]+)\*{2,3}")
 _MD_ITALIC_RE = re.compile(r"(?<!\*)\*([^*]+)\*(?!\*)|(?<!_)_([^_]+)_(?!_)")
-_MD_LIQUID_TAG_RE = re.compile(r"\{%.*?%\}|\{\{.*?\}\}", re.DOTALL)
+# Liquid control-flow / block tags — removed during text cleaning.
+_MD_LIQUID_TAG_RE = re.compile(r"\{%.*?%\}", re.DOTALL)
+# Liquid output expressions — preserved as gettext placeholders (e.g. {{ variable }}).
+# Not removed; retained in the msgid so translators can position them correctly.
 # Kramdown / Jekyll attribute list syntax (e.g. {: .no_toc} or {:toc})
 _MD_KRAMDOWN_ATTR_RE = re.compile(r"^\{[:%][^}]*\}\s*$")
 # HTML block elements whose content must not be extracted (CSS, JS, pre-formatted)
@@ -496,7 +499,11 @@ def _clean_markdown_text(text: str) -> str:
     """Strip markdown formatting from a text fragment to obtain plain text.
 
     Removes inline code, emphasis markers, links (keeping link text), images
-    (keeping alt text), HTML tags, and Liquid template tags.
+    (keeping alt text), HTML tags, and Liquid ``{% %}`` control tags.
+
+    Liquid output expressions (``{{ variable }}``) are **preserved** as-is so
+    that gettext treats them as positional placeholders and translators can
+    reposition them within their translations.
 
     Args:
         text: Raw markdown text fragment.
@@ -504,7 +511,7 @@ def _clean_markdown_text(text: str) -> str:
     Returns:
         Plain-text representation suitable for a msgid value.
     """
-    # Remove Liquid/Jekyll template tags
+    # Remove Liquid/Jekyll control tags ({% ... %}); keep {{ ... }} placeholders.
     text = _MD_LIQUID_TAG_RE.sub("", text)
     # Remove HTML comments
     text = _MD_HTML_COMMENT_RE.sub("", text)
