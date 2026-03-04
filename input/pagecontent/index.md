@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 ### Overview
 
 **WHO SMART Guidelines** (Standards-based, Machine-readable, Adaptive, Requirements-based, and Testable) are a set of WHO clinical guidelines that have been transformed into a computable, interoperable format. They enable countries to rapidly adopt, adapt, and implement WHO recommendations within their digital health systems by providing structured, machine-readable clinical content.

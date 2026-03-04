@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Digital Adaptation Kit (DAK)
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-DAK -->

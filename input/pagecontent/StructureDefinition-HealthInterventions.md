@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Health Interventions and Recommendations (DAK)
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-HealthInterventions -->

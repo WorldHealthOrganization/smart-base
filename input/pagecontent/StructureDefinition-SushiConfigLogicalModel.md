@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # SUSHI Configuration Logical Model
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-SushiConfigLogicalModel -->

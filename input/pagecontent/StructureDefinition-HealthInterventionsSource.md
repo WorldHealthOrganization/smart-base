@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Health Interventions Source
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-HealthInterventionsSource -->

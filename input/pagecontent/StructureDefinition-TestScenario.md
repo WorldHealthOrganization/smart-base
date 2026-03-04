@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Test Scenario (DAK)
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-TestScenario -->

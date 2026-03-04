@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Decision-Support Logic (DAK)
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-DecisionSupportLogic -->

@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Program Indicator (DAK)
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-ProgramIndicator -->

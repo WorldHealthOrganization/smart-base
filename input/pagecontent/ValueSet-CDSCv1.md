@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Classification of Digital Health System Categories v1
 
 <!-- DAK_API_PLACEHOLDER: ValueSet-CDSCv1 -->

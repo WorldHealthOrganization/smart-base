@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # ISCO-08 Value Set
 
 <!-- DAK_API_PLACEHOLDER: ValueSet-ISCO08ValueSet -->

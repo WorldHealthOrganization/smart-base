@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Dublin Core Metadata Element Set
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-DublinCore -->

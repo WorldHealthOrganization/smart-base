@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Smart Guidelines Persona Types Value Set
 
 <!-- DAK_API_PLACEHOLDER: ValueSet-SGPersonaTypesVS -->

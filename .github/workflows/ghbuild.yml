@@ -504,6 +504,54 @@ jobs:
           fi
 
 
+      - name: DAK Postprocessing - Generate smart.liquid variables
+        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+        run: |
+          echo "Generating smart.liquid Liquid variable include from IG Publisher output..."
+
+          # Check if the script exists locally, download if needed
+          if [ ! -f "input/scripts/generate_smart_liquid.py" ]; then
+            echo "generate_smart_liquid.py not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/generate_smart_liquid.py" \
+              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_smart_liquid.py" \
+              2>/dev/null || echo "Failed to download generate_smart_liquid.py"
+          else
+            echo "Using local generate_smart_liquid.py"
+          fi
+
+          # Run the generator if available
+          if [ -f "input/scripts/generate_smart_liquid.py" ]; then
+            python3 input/scripts/generate_smart_liquid.py
+            echo "✅ smart.liquid variables generated"
+          else
+            echo "⚠️ generate_smart_liquid.py not available, skipping"
+          fi
+
+      - name: DAK Postprocessing - Inject smart.liquid include into markdown pages
+        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+        run: |
+          echo "Injecting {% include smart.liquid %} into DAK IG markdown pages..."
+
+          # Check if the script exists locally, download if needed
+          if [ ! -f "input/scripts/inject_smart_liquid.py" ]; then
+            echo "inject_smart_liquid.py not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/inject_smart_liquid.py" \
+              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/inject_smart_liquid.py" \
+              2>/dev/null || echo "Failed to download inject_smart_liquid.py"
+          else
+            echo "Using local inject_smart_liquid.py"
+          fi
+
+          # Run the injector if available
+          if [ -f "input/scripts/inject_smart_liquid.py" ]; then
+            python3 input/scripts/inject_smart_liquid.py
+            echo "✅ smart.liquid include injected into markdown pages"
+          else
+            echo "⚠️ inject_smart_liquid.py not available, skipping"
+          fi
+
       - name: Stamp deploy metadata
         if: env.DAK_ENABLED == 'true'
         run: |
