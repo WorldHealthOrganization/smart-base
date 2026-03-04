@@ -607,7 +607,15 @@ def run_publisher_and_commit_pot(
             return False
 
         # 2. Run IG Publisher — abort on failure to avoid partial commits
-        if not run_ig_publisher(ig_root, jar_path, tx=tx):
+        # Pass -generation-off and -validation-off to skip HTML page generation
+        # and resource validation, which are not needed for translation extraction
+        # and significantly slow down the build.
+        if not run_ig_publisher(
+            ig_root,
+            jar_path,
+            tx=tx,
+            extra_args=["-generation-off", "-validation-off"],
+        ):
             logger.error(
                 "IG Publisher failed. "
                 "Aborting .pot file commit to avoid committing incomplete templates."
