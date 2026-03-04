@@ -6,8 +6,8 @@ Description: "Base logical model providing the common schema metadata interface 
 * ^publisher = "World Health Organization (WHO)"
 * resourceType 0..1 string "Resource Type" "The FHIR resource type identifying this logical model resource"
 * resourceDefinition 0..1 uri "Resource Definition" "Canonical URI of the FHIR StructureDefinition that defines this logical model"
-* fhirParent 0..1 string "FHIR Parent" "The FHIR parent base type from which this logical model is derived (serialised as 'fhir:parent' in JSON)"
-* jsonldContext 0..1 string "JSON-LD Context" "JSON-LD context for this logical model (serialised as 'jsonld:context' in JSON)"
+* fhirParent 0..1 string "FHIR Parent (JSON: fhir:parent)" "The FHIR parent base type from which this logical model is derived"
+* jsonldContext 0..1 string "JSON-LD Context (JSON: jsonld:context)" "JSON-LD context object for this logical model"
 
 Mapping: FHIRSchemaBaseToJsonSchemaPropertyNames
 Id: json-schema-property-names
