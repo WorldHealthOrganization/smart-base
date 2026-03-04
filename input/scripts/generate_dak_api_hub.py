@@ -1838,9 +1838,11 @@ class SchemaDocumentationRenderer:
 """
         
         # Add schema information
+        # For logical models, the schema is already accessible via the JSON Schema tab
+        # injected by _inject_schema_as_new_tab, so skip to avoid duplicate content.
         components = spec_data.get('components', {})
         schemas = components.get('schemas', {})
-        if schemas:
+        if schemas and schema_type != 'logical_model':
             html_content += """
 <div class="api-schemas">
 <h2>Schema Definition</h2>
