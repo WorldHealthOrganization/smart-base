@@ -20,6 +20,7 @@ Author: SMART Guidelines Team
 
 import os
 import re
+import stat
 import sys
 from pathlib import Path
 from typing import List, Tuple
@@ -79,7 +80,14 @@ def process_file(md_path: Path) -> bool:
     content = md_path.read_text(encoding='utf-8')
     new_content, modified = _inject(content)
     if modified:
-        md_path.write_text(new_content, encoding='utf-8')
+        # Ensure the file is writable before attempting to write (some build
+        # environments leave files read-only after the IG Publisher runs).
+        original_mode = md_path.stat().st_mode
+        os.chmod(md_path, original_mode | stat.S_IWUSR)
+        try:
+            md_path.write_text(new_content, encoding='utf-8')
+        finally:
+            os.chmod(md_path, original_mode)
     return modified
 
 
