@@ -2294,10 +2294,11 @@ class SchemaDocumentationRenderer:
         demand, then applies Prism.js syntax highlighting — zero CDN requests, zero
         build step.
 
-        For Library resource pages the IG Publisher also embeds CQL content in a
-        ``<pre class="cql">`` block.  This method replaces those blocks with a dynamic
-        loader and prepends ``Raw CQL | Download CQL`` links (the IG Publisher does not
-        generate these links for CQL the way it does for JSON / XML).
+        For Library resource pages the IG Publisher embeds CQL content as
+        ``<pre><code class="language-cql">`` (no class on the outer ``<pre>``).
+        This method normalises that pattern to ``<pre class="cql"><code …>`` before
+        replacement and prepends ``Raw CQL | Download CQL`` links (the IG Publisher
+        does not generate these links for CQL the way it does for JSON / XML).
 
         Args:
             output_dir: Directory produced by the FHIR IG Publisher
@@ -2356,6 +2357,22 @@ class SchemaDocumentationRenderer:
                         # Publisher sometimes emits <pre><code> blocks without a class
                         # attribute. Pass allow_classless=True so those are also replaced.
                         is_format_page = base_name.endswith(f'.profile.{file_ext}')
+                        if prism_class == 'cql':
+                            # The FHIR IG Publisher renders Library CQL content as:
+                            #   <pre><code class="language-cql">...</code></pre>
+                            # rather than <pre class="cql"><code>...</code></pre>.
+                            # Normalise to the latter form so _replace_lang_source can
+                            # detect and replace the block with a dynamic fetch loader.
+                            html = re.sub(
+                                r'<pre\b([^>]*?)>(\s*<code\b[^>]*\bclass="[^"]*\blanguage-cql\b)',
+                                lambda m: (
+                                    '<pre class="cql">'
+                                    if not re.search(r'\bclass=', m.group(1), re.IGNORECASE)
+                                    else '<pre' + m.group(1) + '>'
+                                ) + m.group(2),
+                                html,
+                                flags=re.IGNORECASE,
+                            )
                         html = self._replace_lang_source(
                             html, prism_class, label, _src_for_ext(file_ext),
                             allow_classless=is_format_page
