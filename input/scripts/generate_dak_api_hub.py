@@ -1745,8 +1745,15 @@ class SchemaDocumentationRenderer:
                     return html_filename
                 else:
                     self.logger.warning(
-                        f'Tab injection failed for {spec_name}; falling back to inline injection'
+                        f'Tab injection failed for {spec_name}; clearing placeholder without injecting content'
                     )
+                    # Even when tab injection fails, clear the placeholder so no
+                    # OpenAPI-generated content appears on logical model pages.
+                    if placeholder_marker in html_content:
+                        html_content = html_content.replace(placeholder_marker, '')
+                    with open(html_path, 'w', encoding='utf-8') as f:
+                        f.write(html_content)
+                    return html_filename
 
             if placeholder_marker not in html_content:
                 self.logger.warning(f"Placeholder marker not found in {html_path}. Searching for appropriate FHIR IG content section.")
