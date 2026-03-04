@@ -75,19 +75,30 @@ def find_markdown_files(pagecontent_dir: Path) -> List[Path]:
 def process_file(md_path: Path) -> bool:
     """
     Inject the include directive into a single markdown file if needed.
-    Returns True if the file was modified.
+    Returns True if the file was modified, None if the file could not be written.
     """
     content = md_path.read_text(encoding='utf-8')
     new_content, modified = _inject(content)
     if modified:
-        # Ensure the file is writable before attempting to write (some build
-        # environments leave files read-only after the IG Publisher runs).
-        original_mode = md_path.stat().st_mode
-        os.chmod(md_path, original_mode | stat.S_IWUSR)
+        # First attempt: write directly (works on most writable files).
         try:
             md_path.write_text(new_content, encoding='utf-8')
-        finally:
-            os.chmod(md_path, original_mode)
+        except PermissionError:
+            # Fallback: try to temporarily grant owner-write permission.
+            # This handles the case where the IG Publisher leaves files
+            # read-only but we still own them.
+            original_mode = md_path.stat().st_mode
+            try:
+                os.chmod(md_path, original_mode | stat.S_IWUSR)
+            except OSError:
+                # We don't own the file and cannot change its permissions;
+                # skip it with a warning rather than crashing.
+                print(f"  ⚠️  Cannot write (no permission): {md_path}")
+                return False
+            try:
+                md_path.write_text(new_content, encoding='utf-8')
+            finally:
+                os.chmod(md_path, original_mode)
     return modified
 
 
