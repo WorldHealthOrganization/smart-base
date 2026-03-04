@@ -158,6 +158,120 @@ _LEGEND_START_RE = re.compile(r"^\s*legend\s*(?:left|right|center)?\s*$", re.IGN
 _LEGEND_END_RE = re.compile(r"^\s*end\s*legend\s*$", re.IGNORECASE)
 
 
+# ---------------------------------------------------------------------------
+# Liquid ↔ gettext variable conversion helpers
+# ---------------------------------------------------------------------------
+#
+# Markdown pages use Liquid templating (Jekyll/FHIR IG Publisher).  Output
+# expressions like ``{{ variable }}`` or ``{{ user.name }}`` must survive the
+# translation round-trip as gettext brace-format variables.
+#
+# A distinguishing prefix (``lqd_``) is prepended during extraction so that
+# only variables that originated from Liquid templates are ever back-converted
+# to ``{{ }}`` syntax here.  Any other ``{something}`` that appears in a
+# translator's msgstr (not from a Liquid template) is left completely alone.
+#
+# Forward  (extract → POT):  {{ expr }}     →  {lqd_expr}   (extract_translations.py)
+# Backward (PO  → markdown): {lqd_expr}    →  {{ expr }}    (this file)
+# Untouched:                 {other_thing}  →  {other_thing} (never touched)
+
+# Prefix prepended to every Liquid output variable name.  Must match the
+# constant ``_LQD_PREFIX`` in extract_translations.py.
+_LQD_PREFIX: str = "lqd_"
+
+# Matches Liquid output expressions: {{ ... }}
+_LIQUID_OUTPUT_RE = re.compile(r"\{\{\s*(.*?)\s*\}\}", re.DOTALL)
+# Matches only prefixed gettext brace variables produced by our extractor:
+# {lqd_...} — leaves other {something} groups untouched.
+_GETTEXT_LQD_VAR_RE = re.compile(r"\{lqd_([^{}\n]+)\}")
+
+
+def _liquid_to_gettext(text: str) -> str:
+    """Convert Liquid output expressions to prefixed gettext brace-format variables.
+
+    ``{{ expr }}`` → ``{lqd_expr}``
+
+    Used to derive the msgid key for a markdown text span so that the correct
+    translation can be looked up from the .po dictionary.
+    """
+    return _LIQUID_OUTPUT_RE.sub(lambda m: "{" + _LQD_PREFIX + m.group(1) + "}", text)
+
+
+def _gettext_to_liquid(text: str) -> str:
+    """Convert prefixed gettext brace-format variables back to Liquid output expressions.
+
+    ``{lqd_expr}`` → ``{{ expr }}``
+
+    Only ``{lqd_…}`` groups (produced by the extractor) are converted.  Any
+    other ``{something}`` groups that appear in the translated string are left
+    completely untouched so that non-Liquid brace text is never accidentally
+    wrapped in ``{{ }}``.
+
+    Applied to the translated msgstr before writing it into the output
+    Markdown file so that the Liquid templating engine can still evaluate
+    the expressions at render time.
+    """
+    return _GETTEXT_LQD_VAR_RE.sub(lambda m: "{{ " + m.group(1) + " }}", text)
+
+
+# ---------------------------------------------------------------------------
+# Markdown cleaning helpers (mirrors extract_translations._clean_markdown_text)
+# ---------------------------------------------------------------------------
+#
+# These regexes and the _clean_md_for_lookup function must be kept in sync
+# with the corresponding code in extract_translations.py so that the same
+# msgid keys are produced during both extraction and injection.
+
+_MD_HTML_COMMENT_RE_INJ = re.compile(r"<!--.*?-->", re.DOTALL)
+_MD_IMAGE_RE_INJ = re.compile(r"!\[([^\]]*)\]\([^)]*\)")
+_MD_LINK_RE_INJ = re.compile(r"\[([^\]]+)\]\([^)]*\)")
+_MD_ANGLE_LINK_RE_INJ = re.compile(r"<https?://[^>]+>")
+_MD_INLINE_CODE_RE_INJ = re.compile(r"`[^`]+`")
+_MD_BOLD_RE_INJ = re.compile(r"\*{2,3}([^*]+)\*{2,3}")
+_MD_ITALIC_RE_INJ = re.compile(r"(?<!\*)\*([^*]+)\*(?!\*)|(?<!_)_([^_]+)_(?!_)")
+_MD_HTML_TAG_RE_INJ = re.compile(r"<[^>]+>")
+_MD_LIQUID_TAG_RE_INJ = re.compile(r"\{%.*?%\}", re.DOTALL)
+
+
+def _clean_md_for_lookup(text: str) -> str:
+    """Derive the gettext msgid for a raw Markdown text fragment.
+
+    Mirrors ``extract_translations._clean_markdown_text``: applies the same
+    transformations (including the Liquid tokenisation trick) so that the same
+    msgid key is produced and the translation can be found in the .po dictionary.
+    """
+    # Remove Liquid/Jekyll control tags ({% ... %}) first.
+    text = _MD_LIQUID_TAG_RE_INJ.sub("", text)
+    # Tokenise Liquid output expressions before bold/italic processing so that
+    # underscores inside variable names are not consumed by the italic regex.
+    _lqd_tokens: List[str] = []
+
+    def _save_lqd(m: re.Match) -> str:  # type: ignore[type-arg]
+        _lqd_tokens.append(m.group(1).strip())
+        return f"\x00LQD{len(_lqd_tokens) - 1}\x00"
+
+    text = _LIQUID_OUTPUT_RE.sub(_save_lqd, text)
+    # Remove HTML comments.
+    text = _MD_HTML_COMMENT_RE_INJ.sub("", text)
+    # Replace images with alt text.
+    text = _MD_IMAGE_RE_INJ.sub(r"\1", text)
+    # Replace links with link text.
+    text = _MD_LINK_RE_INJ.sub(r"\1", text)
+    # Remove angle-bracket auto-links.
+    text = _MD_ANGLE_LINK_RE_INJ.sub("", text)
+    # Remove inline code spans.
+    text = _MD_INLINE_CODE_RE_INJ.sub("", text)
+    # Strip bold/italic markers while keeping content.
+    text = _MD_BOLD_RE_INJ.sub(r"\1", text)
+    text = _MD_ITALIC_RE_INJ.sub(lambda m: m.group(1) or m.group(2), text)
+    # Remove remaining HTML tags.
+    text = _MD_HTML_TAG_RE_INJ.sub("", text)
+    # Restore tokenised Liquid expressions as {lqd_expr} gettext variables.
+    for i, expr in enumerate(_lqd_tokens):
+        text = text.replace(f"\x00LQD{i}\x00", "{" + _LQD_PREFIX + expr + "}")
+    return text.strip()
+
+
 def inject_plantuml(
     source_path: str,
     translations: Dict[str, str],
@@ -474,6 +588,237 @@ def inject_archimate(
 
 
 # ---------------------------------------------------------------------------
+# Markdown injector
+# ---------------------------------------------------------------------------
+
+# Markdown state-machine regexes (mirrors extract_translations.py).
+_MD_INJ_FRONT_MATTER_DELIM = re.compile(r"^---\s*$")
+_MD_INJ_HEADING_RE = re.compile(r"^(#{1,6}\s+)(.+)$")
+_MD_INJ_CODE_FENCE_RE = re.compile(r"^(`{3,}|~{3,})")
+_MD_INJ_HTML_SKIP_OPEN_RE = re.compile(r"<(style|script|pre)\b", re.IGNORECASE)
+_MD_INJ_HTML_CLOSE_TAG_RE = re.compile(r"</(\w+)\s*>", re.IGNORECASE)
+_MD_INJ_HLINE_RE = re.compile(r"^[-*_]{3,}\s*$")
+_MD_INJ_TABLE_SEP_RE = re.compile(r"^\|[-| :]+\|?\s*$")
+_MD_INJ_LIST_ITEM_RE = re.compile(r"^(\s*(?:[-*+]|\d+\.)\s+)(.+)$")
+_MD_INJ_BLOCKQUOTE_RE = re.compile(r"^(>+\s?)(.*)")
+_MD_INJ_KRAMDOWN_ATTR_RE = re.compile(r"^\{[:%][^}]*\}\s*$")
+_MD_INJ_MIN_LEN: int = 3
+
+
+def inject_markdown(
+    source_path: str,
+    translations: Dict[str, str],
+    output_path: str,
+    dry_run: bool = False,
+) -> bool:
+    """Apply translations to a Markdown file and write the translated copy.
+
+    Uses the same state machine as ``extract_translations.extract_markdown`` to
+    identify every translatable text span, looks up the translation via the
+    gettext msgid (with Liquid ``{{ }}`` expressions already collapsed to
+    ``{expr}``), then restores ``{{ expr }}`` Liquid syntax in the translated
+    string before writing it to *output_path*.
+
+    Args:
+        source_path: Path to the original ``.md`` file.
+        translations: msgid → msgstr dictionary loaded from a .po file.
+        output_path:  Where to write the translated Markdown copy.
+        dry_run:      If True, only log what would be done without writing.
+
+    Returns:
+        True if any substitutions were made (or dry_run), False on error.
+    """
+    logger = logging.getLogger(__name__)
+    try:
+        with open(source_path, "r", encoding="utf-8") as fh:
+            lines = fh.readlines()
+    except OSError as exc:
+        logger.warning(f"Cannot read {source_path}: {exc}")
+        return False
+
+    out_lines: List[str] = list(lines)
+    changed = False
+
+    in_front_matter = False
+    in_code_block = False
+    code_fence: Optional[str] = None
+    in_html_block = False
+    html_close_tag: str = ""
+    # Each entry: (line_index_into_lines, stripped_text)
+    paragraph_buf: List[Tuple[int, str]] = []
+
+    def _translate(raw_text: str) -> Optional[str]:
+        """Return the Liquid-restored translation for *raw_text*, or None."""
+        msgid = _clean_md_for_lookup(raw_text)
+        if len(msgid) < _MD_INJ_MIN_LEN:
+            return None
+        msgstr = translations.get(msgid)
+        if msgstr and msgstr != msgid:
+            return _gettext_to_liquid(msgstr)
+        return None
+
+    def _flush_paragraph() -> None:
+        nonlocal changed
+        if not paragraph_buf:
+            return
+        raw = " ".join(text for _, text in paragraph_buf)
+        translated = _translate(raw)
+        if translated:
+            # Replace the first paragraph line with the full translated text
+            # and blank out any continuation lines.  Note: the original line
+            # wrapping is not preserved — the translated paragraph is emitted
+            # as a single line.  Markdown renderers treat consecutive
+            # non-blank lines as the same paragraph, so this is functionally
+            # equivalent.
+            first_idx = paragraph_buf[0][0]
+            out_lines[first_idx] = translated + "\n"
+            for idx, _ in paragraph_buf[1:]:
+                out_lines[idx] = ""
+            changed = True
+        paragraph_buf.clear()
+
+    for idx, raw_line in enumerate(lines):
+        line = raw_line.rstrip("\n")
+        lineno = idx + 1
+
+        # --- YAML front matter ---
+        if lineno == 1 and _MD_INJ_FRONT_MATTER_DELIM.match(line):
+            in_front_matter = True
+            continue
+        if in_front_matter:
+            if _MD_INJ_FRONT_MATTER_DELIM.match(line) and lineno > 1:
+                in_front_matter = False
+            continue
+
+        # --- Fenced code blocks ---
+        fence_m = _MD_INJ_CODE_FENCE_RE.match(line)
+        if fence_m:
+            if not in_code_block:
+                _flush_paragraph()
+                in_code_block = True
+                code_fence = fence_m.group(1)
+            elif code_fence and line.startswith(code_fence[0] * len(code_fence)):
+                in_code_block = False
+                code_fence = None
+            continue
+        if in_code_block:
+            continue
+
+        stripped = line.strip()
+
+        # --- HTML blocks (style/script/pre — skip content) ---
+        if in_html_block:
+            close_m = _MD_INJ_HTML_CLOSE_TAG_RE.search(stripped)
+            if close_m and close_m.group(1).lower() == html_close_tag:
+                in_html_block = False
+                html_close_tag = ""
+            continue
+        open_m = _MD_INJ_HTML_SKIP_OPEN_RE.search(stripped)
+        if open_m:
+            tag_name = open_m.group(1).lower()
+            _flush_paragraph()
+            close_m = _MD_INJ_HTML_CLOSE_TAG_RE.search(stripped)
+            if close_m and close_m.group(1).lower() == tag_name:
+                continue
+            in_html_block = True
+            html_close_tag = tag_name
+            continue
+
+        # --- Blank line: end of paragraph ---
+        if not stripped:
+            _flush_paragraph()
+            continue
+
+        # --- Headings ---
+        heading_m = _MD_INJ_HEADING_RE.match(line)
+        if heading_m:
+            _flush_paragraph()
+            prefix, text = heading_m.group(1), heading_m.group(2)
+            translated = _translate(text)
+            if translated:
+                out_lines[idx] = prefix + translated + "\n"
+                changed = True
+            continue
+
+        # --- Horizontal rules / table separators ---
+        if _MD_INJ_HLINE_RE.match(stripped) or _MD_INJ_TABLE_SEP_RE.match(stripped):
+            _flush_paragraph()
+            continue
+
+        # --- List items ---
+        list_m = _MD_INJ_LIST_ITEM_RE.match(line)
+        if list_m:
+            _flush_paragraph()
+            prefix, text = list_m.group(1), list_m.group(2)
+            translated = _translate(text.strip())
+            if translated:
+                out_lines[idx] = prefix + translated + "\n"
+                changed = True
+            continue
+
+        # --- Block-quote lines ---
+        bq_m = _MD_INJ_BLOCKQUOTE_RE.match(line)
+        if bq_m:
+            _flush_paragraph()
+            prefix, text = bq_m.group(1), bq_m.group(2)
+            translated = _translate(text)
+            if translated:
+                out_lines[idx] = prefix + translated + "\n"
+                changed = True
+            continue
+
+        # --- Table rows: translate each cell ---
+        if stripped.startswith("|") and stripped.endswith("|"):
+            _flush_paragraph()
+            cells = stripped.strip("|").split("|")
+            new_cells: List[str] = []
+            row_changed = False
+            for cell in cells:
+                translated = _translate(cell.strip())
+                if translated:
+                    # Preserve the original cell's leading/trailing whitespace
+                    # so that Markdown table alignment is not disrupted.
+                    leading = cell[: len(cell) - len(cell.lstrip())] or " "
+                    trailing = cell[len(cell.rstrip()):] or " "
+                    new_cells.append(leading + translated + trailing)
+                    row_changed = True
+                else:
+                    new_cells.append(cell)
+            if row_changed:
+                out_lines[idx] = "|" + "|".join(new_cells) + "|\n"
+                changed = True
+            continue
+
+        # --- Kramdown / Jekyll attribute lists (skip) ---
+        if _MD_INJ_KRAMDOWN_ATTR_RE.match(stripped):
+            _flush_paragraph()
+            continue
+
+        # --- Paragraph continuation ---
+        paragraph_buf.append((idx, stripped))
+
+    # Flush any remaining paragraph.
+    _flush_paragraph()
+
+    if dry_run:
+        logger.info(
+            f"[dry-run] Would write translated {source_path} -> {output_path}"
+            f" (changed={changed})"
+        )
+        return True
+
+    if not changed:
+        logger.debug(f"No changes for {source_path}, skipping output")
+        return False
+
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, "w", encoding="utf-8") as fh:
+        fh.writelines(out_lines)
+    logger.info(f"Written translated Markdown: {output_path}")
+    return True
+
+
+# ---------------------------------------------------------------------------
 # Main orchestrator
 # ---------------------------------------------------------------------------
 
@@ -484,6 +829,7 @@ _COMPONENTS = [
     ("input/archimate",     "*.archimate", inject_archimate),
     ("input/diagrams",      "*.svg",      inject_svg),
     ("input/diagrams",      "*.xml",      inject_archimate),
+    ("input/pagecontent",   "*.md",       inject_markdown),
 ]
 
 

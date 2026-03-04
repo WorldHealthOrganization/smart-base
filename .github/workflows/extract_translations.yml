@@ -1,9 +1,19 @@
 # Extract translation template (.pot) files from FHIR resources and diagram sources
 #
-# Runs the FHIR IG Publisher to generate .pot files from FHIR resources and
-# markdown narrative, then runs extract_translations.py to generate .pot files
-# from diagram sources (PlantUML, SVG, ArchiMate).  The resulting .pot files
-# are committed back to the branch for Weblate to pick up.
+# Runs the FHIR IG Publisher with -generation-off to generate .pot files from
+# FHIR resources only (HTML page generation is suppressed), then runs
+# extract_translations.py to generate .pot files from diagram sources
+# (PlantUML, SVG, ArchiMate) and markdown narrative pages (input/pagecontent/).
+# The resulting .pot files are committed back to the branch for Weblate to pick up.
+#
+# Markdown page POT files are extracted by extract_translations.py using Python
+# (not the IG Publisher) so that the -generation-off flag can be used to speed
+# up the IG Publisher run.  The IG Publisher is retained only for FHIR resource
+# translation templates.
+#
+# Note on Prism.js: syntax highlighting in generated pages is provided by
+# Prism.js bundled in the base FHIR IG Publisher template (who.template.root).
+# No separate Prism.js loading is required.
 #
 # The IG output is NOT deployed to GitHub Pages — this workflow is translation-
 # extraction only and does not modify ghbuild.yml.
@@ -19,6 +29,7 @@
 #   svg-images          → input/images/translations/images.pot
 #   archimate-models    → input/archimate/translations/models.pot
 #   uml-diagrams        → input/diagrams/translations/diagrams.pot
+#   markdown-pages      → input/pagecontent/translations/pages.pot (Python extractor)
 
 name: Extract Translation Templates
 
@@ -46,9 +57,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Run the IG Publisher (to generate .pot from FHIR resources/markdown),
-  # then extract .pot files from diagram sources and commit them back to the
-  # branch.  No GitHub Pages deployment is performed.
+  # Run the IG Publisher with -generation-off (FHIR resource POT extraction only),
+  # then extract .pot files from diagram sources and markdown narrative pages,
+  # and commit them back to the branch.  No GitHub Pages deployment is performed.
   build-and-extract:
     name: Build IG and extract translation templates
     runs-on: ubuntu-latest

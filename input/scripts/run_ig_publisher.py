@@ -37,6 +37,7 @@ Options::
     --skip-commit          Run publisher and detect .pot files but do not commit
     --commit-message MSG   Custom git commit message for the .pot update
     --no-publisher         Skip the IG Publisher; only commit/push existing .pot files
+    --no-generation-off    Disable the default -generation-off flag (run full build)
     --push                 After committing, pull-rebase and push to remote
     --branch BRANCH        Target branch for push (or set BRANCH_NAME env var)
     --actor NAME           GitHub actor for commit message (or set GITHUB_ACTOR env var)
@@ -120,6 +121,7 @@ def run_ig_publisher(
     publisher_jar: str,
     tx: Optional[str] = None,
     extra_args: Optional[List[str]] = None,
+    generation_off: bool = False,
 ) -> bool:
     """Invoke the FHIR IG Publisher as a child process.
 
@@ -127,11 +129,16 @@ def run_ig_publisher(
     ``sushi-config.yaml`` from *ig_root*.
 
     Args:
-        ig_root:        Working directory (repository root).
-        publisher_jar:  Absolute path to ``publisher.jar``.
-        tx:             Optional terminology server URL.  Pass ``"n/a"`` to
-                        disable external terminology lookups.
-        extra_args:     Additional flags forwarded verbatim to the publisher.
+        ig_root:         Working directory (repository root).
+        publisher_jar:   Absolute path to ``publisher.jar``.
+        tx:              Optional terminology server URL.  Pass ``"n/a"`` to
+                         disable external terminology lookups.
+        extra_args:      Additional flags forwarded verbatim to the publisher.
+        generation_off:  When ``True`` passes ``-generation-off`` to the
+                         publisher, suppressing HTML page generation while
+                         still allowing FHIR resource processing and .pot
+                         translation-template extraction.  Use this when
+                         the goal is POT file extraction only.
 
     Returns:
         ``True`` if the publisher exited with code 0, ``False`` otherwise.
@@ -139,6 +146,8 @@ def run_ig_publisher(
     cmd: List[str] = ["java", "-jar", publisher_jar, "-ig", "."]
     if tx:
         cmd += ["-tx", tx]
+    if generation_off:
+        cmd += ["-generation-off"]
     if extra_args:
         cmd.extend(extra_args)
 
@@ -187,6 +196,7 @@ _POT_SEARCH_DIRS: List[str] = [
     "input/images/translations",
     "input/archimate/translations",
     "input/diagrams/translations",
+    "input/pagecontent/translations",
 ]
 
 
@@ -560,6 +570,7 @@ def run_publisher_and_commit_pot(
     push: bool = False,
     branch: Optional[str] = None,
     actor: Optional[str] = None,
+    generation_off: bool = True,
 ) -> bool:
     """Run the IG Publisher and automatically commit any updated .pot files.
 
@@ -569,28 +580,36 @@ def run_publisher_and_commit_pot(
     Workflow:
 
     1. Locate ``publisher.jar`` (abort early if not found).
-    2. Invoke the IG Publisher — on failure stop here so no partial artefacts
-       are committed.
-    3. Collect all new/modified ``.pot`` files from the output directories.
-    4. Stage and commit them (unless *skip_commit* is ``True``).
-    5. Push to remote (only when *push* is ``True``).
+    2. Invoke the IG Publisher with ``-generation-off`` (by default) so that it
+       processes FHIR resources and extracts their translation templates without
+       generating the full HTML website.  Markdown page POT files are handled
+       separately by ``extract_translations.py``.
+    3. Run ``extract_translations.py`` to regenerate .pot files from diagram
+       sources and markdown narrative pages.
+    4. Collect all new/modified ``.pot`` files from the output directories.
+    5. Stage and commit them (unless *skip_commit* is ``True``).
+    6. Push to remote (only when *push* is ``True``).
 
     Args:
-        ig_root:        Repository root directory.
-        publisher_jar:  Optional explicit path to ``publisher.jar``.
-        tx:             Optional terminology server URL.
-        skip_commit:    When ``True`` the function still runs the publisher and
-                        reports what it found, but does not create a git commit.
-        commit_message: Custom commit message; a sensible default is used when
-                        ``None``.
-        run_publisher:  When ``False`` skip the publisher invocation and
-                        ``extract_translations.py`` — useful when the publisher
-                        already ran (e.g. inside a Docker container) and only
-                        commit/push is needed.
-        push:           When ``True`` pull-rebase and push after committing.
-                        Requires *branch* to be set.
-        branch:         Remote branch name for the push step.
-        actor:          GitHub actor name included in the default commit message.
+        ig_root:         Repository root directory.
+        publisher_jar:   Optional explicit path to ``publisher.jar``.
+        tx:              Optional terminology server URL.
+        skip_commit:     When ``True`` the function still runs the publisher and
+                         reports what it found, but does not create a git commit.
+        commit_message:  Custom commit message; a sensible default is used when
+                         ``None``.
+        run_publisher:   When ``False`` skip the publisher invocation and
+                         ``extract_translations.py`` — useful when the publisher
+                         already ran (e.g. inside a Docker container) and only
+                         commit/push is needed.
+        push:            When ``True`` pull-rebase and push after committing.
+                         Requires *branch* to be set.
+        branch:          Remote branch name for the push step.
+        actor:           GitHub actor name included in the default commit message.
+        generation_off:  When ``True`` (default) passes ``-generation-off`` to
+                         the IG Publisher so it skips HTML page generation and
+                         runs only FHIR resource processing.  Set to ``False``
+                         when a full build is required (e.g. for deployment).
 
     Returns:
         ``True`` on success, ``False`` if the publisher failed or a git
@@ -606,6 +625,7 @@ def run_publisher_and_commit_pot(
             )
             return False
 
+
         # 2. Run IG Publisher — abort on failure to avoid partial commits
         # Pass -generation-off and -validation-off to skip HTML page generation
         # and resource validation, which are not needed for translation extraction
@@ -616,6 +636,7 @@ def run_publisher_and_commit_pot(
             tx=tx,
             extra_args=["-generation-off", "-validation-off"],
         ):
+
             logger.error(
                 "IG Publisher failed. "
                 "Aborting .pot file commit to avoid committing incomplete templates."
@@ -763,6 +784,16 @@ def main() -> int:
             "Falls back to the GITHUB_ACTOR environment variable."
         ),
     )
+    parser.add_argument(
+        "--no-generation-off",
+        action="store_true",
+        default=False,
+        help=(
+            "Disable the default -generation-off flag passed to the IG Publisher. "
+            "Use this when a full IG build (including HTML page generation) is "
+            "required alongside .pot file extraction."
+        ),
+    )
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -789,6 +820,7 @@ def main() -> int:
         push=args.push,
         branch=branch,
         actor=actor,
+        generation_off=not args.no_generation_off,
     )
 
     return 0 if success else 1
