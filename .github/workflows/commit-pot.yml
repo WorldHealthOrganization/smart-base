@@ -91,7 +91,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install "PyYAML>=6.0" "requests>=2.28.0" lxml
+          pip install "PyYAML>=6.0" "requests>=2.28.0" lxml "Babel>=2.10.0"
 
       - name: Download latest IG Publisher jar
         run: |
@@ -129,3 +129,25 @@ jobs:
           python3 input/scripts/run_ig_publisher.py \
             --ig-root "$IG_ROOT" \
             $PUSH_FLAG
+
+      # Extract translatable strings from Python scripts into a .pot template.
+      # This runs independently of the IG Publisher — Babel scans .py files
+      # for _() markers and writes input/scripts/translations/scripts.pot.
+      - name: Extract translatable strings from Python scripts
+        run: |
+          python3 input/scripts/extract_script_strings.py \
+            --repo-root "." \
+            --scripts-dir "input/scripts" \
+            --output "input/scripts/translations/scripts.pot"
+
+      - name: Stage and commit script .pot file
+        env:
+          PUSH_ENABLED: ${{ inputs.push }}
+        run: |
+          git add -- input/scripts/translations/ 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update script translation template"
+            if [ "$PUSH_ENABLED" = "true" ]; then
+              git pull --rebase --autostash && git push
+            fi
+          fi

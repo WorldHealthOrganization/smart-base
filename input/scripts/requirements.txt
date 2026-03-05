@@ -16,3 +16,12 @@ PyYAML>=6.0.0
 
 # HTTP requests for PR comment scripts (pr_comment_start.py, pr_comment_finish.py)
 requests>=2.31.0
+
+# Babel: i18n/l10n support — used by extract_script_strings.py to extract
+# translatable strings from Python source files into .pot templates.
+Babel>=2.10.0
+
+# AI-powered .po translation fill-in (pull_gpt_translations.py).
+# Supports OpenAI, Anthropic/Claude, DeepSeek, and Azure OpenAI.
+# Only active when a provider API key env var is set (OPENAI_API_KEY, etc.).
+gpt-po-translator>=1.6.0
