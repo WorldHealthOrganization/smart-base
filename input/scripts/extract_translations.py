@@ -28,6 +28,9 @@ Options:
     --ig-root DIR          Repository root (default: current directory)
     --canonical URL        IG canonical base URL
                            (default: http://smart.who.int/base)
+    --preview-url URL      Draft/preview base URL (e.g. the GitHub Pages URL).
+                           When provided, each POT entry will include context
+                           links for both the release and draft deployments.
     --output-dir DIR       Override a single output directory for all .pot
                            files (useful for testing)
     --help / -h            Print this help
@@ -838,17 +841,28 @@ def write_pot(
         fh.write(POT_HEADER.format(year=year, timestamp=timestamp))
 
         for msgid, locations in sorted(deduped.items(), key=lambda kv: kv[0].lower()):
-            # Write source/location comments
+            # Write source/location comments, deduplicating source locations and URLs.
+            # The same (source_file, line) can appear more than once when entries for
+            # both the publication URL and the preview URL are merged together, so we
+            # suppress duplicate #. Source: lines while still emitting every unique URL.
+            seen_sources: set = set()
             seen_urls: set = set()
             for src_file, lineno, ctx_url in locations:
-                fh.write(f"#. Source: {src_file}:{lineno}\n")
+                src_key = (src_file, lineno)
+                if src_key not in seen_sources:
+                    fh.write(f"#. Source: {src_file}:{lineno}\n")
+                    seen_sources.add(src_key)
                 if ctx_url not in seen_urls:
                     fh.write(f"#. URL: {ctx_url}\n")
                     seen_urls.add(ctx_url)
 
-            # Standard gettext file:line reference
+            # Standard gettext file:line reference (deduplicated)
+            seen_refs: set = set()
             for src_file, lineno, _ in locations:
-                fh.write(f"#: {src_file}:{lineno}\n")
+                ref_key = (src_file, lineno)
+                if ref_key not in seen_refs:
+                    fh.write(f"#: {src_file}:{lineno}\n")
+                    seen_refs.add(ref_key)
 
             # Emit python-brace-format flag when the msgid contains brace
             # variables produced by the Liquid {{ }} → {var} transformation.
@@ -971,6 +985,17 @@ def main() -> int:
         help="IG canonical base URL (default: http://smart.who.int/base)",
     )
     parser.add_argument(
+        "--preview-url",
+        default=None,
+        help=(
+            "Draft/preview base URL for the IG (e.g. "
+            "https://worldhealthorganization.github.io/smart-base). "
+            "When provided, each POT entry will include a second #. URL: comment "
+            "pointing to the draft deployment so translators see both the release "
+            "and draft context links."
+        ),
+    )
+    parser.add_argument(
         "--output-dir",
         default=None,
         help="Override output directory for all .pot files (useful for testing)",
@@ -982,10 +1007,26 @@ def main() -> int:
 
     ig_root = os.path.abspath(args.ig_root)
     canonical = args.canonical.rstrip("/")
+    preview_canonical = args.preview_url.rstrip("/") if args.preview_url else None
 
     logger.info(f"Extracting translations from {ig_root} (canonical: {canonical})")
+    if preview_canonical:
+        logger.info(f"Preview URL: {preview_canonical}")
 
     per_component = collect_entries(ig_root, canonical)
+
+    # When a preview URL is supplied, extract a second set of entries using the
+    # preview base URL and merge them into the primary results.  The write_pot
+    # function deduplicates source locations so that each (file, line) pair
+    # produces only one #. Source: line, while both the canonical and preview
+    # #. URL: comments are emitted for every entry.
+    if preview_canonical:
+        preview_component = collect_entries(ig_root, preview_canonical)
+        for pot_path, preview_entries in preview_component.items():
+            if pot_path in per_component:
+                per_component[pot_path].extend(preview_entries)
+            else:
+                per_component[pot_path] = preview_entries
 
     if not per_component:
         logger.info("No diagram or markdown source files found — nothing to extract")

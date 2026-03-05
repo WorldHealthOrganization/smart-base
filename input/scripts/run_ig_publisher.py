@@ -49,6 +49,7 @@ Author: WHO SMART Guidelines Team
 import argparse
 import datetime
 import glob as glob_module
+import json
 import logging
 import os
 import re
@@ -354,6 +355,10 @@ def _run_extract_translations(ig_root: str) -> None:
     Failures are logged as warnings rather than errors — missing diagram sources
     should not block the commit of whatever ``.pot`` files are already present.
 
+    When a ``previewUrl`` is defined in ``dak.json`` the preview URL is passed
+    to ``extract_translations.py`` via ``--preview-url`` so that every POT entry
+    contains context links for both the release and draft deployments.
+
     Args:
         ig_root: Repository root directory.
     """
@@ -367,6 +372,8 @@ def _run_extract_translations(ig_root: str) -> None:
 
     # Derive canonical URL from sushi-config.yaml if present
     canonical = _read_canonical_from_sushi(ig_root)
+    # Derive preview URL from dak.json if present
+    preview_url = _read_preview_url_from_dak(ig_root)
 
     cmd: List[str] = [
         sys.executable,
@@ -375,6 +382,8 @@ def _run_extract_translations(ig_root: str) -> None:
     ]
     if canonical:
         cmd += ["--canonical", canonical]
+    if preview_url:
+        cmd += ["--preview-url", preview_url]
 
     logger.info(f"Regenerating .pot files via extract_translations.py: {' '.join(cmd)}")
     try:
@@ -412,6 +421,32 @@ def _read_canonical_from_sushi(ig_root: str) -> Optional[str]:
                     return m.group(1).strip().strip("'\"")
     except Exception as exc:
         logger.debug(f"Could not read canonical from sushi-config.yaml: {exc}")
+    return None
+
+
+def _read_preview_url_from_dak(ig_root: str) -> Optional[str]:
+    """Read the ``previewUrl`` field from ``dak.json``.
+
+    The preview URL is used by :func:`_run_extract_translations` so that
+    extracted .pot files contain context links for both the release
+    (``publicationUrl``) and the draft/preview (``previewUrl``) deployments.
+
+    Args:
+        ig_root: Repository root directory.
+
+    Returns:
+        The preview URL string, or ``None`` if ``dak.json`` is absent or
+        the field cannot be read.
+    """
+    dak_path = os.path.join(ig_root, "dak.json")
+    if not os.path.exists(dak_path):
+        return None
+    try:
+        with open(dak_path, "r", encoding="utf-8") as fh:
+            data = json.load(fh)
+        return data.get("previewUrl") or None
+    except Exception as exc:
+        logger.debug(f"Could not read previewUrl from dak.json: {exc}")
     return None
 
 
