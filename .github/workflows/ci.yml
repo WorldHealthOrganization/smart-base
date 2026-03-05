@@ -36,14 +36,17 @@ on:
 
 # Concurrency is managed here in the caller, NOT in ghbuild.yml.
 # When a reusable workflow defines the same concurrency group as its
-# caller, GitHub detects a deadlock and cancels the run.  Only one
-# run per branch at a time; newer pushes cancel the older run.
+# caller, GitHub detects a deadlock and cancels the run.
 #
-# The group name is shared with extract_translations.yml so that
-# translation extraction (which also runs the IG Publisher) cannot
-# overlap with the full CI build on the same branch.
+# Group is scoped per-branch so that:
+#   • deploys of different branches (main, feature-x, …) run in parallel;
+#   • a new push to the same branch cancels the in-flight deploy for that branch.
+#
+# The extraction workflows (extract_translations.yml, commit-pot.yml) use their
+# own separate concurrency groups so that deploy and extraction are fully
+# independent and can run concurrently.
 concurrency:
-  group: ci-and-translations-${{ github.ref }}
+  group: deploy-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

@@ -40,13 +40,13 @@ on:
   #     - 'input/archimate/**'
   #     - 'input/diagrams/**'
 
-# Shared with ci.yml so that translation extraction (which runs the IG
-# Publisher) cannot overlap with the full CI build on the same branch.
-# cancel-in-progress is false so that a manually triggered extraction
-# waits for CI to finish rather than cancelling it.
+# Extraction runs are fully independent of deploy (ci.yml) runs — different
+# branches can extract and deploy simultaneously.  Within a single branch, a
+# new extraction cancels any in-flight extraction so that only the latest
+# source is processed.
 concurrency:
-  group: ci-and-translations-${{ github.ref }}
-  cancel-in-progress: false
+  group: extraction-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   commit-pot:
