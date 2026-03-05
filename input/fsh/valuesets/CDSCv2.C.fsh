@@ -1,5 +1,5 @@
 ValueSet: CDSCv2.C
-Title: "CDSC v2 – C: Registries and Directories"
+Title: "Services and Application Types: Registries and Directories"
 Description: "Systems that create, maintain, and provide authoritative master records for persons, providers, facilities, products and health events. Group C of the Classification of Digital Health Services and Application Types v2 (CDISAH, 2023)."
 * ^status = #active
 * ^experimental = true

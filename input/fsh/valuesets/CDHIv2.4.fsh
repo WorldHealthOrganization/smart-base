@@ -1,5 +1,5 @@
 ValueSet: CDHIv2.4
-Title: "CDHI v2 – Group 4: Data Services"
+Title: "Digital Health Interventions: Data Services"
 Description: "Crosscutting Data Services DHIs. Group 4 of the Classification of Digital Interventions, Services and Applications in Health v2 (CDISAH, 2023)."
 * ^status = #active
 * ^experimental = true

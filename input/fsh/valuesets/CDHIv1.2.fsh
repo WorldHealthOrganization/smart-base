@@ -1,6 +1,6 @@
 ValueSet: CDHIv1.2
-Title: "CDHI v1 – Group 2: Health Workers"
-Description: "DHIs whose primary user group is Health Workers. Group 2 of the Classification of Digital Health Interventions v1 (2018)."
+Title: "Digital Health Interventions for Health Workers"
+Description: "Digital Health Interventions whose primary user group is Health Workers. Group 2 of the Classification of Digital Health Interventions v1 (2018)."
 * ^status = #active
 * ^experimental = true
 * CDHIv1#2.0

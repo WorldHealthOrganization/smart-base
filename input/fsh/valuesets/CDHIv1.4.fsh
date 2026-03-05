@@ -1,5 +1,5 @@
 ValueSet: CDHIv1.4
-Title: "CDHI v1 – Group 4: Data Services"
+Title: "Digital Health Interventions: Data Services"
 Description: "Crosscutting Data Services DHIs. Group 4 of the Classification of Digital Health Interventions v1 (2018)."
 * ^status = #active
 * ^experimental = true

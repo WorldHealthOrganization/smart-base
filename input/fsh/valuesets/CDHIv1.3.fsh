@@ -1,6 +1,6 @@
 ValueSet: CDHIv1.3
-Title: "CDHI v1 – Group 3: Health System Managers"
-Description: "DHIs whose primary user group is Health System Managers. Group 3 of the Classification of Digital Health Interventions v1 (2018)."
+Title: "Digital Health Interventions for Health System Managers"
+Description: "Digital Health Interventions whose primary user group is Health System Managers. Group 3 of the Classification of Digital Health Interventions v1 (2018)."
 * ^status = #active
 * ^experimental = true
 * CDHIv1#3.0

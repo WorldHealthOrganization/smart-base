@@ -1,5 +1,5 @@
 ValueSet: CDSCv2.A
-Title: "CDSC v2 – A: Point of Service"
+Title: "Services and Application Types: Point of Service"
 Description: "Systems that facilitate the provision and delivery of healthcare services to persons at the point of care. Group A of the Classification of Digital Health Services and Application Types v2 (CDISAH, 2023)."
 * ^status = #active
 * ^experimental = true

@@ -1,6 +1,6 @@
 ValueSet: CDHIv1.1
-Title: "CDHI v1 – Group 1: Clients"
-Description: "DHIs whose primary user group is Clients (persons using health services). Group 1 of the Classification of Digital Health Interventions v1 (2018)."
+Title: "Digital Health Interventions for Clients"
+Description: "Digital Health Interventions whose primary user group is Clients (persons using health services). Group 1 of the Classification of Digital Health Interventions v1 (2018)."
 * ^status = #active
 * ^experimental = true
 * CDHIv1#1.0

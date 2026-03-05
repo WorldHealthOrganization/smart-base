@@ -1,6 +1,6 @@
 ValueSet: CDHIv2.1
-Title: "CDHI v2 – Group 1: Persons"
-Description: "DHIs whose primary user group is Persons (health service users). Group 1 of the Classification of Digital Interventions, Services and Applications in Health v2 (CDISAH, 2023)."
+Title: "Digital Health Interventions for Persons"
+Description: "Digital Health Interventions whose primary user group is Persons (health service users). Group 1 of the Classification of Digital Interventions, Services and Applications in Health v2 (CDISAH, 2023)."
 * ^status = #active
 * ^experimental = true
 * CDHIv2#1

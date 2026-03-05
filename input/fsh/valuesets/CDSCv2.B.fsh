@@ -1,5 +1,5 @@
 ValueSet: CDSCv2.B
-Title: "CDSC v2 – B: Health System/Provider Administration"
+Title: "Services and Application Types: Health System/Provider Administration"
 Description: "Systems that support the administrative and managerial functions of health systems and healthcare organisations. Group B of the Classification of Digital Health Services and Application Types v2 (CDISAH, 2023)."
 * ^status = #active
 * ^experimental = true

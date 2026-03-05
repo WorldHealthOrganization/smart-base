@@ -1,6 +1,6 @@
 ValueSet: CDHIv2.2
-Title: "CDHI v2 – Group 2: Healthcare Providers"
-Description: "DHIs whose primary user group is Healthcare Providers. Group 2 of the Classification of Digital Interventions, Services and Applications in Health v2 (CDISAH, 2023)."
+Title: "Digital Health Interventions for Healthcare Providers"
+Description: "Digital Health Interventions whose primary user group is Healthcare Providers. Group 2 of the Classification of Digital Interventions, Services and Applications in Health v2 (CDISAH, 2023)."
 * ^status = #active
 * ^experimental = true
 * CDHIv2#2

@@ -1,6 +1,6 @@
 ValueSet: CDHIv2.3
-Title: "CDHI v2 – Group 3: Health Management and Support Personnel"
-Description: "DHIs whose primary user group is Health Management and Support Personnel. Group 3 of the Classification of Digital Interventions, Services and Applications in Health v2 (CDISAH, 2023)."
+Title: "Digital Health Interventions for Health Management and Support Personnel"
+Description: "Digital Health Interventions whose primary user group is Health Management and Support Personnel. Group 3 of the Classification of Digital Interventions, Services and Applications in Health v2 (CDISAH, 2023)."
 * ^status = #active
 * ^experimental = true
 * CDHIv2#3
