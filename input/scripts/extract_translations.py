@@ -2,9 +2,9 @@
 """
 SMART Guidelines Translation Extraction Script
 
-Extracts translatable strings from visual and architectural diagram sources
-and markdown narrative pages into Gettext .pot template files for
-Weblate-based localisation.
+Extracts translatable strings from visual and architectural diagram sources,
+markdown narrative pages, and FHIR Shorthand (FSH) resource definitions into
+Gettext .pot template files for Weblate-based localisation.
 
 Targeted source types (aligned with the L3 Authoring SOP):
   - PlantUML  (.plantuml)  in input/images-source/
@@ -12,6 +12,7 @@ Targeted source types (aligned with the L3 Authoring SOP):
   - ArchiMate  (.archimate) in input/archimate/
   - UML diagrams (.svg/.xml) in input/diagrams/
   - Markdown pages (.md)    in input/pagecontent/   ← replaces IG Publisher markdown POT
+  - FSH resources (.fsh)    in input/fsh/           ← FHIR resource translations
 
 Note on Prism.js: syntax highlighting in generated pages is provided by
 Prism.js, which is already bundled by the base FHIR IG Publisher template
@@ -459,6 +460,242 @@ def extract_archimate(file_path: str, canonical: str) -> List[TranslationEntry]:
 
 
 # ---------------------------------------------------------------------------
+# FSH (FHIR Shorthand) extractor
+# ---------------------------------------------------------------------------
+
+# Resource declaration:  CodeSystem: Foo  /  ValueSet: Bar  /  Instance: Baz
+_FSH_RESOURCE_DECL_RE = re.compile(
+    r"^\s*(CodeSystem|ValueSet|Logical|Profile|Extension|Resource|Instance|Invariant|Mapping|RuleSet|Alias)\s*:\s*(\S+)",
+    re.IGNORECASE,
+)
+
+# Top-level metadata fields that carry human-readable text.
+# Matches:  Title: "text"  /  Description: "text"
+_FSH_META_FIELD_RE = re.compile(
+    r"^\s*(Title|Description)\s*:\s*(.+)",
+    re.IGNORECASE,
+)
+
+# CodeSystem concept line:  * #code "display"  or  * #code "display" "definition"
+# Also handles triple-quoted inline definitions:  * #code "display" """definition"""
+_FSH_CONCEPT_RE = re.compile(
+    r'^\s*\*\s+#\S+\s+"((?:[^"\\]|\\.)*)"',
+)
+
+# After the display text is matched, the remainder may contain:
+#   "definition"  or  """definition"""  or  """  (start of multi-line)
+_FSH_INLINE_TRIPLE_RE = re.compile(r'"""(.*?)"""')
+_FSH_INLINE_DOUBLE_RE = re.compile(r'"((?:[^"\\]|\\.)*)"')
+
+# Logical model element:  * name 0..1 type "Short" "Definition"
+# Captures the two trailing quoted strings (short name and definition)
+_FSH_ELEMENT_RE = re.compile(
+    r'^\s*\*\s+\S+(?:\[x\])?\s+\d+\.\.\S+\s+\S+(?:\s+or\s+\S+)*\s+"((?:[^"\\]|\\.)*)"(?:\s+"((?:[^"\\]|\\.)*)")?',
+)
+
+# Instance field assignments with human-readable values.
+# Matches:  * title = "text"  /  * description = "text"  /  * text = "text"
+# Also:     * answerOption[n].valueString = "text"
+_FSH_FIELD_ASSIGN_RE = re.compile(
+    r'^\s*\*\s+(?:\S+\.)?(?:title|description|text|valueString|display)\s*=\s*"((?:[^"\\]|\\.)*)"',
+    re.IGNORECASE,
+)
+
+# FSH resource type → FHIR resource type prefix for published URL mapping.
+_FSH_TYPE_TO_URL_PREFIX: Dict[str, str] = {
+    "codesystem": "CodeSystem",
+    "valueset": "ValueSet",
+    "logical": "StructureDefinition",
+    "profile": "StructureDefinition",
+    "extension": "StructureDefinition",
+    "resource": "StructureDefinition",
+}
+
+
+def _make_fsh_context_url(canonical: str, resource_type: str, resource_name: str) -> str:
+    """Derive the published IG page URL for a FSH resource.
+
+    Args:
+        canonical: IG canonical base URL.
+        resource_type: FSH resource keyword (e.g. ``CodeSystem``, ``Logical``).
+        resource_name: Resource name/id from the FSH declaration.
+
+    Returns:
+        Absolute published URL string.
+    """
+    canonical = canonical.rstrip("/")
+    prefix = _FSH_TYPE_TO_URL_PREFIX.get(resource_type.lower(), "")
+    if prefix:
+        return f"{canonical}/{prefix}-{resource_name}.html"
+    return f"{canonical}/"
+
+
+def _unquote_fsh(text: str) -> str:
+    """Remove surrounding quotes and unescape a FSH string value.
+
+    Handles both single-line ``"text"`` and triple-quoted ``\"\"\"text\"\"\"``
+    values.  Returns the inner text with common FSH escape sequences resolved.
+    """
+    text = text.strip()
+    if text.startswith('"""') and text.endswith('"""'):
+        text = text[3:-3]
+    elif text.startswith('"') and text.endswith('"'):
+        text = text[1:-1]
+    text = text.replace('\\"', '"').replace("\\n", "\n")
+    return text.strip()
+
+
+def extract_fsh(file_path: str, canonical: str) -> List[TranslationEntry]:
+    """Extract translatable strings from a FHIR Shorthand (``.fsh``) file.
+
+    Extracts human-readable text from:
+
+    * **Resource metadata** — ``Title`` and ``Description`` fields.
+    * **CodeSystem concepts** — display text and optional definitions.
+    * **Logical model elements** — short names and definitions.
+    * **Instance field assignments** — ``title``, ``description``, ``text``,
+      ``valueString``, and ``display`` values.
+
+    Args:
+        file_path: Relative path to the ``.fsh`` file (from ig_root).
+        canonical: IG canonical base URL.
+
+    Returns:
+        List of :class:`TranslationEntry` objects.
+    """
+    entries: List[TranslationEntry] = []
+    current_type = ""
+    current_name = ""
+    context_url = f"{canonical.rstrip('/')}/"
+    in_triple_quote = False
+    triple_quote_field = ""
+    triple_quote_lines: List[str] = []
+    triple_quote_start: int = 0
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as fh:
+            lines = fh.readlines()
+    except OSError as exc:
+        logging.getLogger(__name__).warning(f"Cannot read {file_path}: {exc}")
+        return entries
+
+    for lineno, raw_line in enumerate(lines, start=1):
+        line = raw_line.rstrip("\n")
+
+        # Skip comment lines
+        stripped = line.strip()
+        if stripped.startswith("//"):
+            continue
+
+        # --- Triple-quoted string accumulation ---
+        if in_triple_quote:
+            if '"""' in stripped:
+                # End of triple-quoted block
+                in_triple_quote = False
+                combined = " ".join(l.strip() for l in triple_quote_lines if l.strip())
+                if combined:
+                    entries.append(TranslationEntry(
+                        file_path, triple_quote_start, combined, context_url
+                    ))
+                triple_quote_lines = []
+            else:
+                triple_quote_lines.append(stripped)
+            continue
+
+        # --- Resource declaration ---
+        m = _FSH_RESOURCE_DECL_RE.match(line)
+        if m:
+            current_type = m.group(1)
+            current_name = m.group(2)
+            context_url = _make_fsh_context_url(canonical, current_type, current_name)
+            continue
+
+        # --- Title / Description metadata ---
+        m = _FSH_META_FIELD_RE.match(line)
+        if m:
+            value = m.group(2).strip()
+            # Check for start of triple-quoted string.
+            # A lone """ (possibly with whitespace) starts a multi-line block.
+            stripped_value = value.strip('" ')
+            if value.startswith('"""'):
+                inner = value[3:]
+                if inner.rstrip().endswith('"""'):
+                    # Single-line triple-quoted:  """text"""
+                    text = inner.rstrip().rstrip('"').rstrip()
+                    if text and len(text) >= 3:
+                        entries.append(TranslationEntry(file_path, lineno, text, context_url))
+                else:
+                    # Multi-line triple-quoted block starts here
+                    in_triple_quote = True
+                    triple_quote_field = m.group(1)
+                    triple_quote_start = lineno
+                    after_open = inner.strip()
+                    if after_open:
+                        triple_quote_lines.append(after_open)
+                continue
+            # Single-line quoted value
+            text = _unquote_fsh(value)
+            if text and len(text) >= 3:
+                entries.append(TranslationEntry(file_path, lineno, text, context_url))
+            continue
+
+        # --- CodeSystem concept lines ---
+        m = _FSH_CONCEPT_RE.match(line)
+        if m:
+            display = m.group(1).strip()
+            if display and len(display) >= 2:
+                entries.append(TranslationEntry(file_path, lineno, display, context_url))
+            # Check for definition text after the display string
+            remainder = line[m.end():].strip()
+            if remainder:
+                # Inline triple-quoted definition:  """text"""
+                tm = _FSH_INLINE_TRIPLE_RE.search(remainder)
+                if tm:
+                    defn_text = tm.group(1).strip()
+                    if defn_text and len(defn_text) >= 3:
+                        entries.append(TranslationEntry(file_path, lineno, defn_text, context_url))
+                elif remainder.startswith('"""'):
+                    # Multi-line triple-quoted definition
+                    in_triple_quote = True
+                    triple_quote_field = "concept_definition"
+                    triple_quote_start = lineno
+                    after_open = remainder[3:].strip()
+                    if after_open:
+                        triple_quote_lines.append(after_open)
+                else:
+                    # Regular double-quoted definition
+                    dm = _FSH_INLINE_DOUBLE_RE.search(remainder)
+                    if dm:
+                        defn_text = dm.group(1).strip()
+                        if defn_text and len(defn_text) >= 3:
+                            entries.append(TranslationEntry(file_path, lineno, defn_text, context_url))
+            continue
+
+        # --- Logical model element definitions ---
+        m = _FSH_ELEMENT_RE.match(line)
+        if m:
+            short_name = m.group(1).strip()
+            if short_name and len(short_name) >= 2:
+                entries.append(TranslationEntry(file_path, lineno, short_name, context_url))
+            definition = m.group(2)
+            if definition:
+                defn_text = definition.strip()
+                if defn_text and len(defn_text) >= 3:
+                    entries.append(TranslationEntry(file_path, lineno, defn_text, context_url))
+            continue
+
+        # --- Instance field assignments ---
+        m = _FSH_FIELD_ASSIGN_RE.match(line)
+        if m:
+            value = m.group(1).strip()
+            if value and len(value) >= 3:
+                entries.append(TranslationEntry(file_path, lineno, value, context_url))
+            continue
+
+    return entries
+
+
+# ---------------------------------------------------------------------------
 # Markdown extractor
 # ---------------------------------------------------------------------------
 
@@ -892,7 +1129,10 @@ def collect_entries(
     canonical: str,
 ) -> Dict[str, List[TranslationEntry]]:
     """
-    Scan all diagram source directories and return per-component entry lists.
+    Scan all source directories and return per-component entry lists.
+
+    Scans diagram sources, markdown narrative pages, and FSH resource
+    definitions for translatable strings.
 
     Returns:
         Dict mapping output .pot path -> list of TranslationEntry
@@ -960,6 +1200,25 @@ def collect_entries(
     )
     if pagecontent_entries is not None:
         result[os.path.join(pagecontent_dir, "translations", "pages.pot")] = pagecontent_entries
+
+    # --- FHIR Shorthand resources in input/fsh/ ---
+    # Extract translatable strings (titles, descriptions, concept display
+    # text, questionnaire items, etc.) directly from .fsh source files.
+    # This produces the base.pot expected by weblate.yaml for the
+    # "fhir-resources" translation component.
+    fsh_dir = os.path.join(ig_root, "input", "fsh")
+    if os.path.isdir(fsh_dir):
+        fsh_entries: List[TranslationEntry] = []
+        for fsh_path in sorted(
+            glob_module.glob(os.path.join(fsh_dir, "**", "*.fsh"), recursive=True)
+        ):
+            # Skip the translations directory itself
+            if os.sep + "translations" + os.sep in fsh_path:
+                continue
+            rel = os.path.relpath(fsh_path, ig_root)
+            fsh_entries.extend(extract_fsh(rel, canonical))
+        if fsh_entries:
+            result[os.path.join(fsh_dir, "translations", "base.pot")] = fsh_entries
 
     return result
 
