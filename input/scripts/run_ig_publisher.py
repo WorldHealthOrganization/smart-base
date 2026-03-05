@@ -518,13 +518,15 @@ def _collect_publisher_pot_files(ig_root: str) -> None:
     os.makedirs(dest_dir, exist_ok=True)
 
     for pot_file in glob_module.glob(os.path.join(output_dir, "**", "*.pot"), recursive=True):
-        dest_name = "publisher.pot"
-        dest_path = os.path.join(dest_dir, dest_name)
+        dest_path = os.path.join(dest_dir, "publisher.pot")
         try:
             shutil.copy2(pot_file, dest_path)
             logger.info(f"Copied IG Publisher .pot from {pot_file} to {dest_path}")
         except Exception as exc:
             logger.warning(f"Failed to copy {pot_file} to {dest_path}: {exc}")
+        # Only copy the first .pot file found; the IG Publisher typically
+        # produces a single translations.pot.
+        break
 
 
 # ---------------------------------------------------------------------------

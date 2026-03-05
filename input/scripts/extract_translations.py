@@ -463,6 +463,10 @@ def extract_archimate(file_path: str, canonical: str) -> List[TranslationEntry]:
 # FSH (FHIR Shorthand) extractor
 # ---------------------------------------------------------------------------
 
+# Minimum character lengths for extracted FSH text.
+_FSH_MIN_TEXT_LEN: int = 3      # titles, descriptions, definitions, field values
+_FSH_MIN_DISPLAY_LEN: int = 2   # concept display text (may be short, e.g. "Task")
+
 # Resource declaration:  CodeSystem: Foo  /  ValueSet: Bar  /  Instance: Baz
 _FSH_RESOURCE_DECL_RE = re.compile(
     r"^\s*(CodeSystem|ValueSet|Logical|Profile|Extension|Resource|Instance|Invariant|Mapping|RuleSet|Alias)\s*:\s*(\S+)",
@@ -476,14 +480,19 @@ _FSH_META_FIELD_RE = re.compile(
     re.IGNORECASE,
 )
 
-# CodeSystem concept line:  * #code "display"  or  * #code "display" "definition"
-# Also handles triple-quoted inline definitions:  * #code "display" """definition"""
+# CodeSystem concept line — matches the code and display text:
+#   * #code "display"
+# The display text is captured in group(1).  A definition (if any) is parsed
+# from the remainder of the line after this match (see extract_fsh).
 _FSH_CONCEPT_RE = re.compile(
     r'^\s*\*\s+#\S+\s+"((?:[^"\\]|\\.)*)"',
 )
 
-# After the display text is matched, the remainder may contain:
-#   "definition"  or  """definition"""  or  """  (start of multi-line)
+# After the concept display text is matched, the remainder of the line may
+# contain a definition in one of three forms:
+#   "definition"          — regular double-quoted string
+#   """definition"""      — inline triple-quoted string
+#   """                   — start of a multi-line triple-quoted block
 _FSH_INLINE_TRIPLE_RE = re.compile(r'"""(.*?)"""')
 _FSH_INLINE_DOUBLE_RE = re.compile(r'"((?:[^"\\]|\\.)*)"')
 
@@ -616,13 +625,12 @@ def extract_fsh(file_path: str, canonical: str) -> List[TranslationEntry]:
             value = m.group(2).strip()
             # Check for start of triple-quoted string.
             # A lone """ (possibly with whitespace) starts a multi-line block.
-            stripped_value = value.strip('" ')
             if value.startswith('"""'):
                 inner = value[3:]
                 if inner.rstrip().endswith('"""'):
                     # Single-line triple-quoted:  """text"""
                     text = inner.rstrip().rstrip('"').rstrip()
-                    if text and len(text) >= 3:
+                    if text and len(text) >= _FSH_MIN_TEXT_LEN:
                         entries.append(TranslationEntry(file_path, lineno, text, context_url))
                 else:
                     # Multi-line triple-quoted block starts here
@@ -635,7 +643,7 @@ def extract_fsh(file_path: str, canonical: str) -> List[TranslationEntry]:
                 continue
             # Single-line quoted value
             text = _unquote_fsh(value)
-            if text and len(text) >= 3:
+            if text and len(text) >= _FSH_MIN_TEXT_LEN:
                 entries.append(TranslationEntry(file_path, lineno, text, context_url))
             continue
 
@@ -643,7 +651,7 @@ def extract_fsh(file_path: str, canonical: str) -> List[TranslationEntry]:
         m = _FSH_CONCEPT_RE.match(line)
         if m:
             display = m.group(1).strip()
-            if display and len(display) >= 2:
+            if display and len(display) >= _FSH_MIN_DISPLAY_LEN:
                 entries.append(TranslationEntry(file_path, lineno, display, context_url))
             # Check for definition text after the display string
             remainder = line[m.end():].strip()
@@ -652,7 +660,7 @@ def extract_fsh(file_path: str, canonical: str) -> List[TranslationEntry]:
                 tm = _FSH_INLINE_TRIPLE_RE.search(remainder)
                 if tm:
                     defn_text = tm.group(1).strip()
-                    if defn_text and len(defn_text) >= 3:
+                    if defn_text and len(defn_text) >= _FSH_MIN_TEXT_LEN:
                         entries.append(TranslationEntry(file_path, lineno, defn_text, context_url))
                 elif remainder.startswith('"""'):
                     # Multi-line triple-quoted definition
@@ -667,7 +675,7 @@ def extract_fsh(file_path: str, canonical: str) -> List[TranslationEntry]:
                     dm = _FSH_INLINE_DOUBLE_RE.search(remainder)
                     if dm:
                         defn_text = dm.group(1).strip()
-                        if defn_text and len(defn_text) >= 3:
+                        if defn_text and len(defn_text) >= _FSH_MIN_TEXT_LEN:
                             entries.append(TranslationEntry(file_path, lineno, defn_text, context_url))
             continue
 
@@ -675,12 +683,12 @@ def extract_fsh(file_path: str, canonical: str) -> List[TranslationEntry]:
         m = _FSH_ELEMENT_RE.match(line)
         if m:
             short_name = m.group(1).strip()
-            if short_name and len(short_name) >= 2:
+            if short_name and len(short_name) >= _FSH_MIN_DISPLAY_LEN:
                 entries.append(TranslationEntry(file_path, lineno, short_name, context_url))
             definition = m.group(2)
             if definition:
                 defn_text = definition.strip()
-                if defn_text and len(defn_text) >= 3:
+                if defn_text and len(defn_text) >= _FSH_MIN_TEXT_LEN:
                     entries.append(TranslationEntry(file_path, lineno, defn_text, context_url))
             continue
 
@@ -688,7 +696,7 @@ def extract_fsh(file_path: str, canonical: str) -> List[TranslationEntry]:
         m = _FSH_FIELD_ASSIGN_RE.match(line)
         if m:
             value = m.group(1).strip()
-            if value and len(value) >= 3:
+            if value and len(value) >= _FSH_MIN_TEXT_LEN:
                 entries.append(TranslationEntry(file_path, lineno, value, context_url))
             continue
 
@@ -1212,8 +1220,8 @@ def collect_entries(
         for fsh_path in sorted(
             glob_module.glob(os.path.join(fsh_dir, "**", "*.fsh"), recursive=True)
         ):
-            # Skip the translations directory itself
-            if os.sep + "translations" + os.sep in fsh_path:
+            # Skip files inside the translations directory itself
+            if "translations" in Path(fsh_path).parts:
                 continue
             rel = os.path.relpath(fsh_path, ig_root)
             fsh_entries.extend(extract_fsh(rel, canonical))
