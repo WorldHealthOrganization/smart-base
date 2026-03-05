@@ -1,0 +1,23 @@
+# bpmn_author skill
+name: bpmn_author
+version: "0.1.0"
+description: Author and edit standard BPMN 2.0 XML for DAK business processes
+
+commands:
+  - name: create-bpmn
+    description: Create a new BPMN file from a natural-language description
+    requires_llm: true
+  - name: edit-bpmn
+    description: Edit an existing BPMN file based on instructions
+    requires_llm: true
+  - name: validate-bpmn
+    description: Validate BPMN structure and DAK constraints (no LLM needed)
+    requires_llm: false
+
+validators:
+  - bpmn_xml_validator
+  - swimlane_validator
+
+prompts:
+  - create_or_edit_bpmn
+  - validate_bpmn
