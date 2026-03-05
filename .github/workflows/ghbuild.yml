@@ -63,7 +63,8 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     permissions:
-      contents: write   # required for JamesIves/github-pages-deploy-action to push gh-pages
+      contents: write        # required for JamesIves/github-pages-deploy-action to push gh-pages
+      pull-requests: write   # required for PR build-status comment steps
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -112,6 +113,7 @@ jobs:
 
       - name: Comment on PR - Build started
         if: steps.find_pr.outputs.IS_PR == 'true'
+        continue-on-error: true   # PR comments are informational; never block the build
         env:
           PR_NUMBER: ${{ steps.find_pr.outputs.PR_NUMBER }}
           GH_REPOSITORY: ${{ github.repository }}
@@ -660,6 +662,7 @@ jobs:
 
       - name: Comment on PR - Deployment completed
         if: steps.find_pr.outputs.IS_PR == 'true' && (success() || failure())
+        continue-on-error: true   # PR comments are informational; never block the build
         env:
           PR_NUMBER: ${{ steps.find_pr.outputs.PR_NUMBER }}
           GH_REPOSITORY: ${{ github.repository }}
