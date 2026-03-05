@@ -55,7 +55,8 @@ on:
       push:
         description: 'Push .pot commits to remote branch after committing'
         required: false
-        default: 'false'
+        type: boolean
+        default: false
 
 concurrency:
   group: commit-pot-${{ github.ref }}
