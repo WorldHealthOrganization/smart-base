@@ -607,74 +607,14 @@ class SchemaGenerator:
                 "$ref": f"StructureDefinition-{model_name}.schema.json"
             }
         
-        # Handle ValueSet bindings with JSON-LD support
+        # Handle ValueSet bindings: use the canonical {system, code} Coding-shaped schema
+        # by referencing the ValueSet schema file (which now emits a Coding-shaped object).
         if valueset:
-            # Construct the ValueSet JSON-LD IRI
-            valueset_jsonld_iri = f"{self.canonical_base}/ValueSet-{valueset}.jsonld"
-            
-            if fhir_type == 'code':
-                # For code fields, support both plain string and JSON-LD structure
+            if fhir_type in ['code', 'Coding', 'CodeableConcept']:
+                # Reference the ValueSet schema which validates {system, code} objects
                 return {
-                    "oneOf": [
-                        {
-                            "type": "string",
-                            "description": f"Code from ValueSet {valueset} (plain string)"
-                        },
-                        {
-                            "type": "object",
-                            "description": f"Code from ValueSet {valueset} (JSON-LD structure)",
-                            "properties": {
-                                "@type": {
-                                    "type": "string",
-                                    "const": valueset_jsonld_iri,
-                                    "description": f"JSON-LD type reference to ValueSet {valueset}"
-                                },
-                                "@id": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "description": f"Full IRI of the code from ValueSet {valueset}"
-                                }
-                            },
-                            "required": ["@type", "@id"],
-                            "additionalProperties": False
-                        }
-                    ],
-                    "description": f"Code from ValueSet {valueset}. Can be a plain string or JSON-LD structure with @type and @id."
-                }
-            elif fhir_type in ['Coding', 'CodeableConcept']:
-                # For Coding/CodeableConcept types, support both FHIR structure and JSON-LD structure
-                return {
-                    "oneOf": [
-                        {
-                            "type": "object",
-                            "description": f"FHIR {fhir_type} from ValueSet {valueset}",
-                            "properties": {
-                                "system": {"type": "string", "description": "Code system URI"},
-                                "code": {"type": "string", "description": "Code value"},
-                                "display": {"type": "string", "description": "Human readable display text"}
-                            },
-                            "required": ["system", "code"]
-                        },
-                        {
-                            "type": "object",
-                            "description": f"{fhir_type} from ValueSet {valueset} (JSON-LD structure)",
-                            "properties": {
-                                "@type": {
-                                    "type": "string",
-                                    "const": valueset_jsonld_iri,
-                                    "description": f"JSON-LD type reference to ValueSet {valueset}"
-                                },
-                                "@id": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "description": f"Full IRI of the code from ValueSet {valueset}"
-                                }
-                            },
-                            "required": ["@type", "@id"],
-                            "additionalProperties": False
-                        }
-                    ],
-                    "description": f"{fhir_type} from ValueSet {valueset}. Supports both FHIR Coding structure and JSON-LD structure."
+                    "$ref": f"./ValueSet-{valueset}.schema.json",
+                    "description": f"Coding-shaped {{system, code}} object from ValueSet {valueset}"
                 }
         
         # Use type mapping
