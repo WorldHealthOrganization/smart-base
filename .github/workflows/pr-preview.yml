@@ -1,0 +1,65 @@
+# PR Preview Deploy (approval required)
+#
+# Deploys the PR branch preview to gh-pages once a repository collaborator
+# approves the deployment via GitHub Actions environment protection.
+#
+# Prerequisites
+# ─────────────
+# Create a "pr-preview" environment in repository Settings → Environments
+# and add the people (or teams) allowed to approve PR preview deployments as
+# required reviewers.  Without this environment the job runs immediately with
+# no approval gate.
+#
+# Flow per push to a PR branch
+# ────────────────────────────
+#   1. This workflow triggers.  The deploy-preview job is paused at the
+#      "pr-preview" environment gate, showing a "Review deployments" button
+#      in the Actions tab.
+#   2. A reviewer approves (or rejects) the pending deployment.
+#   3. After approval the full FHIR IG build runs and the output is deployed
+#      to gh-pages at:
+#        https://<owner>.github.io/<repo>/branches/<branch-dir>/
+#   4. The PR receives a comment with the build status and preview URL.
+#
+# Only same-repository PRs are supported; fork PRs are skipped because the
+# default GITHUB_TOKEN for fork PRs does not have contents: write access
+# needed to push to gh-pages.
+#
+# The companion ci.yml workflow runs the IG build for validation on every
+# PR push (deploy: false, i.e. `github.event_name != 'pull_request'` evaluates
+# to false) so CI status checks always reflect the latest commit regardless of
+# whether a preview has been approved.
+
+name: PR Preview Deploy (approval required)
+
+on:
+  pull_request:
+    branches-ignore:
+      - 'gh-pages'
+    types: [opened, synchronize, reopened]
+
+# One active preview deployment per PR branch at a time.
+# A new push cancels any pending approval for the previous commit so that
+# reviewers are always approving the latest change.
+concurrency:
+  group: pr-preview-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    # Skip fork PRs — the restricted token cannot push to gh-pages.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+
+    # The 'pr-preview' environment must be configured in repository Settings
+    # → Environments with required reviewers before this job can proceed.
+    # When a reviewer clicks "Review deployments" → "Approve" in the Actions
+    # tab, the job continues and the full IG build + gh-pages deploy runs.
+    environment: pr-preview
+
+    permissions:
+      contents: write       # required to push to gh-pages
+      pull-requests: write  # required to post PR build-status comments
+
+    uses: ./.github/workflows/ghbuild.yml
+    with:
+      deploy: true

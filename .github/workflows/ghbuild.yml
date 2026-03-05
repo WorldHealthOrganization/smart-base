@@ -30,6 +30,11 @@ on:
         required: false
         type: boolean
         default: true
+      deploy:
+        description: 'Deploy the built IG to GitHub Pages'
+        required: false
+        type: boolean
+        default: true
 
   # Allows you to run this workflow manually from the Actions tab
   # (useful for downstream repos and for ad-hoc smart-base builds).
@@ -44,6 +49,11 @@ on:
         required: false
       do_dak:
         description: 'Enable DAK preprocessing and postprocessing'
+        required: false
+        type: boolean
+        default: true
+      deploy:
+        description: 'Deploy the built IG to GitHub Pages'
         required: false
         type: boolean
         default: true
@@ -638,7 +648,7 @@ jobs:
 
       - name: Deploy candidate
         uses: JamesIves/github-pages-deploy-action@v4.4.2
-        if: env.IS_DEFAULT_BRANCH == 'false'
+        if: env.IS_DEFAULT_BRANCH == 'false' && inputs.deploy != false
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.
@@ -649,7 +659,7 @@ jobs:
 
       - name: Deploy main
         uses: JamesIves/github-pages-deploy-action@v4.4.2
-        if: env.IS_DEFAULT_BRANCH == 'true'
+        if: env.IS_DEFAULT_BRANCH == 'true' && inputs.deploy != false
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.

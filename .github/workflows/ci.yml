@@ -55,6 +55,11 @@ jobs:
     with:
       tx: ${{ inputs.tx || '' }}
       do_dak: ${{ inputs.do_dak != false }}
+      # Only deploy to gh-pages on push / workflow_dispatch (not on pull_request events).
+      # For PRs, gh-pages deployment is gated by the 'pr-preview' GitHub Actions environment
+      # (pr-preview.yml) which requires reviewer approval, or by the /deploy slash command
+      # (pr-deploy-slash.yml) for ad-hoc manual deploys.
+      deploy: ${{ github.event_name != 'pull_request' }}
     secrets: inherit
 
   commit-pot:
