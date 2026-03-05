@@ -2085,7 +2085,7 @@ class SchemaDocumentationRenderer:
 
         Args:
             link_map: Mapping of ``{text: url}`` extracted from the static HTML block.
-            lang: Prism language name ('json', 'xml', 'turtle').
+            lang: CSS class / language identifier ('json', 'xml', 'rdf', 'turtle', 'cql').
 
         Returns:
             JavaScript code with ``{`` and ``}`` doubled so it is safe to embed inside
@@ -2129,10 +2129,12 @@ class SchemaDocumentationRenderer:
                 '/(<span class="token attr-name">)([A-Za-z][A-Za-z0-9._:-]*)(<\\/span>)/g,'
                 "function(m,p,n,s){return FL[n]?p+'<a href=\"'+FL[n]+'\">'+(n)+'</a>'+s:m;});"
             )
-        elif lang == 'turtle':
-            # Turtle: scan all Prism span text for matching FHIR predicate names
+        elif lang in ('turtle', 'rdf'):
+            # Turtle/RDF: scan all Prism span text for matching FHIR predicate names
             # (e.g. fhir:id, fhir:text).  Keys shorter than 3 chars are skipped to
             # avoid false positives on punctuation tokens.
+            # Note: the FHIR IG Publisher uses class="rdf" on TTL <pre> blocks, so
+            # both 'rdf' and 'turtle' are handled here.
             js = (
                 'var FL=' + links_json + ';'
                 'el.innerHTML=el.innerHTML.replace('
@@ -2164,7 +2166,9 @@ class SchemaDocumentationRenderer:
 
         Args:
             html: Full HTML content of the page
-            lang: Source language / class name ('json', 'xml', 'turtle', 'cql')
+            lang: Source language / class name ('json', 'xml', 'rdf', 'cql').
+                  TTL pages use 'rdf' because the FHIR IG Publisher emits
+                  ``<pre class="rdf">`` for Turtle content.
             label: Human-readable label ('JSON', 'XML', 'TTL', 'CQL')
             src_file: Relative URL of the raw source file to fetch (same directory)
             allow_classless: When True, also replace ``<pre>`` blocks that have no
@@ -2212,9 +2216,13 @@ class SchemaDocumentationRenderer:
 
             pre_content = html[body_start:close_pos]
 
-            # Only replace blocks that contain a <code> element with substantial content.
+            # Replace blocks that contain substantial source content, either:
+            #   a) wrapped in a <code> element (JSON / XML pages), or
+            #   b) embedded directly in the <pre> block (TTL/RDF pages — the FHIR IG
+            #      Publisher emits <pre class="rdf">…</pre> without a <code> wrapper).
             code_match = re.search(r'<code([^>]*)>([\s\S]*?)</code>', pre_content, re.IGNORECASE)
-            if not code_match or len(code_match.group(2).strip()) < _MIN_SOURCE_SIZE_FOR_DYNAMIC_LOADING:
+            source_content = code_match.group(2) if code_match else pre_content
+            if len(source_content.strip()) < _MIN_SOURCE_SIZE_FOR_DYNAMIC_LOADING:
                 # Keep this block unchanged; preserve everything from pos through </pre>
                 parts.append(html[pos:close_pos + len(close_tag)])
                 pos = close_pos + len(close_tag)
@@ -2235,7 +2243,7 @@ class SchemaDocumentationRenderer:
             # Use \s before href so the pattern matches href in any attribute position.
             _href_re = re.compile(r'<a\b[^>]*\shref="([^"]+)"[^>]*>([^<]+)</a>')
             link_map: Dict[str, str] = {}
-            for lm in _href_re.finditer(code_match.group(2)):
+            for lm in _href_re.finditer(source_content):
                 url, text = lm.group(1), lm.group(2).strip()
                 # Accept canonical FHIR spec URLs (http or https) to avoid injecting
                 # arbitrary content.
@@ -2265,10 +2273,12 @@ class SchemaDocumentationRenderer:
             else:
                 # For XML, fall back to Prism.languages.markup when Prism.languages.xml
                 # is not registered (some Prism.js builds only register the grammar as
-                # 'markup').  For turtle the language name matches the FHIR IG Publisher's
-                # registered name so no fallback is needed.
+                # 'markup').  For RDF/Turtle pages the FHIR IG Publisher uses class="rdf"
+                # but Prism registers the grammar as 'turtle'; use turtle with rdf fallback.
                 if lang == 'xml':
                     grammar_expr = '(Prism.languages["{l}"]||Prism.languages.markup)'.format(l=lang)
+                elif lang == 'rdf':
+                    grammar_expr = '(Prism.languages.turtle||Prism.languages["{l}"])'.format(l=lang)
                 else:
                     grammar_expr = 'Prism.languages["{l}"]'.format(l=lang)
                 fetch_body = (
@@ -2327,7 +2337,7 @@ class SchemaDocumentationRenderer:
         dynamic Prism.js loaders across all FHIR resource HTML pages.
 
         The FHIR IG Publisher embeds the full resource source in ``<pre class="json">``
-        / ``<pre class="xml">`` / ``<pre class="turtle">`` blocks at publication time,
+        / ``<pre class="xml">`` / ``<pre class="rdf">`` blocks at publication time,
         which inflates every page significantly.  This method removes that embedded
         content and replaces it with a small JavaScript snippet that fetches the
         corresponding raw source file (already present in the output directory) on
@@ -2349,12 +2359,14 @@ class SchemaDocumentationRenderer:
         # Each tuple is (prism_class, label, file_ext).
         # prism_class: CSS class on <pre> and Prism language name used in the loader JS.
         # file_ext: actual source file extension (.json / .xml / .ttl / .cql).
-        # Note: the FHIR IG Publisher uses class="turtle" (not "ttl") on TTL <pre> blocks.
+        # Note: the FHIR IG Publisher uses class="rdf" (not "turtle") on TTL <pre> blocks.
+        # This applies to ALL FHIR resource types: StructureDefinitions, CodeSystems,
+        # ValueSets, etc. — not just profiles.
         FORMATS = [
             ('json', 'JSON', 'json'),
             ('xml',  'XML',  'xml'),
-            ('turtle', 'TTL', 'ttl'),  # IG Publisher: <pre class="turtle">, source file *.ttl
-            ('cql', 'CQL', 'cql'),     # Library CQL source; raw/download links are injected
+            ('rdf', 'TTL', 'ttl'),   # IG Publisher: <pre class="rdf">, source file *.ttl
+            ('cql', 'CQL', 'cql'),   # Library CQL source; raw/download links are injected
         ]
 
         modified = 0
@@ -2368,15 +2380,20 @@ class SchemaDocumentationRenderer:
             base_name = html_file[:-5]  # strip .html
             html_path = os.path.join(output_dir, html_file)
 
-            # The FHIR IG Publisher creates dedicated per-format view pages named
-            # "Foo.profile.{ext}.html" whose raw source file is "Foo.{ext}" (not
-            # "Foo.profile.{ext}.{ext}").  Detect that pattern and remap the source
-            # file name accordingly; fall back to the generic "{base_name}.{ext}" for
-            # all other pages (e.g. pages that embed multiple formats inline).
+            # The FHIR IG Publisher creates dedicated per-format view pages in two
+            # naming conventions:
+            #   1. StructureDefinitions: "Foo.profile.{ext}.html" → source "Foo.{ext}"
+            #   2. Other resources (CodeSystem, ValueSet, …): "Foo.{ext}.html" → source "Foo.{ext}"
+            # Detect both patterns and remap the source file name accordingly; fall back
+            # to the generic "{base_name}.{ext}" for all other pages (e.g. pages that
+            # embed multiple formats inline).
             def _src_for_ext(file_ext: str) -> str:
-                suffix = f'.profile.{file_ext}'
-                if base_name.endswith(suffix):
-                    return base_name[:-len(suffix)] + '.' + file_ext
+                profile_suffix = f'.profile.{file_ext}'
+                if base_name.endswith(profile_suffix):
+                    return base_name[:-len(profile_suffix)] + '.' + file_ext
+                plain_suffix = f'.{file_ext}'
+                if base_name.endswith(plain_suffix):
+                    return base_name  # base_name already is "ResourceType-Name.{ext}"
                 return f'{base_name}.{file_ext}'
 
             src_exists = {
@@ -2393,10 +2410,14 @@ class SchemaDocumentationRenderer:
                 original = html
                 for prism_class, label, file_ext in FORMATS:
                     if src_exists[file_ext]:
-                        # On format-specific pages (e.g. Foo.profile.xml.html), the FHIR IG
-                        # Publisher sometimes emits <pre><code> blocks without a class
-                        # attribute. Pass allow_classless=True so those are also replaced.
-                        is_format_page = base_name.endswith(f'.profile.{file_ext}')
+                        # On format-specific pages (e.g. Foo.profile.xml.html or
+                        # CodeSystem-Foo.xml.html), the FHIR IG Publisher sometimes
+                        # emits <pre><code> blocks without a class attribute. Pass
+                        # allow_classless=True so those are also replaced.
+                        is_format_page = (
+                            base_name.endswith(f'.profile.{file_ext}')
+                            or base_name.endswith(f'.{file_ext}')
+                        )
                         if prism_class == 'cql':
                             # The FHIR IG Publisher renders Library CQL content as:
                             #   <pre><code class="language-cql">...</code></pre>
