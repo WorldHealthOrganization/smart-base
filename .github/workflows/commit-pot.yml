@@ -124,11 +124,19 @@ jobs:
 
       - name: Download POT artifacts from prior build
         if: inputs.no-publisher == true
+        id: download-pot
         uses: actions/download-artifact@v4
         with:
           name: pot-files
           path: .
         continue-on-error: true   # artifact may not exist (e.g. first build)
+
+      - name: Report POT artifact status
+        if: inputs.no-publisher == true && steps.download-pot.outcome == 'failure'
+        run: |
+          echo "::notice::No pot-files artifact found from the prior build." \
+               "This is expected on first builds or when the IG Publisher" \
+               "did not produce any .pot files."
 
       # -- Common steps (always run) --
 
