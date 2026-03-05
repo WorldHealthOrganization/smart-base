@@ -118,7 +118,7 @@ jobs:
           TX_SERVER: ${{ inputs.tx }}
           BRANCH_NAME: ${{ github.ref_name }}
           GITHUB_ACTOR: ${{ github.actor }}
-          IG_ROOT: ${{ inputs.ig-root || '.' }}
+          IG_ROOT: ${{ inputs['ig-root'] || '.' }}
           PUSH_ENABLED: ${{ inputs.push }}
         run: |
           PUSH_FLAG=""
