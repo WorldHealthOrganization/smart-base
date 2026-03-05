@@ -1,0 +1,64 @@
+# Top-level CI orchestrator for the smart-base repository.
+#
+# This workflow responds directly to push and pull-request events so that
+# ghbuild.yml remains a pure reusable workflow (workflow_call only) that
+# downstream WHO SMART Guidelines IGs can call without picking up smart-base's
+# own CI triggers.
+#
+# Job graph:
+#   build-and-deploy  →  calls ghbuild.yml (full IG build + GitHub Pages deploy)
+#   commit-pot        →  calls commit-pot.yml (POT extraction + commit/push)
+#                        runs after build-and-deploy, skipped on pull-request
+#                        events so forks don't need contents: write.
+#
+# Downstream repositories should call ghbuild.yml directly via workflow_call;
+# they do not need this file.
+
+name: CI
+
+on:
+  push:
+    branches-ignore:
+      - 'gh-pages'
+  pull_request:
+    branches-ignore:
+      - 'gh-pages'
+  workflow_dispatch:
+    inputs:
+      tx:
+        description: 'Optional Custom terminology server URL'
+        required: false
+      do_dak:
+        description: 'Enable DAK preprocessing and postprocessing'
+        required: false
+        type: boolean
+        default: true
+
+# Same concurrency key shape as ghbuild.yml so manual and automatic runs
+# from the same branch cancel the older one.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    permissions:
+      contents: write   # required so the token passed to ghbuild.yml can push gh-pages
+    uses: ./.github/workflows/ghbuild.yml
+    with:
+      tx: ${{ inputs.tx || '' }}
+      do_dak: ${{ inputs.do_dak != false }}
+    secrets: inherit
+
+  commit-pot:
+    needs: build-and-deploy
+    # Only push .pot commits on push / workflow_dispatch events.
+    # Pull-request runs (including forks) do not have contents: write and
+    # would fail trying to push back to the branch.
+    if: github.event_name != 'pull_request'
+    permissions:
+      contents: write
+    uses: ./.github/workflows/commit-pot.yml
+    with:
+      push: true
+    secrets: inherit

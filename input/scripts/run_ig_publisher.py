@@ -37,7 +37,8 @@ Options::
     --skip-commit          Run publisher and detect .pot files but do not commit
     --commit-message MSG   Custom git commit message for the .pot update
     --no-publisher         Skip the IG Publisher; only commit/push existing .pot files
-    --no-generation-off    Disable the default -generation-off flag (run full build)
+    --no-generation-off    Disable the default -generation-off / -validation-off
+                           flags (run full build including HTML generation)
     --push                 After committing, pull-rebase and push to remote
     --branch BRANCH        Target branch for push (or set BRANCH_NAME env var)
     --actor NAME           GitHub actor for commit message (or set GITHUB_ACTOR env var)
@@ -644,10 +645,12 @@ def run_publisher_and_commit_pot(
                          Requires *branch* to be set.
         branch:          Remote branch name for the push step.
         actor:           GitHub actor name included in the default commit message.
-        generation_off:  When ``True`` (default) passes ``-generation-off`` to
-                         the IG Publisher so it skips HTML page generation and
-                         runs only FHIR resource processing.  Set to ``False``
-                         when a full build is required (e.g. for deployment).
+        generation_off:  When ``True`` (default) passes ``-generation-off`` and
+                         ``-validation-off`` to the IG Publisher so it skips HTML
+                         page generation and resource validation, running only
+                         FHIR resource processing for translation-template
+                         extraction.  Set to ``False`` when a full build is
+                         required (e.g. for deployment).
 
     Returns:
         ``True`` on success, ``False`` if the publisher failed or a git
@@ -669,15 +672,18 @@ def run_publisher_and_commit_pot(
         #    are therefore naturally excluded from pages.pot.
         _run_extract_translations(ig_root)
 
-        # 3. Run IG Publisher — abort on failure to avoid partial commits
-        # Pass -generation-off and -validation-off to skip HTML page generation
-        # and resource validation, which are not needed for translation extraction
-        # and significantly slow down the build.
+        # 3. Run IG Publisher — abort on failure to avoid partial commits.
+        # When generation_off=True (the default) pass -generation-off to suppress
+        # HTML page generation and -validation-off to skip resource validation;
+        # neither is needed for translation-template extraction and both
+        # significantly slow down the build.
+        extra_args: Optional[List[str]] = ["-validation-off"] if generation_off else []
         if not run_ig_publisher(
             ig_root,
             jar_path,
             tx=tx,
-            extra_args=["-generation-off", "-validation-off"],
+            generation_off=generation_off,
+            extra_args=extra_args,
         ):
 
             logger.error(
@@ -829,7 +835,8 @@ def main() -> int:
         action="store_true",
         default=False,
         help=(
-            "Disable the default -generation-off flag passed to the IG Publisher. "
+            "Disable the default -generation-off and -validation-off flags "
+            "passed to the IG Publisher. "
             "Use this when a full IG build (including HTML page generation) is "
             "required alongside .pot file extraction."
         ),

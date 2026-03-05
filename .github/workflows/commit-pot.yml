@@ -1,0 +1,130 @@
+# Reusable workflow: extract translation templates (.pot files) and commit them.
+#
+# Runs the FHIR IG Publisher with -generation-off and -validation-off to produce
+# FHIR-resource .pot files without regenerating HTML or re-validating resources,
+# then runs extract_translations.py to produce .pot files from diagram sources
+# (PlantUML, SVG, ArchiMate) and markdown narrative pages.
+# All resulting .pot files are committed (and optionally pushed) to the branch.
+#
+# The IG Publisher runs directly on the host runner via actions/setup-java.
+# No Docker container is used, so no safe.directory workaround is needed beyond
+# the standard git config call below.
+#
+# All business logic (flag construction, git add/commit/push with retry) lives in
+# input/scripts/run_ig_publisher.py.  All GitHub context values are passed via
+# environment variables — never interpolated directly into shell commands.
+#
+# Inputs:
+#   ig-root   Repository root directory (default: '.')
+#   tx        Optional terminology server URL ('n/a' for offline)
+#   push      When true, pull-rebase and push after committing (default: false)
+#
+# Required caller permissions (when push: true):
+#   contents: write
+
+name: Commit POT Files
+
+on:
+  workflow_call:
+    inputs:
+      ig-root:
+        description: 'Repository root directory'
+        required: false
+        type: string
+        default: '.'
+      tx:
+        description: 'Optional terminology server URL (use n/a for offline)'
+        required: false
+        type: string
+      push:
+        description: 'Push .pot commits to remote branch after committing'
+        required: false
+        type: boolean
+        default: false
+
+  # Allow standalone manual runs (e.g. ad-hoc template refresh).
+  workflow_dispatch:
+    inputs:
+      ig-root:
+        description: 'Repository root directory'
+        required: false
+        default: '.'
+      tx:
+        description: 'Optional terminology server URL (use n/a for offline)'
+        required: false
+      push:
+        description: 'Push .pot commits to remote branch after committing'
+        required: false
+        default: 'false'
+
+concurrency:
+  group: commit-pot-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  commit-pot:
+    name: Extract translation templates and commit
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # required to commit and push .pot files
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install "PyYAML>=6.0" "requests>=2.28.0" lxml
+
+      - name: Download latest IG Publisher jar
+        run: |
+          mkdir -p ./input-cache
+          curl -L https://github.com/HL7/fhir-ig-publisher/releases/latest/download/publisher.jar \
+            -o ./input-cache/publisher.jar
+
+      - name: Configure git for commits
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Suppress dubious-ownership warnings that can appear when the
+          # runner uid differs from the file owner (e.g. after a Docker step).
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      # TX_SERVER, BRANCH_NAME, and GITHUB_ACTOR are passed via env: so that
+      # GitHub context values are never interpolated directly into shell commands.
+      # run_ig_publisher.py reads, validates, and uses them internally.
+      # The IG Publisher is invoked with -generation-off and -validation-off
+      # (set by run_ig_publisher.py's default generation_off=True) so it only
+      # extracts FHIR-resource translation templates without regenerating HTML
+      # pages or re-running full validation.
+      - name: Run IG Publisher, extract translations, commit and push
+        env:
+          TX_SERVER: ${{ inputs.tx }}
+          BRANCH_NAME: ${{ github.ref_name }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          IG_ROOT: ${{ inputs.ig-root || '.' }}
+          PUSH_ENABLED: ${{ inputs.push }}
+        run: |
+          PUSH_FLAG=""
+          if [ "$PUSH_ENABLED" = "true" ]; then
+            PUSH_FLAG="--push"
+          fi
+          python3 input/scripts/run_ig_publisher.py \
+            --ig-root "$IG_ROOT" \
+            $PUSH_FLAG
