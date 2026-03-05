@@ -23,8 +23,22 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
   * name 1..1 string "Publisher Name" "Name of the publishing organization"
   * url 0..1 url "Publisher URL" "URL of the publishing organization"
 
-
-
+// Translation configuration
+* translations 0..1 BackboneElement "Translation configuration" "Configuration for translation services and target languages"
+  * sourceLanguage 1..1 code "Source language BCP-47 code" "BCP-47 code of the source language (e.g. en)"
+  * languages 0..* BackboneElement "Target language entries" "List of target languages for translation"
+    * code 1..1 code "BCP-47 / ISO 639-1 language code" "Language code for the target language"
+    * name 1..1 string "Human-readable language name" "Display name of the target language"
+    * direction 1..1 code "Text direction: ltr | rtl" "Text direction for the target language"
+    * plural 0..1 string "Gettext plural form expression" "Plural form expression for the target language"
+  * services 0..1 BackboneElement "Enabled translation services" "Configuration for external translation platforms"
+    * weblate 0..1 BackboneElement "Weblate configuration" "Configuration for the Weblate translation service"
+      * enabled 1..1 boolean "Is Weblate enabled?" "Whether Weblate integration is active"
+      * url 0..1 url "Weblate base URL" "Base URL for the Weblate instance"
+    * launchpad 0..1 BackboneElement "Launchpad configuration" "Configuration for the Launchpad translation service"
+      * enabled 1..1 boolean "Is Launchpad enabled?" "Whether Launchpad integration is active"
+    * crowdin 0..1 BackboneElement "Crowdin configuration" "Configuration for the Crowdin translation service"
+      * enabled 1..1 boolean "Is Crowdin enabled?" "Whether Crowdin integration is active"
 
 
 // 9 DAK Components - each component uses a Source type that can be URL, canonical reference, or instance data
