@@ -13,6 +13,7 @@ import os
 import sys
 import json
 import re
+import time
 import requests
 from urllib.parse import quote
 
@@ -165,13 +166,24 @@ def update_pr_comment(pr_number: int, repository: str, run_id: int, sha: str, br
                 update_url = f'https://api.github.com/repos/{repository}/issues/comments/{comment_id}'
                 
                 data = {'body': comment_body}
-                response = requests.patch(update_url, headers=headers, json=data, timeout=30)
-                
-                if response.status_code == 200:
-                    comment_updated = True
-                    print(f"Successfully updated existing comment {comment_id}")
-                else:
-                    print(f"Failed to update comment {comment_id}: {response.status_code}")
+                for attempt in range(3):
+                    try:
+                        response = requests.patch(update_url, headers=headers, json=data, timeout=30)
+                        if response.status_code == 200:
+                            comment_updated = True
+                            print(f"Successfully updated existing comment {comment_id}")
+                            break
+                        elif response.status_code >= 500 and attempt < 2:
+                            time.sleep(2 ** attempt)
+                            continue
+                        else:
+                            print(f"Failed to update comment {comment_id}: {response.status_code}")
+                            break
+                    except requests.exceptions.RequestException:
+                        if attempt < 2:
+                            time.sleep(2 ** attempt)
+                            continue
+                        raise
             
         except Exception as e:
             print(f"Failed to update existing comment: {e}")
@@ -182,8 +194,21 @@ def update_pr_comment(pr_number: int, repository: str, run_id: int, sha: str, br
             create_url = f'https://api.github.com/repos/{repository}/issues/{pr_number}/comments'
             data = {'body': comment_body}
             
-            response = requests.post(create_url, headers=headers, json=data, timeout=30)
-            response.raise_for_status()
+            for attempt in range(3):
+                try:
+                    response = requests.post(create_url, headers=headers, json=data, timeout=30)
+                    response.raise_for_status()
+                    break
+                except requests.exceptions.HTTPError as e:
+                    if response.status_code >= 500 and attempt < 2:
+                        time.sleep(2 ** attempt)
+                        continue
+                    raise
+                except requests.exceptions.RequestException:
+                    if attempt < 2:
+                        time.sleep(2 ** attempt)
+                        continue
+                    raise
             
             print("Successfully created new comment")
             

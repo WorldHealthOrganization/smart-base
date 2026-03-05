@@ -35,75 +35,6 @@ from datetime import datetime
 # replacing small illustrative code snippets with fetch-based loaders.
 _MIN_SOURCE_SIZE_FOR_DYNAMIC_LOADING = 500
 
-# Fallback FHIR R4 property name → documentation URL mapping used when the IG Publisher
-# does not embed <a href> links in the JSON format pages.  Covers the most common
-# top-level properties of StructureDefinition, ElementDefinition, and base Resource.
-# The extracted link_map (when non-empty) takes precedence over these defaults.
-_FHIR_R4_JSON_FALLBACK_LINKS: Dict[str, str] = {
-    # ---- Resource base (all FHIR R4 resources) ----
-    'resourceType':     'http://hl7.org/fhir/R4/resource.html#Resource.resourceType',
-    'id':               'http://hl7.org/fhir/R4/datatypes.html#id',
-    'meta':             'http://hl7.org/fhir/R4/resource.html#Resource.meta',
-    'implicitRules':    'http://hl7.org/fhir/R4/resource.html#Resource.implicitRules',
-    'language':         'http://hl7.org/fhir/R4/resource.html#Resource.language',
-    # ---- DomainResource ----
-    'text':             'http://hl7.org/fhir/R4/domainresource.html#DomainResource.text',
-    'contained':        'http://hl7.org/fhir/R4/domainresource.html#DomainResource.contained',
-    'extension':        'http://hl7.org/fhir/R4/domainresource.html#DomainResource.extension',
-    'modifierExtension':'http://hl7.org/fhir/R4/domainresource.html#DomainResource.modifierExtension',
-    # ---- StructureDefinition ----
-    'url':              'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.url',
-    'identifier':       'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.identifier',
-    'version':          'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.version',
-    'name':             'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.name',
-    'title':            'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.title',
-    'status':           'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.status',
-    'experimental':     'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.experimental',
-    'date':             'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.date',
-    'publisher':        'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.publisher',
-    'contact':          'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.contact',
-    'description':      'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.description',
-    'useContext':       'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.useContext',
-    'jurisdiction':     'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.jurisdiction',
-    'purpose':          'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.purpose',
-    'copyright':        'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.copyright',
-    'keyword':          'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.keyword',
-    'fhirVersion':      'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.fhirVersion',
-    'kind':             'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.kind',
-    'abstract':         'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.abstract',
-    'type':             'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.type',
-    'baseDefinition':   'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.baseDefinition',
-    'derivation':       'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.derivation',
-    'snapshot':         'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.snapshot',
-    'differential':     'http://hl7.org/fhir/R4/structuredefinition.html#StructureDefinition.differential',
-    'element':          'http://hl7.org/fhir/R4/elementdefinition.html',
-    # ---- ElementDefinition ----
-    'path':             'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.path',
-    'sliceName':        'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.sliceName',
-    'min':              'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.min',
-    'max':              'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.max',
-    'base':             'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.base',
-    'short':            'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.short',
-    'definition':       'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.definition',
-    'comment':          'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.comment',
-    'requirements':     'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.requirements',
-    'alias':            'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.alias',
-    'mustSupport':      'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.mustSupport',
-    'isModifier':       'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.isModifier',
-    'isModifierReason': 'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.isModifierReason',
-    'isSummary':        'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.isSummary',
-    'binding':          'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.binding',
-    'constraint':       'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.constraint',
-    'mapping':          'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.mapping',
-    # ---- Common FHIR datatypes ----
-    'system':           'http://hl7.org/fhir/R4/datatypes.html#Coding.system',
-    'code':             'http://hl7.org/fhir/R4/datatypes.html#code',
-    'display':          'http://hl7.org/fhir/R4/datatypes.html#Coding.display',
-    'value':            'http://hl7.org/fhir/R4/datatypes.html#id',
-    'valueSet':         'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.binding.valueSet',
-    'strength':         'http://hl7.org/fhir/R4/elementdefinition.html#ElementDefinition.binding.strength',
-}
-
 
 def setup_logging() -> logging.Logger:
     """Configure logging for the script."""
@@ -2068,85 +1999,6 @@ class SchemaDocumentationRenderer:
         
         return html_content
 
-    def _build_fhir_restore_js(self, link_map: dict, lang: str) -> str:
-        """Return JavaScript (with {{ }} doubled for .format()-safety) that re-applies
-        FHIR documentation links on Prism-highlighted source content.
-
-        The FHIR IG Publisher embeds ``<a href>`` links around property/element names in
-        the static ``<pre>`` blocks.  After dynamic loading fetches the raw source file
-        those links are absent.  This snippet runs inside the ``setTimeout`` after
-        ``Prism.highlight()`` to restore them by scanning the highlighted HTML for the
-        known token spans produced by Prism for each source format.
-
-        For JSON format pages the FHIR IG Publisher sometimes does not embed ``<a href>``
-        links in the raw JSON source.  In those cases ``link_map`` is empty and a static
-        fallback map of common FHIR R4 property names is used instead so that users still
-        see FHIR documentation links on dynamically-loaded JSON views.
-
-        Args:
-            link_map: Mapping of ``{text: url}`` extracted from the static HTML block.
-            lang: CSS class / language identifier ('json', 'xml', 'rdf', 'turtle', 'cql').
-
-        Returns:
-            JavaScript code with ``{`` and ``}`` doubled so it is safe to embed inside
-            a ``.format()`` template.  Returns empty string when link_map is empty and
-            no fallback is applicable, or lang is unsupported.
-        """
-        # For JSON, merge extracted links with the static fallback map.
-        # The extracted links (from the IG Publisher static HTML) take priority;
-        # fallback covers properties the IG Publisher does not link in JSON views.
-        if lang == 'json':
-            effective_map = dict(_FHIR_R4_JSON_FALLBACK_LINKS)
-            effective_map.update(link_map)  # extracted links override fallback
-        else:
-            effective_map = link_map
-
-        if not effective_map:
-            return ''
-
-        links_json = json.dumps(effective_map)
-
-        if lang == 'json':
-            # Prism JSON: property keys → <span class="token property">&quot;key&quot;</span>
-            # Note: Prism.highlight() encodes " as &quot; in its HTML output, so
-            # el.innerHTML contains &quot; around property names, not plain ".
-            # The regex matches either &quot; or " to handle both Prism versions.
-            js = (
-                'var FL=' + links_json + ';'
-                'el.innerHTML=el.innerHTML.replace('
-                '/(<span class="token property">)(?:&quot;|")([A-Za-z0-9_$@-]+)(?:&quot;|")(<\\/span>)/g,'
-                "function(m,o,k,c){return FL[k]?o+'&quot;<a href=\"'+FL[k]+'\">'+(k)+'</a>&quot;'+c:m;});"
-            )
-        elif lang == 'xml':
-            # Prism markup: element names follow the &lt;[/] punctuation span;
-            # attribute names are in attr-name spans.
-            js = (
-                'var FL=' + links_json + ';'
-                'el.innerHTML=el.innerHTML.replace('
-                '/(<span class="token punctuation">&lt;\\/?<\\/span>)([A-Za-z][A-Za-z0-9._:-]*)/g,'
-                "function(m,lt,nm){return FL[nm]?lt+'<a href=\"'+FL[nm]+'\">'+(nm)+'</a>':m;}"
-                ').replace('
-                '/(<span class="token attr-name">)([A-Za-z][A-Za-z0-9._:-]*)(<\\/span>)/g,'
-                "function(m,p,n,s){return FL[n]?p+'<a href=\"'+FL[n]+'\">'+(n)+'</a>'+s:m;});"
-            )
-        elif lang in ('turtle', 'rdf'):
-            # Turtle/RDF: scan all Prism span text for matching FHIR predicate names
-            # (e.g. fhir:id, fhir:text).  Keys shorter than 3 chars are skipped to
-            # avoid false positives on punctuation tokens.
-            # Note: the FHIR IG Publisher uses class="rdf" on TTL <pre> blocks, so
-            # both 'rdf' and 'turtle' are handled here.
-            js = (
-                'var FL=' + links_json + ';'
-                'el.innerHTML=el.innerHTML.replace('
-                '/(<span[^>]*>)([^<]+)(<\\/span>)/g,'
-                "function(m,p,t,s){var k=t.trim();return(FL[k]&&k.length>2)?p+'<a href=\"'+FL[k]+'\">'+(t)+'</a>'+s:m;});"
-            )
-        else:
-            return ''
-
-        # Double { and } so this JS survives being embedded inside a .format() template.
-        return js.replace('{', '{{').replace('}', '}}')
-
     def _replace_lang_source(self, html: str, lang: str, label: str, src_file: str,
                              allow_classless: bool = False) -> str:
         """
@@ -2236,29 +2088,12 @@ class SchemaDocumentationRenderer:
             safe_name = re.sub(r'[^a-z0-9]', '-', src_file.lower())
             el_id = 'dyn-{}-{}-{}'.format(lang, safe_name, occurrence)
 
-            # Extract FHIR documentation links from the static source block so they
-            # can be restored after Prism re-highlights the dynamically fetched content.
-            # The IG Publisher embeds <a href="URL">text</a> around property/element names.
-            # Only hl7.org/fhir URLs are included; the anchor text must be plain (no tags).
-            # Use \s before href so the pattern matches href in any attribute position.
-            _href_re = re.compile(r'<a\b[^>]*\shref="([^"]+)"[^>]*>([^<]+)</a>')
-            link_map: Dict[str, str] = {}
-            for lm in _href_re.finditer(source_content):
-                url, text = lm.group(1), lm.group(2).strip()
-                # Accept canonical FHIR spec URLs (http or https) to avoid injecting
-                # arbitrary content.
-                if text and re.search(r'https?://hl7\.org/fhir/', url):
-                    link_map[text] = url
-            fhir_restore = self._build_fhir_restore_js(link_map, lang)
-
             # Fetch body differs by format: JSON gets pretty-printed via JSON.stringify.
             # Content is fetched asynchronously via fetch().then(); once received the raw
             # text is shown immediately, then Prism.highlight() (synchronous, no Web Worker)
             # is deferred via setTimeout(fn,0) so it doesn't block the UI.
             # We avoid Prism.highlightElement() which spawns a Web Worker and throws
             # "Cannot read properties of undefined (reading 'payload')" on some pages.
-            # fhir_restore (already {{ }}-escaped) runs inside the same setTimeout to
-            # re-apply FHIR documentation links after highlighting.
             if lang == 'json':
                 fetch_body = (
                     'fetch("{f}").then(function(r){{return r.json();}}).then(function(d){{'
@@ -2266,7 +2101,6 @@ class SchemaDocumentationRenderer:
                     'el.textContent=txt;'
                     'if(window.Prism&&Prism.languages.json)'
                     '{{setTimeout(function(){{el.innerHTML=Prism.highlight(txt,Prism.languages.json,"json");'
-                    + fhir_restore +
                     '}},0);}}'
                     '}})'
                 ).format(f=src_file)
@@ -2287,7 +2121,6 @@ class SchemaDocumentationRenderer:
                     'var _g={g};'
                     'if(window.Prism&&_g)'
                     '{{setTimeout(function(){{el.innerHTML=Prism.highlight(t,_g,"{l}");'
-                    + fhir_restore +
                     '}},0);}}'
                     '}})'
                 ).format(f=src_file, l=lang, g=grammar_expr)
