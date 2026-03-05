@@ -1975,7 +1975,7 @@ class SchemaDocumentationRenderer:
 
         Args:
             link_map: Mapping of ``{text: url}`` extracted from the static HTML block.
-            lang: Prism language name ('json', 'xml', 'turtle').
+            lang: CSS class / language identifier ('json', 'xml', 'rdf', 'turtle', 'cql').
 
         Returns:
             JavaScript code with ``{`` and ``}`` doubled so it is safe to embed inside
@@ -2019,10 +2019,12 @@ class SchemaDocumentationRenderer:
                 '/(<span class="token attr-name">)([A-Za-z][A-Za-z0-9._:-]*)(<\\/span>)/g,'
                 "function(m,p,n,s){return FL[n]?p+'<a href=\"'+FL[n]+'\">'+(n)+'</a>'+s:m;});"
             )
-        elif lang == 'turtle':
-            # Turtle: scan all Prism span text for matching FHIR predicate names
+        elif lang in ('turtle', 'rdf'):
+            # Turtle/RDF: scan all Prism span text for matching FHIR predicate names
             # (e.g. fhir:id, fhir:text).  Keys shorter than 3 chars are skipped to
             # avoid false positives on punctuation tokens.
+            # Note: the FHIR IG Publisher uses class="rdf" on TTL <pre> blocks, so
+            # both 'rdf' and 'turtle' are handled here.
             js = (
                 'var FL=' + links_json + ';'
                 'el.innerHTML=el.innerHTML.replace('
@@ -2054,7 +2056,9 @@ class SchemaDocumentationRenderer:
 
         Args:
             html: Full HTML content of the page
-            lang: Source language / class name ('json', 'xml', 'turtle', 'cql')
+            lang: Source language / class name ('json', 'xml', 'rdf', 'cql').
+                  TTL pages use 'rdf' because the FHIR IG Publisher emits
+                  ``<pre class="rdf">`` for Turtle content.
             label: Human-readable label ('JSON', 'XML', 'TTL', 'CQL')
             src_file: Relative URL of the raw source file to fetch (same directory)
             allow_classless: When True, also replace ``<pre>`` blocks that have no
@@ -2155,10 +2159,12 @@ class SchemaDocumentationRenderer:
             else:
                 # For XML, fall back to Prism.languages.markup when Prism.languages.xml
                 # is not registered (some Prism.js builds only register the grammar as
-                # 'markup').  For turtle the language name matches the FHIR IG Publisher's
-                # registered name so no fallback is needed.
+                # 'markup').  For RDF/Turtle pages the FHIR IG Publisher uses class="rdf"
+                # but Prism registers the grammar as 'turtle'; use turtle with rdf fallback.
                 if lang == 'xml':
                     grammar_expr = '(Prism.languages["{l}"]||Prism.languages.markup)'.format(l=lang)
+                elif lang == 'rdf':
+                    grammar_expr = '(Prism.languages.turtle||Prism.languages["{l}"])'.format(l=lang)
                 else:
                     grammar_expr = 'Prism.languages["{l}"]'.format(l=lang)
                 fetch_body = (
@@ -2217,7 +2223,7 @@ class SchemaDocumentationRenderer:
         dynamic Prism.js loaders across all FHIR resource HTML pages.
 
         The FHIR IG Publisher embeds the full resource source in ``<pre class="json">``
-        / ``<pre class="xml">`` / ``<pre class="turtle">`` blocks at publication time,
+        / ``<pre class="xml">`` / ``<pre class="rdf">`` blocks at publication time,
         which inflates every page significantly.  This method removes that embedded
         content and replaces it with a small JavaScript snippet that fetches the
         corresponding raw source file (already present in the output directory) on
@@ -2239,12 +2245,12 @@ class SchemaDocumentationRenderer:
         # Each tuple is (prism_class, label, file_ext).
         # prism_class: CSS class on <pre> and Prism language name used in the loader JS.
         # file_ext: actual source file extension (.json / .xml / .ttl / .cql).
-        # Note: the FHIR IG Publisher uses class="turtle" (not "ttl") on TTL <pre> blocks.
+        # Note: the FHIR IG Publisher uses class="rdf" (not "turtle") on TTL <pre> blocks.
         FORMATS = [
             ('json', 'JSON', 'json'),
             ('xml',  'XML',  'xml'),
-            ('turtle', 'TTL', 'ttl'),  # IG Publisher: <pre class="turtle">, source file *.ttl
-            ('cql', 'CQL', 'cql'),     # Library CQL source; raw/download links are injected
+            ('rdf', 'TTL', 'ttl'),   # IG Publisher: <pre class="rdf">, source file *.ttl
+            ('cql', 'CQL', 'cql'),   # Library CQL source; raw/download links are injected
         ]
 
         modified = 0
