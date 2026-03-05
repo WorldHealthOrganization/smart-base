@@ -399,12 +399,13 @@ jobs:
           # Mark /work as a safe directory to suppress git dubious ownership warnings
           docker exec ig-run git config --global --add safe.directory /work
 
-          # Install Python as root
+          # Install Python and SUSHI as root
           docker exec --user root ig-run sh -c '\
             apt-get update && \
             apt-get install -y --no-install-recommends python3 python3-pip python3-venv && \
             ln -sf /usr/bin/python3 /usr/bin/python && \
-            pip3 install --break-system-packages "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml'
+            pip3 install --break-system-packages "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml && \
+            npm install -g fsh-sushi'
 
           # Run publisher as the default user
           docker exec -w /work ig-run sh -c "$CMD"
