@@ -102,7 +102,7 @@ import re
 
 
 def _keyword_in_text(keyword: str, text: str) -> bool:
-    """Check if *keyword* appears in *text*.
+    """Check if ``keyword`` appears in ``text``.
 
     Keywords of 3 characters or fewer are matched as whole words only
     (word-boundary check) to avoid false positives from short language
@@ -149,7 +149,7 @@ def apply_labels(issue_number: int, labels: list) -> None:
     print(f"\u2705 Applied labels: {labels}")
 
 
-def main():
+def main() -> None:
     from common.prompts import load_prompt
     from common.smart_llm_facade import SmartLLMFacade
 

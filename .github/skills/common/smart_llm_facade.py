@@ -68,7 +68,7 @@ class SmartLLMFacade:
             )
 
         try:
-            import litellm  # noqa: F811
+            import litellm
         except ImportError as exc:
             raise ImportError(
                 "litellm is required for LLM features. "

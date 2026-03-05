@@ -59,7 +59,7 @@ def load_prompt(skill_name: str, prompt_name: str, **variables: Any) -> str:
 
 
 class _SafeDict(dict):
-    """dict subclass that returns ``{key}`` for missing keys instead of raising."""
+    """dict subclass that returns ``{key}`` for missing keys instead of raising KeyError."""
 
     def __missing__(self, key: str) -> str:
         return "{" + key + "}"

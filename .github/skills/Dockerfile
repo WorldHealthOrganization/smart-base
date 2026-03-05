@@ -8,6 +8,8 @@ LABEL org.opencontainers.image.title="DAK Skill Library"
 LABEL org.opencontainers.image.source="https://github.com/WorldHealthOrganization/smart-base"
 
 # Python packages — identical to ghbuild.yml
+# --break-system-packages is required because the base image uses Debian's
+# externally-managed Python; a venv is unnecessary inside a disposable container.
 RUN apt-get update && apt-get install -y --no-install-recommends \
         python3 python3-pip python3-venv \
     && ln -sf /usr/bin/python3 /usr/bin/python \
