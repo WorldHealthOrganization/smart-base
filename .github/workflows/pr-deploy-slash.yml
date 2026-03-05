@@ -1,0 +1,71 @@
+name: PR Slash-Command Deploy
+
+# Lets any collaborator post /deploy in a PR comment to manually trigger
+# the FHIR IG build + GitHub Pages deployment for that PR's branch.
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  dispatch:
+    # Only run on pull-request comments that start with /deploy
+    if: >
+      github.event.issue.pull_request != null &&
+      startsWith(github.event.comment.body, '/deploy')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write          # to post reactions and reply comments on the PR
+      actions: write         # to trigger a workflow run
+      pull-requests: read    # to look up the PR branch name
+
+    steps:
+      - name: Acknowledge the slash command with a reaction
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'rocket',
+            });
+
+      - name: Get the PR branch name
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+            core.setOutput('branch', pr.data.head.ref);
+
+      - name: Trigger ghbuild.yml for the PR branch
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'ghbuild.yml',
+              ref: '${{ steps.pr.outputs.branch }}',
+              inputs: {
+                do_dak: 'true',
+              },
+            });
+
+      - name: Post a confirmation comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = '${{ steps.pr.outputs.branch }}';
+            const runsUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/workflows/ghbuild.yml`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `🚀 **Deploy triggered** for branch \`${branch}\`.\n\nThe FHIR IG build is queued — [watch progress](${runsUrl}).  Once it completes the preview will be available at:\n\`https://${context.repo.owner}.github.io/${context.repo.repo}/branches/${branch}/\``,
+            });
