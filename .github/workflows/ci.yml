@@ -61,4 +61,5 @@ jobs:
     uses: ./.github/workflows/commit-pot.yml
     with:
       push: true
+      tx: ${{ inputs.tx || '' }}
     secrets: inherit
