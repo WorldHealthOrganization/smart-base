@@ -6,35 +6,31 @@ Fetches the latest approved Gettext .po files for every (component, language)
 combination from the Weblate REST API and writes them into the repository's
 translations directories.
 
-Component → directory mapping (aligned with weblate.yaml):
-
-  fhir-resources      → input/fsh/translations/
-  plantuml-diagrams   → input/images-source/translations/
-  svg-images          → input/images/translations/
-  archimate-models    → input/archimate/translations/
-  uml-diagrams        → input/diagrams/translations/
-
-Supported UN official languages: ar, zh, fr, ru, es
-(English is the source language and is not downloaded.)
+Components are discovered dynamically by scanning for *.pot files in the
+repository (via translation_config.discover_components).  Languages are read
+from dak.json#translations.languages.  Both fall back to built-in defaults
+when dak.json is absent.
 
 Usage:
     python pull_weblate_translations.py [options]
 
 Options:
     --weblate-url URL    Weblate base URL  (default: https://hosted.weblate.org)
-    --project SLUG       Weblate project slug (default: worldhealthorganization-smart-base)
+    --project SLUG       Weblate project slug (default: derived from GITHUB_REPOSITORY)
     --component SLUG     Restrict to one component slug (default: all)
     --language CODE      Restrict to one language code  (default: all)
     --output-root DIR    Repository root for output directories (default: .)
     -h / --help          Show this help message
 
 Environment variables:
-    WEBLATE_API_TOKEN    Required. Weblate API token with at least read access.
+    WEBLATE_API_TOKEN    Optional. When absent the script exits 0 (skip).
+    GITHUB_REPOSITORY    Optional. Used to derive the default project slug.
 
 Exit codes:
-    0  All expected files downloaded successfully (or no matching translations)
+    0  All expected files downloaded successfully, no token (skipped), or no
+       matching translations
     1  One or more download errors occurred
-    2  Bad arguments or missing WEBLATE_API_TOKEN
+    2  Bad arguments
 """
 
 import argparse
@@ -51,23 +47,21 @@ try:
 except ImportError:  # pragma: no cover
     sys.exit("ERROR: 'requests' package is required. Run: pip install requests>=2.31.0")
 
+from translation_config import (
+    DakConfigError,
+    discover_components,
+    get_language_codes,
+    get_project_slug,
+    load_dak_config,
+)
+from translation_security import get_optional_env_token, sanitize_slug, sanitize_url
+
 # ---------------------------------------------------------------------------
-# Constants
+# Fallback constants (used when dak.json or *.pot files are absent)
 # ---------------------------------------------------------------------------
 
-# Allowlist of valid Weblate component slugs and their repo-relative
-# translation output directories.  Changing these requires matching updates
-# to weblate.yaml and any downstream injection scripts.
-COMPONENT_MAP: Dict[str, str] = {
-    "fhir-resources":    "input/fsh/translations",
-    "plantuml-diagrams": "input/images-source/translations",
-    "svg-images":        "input/images/translations",
-    "archimate-models":  "input/archimate/translations",
-    "uml-diagrams":      "input/diagrams/translations",
-}
-
-# Six UN official languages (English is the source language, not downloaded).
-ALL_LANGUAGES: Tuple[str, ...] = ("ar", "zh", "fr", "ru", "es")
+# Six UN official non-English languages — fallback when dak.json is absent.
+_FALLBACK_LANGUAGES: Tuple[str, ...] = ("ar", "zh", "fr", "ru", "es")
 
 # Weblate API path template for downloading a single translation file.
 # Reference: https://docs.weblate.org/en/latest/api.html#get--api-translations-(string-project)-(string-component)-(string-language)-file-
@@ -84,40 +78,24 @@ _DOWNLOAD_TIMEOUT_SECONDS = 60
 # Input validation helpers
 # ---------------------------------------------------------------------------
 
+
+# ---------------------------------------------------------------------------
+# Input validation helpers (thin wrappers around translation_security)
+# ---------------------------------------------------------------------------
+
 def _validate_slug(value: str, name: str) -> str:
-    """
-    Verify that *value* is a safe slug string (alphanumeric + hyphens only).
-
-    This prevents path-traversal or shell-injection if a caller somehow
-    passes a crafted value through.
-
-    Raises:
-        SystemExit(2) if the value does not match the expected pattern.
-    """
-    import re
-    # Weblate slugs typically use hyphens; underscores are also accepted here
-    # to handle project slugs and any future component names that use them.
-    if not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", value):
-        sys.exit(
-            f"ERROR: Invalid {name} value {value!r}. "
-            "Only alphanumerics, hyphens, and underscores are allowed."
-        )
-    return value
+    try:
+        return sanitize_slug(value, name)
+    except ValueError as exc:
+        sys.exit(f"ERROR: {exc}")
 
 
 def _validate_url(value: str, name: str) -> str:
-    """
-    Verify that *value* looks like an https:// or http:// URL.
+    try:
+        return sanitize_url(value, name, allowed_schemes=("https", "http"))
+    except ValueError as exc:
+        sys.exit(f"ERROR: {exc}")
 
-    Raises:
-        SystemExit(2) if the value is not a valid http(s) URL.
-    """
-    if not (value.startswith("https://") or value.startswith("http://")):
-        sys.exit(
-            f"ERROR: Invalid {name} value {value!r}. Must start with http:// or https://"
-        )
-    # Strip trailing slash for consistency
-    return value.rstrip("/")
 
 
 # ---------------------------------------------------------------------------
@@ -227,37 +205,59 @@ def pull_translations(
     """
     Pull .po files from Weblate for every applicable (component, language) pair.
 
+    Components are discovered by scanning *output_root* for *.pot files.
+    Languages come from dak.json#translations.languages (falls back to UN 6).
+
     Returns:
         0 on full success, 1 if any download produced an error.
     """
     logger = logging.getLogger(__name__)
 
-    # Determine which components to process
+    # ── Resolve language list ────────────────────────────────────────────────
+    try:
+        config = load_dak_config(output_root)
+        lang_codes = get_language_codes(config)
+        if not lang_codes:
+            lang_codes = list(_FALLBACK_LANGUAGES)
+            logger.info("No languages in dak.json — using UN fallback: %s", lang_codes)
+    except DakConfigError as exc:
+        lang_codes = list(_FALLBACK_LANGUAGES)
+        logger.info("dak.json unavailable (%s) — using UN fallback languages", exc)
+
+    # ── Resolve component list ───────────────────────────────────────────────
+    discovered = discover_components(output_root)
+    if not discovered:
+        logger.warning("No *.pot files found under %s — nothing to pull", output_root)
+        return 0
+    # Build {slug: translations_dir} map
+    component_map: Dict[str, Path] = {c.slug: c.translations_dir for c in discovered}
+
+    # ── Apply filters ────────────────────────────────────────────────────────
     if component_filter:
-        if component_filter not in COMPONENT_MAP:
+        if component_filter not in component_map:
             logger.error(
-                "Unknown component %r. Valid components: %s",
+                "Unknown component %r. Discovered components: %s",
                 component_filter,
-                ", ".join(sorted(COMPONENT_MAP)),
+                ", ".join(sorted(component_map)),
             )
             return 1
-        components = {component_filter: COMPONENT_MAP[component_filter]}
+        active_components = {component_filter: component_map[component_filter]}
     else:
-        components = dict(COMPONENT_MAP)
+        active_components = dict(component_map)
 
-    # Determine which languages to process
     if language_filter:
-        if language_filter not in ALL_LANGUAGES:
+        if language_filter not in lang_codes:
             logger.error(
-                "Unknown language %r. Valid languages: %s",
+                "Unknown language %r. Configured languages: %s",
                 language_filter,
-                ", ".join(ALL_LANGUAGES),
+                ", ".join(lang_codes),
             )
             return 1
-        languages: Tuple[str, ...] = (language_filter,)
+        active_languages: List[str] = [language_filter]
     else:
-        languages = ALL_LANGUAGES
+        active_languages = lang_codes
 
+    # ── HTTP session ─────────────────────────────────────────────────────────
     session = requests.Session()
     session.headers.update(
         {
@@ -272,11 +272,10 @@ def pull_translations(
 
     counts: Dict[str, int] = {"downloaded": 0, "not_found": 0, "skipped": 0, "error": 0}
 
-    for slug, rel_dir in components.items():
-        output_dir = output_root / rel_dir
-        logger.info("Component: %s  →  %s", slug, output_dir)
+    for slug, trans_dir in active_components.items():
+        logger.info("Component: %s  →  %s", slug, trans_dir)
 
-        for lang in languages:
+        for lang in active_languages:
             logger.info("  Language: %s", lang)
             result = download_translation(
                 session=session,
@@ -284,7 +283,7 @@ def pull_translations(
                 project=project,
                 component=slug,
                 language=lang,
-                output_dir=output_dir,
+                output_dir=trans_dir,
             )
             counts[result] += 1
 
@@ -303,6 +302,15 @@ def pull_translations(
 # CLI entry point
 # ---------------------------------------------------------------------------
 
+def _derive_default_project(output_root: Path) -> str:
+    """Derive the default Weblate project slug from GITHUB_REPOSITORY env var."""
+    github_repo = os.environ.get("GITHUB_REPOSITORY", "")
+    if "/" in github_repo:
+        org, repo = github_repo.split("/", 1)
+        return get_project_slug(org, repo)
+    return "worldhealthorganization-smart-base"
+
+
 def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="pull_weblate_translations.py",
@@ -317,26 +325,22 @@ def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--project",
-        default="worldhealthorganization-smart-base",
-        help="Weblate project slug (default: worldhealthorganization-smart-base)",
+        default="",
+        help=(
+            "Weblate project slug. "
+            "Default: derived from GITHUB_REPOSITORY env var, "
+            "or 'worldhealthorganization-smart-base'."
+        ),
     )
     parser.add_argument(
         "--component",
         default="",
-        help=(
-            "Restrict download to a single component slug. "
-            f"Valid values: {', '.join(sorted(COMPONENT_MAP))}. "
-            "Default: all components."
-        ),
+        help="Restrict download to a single component slug. Default: all discovered components.",
     )
     parser.add_argument(
         "--language",
         default="",
-        help=(
-            "Restrict download to a single language code. "
-            f"Valid values: {', '.join(ALL_LANGUAGES)}. "
-            "Default: all languages."
-        ),
+        help="Restrict download to a single language code. Default: all languages from dak.json.",
     )
     parser.add_argument(
         "--output-root",
@@ -356,9 +360,15 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     args = _parse_args(argv)
 
+    # ── Resolve and validate output root ────────────────────────────────────
+    output_root = Path(args.output_root).resolve()
+    if not output_root.is_dir():
+        sys.exit(f"ERROR: --output-root {output_root!r} is not a directory")
+
     # ── Validate / sanitize user-supplied values ────────────────────────────
     weblate_url = _validate_url(args.weblate_url, "--weblate-url")
-    project = _validate_slug(args.project, "--project")
+    project_raw = args.project or _derive_default_project(output_root)
+    project = _validate_slug(project_raw, "--project")
     component_filter: Optional[str] = None
     if args.component:
         component_filter = _validate_slug(args.component, "--component")
@@ -366,18 +376,14 @@ def main(argv: Optional[List[str]] = None) -> int:
     if args.language:
         language_filter = _validate_slug(args.language, "--language")
 
-    output_root = Path(args.output_root).resolve()
-    if not output_root.is_dir():
-        sys.exit(f"ERROR: --output-root {output_root!r} is not a directory")
-
-    # ── Require API token from environment only (never from CLI) ────────────
-    api_token = os.environ.get("WEBLATE_API_TOKEN", "")
+    # ── Token from environment only — skip gracefully when absent ───────────
+    api_token = get_optional_env_token("WEBLATE_API_TOKEN")
     if not api_token:
-        sys.exit(
-            "ERROR: WEBLATE_API_TOKEN environment variable is not set.\n"
-            "  Create a token at: https://hosted.weblate.org/accounts/profile/#api\n"
-            "  Then add it as a repository secret: Settings → Secrets → Actions → New secret"
+        logger.info(
+            "WEBLATE_API_TOKEN is not set — skipping Weblate pull. "
+            "Add the secret to enable: Settings → Secrets → Actions → New secret"
         )
+        return 0
 
     logger.info(
         "Pulling translations from %s (project: %s)", weblate_url, project
