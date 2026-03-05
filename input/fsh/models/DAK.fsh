@@ -27,6 +27,15 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
 
 
 
+// Translation target languages (service configuration lives in dak.json only)
+* translations 0..1 BackboneElement "Translation languages" "Target languages for this DAK's translation pipeline"
+  * sourceLanguage 1..1 code "Source language BCP-47 code" "BCP-47 code of the source language; always 'en'"
+  * languages 0..* BackboneElement "Target language entries" "List of target languages for translation"
+    * code 1..1 code "BCP-47 / ISO 639-1 language code" "BCP-47 or ISO 639-1 code for the target language"
+    * name 1..1 string "Human-readable language name" "Human-readable name for the language"
+    * direction 1..1 code "Text direction: ltr | rtl" "Text direction for the language"
+    * plural 0..1 string "Gettext plural form expression" "Gettext plural form expression for the language"
+
 // 9 DAK Components - each component uses a Source type that can be URL, canonical reference, or instance data
 * healthInterventions 0..* HealthInterventionsSource "Health Interventions and Recommendations" "Overview of the health interventions and WHO, regional or national recommendations included within the DAK"
 * personas 0..* GenericPersonaSource "Generic Personas" "Depiction of the human and system actors"
