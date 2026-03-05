@@ -2258,15 +2258,20 @@ class SchemaDocumentationRenderer:
             base_name = html_file[:-5]  # strip .html
             html_path = os.path.join(output_dir, html_file)
 
-            # The FHIR IG Publisher creates dedicated per-format view pages named
-            # "Foo.profile.{ext}.html" whose raw source file is "Foo.{ext}" (not
-            # "Foo.profile.{ext}.{ext}").  Detect that pattern and remap the source
-            # file name accordingly; fall back to the generic "{base_name}.{ext}" for
-            # all other pages (e.g. pages that embed multiple formats inline).
+            # The FHIR IG Publisher creates dedicated per-format view pages in two
+            # naming conventions:
+            #   1. StructureDefinitions: "Foo.profile.{ext}.html" → source "Foo.{ext}"
+            #   2. Other resources (CodeSystem, ValueSet, …): "Foo.{ext}.html" → source "Foo.{ext}"
+            # Detect both patterns and remap the source file name accordingly; fall back
+            # to the generic "{base_name}.{ext}" for all other pages (e.g. pages that
+            # embed multiple formats inline).
             def _src_for_ext(file_ext: str) -> str:
-                suffix = f'.profile.{file_ext}'
-                if base_name.endswith(suffix):
-                    return base_name[:-len(suffix)] + '.' + file_ext
+                profile_suffix = f'.profile.{file_ext}'
+                if base_name.endswith(profile_suffix):
+                    return base_name[:-len(profile_suffix)] + '.' + file_ext
+                plain_suffix = f'.{file_ext}'
+                if base_name.endswith(plain_suffix):
+                    return base_name  # base_name already is "ResourceType-Name.{ext}"
                 return f'{base_name}.{file_ext}'
 
             src_exists = {
@@ -2283,10 +2288,14 @@ class SchemaDocumentationRenderer:
                 original = html
                 for prism_class, label, file_ext in FORMATS:
                     if src_exists[file_ext]:
-                        # On format-specific pages (e.g. Foo.profile.xml.html), the FHIR IG
-                        # Publisher sometimes emits <pre><code> blocks without a class
-                        # attribute. Pass allow_classless=True so those are also replaced.
-                        is_format_page = base_name.endswith(f'.profile.{file_ext}')
+                        # On format-specific pages (e.g. Foo.profile.xml.html or
+                        # CodeSystem-Foo.xml.html), the FHIR IG Publisher sometimes
+                        # emits <pre><code> blocks without a class attribute. Pass
+                        # allow_classless=True so those are also replaced.
+                        is_format_page = (
+                            base_name.endswith(f'.profile.{file_ext}')
+                            or base_name.endswith(f'.{file_ext}')
+                        )
                         if prism_class == 'cql':
                             # The FHIR IG Publisher renders Library CQL content as:
                             #   <pre><code class="language-cql">...</code></pre>
