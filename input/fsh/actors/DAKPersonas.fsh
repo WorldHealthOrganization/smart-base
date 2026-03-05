@@ -35,10 +35,6 @@ including health prevention and wellness activities. Other terms used for this
 group include 'patient', 'client', 'individual', and 'health service user'.
 Caregivers of individuals receiving health services are also included.
 
-In the CDISAH v2, this group was previously called 'Client(s)' in v1 and has
-been renamed to 'Person(s)' or 'Individual(s)' to maintain neutral and inclusive
-terminology.
-
 Persons interact with DHIs to:
 - Receive targeted (1.1) and untargeted (1.2) health communications
 - Communicate with other persons as peers (1.3)
@@ -131,8 +127,6 @@ Usage: #definition
 * type = #person
 * description = """
 A professional involved in the administration and oversight of health systems.
-This group corresponds to 'Health management and support personnel' in CDISAH v2,
-previously called 'Health system managers' in v1.
 
 Health system managers use DHIs to:
 - Manage health workforce information, performance, and certification (3.1)

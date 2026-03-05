@@ -5,7 +5,6 @@ CodeSystem for the Classification of Digital Health Services and Application Typ
 as defined in the Classification of Digital Interventions, Services and Applications in Health
 (CDISAH), second edition (2023). ISBN 978-92-4-008194-9.
 
-This is the renamed and restructured successor to the 'Systems Categories' of CDISAH v1.
 Services and Application Types represent the types of software, ICT systems and services
 or communication channels that deliver or execute digital health interventions (DHIs) and
 health content.

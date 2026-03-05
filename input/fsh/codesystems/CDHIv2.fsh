@@ -10,12 +10,8 @@ Organised into four groups based on the primary user:
   3. Health management and support personnel
   4. Data services
 
-Key changes from v1:
-- 'Client(s)' renamed to 'Person(s)' / 'Individual(s)'
-- 'Health workers' renamed to 'Healthcare providers'
-- 'Health system managers' renamed to 'Health management and support personnel'
-- New categories: 1.4.4, 1.6.2, 1.8, 2.5.6, 2.11, 3.1.5, 3.5.7, 3.5.8, 3.8, 4.3.5, 4.4.2, 4.4.3, 4.5
-- Consolidated CRVS (3.4), expanded health financing (3.5), revised data services (4.x)
+New categories vs v1: 1.4.4, 1.6.2, 1.8, 2.5.6, 2.11, 3.1.5, 3.5.7, 3.5.8, 3.8, 4.3.5, 4.4.2, 4.4.3, 4.5.
+See ConceptMap CDHIv1toCDHIv2 for the full mapping from the first edition.
 """
 * ^experimental = true
 * ^caseSensitive = false
