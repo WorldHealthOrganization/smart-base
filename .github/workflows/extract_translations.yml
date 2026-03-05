@@ -6,10 +6,14 @@
 # (PlantUML, SVG, ArchiMate) and markdown narrative pages (input/pagecontent/).
 # The resulting .pot files are committed back to the branch for Weblate to pick up.
 #
-# Markdown page POT files are extracted by extract_translations.py using Python
-# (not the IG Publisher) so that the -generation-off flag can be used to speed
-# up the IG Publisher run.  The IG Publisher is retained only for FHIR resource
-# translation templates.
+# All .pot files — both those produced by the IG Publisher (FHIR resources/profiles)
+# and those extracted by extract_translations.py (markdown, SVG, PlantUML, ArchiMate)
+# — are committed together in a single git commit by a single invocation of
+# input/scripts/run_ig_publisher.py.  This keeps translation templates coordinated
+# and always in sync for translators.
+#
+# The IG Publisher and Python extractors run directly on the host runner (not inside
+# a Docker container).  Java is provided by actions/setup-java.
 #
 # Note on Prism.js: syntax highlighting in generated pages is provided by
 # Prism.js bundled in the base FHIR IG Publisher template (who.template.root).
@@ -57,9 +61,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Run the IG Publisher with -generation-off (FHIR resource POT extraction only),
-  # then extract .pot files from diagram sources and markdown narrative pages,
-  # and commit them back to the branch.  No GitHub Pages deployment is performed.
+  # Run the IG Publisher with -generation-off and extract .pot files from diagram
+  # sources and markdown narrative pages in a single invocation of
+  # run_ig_publisher.py, then commit all .pot files together and push.
+  # No GitHub Pages deployment is performed.
   build-and-extract:
     name: Build IG and extract translation templates
     runs-on: ubuntu-latest
@@ -78,75 +83,41 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install "PyYAML>=6.0" "requests>=2.28.0" lxml
 
       - name: Download latest IG Publisher jar
-        uses: docker://hl7fhir/ig-publisher-base:latest
-        with:
-          args: curl -L https://github.com/HL7/fhir-ig-publisher/releases/latest/download/publisher.jar -o ./input-cache/publisher.jar --create-dirs
-
-      - name: Create package cache folder
-        uses: docker://hl7fhir/ig-publisher-base:latest
-        with:
-          entrypoint: /bin/sh
-          args: -c "mkdir -p ./fhir-package-cache && chown 1001:127 ./fhir-package-cache"
-
-      - name: Prepare FHIR home directory
-        uses: docker://hl7fhir/ig-publisher-base:latest
-        with:
-          entrypoint: /bin/sh
-          args: -c "mkdir -p /var/lib/.fhir && chown $(id -u):$(id -g) /var/lib/.fhir"
-
-      # TX_SERVER and GH_WORKSPACE are passed via env: so that the untrusted
-      # inputs.tx value is never interpolated directly into a shell command.
-      - name: Run IG Publisher (no deployment)
-        env:
-          TX_SERVER: ${{ inputs.tx }}
-          GH_WORKSPACE: ${{ github.workspace }}
         run: |
-          docker run -d --name ig-run \
-            -v "${GH_WORKSPACE}:/work" \
-            -w /work \
-            hl7fhir/ig-publisher-base:latest \
-            sleep infinity
-
-          sleep 5
-
-          # Install Python inside the container so run_ig_publisher.py can run there.
-          # The who.template.root ant script calls "python" (not "python3"), so we
-          # create a symlink to ensure compatibility.
-          docker exec --user root ig-run sh -c \
-            'apt-get update -qq \
-             && apt-get install -y --no-install-recommends python3 python3-pip \
-             && ln -sf /usr/bin/python3 /usr/bin/python \
-             && pip3 install --quiet --break-system-packages "PyYAML>=6.0" lxml requests'
-
-          # TX_SERVER is forwarded to the container via -e; run_ig_publisher.py
-          # reads and sanitizes it from the environment — no shell interpolation.
-          docker exec -w /work -e TX_SERVER ig-run \
-            python3 input/scripts/run_ig_publisher.py --ig-root . --skip-commit
-
-          docker rm -f ig-run
+          mkdir -p ./input-cache
+          curl -L https://github.com/HL7/fhir-ig-publisher/releases/latest/download/publisher.jar \
+            -o ./input-cache/publisher.jar
 
       - name: Configure git for commits
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-
-      # BRANCH_NAME and GITHUB_ACTOR are passed via env: so that these GitHub
-      # context values are never interpolated directly into shell commands.
+      # TX_SERVER, BRANCH_NAME, and GITHUB_ACTOR are passed via env: so that these
+      # GitHub context values are never interpolated directly into shell commands.
       # run_ig_publisher.py reads, validates, and uses them internally.
-      - name: Commit and push translation templates
+      # A single invocation runs the IG Publisher, Python extractors, and commits
+      # all .pot files together so that FHIR resource templates and diagram/markdown
+      # templates are always in sync.
+      - name: Run IG Publisher, extract translations, commit and push
         env:
+          TX_SERVER: ${{ inputs.tx }}
           BRANCH_NAME: ${{ github.ref_name }}
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
           python3 input/scripts/run_ig_publisher.py \
             --ig-root . \
-            --no-publisher \
             --push
 
