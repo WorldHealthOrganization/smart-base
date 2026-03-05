@@ -356,7 +356,11 @@ def extract_valueset_codes_with_display(valueset_resource: Dict[str, Any], value
 
 def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: List[Dict[str, str]]) -> Dict[str, Any]:
     """
-    Generate a JSON schema for a ValueSet using enum constraints with IRI-formatted values that match JSON-LD format.
+    Generate a JSON schema for a ValueSet as a Coding-shaped object {system, code}.
+
+    For single-system ValueSets the schema pins the system URI via ``const`` and
+    enumerates allowed fragment codes via ``enum``.  For multi-system ValueSets a
+    ``oneOf`` array is added so that only valid (system, code) pairs are accepted.
     
     Args:
         valueset_resource: FHIR ValueSet resource
@@ -389,33 +393,60 @@ def generate_json_schema(valueset_resource: Dict[str, Any], codes_with_display: 
     else:
         display_reference = f"ValueSet-{valueset_id}.displays.json"
     
-    # Generate IRI-formatted enum values that match JSON-LD format
-    enum_values = []
+    # Group codes by system URI to determine single- vs multi-system shape.
+    # Regular dicts maintain insertion order in Python 3.7+, ensuring deterministic output.
+    systems: Dict[str, List[str]] = {}
     for item in codes_with_display:
         code = item['code']
         system = item.get('system', '')
-        
-        # Generate canonical IRI for the code using same logic as JSON-LD
-        enum_iri = generate_canonical_iri(code, valueset_url, system)
-        enum_values.append(enum_iri)
+        systems.setdefault(system, []).append(code)
     
+    # Build the base Coding-shaped object schema
     schema = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": schema_id,
         "title": f"{valueset_title} Schema",
-        "description": f"JSON Schema for {valueset_title} ValueSet codes. Generated from FHIR expansions using IRI format.",
-        "type": "string",
-        "enum": enum_values
+        "description": (
+            f"JSON Schema for {valueset_title} ValueSet codes. "
+            f"Values are represented as Coding objects with 'system' and 'code' properties."
+        ),
+        "type": "object",
+        "required": ["system", "code"],
+        "additionalProperties": False,
+        "properties": {
+            "system": {"type": "string"},
+            "code": {"type": "string"}
+        }
     }
     
-    # Add narrative that reflects the IRI format (system URIs are embedded, no separate system file needed)
-    narrative_text = f"This schema validates IRI-formatted codes for the {valueset_title} ValueSet. "
-    narrative_text += f"Each enum value includes the system URI in the format {{systemuri}}#{{code}} to match JSON-LD enumeration IRIs. "
-    narrative_text += f"Display values are available at {display_reference}. "
-    narrative_text += f"For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets."
+    if len(systems) == 1:
+        # Single-system: pin system URI via const and enumerate codes
+        system_uri, codes = next(iter(systems.items()))
+        schema["properties"]["system"] = {"type": "string", "const": system_uri}
+        schema["properties"]["code"] = {"type": "string", "enum": codes}
+    elif len(systems) > 1:
+        # Multi-system: validate correct (system, code) pairs via oneOf
+        schema["oneOf"] = [
+            {
+                "properties": {
+                    "system": {"const": system_uri},
+                    "code": {"enum": codes}
+                }
+            }
+            for system_uri, codes in systems.items()
+        ]
+    
+    # Narrative description
+    narrative_text = (
+        f"This schema validates Coding-shaped objects for the {valueset_title} ValueSet. "
+        f"Each value must be an object with 'system' (CodeSystem URI) and 'code' (fragment after '#') properties. "
+        f"Display values are available at {display_reference}. "
+        f"The canonical IRI for a code can be reconstructed as system + '#' + code. "
+        f"For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets."
+    )
     schema["narrative"] = narrative_text
     
-    # References to display file (no system file needed since system URIs are embedded in enum values)
+    # References to display file
     schema["fhir:displays"] = display_reference
     
     # Add metadata if available
@@ -456,21 +487,18 @@ def generate_display_file(valueset_resource: Dict[str, Any], codes_with_display:
     else:
         display_id = f"#ValueSet-{valueset_id}-displays"
     
-    # Extract displays with multilingual structure support using IRI format to match schema enum values
+    # Extract displays keyed by code fragment (consistent with {system, code} Coding shape).
+    # The canonical IRI can be reconstructed deterministically as system + "#" + code.
     displays = {}
     
     for item in codes_with_display:
         code = item['code']
         display = item['display']
-        system = item.get('system', '')
-        
-        # Generate canonical IRI for the code using same logic as JSON schema enum values
-        code_iri = generate_canonical_iri(code, valueset_url, system)
         
         # Structure displays to support multiple languages
         # For now, use 'en' as the default language since FHIR expansions typically contain English text
         # This structure allows for easy addition of other languages later
-        displays[code_iri] = {
+        displays[code] = {
             "en": display
         }
     
@@ -478,16 +506,20 @@ def generate_display_file(valueset_resource: Dict[str, Any], codes_with_display:
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": display_id,
         "title": f"{valueset_title} Display Values",
-        "description": f"Display values for {valueset_title} ValueSet codes. Generated from FHIR expansions.",
+        "description": (
+            f"Display values for {valueset_title} ValueSet codes. Generated from FHIR expansions. "
+            f"Keys are code fragments (the part after '#' in the canonical IRI). "
+            f"The full IRI can be reconstructed as system + '#' + code."
+        ),
         "type": "object",
         "properties": {
             "fhir:displays": {
                 "type": "object",
-                "description": "Multilingual display values for ValueSet codes using IRI format to match JSON schema enum values",
+                "description": "Multilingual display values for ValueSet codes keyed by code fragment",
                 "patternProperties": {
-                    "^https?://.*": {
+                    "^.+$": {
                         "type": "object",
-                        "description": "Display values for a specific IRI-formatted code by language",
+                        "description": "Display values for a specific code fragment by language",
                         "properties": {
                             "en": {
                                 "type": "string",
