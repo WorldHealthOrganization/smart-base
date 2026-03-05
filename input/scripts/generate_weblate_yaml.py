@@ -93,10 +93,11 @@ def _derive_repo_url(config: DakConfig) -> str:
     # previewUrl is usually https://WorldHealthOrganization.github.io/smart-base
     if preview and "github.io" in preview:
         parts = preview.replace("https://", "").replace("http://", "").split("/")
-        if len(parts) >= 2:
+        if len(parts) >= 2 and "." in parts[0]:
             org = parts[0].split(".")[0]  # WorldHealthOrganization
             repo = parts[1]
-            return f"https://github.com/{org}/{repo}"
+            if org and repo:
+                return f"https://github.com/{org}/{repo}"
     return ""
 
 

@@ -1,0 +1,59 @@
+# Generate weblate.yaml from dak.json and discovered .pot components.
+#
+# Reads dak.json (languages, services) and scans for .pot files to produce
+# a complete weblate.yaml, eliminating manual maintenance.
+#
+# All generation logic lives in:
+#   input/scripts/generate_weblate_yaml.py
+
+name: Generate Weblate Config
+
+on:
+  workflow_dispatch:
+
+  workflow_call:
+
+concurrency:
+  group: generate-weblate-yaml-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    name: Generate weblate.yaml
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: input/scripts/requirements.txt
+
+      - name: Install Python dependencies
+        run: pip install -r input/scripts/requirements.txt
+
+      - name: Generate weblate.yaml
+        run: python input/scripts/generate_weblate_yaml.py --repo-root "."
+
+      - name: Commit weblate.yaml
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -- weblate.yaml 2>/dev/null || true
+
+          if git diff --cached --quiet; then
+            echo "No changes to weblate.yaml."
+          else
+            git commit -m "chore: regenerate weblate.yaml from dak.json"
+            git push
+          fi
