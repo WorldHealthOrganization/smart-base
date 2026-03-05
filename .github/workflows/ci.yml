@@ -11,6 +11,7 @@
 #                        runs after build-and-deploy regardless of its result,
 #                        skipped on pull-request events so forks don't need
 #                        contents: write.
+
 #
 # Downstream repositories should call ghbuild.yml directly via workflow_call;
 # they do not need this file.
@@ -59,6 +60,7 @@ jobs:
     # Pull-request runs (including forks) are skipped because they do not have
     # contents: write and would fail trying to push back to the branch.
     if: always() && github.event_name != 'pull_request'
+
     permissions:
       contents: write
     uses: ./.github/workflows/commit-pot.yml
