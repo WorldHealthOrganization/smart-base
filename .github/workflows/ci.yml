@@ -38,8 +38,12 @@ on:
 # When a reusable workflow defines the same concurrency group as its
 # caller, GitHub detects a deadlock and cancels the run.  Only one
 # run per branch at a time; newer pushes cancel the older run.
+#
+# The group name is shared with extract_translations.yml so that
+# translation extraction (which also runs the IG Publisher) cannot
+# overlap with the full CI build on the same branch.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ci-and-translations-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -64,4 +68,8 @@ jobs:
     with:
       push: true
       tx: ${{ inputs.tx || '' }}
+      # The IG Publisher already ran in the build-and-deploy job and uploaded
+      # its POT files as the "pot-files" artifact.  Reuse them here instead
+      # of running the publisher a second time.
+      no-publisher: true
     secrets: inherit

@@ -40,8 +40,12 @@ on:
   #     - 'input/archimate/**'
   #     - 'input/diagrams/**'
 
+# Shared with ci.yml so that translation extraction (which runs the IG
+# Publisher) cannot overlap with the full CI build on the same branch.
+# cancel-in-progress is false so that a manually triggered extraction
+# waits for CI to finish rather than cancelling it.
 concurrency:
-  group: extract-translations
+  group: ci-and-translations-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
