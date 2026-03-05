@@ -98,17 +98,32 @@ TRANSLATION_KEYWORDS = [
 ]
 
 
+import re
+
+
+def _keyword_in_text(keyword: str, text: str) -> bool:
+    """Check if *keyword* appears in *text*.
+
+    Keywords of 3 characters or fewer are matched as whole words only
+    (word-boundary check) to avoid false positives from short language
+    codes like ``"ar"`` matching inside ``"pharmacist"``.
+    """
+    if len(keyword) <= 3:
+        return bool(re.search(r'\b' + re.escape(keyword) + r'\b', text))
+    return keyword in text
+
+
 def classify_by_keywords(title: str, body: str) -> list:
     """Keyword-based fallback classifier. Case-insensitive. No LLM needed."""
     text = (title + " " + (body or "")).lower()
     labels = []
-    if any(k in text for k in L1_KEYWORDS):
+    if any(_keyword_in_text(k, text) for k in L1_KEYWORDS):
         labels.append("content:L1")
-    if any(k in text for k in L2_KEYWORDS):
+    if any(_keyword_in_text(k, text) for k in L2_KEYWORDS):
         labels.append("content:L2")
-    if any(k in text for k in L3_KEYWORDS):
+    if any(_keyword_in_text(k, text) for k in L3_KEYWORDS):
         labels.append("content:L3")
-    if any(k in text for k in TRANSLATION_KEYWORDS):
+    if any(_keyword_in_text(k, text) for k in TRANSLATION_KEYWORDS):
         labels.append("content:translation")
     return labels
 

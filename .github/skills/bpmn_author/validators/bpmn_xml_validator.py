@@ -48,26 +48,18 @@ def validate_bpmn_xml(bpmn_content: str, *, filename: str = "unknown.bpmn") -> L
             file=filename,
         ))
 
-    # 3. Forbidden vendor namespaces
-    nsmap = tree.nsmap if hasattr(tree, "nsmap") else {}
+    # 3. Forbidden vendor namespaces (check all unique namespace URIs in document)
+    seen_ns: set = set()
+    for elem in tree.iter():
+        for uri in (elem.nsmap or {}).values():
+            seen_ns.add(uri)
     for uri, vendor in _FORBIDDEN_NAMESPACES.items():
-        if uri in nsmap.values():
+        if uri in seen_ns:
             issues.append(error(
                 "BPMN-003",
                 f"Forbidden {vendor} namespace detected: {uri}",
                 file=filename,
             ))
-
-    # Also check for vendor namespaces on any descendant
-    for elem in tree.iter():
-        for uri, vendor in _FORBIDDEN_NAMESPACES.items():
-            if uri in (elem.nsmap or {}).values():
-                issues.append(error(
-                    "BPMN-003",
-                    f"Forbidden {vendor} namespace on <{elem.tag}>: {uri}",
-                    file=filename,
-                ))
-                break  # one per element is enough
 
     # 4. At least one process
     processes = tree.findall(f"{{{BPMN_NS}}}process")
