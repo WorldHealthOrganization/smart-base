@@ -13,6 +13,7 @@ import os
 import sys
 import json
 import re
+import time
 import requests
 from urllib.parse import quote
 
@@ -125,8 +126,21 @@ def post_pr_comment(pr_number: int, repository: str, run_id: int, sha: str, bran
     }
     
     try:
-        response = requests.post(url, headers=headers, json=data, timeout=30)
-        response.raise_for_status()
+        for attempt in range(3):
+            try:
+                response = requests.post(url, headers=headers, json=data, timeout=30)
+                response.raise_for_status()
+                break
+            except requests.exceptions.HTTPError as e:
+                if response.status_code >= 500 and attempt < 2:
+                    time.sleep(2 ** attempt)
+                    continue
+                raise
+            except requests.exceptions.RequestException:
+                if attempt < 2:
+                    time.sleep(2 ** attempt)
+                    continue
+                raise
         
         comment_data = response.json()
         comment_id = str(comment_data['id'])
