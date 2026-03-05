@@ -2246,6 +2246,8 @@ class SchemaDocumentationRenderer:
         # prism_class: CSS class on <pre> and Prism language name used in the loader JS.
         # file_ext: actual source file extension (.json / .xml / .ttl / .cql).
         # Note: the FHIR IG Publisher uses class="rdf" (not "turtle") on TTL <pre> blocks.
+        # This applies to ALL FHIR resource types: StructureDefinitions, CodeSystems,
+        # ValueSets, etc. — not just profiles.
         FORMATS = [
             ('json', 'JSON', 'json'),
             ('xml',  'XML',  'xml'),
