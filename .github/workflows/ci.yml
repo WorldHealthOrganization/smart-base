@@ -34,8 +34,10 @@ on:
         type: boolean
         default: true
 
-# Same concurrency key shape as ghbuild.yml so manual and automatic runs
-# from the same branch cancel the older one.
+# Concurrency is managed here in the caller, NOT in ghbuild.yml.
+# When a reusable workflow defines the same concurrency group as its
+# caller, GitHub detects a deadlock and cancels the run.  Only one
+# run per branch at a time; newer pushes cancel the older run.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

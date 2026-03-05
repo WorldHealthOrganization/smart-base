@@ -48,12 +48,13 @@ on:
         type: boolean
         default: true
 
-# Concurrency controls for gh-pages deployments:
-# - Builds from different branches (e.g. main vs feature) run concurrently
-# - If two builds are triggered from the same branch, the older one is canceled
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+# NOTE: No workflow-level concurrency block here.  When this workflow is
+# invoked via workflow_call, github.workflow resolves to the *caller's*
+# workflow name.  If both the caller (e.g. ci.yml) and this reusable
+# workflow define the same concurrency group, GitHub detects a deadlock
+# and cancels the run.  Callers are responsible for their own concurrency
+# controls.  For standalone workflow_dispatch runs, concurrency is not
+# typically needed because they are triggered manually and intentionally.
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
