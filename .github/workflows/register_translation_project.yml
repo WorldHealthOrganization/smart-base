@@ -1,0 +1,98 @@
+# Register a single DAK IG or all DAK IGs in the org with all enabled
+# translation services (Weblate, Launchpad, Crowdin).
+#
+# All registration logic lives in:
+#   input/scripts/register_translation_project.py (single)
+#   input/scripts/register_all_dak_projects.py    (bulk)
+#
+# Required repository secrets:
+#   WEBLATE_API_TOKEN    — Weblate API token with project-admin access
+#   CROWDIN_API_TOKEN    — Crowdin API token (if Crowdin enabled)
+#   LAUNCHPAD_API_TOKEN  — Launchpad API token (if Launchpad enabled)
+#
+# ⚠️ API tokens are NEVER workflow inputs. They are always secrets.
+
+name: Register Translation Project
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Registration mode'
+        required: true
+        default: 'single'
+        type: choice
+        options:
+          - single
+          - all
+      repo_name:
+        description: 'Target repo name (mode=single only)'
+        required: false
+        default: ''
+      weblate_url:
+        description: 'Weblate base URL (non-secret)'
+        required: false
+        default: 'https://hosted.weblate.org'
+      dry_run:
+        description: 'List repos without registering (mode=all only)'
+        required: false
+        type: boolean
+        default: false
+
+  repository_dispatch:
+    types: [dak-ig-registered]
+
+concurrency:
+  group: register-translation
+  cancel-in-progress: false
+
+jobs:
+  register:
+    name: Register translation project(s)
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: input/scripts/requirements.txt
+
+      - name: Install Python dependencies
+        run: pip install -r input/scripts/requirements.txt
+
+      - name: Register single project
+        if: >-
+          (github.event_name == 'workflow_dispatch' && inputs.mode == 'single') ||
+          github.event_name == 'repository_dispatch'
+        env:
+          WEBLATE_API_TOKEN: ${{ secrets.WEBLATE_API_TOKEN }}
+          CROWDIN_API_TOKEN: ${{ secrets.CROWDIN_API_TOKEN }}
+          LAUNCHPAD_API_TOKEN: ${{ secrets.LAUNCHPAD_API_TOKEN }}
+          INPUT_REPO_NAME: ${{ inputs.repo_name || github.event.client_payload.repo_name || '' }}
+        run: |
+          python input/scripts/register_translation_project.py \
+            --repo-name "${INPUT_REPO_NAME}" \
+            --repo-root "."
+
+      - name: Register all DAK projects
+        if: github.event_name == 'workflow_dispatch' && inputs.mode == 'all'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WEBLATE_API_TOKEN: ${{ secrets.WEBLATE_API_TOKEN }}
+          CROWDIN_API_TOKEN: ${{ secrets.CROWDIN_API_TOKEN }}
+          LAUNCHPAD_API_TOKEN: ${{ secrets.LAUNCHPAD_API_TOKEN }}
+          INPUT_DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          DRY_RUN_FLAG=""
+          if [ "$INPUT_DRY_RUN" = "true" ]; then
+            DRY_RUN_FLAG="--dry-run"
+          fi
+          python input/scripts/register_all_dak_projects.py $DRY_RUN_FLAG

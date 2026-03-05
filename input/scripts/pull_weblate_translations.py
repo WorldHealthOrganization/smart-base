@@ -6,23 +6,16 @@ Fetches the latest approved Gettext .po files for every (component, language)
 combination from the Weblate REST API and writes them into the repository's
 translations directories.
 
-Component → directory mapping (aligned with weblate.yaml):
-
-  fhir-resources      → input/fsh/translations/
-  plantuml-diagrams   → input/images-source/translations/
-  svg-images          → input/images/translations/
-  archimate-models    → input/archimate/translations/
-  uml-diagrams        → input/diagrams/translations/
-
-Supported UN official languages: ar, zh, fr, ru, es
-(English is the source language and is not downloaded.)
+Components and languages are loaded dynamically from dak.json via
+translation_config.py. When dak.json is unavailable, falls back to
+built-in defaults for backward-compatibility.
 
 Usage:
     python pull_weblate_translations.py [options]
 
 Options:
     --weblate-url URL    Weblate base URL  (default: https://hosted.weblate.org)
-    --project SLUG       Weblate project slug (default: worldhealthorganization-smart-base)
+    --project SLUG       Weblate project slug (default: auto-derived from GITHUB_REPOSITORY)
     --component SLUG     Restrict to one component slug (default: all)
     --language CODE      Restrict to one language code  (default: all)
     --output-root DIR    Repository root for output directories (default: .)
@@ -51,14 +44,24 @@ try:
 except ImportError:  # pragma: no cover
     sys.exit("ERROR: 'requests' package is required. Run: pip install requests>=2.31.0")
 
+# Add parent directory to path for sibling imports
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from translation_config import (
+    DakConfigError,
+    get_component_map,
+    get_language_codes,
+    get_project_slug,
+    load_dak_config,
+)
+
 # ---------------------------------------------------------------------------
-# Constants
+# Constants — dynamically loaded from dak.json with built-in fallbacks
 # ---------------------------------------------------------------------------
 
-# Allowlist of valid Weblate component slugs and their repo-relative
-# translation output directories.  Changing these requires matching updates
-# to weblate.yaml and any downstream injection scripts.
-COMPONENT_MAP: Dict[str, str] = {
+# Fallback component map — used when dak.json is unavailable or has no
+# translations block.  Kept for backward-compatibility.
+_FALLBACK_COMPONENT_MAP: Dict[str, str] = {
     "fhir-resources":    "input/fsh/translations",
     "plantuml-diagrams": "input/images-source/translations",
     "svg-images":        "input/images/translations",
@@ -66,8 +69,31 @@ COMPONENT_MAP: Dict[str, str] = {
     "uml-diagrams":      "input/diagrams/translations",
 }
 
-# Six UN official languages (English is the source language, not downloaded).
-ALL_LANGUAGES: Tuple[str, ...] = ("ar", "zh", "fr", "ru", "es")
+# Fallback language list — used when dak.json is unavailable.
+_FALLBACK_LANGUAGES: Tuple[str, ...] = ("ar", "zh", "fr", "ru", "es")
+
+
+def _load_component_map(output_root: Path) -> Dict[str, str]:
+    """Load component map from dak.json discovery, falling back to built-in map."""
+    try:
+        cmap = get_component_map(output_root)
+        if cmap:
+            return cmap
+    except Exception:
+        pass
+    return dict(_FALLBACK_COMPONENT_MAP)
+
+
+def _load_languages(output_root: Path) -> Tuple[str, ...]:
+    """Load language codes from dak.json, falling back to built-in list."""
+    try:
+        config = load_dak_config(output_root)
+        codes = get_language_codes(config)
+        if codes:
+            return tuple(codes)
+    except (DakConfigError, Exception):
+        pass
+    return _FALLBACK_LANGUAGES
 
 # Weblate API path template for downloading a single translation file.
 # Reference: https://docs.weblate.org/en/latest/api.html#get--api-translations-(string-project)-(string-component)-(string-language)-file-
@@ -227,36 +253,43 @@ def pull_translations(
     """
     Pull .po files from Weblate for every applicable (component, language) pair.
 
+    Languages and components are loaded dynamically from dak.json when available,
+    falling back to built-in defaults for backward-compatibility.
+
     Returns:
         0 on full success, 1 if any download produced an error.
     """
     logger = logging.getLogger(__name__)
 
+    # Load components and languages dynamically from dak.json
+    component_map = _load_component_map(output_root)
+    all_languages = _load_languages(output_root)
+
     # Determine which components to process
     if component_filter:
-        if component_filter not in COMPONENT_MAP:
+        if component_filter not in component_map:
             logger.error(
                 "Unknown component %r. Valid components: %s",
                 component_filter,
-                ", ".join(sorted(COMPONENT_MAP)),
+                ", ".join(sorted(component_map)),
             )
             return 1
-        components = {component_filter: COMPONENT_MAP[component_filter]}
+        components = {component_filter: component_map[component_filter]}
     else:
-        components = dict(COMPONENT_MAP)
+        components = dict(component_map)
 
     # Determine which languages to process
     if language_filter:
-        if language_filter not in ALL_LANGUAGES:
+        if language_filter not in all_languages:
             logger.error(
                 "Unknown language %r. Valid languages: %s",
                 language_filter,
-                ", ".join(ALL_LANGUAGES),
+                ", ".join(all_languages),
             )
             return 1
         languages: Tuple[str, ...] = (language_filter,)
     else:
-        languages = ALL_LANGUAGES
+        languages = all_languages
 
     session = requests.Session()
     session.headers.update(
@@ -304,6 +337,13 @@ def pull_translations(
 # ---------------------------------------------------------------------------
 
 def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
+    # Derive default project slug from GITHUB_REPOSITORY env var if available
+    _default_project = "worldhealthorganization-smart-base"
+    _github_repo = os.environ.get("GITHUB_REPOSITORY", "")
+    if _github_repo and "/" in _github_repo:
+        _org, _rname = _github_repo.split("/", 1)
+        _default_project = get_project_slug(_org, _rname)
+
     parser = argparse.ArgumentParser(
         prog="pull_weblate_translations.py",
         description="Download .po translation files from the Weblate REST API",
@@ -317,26 +357,18 @@ def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--project",
-        default="worldhealthorganization-smart-base",
-        help="Weblate project slug (default: worldhealthorganization-smart-base)",
+        default=_default_project,
+        help="Weblate project slug (default: auto-derived from GITHUB_REPOSITORY)",
     )
     parser.add_argument(
         "--component",
         default="",
-        help=(
-            "Restrict download to a single component slug. "
-            f"Valid values: {', '.join(sorted(COMPONENT_MAP))}. "
-            "Default: all components."
-        ),
+        help="Restrict download to a single component slug. Default: all components.",
     )
     parser.add_argument(
         "--language",
         default="",
-        help=(
-            "Restrict download to a single language code. "
-            f"Valid values: {', '.join(ALL_LANGUAGES)}. "
-            "Default: all languages."
-        ),
+        help="Restrict download to a single language code. Default: all languages.",
     )
     parser.add_argument(
         "--output-root",
