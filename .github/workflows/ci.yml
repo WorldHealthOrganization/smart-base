@@ -8,8 +8,10 @@
 # Job graph:
 #   build-and-deploy  →  calls ghbuild.yml (full IG build + GitHub Pages deploy)
 #   commit-pot        →  calls commit-pot.yml (POT extraction + commit/push)
-#                        runs after build-and-deploy, skipped on pull-request
-#                        events so forks don't need contents: write.
+#                        runs after build-and-deploy regardless of its result,
+#                        skipped on pull-request events so forks don't need
+#                        contents: write.
+
 #
 # Downstream repositories should call ghbuild.yml directly via workflow_call;
 # they do not need this file.
@@ -52,10 +54,13 @@ jobs:
 
   commit-pot:
     needs: build-and-deploy
-    # Only push .pot commits on push / workflow_dispatch events.
-    # Pull-request runs (including forks) do not have contents: write and
-    # would fail trying to push back to the branch.
-    if: github.event_name != 'pull_request'
+    # Run on push / workflow_dispatch events regardless of whether build-and-deploy
+    # succeeded or failed — POT extraction uses -generation-off and succeeds
+    # independently of the full IG build.
+    # Pull-request runs (including forks) are skipped because they do not have
+    # contents: write and would fail trying to push back to the branch.
+    if: always() && github.event_name != 'pull_request'
+
     permissions:
       contents: write
     uses: ./.github/workflows/commit-pot.yml
