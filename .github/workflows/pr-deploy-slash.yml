@@ -45,13 +45,17 @@ jobs:
 
       - name: Trigger ghbuild.yml for the PR branch
         uses: actions/github-script@v7
+        # Pass the branch name via env to avoid script injection from untrusted data
+        env:
+          BRANCH_REF: ${{ steps.pr.outputs.branch }}
         with:
           script: |
+            const branchRef = process.env.BRANCH_REF;
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'ghbuild.yml',
-              ref: '${{ steps.pr.outputs.branch }}',
+              ref: branchRef,
               inputs: {
                 do_dak: 'true',
               },
@@ -59,9 +63,12 @@ jobs:
 
       - name: Post a confirmation comment
         uses: actions/github-script@v7
+        # Pass the branch name via env to avoid script injection from untrusted data
+        env:
+          BRANCH_REF: ${{ steps.pr.outputs.branch }}
         with:
           script: |
-            const branch = '${{ steps.pr.outputs.branch }}';
+            const branch = process.env.BRANCH_REF;
             // ghbuild.yml deploys to branches/{BRANCH_DIR} where BRANCH_DIR is the
             // last path segment of the branch name (mirrors BRANCH_DIR=${ACTUAL_BRANCH##*/})
             const branchDir = branch.split('/').pop();
