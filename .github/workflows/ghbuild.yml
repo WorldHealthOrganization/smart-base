@@ -43,11 +43,12 @@ on:
         type: boolean
         default: true
 
-# Concurrency controls to prevent concurrent gh-pages deployments from different branches
-# Use a shared group suffix so only one build deploys to gh-pages at a time
+# Concurrency controls for gh-pages deployments:
+# - Builds from different branches (e.g. main vs feature) run concurrently
+# - If two builds are triggered from the same branch, the older one is canceled
 concurrency:
-  group: ${{ github.workflow }}-gh-pages
-  cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
