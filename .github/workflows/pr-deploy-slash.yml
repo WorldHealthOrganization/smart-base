@@ -62,10 +62,13 @@ jobs:
         with:
           script: |
             const branch = '${{ steps.pr.outputs.branch }}';
+            // ghbuild.yml deploys to branches/{BRANCH_DIR} where BRANCH_DIR is the
+            // last path segment of the branch name (mirrors BRANCH_DIR=${ACTUAL_BRANCH##*/})
+            const branchDir = branch.split('/').pop();
             const runsUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/workflows/ghbuild.yml`;
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `🚀 **Deploy triggered** for branch \`${branch}\`.\n\nThe FHIR IG build is queued — [watch progress](${runsUrl}).  Once it completes the preview will be available at:\n\`https://${context.repo.owner}.github.io/${context.repo.repo}/branches/${branch}/\``,
+              body: `🚀 **Deploy triggered** for branch \`${branch}\`.\n\nThe FHIR IG build is queued — [watch progress](${runsUrl}).  Once it completes the preview will be available at:\n\`https://${context.repo.owner}.github.io/${context.repo.repo}/branches/${branchDir}/\``,
             });
