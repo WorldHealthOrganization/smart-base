@@ -124,6 +124,10 @@ jobs:
              && ln -sf /usr/bin/python3 /usr/bin/python \
              && pip3 install --quiet --break-system-packages "PyYAML>=6.0" lxml requests'
 
+          # Mark /work as a safe directory to suppress git dubious ownership warnings
+          # emitted by the IG Publisher when it tries to read the current branch.
+          docker exec ig-run git config --global --add safe.directory /work
+
           # TX_SERVER is forwarded to the container via -e; run_ig_publisher.py
           # reads and sanitizes it from the environment — no shell interpolation.
           docker exec -w /work -e TX_SERVER ig-run \

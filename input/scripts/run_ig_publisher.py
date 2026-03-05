@@ -670,14 +670,16 @@ def run_publisher_and_commit_pot(
         _run_extract_translations(ig_root)
 
         # 3. Run IG Publisher — abort on failure to avoid partial commits
-        # Pass -generation-off and -validation-off to skip HTML page generation
-        # and resource validation, which are not needed for translation extraction
-        # and significantly slow down the build.
+        # When generation_off is True (default), pass -generation-off and
+        # -validation-off to skip HTML page generation and resource validation,
+        # which are not needed for translation extraction and significantly slow
+        # down the build.
+        extra_args: List[str] = ["-generation-off", "-validation-off"] if generation_off else []
         if not run_ig_publisher(
             ig_root,
             jar_path,
             tx=tx,
-            extra_args=["-generation-off", "-validation-off"],
+            extra_args=extra_args,
         ):
 
             logger.error(
