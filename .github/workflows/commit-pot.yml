@@ -6,6 +6,11 @@
 # (PlantUML, SVG, ArchiMate) and markdown narrative pages.
 # All resulting .pot files are committed (and optionally pushed) to the branch.
 #
+# When no-publisher is true, the IG Publisher is skipped entirely and
+# FHIR-resource .pot files are instead downloaded from a "pot-files" artifact
+# produced by a prior build (e.g. ghbuild.yml).  extract_translations.py still
+# runs to regenerate diagram/page .pot files from source.
+#
 # The IG Publisher runs directly on the host runner via actions/setup-java.
 # No Docker container is used, so no safe.directory workaround is needed beyond
 # the standard git config call below.
@@ -15,9 +20,11 @@
 # environment variables — never interpolated directly into shell commands.
 #
 # Inputs:
-#   ig-root   Repository root directory (default: '.')
-#   tx        Optional terminology server URL ('n/a' for offline)
-#   push      When true, pull-rebase and push after committing (default: false)
+#   ig-root        Repository root directory (default: '.')
+#   tx             Optional terminology server URL ('n/a' for offline)
+#   push           When true, pull-rebase and push after committing (default: false)
+#   no-publisher   When true, skip the IG Publisher and download POT artifacts
+#                  from a prior build instead (default: false)
 #
 # Required caller permissions (when push: true):
 #   contents: write
@@ -38,6 +45,11 @@ on:
         type: string
       push:
         description: 'Push .pot commits to remote branch after committing'
+        required: false
+        type: boolean
+        default: false
+      no-publisher:
+        description: 'Skip the IG Publisher; download POT artifacts from a prior build instead'
         required: false
         type: boolean
         default: false
@@ -82,22 +94,56 @@ jobs:
         with:
           python-version: '3.11'
 
+      # -- IG Publisher prerequisites (skipped when no-publisher is true) --
+
       - name: Set up Java
+        if: inputs.no-publisher != true
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install "PyYAML>=6.0" "requests>=2.28.0" lxml
+      - name: Set up Node.js
+        if: inputs.no-publisher != true
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install SUSHI
+        if: inputs.no-publisher != true
+        run: npm install -g fsh-sushi
 
       - name: Download latest IG Publisher jar
+        if: inputs.no-publisher != true
         run: |
           mkdir -p ./input-cache
           curl -L https://github.com/HL7/fhir-ig-publisher/releases/latest/download/publisher.jar \
             -o ./input-cache/publisher.jar
+
+      # -- When reusing a prior build, download its POT artifacts --
+
+      - name: Download POT artifacts from prior build
+        if: inputs.no-publisher == true
+        id: download-pot
+        uses: actions/download-artifact@v4
+        with:
+          name: pot-files
+          path: .
+        continue-on-error: true   # artifact may not exist (e.g. first build)
+
+      - name: Report POT artifact status
+        if: inputs.no-publisher == true && steps.download-pot.outcome == 'failure'
+        run: |
+          echo "::notice::No pot-files artifact found from the prior build." \
+               "This is expected on first builds or when the IG Publisher" \
+               "did not produce any .pot files."
+
+      # -- Common steps (always run) --
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install "PyYAML>=6.0" "requests>=2.28.0" lxml
 
       - name: Configure git for commits
         run: |
@@ -110,22 +156,28 @@ jobs:
       # TX_SERVER, BRANCH_NAME, and GITHUB_ACTOR are passed via env: so that
       # GitHub context values are never interpolated directly into shell commands.
       # run_ig_publisher.py reads, validates, and uses them internally.
-      # The IG Publisher is invoked with -generation-off and -validation-off
-      # (set by run_ig_publisher.py's default generation_off=True) so it only
-      # extracts FHIR-resource translation templates without regenerating HTML
-      # pages or re-running full validation.
-      - name: Run IG Publisher, extract translations, commit and push
+      #
+      # When no-publisher is true, --no-publisher tells the script to skip the
+      # IG Publisher invocation while still running extract_translations.py and
+      # committing/pushing the resulting .pot files.
+      - name: Extract translations, commit and push
         env:
           TX_SERVER: ${{ inputs.tx }}
           BRANCH_NAME: ${{ github.ref_name }}
           GITHUB_ACTOR: ${{ github.actor }}
           IG_ROOT: ${{ inputs['ig-root'] || '.' }}
           PUSH_ENABLED: ${{ inputs.push }}
+          NO_PUBLISHER: ${{ inputs.no-publisher }}
         run: |
           PUSH_FLAG=""
           if [ "$PUSH_ENABLED" = "true" ]; then
             PUSH_FLAG="--push"
           fi
+          NO_PUB_FLAG=""
+          if [ "$NO_PUBLISHER" = "true" ]; then
+            NO_PUB_FLAG="--no-publisher"
+          fi
           python3 input/scripts/run_ig_publisher.py \
             --ig-root "$IG_ROOT" \
-            $PUSH_FLAG
+            $PUSH_FLAG \
+            $NO_PUB_FLAG
