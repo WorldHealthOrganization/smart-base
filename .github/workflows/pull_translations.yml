@@ -136,8 +136,13 @@ jobs:
             exit 0
           fi
 
-          # Determine feature branch name based on service
+          # Validate and determine feature branch name based on service
           SERVICE="${INPUT_SERVICE:-all}"
+          # Ensure SERVICE only contains safe characters (alphanumeric + hyphens)
+          if ! echo "$SERVICE" | grep -qE '^[a-z0-9-]+$'; then
+            echo "ERROR: Invalid service name: ${SERVICE}"
+            exit 1
+          fi
           BRANCH="translations/${SERVICE}"
 
           # Create or switch to the feature branch
@@ -168,7 +173,7 @@ jobs:
               --body "Auto-generated PR with updated translations from ${SERVICE}." \
               --head "${BRANCH}" \
               --base main \
-              || echo "PR creation failed (may already exist)"
+              || echo "::warning::PR creation failed — check permissions and network connectivity"
           else
             echo "PR #${EXISTING_PR} already exists for ${BRANCH}"
           fi

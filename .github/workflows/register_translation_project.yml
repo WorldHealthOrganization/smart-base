@@ -78,6 +78,12 @@ jobs:
           LAUNCHPAD_API_TOKEN: ${{ secrets.LAUNCHPAD_API_TOKEN }}
           INPUT_REPO_NAME: ${{ inputs.repo_name || github.event.client_payload.repo_name || '' }}
         run: |
+          # Validate repo_name contains only safe characters (guards against
+          # malicious repository_dispatch payloads)
+          if ! echo "$INPUT_REPO_NAME" | grep -qE '^[A-Za-z0-9._-]+$'; then
+            echo "::error::Invalid repo_name: contains disallowed characters"
+            exit 1
+          fi
           python input/scripts/register_translation_project.py \
             --repo-name "${INPUT_REPO_NAME}" \
             --repo-root "."

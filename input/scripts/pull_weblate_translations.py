@@ -79,8 +79,10 @@ def _load_component_map(output_root: Path) -> Dict[str, str]:
         cmap = get_component_map(output_root)
         if cmap:
             return cmap
-    except Exception:
-        pass
+    except Exception as exc:
+        logging.getLogger(__name__).debug(
+            "Failed to load component map from dak.json, using fallback: %s", exc
+        )
     return dict(_FALLBACK_COMPONENT_MAP)
 
 
@@ -91,8 +93,10 @@ def _load_languages(output_root: Path) -> Tuple[str, ...]:
         codes = get_language_codes(config)
         if codes:
             return tuple(codes)
-    except (DakConfigError, Exception):
-        pass
+    except (DakConfigError, Exception) as exc:
+        logging.getLogger(__name__).debug(
+            "Failed to load languages from dak.json, using fallback: %s", exc
+        )
     return _FALLBACK_LANGUAGES
 
 # Weblate API path template for downloading a single translation file.
