@@ -415,9 +415,16 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
     else:
         jsonld_file_url = f"https://smart.who.int/base/ValueSet-{valueset_id}.jsonld"
     
+    # Collect unique systems from codes, preserving order
+    unique_systems = list(dict.fromkeys(
+        item['system'] for item in codes_with_display if item.get('system')
+    ))
+    single_system = len(unique_systems) == 1
+
     # JSON-LD context - minimal, only multi-use terms
     context = {
         "@version": 1.1,
+        "@base": jsonld_file_url,
         "name": "http://www.w3.org/2000/01/rdf-schema#label",
         "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
         "id": "@id",
@@ -426,41 +433,41 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
             "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
         }
     }
-    
+
+    # Build system alias map and add aliases to context
+    system_alias_map: Dict[str, str] = {}
+    if unique_systems:
+        context["fhir:CodeSystem"] = {"@type": "@id"}
+        if single_system:
+            context["cs"] = transform_codesystem_url(unique_systems[0])
+            system_alias_map[unique_systems[0]] = "cs"
+        else:
+            for i, system in enumerate(unique_systems):
+                alias = f"cs{i}"
+                context[alias] = transform_codesystem_url(system)
+                system_alias_map[system] = alias
+
     # Start building the @graph - only codes, no enumeration class
     graph = []
-    
+
     # Only include code instances, no enumeration class definition
     for item in codes_with_display:
         code = item['code']
         display = item['display']
         system = item.get('system', '')
-        
-        # Generate IRI for the code using ValueSet.jsonld pattern
-        if system:
-            # Extract base URL to construct ValueSet-based IRI
-            if valueset_url and '/ValueSet/' in valueset_url:
-                base_url = valueset_url.split('/ValueSet/')[0]
-                code_iri = f"{base_url}/ValueSet-{valueset_id}.jsonld#{code}"
-            else:
-                # Fallback if valueset_url doesn't follow expected pattern
-                code_iri = f"https://smart.who.int/base/ValueSet-{valueset_id}.jsonld#{code}"
-        else:
-            # Fallback if no system available
-            code_iri = f"https://smart.who.int/base/ValueSet-{valueset_id}.jsonld#{code}"
-        
+
+        # Use a fragment identifier; @base in context resolves it to the full IRI
         code_instance = {
-            "id": code_iri,
-            "name": display,
-            "fhir:code": code
+            "id": f"#{code}",
+            "name": display
         }
-        
-        # Add system information if available
-        if system:
-            code_instance["fhir:CodeSystem"] = transform_codesystem_url(system)
-        
+
+        # Omit fhir:CodeSystem per entry when all codes share a single system
+        if not single_system and system and system in system_alias_map:
+            code_instance["fhir:CodeSystem"] = system_alias_map[system]
+
         graph.append(code_instance)
-    
+
     # Create the complete JSON-LD document with named graph
     jsonld_vocab = {
         "@context": context,
@@ -469,7 +476,11 @@ def generate_jsonld_vocabulary(valueset_resource: Dict[str, Any], codes_with_dis
         "generatedAt": datetime.utcnow().isoformat() + "Z",
         "@graph": graph
     }
-    
+
+    # For single-system ValueSets, record the shared system once at document level
+    if single_system and unique_systems:
+        jsonld_vocab["fhir:CodeSystem"] = "cs"
+
     return jsonld_vocab
 
 
