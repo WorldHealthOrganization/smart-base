@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # ValueSet-CDHIv1 API Documentation
 
 <!-- This content is automatically generated from ValueSet-CDHIv1.openapi.json -->

@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Creative Commons Attribution 3.0 IGO (CC-BY-3.0-IGO)
 
 ## Summary

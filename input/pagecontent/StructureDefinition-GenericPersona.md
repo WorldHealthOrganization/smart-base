@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Generic Persona (DAK)
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-GenericPersona -->

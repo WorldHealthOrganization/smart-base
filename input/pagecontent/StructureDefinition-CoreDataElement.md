@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Core Data Element (DAK)
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-CoreDataElement -->

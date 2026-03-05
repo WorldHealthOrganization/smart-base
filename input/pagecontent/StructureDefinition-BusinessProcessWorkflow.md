@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Business Process Workflow (DAK)
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-BusinessProcessWorkflow -->

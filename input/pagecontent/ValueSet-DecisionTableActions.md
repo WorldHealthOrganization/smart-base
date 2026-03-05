@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Smart Guidelines Decision Table Actions
 
 <!-- DAK_API_PLACEHOLDER: ValueSet-DecisionTableActions -->

@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Smart Guidelines Documentation Section
 
 <!-- DAK_API_PLACEHOLDER: ValueSet-DocumentationSection -->

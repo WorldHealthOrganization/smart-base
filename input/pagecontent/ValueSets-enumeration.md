@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # ValueSets-enumeration API Documentation
 
 <!-- This content is automatically generated from ValueSets-enumeration.openapi.json -->

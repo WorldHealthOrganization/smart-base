@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # User Scenario (DAK)
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-UserScenario -->

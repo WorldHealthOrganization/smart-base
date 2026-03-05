@@ -1,1 +1,3 @@
+{% include smart.liquid %}
+
 # Downloads

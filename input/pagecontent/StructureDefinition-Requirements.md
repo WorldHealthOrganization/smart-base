@@ -1,3 +1,5 @@
+{% include smart.liquid %}
+
 # Functional and Non-Functional Requirements (DAK)
 
 <!-- DAK_API_PLACEHOLDER: StructureDefinition-Requirements -->
