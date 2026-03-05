@@ -26,9 +26,12 @@ Thumbs.db
 ##########
 __pycache__/
 
-# Gettext translation templates — generated at build time, not committed #
+# Gettext translation templates — generated at build time.                #
+# .pot files inside translations/ subdirectories are committed so that    #
+# Weblate can pick them up; all other .pot files are ignored.             #
 ##########################################################################
 *.pot
+!input/**/translations/*.pot
 
 # QA temporary files #
 ######################
