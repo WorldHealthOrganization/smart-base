@@ -18,6 +18,7 @@ import logging
 import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+from urllib.parse import urlparse
 
 # Add parent directory to path for sibling imports
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -91,13 +92,21 @@ def _derive_repo_url(config: DakConfig) -> str:
     """Derive the GitHub repo URL from dak.json fields."""
     preview = config.raw.get("previewUrl", "")
     # previewUrl is usually https://WorldHealthOrganization.github.io/smart-base
-    if preview and "github.io" in preview:
-        parts = preview.replace("https://", "").replace("http://", "").split("/")
-        if len(parts) >= 2 and "." in parts[0]:
-            org = parts[0].split(".")[0]  # WorldHealthOrganization
-            repo = parts[1]
-            if org and repo:
-                return f"https://github.com/{org}/{repo}"
+    if not preview:
+        return ""
+    parsed = urlparse(preview)
+    # urlparse lowercases hostname; use netloc to preserve original case
+    netloc = parsed.netloc or ""
+    hostname_lower = parsed.hostname or ""
+    # Only accept *.github.io hostnames (not arbitrary URLs containing "github.io")
+    if not hostname_lower.endswith(".github.io"):
+        return ""
+    # netloc preserves case: "WorldHealthOrganization.github.io"
+    org = netloc.split(".")[0] if "." in netloc else ""
+    path_parts = [p for p in parsed.path.split("/") if p]
+    if org and path_parts:
+        repo = path_parts[0]
+        return f"https://github.com/{org}/{repo}"
     return ""
 
 
