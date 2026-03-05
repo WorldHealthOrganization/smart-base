@@ -2106,9 +2106,13 @@ class SchemaDocumentationRenderer:
 
             pre_content = html[body_start:close_pos]
 
-            # Only replace blocks that contain a <code> element with substantial content.
+            # Replace blocks that contain substantial source content, either:
+            #   a) wrapped in a <code> element (JSON / XML pages), or
+            #   b) embedded directly in the <pre> block (TTL/RDF pages — the FHIR IG
+            #      Publisher emits <pre class="rdf">…</pre> without a <code> wrapper).
             code_match = re.search(r'<code([^>]*)>([\s\S]*?)</code>', pre_content, re.IGNORECASE)
-            if not code_match or len(code_match.group(2).strip()) < _MIN_SOURCE_SIZE_FOR_DYNAMIC_LOADING:
+            source_content = code_match.group(2) if code_match else pre_content
+            if len(source_content.strip()) < _MIN_SOURCE_SIZE_FOR_DYNAMIC_LOADING:
                 # Keep this block unchanged; preserve everything from pos through </pre>
                 parts.append(html[pos:close_pos + len(close_tag)])
                 pos = close_pos + len(close_tag)
@@ -2129,7 +2133,7 @@ class SchemaDocumentationRenderer:
             # Use \s before href so the pattern matches href in any attribute position.
             _href_re = re.compile(r'<a\b[^>]*\shref="([^"]+)"[^>]*>([^<]+)</a>')
             link_map: Dict[str, str] = {}
-            for lm in _href_re.finditer(code_match.group(2)):
+            for lm in _href_re.finditer(source_content):
                 url, text = lm.group(1), lm.group(2).strip()
                 # Accept canonical FHIR spec URLs (http or https) to avoid injecting
                 # arbitrary content.
