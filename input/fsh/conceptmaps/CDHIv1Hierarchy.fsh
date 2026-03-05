@@ -1,6 +1,6 @@
 Instance:  CDHIv1Hierarchy
 InstanceOf:   ConceptMap
-Description:  "Mapping to represent hierarchy within Hierarchy of the Classification of Digital Health Interventions v1."
+Description:  "Mapping to represent hierarchy within the Classification of Digital Health Interventions v1."
 Usage:        #definition
 * name = "CDHIv1Hierarchy"
 * title = "Hierarchy of the Classification of Digital Health Interventions v1"
