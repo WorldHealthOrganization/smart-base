@@ -49,7 +49,8 @@ concurrency:
 jobs:
   build-and-deploy:
     permissions:
-      contents: write   # required so the token passed to ghbuild.yml can push gh-pages
+      contents: write        # required so the token passed to ghbuild.yml can push gh-pages
+      pull-requests: write   # required so ghbuild.yml can post PR build-status comments
     uses: ./.github/workflows/ghbuild.yml
     with:
       tx: ${{ inputs.tx || '' }}
