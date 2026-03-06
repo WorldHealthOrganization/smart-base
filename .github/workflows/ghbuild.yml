@@ -436,22 +436,42 @@ jobs:
           name: qa-json-artifact
           path: ./output/qa.json  # Adjust the path based on where qa.json is located
 
-      # The IG Publisher writes .pot translation templates into the output/
-      # directory.  Since output/ is listed in .gitignore (and is not scanned
-      # by the artifact upload below), copy any .pot files it produced into
-      # the input/translations/ tree so they are committed to main,
-      # overwriting any existing files.
-      - name: Collect IG Publisher .pot files from output
+      # The IG Publisher writes translation files to two locations:
+      #   1. output/*.pot  — translation templates (gitignored)
+      #   2. translations/{lang}/po/*.po — per-resource per-language .po files
+      #      (also gitignored via /translations in .gitignore)
+      # Copy .pot files from output/ and merge per-resource .po files from
+      # translations/ into a single base.pot for Weblate integration.
+      - name: Collect IG Publisher translation files
         if: success()
         run: |
           mkdir -p input/translations
           found=0
+
+          # Copy .pot files from output/
           for pot in $(find output/ -name '*.pot' 2>/dev/null); do
             echo "Found IG Publisher .pot: $pot"
             cp "$pot" input/translations/
             found=$((found + 1))
           done
-          echo "Collected $found .pot file(s) from IG Publisher output"
+
+          # Count .po files from translations/ (IG Publisher i18n output)
+          for po in $(find translations/ -name '*.po' 2>/dev/null); do
+            echo "Found IG Publisher .po: $po"
+            found=$((found + 1))
+          done
+
+          echo "Found $found translation file(s) from IG Publisher"
+
+          # Merge per-resource .po files into base.pot using the Python helper.
+          if [ -f "input/scripts/run_ig_publisher.py" ]; then
+            python3 -c "
+          import sys, os
+          sys.path.insert(0, os.path.join('.', 'input', 'scripts'))
+          from run_ig_publisher import collect_publisher_pot_files
+          collect_publisher_pot_files('.')
+          " 2>&1 || echo "Warning: Python merge step failed; .pot files from output/ still collected"
+          fi
 
       # Upload translation template (.pot) files produced by the IG Publisher
       # so that downstream jobs (e.g. commit-pot) can reuse them without

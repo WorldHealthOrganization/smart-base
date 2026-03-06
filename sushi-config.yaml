@@ -73,8 +73,16 @@ parameters:
   # directory when these parameters are present.  The collect step in
   # ghbuild.yml and collect_publisher_pot_files() in run_ig_publisher.py
   # copy them to input/translations/ for Weblate integration.
+  #
+  # i18n-lang MUST list target languages that differ from i18n-default-lang;
+  # the IG Publisher skips extraction when the target equals the default.
   i18n-default-lang: en
-  i18n-lang: en
+  i18n-lang:
+    - fr
+    - ar
+    - zh
+    - ru
+    - es
 
 # ── Translation configuration ─────────────────────────────────────────────
 # Single source of truth for target languages, plural forms, and translation

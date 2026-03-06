@@ -59,7 +59,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -224,35 +224,242 @@ def run_ig_publisher(
 
 
 def collect_publisher_pot_files(ig_root: str) -> None:
-    """Copy ``.pot`` files from the IG Publisher ``output/`` directory.
+    """Collect translation files produced by the IG Publisher.
 
-    The FHIR IG Publisher produces translation ``.pot`` files in
-    ``output/`` during a build.  Since ``output/`` is listed in
-    ``.gitignore``, these files cannot be committed directly.  This
-    function copies any ``.pot`` files found in ``output/`` to
-    ``input/translations/``, overwriting existing files, so they can
-    be staged and committed.
+    The FHIR IG Publisher writes translation files to two locations:
+
+    1. ``output/`` — may contain ``.pot`` files (gitignored).
+    2. ``translations/`` — contains ``.po``, ``.xliff``, and ``.json``
+       files organised by language and format (also gitignored).
+
+    This function copies any ``.pot`` files found in ``output/`` to
+    ``input/translations/``, then merges all per-resource ``.po`` files
+    from ``translations/`` into a single ``base.pot`` template suitable
+    for Weblate.
+
+    Individual per-resource ``.po`` files are **not** copied into
+    ``input/translations/`` — only the merged ``base.pot`` is written
+    there.
 
     Args:
         ig_root: Repository root directory.
     """
-    output_dir = os.path.join(ig_root, "output")
-    if not os.path.isdir(output_dir):
-        return
-
     dest_dir = os.path.join(ig_root, "input", "translations")
     os.makedirs(dest_dir, exist_ok=True)
 
-    for pot_file in glob_module.glob(os.path.join(output_dir, "**", "*.pot"), recursive=True):
-        dest_name = os.path.basename(pot_file)
-        dest_path = os.path.join(dest_dir, dest_name)
-        if os.path.exists(dest_path):
-            logger.info(f"Overwriting existing {dest_path} with {pot_file}")
-        try:
-            shutil.copy2(pot_file, dest_path)
-            logger.info(f"Copied IG Publisher .pot: {pot_file} -> {dest_path}")
-        except Exception as exc:
-            logger.warning(f"Failed to copy {pot_file} to {dest_path}: {exc}")
+    # 1. Copy .pot files from output/ (original behaviour).
+    output_dir = os.path.join(ig_root, "output")
+    if os.path.isdir(output_dir):
+        for pot_file in glob_module.glob(
+            os.path.join(output_dir, "**", "*.pot"), recursive=True
+        ):
+            dest_name = os.path.basename(pot_file)
+            dest_path = os.path.join(dest_dir, dest_name)
+            if os.path.exists(dest_path):
+                logger.info(f"Overwriting existing {dest_path} with {pot_file}")
+            try:
+                shutil.copy2(pot_file, dest_path)
+                logger.info(f"Copied IG Publisher .pot: {pot_file} -> {dest_path}")
+            except Exception as exc:
+                logger.warning(f"Failed to copy {pot_file} to {dest_path}: {exc}")
+
+    # 2. Merge .po files from translations/ into input/translations/base.pot.
+    #    The publisher writes to translations/po/*.po (single target lang)
+    #    or translations/{lang}/po/*.po (multiple target langs).
+    translations_dir = os.path.join(ig_root, "translations")
+    if os.path.isdir(translations_dir):
+        po_files: List[str] = []
+        for po_file in glob_module.glob(
+            os.path.join(translations_dir, "**", "*.po"), recursive=True
+        ):
+            po_files.append(po_file)
+            logger.info(f"Found IG Publisher .po: {po_file}")
+
+        if po_files:
+            _merge_po_to_base_pot(po_files, dest_dir)
+        else:
+            logger.info("No .po files found in %s", translations_dir)
+    else:
+        logger.info("translations/ directory not found at %s", ig_root)
+
+
+def _merge_po_to_base_pot(po_files: List[str], dest_dir: str) -> None:
+    """Merge per-resource ``.po`` files into a single ``base.pot``.
+
+    The IG Publisher produces one ``.po`` file per FHIR resource per
+    target language.  Weblate expects a single ``base.pot`` template
+    containing all translatable strings.  This helper reads every
+    ``.po`` file, deduplicates entries by ``msgid``, and writes the
+    merged result to ``base.pot``.
+
+    When the same ``msgid`` appears in multiple ``.po`` files the
+    source references (``#:`` comments) from all occurrences are kept.
+
+    Args:
+        po_files: Absolute paths to ``.po`` files to merge.
+        dest_dir: Directory in which to write ``base.pot``.
+    """
+    # Use only one language's files to avoid duplicates across languages.
+    # Pick the first language subdirectory found, or use all if flat layout.
+    first_lang_files = _select_first_language_po_files(po_files)
+
+    # Parse entries: dict[msgid] -> list of #: reference lines
+    entries: Dict[str, List[str]] = {}  # msgid -> list of reference strings
+    for po_path in first_lang_files:
+        _parse_po_entries(po_path, entries)
+
+    if not entries:
+        logger.info("No translatable entries found in IG Publisher .po files.")
+        return
+
+    base_pot_path = os.path.join(dest_dir, "base.pot")
+    try:
+        with open(base_pot_path, "w", encoding="utf-8") as fh:
+            fh.write(_pot_header())
+            for msgid in sorted(entries.keys()):
+                refs = entries[msgid]
+                for ref in refs:
+                    fh.write(f"#: {ref}\n")
+                fh.write(f"msgid {_po_escape(msgid)}\n")
+                fh.write('msgstr ""\n\n')
+        logger.info(
+            f"Merged {len(entries)} entries from {len(first_lang_files)} "
+            f".po file(s) into {base_pot_path}"
+        )
+    except Exception as exc:
+        logger.warning(f"Failed to write {base_pot_path}: {exc}")
+
+
+def _select_first_language_po_files(po_files: List[str]) -> List[str]:
+    """Select .po files from only the first target language.
+
+    When multiple target languages are configured the IG Publisher
+    creates per-language directories (``translations/{lang}/po/``).
+    All languages contain the same ``msgid`` entries so we only need
+    one set.  This helper picks the first language alphabetically to
+    avoid duplicates.
+
+    For a flat layout (``translations/po/``) all files are returned.
+    """
+    # Group by parent directory two levels up (the lang dir).
+    by_lang: Dict[str, List[str]] = {}
+    for path in po_files:
+        parent = os.path.dirname(path)          # .../po
+        lang_dir = os.path.dirname(parent)       # .../{lang} or .../translations
+        by_lang.setdefault(lang_dir, []).append(path)
+
+    if not by_lang:
+        return []
+
+    # Return files from the first language directory (sorted for determinism).
+    first_key = sorted(by_lang.keys())[0]
+    return sorted(by_lang[first_key])
+
+
+def _parse_po_entries(po_path: str, entries: Dict[str, List[str]]) -> None:
+    """Parse a ``.po`` file and add entries to *entries* dict.
+
+    Args:
+        po_path: Path to a ``.po`` file.
+        entries: Dict mapping ``msgid`` strings to lists of ``#:``
+                 reference strings.  Updated in place.
+    """
+    try:
+        with open(po_path, "r", encoding="utf-8") as fh:
+            lines = fh.readlines()
+    except Exception as exc:
+        logger.warning(f"Cannot read {po_path}: {exc}")
+        return
+
+    current_refs: List[str] = []
+    current_msgid: List[str] = []
+    in_msgid = False
+    in_msgstr = False
+
+    for line in lines:
+        stripped = line.strip()
+
+        if stripped.startswith("#:"):
+            current_refs.append(stripped[3:].strip())
+            continue
+
+        if stripped.startswith("#"):
+            continue
+
+        if stripped.startswith("msgid "):
+            in_msgid = True
+            in_msgstr = False
+            current_msgid = [_po_unescape(stripped[6:])]
+            continue
+
+        if stripped.startswith("msgstr "):
+            in_msgid = False
+            in_msgstr = True
+            # Flush the entry.
+            msgid_text = "".join(current_msgid)
+            if msgid_text:  # Skip the empty header msgid.
+                if msgid_text not in entries:
+                    entries[msgid_text] = []
+                # Add source file as reference.
+                if current_refs:
+                    for ref in current_refs:
+                        if ref not in entries[msgid_text]:
+                            entries[msgid_text].append(ref)
+                elif os.path.basename(po_path) not in entries[msgid_text]:
+                    entries[msgid_text].append(os.path.basename(po_path))
+            current_refs = []
+            current_msgid = []
+            continue
+
+        if in_msgid and stripped.startswith('"'):
+            current_msgid.append(_po_unescape(stripped))
+            continue
+
+        if in_msgstr and stripped.startswith('"'):
+            continue  # Ignore msgstr continuation lines.
+
+        # Reset on blank or unrecognised lines.
+        if not stripped:
+            in_msgid = False
+            in_msgstr = False
+
+
+def _po_escape(text: str) -> str:
+    """Escape a string for use as a PO/POT ``msgid`` or ``msgstr`` value."""
+    escaped = text.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
+    return f'"{escaped}"'
+
+
+def _po_unescape(quoted: str) -> str:
+    """Unescape a PO/POT quoted string value."""
+    s = quoted.strip()
+    if s.startswith('"') and s.endswith('"'):
+        s = s[1:-1]
+    return s.replace("\\n", "\n").replace('\\"', '"').replace("\\\\", "\\")
+
+
+def _pot_header() -> str:
+    """Return a standard ``.pot`` file header."""
+    now = datetime.datetime.now(datetime.timezone.utc).strftime(
+        "%Y-%m-%d %H:%M+0000"
+    )
+    return (
+        "# FHIR Resource Translation Template\n"
+        "# Generated from IG Publisher output.\n"
+        "#\n"
+        "#, fuzzy\n"
+        'msgid ""\n'
+        'msgstr ""\n'
+        f'"POT-Creation-Date: {now}\\n"\n'
+        '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n"\n'
+        '"Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n"\n'
+        '"Language-Team: LANGUAGE <LL@li.org>\\n"\n'
+        '"Language: \\n"\n'
+        '"MIME-Version: 1.0\\n"\n'
+        '"Content-Type: text/plain; charset=UTF-8\\n"\n'
+        '"Content-Transfer-Encoding: 8bit\\n"\n'
+        "\n"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -772,9 +979,11 @@ def run_publisher_and_commit_pot(
             )
             return False
 
-        # 4. Collect .pot files from IG Publisher output/ directory.
-        # The IG Publisher writes .pot files into output/ which is gitignored.
-        # Copy them to input/translations/ so they can be committed.
+        # 4. Collect translation files from the IG Publisher.
+        # The IG Publisher writes .pot files into output/ and .po files
+        # into translations/ — both are gitignored.  Copy .pot files and
+        # merge .po files into input/translations/base.pot so they can be
+        # committed.
         collect_publisher_pot_files(ig_root)
 
     if skip_commit:
