@@ -223,6 +223,26 @@ def run_ig_publisher(
     return True
 
 
+# Regex patterns for lines that vary only by timestamp/year in .pot files.
+_POT_CREATION_DATE_RE = re.compile(r'^"POT-Creation-Date:.*\\n"\s*$')
+_POT_COPYRIGHT_RE = re.compile(r"^# Copyright \(C\) \d{4} ")
+
+
+def _normalize_pot_content(content: str) -> str:
+    """Strip timestamp-varying lines from ``.pot`` content for comparison.
+
+    Removes ``POT-Creation-Date`` header values and ``# Copyright (C) YYYY``
+    comment lines so that two ``.pot`` files can be compared ignoring
+    metadata that changes on every regeneration.
+    """
+    lines = content.splitlines(True)
+    return "".join(
+        line for line in lines
+        if not _POT_CREATION_DATE_RE.match(line)
+        and not _POT_COPYRIGHT_RE.match(line)
+    )
+
+
 def collect_publisher_pot_files(ig_root: str) -> None:
     """Copy ``.pot`` files from the IG Publisher ``output/`` directory.
 
@@ -232,6 +252,9 @@ def collect_publisher_pot_files(ig_root: str) -> None:
     function copies any ``.pot`` files found in ``output/`` to
     ``input/translations/``, overwriting existing files, so they can
     be staged and committed.
+
+    Files whose only changes are timestamp metadata (``POT-Creation-Date``
+    or copyright year) are not overwritten, to avoid noisy commits.
 
     Args:
         ig_root: Repository root directory.
@@ -246,7 +269,20 @@ def collect_publisher_pot_files(ig_root: str) -> None:
     for pot_file in glob_module.glob(os.path.join(output_dir, "**", "*.pot"), recursive=True):
         dest_name = os.path.basename(pot_file)
         dest_path = os.path.join(dest_dir, dest_name)
-        if os.path.exists(dest_path):
+        # Skip overwriting when only timestamp metadata changed.
+        if os.path.isfile(dest_path):
+            try:
+                with open(dest_path, "r", encoding="utf-8") as fh:
+                    old_content = fh.read()
+                with open(pot_file, "r", encoding="utf-8") as fh:
+                    new_content = fh.read()
+                if _normalize_pot_content(old_content) == _normalize_pot_content(new_content):
+                    logger.info(
+                        f"Skipped {dest_path}: only timestamp changed"
+                    )
+                    continue
+            except OSError:
+                pass  # fall through to copy
             logger.info(f"Overwriting existing {dest_path} with {pot_file}")
         try:
             shutil.copy2(pot_file, dest_path)
