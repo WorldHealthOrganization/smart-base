@@ -7,8 +7,7 @@ combination from the Weblate REST API and writes them into the repository's
 translations directories.
 
 Components and languages are loaded dynamically from dak.json via
-translation_config.py. When dak.json is unavailable, falls back to
-built-in defaults for backward-compatibility.
+translation_config.py.
 
 Usage:
     python pull_weblate_translations.py [options]
@@ -48,7 +47,6 @@ except ImportError:  # pragma: no cover
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from translation_config import (
-    DakConfigError,
     get_component_map,
     get_language_codes,
     get_project_slug,
@@ -56,48 +54,19 @@ from translation_config import (
 )
 
 # ---------------------------------------------------------------------------
-# Constants — dynamically loaded from dak.json with built-in fallbacks
+# Constants — dynamically loaded from dak.json
 # ---------------------------------------------------------------------------
-
-# Fallback component map — used when dak.json is unavailable or has no
-# translations block.  Kept for backward-compatibility.
-_FALLBACK_COMPONENT_MAP: Dict[str, str] = {
-    "fhir-resources":    "input/fsh/translations",
-    "plantuml-diagrams": "input/images-source/translations",
-    "svg-images":        "input/images/translations",
-    "archimate-models":  "input/archimate/translations",
-    "uml-diagrams":      "input/diagrams/translations",
-}
-
-# Fallback language list — used when dak.json is unavailable.
-_FALLBACK_LANGUAGES: Tuple[str, ...] = ("ar", "zh", "fr", "ru", "es")
 
 
 def _load_component_map(output_root: Path) -> Dict[str, str]:
-    """Load component map from dak.json discovery, falling back to built-in map."""
-    try:
-        cmap = get_component_map(output_root)
-        if cmap:
-            return cmap
-    except Exception as exc:
-        logging.getLogger(__name__).debug(
-            "Failed to load component map from dak.json, using fallback: %s", exc
-        )
-    return dict(_FALLBACK_COMPONENT_MAP)
+    """Load component map from dak.json dynamic discovery."""
+    return get_component_map(output_root)
 
 
 def _load_languages(output_root: Path) -> Tuple[str, ...]:
-    """Load language codes from dak.json, falling back to built-in list."""
-    try:
-        config = load_dak_config(output_root)
-        codes = get_language_codes(config)
-        if codes:
-            return tuple(codes)
-    except (DakConfigError, Exception) as exc:
-        logging.getLogger(__name__).debug(
-            "Failed to load languages from dak.json, using fallback: %s", exc
-        )
-    return _FALLBACK_LANGUAGES
+    """Load language codes from dak.json."""
+    config = load_dak_config(output_root)
+    return tuple(get_language_codes(config))
 
 # Weblate API path template for downloading a single translation file.
 # Reference: https://docs.weblate.org/en/latest/api.html#get--api-translations-(string-project)-(string-component)-(string-language)-file-
@@ -257,8 +226,7 @@ def pull_translations(
     """
     Pull .po files from Weblate for every applicable (component, language) pair.
 
-    Languages and components are loaded dynamically from dak.json when available,
-    falling back to built-in defaults for backward-compatibility.
+    Languages and components are loaded dynamically from dak.json.
 
     Returns:
         0 on full success, 1 if any download produced an error.
