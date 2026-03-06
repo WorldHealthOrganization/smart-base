@@ -26,6 +26,9 @@ from typing import Any, Callable, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
+# Default GitHub organization for project slug derivation.
+DEFAULT_GITHUB_ORG = "worldhealthorganization"
+
 
 # ---------------------------------------------------------------------------
 # Data classes
@@ -203,6 +206,18 @@ def get_project_slug(github_org: str, repo_name: str) -> str:
     return f"{github_org}-{repo_name}".lower()
 
 
+def derive_project_slug_from_env(repo_root: Optional[Path] = None) -> str:
+    """Derive project slug from ``GITHUB_REPOSITORY`` env var, falling back to
+    *DEFAULT_GITHUB_ORG* and the repo directory name."""
+    github_repo = os.environ.get("GITHUB_REPOSITORY", "")
+    if github_repo and "/" in github_repo:
+        org, repo_name = github_repo.split("/", 1)
+    else:
+        org = DEFAULT_GITHUB_ORG
+        repo_name = (repo_root or Path(".")).resolve().name
+    return get_project_slug(org, repo_name)
+
+
 # ---------------------------------------------------------------------------
 # Component discovery
 # ---------------------------------------------------------------------------
@@ -288,7 +303,7 @@ def setup_gettext(
     script_file: str,
     domain: str = "scripts",
     lang: Optional[str] = None,
-) -> "Callable[[str], str]":
+) -> Callable[[str], str]:
     """
     Set up gettext for a script file, looking for .mo files in the
     translations/ sibling directory.

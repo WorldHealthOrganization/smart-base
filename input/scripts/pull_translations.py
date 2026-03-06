@@ -35,6 +35,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from translation_config import (
     DakConfigError,
+    derive_project_slug_from_env,
     get_enabled_services,
     get_language_codes,
     get_project_slug,
@@ -147,13 +148,7 @@ def pull_all(
         return 0
 
     # Derive project slug from GITHUB_REPOSITORY or fallback
-    github_repo = os.environ.get("GITHUB_REPOSITORY", "")
-    if github_repo and "/" in github_repo:
-        org, repo_name = github_repo.split("/", 1)
-        project_slug = get_project_slug(org, repo_name)
-    else:
-        project_slug = get_project_slug("worldhealthorganization",
-                                         repo_root.name)
+    project_slug = derive_project_slug_from_env(repo_root)
 
     logger.info("Project slug: %s", project_slug)
     logger.info("Enabled services: %s", ", ".join(enabled.keys()))

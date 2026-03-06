@@ -169,6 +169,9 @@ def _register_weblate_component(
             "slug": comp.slug,
             "file_format": "po",
             "filemask": f"{rel_translations_dir}/*.po",
+            # new_base: used by Weblate to create new translation files.
+            # template: used by Weblate to locate the source .pot file.
+            # Both point to the same POT file per Weblate component config.
             "new_base": str(rel_pot_path),
             "template": str(rel_pot_path),
             "vcs": "github",

@@ -185,14 +185,8 @@ if __name__ == "__main__":
     parser.add_argument("--language", default="")
     args = parser.parse_args()
 
-    # Derive project slug from GITHUB_REPOSITORY or repo directory name
-    github_repo = os.environ.get("GITHUB_REPOSITORY", "")
-    if github_repo and "/" in github_repo:
-        org, repo_name = github_repo.split("/", 1)
-    else:
-        org, repo_name = "worldhealthorganization", Path(args.repo_root).resolve().name
-    from translation_config import get_project_slug
-    project_slug = get_project_slug(org, repo_name)
+    from translation_config import derive_project_slug_from_env
+    project_slug = derive_project_slug_from_env(Path(args.repo_root).resolve())
 
     sys.exit(pull_translations(
         repo_root=Path(args.repo_root).resolve(),
