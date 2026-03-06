@@ -6,11 +6,14 @@
 # own CI triggers.
 #
 # Job graph:
-#   build-and-deploy  →  calls ghbuild.yml (full IG build + GitHub Pages deploy)
-#   commit-pot        →  calls commit-pot.yml (POT extraction + commit/push)
-#                        runs after build-and-deploy regardless of its result,
-#                        skipped on pull-request events so forks don't need
-#                        contents: write.
+#   build-and-deploy          →  calls ghbuild.yml (full IG build + GitHub Pages deploy)
+#   commit-pot                →  calls commit-pot.yml (POT extraction + commit/push)
+#                                runs after build-and-deploy regardless of its result,
+#                                skipped on pull-request events so forks don't need
+#                                contents: write.
+#   regenerate-weblate-yaml   →  calls generate_weblate_yaml.yml to keep weblate.yaml
+#                                in sync with dak.json and discovered .pot components.
+#                                Runs after commit-pot so new .pot files are picked up.
 
 #
 # Downstream repositories should call ghbuild.yml directly via workflow_call;
@@ -36,20 +39,35 @@ on:
         type: boolean
         default: true
 
-# Same concurrency key shape as ghbuild.yml so manual and automatic runs
-# from the same branch cancel the older one.
+# Concurrency is managed here in the caller, NOT in ghbuild.yml.
+# When a reusable workflow defines the same concurrency group as its
+# caller, GitHub detects a deadlock and cancels the run.
+#
+# Group is scoped per-branch so that:
+#   • deploys of different branches (main, feature-x, …) run in parallel;
+#   • a new push to the same branch cancels the in-flight deploy for that branch.
+#
+# The extraction workflows (extract_translations.yml, commit-pot.yml) use their
+# own separate concurrency groups so that deploy and extraction are fully
+# independent and can run concurrently.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: deploy-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   build-and-deploy:
     permissions:
-      contents: write   # required so the token passed to ghbuild.yml can push gh-pages
+      contents: write        # required so the token passed to ghbuild.yml can push gh-pages
+      pull-requests: write   # required so ghbuild.yml can post PR build-status comments
     uses: ./.github/workflows/ghbuild.yml
     with:
       tx: ${{ inputs.tx || '' }}
       do_dak: ${{ inputs.do_dak != false }}
+      # Only deploy to gh-pages on push / workflow_dispatch (not on pull_request events).
+      # For PRs, gh-pages deployment is gated by the 'pr-preview' GitHub Actions environment
+      # (pr-preview.yml) which requires reviewer approval, or by the /deploy slash command
+      # (pr-deploy-slash.yml) for ad-hoc manual deploys.
+      deploy: ${{ github.event_name != 'pull_request' }}
     secrets: inherit
 
   commit-pot:
@@ -67,4 +85,20 @@ jobs:
     with:
       push: true
       tx: ${{ inputs.tx || '' }}
+      # The IG Publisher already ran in the build-and-deploy job and uploaded
+      # its POT files as the "pot-files" artifact.  Reuse them here instead
+      # of running the publisher a second time.
+      no-publisher: true
+    secrets: inherit
+
+  regenerate-weblate-yaml:
+    needs: commit-pot
+    # Regenerate weblate.yaml after .pot files are committed so that the
+    # component list and language/plural config stay in sync with dak.json.
+    # Skipped on pull_request events (no contents: write).
+    if: always() && github.event_name != 'pull_request'
+
+    permissions:
+      contents: write
+    uses: ./.github/workflows/generate_weblate_yaml.yml
     secrets: inherit

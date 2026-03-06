@@ -11,7 +11,7 @@ Targeted source types (aligned with the L3 Authoring SOP):
   - Custom SVG (.svg)      in input/images/
   - ArchiMate  (.archimate) in input/archimate/
   - UML diagrams (.svg/.xml) in input/diagrams/
-  - Markdown pages (.md)    in input/pagecontent/   ← replaces IG Publisher markdown POT
+  - Markdown pages (.md)    in input/pagecontent/   ← one .pot per hand-authored page
 
 Note on Prism.js: syntax highlighting in generated pages is provided by
 Prism.js, which is already bundled by the base FHIR IG Publisher template
@@ -39,6 +39,7 @@ Options:
 import argparse
 import datetime
 import glob as glob_module
+import io
 import logging
 import os
 import re
@@ -166,6 +167,26 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=(n==1 ? 0 : n==2 ? 1 : n>=3 && n<=10 ? 2 : n>=11 && n<=99 ? 3 : 4);\\n"
 
 """
+
+
+# Regex patterns for lines that vary only by timestamp/year in .pot files.
+_POT_CREATION_DATE_RE = re.compile(r'^"POT-Creation-Date:.*\\n"\s*$')
+_POT_COPYRIGHT_RE = re.compile(r"^# Copyright \(C\) \d{4} ")
+
+
+def _normalize_pot_content(content: str) -> str:
+    """Strip timestamp-varying lines from ``.pot`` content for comparison.
+
+    Removes ``POT-Creation-Date`` header values and ``# Copyright (C) YYYY``
+    comment lines so that two ``.pot`` files can be compared ignoring
+    metadata that changes on every regeneration.
+    """
+    lines = content.splitlines(True)
+    return "".join(
+        line for line in lines
+        if not _POT_CREATION_DATE_RE.match(line)
+        and not _POT_COPYRIGHT_RE.match(line)
+    )
 
 
 def _escape_pot(text: str) -> str:
@@ -837,49 +858,70 @@ def write_pot(
     timestamp = now.strftime("%Y-%m-%d %H:%M+0000")
     year = now.year
 
-    with open(output_path, "w", encoding="utf-8") as fh:
-        fh.write(POT_HEADER.format(year=year, timestamp=timestamp))
+    buf = io.StringIO()
+    buf.write(POT_HEADER.format(year=year, timestamp=timestamp))
 
-        for msgid, locations in sorted(deduped.items(), key=lambda kv: kv[0].lower()):
-            # Write source/location comments, deduplicating source locations and URLs.
-            # The same (source_file, line) can appear more than once when entries for
-            # both the publication URL and the preview URL are merged together, so we
-            # suppress duplicate #. Source: lines while still emitting every unique URL.
-            seen_sources: set = set()
-            seen_urls: set = set()
-            for src_file, lineno, ctx_url in locations:
-                src_key = (src_file, lineno)
-                if src_key not in seen_sources:
-                    fh.write(f"#. Source: {src_file}:{lineno}\n")
-                    seen_sources.add(src_key)
-                if ctx_url not in seen_urls:
-                    fh.write(f"#. URL: {ctx_url}\n")
-                    seen_urls.add(ctx_url)
+    for msgid, locations in sorted(deduped.items(), key=lambda kv: kv[0].lower()):
+        # Write source/location comments, deduplicating source locations and URLs.
+        # The same (source_file, line) can appear more than once when entries for
+        # both the publication URL and the preview URL are merged together, so we
+        # suppress duplicate #. Source: lines while still emitting every unique URL.
+        seen_sources: set = set()
+        seen_urls: set = set()
+        for src_file, lineno, ctx_url in locations:
+            src_key = (src_file, lineno)
+            if src_key not in seen_sources:
+                buf.write(f"#. Source: {src_file}:{lineno}\n")
+                seen_sources.add(src_key)
+            if ctx_url not in seen_urls:
+                buf.write(f"#. URL: {ctx_url}\n")
+                seen_urls.add(ctx_url)
 
-            # Standard gettext file:line reference (deduplicated)
-            seen_refs: set = set()
-            for src_file, lineno, _ in locations:
-                ref_key = (src_file, lineno)
-                if ref_key not in seen_refs:
-                    fh.write(f"#: {src_file}:{lineno}\n")
-                    seen_refs.add(ref_key)
+        # Standard gettext file:line reference (deduplicated)
+        seen_refs: set = set()
+        for src_file, lineno, _ in locations:
+            ref_key = (src_file, lineno)
+            if ref_key not in seen_refs:
+                buf.write(f"#: {src_file}:{lineno}\n")
+                seen_refs.add(ref_key)
 
-            # Emit python-brace-format flag when the msgid contains brace
-            # variables produced by the Liquid {{ }} → {var} transformation.
-            # Only emit the flag when ALL brace groups are valid Python
-            # identifiers (possibly dotted) so that msgfmt --check-format
-            # can validate translations without false positives.
-            brace_vars = _MD_ANY_BRACE_RE.findall(msgid)
-            if brace_vars and all(
-                _MD_SIMPLE_BRACE_VAR_RE.fullmatch(v) for v in brace_vars
-            ):
-                fh.write("#, python-brace-format\n")
+        # Emit python-brace-format flag when the msgid contains brace
+        # variables produced by the Liquid {{ }} → {var} transformation.
+        # Only emit the flag when ALL brace groups are valid Python
+        # identifiers (possibly dotted) so that msgfmt --check-format
+        # can validate translations without false positives.
+        brace_vars = _MD_ANY_BRACE_RE.findall(msgid)
+        if brace_vars and all(
+            _MD_SIMPLE_BRACE_VAR_RE.fullmatch(v) for v in brace_vars
+        ):
+            buf.write("#, python-brace-format\n")
 
-            escaped = _escape_pot(msgid)
-            fh.write(f'msgid "{escaped}"\n')
-            fh.write('msgstr ""\n\n')
+        escaped = _escape_pot(msgid)
+        buf.write(f'msgid "{escaped}"\n')
+        buf.write('msgstr ""\n\n')
+
+    new_content = buf.getvalue()
 
     logger = logging.getLogger(__name__)
+
+    # Skip writing when the only differences are timestamp metadata
+    # (POT-Creation-Date / Copyright year) to avoid noisy commits.
+    if os.path.isfile(output_path):
+        try:
+            with open(output_path, "r", encoding="utf-8") as fh:
+                old_content = fh.read()
+            if _normalize_pot_content(old_content) == _normalize_pot_content(new_content):
+                logger.info(
+                    f"Skipped {output_path}: only timestamp changed "
+                    f"({len(deduped)} msgids unchanged)"
+                )
+                return
+        except OSError:
+            pass  # fall through to write
+
+    with open(output_path, "w", encoding="utf-8") as fh:
+        fh.write(new_content)
+
     logger.info(f"Wrote {len(deduped)} unique msgids to {output_path}")
 
 
@@ -952,14 +994,24 @@ def collect_entries(
     # resources; markdown strings are extracted here via Python instead.
     # Auto-generated pages (StructureDefinition-*.md, ValueSet-*.md, etc.) are
     # excluded via _is_autogenerated_pagecontent so that only hand-authored
-    # narrative pages appear in pages.pot.
+    # narrative pages are extracted.
+    # Each hand-authored .md file gets its own .pot file (e.g. index.md →
+    # input/pagecontent/translations/index.pot) so that each page is a
+    # separate translation component in Weblate.
     pagecontent_dir = os.path.join(ig_root, "input", "pagecontent")
-    pagecontent_entries = _scan(
-        pagecontent_dir, ["*.md"], extract_markdown,
-        exclude_fn=_is_autogenerated_pagecontent,
-    )
-    if pagecontent_entries is not None:
-        result[os.path.join(pagecontent_dir, "translations", "pages.pot")] = pagecontent_entries
+    if os.path.isdir(pagecontent_dir):
+        for md_path in sorted(glob_module.glob(os.path.join(pagecontent_dir, "*.md"))):
+            if _is_autogenerated_pagecontent(md_path):
+                logging.getLogger(__name__).debug(
+                    "Skipping auto-generated file: %s", md_path
+                )
+                continue
+            rel = os.path.relpath(md_path, ig_root)
+            entries = extract_markdown(rel, canonical)
+            if entries:
+                stem = os.path.splitext(os.path.basename(md_path))[0]
+                pot_path = os.path.join(pagecontent_dir, "translations", f"{stem}.pot")
+                result[pot_path] = entries
 
     return result
 

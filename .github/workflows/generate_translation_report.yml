@@ -1,0 +1,56 @@
+# Generate translation completeness report (translation-status.md).
+#
+# Scans all .po files in the repo and generates a Markdown report at
+# input/pagecontent/translation-status.md showing per-language,
+# per-component translation completeness.
+#
+# All report logic lives in:
+#   input/scripts/translation_report.py
+
+name: Generate Translation Report
+
+on:
+  workflow_dispatch:
+
+  workflow_call:
+
+jobs:
+  report:
+    name: Generate translation status report
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: input/scripts/requirements.txt
+
+      - name: Install Python dependencies
+        run: pip install -r input/scripts/requirements.txt
+
+      - name: Generate report
+        run: python input/scripts/translation_report.py --repo-root "."
+
+      - name: Commit report
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -- 'input/pagecontent/translation-status.md' 2>/dev/null || true
+
+          if git diff --cached --quiet; then
+            echo "No changes to translation report."
+          else
+            git commit -m "chore: update translation status report"
+            git push
+          fi
