@@ -230,8 +230,8 @@ def collect_publisher_pot_files(ig_root: str) -> None:
     ``output/`` during a build.  Since ``output/`` is listed in
     ``.gitignore``, these files cannot be committed directly.  This
     function copies any ``.pot`` files found in ``output/`` to
-    ``input/fsh/translations/`` so they can be staged and committed
-    alongside diagram and page ``.pot`` files.
+    ``input/translations/``, overwriting existing files, so they can
+    be staged and committed.
 
     Args:
         ig_root: Repository root directory.
@@ -240,7 +240,7 @@ def collect_publisher_pot_files(ig_root: str) -> None:
     if not os.path.isdir(output_dir):
         return
 
-    dest_dir = os.path.join(ig_root, "input", "fsh", "translations")
+    dest_dir = os.path.join(ig_root, "input", "translations")
     os.makedirs(dest_dir, exist_ok=True)
 
     for pot_file in glob_module.glob(os.path.join(output_dir, "**", "*.pot"), recursive=True):
@@ -263,6 +263,7 @@ def collect_publisher_pot_files(ig_root: str) -> None:
 #: produced by ``extract_translations.py`` or collected from the IG Publisher
 #: ``output/`` directory by ``collect_publisher_pot_files()``.
 _POT_SEARCH_DIRS: List[str] = [
+    "input/translations",
     "input/fsh/translations",
     "input/images-source/translations",
     "input/images/translations",
@@ -773,7 +774,7 @@ def run_publisher_and_commit_pot(
 
         # 4. Collect .pot files from IG Publisher output/ directory.
         # The IG Publisher writes .pot files into output/ which is gitignored.
-        # Copy them to input/fsh/translations/ so they can be committed.
+        # Copy them to input/translations/ so they can be committed.
         collect_publisher_pot_files(ig_root)
 
     if skip_commit:
