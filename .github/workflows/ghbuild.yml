@@ -437,12 +437,11 @@ jobs:
           path: ./output/qa.json  # Adjust the path based on where qa.json is located
 
       # The IG Publisher writes .pot translation templates into the output/
-      # directory and — when i18n-default-lang / i18n-lang parameters are
-      # configured — .po resource-level translation files into translations/
-      # at the repository root.  Since both directories are listed in
-      # .gitignore, copy any translation files they produced into the
-      # input/translations/ tree so they are committed to main.
-      - name: Collect IG Publisher translation files from output
+      # directory.  Since output/ is listed in .gitignore (and is not scanned
+      # by the artifact upload below), copy any .pot files it produced into
+      # the input/translations/ tree so they are committed to main,
+      # overwriting any existing files.
+      - name: Collect IG Publisher .pot files from output
         if: success()
         run: |
           mkdir -p input/translations
@@ -452,16 +451,11 @@ jobs:
             cp "$pot" input/translations/
             found=$((found + 1))
           done
-          for po in $(find translations/ -name '*.po' 2>/dev/null); do
-            echo "Found IG Publisher .po: $po"
-            cp "$po" input/translations/
-            found=$((found + 1))
-          done
-          echo "Collected $found translation file(s) from IG Publisher"
+          echo "Collected $found .pot file(s) from IG Publisher output"
 
-      # Upload translation template (.pot/.po) files produced by the IG
-      # Publisher so that downstream jobs (e.g. commit-pot) can reuse them
-      # without re-running the publisher.
+      # Upload translation template (.pot) files produced by the IG Publisher
+      # so that downstream jobs (e.g. commit-pot) can reuse them without
+      # re-running the publisher.
       - name: Upload POT file artifacts
         if: success()
         uses: actions/upload-artifact@v4
@@ -469,7 +463,6 @@ jobs:
           name: pot-files
           path: |
             input/translations/**/*.pot
-            input/translations/**/*.po
             input/fsh/translations/**/*.pot
             input/images-source/translations/**/*.pot
             input/images/translations/**/*.pot

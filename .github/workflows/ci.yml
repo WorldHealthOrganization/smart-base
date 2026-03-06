@@ -6,14 +6,11 @@
 # own CI triggers.
 #
 # Job graph:
-#   build-and-deploy          →  calls ghbuild.yml (full IG build + GitHub Pages deploy)
-#   commit-pot                →  calls commit-pot.yml (POT extraction + commit/push)
-#                                runs after build-and-deploy regardless of its result,
-#                                skipped on pull-request events so forks don't need
-#                                contents: write.
-#   regenerate-weblate-yaml   →  calls generate_weblate_yaml.yml to keep weblate.yaml
-#                                in sync with dak.json and discovered .pot components.
-#                                Runs after commit-pot so new .pot files are picked up.
+#   build-and-deploy  →  calls ghbuild.yml (full IG build + GitHub Pages deploy)
+#   commit-pot        →  calls commit-pot.yml (POT extraction + commit/push)
+#                        runs after build-and-deploy regardless of its result,
+#                        skipped on pull-request events so forks don't need
+#                        contents: write.
 
 #
 # Downstream repositories should call ghbuild.yml directly via workflow_call;
@@ -89,16 +86,4 @@ jobs:
       # its POT files as the "pot-files" artifact.  Reuse them here instead
       # of running the publisher a second time.
       no-publisher: true
-    secrets: inherit
-
-  regenerate-weblate-yaml:
-    needs: commit-pot
-    # Regenerate weblate.yaml after .pot files are committed so that the
-    # component list and language/plural config stay in sync with dak.json.
-    # Skipped on pull_request events (no contents: write).
-    if: always() && github.event_name != 'pull_request'
-
-    permissions:
-      contents: write
-    uses: ./.github/workflows/generate_weblate_yaml.yml
     secrets: inherit
