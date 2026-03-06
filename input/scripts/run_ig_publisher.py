@@ -223,17 +223,17 @@ def run_ig_publisher(
     return True
 
 
-# Regex patterns for lines that vary only by timestamp/year in .pot files.
+# Regex patterns for lines that vary only by timestamp/year in translation files.
 _POT_CREATION_DATE_RE = re.compile(r'^"POT-Creation-Date:.*\\n"\s*$')
 _POT_COPYRIGHT_RE = re.compile(r"^# Copyright \(C\) \d{4} ")
 
 
-def _normalize_pot_content(content: str) -> str:
-    """Strip timestamp-varying lines from ``.pot`` content for comparison.
+def _normalize_translation_content(content: str) -> str:
+    """Strip timestamp-varying lines from translation file content for comparison.
 
     Removes ``POT-Creation-Date`` header values and ``# Copyright (C) YYYY``
-    comment lines so that two ``.pot`` files can be compared ignoring
-    metadata that changes on every regeneration.
+    comment lines so that two ``.pot`` / ``.po`` files can be compared
+    ignoring metadata that changes on every regeneration.
     """
     lines = content.splitlines(True)
     return "".join(
@@ -294,7 +294,7 @@ def _copy_translation_file(src_path: str, dest_dir: str) -> None:
                 old_content = fh.read()
             with open(src_path, "r", encoding="utf-8") as fh:
                 new_content = fh.read()
-            if _normalize_pot_content(old_content) == _normalize_pot_content(new_content):
+            if _normalize_translation_content(old_content) == _normalize_translation_content(new_content):
                 logger.info(
                     f"Skipped {dest_path}: only timestamp changed"
                 )
