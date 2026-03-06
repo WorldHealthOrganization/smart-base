@@ -417,7 +417,8 @@ jobs:
             apt-get install -y --no-install-recommends python3 python3-pip python3-venv && \
             ln -sf /usr/bin/python3 /usr/bin/python && \
             pip3 install --break-system-packages "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml && \
-            npm install -g fsh-sushi'
+            npm install -g fsh-sushi && \
+            sushi --version'
 
           # Run publisher as the default user
           docker exec -w /work ig-run sh -c "$CMD"

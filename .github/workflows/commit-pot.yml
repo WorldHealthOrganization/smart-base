@@ -113,6 +113,10 @@ jobs:
         if: inputs.no-publisher != true
         run: npm install -g fsh-sushi
 
+      - name: Verify SUSHI installation
+        if: inputs.no-publisher != true
+        run: sushi --version
+
       - name: Download latest IG Publisher jar
         if: inputs.no-publisher != true
         run: |
