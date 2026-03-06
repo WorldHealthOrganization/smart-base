@@ -8,7 +8,7 @@ translations directories.
 
 Component → directory mapping (aligned with weblate.yaml):
 
-  fhir-resources      → input/fsh/translations/
+  fhir-resources      → input/translations/
   plantuml-diagrams   → input/images-source/translations/
   svg-images          → input/images/translations/
   archimate-models    → input/archimate/translations/
@@ -59,7 +59,7 @@ except ImportError:  # pragma: no cover
 # translation output directories.  Changing these requires matching updates
 # to weblate.yaml and any downstream injection scripts.
 COMPONENT_MAP: Dict[str, str] = {
-    "fhir-resources":    "input/fsh/translations",
+    "fhir-resources":    "input/translations",
     "plantuml-diagrams": "input/images-source/translations",
     "svg-images":        "input/images/translations",
     "archimate-models":  "input/archimate/translations",

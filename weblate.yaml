@@ -5,7 +5,7 @@
 #
 # Components are aligned with the WHO L3 Authoring SOP and the FHIR IG
 # Publisher directory layout:
-#   - FHIR-Resources   : FHIR FSH resource strings  (input/fsh/translations/)
+#   - FHIR-Resources   : FHIR resource strings       (input/translations/)
 #   - PlantUML-Diagrams: Sequence / component diagrams (input/images-source/translations/)
 #   - SVG-Images       : Custom SVG diagrams          (input/images/translations/)
 #   - ArchiMate-Models : ArchiMate architecture models (input/archimate/translations/)
@@ -31,8 +31,8 @@ project:
 
 components:
 
-  # ── FHIR Resources (FSH) ────────────────────────────────────────────────
-  # Translatable FHIR resource labels extracted from FSH source files.
+  # ── FHIR Resources ───────────────────────────────────────────────────────
+  # Translatable FHIR resource labels produced by the IG Publisher.
   # Narrative pages are handled natively by the IG Publisher via directory
   # mirroring (input/pages/<lang>/) and are NOT managed here.
   - name: FHIR-Resources
@@ -40,9 +40,9 @@ components:
     repo: https://github.com/WorldHealthOrganization/smart-base
     push: https://github.com/WorldHealthOrganization/smart-base
     branch: main
-    filemask: input/fsh/translations/*.po
-    template: input/fsh/translations/base.pot
-    new_base: input/fsh/translations/base.pot
+    filemask: input/translations/*.po
+    template: input/translations/base.pot
+    new_base: input/translations/base.pot
     file_format: po
     vcs: git
     # Weblate screenshot / context: published IG root

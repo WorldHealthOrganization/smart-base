@@ -8,4 +8,4 @@ RuleSet: ElementMap(source, target, equivalence)
 
 RuleSet: ElementMapComment(source, target, equivalence, comment)
 * insert ElementMap({source}, {target}, {equivalence})
-* element[=].target[=].comment = "{comment}"
+* element[=].target[=].comment = {comment}

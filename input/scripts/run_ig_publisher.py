@@ -54,6 +54,7 @@ import json
 import logging
 import os
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -61,6 +62,45 @@ from pathlib import Path
 from typing import List, Optional
 
 logger = logging.getLogger(__name__)
+
+# ---------------------------------------------------------------------------
+# SUSHI availability check
+# ---------------------------------------------------------------------------
+
+
+def check_sushi_available() -> bool:
+    """Check whether the ``sushi`` executable is available on PATH.
+
+    The FHIR IG Publisher requires ``sushi`` (fsh-sushi) to compile
+    ``.fsh`` files before processing FHIR resources.  When sushi is absent
+    the publisher crashes with an unhelpful Java ``IOException`` deep in its
+    output.  This pre-flight check catches the problem early and prints a
+    clear, actionable error message.
+
+    Returns:
+        ``True`` if ``sushi`` is found and executable; ``False`` otherwise.
+    """
+    try:
+        result = subprocess.run(
+            ["sushi", "--version"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        version = result.stdout.strip() or result.stderr.strip()
+        logger.info(f"Found sushi: {version}")
+        return True
+    except FileNotFoundError:
+        logger.error(
+            "'sushi' executable not found on PATH. "
+            "The FHIR IG Publisher requires fsh-sushi to compile FSH files. "
+            "Install it with: npm install -g fsh-sushi"
+        )
+        return False
+    except Exception as exc:  # pragma: no cover
+        logger.warning(f"Could not verify sushi availability: {exc}")
+        return False
+
 
 # ---------------------------------------------------------------------------
 # Publisher jar discovery
@@ -183,16 +223,47 @@ def run_ig_publisher(
     return True
 
 
+def collect_publisher_pot_files(ig_root: str) -> None:
+    """Copy ``.pot`` files from the IG Publisher ``output/`` directory.
+
+    The FHIR IG Publisher produces translation ``.pot`` files in
+    ``output/`` during a build.  Since ``output/`` is listed in
+    ``.gitignore``, these files cannot be committed directly.  This
+    function copies any ``.pot`` files found in ``output/`` to
+    ``input/translations/``, overwriting existing files, so they can
+    be staged and committed.
+
+    Args:
+        ig_root: Repository root directory.
+    """
+    output_dir = os.path.join(ig_root, "output")
+    if not os.path.isdir(output_dir):
+        return
+
+    dest_dir = os.path.join(ig_root, "input", "translations")
+    os.makedirs(dest_dir, exist_ok=True)
+
+    for pot_file in glob_module.glob(os.path.join(output_dir, "**", "*.pot"), recursive=True):
+        dest_name = os.path.basename(pot_file)
+        dest_path = os.path.join(dest_dir, dest_name)
+        if os.path.exists(dest_path):
+            logger.info(f"Overwriting existing {dest_path} with {pot_file}")
+        try:
+            shutil.copy2(pot_file, dest_path)
+            logger.info(f"Copied IG Publisher .pot: {pot_file} -> {dest_path}")
+        except Exception as exc:
+            logger.warning(f"Failed to copy {pot_file} to {dest_path}: {exc}")
+
+
 # ---------------------------------------------------------------------------
 # .pot file discovery
 # ---------------------------------------------------------------------------
 
 #: Repository-relative directories that may contain .pot translation files
-#: produced by ``extract_translations.py``.
-#: Note: the IG Publisher ``output/`` directory is excluded here because it is
-#: listed in ``.gitignore`` and its contents cannot be committed to the source
-#: branch.
+#: produced by ``extract_translations.py`` or collected from the IG Publisher
+#: ``output/`` directory by ``collect_publisher_pot_files()``.
 _POT_SEARCH_DIRS: List[str] = [
+    "input/translations",
     "input/fsh/translations",
     "input/images-source/translations",
     "input/images/translations",
@@ -665,7 +736,14 @@ def run_publisher_and_commit_pot(
     _run_extract_translations(ig_root)
 
     if run_publisher:
-        # 1. Locate publisher jar
+        # 1. Pre-flight: verify sushi is available before invoking the publisher.
+        # The IG Publisher requires sushi to compile FSH files; when sushi is
+        # missing it crashes with a confusing Java IOException.  Catching it here
+        # first gives a clear, actionable error message.
+        if not check_sushi_available():
+            return False
+
+        # 2. Locate publisher jar
         jar_path = find_publisher_jar(ig_root, publisher_jar)
         if not jar_path:
             logger.error(
@@ -674,7 +752,7 @@ def run_publisher_and_commit_pot(
             )
             return False
 
-        # 2. Run IG Publisher — abort on failure to avoid partial commits.
+        # 3. Run IG Publisher — abort on failure to avoid partial commits.
         # When generation_off=True (the default) pass -generation-off to suppress
         # HTML page generation and -validation-off to skip resource validation;
         # neither is needed for translation-template extraction and both
@@ -693,6 +771,11 @@ def run_publisher_and_commit_pot(
                 "Aborting .pot file commit to avoid committing incomplete templates."
             )
             return False
+
+        # 4. Collect .pot files from IG Publisher output/ directory.
+        # The IG Publisher writes .pot files into output/ which is gitignored.
+        # Copy them to input/translations/ so they can be committed.
+        collect_publisher_pot_files(ig_root)
 
     if skip_commit:
         logger.info("--skip-commit specified; skipping .pot detection and commit.")

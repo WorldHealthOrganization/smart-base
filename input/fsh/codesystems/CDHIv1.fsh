@@ -17,7 +17,7 @@ Description:  "CodeSystem for Classification of Digital Health Interventions v1.
 * #1.3.1 "Peer group for clients"
 * #1.4 "Personal health tracking"
 * #1.4.1 "Access by client to own medical records"
-* #1.4.2 "Self monitoring of health or diagnostic data by client 1.4.3 Active data capture/ documentation by client"
+* #1.4.2 "Self monitoring of health or diagnostic data by client"
 * #1.4.3 "Active data capture/ documentation by client"
 * #1.5 "Citizen‐based reporting"
 * #1.5.1 "Reporting of health system feedback by clients"
