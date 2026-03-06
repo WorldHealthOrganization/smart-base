@@ -436,6 +436,23 @@ jobs:
           name: qa-json-artifact
           path: ./output/qa.json  # Adjust the path based on where qa.json is located
 
+      # The IG Publisher writes .pot translation templates into the output/
+      # directory.  Since output/ is listed in .gitignore (and is not scanned
+      # by the artifact upload below), copy any .pot files it produced into
+      # the input/translations/ tree so they are committed to main,
+      # overwriting any existing files.
+      - name: Collect IG Publisher .pot files from output
+        if: success()
+        run: |
+          mkdir -p input/translations
+          found=0
+          for pot in $(find output/ -name '*.pot' 2>/dev/null); do
+            echo "Found IG Publisher .pot: $pot"
+            cp "$pot" input/translations/
+            found=$((found + 1))
+          done
+          echo "Collected $found .pot file(s) from IG Publisher output"
+
       # Upload translation template (.pot) files produced by the IG Publisher
       # so that downstream jobs (e.g. commit-pot) can reuse them without
       # re-running the publisher.
@@ -445,6 +462,7 @@ jobs:
         with:
           name: pot-files
           path: |
+            input/translations/**/*.pot
             input/fsh/translations/**/*.pot
             input/images-source/translations/**/*.pot
             input/images/translations/**/*.pot
