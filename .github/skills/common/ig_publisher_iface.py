@@ -37,7 +37,8 @@ def run_ig_publisher(
 
     # Prefer the repo's own runner script if present
     runner_script = ig_root_path / "input" / "scripts" / "run_ig_publisher.py"
-    if runner_script.is_file():
+    use_python_runner = runner_script.is_file()
+    if use_python_runner:
         cmd = [sys.executable, str(runner_script)]
     else:
         jar = os.environ.get(
@@ -47,7 +48,9 @@ def run_ig_publisher(
         cmd = ["java", "-jar", jar, "-ig", str(ig_root_path)]
 
     if tx_server:
-        cmd.extend(["-tx", tx_server])
+        # run_ig_publisher.py uses argparse (--tx); the Java JAR uses -tx
+        tx_flag = "--tx" if use_python_runner else "-tx"
+        cmd.extend([tx_flag, tx_server])
     if extra_args:
         cmd.extend(extra_args)
 
