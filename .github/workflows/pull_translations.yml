@@ -44,10 +44,6 @@ on:
         description: 'Language code to pull (blank = all)'
         required: false
         default: ''
-      weblate_url:
-        description: 'Weblate base URL (override)'
-        required: false
-        default: 'https://hosted.weblate.org'
 
   # ── Nightly scheduled pull ─────────────────────────────────────────────
   schedule:
