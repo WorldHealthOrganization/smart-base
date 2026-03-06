@@ -1,0 +1,52 @@
+ValueSet: CDHIv2.2
+Title: "Digital Health Interventions for Healthcare Providers"
+Description: "Digital Health Interventions whose primary user group is Healthcare Providers. Group 2 of the Classification of Digital Interventions, Services and Applications in Health v2 (CDISAH, 2023)."
+* ^status = #active
+* ^experimental = true
+* CDHIv2#2
+* CDHIv2#2.1
+* CDHIv2#2.1.1
+* CDHIv2#2.1.2
+* CDHIv2#2.2
+* CDHIv2#2.2.1
+* CDHIv2#2.2.2
+* CDHIv2#2.2.3
+* CDHIv2#2.2.4
+* CDHIv2#2.3
+* CDHIv2#2.3.1
+* CDHIv2#2.3.2
+* CDHIv2#2.3.3
+* CDHIv2#2.4
+* CDHIv2#2.4.1
+* CDHIv2#2.4.2
+* CDHIv2#2.4.3
+* CDHIv2#2.4.4
+* CDHIv2#2.5
+* CDHIv2#2.5.1
+* CDHIv2#2.5.2
+* CDHIv2#2.5.3
+* CDHIv2#2.5.4
+* CDHIv2#2.5.5
+* CDHIv2#2.5.6
+* CDHIv2#2.6
+* CDHIv2#2.6.1
+* CDHIv2#2.6.2
+* CDHIv2#2.6.3
+* CDHIv2#2.7
+* CDHIv2#2.7.1
+* CDHIv2#2.7.2
+* CDHIv2#2.8
+* CDHIv2#2.8.1
+* CDHIv2#2.8.2
+* CDHIv2#2.9
+* CDHIv2#2.9.1
+* CDHIv2#2.9.2
+* CDHIv2#2.9.3
+* CDHIv2#2.10
+* CDHIv2#2.10.1
+* CDHIv2#2.10.2
+* CDHIv2#2.10.3
+* CDHIv2#2.10.4
+* CDHIv2#2.11
+* CDHIv2#2.11.1
+* CDHIv2#2.11.2
