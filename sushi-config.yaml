@@ -67,6 +67,15 @@ menu:
 
 
 
+parameters:
+  # Enable FHIR resource translation extraction.  The IG Publisher will
+  # produce .po/.xliff/.json translation files in the translations/
+  # directory when these parameters are present.  The collect step in
+  # ghbuild.yml and collect_publisher_pot_files() in run_ig_publisher.py
+  # copy them to input/translations/ for Weblate integration.
+  i18n-default-lang: en
+  i18n-lang: en
+
 meta:
   profile:
     - http://smart.who.int/base/StructureDefinition/SGImplementationGuide

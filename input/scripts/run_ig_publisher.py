@@ -244,12 +244,20 @@ def _normalize_pot_content(content: str) -> str:
 
 
 def collect_publisher_pot_files(ig_root: str) -> None:
-    """Copy ``.pot`` files from the IG Publisher ``output/`` directory.
+    """Copy translation files from IG Publisher build directories.
 
-    The FHIR IG Publisher produces translation ``.pot`` files in
-    ``output/`` during a build.  Since ``output/`` is listed in
+    The FHIR IG Publisher produces two kinds of translation output:
+
+    1. ``.pot`` template files written to ``output/`` (the main build
+       output directory).
+    2. ``.po`` / ``.xliff`` / ``.json`` resource-level translation
+       files written to ``translations/`` at the repository root when
+       the ``i18n-default-lang`` / ``i18n-lang`` parameters are set in
+       ``sushi-config.yaml``.
+
+    Since both ``output/`` and ``translations/`` are listed in
     ``.gitignore``, these files cannot be committed directly.  This
-    function copies any ``.pot`` files found in ``output/`` to
+    function copies any translation files it finds to
     ``input/translations/``, overwriting existing files, so they can
     be staged and committed.
 
@@ -259,36 +267,46 @@ def collect_publisher_pot_files(ig_root: str) -> None:
     Args:
         ig_root: Repository root directory.
     """
-    output_dir = os.path.join(ig_root, "output")
-    if not os.path.isdir(output_dir):
-        return
-
     dest_dir = os.path.join(ig_root, "input", "translations")
     os.makedirs(dest_dir, exist_ok=True)
 
-    for pot_file in glob_module.glob(os.path.join(output_dir, "**", "*.pot"), recursive=True):
-        dest_name = os.path.basename(pot_file)
-        dest_path = os.path.join(dest_dir, dest_name)
-        # Skip overwriting when only timestamp metadata changed.
-        if os.path.isfile(dest_path):
-            try:
-                with open(dest_path, "r", encoding="utf-8") as fh:
-                    old_content = fh.read()
-                with open(pot_file, "r", encoding="utf-8") as fh:
-                    new_content = fh.read()
-                if _normalize_pot_content(old_content) == _normalize_pot_content(new_content):
-                    logger.info(
-                        f"Skipped {dest_path}: only timestamp changed"
-                    )
-                    continue
-            except OSError:
-                pass  # fall through to copy
-            logger.info(f"Overwriting existing {dest_path} with {pot_file}")
+    # --- 1. .pot files from output/ ---
+    output_dir = os.path.join(ig_root, "output")
+    if os.path.isdir(output_dir):
+        for pot_file in glob_module.glob(os.path.join(output_dir, "**", "*.pot"), recursive=True):
+            _copy_translation_file(pot_file, dest_dir)
+
+    # --- 2. .po files from translations/po/ (IG Publisher i18n output) ---
+    translations_dir = os.path.join(ig_root, "translations")
+    if os.path.isdir(translations_dir):
+        for po_file in glob_module.glob(os.path.join(translations_dir, "**", "*.po"), recursive=True):
+            _copy_translation_file(po_file, dest_dir)
+
+
+def _copy_translation_file(src_path: str, dest_dir: str) -> None:
+    """Copy a single translation file to *dest_dir*, skipping timestamp-only changes."""
+    dest_name = os.path.basename(src_path)
+    dest_path = os.path.join(dest_dir, dest_name)
+    # Skip overwriting when only timestamp metadata changed.
+    if os.path.isfile(dest_path):
         try:
-            shutil.copy2(pot_file, dest_path)
-            logger.info(f"Copied IG Publisher .pot: {pot_file} -> {dest_path}")
-        except Exception as exc:
-            logger.warning(f"Failed to copy {pot_file} to {dest_path}: {exc}")
+            with open(dest_path, "r", encoding="utf-8") as fh:
+                old_content = fh.read()
+            with open(src_path, "r", encoding="utf-8") as fh:
+                new_content = fh.read()
+            if _normalize_pot_content(old_content) == _normalize_pot_content(new_content):
+                logger.info(
+                    f"Skipped {dest_path}: only timestamp changed"
+                )
+                return
+        except OSError:
+            pass  # fall through to copy
+        logger.info(f"Overwriting existing {dest_path} with {src_path}")
+    try:
+        shutil.copy2(src_path, dest_path)
+        logger.info(f"Copied IG Publisher translation: {src_path} -> {dest_path}")
+    except Exception as exc:
+        logger.warning(f"Failed to copy {src_path} to {dest_path}: {exc}")
 
 
 # ---------------------------------------------------------------------------
