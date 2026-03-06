@@ -12,7 +12,7 @@
 # translation-template extraction only.
 #
 # Weblate component → .pot file mapping (aligned with weblate.yaml):
-#   fhir-resources      → input/fsh/translations/base.pot        (IG Publisher)
+#   fhir-resources      → input/translations/base.pot              (IG Publisher)
 #   plantuml-diagrams   → input/images-source/translations/diagrams.pot
 #   svg-images          → input/images/translations/images.pot
 #   archimate-models    → input/archimate/translations/models.pot
@@ -40,9 +40,13 @@ on:
   #     - 'input/archimate/**'
   #     - 'input/diagrams/**'
 
+# Extraction runs are fully independent of deploy (ci.yml) runs — different
+# branches can extract and deploy simultaneously.  Within a single branch, a
+# new extraction cancels any in-flight extraction so that only the latest
+# source is processed.
 concurrency:
-  group: extract-translations
-  cancel-in-progress: false
+  group: extraction-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   commit-pot:
