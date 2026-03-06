@@ -151,7 +151,7 @@ def apply_labels(issue_number: int, labels: list) -> None:
 
 def main() -> None:
     from common.prompts import load_prompt
-    from common.smart_llm_facade import SmartLLMFacade
+    from common.llm_utils import dak_completion
 
     issue_number = int(os.environ["ISSUE_NUMBER"])
     title = os.environ.get("ISSUE_TITLE", "")
@@ -164,11 +164,11 @@ def main() -> None:
             "dak_authoring", "classify_issue",
             issue_title=title, issue_body=body[:4000],
         )
-        llm = SmartLLMFacade(
+        result = dak_completion(
+            prompt, structured_output=True,
             api_key=api_key,
             model=os.environ.get("DAK_LLM_MODEL", "gpt-4o-mini"),
         )
-        result = llm.call(prompt, structured_output=True)
         labels = result.get("labels", [])
         print(f"LLM classification: {result.get('reasoning')}")
     else:

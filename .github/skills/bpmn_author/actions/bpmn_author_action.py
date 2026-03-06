@@ -31,14 +31,12 @@ def main() -> None:
         print("⚠️  DAK_LLM_API_KEY not set — LLM step skipped (structural validation still runs)")
         sys.exit(0)
 
-    from common.smart_llm_facade import SmartLLMFacade
+    from common.llm_utils import dak_completion
     from common.prompts import load_prompt
 
     issue_title = os.environ.get("ISSUE_TITLE", "")
     issue_body = os.environ.get("ISSUE_BODY", "")
     model = os.environ.get("DAK_LLM_MODEL", "gpt-4o")
-
-    llm = SmartLLMFacade(api_key=api_key, model=model)
 
     prompt = load_prompt(
         "bpmn_author", "create_or_edit_bpmn",
@@ -47,7 +45,7 @@ def main() -> None:
     )
 
     print(f"🤖 Requesting BPMN from {model}...")
-    bpmn_xml = llm.call(prompt)
+    bpmn_xml = dak_completion(prompt, api_key=api_key, model=model)
 
     # Validate the generated BPMN
     issues = validate_bpmn_xml(bpmn_xml, filename="generated.bpmn")

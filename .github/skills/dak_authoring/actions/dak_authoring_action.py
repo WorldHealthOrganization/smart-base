@@ -25,14 +25,12 @@ def main() -> None:
         print("⚠️  DAK_LLM_API_KEY not set — LLM step skipped (structural validation still runs)")
         sys.exit(0)
 
-    from common.smart_llm_facade import SmartLLMFacade
+    from common.llm_utils import dak_completion
     from common.prompts import load_prompt
 
     issue_title = os.environ.get("ISSUE_TITLE", "")
     issue_body = os.environ.get("ISSUE_BODY", "")
     model = os.environ.get("DAK_LLM_MODEL", "gpt-4o")
-
-    llm = SmartLLMFacade(api_key=api_key, model=model)
 
     prompt = load_prompt(
         "dak_authoring", "l2_authoring",
@@ -41,7 +39,7 @@ def main() -> None:
     )
 
     print(f"🤖 Planning L2 content changes with {model}...")
-    result = llm.call(prompt, structured_output=True)
+    result = dak_completion(prompt, structured_output=True, api_key=api_key, model=model)
 
     print(f"Summary: {result.get('summary', 'N/A')}")
     for change in result.get("changes", []):

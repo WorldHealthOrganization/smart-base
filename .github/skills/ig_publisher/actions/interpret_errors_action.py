@@ -23,11 +23,10 @@ def main() -> None:
         print("⚠️  DAK_LLM_API_KEY not set — LLM step skipped (structural validation still runs)")
         sys.exit(0)
 
-    from common.smart_llm_facade import SmartLLMFacade
+    from common.llm_utils import dak_completion
     from common.prompts import load_prompt
 
     model = os.environ.get("DAK_LLM_MODEL", "gpt-4o-mini")
-    llm = SmartLLMFacade(api_key=api_key, model=model)
 
     # Read build output from previous step (passed via file or env)
     build_output = os.environ.get("BUILD_OUTPUT", "No build output available.")
@@ -39,7 +38,7 @@ def main() -> None:
     )
 
     print(f"🤖 Interpreting errors with {model}...")
-    result = llm.call(prompt, structured_output=True)
+    result = dak_completion(prompt, structured_output=True, api_key=api_key, model=model)
 
     print(f"Summary: {result.get('summary', 'N/A')}")
     for finding in result.get("findings", []):

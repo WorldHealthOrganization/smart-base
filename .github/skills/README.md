@@ -88,7 +88,7 @@ Skills run automatically via GitHub Actions workflows:
 ├── cli/
 │   └── dak_skill.py        # CLI entry point
 ├── common/
-│   ├── smart_llm_facade.py # LLM interface (attributed from bpmn-assistant)
+│   ├── llm_utils.py       # LLM helpers — thin wrappers around LiteLLM
 │   ├── prompts.py          # load_prompt() — .md templates with {variable}
 │   ├── ig_errors.py        # FATAL/ERROR/WARNING/INFORMATION format
 │   ├── fsh_utils.py        # FSH file utilities
@@ -103,7 +103,10 @@ Skills run automatically via GitHub Actions workflows:
 └── translation/            # (placeholder v0.3)
 ```
 
-## LLM Attribution
+## LLM Provider
 
-The `SmartLLMFacade` in `common/smart_llm_facade.py` is copy-lifted with attribution
-from [jtlicardo/bpmn-assistant](https://github.com/jtlicardo/bpmn-assistant) (MIT License).
+LLM features use [LiteLLM](https://github.com/BerriAI/litellm) (MIT License) —
+a well-maintained multi-provider library (OpenAI, Anthropic, Google, etc.)
+with 20k+ GitHub stars. The `common/llm_utils.py` module adds only DAK-specific
+environment variable bridging and JSON-extraction helpers on top of LiteLLM;
+there is no custom LLM facade to maintain.
