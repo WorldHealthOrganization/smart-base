@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 """
 register_translation_project.py — Idempotently create or verify the translation
-project and all dynamically discovered components for one IG repo on every
-enabled translation service.
+project and all dynamically discovered components for the current IG repo on
+every enabled translation service.
 
 Usage:
-    python register_translation_project.py --repo-name smart-hiv [--repo-root /path]
+    python register_translation_project.py [--service all|weblate|launchpad|crowdin]
+
+    Repo name and org are derived from the GITHUB_REPOSITORY environment variable
+    (format ``org/repo-name``).  When GITHUB_REPOSITORY is not set (local dev),
+    the ``id`` field from dak.json is used as a fallback.
 
 Environment variables:
+    GITHUB_REPOSITORY      Set automatically in GitHub Actions (org/repo-name)
     WEBLATE_API_TOKEN      Weblate API token (if Weblate enabled)
     CROWDIN_API_TOKEN      Crowdin API token (if Crowdin enabled)
     LAUNCHPAD_API_TOKEN    Launchpad API token (if Launchpad enabled)
@@ -15,11 +20,13 @@ Environment variables:
 Exit codes:
     0  Registration completed (or dak.json not found — warning + skip)
     1  Registration error
+    2  Invalid --service value
 
 Author: WHO SMART Guidelines Team
 """
 
 import argparse
+import json
 import logging
 import os
 import sys
@@ -204,13 +211,55 @@ def _register_weblate_component(
 # Main registration logic
 # ---------------------------------------------------------------------------
 
+_VALID_SERVICES = {"all", "weblate", "launchpad", "crowdin"}
+
+
+def _derive_repo_info(repo_root: Path) -> tuple[str, str]:
+    """
+    Return ``(org, repo_name)`` derived from the GITHUB_REPOSITORY env var.
+
+    Falls back to the ``id`` field of dak.json when GITHUB_REPOSITORY is not
+    set (e.g. during local development).  The dak.json ``id`` is expected to
+    carry the repo name only (not ``org/name``); the org defaults to
+    ``worldhealthorganization`` in that case.
+    """
+    github_repository = os.environ.get("GITHUB_REPOSITORY", "")
+    if github_repository:
+        parts = github_repository.split("/", 1)
+        if len(parts) == 2:
+            return parts[0], parts[1]
+
+    # Fallback: read repo name from dak.json id field
+    dak_json = repo_root / "dak.json"
+    if dak_json.is_file():
+        try:
+            data = json.loads(dak_json.read_text(encoding="utf-8"))
+            repo_name = data.get("id", "")
+            if repo_name:
+                logger.warning(
+                    "GITHUB_REPOSITORY not set — using dak.json id '%s' as repo name",
+                    repo_name,
+                )
+                return "worldhealthorganization", repo_name
+        except (OSError, json.JSONDecodeError) as exc:
+            logger.warning("Could not read dak.json id: %s", exc)
+
+    raise RuntimeError(
+        "Cannot determine repo name: GITHUB_REPOSITORY is not set and dak.json id is missing. "
+        "Set the GITHUB_REPOSITORY environment variable or ensure dak.json contains a valid id field."
+    )
+
+
 def register_project(
-    repo_name: str,
     repo_root: Path,
-    github_org: str = "worldhealthorganization",
+    service_filter: str = "all",
 ) -> int:
     """
-    Register one IG repo with all enabled translation services.
+    Register the current IG repo with enabled translation services.
+
+    ``service_filter`` is ``all`` or one of ``weblate``/``launchpad``/``crowdin``.
+    When a specific service is given, only that service is registered (provided
+    it is also enabled in dak.json).
 
     Returns 0 on success, 1 on error.
     """
@@ -220,6 +269,20 @@ def register_project(
     except DakConfigError:
         logger.warning("dak.json not found or invalid at %s — skipping", repo_root)
         return 0  # REG-002: missing dak.json → warning + exit 0
+
+    # Derive repo identity
+    try:
+        github_org, repo_name = _derive_repo_info(repo_root)
+    except RuntimeError as exc:
+        logger.error("%s", exc)
+        return 1
+
+    try:
+        github_org = sanitize_slug(github_org, "org")
+        repo_name = sanitize_slug(repo_name, "repo-name")
+    except ValueError as exc:
+        logger.error("%s", exc)
+        return 1
 
     # Discover components
     components = discover_components(repo_root)
@@ -233,6 +296,15 @@ def register_project(
     if not enabled_services:
         logger.info("No translation services enabled")
         return 0
+
+    # Apply service filter
+    if service_filter != "all":
+        enabled_services = {
+            k: v for k, v in enabled_services.items() if k == service_filter
+        }
+        if not enabled_services:
+            logger.info("Service '%s' is not enabled in dak.json — nothing to do", service_filter)
+            return 0
 
     errors = False
 
@@ -301,24 +373,23 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     parser = argparse.ArgumentParser(
         prog="register_translation_project.py",
-        description="Register one IG repo with all enabled translation services",
+        description="Register the current IG repo with enabled translation services",
     )
     parser.add_argument(
-        "--repo-name", required=True,
-        help="GitHub repository name (e.g. smart-hiv)",
-    )
-    parser.add_argument(
-        "--repo-root", default=".",
-        help="Path to repository root (default: current directory)",
-    )
-    parser.add_argument(
-        "--org", default="worldhealthorganization",
-        help="GitHub organization (default: worldhealthorganization)",
+        "--service",
+        default="all",
+        help="Translation service to register with: all, weblate, launchpad, crowdin (default: all)",
     )
     args = parser.parse_args(argv)
 
-    repo_root = Path(args.repo_root).resolve()
-    repo_name = sanitize_slug(args.repo_name, "repo-name")
+    if args.service not in _VALID_SERVICES:
+        logger.error(
+            "Invalid --service value '%s'. Must be one of: %s",
+            args.service, ", ".join(sorted(_VALID_SERVICES)),
+        )
+        return 2
+
+    repo_root = Path(".").resolve()
 
     # Security: verify tokens are from secrets, not workflow inputs
     for token_env in ("WEBLATE_API_TOKEN", "CROWDIN_API_TOKEN", "LAUNCHPAD_API_TOKEN"):
@@ -328,7 +399,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             logger.error("%s", exc)
             return 1
 
-    return register_project(repo_name, repo_root, github_org=args.org)
+    return register_project(repo_root, service_filter=args.service)
 
 
 if __name__ == "__main__":

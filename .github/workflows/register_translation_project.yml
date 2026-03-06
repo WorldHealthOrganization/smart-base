@@ -1,9 +1,8 @@
-# Register a single DAK IG or all DAK IGs in the org with all enabled
-# translation services (Weblate, Launchpad, Crowdin).
+# Register the current DAK IG with all enabled translation services
+# (Weblate, Launchpad, Crowdin).
 #
-# All registration logic lives in:
-#   input/scripts/register_translation_project.py (single)
-#   input/scripts/register_all_dak_projects.py    (bulk)
+# Registration logic lives in:
+#   input/scripts/register_translation_project.py
 #
 # Required repository secrets:
 #   WEBLATE_API_TOKEN    — Weblate API token with project-admin access
@@ -17,23 +16,16 @@ name: Register Translation Project
 on:
   workflow_dispatch:
     inputs:
-      mode:
-        description: 'Registration mode'
-        required: true
-        default: 'single'
+      service:
+        description: 'Translation service to register with'
+        required: false
+        default: 'all'
         type: choice
         options:
-          - single
           - all
-      repo_name:
-        description: 'Target repo name (mode=single only)'
-        required: false
-        default: ''
-      dry_run:
-        description: 'List repos without registering (mode=all only)'
-        required: false
-        type: boolean
-        default: false
+          - weblate
+          - launchpad
+          - crowdin
 
   repository_dispatch:
     types: [dak-ig-registered]
@@ -44,7 +36,7 @@ concurrency:
 
 jobs:
   register:
-    name: Register translation project(s)
+    name: Register translation project
     runs-on: ubuntu-latest
 
     permissions:
@@ -64,37 +56,11 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r input/scripts/requirements.txt
 
-      - name: Register single project
-        if: >-
-          (github.event_name == 'workflow_dispatch' && inputs.mode == 'single') ||
-          github.event_name == 'repository_dispatch'
+      - name: Register translation project
         env:
           WEBLATE_API_TOKEN: ${{ secrets.WEBLATE_API_TOKEN }}
           CROWDIN_API_TOKEN: ${{ secrets.CROWDIN_API_TOKEN }}
           LAUNCHPAD_API_TOKEN: ${{ secrets.LAUNCHPAD_API_TOKEN }}
-          INPUT_REPO_NAME: ${{ inputs.repo_name || github.event.client_payload.repo_name || '' }}
+          INPUT_SERVICE: ${{ inputs.service || 'all' }}
         run: |
-          # Validate repo_name contains only safe characters (guards against
-          # malicious repository_dispatch payloads)
-          if ! echo "$INPUT_REPO_NAME" | grep -qE '^[A-Za-z0-9_-]+$'; then
-            echo "::error::Invalid repo_name: contains disallowed characters"
-            exit 1
-          fi
-          python input/scripts/register_translation_project.py \
-            --repo-name "${INPUT_REPO_NAME}" \
-            --repo-root "."
-
-      - name: Register all DAK projects
-        if: github.event_name == 'workflow_dispatch' && inputs.mode == 'all'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WEBLATE_API_TOKEN: ${{ secrets.WEBLATE_API_TOKEN }}
-          CROWDIN_API_TOKEN: ${{ secrets.CROWDIN_API_TOKEN }}
-          LAUNCHPAD_API_TOKEN: ${{ secrets.LAUNCHPAD_API_TOKEN }}
-          INPUT_DRY_RUN: ${{ inputs.dry_run }}
-        run: |
-          DRY_RUN_FLAG=""
-          if [ "$INPUT_DRY_RUN" = "true" ]; then
-            DRY_RUN_FLAG="--dry-run"
-          fi
-          python input/scripts/register_all_dak_projects.py $DRY_RUN_FLAG
+          python input/scripts/register_translation_project.py --service "$INPUT_SERVICE"
