@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 """
-translation_config.py — Single authoritative module for reading dak.json,
+translation_config.py — Single authoritative module for reading translation
+configuration from sushi-config.yaml (primary) or dak.json (fallback),
 discovering translation components, and providing configuration to all other
 translation scripts.
+
+Translation configuration (languages, plural forms, services) is defined in
+sushi-config.yaml under a top-level ``translations`` key.  For backward
+compatibility, the module also checks dak.json#translations as a fallback.
 
 This module eliminates all hardcoded language and component lists. Every script
 that needs language codes or component paths MUST import from this module.
@@ -24,6 +29,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
+try:
+    import yaml  # PyYAML — available in all CI environments
+except ImportError:  # pragma: no cover
+    yaml = None  # type: ignore[assignment]
+
 logger = logging.getLogger(__name__)
 
 # Default GitHub organization for project slug derivation.
@@ -36,7 +46,7 @@ DEFAULT_GITHUB_ORG = "worldhealthorganization"
 
 @dataclass
 class LanguageEntry:
-    """One target language from dak.json#translations.languages."""
+    """One target language from sushi-config.yaml#translations.languages."""
     code: str
     name: str
     direction: str  # "ltr" or "rtl"
@@ -53,7 +63,7 @@ class ServiceConfig:
 
 @dataclass
 class TranslationsConfig:
-    """Parsed translations block from dak.json."""
+    """Parsed translations block from sushi-config.yaml (or dak.json fallback)."""
     source_language: str = "en"
     languages: List[LanguageEntry] = field(default_factory=list)
     services: Dict[str, ServiceConfig] = field(default_factory=dict)
@@ -96,10 +106,15 @@ class DakConfigError(Exception):
 
 def load_dak_config(repo_root: Path) -> DakConfig:
     """
-    Load and validate dak.json from the given repo root.
+    Load DAK identity from dak.json and translation config from
+    sushi-config.yaml (with dak.json as fallback).
+
+    Translation configuration is read from *sushi-config.yaml#translations*
+    first.  If that key is absent, *dak.json#translations* is tried for
+    backward compatibility.
 
     Raises:
-        DakConfigError: if the file is missing, unparseable, or lacks
+        DakConfigError: if dak.json is missing, unparseable, or lacks
                         required fields.
     """
     dak_path = repo_root / "dak.json"
@@ -129,16 +144,55 @@ def load_dak_config(repo_root: Path) -> DakConfig:
         raw=raw,
     )
 
-    # Parse translations block if present
-    tr_raw = raw.get("translations")
+    # ── Translation config: sushi-config.yaml first, dak.json fallback ──
+    tr_raw = _load_translations_from_sushi(repo_root)
+    if tr_raw is None:
+        # Fallback to dak.json#translations for backward compatibility
+        tr_raw = raw.get("translations")
+        if tr_raw and isinstance(tr_raw, dict):
+            logger.debug("Loaded translations from dak.json (fallback)")
+    else:
+        logger.debug("Loaded translations from sushi-config.yaml")
+
     if tr_raw and isinstance(tr_raw, dict):
         config.translations = _parse_translations(tr_raw)
 
     return config
 
 
+def _load_translations_from_sushi(repo_root: Path) -> Optional[Dict[str, Any]]:
+    """Read the ``translations`` block from sushi-config.yaml, if present.
+
+    Returns the raw dict or *None* when:
+    - sushi-config.yaml does not exist
+    - PyYAML is not installed
+    - the file has no ``translations`` key
+    """
+    sushi_path = repo_root / "sushi-config.yaml"
+    if not sushi_path.is_file():
+        return None
+
+    if yaml is None:
+        logger.debug("PyYAML not available — skipping sushi-config.yaml")
+        return None
+
+    try:
+        sushi_raw = yaml.safe_load(sushi_path.read_text(encoding="utf-8"))
+    except Exception as exc:  # noqa: BLE001
+        logger.debug("Cannot parse sushi-config.yaml: %s", exc)
+        return None
+
+    if not isinstance(sushi_raw, dict):
+        return None
+
+    tr = sushi_raw.get("translations")
+    if tr and isinstance(tr, dict):
+        return tr
+    return None
+
+
 def _parse_translations(tr_raw: Dict[str, Any]) -> TranslationsConfig:
-    """Parse the translations block from dak.json."""
+    """Parse a translations block (from sushi-config.yaml or dak.json)."""
     tc = TranslationsConfig()
     tc.source_language = tr_raw.get("sourceLanguage", "en")
 
@@ -180,7 +234,7 @@ def _parse_translations(tr_raw: Dict[str, Any]) -> TranslationsConfig:
 # ---------------------------------------------------------------------------
 
 def get_languages(config: DakConfig) -> List[LanguageEntry]:
-    """Return target language list from dak.json#translations.languages."""
+    """Return target language list from translations config."""
     if config.translations is None:
         return []
     return list(config.translations.languages)
@@ -348,7 +402,7 @@ def main() -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
     parser = argparse.ArgumentParser(
-        description="Show translation configuration from dak.json")
+        description="Show translation configuration from sushi-config.yaml / dak.json")
     parser.add_argument("--repo-root", default=".", help="Repository root")
     args = parser.parse_args()
 
@@ -371,7 +425,7 @@ def main() -> int:
             status = "enabled" if svc.enabled else "disabled"
             print(f"  {name}: {status}" + (f" ({svc.url})" if svc.url else ""))
     else:
-        print("No translations block in dak.json")
+        print("No translations block found in sushi-config.yaml or dak.json")
 
     print("\nDiscovered components:")
     components = discover_components(repo_root)

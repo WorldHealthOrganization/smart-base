@@ -226,7 +226,7 @@ def pull_translations(
     )
     project_id = (cr_config.extra.get("projectId", "") if cr_config else "") or ""
     if not project_id:
-        logger.error("Crowdin projectId not configured in dak.json")
+        logger.error("Crowdin projectId not configured in translation config")
         return 1
 
     session = requests.Session()

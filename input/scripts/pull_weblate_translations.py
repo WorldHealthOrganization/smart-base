@@ -59,31 +59,32 @@ from translation_config import (
 
 
 def _load_component_map(output_root: Path) -> Dict[str, str]:
-    """Load component map from dak.json dynamic discovery.
+    """Load component map from dynamic discovery.
 
-    Raises SystemExit if dak.json is missing or yields no components.
+    Raises SystemExit if configuration is missing or yields no components.
     """
     cmap = get_component_map(output_root)
     if not cmap:
         sys.exit(
             "ERROR: No translation components discovered.\n"
-            "  Ensure dak.json exists at the repo root with a 'translations' block,\n"
+            "  Ensure sushi-config.yaml (or dak.json) contains a 'translations' block,\n"
             "  and that at least one .pot file is present in a translations/ directory."
         )
     return cmap
 
 
 def _load_languages(output_root: Path) -> Tuple[str, ...]:
-    """Load language codes from dak.json.
+    """Load language codes from sushi-config.yaml (or dak.json fallback).
 
-    Raises SystemExit if dak.json is missing or has no languages.
+    Raises SystemExit if configuration is missing or has no languages.
     """
     config = load_dak_config(output_root)
     codes = get_language_codes(config)
     if not codes:
         sys.exit(
-            "ERROR: No target languages found in dak.json.\n"
-            "  Ensure dak.json contains translations.languages with at least one entry."
+            "ERROR: No target languages found.\n"
+            "  Ensure sushi-config.yaml contains a translations.languages block\n"
+            "  with at least one entry."
         )
     return tuple(codes)
 

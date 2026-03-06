@@ -231,7 +231,7 @@ def register_project(
 
     enabled_services = get_enabled_services(config)
     if not enabled_services:
-        logger.info("No translation services enabled in dak.json")
+        logger.info("No translation services enabled")
         return 0
 
     errors = False
