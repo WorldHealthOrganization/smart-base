@@ -14,10 +14,6 @@ on:
 
   workflow_call:
 
-concurrency:
-  group: translation-report-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   report:
     name: Generate translation status report
