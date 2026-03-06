@@ -26,7 +26,7 @@ def main() -> None:
         sys.exit(0)
 
     from common.llm_utils import dak_completion
-    from common.prompts import load_prompt
+    from common.prompt_loader import load_prompt
 
     issue_title = os.environ.get("ISSUE_TITLE", "")
     issue_body = os.environ.get("ISSUE_BODY", "")

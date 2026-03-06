@@ -32,16 +32,25 @@ def main() -> None:
         sys.exit(0)
 
     from common.llm_utils import dak_completion
-    from common.prompts import load_prompt
+    from common.prompt_loader import load_prompt
 
     issue_title = os.environ.get("ISSUE_TITLE", "")
     issue_body = os.environ.get("ISSUE_BODY", "")
     model = os.environ.get("DAK_LLM_MODEL", "gpt-4o")
 
+    # Load additional prompt components required by the create_or_edit_bpmn template
+    _prompts_dir = _SKILLS_ROOT / "common" / "prompts"
+    dak_bpmn_constraints = (_prompts_dir / "dak_bpmn_constraints.md").read_text(encoding="utf-8")
+    bpmn_xml_schema = (_prompts_dir / "bpmn_xml_schema.md").read_text(encoding="utf-8")
+    actor_context = (_prompts_dir / "actor_context.md").read_text(encoding="utf-8")
+
     prompt = load_prompt(
         "bpmn_author", "create_or_edit_bpmn",
         user_request=f"{issue_title}\n\n{issue_body}",
         current_bpmn="(none — creating new BPMN)",
+        dak_bpmn_constraints=dak_bpmn_constraints,
+        bpmn_xml_schema=bpmn_xml_schema,
+        actor_context=actor_context,
     )
 
     print(f"🤖 Requesting BPMN from {model}...")

@@ -24,7 +24,7 @@ def main() -> None:
         sys.exit(0)
 
     from common.llm_utils import dak_completion
-    from common.prompts import load_prompt
+    from common.prompt_loader import load_prompt
 
     model = os.environ.get("DAK_LLM_MODEL", "gpt-4o-mini")
 

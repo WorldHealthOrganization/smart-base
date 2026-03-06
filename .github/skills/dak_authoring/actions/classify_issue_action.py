@@ -5,6 +5,7 @@ Both paths use the same label application logic.
 """
 
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -94,11 +95,8 @@ TRANSLATION_KEYWORDS = [
     # Translation issues
     "mistranslation", "mistranslated", "wrong translation",
     "translation error", "translation review", "translation update",
-    "string", "untranslated", "missing translation",
+    "translatable string", "untranslated", "missing translation",
 ]
-
-
-import re
 
 
 def _keyword_in_text(keyword: str, text: str) -> bool:
@@ -150,7 +148,7 @@ def apply_labels(issue_number: int, labels: list) -> None:
 
 
 def main() -> None:
-    from common.prompts import load_prompt
+    from common.prompt_loader import load_prompt
     from common.llm_utils import dak_completion
 
     issue_number = int(os.environ["ISSUE_NUMBER"])

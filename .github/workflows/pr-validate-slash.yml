@@ -12,10 +12,11 @@ on:
 
 jobs:
   dispatch:
-    # Only run on pull-request comments that start with /validate
+    # Only run on pull-request comments that start with /validate from collaborators
     if: >
       github.event.issue.pull_request != null &&
-      startsWith(github.event.comment.body, '/validate')
+      startsWith(github.event.comment.body, '/validate') &&
+      contains(fromJson('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
     runs-on: ubuntu-latest
     permissions:
       issues: write

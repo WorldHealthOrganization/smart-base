@@ -15,6 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Python dependencies
+        run: pip install litellm requests
+
       - name: Run L3 review skill
         env:
           GITHUB_TOKEN:    ${{ secrets.GITHUB_TOKEN }}

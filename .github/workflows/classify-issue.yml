@@ -22,6 +22,10 @@ jobs:
             && echo "enabled=true"  >> $GITHUB_OUTPUT \
             || echo "enabled=false" >> $GITHUB_OUTPUT
 
+      - name: Install Python dependencies
+        if: steps.dak.outputs.enabled == 'true'
+        run: pip install litellm requests
+
       - name: Classify and label
         if: steps.dak.outputs.enabled == 'true'
         env:

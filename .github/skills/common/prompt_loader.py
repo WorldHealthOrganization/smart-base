@@ -6,7 +6,7 @@ Prompts are stored as Markdown files with ``{variable}`` placeholders.
 ``str.format_map``.
 
 Usage:
-    from common.prompts import load_prompt
+    from common.prompt_loader import load_prompt
 
     prompt = load_prompt("bpmn_author", "create_or_edit_bpmn",
                          bpmn_xml="<definitions ...>",

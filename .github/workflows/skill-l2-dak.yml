@@ -16,6 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Python dependencies
+        run: pip install litellm requests
+
       - name: Run L2 DAK authoring skill
         env:
           GITHUB_TOKEN:    ${{ secrets.GITHUB_TOKEN }}

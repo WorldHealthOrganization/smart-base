@@ -5,7 +5,7 @@ All DAK skill validators report findings using these severity levels,
 matching the IG Publisher output format.
 
 Usage:
-    from common.ig_errors import error, warning, info, fatal, format_issues
+    from common.ig_errors import error, warning, info, fatal, format_issuess
 
     issues = []
     issues.append(error("BPMN-001", "Zeebe namespace detected", file="test.bpmn"))

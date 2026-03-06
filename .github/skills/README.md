@@ -92,7 +92,7 @@ Skills run automatically via GitHub Actions workflows:
 │   └── dak_skill.py        # CLI entry point
 ├── common/
 │   ├── llm_utils.py       # LLM helpers — thin wrappers around LiteLLM
-│   ├── prompts.py          # load_prompt() — .md templates with {variable}
+│   ├── prompt_loader.py    # load_prompt() — .md templates with {variable}
 │   ├── ig_errors.py        # FATAL/ERROR/WARNING/INFORMATION format
 │   ├── fsh_utils.py        # FSH file utilities
 │   ├── ig_publisher_iface.py
