@@ -21,6 +21,7 @@ import argparse
 import ast
 import datetime
 import logging
+import re
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
@@ -85,6 +86,26 @@ def _extract_from_file(py_path: Path) -> List[Tuple[str, int, str]]:
             )
 
     return entries
+
+
+# Regex patterns for lines that vary only by timestamp in .pot files.
+_POT_CREATION_DATE_RE = re.compile(r'^"POT-Creation-Date:.*\\n"\s*$')
+_GENERATED_COMMENT_RE = re.compile(r'^# Generated: ')
+
+
+def _normalize_pot_content(content: str) -> str:
+    """Strip timestamp-varying lines from ``.pot`` content for comparison.
+
+    Removes ``POT-Creation-Date`` header values and ``# Generated:``
+    comment lines so that two ``.pot`` files can be compared ignoring
+    metadata that changes on every regeneration.
+    """
+    lines = content.splitlines(True)
+    return "".join(
+        line for line in lines
+        if not _POT_CREATION_DATE_RE.match(line)
+        and not _GENERATED_COMMENT_RE.match(line)
+    )
 
 
 def _escape_po_string(s: str) -> str:
@@ -163,9 +184,25 @@ def generate_pot(
         lines.append('msgstr ""')
         lines.append('')
 
+    new_content = "\n".join(lines) + "\n"
+
+    # Skip writing when the only differences are timestamp metadata
+    # (POT-Creation-Date / # Generated) to avoid noisy commits.
+    if output_path.is_file():
+        try:
+            old_content = output_path.read_text(encoding="utf-8")
+            if _normalize_pot_content(old_content) == _normalize_pot_content(new_content):
+                logger.info(
+                    "Skipped %s: only timestamp changed (%d msgids unchanged)",
+                    output_path, len(msgid_refs),
+                )
+                return 0
+        except OSError:
+            pass  # fall through to write
+
     # Write output
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    output_path.write_text(new_content, encoding="utf-8")
     logger.info("✓ Written %s (%d entries)", output_path, len(msgid_refs))
 
     return 0
