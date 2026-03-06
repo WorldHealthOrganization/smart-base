@@ -132,6 +132,7 @@ jobs:
 
           # Stage only translation .po files
           git add -- \
+            'input/translations/' \
             'input/fsh/translations/' \
             'input/images-source/translations/' \
             'input/images/translations/' \
