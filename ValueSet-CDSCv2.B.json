@@ -1,0 +1,56 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "CDSCv2.B",
+  "text" : {
+    "status" : "extensions",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet CDSCv2.B</b></p><a name=\"CDSCv2.B\"> </a><a name=\"hcCDSCv2.B\"> </a><ul><li>Include these codes as defined in <a href=\"CodeSystem-CDSCv2.html\"><code>http://smart.who.int/base/CodeSystem/CDSCv2</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version &#x1F4E6;0.2.0</span><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td><a href=\"CodeSystem-CDSCv2.html#CDSCv2-B\">B</a></td><td style=\"color: #cccccc\">Health system/Provider administration</td><td>Systems that support the administrative and managerial functions of health systems and healthcare organisations.</td></tr><tr><td><a href=\"CodeSystem-CDSCv2.html#CDSCv2-B1\">B1</a></td><td style=\"color: #cccccc\">Blood bank information management systems</td><td>Systems for managing the collection, testing, processing, storage, and distribution of blood and blood products.</td></tr><tr><td><a href=\"CodeSystem-CDSCv2.html#CDSCv2-B2\">B2</a></td><td style=\"color: #cccccc\">Health finance-related information systems</td><td>Systems that manage health financing, insurance enrolment, claims, billing, reimbursement, and budgeting.</td></tr><tr><td><a href=\"CodeSystem-CDSCv2.html#CDSCv2-B3\">B3</a></td><td style=\"color: #cccccc\">Health program monitoring systems</td><td>Systems used to collect and analyse aggregate health data for programme planning, monitoring and evaluation.</td></tr><tr><td><a href=\"CodeSystem-CDSCv2.html#CDSCv2-B4\">B4</a></td><td style=\"color: #cccccc\">Human resource information systems</td><td>Systems for managing health workforce data including cadres, deployment, credentials, performance and payroll.</td></tr><tr><td><a href=\"CodeSystem-CDSCv2.html#CDSCv2-B5\">B5</a></td><td style=\"color: #cccccc\">Learning and training systems</td><td>Systems for delivering, tracking, and assessing training and professional development of health workers.</td></tr><tr><td><a href=\"CodeSystem-CDSCv2.html#CDSCv2-B6\">B6</a></td><td style=\"color: #cccccc\">Logistics management information systems (LMIS)</td><td>Systems for managing the health supply chain from forecasting to distribution and stock monitoring.</td></tr><tr><td><a href=\"CodeSystem-CDSCv2.html#CDSCv2-B7\">B7</a></td><td style=\"color: #cccccc\">Patient Administration systems</td><td>Systems that manage patient administrative information including admissions, discharges, transfers, appointments and billing.</td></tr><tr><td><a href=\"CodeSystem-CDSCv2.html#CDSCv2-B8\">B8</a></td><td style=\"color: #cccccc\">Research information systems</td><td>Systems that support the design, conduct, data management and reporting of health research and clinical trials.</td></tr></table></li></ul></div>"
+  },
+  "url" : "http://smart.who.int/base/ValueSet/CDSCv2.B",
+  "version" : "0.2.0",
+  "name" : "CDSCv2.B",
+  "title" : "Services and Application Types: Health System/Provider Administration",
+  "status" : "active",
+  "experimental" : true,
+  "date" : "2026-03-06T03:20:56+00:00",
+  "publisher" : "WHO",
+  "contact" : [{
+    "name" : "WHO",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://who.int"
+    }]
+  }],
+  "description" : "Systems that support the administrative and managerial functions of health systems and healthcare organisations. Group B of the Classification of Digital Health Services and Application Types v2 (CDISAH, 2023).",
+  "compose" : {
+    "include" : [{
+      "system" : "http://smart.who.int/base/CodeSystem/CDSCv2",
+      "concept" : [{
+        "code" : "B"
+      },
+      {
+        "code" : "B1"
+      },
+      {
+        "code" : "B2"
+      },
+      {
+        "code" : "B3"
+      },
+      {
+        "code" : "B4"
+      },
+      {
+        "code" : "B5"
+      },
+      {
+        "code" : "B6"
+      },
+      {
+        "code" : "B7"
+      },
+      {
+        "code" : "B8"
+      }]
+    }]
+  }
+}
