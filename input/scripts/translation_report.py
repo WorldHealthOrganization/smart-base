@@ -18,11 +18,9 @@ Author: WHO SMART Guidelines Team
 
 import argparse
 import logging
-import re
 import sys
-from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
