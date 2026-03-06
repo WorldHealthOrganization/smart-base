@@ -13,10 +13,6 @@ on:
 
   workflow_call:
 
-concurrency:
-  group: generate-weblate-yaml-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   generate:
     name: Generate weblate.yaml
