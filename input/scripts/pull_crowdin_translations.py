@@ -46,6 +46,57 @@ logger = logging.getLogger(__name__)
 CROWDIN_API_URL = "https://api.crowdin.com/api/v2"
 
 
+def _list_crowdin_files(
+    session: requests.Session,
+    project_id: str,
+) -> Dict[str, int]:
+    """
+    List all files in the Crowdin project and return a mapping of
+    filename (stem, lowercased) → file ID.
+
+    The Crowdin v2 ``/projects/{id}/files`` endpoint is paginated; this
+    helper fetches all pages.
+    """
+    mapping: Dict[str, int] = {}
+    url = f"{CROWDIN_API_URL}/projects/{project_id}/files"
+    offset = 0
+    limit = 250
+
+    while True:
+        params = {"offset": offset, "limit": limit}
+        try:
+            resp = session.get(url, params=params, timeout=DEFAULT_TIMEOUT_SECONDS)
+        except requests.exceptions.RequestException as exc:
+            logger.error("  Crowdin list-files request failed: %s", exc)
+            break
+
+        if resp.status_code != 200:
+            logger.error("  Crowdin list-files HTTP %d: %s",
+                         resp.status_code, resp.text[:500])
+            break
+
+        data = resp.json().get("data", [])
+        if not data:
+            break
+
+        for item in data:
+            file_data = item.get("data", {})
+            file_id = file_data.get("id")
+            file_name = file_data.get("name", "")
+            if file_id and file_name:
+                # Map by stem (without extension) for component matching
+                stem = Path(file_name).stem.lower()
+                mapping[stem] = file_id
+                # Also map by full filename for exact matches
+                mapping[file_name.lower()] = file_id
+
+        if len(data) < limit:
+            break
+        offset += limit
+
+    return mapping
+
+
 def _build_translation_export(
     session: requests.Session,
     project_id: str,
@@ -187,16 +238,37 @@ def pull_translations(
 
     counts: Dict[str, int] = {"downloaded": 0, "not_found": 0, "error": 0}
 
+    # Resolve Crowdin file IDs via the files API so we can request
+    # per-file translation exports.
+    logger.info("Listing Crowdin project files to resolve file IDs…")
+    file_id_map = _list_crowdin_files(session, project_id)
+    if not file_id_map:
+        logger.error("No files found in Crowdin project %s", project_id)
+        return 1
+    logger.info("  Found %d file entries", len(file_id_map))
+
     for comp in components:
         logger.info("Component: %s", comp.slug)
-        # In a full implementation, we would list Crowdin files and match
-        # them to components. For now, use component slug as file identifier.
-        # Crowdin file IDs would need to be resolved via the files API.
+        # Match component to a Crowdin file ID by slug or pot stem
+        file_id = (
+            file_id_map.get(comp.slug)
+            or file_id_map.get(comp.pot_stem.lower())
+            or file_id_map.get(f"{comp.pot_stem}.pot")
+        )
+        if file_id is None:
+            logger.warning(
+                "  No Crowdin file matched for component %s "
+                "(tried slug=%r, stem=%r) — skipping",
+                comp.slug, comp.slug, comp.pot_stem,
+            )
+            counts["not_found"] += len(languages)
+            continue
+
         for lang in languages:
             logger.info("  Language: %s", lang)
             # Build export and get download URL
             download_url = _build_translation_export(
-                session, project_id, 0, lang  # file_id=0 is placeholder
+                session, project_id, file_id, lang,
             )
             if not download_url:
                 counts["error"] += 1
@@ -229,9 +301,18 @@ if __name__ == "__main__":
     parser.add_argument("--language", default="")
     args = parser.parse_args()
 
+    # Derive project slug from GITHUB_REPOSITORY or repo directory name
+    github_repo = os.environ.get("GITHUB_REPOSITORY", "")
+    if github_repo and "/" in github_repo:
+        org, repo_name = github_repo.split("/", 1)
+    else:
+        org, repo_name = "worldhealthorganization", Path(args.repo_root).resolve().name
+    from translation_config import get_project_slug
+    project_slug = get_project_slug(org, repo_name)
+
     sys.exit(pull_translations(
         repo_root=Path(args.repo_root).resolve(),
-        project_slug="",
+        project_slug=project_slug,
         component_filter=args.component or None,
         language_filter=args.language or None,
     ))

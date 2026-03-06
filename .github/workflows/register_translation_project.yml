@@ -29,10 +29,6 @@ on:
         description: 'Target repo name (mode=single only)'
         required: false
         default: ''
-      weblate_url:
-        description: 'Weblate base URL (non-secret)'
-        required: false
-        default: 'https://hosted.weblate.org'
       dry_run:
         description: 'List repos without registering (mode=all only)'
         required: false
@@ -80,7 +76,7 @@ jobs:
         run: |
           # Validate repo_name contains only safe characters (guards against
           # malicious repository_dispatch payloads)
-          if ! echo "$INPUT_REPO_NAME" | grep -qE '^[A-Za-z0-9._-]+$'; then
+          if ! echo "$INPUT_REPO_NAME" | grep -qE '^[A-Za-z0-9_-]+$'; then
             echo "::error::Invalid repo_name: contains disallowed characters"
             exit 1
           fi

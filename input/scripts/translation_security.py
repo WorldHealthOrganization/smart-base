@@ -141,11 +141,11 @@ def assert_no_secret_in_env(env_var: str) -> None:
     """
     Guard against accidentally passing secret values as workflow_dispatch inputs.
 
-    GitHub Actions workflow_dispatch inputs are available as
-    `GITHUB_EVENT_INPUTS_<name>` environment variables (uppercased, with hyphens
-    replaced by underscores). This function checks whether the given env var
-    name matches any event input, which would indicate a misconfigured workflow
-    that passes a secret as a plaintext input.
+    GitHub Actions exposes workflow_dispatch inputs to composite/reusable steps
+    as environment variables with an ``INPUT_`` prefix (uppercased, with hyphens
+    replaced by underscores).  This function checks whether the given env var
+    name matches any ``INPUT_*`` variable, which would indicate a misconfigured
+    workflow that passes a secret as a plaintext input.
 
     Args:
         env_var: The environment variable name that holds a secret.

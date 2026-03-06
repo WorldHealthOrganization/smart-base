@@ -101,9 +101,9 @@ jobs:
           WEBLATE_API_TOKEN:   ${{ secrets.WEBLATE_API_TOKEN }}
           CROWDIN_API_TOKEN:   ${{ secrets.CROWDIN_API_TOKEN }}
           LAUNCHPAD_API_TOKEN: ${{ secrets.LAUNCHPAD_API_TOKEN }}
-          INPUT_SERVICE:       ${{ inputs.service || 'all' }}
-          INPUT_COMPONENT:     ${{ inputs.component || '' }}
-          INPUT_LANGUAGE:      ${{ inputs.language || '' }}
+          INPUT_SERVICE:       ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.service || 'all' }}
+          INPUT_COMPONENT:     ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.component || '' }}
+          INPUT_LANGUAGE:      ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.language || '' }}
         run: |
           python input/scripts/pull_translations.py \
             --service "${INPUT_SERVICE}" \
@@ -116,9 +116,9 @@ jobs:
         if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         env:
           ACTOR: ${{ github.actor }}
-          INPUT_SERVICE: ${{ inputs.service || 'all' }}
-          INPUT_COMPONENT: ${{ inputs.component || '' }}
-          INPUT_LANGUAGE: ${{ inputs.language || '' }}
+          INPUT_SERVICE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.service || 'all' }}
+          INPUT_COMPONENT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.component || '' }}
+          INPUT_LANGUAGE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.language || '' }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name  "github-actions[bot]"

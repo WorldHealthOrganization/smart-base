@@ -17,11 +17,12 @@ Usage standalone (prints discovered config):
 import gettext as gettext_module
 import json
 import logging
+import os
 import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -283,22 +284,37 @@ def get_component_map(repo_root: Path) -> Dict[str, str]:
 # Gettext setup helper for script translation
 # ---------------------------------------------------------------------------
 
-def setup_gettext(script_file: str, domain: str = "scripts") -> gettext_module.GNUTranslations:
+def setup_gettext(
+    script_file: str,
+    domain: str = "scripts",
+    lang: Optional[str] = None,
+) -> "Callable[[str], str]":
     """
     Set up gettext for a script file, looking for .mo files in the
     translations/ sibling directory.
 
-    Returns:
-        A callable translation function (the '_' function).
+    Args:
+        script_file: Path to the calling script (typically ``__file__``).
+        domain: Gettext domain name.
+        lang: Language code to load (e.g. ``"fr"``).  When *None* the
+              ``LANGUAGE`` environment variable is consulted, falling back
+              to ``"en"`` (source strings returned as-is).
 
-    Usage in scripts:
+    Returns:
+        A callable translation function (the ``_`` function).
+
+    Usage in scripts::
+
         from translation_config import setup_gettext
-        _ = setup_gettext(__file__)
+        _ = setup_gettext(__file__)           # default / env
+        _ = setup_gettext(__file__, lang="fr")  # explicit French
     """
     script_dir = Path(script_file).resolve().parent
     locale_dir = script_dir / "translations"
 
-    lang = "en"  # fallback
+    if lang is None:
+        lang = os.environ.get("LANGUAGE", "en")
+
     try:
         translation = gettext_module.translation(
             domain, localedir=str(locale_dir), languages=[lang],

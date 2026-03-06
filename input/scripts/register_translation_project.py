@@ -65,6 +65,7 @@ def _register_weblate_project(
     components: List[TranslationComponent],
     api_token: str,
     weblate_url: str,
+    repo_root: Path = Path("."),
 ) -> bool:
     """
     Idempotently create/verify a Weblate project and its components.
@@ -121,7 +122,7 @@ def _register_weblate_project(
     all_ok = True
     for comp in components:
         ok = _register_weblate_component(
-            session, weblate_url, project_slug, comp
+            session, weblate_url, project_slug, comp, repo_root
         )
         if not ok:
             all_ok = False
@@ -134,6 +135,7 @@ def _register_weblate_component(
     weblate_url: str,
     project_slug: str,
     comp: TranslationComponent,
+    repo_root: Path,
 ) -> bool:
     """Idempotently register one Weblate component."""
     comp_url = f"{weblate_url}/api/components/{project_slug}/{comp.slug}/"
@@ -151,12 +153,24 @@ def _register_weblate_component(
     if resp.status_code == 404:
         logger.info("  Creating component: %s", comp.slug)
         create_url = f"{weblate_url}/api/projects/{project_slug}/components/"
+
+        # Weblate expects repo-relative paths, not absolute filesystem paths.
+        try:
+            rel_translations_dir = comp.translations_dir.relative_to(repo_root)
+        except ValueError:
+            rel_translations_dir = comp.translations_dir
+        try:
+            rel_pot_path = comp.pot_path.relative_to(repo_root)
+        except ValueError:
+            rel_pot_path = comp.pot_path
+
         payload = {
             "name": comp.slug,
             "slug": comp.slug,
             "file_format": "po",
-            "filemask": f"{comp.translations_dir}/*.po",
-            "new_base": str(comp.pot_path),
+            "filemask": f"{rel_translations_dir}/*.po",
+            "new_base": str(rel_pot_path),
+            "template": str(rel_pot_path),
             "vcs": "github",
         }
         try:
@@ -239,6 +253,7 @@ def register_project(
                 )
                 ok = _register_weblate_project(
                     project_slug, config, components, api_token, weblate_url,
+                    repo_root=repo_root,
                 )
                 if not ok:
                     errors = True
