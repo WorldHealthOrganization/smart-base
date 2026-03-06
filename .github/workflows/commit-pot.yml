@@ -185,26 +185,3 @@ jobs:
             --ig-root "$IG_ROOT" \
             $PUSH_FLAG \
             $NO_PUB_FLAG
-
-      # ── Extract translatable strings from Python scripts ────────────────
-      # Produces input/scripts/translations/scripts.pot alongside other .pot
-      # files so that script-sourced strings are translatable too.
-      - name: Extract Python script strings (.pot)
-        env:
-          IG_ROOT: ${{ inputs['ig-root'] || '.' }}
-        run: |
-          python3 input/scripts/extract_script_strings.py \
-            --scripts-dir "${IG_ROOT}/input/scripts" \
-            --output "${IG_ROOT}/input/scripts/translations/scripts.pot"
-
-      - name: Commit script .pot file
-        if: inputs.push == true || inputs.push == 'true'
-        env:
-          BRANCH_NAME: ${{ github.ref_name }}
-        run: |
-          git add -- 'input/scripts/translations/scripts.pot' 2>/dev/null || true
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: update scripts.pot translation template"
-            git pull --rebase origin "${BRANCH_NAME}" || true
-            git push origin "HEAD:${BRANCH_NAME}"
-          fi

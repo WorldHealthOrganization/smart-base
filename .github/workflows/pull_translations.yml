@@ -1,53 +1,62 @@
-# Pull translations from all enabled translation services (Weblate, Launchpad,
-# Crowdin) as configured in dak.json.
+# Retrieve SMART Guidelines translations from Weblate API
 #
-# Uses the multi-service orchestrator pull_translations.py which delegates to
-# per-service adapter scripts. Creates feature branches (translations/{service})
-# and opens PRs automatically when new translations arrive.
+# Pulls the latest approved .po files via the Weblate REST API and commits
+# them to the repository.  The repository is always the "puller" and stays
+# in full control of when translated strings land in the codebase.
 #
-# All download / orchestration logic lives in:
-#   input/scripts/pull_translations.py          — multi-service orchestrator
-#   input/scripts/pull_weblate_translations.py  — Weblate adapter
-#   input/scripts/pull_launchpad_translations.py — Launchpad adapter
-#   input/scripts/pull_crowdin_translations.py   — Crowdin adapter
+# All download / validation logic lives in:
+#   input/scripts/pull_weblate_translations.py
 #
-# Required repository secrets:
-#   WEBLATE_API_TOKEN    — Weblate API token with at least read access
-#   CROWDIN_API_TOKEN    — Crowdin API token (if Crowdin enabled)
-#   LAUNCHPAD_API_TOKEN  — Launchpad API token (if Launchpad enabled)
-#
-# ⚠️ No token inputs. All tokens are secrets only.
+# Required repository secret:
+#   WEBLATE_API_TOKEN  — Weblate API token with at least read access.
+#     Create:  https://hosted.weblate.org/accounts/profile/#api
+#     Add:     Settings → Secrets and variables → Actions → New secret
 #
 # Weblate API docs: https://docs.weblate.org/en/latest/api.html
 
-name: Pull Translations
+name: Pull Translations from Weblate
 
 on:
   # ── Manual trigger from the GitHub Actions UI ──────────────────────────
   workflow_dispatch:
     inputs:
-      service:
-        description: 'Translation service to pull from'
+      weblate_url:
+        description: 'Weblate base URL'
         required: false
-        default: 'all'
-        type: choice
-        options:
-          - all
-          - weblate
-          - launchpad
-          - crowdin
+        default: 'https://hosted.weblate.org'
+      project_slug:
+        description: 'Weblate project slug'
+        required: false
+        default: 'worldhealthorganization-smart-base'
       component:
         description: 'Component to pull (blank = all)'
         required: false
         default: ''
+        type: choice
+        options:
+          - ''
+          - fhir-resources
+          - plantuml-diagrams
+          - svg-images
+          - archimate-models
+          - uml-diagrams
       language:
-        description: 'Language code to pull (blank = all)'
+        description: 'Language code to pull (blank = all 6 UN languages)'
         required: false
         default: ''
+        type: choice
+        options:
+          - ''
+          - ar
+          - zh
+          - fr
+          - ru
+          - es
 
-  # ── Nightly scheduled pull ─────────────────────────────────────────────
-  schedule:
-    - cron: '0 2 * * *'   # 02:00 UTC every day
+  # ── Optional scheduled nightly pull ────────────────────────────────────
+  # Uncomment to enable automatic nightly pulls:
+  # schedule:
+  #   - cron: '0 2 * * *'   # 02:00 UTC every day
 
 concurrency:
   group: pull-translations
@@ -55,12 +64,11 @@ concurrency:
 
 jobs:
   pull-translations:
-    name: Pull .po files from translation services
+    name: Pull .po files from Weblate API
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write
-      pull-requests: write
+      contents: write   # required to commit .po files back to the branch
 
     steps:
       - name: Checkout repository
@@ -95,81 +103,52 @@ jobs:
       # ── All download logic is in the Python script ──────────────────────
       # User inputs are passed via environment variables, NEVER interpolated
       # directly into shell commands, to prevent script-injection attacks.
-      - name: Download .po files from translation services
+      - name: Download .po files from Weblate
         if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         env:
-          WEBLATE_API_TOKEN:   ${{ secrets.WEBLATE_API_TOKEN }}
-          CROWDIN_API_TOKEN:   ${{ secrets.CROWDIN_API_TOKEN }}
-          LAUNCHPAD_API_TOKEN: ${{ secrets.LAUNCHPAD_API_TOKEN }}
-          INPUT_SERVICE:       ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.service || 'all' }}
-          INPUT_COMPONENT:     ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.component || '' }}
-          INPUT_LANGUAGE:      ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.language || '' }}
+          WEBLATE_API_TOKEN:  ${{ secrets.WEBLATE_API_TOKEN }}
+          INPUT_WEBLATE_URL:  ${{ inputs.weblate_url }}
+          INPUT_PROJECT:      ${{ inputs.project_slug }}
+          INPUT_COMPONENT:    ${{ inputs.component }}
+          INPUT_LANGUAGE:     ${{ inputs.language }}
         run: |
-          python input/scripts/pull_translations.py \
-            --service "${INPUT_SERVICE}" \
-            --component "${INPUT_COMPONENT}" \
-            --language "${INPUT_LANGUAGE}" \
-            --repo-root "."
+          python input/scripts/pull_weblate_translations.py \
+            --weblate-url "${INPUT_WEBLATE_URL:-https://hosted.weblate.org}" \
+            --project     "${INPUT_PROJECT:-worldhealthorganization-smart-base}" \
+            --component   "${INPUT_COMPONENT:-}" \
+            --language    "${INPUT_LANGUAGE:-}" \
+            --output-root "."
 
-      # ── Commit any updated .po files to a feature branch ────────────────
+      # ── Commit any updated .po files back to the branch ─────────────────
       - name: Commit updated translations
         if: steps.dak_check.outputs.DAK_ENABLED == 'true'
         env:
           ACTOR: ${{ github.actor }}
-          INPUT_SERVICE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.service || 'all' }}
-          INPUT_COMPONENT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.component || '' }}
-          INPUT_LANGUAGE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.language || '' }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_COMPONENT: ${{ inputs.component }}
+          INPUT_LANGUAGE:  ${{ inputs.language }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Stage all translation .po files
-          git add -- '**/translations/*.po' 2>/dev/null || true
+          # Stage only translation .po files
+          git add -- \
+            'input/translations/' \
+            'input/fsh/translations/' \
+            'input/images-source/translations/' \
+            'input/images/translations/' \
+            'input/archimate/translations/' \
+            'input/diagrams/translations/' \
+            2>/dev/null || true
 
           if git diff --cached --quiet; then
             echo "No translation changes to commit."
-            exit 0
-          fi
-
-          # Validate and determine feature branch name based on service
-          SERVICE="${INPUT_SERVICE:-all}"
-          # Ensure SERVICE only contains safe characters (alphanumeric + hyphens)
-          if ! echo "$SERVICE" | grep -qE '^[a-z0-9-]+$'; then
-            echo "ERROR: Invalid service name: ${SERVICE}"
-            exit 1
-          fi
-          BRANCH="translations/${SERVICE}"
-
-          # Create or switch to the feature branch
-          git fetch origin "${BRANCH}" 2>/dev/null || true
-          if git rev-parse --verify "origin/${BRANCH}" >/dev/null 2>&1; then
-            git checkout -B "${BRANCH}" "origin/${BRANCH}"
-            # Re-stage after branch switch
-            git add -- '**/translations/*.po' 2>/dev/null || true
           else
-            git checkout -b "${BRANCH}"
-          fi
-
-          TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
-          MSG="chore: update translations from ${SERVICE} [${TIMESTAMP}]"$'\n\n'
-          MSG+="Pulled via translation API by GitHub Actions."$'\n'
-          MSG+="Triggered by: ${ACTOR}"$'\n'
-          MSG+="Service: ${INPUT_SERVICE:-all}"$'\n'
-          MSG+="Component filter: ${INPUT_COMPONENT:-all}"$'\n'
-          MSG+="Language filter:  ${INPUT_LANGUAGE:-all}"
-          git commit -m "$MSG"
-          git push origin "${BRANCH}"
-
-          # Create PR if none exists for this branch
-          EXISTING_PR=$(gh pr list --head "${BRANCH}" --base main --state open --json number --jq '.[0].number // empty' 2>/dev/null || true)
-          if [ -z "$EXISTING_PR" ]; then
-            gh pr create \
-              --title "chore: update ${SERVICE} translations" \
-              --body "Auto-generated PR with updated translations from ${SERVICE}." \
-              --head "${BRANCH}" \
-              --base main \
-              || echo "::warning::PR creation failed — check permissions and network connectivity"
-          else
-            echo "PR #${EXISTING_PR} already exists for ${BRANCH}"
+            TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
+            MSG="chore: update translations from Weblate [${TIMESTAMP}]"$'\n\n'
+            MSG+="Pulled via Weblate API by GitHub Actions."$'\n'
+            MSG+="Triggered by: ${ACTOR}"$'\n'
+            MSG+="Component filter: ${INPUT_COMPONENT:-all}"$'\n'
+            MSG+="Language filter:  ${INPUT_LANGUAGE:-all}"
+            git commit -m "$MSG"
+            git push
           fi

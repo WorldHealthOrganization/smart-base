@@ -2,6 +2,8 @@ name: PR Slash-Command Deploy
 
 # Lets any collaborator post /deploy in a PR comment to manually trigger
 # the FHIR IG build + GitHub Pages deployment for that PR's branch.
+# The /deploy command is recognized when it appears at the start of the comment
+# or at the start of any line within the comment (e.g. after "@copilot ...").
 
 on:
   issue_comment:
@@ -9,10 +11,11 @@ on:
 
 jobs:
   dispatch:
-    # Only run on pull-request comments that start with /deploy
+    # Run on pull-request comments that contain /deploy at the start of any line
     if: >
       github.event.issue.pull_request != null &&
-      startsWith(github.event.comment.body, '/deploy')
+      (startsWith(github.event.comment.body, '/deploy') ||
+       contains(github.event.comment.body, '\n/deploy'))
     runs-on: ubuntu-latest
     permissions:
       issues: write          # to post reactions and reply comments on the PR
