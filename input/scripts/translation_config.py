@@ -30,7 +30,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
 try:
-    import yaml  # PyYAML — available in all CI environments
+    import yaml  # PyYAML — expected in CI; optional for local dev
 except ImportError:  # pragma: no cover
     yaml = None  # type: ignore[assignment]
 
@@ -178,8 +178,8 @@ def _load_translations_from_sushi(repo_root: Path) -> Optional[Dict[str, Any]]:
 
     try:
         sushi_raw = yaml.safe_load(sushi_path.read_text(encoding="utf-8"))
-    except Exception as exc:  # noqa: BLE001
-        logger.debug("Cannot parse sushi-config.yaml: %s", exc)
+    except (yaml.YAMLError, OSError) as exc:
+        logger.warning("Cannot parse sushi-config.yaml: %s", exc)
         return None
 
     if not isinstance(sushi_raw, dict):
