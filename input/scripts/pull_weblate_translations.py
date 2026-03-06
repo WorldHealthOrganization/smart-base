@@ -59,14 +59,33 @@ from translation_config import (
 
 
 def _load_component_map(output_root: Path) -> Dict[str, str]:
-    """Load component map from dak.json dynamic discovery."""
-    return get_component_map(output_root)
+    """Load component map from dak.json dynamic discovery.
+
+    Raises SystemExit if dak.json is missing or yields no components.
+    """
+    cmap = get_component_map(output_root)
+    if not cmap:
+        sys.exit(
+            "ERROR: No translation components discovered.\n"
+            "  Ensure dak.json exists at the repo root with a 'translations' block,\n"
+            "  and that at least one .pot file is present in a translations/ directory."
+        )
+    return cmap
 
 
 def _load_languages(output_root: Path) -> Tuple[str, ...]:
-    """Load language codes from dak.json."""
+    """Load language codes from dak.json.
+
+    Raises SystemExit if dak.json is missing or has no languages.
+    """
     config = load_dak_config(output_root)
-    return tuple(get_language_codes(config))
+    codes = get_language_codes(config)
+    if not codes:
+        sys.exit(
+            "ERROR: No target languages found in dak.json.\n"
+            "  Ensure dak.json contains translations.languages with at least one entry."
+        )
+    return tuple(codes)
 
 # Weblate API path template for downloading a single translation file.
 # Reference: https://docs.weblate.org/en/latest/api.html#get--api-translations-(string-project)-(string-component)-(string-language)-file-
