@@ -2,10 +2,10 @@
 """
 pull_translations.py — Multi-service translation pull orchestrator.
 
-For each enabled service in dak.json, calls the appropriate service adapter
-script, collects updated .po files, and writes them to the repo. This is the
-single entry point called by the pull_translations.yml workflow; it never
-contains service-specific logic.
+For each enabled service in sushi-config.yaml (or dak.json fallback), calls
+the appropriate service adapter script, collects updated .po files, and writes
+them to the repo. This is the single entry point called by the
+pull_translations.yml workflow; it never contains service-specific logic.
 
 Usage:
     python pull_translations.py [--service weblate|launchpad|crowdin|all]
@@ -139,12 +139,12 @@ def pull_all(
     try:
         config = load_dak_config(repo_root)
     except DakConfigError:
-        logger.warning("dak.json not found or invalid — skipping translation pull")
+        logger.warning("Configuration error — skipping translation pull")
         return 0
 
     enabled = get_enabled_services(config)
     if not enabled:
-        logger.info("No translation services enabled in dak.json")
+        logger.info("No translation services enabled")
         return 0
 
     # Derive project slug from GITHUB_REPOSITORY or fallback
@@ -165,7 +165,7 @@ def pull_all(
 
     if not services_to_pull:
         if service_filter != "all":
-            logger.warning("Service %r not enabled in dak.json", service_filter)
+            logger.warning("Service %r not enabled in translation config", service_filter)
         return 0
 
     for svc_name, svc_config in services_to_pull.items():

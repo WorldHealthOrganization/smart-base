@@ -1,7 +1,8 @@
-# Generate weblate.yaml from dak.json and discovered .pot components.
+# Generate weblate.yaml from sushi-config.yaml and discovered .pot components.
 #
-# Reads dak.json (languages, services) and scans for .pot files to produce
-# a complete weblate.yaml, eliminating manual maintenance.
+# Reads sushi-config.yaml#translations (languages, plural forms, services) and
+# scans for .pot files to produce a complete weblate.yaml, eliminating manual
+# maintenance.
 #
 # All generation logic lives in:
 #   input/scripts/generate_weblate_yaml.py
@@ -50,6 +51,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to weblate.yaml."
           else
-            git commit -m "chore: regenerate weblate.yaml from dak.json"
+            git commit -m "chore: regenerate weblate.yaml from sushi-config.yaml"
             git push
           fi
