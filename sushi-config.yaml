@@ -67,6 +67,63 @@ menu:
 
 
 
+parameters:
+  # Enable FHIR resource translation extraction.  The IG Publisher will
+  # produce .po/.xliff/.json translation files in the translations/
+  # directory when these parameters are present.  The collect step in
+  # ghbuild.yml and collect_publisher_pot_files() in run_ig_publisher.py
+  # copy them to input/translations/ for Weblate integration.
+  #
+  # i18n-lang MUST list target languages that differ from i18n-default-lang;
+  # the IG Publisher skips extraction when the target equals the default.
+  i18n-default-lang: en
+  i18n-lang:
+    - fr
+    - ar
+    - zh
+    - ru
+    - es
+
+# ── Translation configuration ─────────────────────────────────────────────
+# Single source of truth for target languages, plural forms, and translation
+# service integrations.  Read by input/scripts/translation_config.py and
+# propagated to weblate.yaml, .po files, and CI workflows.
+#
+# NOTE: This block is a WHO SMART custom extension.  SUSHI ignores unknown
+# top-level keys, allowing all IG configuration to live in one file without
+# affecting the build.
+translations:
+  sourceLanguage: en
+  languages:
+    - code: ar
+      name: Arabic
+      direction: rtl
+      plural: "nplurals=6; plural=(n == 0 ? 0 : n == 1 ? 1 : n == 2 ? 2 : n%100 >= 3 && n%100 <= 10 ? 3 : n%100 >= 11 && n%100 <= 99 ? 4 : 5);"
+    - code: zh
+      name: Chinese (Simplified)
+      direction: ltr
+      plural: "nplurals=1; plural=0;"
+    - code: fr
+      name: French
+      direction: ltr
+      plural: "nplurals=2; plural=(n > 1);"
+    - code: ru
+      name: Russian
+      direction: ltr
+      plural: "nplurals=3; plural=(n%10 == 1 && n%100 != 11 ? 0 : n%10 >= 2 && n%10 <= 4 && (n%100 < 10 || n%100 >= 20) ? 1 : 2);"
+    - code: es
+      name: Spanish
+      direction: ltr
+      plural: "nplurals=2; plural=(n != 1);"
+  services:
+    weblate:
+      enabled: true
+      url: https://hosted.weblate.org
+    launchpad:
+      enabled: false
+    crowdin:
+      enabled: false
+
 meta:
   profile:
     - http://smart.who.int/base/StructureDefinition/SGImplementationGuide

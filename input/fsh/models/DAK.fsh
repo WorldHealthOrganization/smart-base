@@ -24,9 +24,6 @@ Description: "Logical Model for representing a complete Digital Adaptation Kit (
   * url 0..1 url "Publisher URL" "URL of the publishing organization"
 
 
-
-
-
 // 9 DAK Components - each component uses a Source type that can be URL, canonical reference, or instance data
 * healthInterventions 0..* HealthInterventionsSource "Health Interventions and Recommendations" "Overview of the health interventions and WHO, regional or national recommendations included within the DAK"
 * personas 0..* GenericPersonaSource "Generic Personas" "Depiction of the human and system actors"
