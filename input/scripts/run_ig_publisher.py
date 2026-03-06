@@ -246,6 +246,8 @@ def collect_publisher_pot_files(ig_root: str) -> None:
     for pot_file in glob_module.glob(os.path.join(output_dir, "**", "*.pot"), recursive=True):
         dest_name = os.path.basename(pot_file)
         dest_path = os.path.join(dest_dir, dest_name)
+        if os.path.exists(dest_path):
+            logger.info(f"Overwriting existing {dest_path} with {pot_file}")
         try:
             shutil.copy2(pot_file, dest_path)
             logger.info(f"Copied IG Publisher .pot: {pot_file} -> {dest_path}")
