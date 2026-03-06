@@ -50,6 +50,7 @@ Author: WHO SMART Guidelines Team
 import argparse
 import datetime
 import glob as glob_module
+import io
 import json
 import logging
 import os
@@ -59,9 +60,13 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Set
 
 logger = logging.getLogger(__name__)
+
+# Regex matching the POT-Creation-Date header line so that timestamps can be
+# stripped before comparing old and new base.pot content.
+_POT_CREATION_DATE_RE = re.compile(r'^"POT-Creation-Date:.*\\n"\s*$')
 
 # ---------------------------------------------------------------------------
 # SUSHI availability check
@@ -237,6 +242,13 @@ def collect_publisher_pot_files(ig_root: str) -> None:
     from ``translations/`` into a single ``base.pot`` template suitable
     for Weblate.
 
+    The merged ``base.pot`` is augmented with ``#. Source:`` and
+    ``#. URL:`` comments so translators have context links to the source
+    file and the published deployment page for each entry.  Source and
+    context information is derived entirely from IG Publisher output
+    (``fsh-generated/resources/`` and ``input/resources/``) without
+    scanning FSH or JSON file contents.
+
     Individual per-resource ``.po`` files are **not** copied into
     ``input/translations/`` — only the merged ``base.pot`` is written
     there.
@@ -246,6 +258,11 @@ def collect_publisher_pot_files(ig_root: str) -> None:
     """
     dest_dir = os.path.join(ig_root, "input", "translations")
     os.makedirs(dest_dir, exist_ok=True)
+
+    # Derive canonical URL and preview URL so that merged base.pot entries
+    # include context links, matching the pattern used by other .pot files.
+    canonical = _read_canonical_from_sushi(ig_root)
+    preview_url = _read_preview_url_from_dak(ig_root)
 
     # 1. Copy .pot files from output/ (original behaviour).
     output_dir = os.path.join(ig_root, "output")
@@ -276,14 +293,26 @@ def collect_publisher_pot_files(ig_root: str) -> None:
             logger.info(f"Found IG Publisher .po: {po_file}")
 
         if po_files:
-            _merge_po_to_base_pot(po_files, dest_dir)
+            _merge_po_to_base_pot(
+                po_files,
+                dest_dir,
+                ig_root=ig_root,
+                canonical=canonical,
+                preview_url=preview_url,
+            )
         else:
             logger.info("No .po files found in %s", translations_dir)
     else:
         logger.info("translations/ directory not found at %s", ig_root)
 
 
-def _merge_po_to_base_pot(po_files: List[str], dest_dir: str) -> None:
+def _merge_po_to_base_pot(
+    po_files: List[str],
+    dest_dir: str,
+    ig_root: Optional[str] = None,
+    canonical: Optional[str] = None,
+    preview_url: Optional[str] = None,
+) -> None:
     """Merge per-resource ``.po`` files into a single ``base.pot``.
 
     The IG Publisher produces one ``.po`` file per FHIR resource per
@@ -295,16 +324,37 @@ def _merge_po_to_base_pot(po_files: List[str], dest_dir: str) -> None:
     When the same ``msgid`` appears in multiple ``.po`` files the
     source references (``#:`` comments) from all occurrences are kept.
 
+    Each entry is augmented with ``#. Source:`` and ``#. URL:`` comments
+    following the same pattern as other ``.pot`` files in this repository:
+    ``#. Source:`` points to the FHIR resource source file (FSH-generated
+    JSON or manually authored JSON, as produced by the IG Publisher build),
+    and ``#. URL:`` points to the published deployment page.  Source paths
+    and context URLs are derived entirely from IG Publisher output without
+    scanning FSH or JSON file contents.
+
+    The file is only written when content has changed beyond the
+    timestamp header (same skip-on-unchanged behaviour as other ``.pot``
+    writers in this repository).
+
     Args:
-        po_files: Absolute paths to ``.po`` files to merge.
-        dest_dir: Directory in which to write ``base.pot``.
+        po_files:    Absolute paths to ``.po`` files to merge.
+        dest_dir:    Directory in which to write ``base.pot``.
+        ig_root:     Repository root, used to locate source files for
+                     ``#. Source:`` comments.  When ``None`` source
+                     comments are omitted.
+        canonical:   IG canonical base URL for ``#. URL:`` context links.
+                     When ``None`` URL comments are omitted.
+        preview_url: Draft/preview deployment URL for a second ``#. URL:``
+                     context link.  Optional.
     """
     # Use only one language's files to avoid duplicates across languages.
     # Pick the first language subdirectory found, or use all if flat layout.
     first_lang_files = _select_first_language_po_files(po_files)
 
-    # Parse entries: dict[msgid] -> list of #: reference lines
-    entries: Dict[str, List[str]] = {}  # msgid -> list of reference strings
+    # Parse entries: dict[msgid] -> {'refs': [...], 'resources': [...]}
+    # 'resources' holds the resource slug (basename without .po extension)
+    # derived from each .po file path so that context URLs can be generated.
+    entries: Dict[str, Dict[str, List[str]]] = {}
     for po_path in first_lang_files:
         _parse_po_entries(po_path, entries)
 
@@ -312,16 +362,69 @@ def _merge_po_to_base_pot(po_files: List[str], dest_dir: str) -> None:
         logger.info("No translatable entries found in IG Publisher .po files.")
         return
 
+    canonical_base = canonical.rstrip("/") if canonical else None
+    preview_base = preview_url.rstrip("/") if preview_url else None
+
+    buf = io.StringIO()
+    buf.write(_pot_header())
+    for msgid in sorted(entries.keys()):
+        entry = entries[msgid]
+        refs: List[str] = entry.get("refs", [])
+        resources: List[str] = entry.get("resources", [])
+
+        # Emit #. Source: and #. URL: comments, one per resource, following
+        # the same pattern as pages.pot / images.pot and other .pot files.
+        seen_sources: Set[str] = set()
+        seen_urls: Set[str] = set()
+        for resource_slug in resources:
+            if ig_root:
+                src_path = _derive_fhir_source_path(ig_root, resource_slug)
+                if src_path and src_path not in seen_sources:
+                    buf.write(f"#. Source: {src_path}\n")
+                    seen_sources.add(src_path)
+            if canonical_base:
+                ctx_url = f"{canonical_base}/{resource_slug}.html"
+                if ctx_url not in seen_urls:
+                    buf.write(f"#. URL: {ctx_url}\n")
+                    seen_urls.add(ctx_url)
+            if preview_base:
+                prev_url = f"{preview_base}/{resource_slug}.html"
+                if prev_url not in seen_urls:
+                    buf.write(f"#. URL: {prev_url}\n")
+                    seen_urls.add(prev_url)
+
+        for ref in refs:
+            buf.write(f"#: {ref}\n")
+        buf.write(f"msgid {_po_escape(msgid)}\n")
+        buf.write('msgstr ""\n\n')
+
+    new_content = buf.getvalue()
     base_pot_path = os.path.join(dest_dir, "base.pot")
+
+    # Skip writing when the only differences are the timestamp header line,
+    # matching the skip-on-unchanged behaviour of other .pot writers.
+    def _strip_timestamps(content: str) -> str:
+        return "".join(
+            line for line in content.splitlines(True)
+            if not _POT_CREATION_DATE_RE.match(line)
+        )
+
+    if os.path.isfile(base_pot_path):
+        try:
+            with open(base_pot_path, "r", encoding="utf-8") as fh:
+                old_content = fh.read()
+            if _strip_timestamps(old_content) == _strip_timestamps(new_content):
+                logger.info(
+                    f"Skipped {base_pot_path}: only timestamp changed "
+                    f"({len(entries)} msgids unchanged)"
+                )
+                return
+        except OSError:
+            pass  # fall through to write
+
     try:
         with open(base_pot_path, "w", encoding="utf-8") as fh:
-            fh.write(_pot_header())
-            for msgid in sorted(entries.keys()):
-                refs = entries[msgid]
-                for ref in refs:
-                    fh.write(f"#: {ref}\n")
-                fh.write(f"msgid {_po_escape(msgid)}\n")
-                fh.write('msgstr ""\n\n')
+            fh.write(new_content)
         logger.info(
             f"Merged {len(entries)} entries from {len(first_lang_files)} "
             f".po file(s) into {base_pot_path}"
@@ -356,14 +459,20 @@ def _select_first_language_po_files(po_files: List[str]) -> List[str]:
     return sorted(by_lang[first_key])
 
 
-def _parse_po_entries(po_path: str, entries: Dict[str, List[str]]) -> None:
+def _parse_po_entries(po_path: str, entries: Dict[str, Dict[str, List[str]]]) -> None:
     """Parse a ``.po`` file and add entries to *entries* dict.
+
+    The resource slug (basename of *po_path* without its ``.po`` extension)
+    is recorded for each entry so that callers can derive context URLs and
+    source file paths from the IG Publisher output.
 
     Args:
         po_path: Path to a ``.po`` file.
-        entries: Dict mapping ``msgid`` strings to lists of ``#:``
-                 reference strings.  Updated in place.
+        entries: Dict mapping ``msgid`` strings to ``{'refs': [...],
+                 'resources': [...]}`` dicts.  Updated in place.
     """
+    resource_slug = os.path.splitext(os.path.basename(po_path))[0]
+
     try:
         with open(po_path, "r", encoding="utf-8") as fh:
             lines = fh.readlines()
@@ -399,14 +508,18 @@ def _parse_po_entries(po_path: str, entries: Dict[str, List[str]]) -> None:
             msgid_text = "".join(current_msgid)
             if msgid_text:  # Skip the empty header msgid.
                 if msgid_text not in entries:
-                    entries[msgid_text] = []
-                # Add source file as reference.
+                    entries[msgid_text] = {"refs": [], "resources": []}
+                entry = entries[msgid_text]
+                # Record the resource slug for context URL derivation.
+                if resource_slug not in entry["resources"]:
+                    entry["resources"].append(resource_slug)
+                # Add source field references.
                 if current_refs:
                     for ref in current_refs:
-                        if ref not in entries[msgid_text]:
-                            entries[msgid_text].append(ref)
-                elif os.path.basename(po_path) not in entries[msgid_text]:
-                    entries[msgid_text].append(os.path.basename(po_path))
+                        if ref not in entry["refs"]:
+                            entry["refs"].append(ref)
+                elif resource_slug not in entry["refs"]:
+                    entry["refs"].append(resource_slug)
             current_refs = []
             current_msgid = []
             continue
@@ -436,6 +549,32 @@ def _po_unescape(quoted: str) -> str:
     if s.startswith('"') and s.endswith('"'):
         s = s[1:-1]
     return s.replace("\\n", "\n").replace('\\"', '"').replace("\\\\", "\\")
+
+
+def _derive_fhir_source_path(ig_root: str, resource_slug: str) -> Optional[str]:
+    """Return the repository-relative source file path for a FHIR resource.
+
+    The path is derived by checking for files produced by the IG Publisher
+    build pipeline, without opening or scanning file contents:
+
+    1. ``fsh-generated/resources/{slug}.json`` — written by SUSHI when the
+       resource was defined in FSH.
+    2. ``input/resources/{slug}.json`` — manually authored JSON resource.
+
+    Args:
+        ig_root:       Repository root directory.
+        resource_slug: Resource basename without extension, e.g.
+                       ``ActorDefinition-WHO.SMART.Base.HealthWorker``.
+
+    Returns:
+        Repository-relative path string, or ``None`` if neither candidate
+        file exists.
+    """
+    for rel_dir in ("fsh-generated/resources", "input/resources"):
+        abs_path = os.path.join(ig_root, rel_dir, f"{resource_slug}.json")
+        if os.path.isfile(abs_path):
+            return f"{rel_dir}/{resource_slug}.json"
+    return None
 
 
 def _pot_header() -> str:
