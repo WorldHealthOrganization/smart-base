@@ -48,12 +48,15 @@ Skills run automatically via GitHub Actions workflows:
      content:L2           #e4e669   "DAK FHIR assets"
      content:L3           #d73a4a   "Implementation adaptations"
      content:translation  #0e8a16   "Translation of any content layer"
+   (Label definitions also stored in .github/skills/labels/*.json for reference.)
 
 2. Add secret (Settings → Secrets and variables → Actions → New repository secret):
      DAK_LLM_API_KEY  =  sk-...
 
 3. Add variable (Settings → Secrets and variables → Variables → New variable):
      DAK_LLM_MODEL  =  gpt-4o    (or gpt-4o-mini to reduce cost)
+   See .env.example for the full list of supported model identifiers,
+   or https://docs.litellm.ai/docs/providers for the master list.
 
 4. Build local Docker image (optional, for local development):
      docker build -t dak-skill .github/skills/
@@ -97,7 +100,12 @@ Skills run automatically via GitHub Actions workflows:
 ├── bpmn_author/            # Author/edit BPMN
 ├── bpmn_import/            # Import BPMN → FSH, validate lanes
 ├── ig_publisher/           # IG Publisher validation and build
-├── dak_authoring/          # Issue classification and L2 authoring
+├── dak_authoring/          # Issue classification and L2 content review/authoring
+│   ├── actions/
+│   │   ├── classify_issue_action.py   # Keyword + LLM issue classifier
+│   │   └── dak_authoring_action.py    # L2 content review skill (→ content:L2 label)
+│   └── prompts/
+├── labels/                 # GitHub label definitions (JSON, for reference)
 ├── l1_review/              # (placeholder v0.2)
 ├── l3_review/              # (placeholder v0.3)
 └── translation/            # (placeholder v0.3)
