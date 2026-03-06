@@ -59,7 +59,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -268,7 +268,7 @@ def collect_publisher_pot_files(ig_root: str) -> None:
     #    or translations/{lang}/po/*.po (multiple target langs).
     translations_dir = os.path.join(ig_root, "translations")
     if os.path.isdir(translations_dir):
-        po_files: list = []
+        po_files: List[str] = []
         for po_file in glob_module.glob(
             os.path.join(translations_dir, "**", "*.po"), recursive=True
         ):
@@ -283,7 +283,7 @@ def collect_publisher_pot_files(ig_root: str) -> None:
         logger.info("translations/ directory not found at %s", ig_root)
 
 
-def _merge_po_to_base_pot(po_files: list, dest_dir: str) -> None:
+def _merge_po_to_base_pot(po_files: List[str], dest_dir: str) -> None:
     """Merge per-resource ``.po`` files into a single ``base.pot``.
 
     The IG Publisher produces one ``.po`` file per FHIR resource per
@@ -304,7 +304,7 @@ def _merge_po_to_base_pot(po_files: list, dest_dir: str) -> None:
     first_lang_files = _select_first_language_po_files(po_files)
 
     # Parse entries: dict[msgid] -> list of #: reference lines
-    entries: dict = {}  # msgid -> list of reference strings
+    entries: Dict[str, List[str]] = {}  # msgid -> list of reference strings
     for po_path in first_lang_files:
         _parse_po_entries(po_path, entries)
 
@@ -330,7 +330,7 @@ def _merge_po_to_base_pot(po_files: list, dest_dir: str) -> None:
         logger.warning(f"Failed to write {base_pot_path}: {exc}")
 
 
-def _select_first_language_po_files(po_files: list) -> list:
+def _select_first_language_po_files(po_files: List[str]) -> List[str]:
     """Select .po files from only the first target language.
 
     When multiple target languages are configured the IG Publisher
@@ -342,7 +342,7 @@ def _select_first_language_po_files(po_files: list) -> list:
     For a flat layout (``translations/po/``) all files are returned.
     """
     # Group by parent directory two levels up (the lang dir).
-    by_lang: dict = {}
+    by_lang: Dict[str, List[str]] = {}
     for path in po_files:
         parent = os.path.dirname(path)          # .../po
         lang_dir = os.path.dirname(parent)       # .../{lang} or .../translations
@@ -356,7 +356,7 @@ def _select_first_language_po_files(po_files: list) -> list:
     return sorted(by_lang[first_key])
 
 
-def _parse_po_entries(po_path: str, entries: dict) -> None:
+def _parse_po_entries(po_path: str, entries: Dict[str, List[str]]) -> None:
     """Parse a ``.po`` file and add entries to *entries* dict.
 
     Args:
@@ -371,8 +371,8 @@ def _parse_po_entries(po_path: str, entries: dict) -> None:
         logger.warning(f"Cannot read {po_path}: {exc}")
         return
 
-    current_refs: list = []
-    current_msgid: list = []
+    current_refs: List[str] = []
+    current_msgid: List[str] = []
     in_msgid = False
     in_msgstr = False
 
