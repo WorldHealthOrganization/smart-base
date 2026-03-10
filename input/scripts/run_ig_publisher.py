@@ -65,7 +65,8 @@ from typing import Dict, List, Optional, Set
 try:
     from translation_config import derive_github_blob_base, make_source_url
 except ImportError:
-    # Graceful fallback when translation_config is unavailable.
+    # Graceful fallback when translation_config is unavailable: source URLs
+    # remain as repo-relative paths (the pre-existing behaviour).
     derive_github_blob_base = None  # type: ignore[assignment]
 
     def make_source_url(relative_path: str, blob_base: Optional[str]) -> str:  # type: ignore[misc]

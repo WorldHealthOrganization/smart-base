@@ -318,6 +318,9 @@ def derive_github_blob_base(repo_root: Optional[Path] = None) -> Optional[str]:
     return None
 
 
+_LINE_SUFFIX_RE = re.compile(r'^(.+):(\d+)$')
+
+
 def make_source_url(relative_path: str, blob_base: Optional[str]) -> str:
     """Convert a repository-relative file path into a clickable URL.
 
@@ -332,7 +335,7 @@ def make_source_url(relative_path: str, blob_base: Optional[str]) -> str:
     """
     if blob_base:
         # Convert trailing :LINE to GitHub #LLINE fragment
-        m = re.match(r'^(.+):(\d+)$', relative_path)
+        m = _LINE_SUFFIX_RE.match(relative_path)
         if m:
             return f"{blob_base}/{m.group(1)}#L{m.group(2)}"
         return f"{blob_base}/{relative_path}"
