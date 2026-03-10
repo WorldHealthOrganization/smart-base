@@ -272,6 +272,73 @@ def derive_project_slug_from_env(repo_root: Optional[Path] = None) -> str:
     return get_project_slug(org, repo_name)
 
 
+def derive_github_blob_base(repo_root: Optional[Path] = None) -> Optional[str]:
+    """Derive the GitHub blob URL prefix for source file links.
+
+    The returned string (when not ``None``) has the form::
+
+        https://github.com/{org}/{repo}/blob/{branch}
+
+    with **no** trailing slash.  Callers append ``/{relative_path}`` to
+    obtain a clickable link to a specific file.
+
+    Resolution order:
+
+    1. ``GITHUB_REPOSITORY`` + ``GITHUB_REF_NAME`` environment variables
+       (always available in GitHub Actions).
+    2. ``dak.json#previewUrl`` — the GitHub Pages preview URL encodes the
+       org and repo name (e.g. ``https://Org.github.io/repo``).  The
+       branch defaults to ``main`` in this case.
+    3. ``None`` when no repository information can be determined.
+    """
+    github_repo = os.environ.get("GITHUB_REPOSITORY", "")
+    branch = os.environ.get("GITHUB_REF_NAME", "main")
+    if github_repo and "/" in github_repo:
+        return f"https://github.com/{github_repo}/blob/{branch}"
+
+    # Fallback: parse dak.json previewUrl
+    if repo_root is not None:
+        dak_path = repo_root / "dak.json"
+        if dak_path.is_file():
+            try:
+                data = json.loads(dak_path.read_text(encoding="utf-8"))
+                preview = data.get("previewUrl", "")
+                if preview:
+                    # e.g. "https://WorldHealthOrganization.github.io/smart-base"
+                    # → org = WorldHealthOrganization, repo = smart-base
+                    parts = preview.rstrip("/").split("/")
+                    if len(parts) >= 4:
+                        host = parts[2]  # "WorldHealthOrganization.github.io"
+                        org = host.split(".")[0]
+                        repo_name = parts[3]
+                        return f"https://github.com/{org}/{repo_name}/blob/main"
+            except (json.JSONDecodeError, OSError):
+                pass
+
+    return None
+
+
+def make_source_url(relative_path: str, blob_base: Optional[str]) -> str:
+    """Convert a repository-relative file path into a clickable URL.
+
+    When *blob_base* is available the returned string is a full GitHub
+    blob URL.  A trailing ``:LINE`` suffix is converted to GitHub's
+    ``#LLINE`` fragment format (e.g.
+    ``https://github.com/Org/repo/blob/main/input/images/foo.svg#L42``).
+
+    When *blob_base* is ``None`` the original *relative_path* is
+    returned unchanged so that .pot files remain valid even when the
+    GitHub context is unknown (local development).
+    """
+    if blob_base:
+        # Convert trailing :LINE to GitHub #LLINE fragment
+        m = re.match(r'^(.+):(\d+)$', relative_path)
+        if m:
+            return f"{blob_base}/{m.group(1)}#L{m.group(2)}"
+        return f"{blob_base}/{relative_path}"
+    return relative_path
+
+
 # ---------------------------------------------------------------------------
 # Component discovery
 # ---------------------------------------------------------------------------

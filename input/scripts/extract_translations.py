@@ -18,8 +18,11 @@ Prism.js, which is already bundled by the base FHIR IG Publisher template
 (who.template.root).  No separate Prism.js load is required or performed.
 
 Each .pot file records:
-  - #. Source: <relative-path>:<line>   — exact file/line location
-  - #. URL: <canonical-page-url>        — published page for Weblate context
+  - #. Source: <github-url>#L<line>   — clickable link to source file/line on GitHub
+  - #. URL: <canonical-page-url>      — published page for Weblate context
+
+When GITHUB_REPOSITORY or dak.json previewUrl is available, Source comments
+become full GitHub blob URLs.  Otherwise, repository-relative paths are used.
 
 Usage:
     python extract_translations.py [options]
@@ -56,6 +59,17 @@ try:
 except ImportError:  # pragma: no cover
     import xml.etree.ElementTree as ET  # type: ignore
     _HAVE_LXML = False
+
+# ---------------------------------------------------------------------------
+# Optional translation_config import for GitHub source URL helpers
+# ---------------------------------------------------------------------------
+try:
+    from translation_config import derive_github_blob_base, make_source_url
+except ImportError:
+    derive_github_blob_base = None  # type: ignore[assignment]
+
+    def make_source_url(relative_path: str, blob_base: Optional[str]) -> str:  # type: ignore[misc]
+        return relative_path
 
 # ---------------------------------------------------------------------------
 # PlantUML syntax exclusion list
@@ -833,6 +847,7 @@ def write_pot(
     entries: List[TranslationEntry],
     output_path: str,
     canonical: str,
+    blob_base: Optional[str] = None,
 ) -> None:
     """
     Write a Gettext .pot template file from a list of TranslationEntry objects.
@@ -843,6 +858,9 @@ def write_pot(
         entries: List of extracted translation entries
         output_path: Path to the output .pot file
         canonical: IG canonical base URL (for header comments)
+        blob_base: GitHub blob URL prefix for clickable source links.
+                   When provided, ``#. Source:`` comments become full
+                   GitHub URLs.  Optional.
     """
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
@@ -871,7 +889,8 @@ def write_pot(
         for src_file, lineno, ctx_url in locations:
             src_key = (src_file, lineno)
             if src_key not in seen_sources:
-                buf.write(f"#. Source: {src_file}:{lineno}\n")
+                source_ref = make_source_url(f"{src_file}:{lineno}", blob_base)
+                buf.write(f"#. Source: {source_ref}\n")
                 seen_sources.add(src_key)
             if ctx_url not in seen_urls:
                 buf.write(f"#. URL: {ctx_url}\n")
@@ -1061,9 +1080,17 @@ def main() -> int:
     canonical = args.canonical.rstrip("/")
     preview_canonical = args.preview_url.rstrip("/") if args.preview_url else None
 
+    # Derive GitHub blob URL prefix so that #. Source: comments become
+    # clickable links in translation platforms (Weblate, Crowdin, etc.).
+    blob_base: Optional[str] = None
+    if derive_github_blob_base is not None:
+        blob_base = derive_github_blob_base(Path(ig_root))
+
     logger.info(f"Extracting translations from {ig_root} (canonical: {canonical})")
     if preview_canonical:
         logger.info(f"Preview URL: {preview_canonical}")
+    if blob_base:
+        logger.info(f"GitHub source base: {blob_base}")
 
     per_component = collect_entries(ig_root, canonical)
 
@@ -1088,7 +1115,7 @@ def main() -> int:
     for pot_path, entries in per_component.items():
         if args.output_dir:
             pot_path = os.path.join(args.output_dir, os.path.basename(pot_path))
-        write_pot(entries, pot_path, canonical)
+        write_pot(entries, pot_path, canonical, blob_base=blob_base)
         total_written += 1
 
     logger.info(f"Extraction complete: {total_written} .pot file(s) written")
