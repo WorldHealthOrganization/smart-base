@@ -3,6 +3,18 @@
 # Deploys the PR branch preview to gh-pages once a repository collaborator
 # approves the deployment via GitHub Actions environment protection.
 #
+# This workflow uses pull_request_target so it runs in the context of the
+# base repository (with access to secrets and write permissions), NOT in the
+# context of the PR head.  The PR's code is checked out only AFTER a
+# reviewer has approved, by passing the PR head SHA to ghbuild.yml's ref
+# input.  This is the standard "split-checkout" security model for
+# deployment workflows.
+#
+# Scripts come from smart-base main by default (the split-checkout model).
+# A trusted contributor can override scripts_ref via workflow_dispatch on
+# ci.yml; that path has its own separate approval gate (scripts-override
+# environment).
+#
 # Prerequisites
 # ─────────────
 # Create a "pr-preview" environment in repository Settings → Environments
@@ -12,11 +24,12 @@
 #
 # Flow per push to a PR branch
 # ────────────────────────────
-#   1. This workflow triggers.  The deploy-preview job is paused at the
+#   1. This workflow triggers.  The approve job is paused at the
 #      "pr-preview" environment gate, showing a "Review deployments" button
 #      in the Actions tab.
 #   2. A reviewer approves (or rejects) the pending deployment.
-#   3. After approval the full FHIR IG build runs and the output is deployed
+#   3. After approval the deploy-preview job runs the full FHIR IG build
+#      checking out the PR head commit, and the output is deployed
 #      to gh-pages at:
 #        https://<owner>.github.io/<repo>/branches/<branch-dir>/
 #   4. The PR receives a comment with the build status and preview URL.
@@ -25,10 +38,10 @@
 # default GITHUB_TOKEN for fork PRs does not have contents: write access
 # needed to push to gh-pages.
 #
-# The companion ci.yml workflow runs the IG build for validation on every
-# PR push (deploy: false, i.e. `github.event_name != 'pull_request'` evaluates
-# to false) so CI status checks always reflect the latest commit regardless of
-# whether a preview has been approved.
+# The companion ci.yml workflow (which uses pull_request_target with the
+# split-checkout model) runs the IG build for validation on every PR push
+# so CI status checks always reflect the latest commit regardless of whether
+# a preview has been approved.
 
 name: PR Preview Deploy (approval required)
 
@@ -46,20 +59,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy-preview:
+  # Gate job: pauses at the 'pr-preview' environment until a reviewer approves.
+  # The 'environment' key is only valid in regular jobs (with runs-on), not in
+  # reusable-workflow call jobs, so the approval gate must be a separate job.
+  approve:
     # Skip fork PRs — the restricted token cannot push to gh-pages.
     if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
 
     # The 'pr-preview' environment must be configured in repository Settings
     # → Environments with required reviewers before this job can proceed.
     # When a reviewer clicks "Review deployments" → "Approve" in the Actions
-    # tab, the job continues and the full IG build + gh-pages deploy runs.
+    # tab, the job continues and the downstream deploy-preview job starts.
     environment: pr-preview
 
+    steps:
+      - run: echo "Deployment approved"
+
+  deploy-preview:
+    needs: approve
     permissions:
       contents: write       # required to push to gh-pages
       pull-requests: write  # required to post PR build-status comments
 
     uses: ./.github/workflows/ghbuild.yml
     with:
+      # Check out the PR head commit — safe because a reviewer just approved.
+      ref: ${{ github.event.pull_request.head.sha }}
+      # Scripts always come from main for preview deployments.
+      scripts_ref: main
       deploy: true

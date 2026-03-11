@@ -5,13 +5,21 @@
 # downstream WHO SMART Guidelines IGs can call without picking up smart-base's
 # own CI triggers.
 #
+# Security model
+# ──────────────
+# Pull requests use `pull_request_target` so that the workflow YAML always
+# comes from the base branch (main).  The PR's *content* is checked out via
+# the `ref` input to ghbuild.yml, while scripts always come from main (the
+# `scripts_ref` default).  This prevents a malicious PR from modifying the
+# build scripts or workflow definitions.
+#
 # Job graph:
-#   build-and-deploy  →  calls ghbuild.yml (full IG build + GitHub Pages deploy)
-#   commit-pot        →  calls commit-pot.yml (POT extraction + commit/push)
-#                        runs after build-and-deploy regardless of its result,
-#                        skipped on pull-request events so forks don't need
-#                        contents: write.
-
+#   approve-scripts-override →  (only when scripts_ref ≠ main) environment gate
+#   build-and-deploy         →  calls ghbuild.yml (full IG build + GitHub Pages deploy)
+#   commit-pot               →  calls commit-pot.yml (POT extraction + commit/push)
+#                               runs after build-and-deploy regardless of its result,
+#                               skipped on pull-request events so forks don't need
+#                               contents: write.
 #
 # Downstream repositories should call ghbuild.yml directly via workflow_call;
 # they do not need this file.
@@ -27,6 +35,11 @@ on:
       - 'gh-pages'
   workflow_dispatch:
     inputs:
+      scripts_ref:
+        description: 'Branch/ref of smart-base to fetch scripts from (default: main).  Non-default values require approval.'
+        required: false
+        type: string
+        default: 'main'
       tx:
         description: 'Optional Custom terminology server URL'
         required: false
@@ -52,12 +65,47 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # ── Approval gate for non-default scripts_ref ─────────────────────────
+  # When a trusted contributor manually triggers CI with a custom
+  # scripts_ref (e.g. to test script changes on a feature branch),
+  # this job pauses until an authorized reviewer approves via the
+  # 'scripts-override' environment.
+  #
+  # For normal runs (push, PR, or workflow_dispatch with default scripts_ref)
+  # this job is skipped and build-and-deploy runs immediately.
+  #
+  # Prerequisites: Create a 'scripts-override' environment in repository
+  # Settings → Environments and add required reviewers.
+  approve-scripts-override:
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      inputs.scripts_ref != '' &&
+      inputs.scripts_ref != 'main'
+    runs-on: ubuntu-latest
+    permissions: {}
+    environment: scripts-override
+    steps:
+      - run: |
+          echo "✅ Scripts override approved for ref: ${SCRIPTS_REF}"
+        env:
+          SCRIPTS_REF: ${{ inputs.scripts_ref }}
+
   build-and-deploy:
+    needs: approve-scripts-override
+    # Run when approval succeeded OR was skipped (normal flow).
+    if: >-
+      always() &&
+      (needs.approve-scripts-override.result == 'success' ||
+       needs.approve-scripts-override.result == 'skipped')
     permissions:
       contents: write        # required so the token passed to ghbuild.yml can push gh-pages
       pull-requests: write   # required so ghbuild.yml can post PR build-status comments
     uses: ./.github/workflows/ghbuild.yml
     with:
+      # For pull_request_target events, check out the PR head commit so the
+      # IG publisher builds the PR's content (not the base branch).
+      ref: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.sha || '' }}
+      scripts_ref: ${{ inputs.scripts_ref || 'main' }}
       tx: ${{ inputs.tx || '' }}
       do_dak: ${{ inputs.do_dak != false }}
       # Only deploy to gh-pages on push / workflow_dispatch (not on pull_request_target events).
