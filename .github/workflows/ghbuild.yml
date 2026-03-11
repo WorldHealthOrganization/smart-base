@@ -1,12 +1,25 @@
 # Reusable workflow: full FHIR IG build and GitHub Pages deployment.
 #
-# This workflow is intentionally a pure reusable workflow (workflow_call +
-# workflow_dispatch only).  Direct push / pull_request triggers have been
-# removed so that:
-#   • downstream WHO SMART Guidelines IGs can call this workflow without
-#     accidentally inheriting smart-base's CI event subscriptions, and
-#   • smart-base's own CI (push/PR) is driven by ci.yml, which also chains
-#     the commit-pot.yml step after a successful build.
+# Split-checkout model
+# ────────────────────
+# This workflow separates *content* (the IG's FHIR Shorthand, pages, images,
+# DMN files …) from the *scripts* that preprocess and postprocess around the
+# IG Publisher.
+#
+#   • Content comes from the ref that triggered the event (or the explicit
+#     `ref` input, e.g. a PR head SHA).
+#   • Scripts are fetched from the smart-base repository at the ref given by
+#     `scripts_ref` (default: main).
+#
+# This means feature-branch PRs only need to carry content changes.  The
+# build tooling always comes from a known-good baseline (main), unless a
+# trusted contributor explicitly overrides `scripts_ref` for testing new
+# script code — which requires environment approval in the caller workflow.
+#
+# For downstream WHO SMART Guidelines IGs that call this workflow via
+# workflow_call, scripts are downloaded on demand via curl when they are not
+# already present locally.  The `scripts_ref` input controls which smart-base
+# branch those downloads target.
 #
 # Make sure your repo has a branch called gh-pages.
 #
@@ -16,6 +29,7 @@
 # 2022-01-28: (JCT): add auto-create gh-pages if it doesn't exist
 # 2023-01-22: (JCT): use checkout action v3, and JamesIves/github-pages-deploy-action@v4
 # 2026-03-xx: Remove direct push/PR triggers; add git safe.directory fix for Docker step.
+# 2026-03-xx: Add split-checkout model with scripts_ref input.
 
 name: FHIR IG Build and GitHub Pages Deployment
 
@@ -23,9 +37,14 @@ on:
   workflow_call: # Reusable by other workflows
     inputs:
       ref:
-        description: 'Git ref to check out (e.g. PR head SHA).  When empty the default ref for the triggering event is used.'
+        description: 'Git ref to check out for content (e.g. PR head SHA).  When empty the default ref for the triggering event is used.'
         required: false
         type: string
+      scripts_ref:
+        description: 'Branch/ref of smart-base to fetch pre/post-processing scripts from (default: main).  Non-default values require approval in the caller workflow.'
+        required: false
+        type: string
+        default: 'main'
       tx:
         required: false
         type: string
@@ -44,6 +63,11 @@ on:
   # (useful for downstream repos and for ad-hoc smart-base builds).
   workflow_dispatch:
     inputs:
+      scripts_ref:
+        description: 'Branch/ref of smart-base to fetch scripts from (default: main)'
+        required: false
+        type: string
+        default: 'main'
       tx:
         description: 'Optional Custom terminology server URL'
         required: false
@@ -89,6 +113,52 @@ jobs:
       - name: Record checkout timestamp
         run: echo "TS_CHECKOUT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
 
+      # ── Resolve the smart-base scripts source ──────────────────────────
+      # Sets SCRIPTS_BASE_URL for curl-based downloads (downstream repos)
+      # and SCRIPTS_REF for the git-based overlay (smart-base itself).
+      - name: Resolve scripts source
+        env:
+          SCRIPTS_REF_INPUT: ${{ inputs.scripts_ref || 'main' }}
+        run: |
+          # Sanitize: allow only valid Git ref characters
+          SCRIPTS_REF="$(printf '%s' "$SCRIPTS_REF_INPUT" | tr -cd 'a-zA-Z0-9._/-')"
+          if [ -z "$SCRIPTS_REF" ]; then
+            SCRIPTS_REF="main"
+          fi
+          SCRIPTS_BASE_URL="https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/${SCRIPTS_REF}"
+          printf 'SCRIPTS_REF=%s\n' "$SCRIPTS_REF"
+          printf 'SCRIPTS_REF=%s\n' "$SCRIPTS_REF" >> "$GITHUB_ENV"
+          printf 'SCRIPTS_BASE_URL=%s\n' "$SCRIPTS_BASE_URL"
+          printf 'SCRIPTS_BASE_URL=%s\n' "$SCRIPTS_BASE_URL" >> "$GITHUB_ENV"
+
+      # ── Overlay smart-base scripts onto content checkout ───────────────
+      # When running inside the smart-base repository, the content checkout
+      # may contain locally-modified copies of scripts.  This step replaces
+      # them with the canonical versions from SCRIPTS_REF so that PR
+      # branches only need to carry content, not build tooling.
+      #
+      # For downstream repos this step is a no-op — those repos don't have
+      # input/scripts/ in their own tree and rely on the curl-based
+      # fallback downloads in subsequent steps.
+      - name: Overlay smart-base scripts
+        env:
+          GH_REPOSITORY: ${{ github.repository }}
+        run: |
+          # Only overlay when running inside the smart-base repository.
+          SMART_BASE_REPO="WorldHealthOrganization/smart-base"
+          if [[ "$GH_REPOSITORY" != "$SMART_BASE_REPO" ]]; then
+            echo "Downstream repository — scripts will be fetched on demand"
+            exit 0
+          fi
+
+          echo "Smart-base repo detected — overlaying scripts from ${SCRIPTS_REF}"
+          git fetch origin "${SCRIPTS_REF}" --depth=1
+          # Overlay input/scripts/ and supporting includes from the scripts ref.
+          # This overwrites any locally-modified copies with the canonical versions.
+          git checkout FETCH_HEAD -- input/scripts/
+          git checkout FETCH_HEAD -- input/includes/dmn2html.xslt input/includes/dmn.css 2>/dev/null || true
+          echo "✅ Scripts overlaid from ${SCRIPTS_REF}"
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -122,7 +192,7 @@ jobs:
           if [ ! -f "input/scripts/pr_comment_start.py" ]; then
             echo "PR comment script not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
-            curl -L -f -o "input/scripts/pr_comment_start.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/pr_comment_start.py" 2>/dev/null || echo "Failed to download pr_comment_start.py"
+            curl -L -f -o "input/scripts/pr_comment_start.py" "${SCRIPTS_BASE_URL}/input/scripts/pr_comment_start.py" 2>/dev/null || echo "Failed to download pr_comment_start.py"
           fi
 
           # Run PR comment script if available
@@ -184,13 +254,13 @@ jobs:
           if [ ! -f "input/scripts/generate_dak_from_sushi.py" ]; then
             echo "DAK generation script not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
-            curl -L -f -o "input/scripts/generate_dak_from_sushi.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_from_sushi.py" 2>/dev/null || echo "Failed to download generate_dak_from_sushi.py"
+            curl -L -f -o "input/scripts/generate_dak_from_sushi.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_dak_from_sushi.py" 2>/dev/null || echo "Failed to download generate_dak_from_sushi.py"
           fi
 
           if [ ! -f "input/scripts/update_sushi_config.py" ]; then
             echo "Sushi config update script not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
-            curl -L -f -o "input/scripts/update_sushi_config.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/update_sushi_config.py" 2>/dev/null || echo "Failed to download update_sushi_config.py"
+            curl -L -f -o "input/scripts/update_sushi_config.py" "${SCRIPTS_BASE_URL}/input/scripts/update_sushi_config.py" 2>/dev/null || echo "Failed to download update_sushi_config.py"
           fi
 
           # First, generate DAK configuration from sushi config (only if smart.who.int.base is a dependency and dak.json doesn't exist)
@@ -246,8 +316,8 @@ jobs:
           if [ ! -f "input/scripts/generate_dak_from_sushi.py" ]; then
             echo "DAK generation script not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
-            curl -L -f -o "input/scripts/generate_dak_from_sushi.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_from_sushi.py" 2>/dev/null || echo "Failed to download generate_dak_from_sushi.py"
-            curl -L -f -o "input/scripts/dak_url_utils.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/dak_url_utils.py" 2>/dev/null || echo "Failed to download dak_url_utils.py"
+            curl -L -f -o "input/scripts/generate_dak_from_sushi.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_dak_from_sushi.py" 2>/dev/null || echo "Failed to download generate_dak_from_sushi.py"
+            curl -L -f -o "input/scripts/dak_url_utils.py" "${SCRIPTS_BASE_URL}/input/scripts/dak_url_utils.py" 2>/dev/null || echo "Failed to download dak_url_utils.py"
           fi
 
           # Regenerate DAK configuration with current environment context
@@ -269,7 +339,7 @@ jobs:
             mkdir -p input/scripts
 
             # Download questionnaire generator from smart-base repository
-            if curl -L -f -o "input/scripts/dmn_questionnaire_generator.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/dmn_questionnaire_generator.py" 2>/dev/null; then
+            if curl -L -f -o "input/scripts/dmn_questionnaire_generator.py" "${SCRIPTS_BASE_URL}/input/scripts/dmn_questionnaire_generator.py" 2>/dev/null; then
               echo "Downloaded questionnaire generator from main branch"
             else
               echo "Failed to download questionnaire generator, skipping questionnaire generation"
@@ -297,9 +367,9 @@ jobs:
             mkdir -p input/scripts input/includes
 
             # Download transformation files from smart-base repository
-            curl -L -f -o "input/scripts/transform_dmn.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/transform_dmn.py" 2>/dev/null || echo "Failed to download transform_dmn.py"
-            curl -L -f -o "input/includes/dmn2html.xslt" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/includes/dmn2html.xslt" 2>/dev/null || echo "Failed to download dmn2html.xslt"
-            curl -L -f -o "input/includes/dmn.css" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/includes/dmn.css" 2>/dev/null || echo "Failed to download dmn.css"
+            curl -L -f -o "input/scripts/transform_dmn.py" "${SCRIPTS_BASE_URL}/input/scripts/transform_dmn.py" 2>/dev/null || echo "Failed to download transform_dmn.py"
+            curl -L -f -o "input/includes/dmn2html.xslt" "${SCRIPTS_BASE_URL}/input/includes/dmn2html.xslt" 2>/dev/null || echo "Failed to download dmn2html.xslt"
+            curl -L -f -o "input/includes/dmn.css" "${SCRIPTS_BASE_URL}/input/includes/dmn.css" 2>/dev/null || echo "Failed to download dmn.css"
           else
             echo "Using local DMN transformation files"
           fi
@@ -322,7 +392,7 @@ jobs:
             echo "Translation injection script not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
             curl -L -f -o "input/scripts/inject_translations.py" \
-              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/inject_translations.py" \
+              "${SCRIPTS_BASE_URL}/input/scripts/inject_translations.py" \
               2>/dev/null || echo "Failed to download inject_translations.py"
           else
             echo "Using local inject_translations.py"
@@ -486,8 +556,8 @@ jobs:
           if [ ! -f "input/scripts/generate_logical_model_schemas.py" ]; then
             echo "Schema generation files not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
-            curl -L -f -o "input/scripts/generate_logical_model_schemas.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_logical_model_schemas.py" 2>/dev/null || echo "Failed to download logical model schema generator"
-            curl -L -f -o "input/scripts/generate_valueset_schemas.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_valueset_schemas.py" 2>/dev/null || echo "Failed to download valueset schema generator"
+            curl -L -f -o "input/scripts/generate_logical_model_schemas.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_logical_model_schemas.py" 2>/dev/null || echo "Failed to download logical model schema generator"
+            curl -L -f -o "input/scripts/generate_valueset_schemas.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_valueset_schemas.py" 2>/dev/null || echo "Failed to download valueset schema generator"
           fi
 
           # Generate logical model schemas
@@ -511,7 +581,7 @@ jobs:
           if [ ! -f "input/scripts/generate_jsonld_vocabularies.py" ]; then
             echo "JSON-LD vocabulary generator not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
-            curl -L -f -o "input/scripts/generate_jsonld_vocabularies.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_jsonld_vocabularies.py" 2>/dev/null || echo "Failed to download JSON-LD vocabulary generator"
+            curl -L -f -o "input/scripts/generate_jsonld_vocabularies.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_jsonld_vocabularies.py" 2>/dev/null || echo "Failed to download JSON-LD vocabulary generator"
           fi
 
           # Generate JSON-LD vocabularies
@@ -531,7 +601,7 @@ jobs:
           if [ ! -f "input/scripts/generate_dak_api_hub.py" ]; then
             echo "DAK API hub generator not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
-            curl -L -f -o "input/scripts/generate_dak_api_hub.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_dak_api_hub.py" 2>/dev/null || echo "Failed to download DAK API hub generator"
+            curl -L -f -o "input/scripts/generate_dak_api_hub.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_dak_api_hub.py" 2>/dev/null || echo "Failed to download DAK API hub generator"
           fi
 
           # Generate DAK API hub
@@ -552,7 +622,7 @@ jobs:
             echo "update_translated_image_refs.py not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
             curl -L -f -o "input/scripts/update_translated_image_refs.py" \
-              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/update_translated_image_refs.py" \
+              "${SCRIPTS_BASE_URL}/input/scripts/update_translated_image_refs.py" \
               2>/dev/null || echo "Failed to download update_translated_image_refs.py"
           else
             echo "Using local update_translated_image_refs.py"
@@ -577,7 +647,7 @@ jobs:
             echo "generate_smart_liquid.py not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
             curl -L -f -o "input/scripts/generate_smart_liquid.py" \
-              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/generate_smart_liquid.py" \
+              "${SCRIPTS_BASE_URL}/input/scripts/generate_smart_liquid.py" \
               2>/dev/null || echo "Failed to download generate_smart_liquid.py"
           else
             echo "Using local generate_smart_liquid.py"
@@ -601,7 +671,7 @@ jobs:
             echo "inject_smart_liquid.py not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
             curl -L -f -o "input/scripts/inject_smart_liquid.py" \
-              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/inject_smart_liquid.py" \
+              "${SCRIPTS_BASE_URL}/input/scripts/inject_smart_liquid.py" \
               2>/dev/null || echo "Failed to download inject_smart_liquid.py"
           else
             echo "Using local inject_smart_liquid.py"
@@ -665,7 +735,7 @@ jobs:
           if [ ! -f "input/scripts/pr_comment_finish.py" ]; then
             echo "PR comment script not found locally, downloading from smart-base repository..."
             mkdir -p input/scripts
-            curl -L -f -o "input/scripts/pr_comment_finish.py" "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/pr_comment_finish.py" 2>/dev/null || echo "Failed to download pr_comment_finish.py"
+            curl -L -f -o "input/scripts/pr_comment_finish.py" "${SCRIPTS_BASE_URL}/input/scripts/pr_comment_finish.py" 2>/dev/null || echo "Failed to download pr_comment_finish.py"
           fi
 
           # Run PR comment script if available

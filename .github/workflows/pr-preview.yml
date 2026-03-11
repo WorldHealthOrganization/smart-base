@@ -10,6 +10,11 @@
 # input.  This is the standard "split-checkout" security model for
 # deployment workflows.
 #
+# Scripts come from smart-base main by default (the split-checkout model).
+# A trusted contributor can override scripts_ref via workflow_dispatch on
+# ci.yml; that path has its own separate approval gate (scripts-override
+# environment).
+#
 # Prerequisites
 # ─────────────
 # Create a "pr-preview" environment in repository Settings → Environments
@@ -33,8 +38,8 @@
 # default GITHUB_TOKEN for fork PRs does not have contents: write access
 # needed to push to gh-pages.
 #
-# The companion ci.yml workflow (which uses the regular pull_request trigger,
-# not pull_request_target) runs the IG build for validation on every PR push
+# The companion ci.yml workflow (which uses pull_request_target with the
+# split-checkout model) runs the IG build for validation on every PR push
 # so CI status checks always reflect the latest commit regardless of whether
 # a preview has been approved.
 
@@ -81,4 +86,6 @@ jobs:
     with:
       # Check out the PR head commit — safe because a reviewer just approved.
       ref: ${{ github.event.pull_request.head.sha }}
+      # Scripts always come from main for preview deployments.
+      scripts_ref: main
       deploy: true
