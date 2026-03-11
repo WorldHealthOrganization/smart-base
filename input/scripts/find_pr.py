@@ -119,8 +119,10 @@ def _find_pr_for_push(ref_name: str, token: str) -> str:
             # Final validation – must be a plain integer
             _validate_pr_number(pr_num)
             return pr_num
-    except (subprocess.SubprocessError, ValueError):
-        pass
+    except subprocess.SubprocessError as exc:
+        print(f"⚠️  gh pr list failed: {exc}", file=sys.stderr)
+    except ValueError as exc:
+        print(f"⚠️  PR number validation failed: {exc}", file=sys.stderr)
     return ""
 
 
