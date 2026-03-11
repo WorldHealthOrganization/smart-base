@@ -25,5 +25,8 @@ jobs:
           curl --request POST \
           --header 'content-type: application/json' \
           --url https://us-central1-fhir-org-starter-project.cloudfunctions.net/ig-commit-trigger \
-          --data '{"ref": "${{ github.ref }}", "repository": {"full_name": "${{ github.repository }}"}}'
+          --data "{\"ref\": \"${GH_REF}\", \"repository\": {\"full_name\": \"${GH_REPOSITORY}\"}}"
+        env:
+          GH_REF: ${{ github.ref }}
+          GH_REPOSITORY: ${{ github.repository }}
 
