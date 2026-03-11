@@ -106,23 +106,7 @@ jobs:
           GH_EVENT_NAME: ${{ github.event_name }}
           GH_EVENT_NUMBER: ${{ github.event.number }}
           GH_REF_NAME: ${{ github.ref_name }}
-        run: |
-          # Check if this is a PR event
-          if [[ "$GH_EVENT_NAME" == "pull_request" ]]; then
-            echo "PR_NUMBER=$GH_EVENT_NUMBER" >> $GITHUB_OUTPUT
-            echo "IS_PR=true" >> $GITHUB_OUTPUT
-          elif [[ "$GH_EVENT_NAME" == "push" ]]; then
-            # For push events, try to find associated PR
-            PR_NUMBER=$(gh pr list --head "$GH_REF_NAME" --json number --jq '.[0].number' 2>/dev/null || echo "")
-            if [[ -n "$PR_NUMBER" && "$PR_NUMBER" != "null" ]]; then
-              echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_OUTPUT
-              echo "IS_PR=true" >> $GITHUB_OUTPUT
-            else
-              echo "IS_PR=false" >> $GITHUB_OUTPUT
-            fi
-          else
-            echo "IS_PR=false" >> $GITHUB_OUTPUT
-          fi
+        run: python3 input/scripts/find_pr.py
 
       - name: Comment on PR - Build started
         if: steps.find_pr.outputs.IS_PR == 'true'
@@ -159,19 +143,7 @@ jobs:
           GH_HEAD_REF: ${{ github.head_ref }}
           GH_REF_NAME: ${{ github.ref_name }}
           INPUT_REF: ${{ inputs.ref }}
-        run: |
-          echo "$GH_HEAD_REF"
-          echo "$GH_REF_NAME"
-          echo "${GITHUB_REF#refs/heads/}"
-          if [ -n "$INPUT_REF" ]; then
-            # Use the explicit ref input if provided, stripping refs/heads/ prefix if present
-            ACTUAL_BRANCH="${INPUT_REF#refs/heads/}"
-          else
-            ACTUAL_BRANCH="${GH_HEAD_REF:-$GH_REF_NAME}"
-          fi
-          echo "BRANCH_DIR=${ACTUAL_BRANCH##*/}"
-          echo "BRANCH_DIR=${ACTUAL_BRANCH##*/}" >> "$GITHUB_ENV"
-          echo "BRANCH_NAME=${ACTUAL_BRANCH}" >> "$GITHUB_ENV"
+        run: python3 input/scripts/resolve_branch.py
 
       - name: Echo branch name and check if it's the default branch
         run: |
@@ -648,44 +620,7 @@ jobs:
         if: env.DAK_ENABLED == 'true'
         env:
           GH_SHA: ${{ github.sha }}
-        run: |
-          if [ ! -f "output/index.html" ]; then
-            echo "output/index.html not found – skipping metadata stamp"
-            exit 0
-          fi
-          # Check/download stamp script
-          if [ ! -f "input/scripts/stamp_deploy_metadata.py" ]; then
-            curl -sSf -o "input/scripts/stamp_deploy_metadata.py" \
-              "https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/stamp_deploy_metadata.py" \
-              2>/dev/null || { echo "⚠️ Could not download stamp script"; exit 0; }
-          fi
-          # Ensure output/index.html is writable
-          sudo chmod a+w output/index.html 2>/dev/null || true
-          COMMIT="$GH_SHA"
-          BRANCH="$BRANCH_DIR"
-          # Fetch the previously deployed index.html so we can carry forward its log
-          # Use curl (not git fetch) to avoid touching gh-pages ref and racing the deploy action
-          PREV_HTML_ARG=""
-          PREV_URL="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/gh-pages/branches/${BRANCH}/index.html"
-          if curl -sSf -o /tmp/prev-deploy-index.html "$PREV_URL" 2>/dev/null; then
-            PREV_HTML_ARG="--prev-html /tmp/prev-deploy-index.html"
-            echo "Found previous deployment log for branch ${BRANCH}"
-          else
-            echo "No previous deployment found for branch ${BRANCH} – starting fresh log"
-          fi
-          # Stamp each build phase in order; first call carries forward cross-build history
-          python3 input/scripts/stamp_deploy_metadata.py output/index.html \
-            --step checkout --commit "$COMMIT" --branch "$BRANCH" \
-            --timestamp "${TS_CHECKOUT:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}" \
-            $PREV_HTML_ARG || true
-          python3 input/scripts/stamp_deploy_metadata.py output/index.html \
-            --step ig-build --commit "$COMMIT" --branch "$BRANCH" \
-            --timestamp "${TS_IG_BUILD:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}" || true
-          python3 input/scripts/stamp_deploy_metadata.py output/index.html \
-            --step postprocessing --commit "$COMMIT" --branch "$BRANCH" || true
-          python3 input/scripts/stamp_deploy_metadata.py output/index.html \
-            --step pre-deploy --commit "$COMMIT" --branch "$BRANCH" || true
-          echo "✅ Deploy metadata stamped in output/index.html"
+        run: python3 input/scripts/stamp_deploy.py output/index.html
 
 
       - name: Delete files >100MB before deployment
