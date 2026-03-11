@@ -62,6 +62,16 @@ import time
 from pathlib import Path
 from typing import Dict, List, Optional, Set
 
+try:
+    from translation_config import derive_github_blob_base, make_source_url
+except ImportError:
+    # Graceful fallback when translation_config is unavailable: source URLs
+    # remain as repo-relative paths (the pre-existing behaviour).
+    derive_github_blob_base = None  # type: ignore[assignment]
+
+    def make_source_url(relative_path: str, blob_base: Optional[str]) -> str:  # type: ignore[misc]
+        return relative_path
+
 logger = logging.getLogger(__name__)
 
 # Regex matching the POT-Creation-Date header line so that timestamps can be
@@ -264,6 +274,12 @@ def collect_publisher_pot_files(ig_root: str) -> None:
     canonical = _read_canonical_from_sushi(ig_root)
     preview_url = _read_preview_url_from_dak(ig_root)
 
+    # Derive GitHub blob URL prefix so that #. Source: comments become
+    # clickable links in translation platforms (Weblate, Crowdin, etc.).
+    blob_base: Optional[str] = None
+    if derive_github_blob_base is not None:
+        blob_base = derive_github_blob_base(Path(ig_root))
+
     # 1. Copy .pot files from output/ (original behaviour).
     output_dir = os.path.join(ig_root, "output")
     if os.path.isdir(output_dir):
@@ -299,6 +315,7 @@ def collect_publisher_pot_files(ig_root: str) -> None:
                 ig_root=ig_root,
                 canonical=canonical,
                 preview_url=preview_url,
+                blob_base=blob_base,
             )
         else:
             logger.info("No .po files found in %s", translations_dir)
@@ -312,6 +329,7 @@ def _merge_po_to_base_pot(
     ig_root: Optional[str] = None,
     canonical: Optional[str] = None,
     preview_url: Optional[str] = None,
+    blob_base: Optional[str] = None,
 ) -> None:
     """Merge per-resource ``.po`` files into a single ``base.pot``.
 
@@ -326,8 +344,8 @@ def _merge_po_to_base_pot(
 
     Each entry is augmented with ``#. Source:`` and ``#. URL:`` comments
     following the same pattern as other ``.pot`` files in this repository:
-    ``#. Source:`` points to the FHIR resource source file (FSH-generated
-    JSON or manually authored JSON, as produced by the IG Publisher build),
+    ``#. Source:`` links to the FHIR resource source file on GitHub
+    (when *blob_base* is available) or shows the repo-relative path,
     and ``#. URL:`` points to the published deployment page.  Source paths
     and context URLs are derived entirely from IG Publisher output without
     scanning FSH or JSON file contents.
@@ -346,6 +364,10 @@ def _merge_po_to_base_pot(
                      When ``None`` URL comments are omitted.
         preview_url: Draft/preview deployment URL for a second ``#. URL:``
                      context link.  Optional.
+        blob_base:   GitHub blob URL prefix (e.g.
+                     ``https://github.com/Org/repo/blob/main``).  When
+                     provided, ``#. Source:`` comments become clickable
+                     GitHub links.  Optional.
     """
     # Use only one language's files to avoid duplicates across languages.
     # Pick the first language subdirectory found, or use all if flat layout.
@@ -380,7 +402,8 @@ def _merge_po_to_base_pot(
             if ig_root:
                 src_path = _derive_fhir_source_path(ig_root, resource_slug)
                 if src_path and src_path not in seen_sources:
-                    buf.write(f"#. Source: {src_path}\n")
+                    source_ref = make_source_url(src_path, blob_base)
+                    buf.write(f"#. Source: {source_ref}\n")
                     seen_sources.add(src_path)
             if canonical_base:
                 ctx_url = f"{canonical_base}/{resource_slug}.html"

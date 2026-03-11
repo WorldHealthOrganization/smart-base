@@ -291,16 +291,14 @@ Or nightly scheduled (see `pull_translations.yml`).
 
 ---
 
-### 4b. Crowdin (stub — not yet fully implemented)
+### 4b. Crowdin
 
-> **Note:** The Crowdin adapter (`pull_crowdin_translations.py`) is currently a
-> stub. Registration logs a confirmation message but does not call the Crowdin
-> API. Full implementation is tracked in issue #281.
-
-1. Get a Crowdin Personal Access Token:
+1. **Create a Crowdin project** at https://crowdin.com and note the numeric
+   project ID (visible in the project URL or under **Settings → API**).
+2. Get a Crowdin Personal Access Token:
    https://crowdin.com → **Account Settings → API → Personal Access Tokens**
-2. Add `CROWDIN_API_TOKEN` as a GitHub Actions secret (see [Step 2](#step-2--add-the-token-as-a-github-actions-secret) above).
-3. Configure `sushi-config.yaml`:
+3. Add `CROWDIN_API_TOKEN` as a GitHub Actions secret (see [Step 2](#step-2--add-the-token-as-a-github-actions-secret) above).
+4. Configure `sushi-config.yaml`:
    ```yaml
    translations:
      services:
@@ -308,10 +306,11 @@ Or nightly scheduled (see `pull_translations.yml`).
          enabled: true
          projectId: "12345"
    ```
-4. Run the registration workflow — the current stub will log
-   `✓ Crowdin registration completed (stub)` but skip actual API calls.
-5. When the full adapter is implemented, registration will create a Crowdin
-   project and upload `.pot` source files automatically.
+5. Run the registration workflow — it will verify the Crowdin project is
+   reachable and upload all `.pot` source files. Existing source files are
+   updated in place; new files are created automatically.
+6. Pull translations with the Pull Translations workflow (service = crowdin)
+   or via `python pull_crowdin_translations.py`.
 
 ---
 

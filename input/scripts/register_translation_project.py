@@ -31,7 +31,7 @@ import logging
 import os
 import sys
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 try:
     import requests
@@ -208,6 +208,224 @@ def _register_weblate_component(
 
 
 # ---------------------------------------------------------------------------
+# Crowdin registration
+# ---------------------------------------------------------------------------
+
+# Crowdin API v2 base URL
+_CROWDIN_API_URL = "https://api.crowdin.com/api/v2"
+
+
+def _register_crowdin_project(
+    project_slug: str,
+    config: DakConfig,
+    components: List[TranslationComponent],
+    api_token: str,
+    repo_root: Path = Path("."),
+) -> bool:
+    """
+    Idempotently verify a Crowdin project and upload source .pot files.
+
+    The project must already exist in Crowdin (created via the Crowdin UI or
+    API with the configured ``projectId``).  This function verifies the
+    project is reachable and uploads each component's ``.pot`` file, creating
+    or updating the file as appropriate.
+
+    Returns True on success, False on error.
+    """
+    cr_config = (
+        config.translations.services.get("crowdin", None)
+        if config.translations else None
+    )
+    project_id = (cr_config.extra.get("projectId", "") if cr_config else "") or ""
+    if not project_id:
+        logger.error("Crowdin projectId not configured in sushi-config.yaml")
+        return False
+
+    session = requests.Session()
+    session.headers.update({
+        "Authorization": f"Bearer {api_token}",
+        "Content-Type": "application/json",
+        "User-Agent": "SMART-Base-CI/1.0",
+    })
+
+    # Verify the project is reachable
+    project_url = f"{_CROWDIN_API_URL}/projects/{project_id}"
+    try:
+        resp = session.get(project_url, timeout=DEFAULT_TIMEOUT_SECONDS)
+    except requests.exceptions.RequestException as exc:
+        logger.error("Network error checking Crowdin project: %s", exc)
+        return False
+
+    if resp.status_code == 404:
+        logger.error(
+            "Crowdin project %s not found. "
+            "Create the project in Crowdin first, then set the projectId in sushi-config.yaml.",
+            project_id,
+        )
+        return False
+    if resp.status_code != 200:
+        logger.error(
+            "Unexpected HTTP %d checking Crowdin project %s: %s",
+            resp.status_code, project_id, resp.text[:500],
+        )
+        return False
+
+    project_data = resp.json().get("data", {})
+    logger.info("✓ Crowdin project found: %s (id=%s)",
+                project_data.get("name", "?"), project_id)
+
+    # List existing files to detect updates vs. creates
+    existing_files = _list_crowdin_project_files(session, project_id)
+
+    # Upload each component's .pot file
+    all_ok = True
+    for comp in components:
+        if not comp.pot_path.is_file():
+            logger.warning("  .pot file not found: %s — skipping", comp.pot_path)
+            continue
+        ok = _upload_crowdin_source_file(
+            session, project_id, comp, existing_files, repo_root,
+        )
+        if not ok:
+            all_ok = False
+
+    return all_ok
+
+
+def _list_crowdin_project_files(
+    session: requests.Session,
+    project_id: str,
+) -> Dict[str, int]:
+    """List files in a Crowdin project, returning a name→id mapping."""
+    mapping: Dict[str, int] = {}
+    url = f"{_CROWDIN_API_URL}/projects/{project_id}/files"
+    offset = 0
+    limit = 250
+
+    while True:
+        params = {"offset": offset, "limit": limit}
+        try:
+            resp = session.get(url, params=params, timeout=DEFAULT_TIMEOUT_SECONDS)
+        except requests.exceptions.RequestException as exc:
+            logger.error("  Crowdin list-files failed: %s", exc)
+            break
+
+        if resp.status_code != 200:
+            logger.error("  Crowdin list-files HTTP %d: %s",
+                         resp.status_code, resp.text[:500])
+            break
+
+        data = resp.json().get("data", [])
+        if not data:
+            break
+
+        for item in data:
+            file_data = item.get("data", {})
+            file_id = file_data.get("id")
+            file_name = file_data.get("name", "")
+            if file_id and file_name:
+                mapping[file_name] = file_id
+
+        if len(data) < limit:
+            break
+        offset += limit
+
+    return mapping
+
+
+def _upload_crowdin_source_file(
+    session: requests.Session,
+    project_id: str,
+    comp: TranslationComponent,
+    existing_files: Dict[str, int],
+    repo_root: Path,
+) -> bool:
+    """Upload or update a single .pot source file in Crowdin.
+
+    Returns True on success, False on error.
+    """
+    pot_filename = f"{comp.pot_stem}.pot"
+    logger.info("  Component: %s → %s", comp.slug, pot_filename)
+
+    # Step 1: Upload file content to Crowdin storage
+    storage_url = f"{_CROWDIN_API_URL}/storages"
+    try:
+        pot_content = comp.pot_path.read_bytes()
+    except OSError as exc:
+        logger.error("  Cannot read %s: %s", comp.pot_path, exc)
+        return False
+
+    try:
+        resp = session.post(
+            storage_url,
+            headers={
+                "Crowdin-API-FileName": pot_filename,
+                "Content-Type": "application/octet-stream",
+            },
+            data=pot_content,
+            timeout=DEFAULT_TIMEOUT_SECONDS,
+        )
+    except requests.exceptions.RequestException as exc:
+        logger.error("  Storage upload failed: %s", exc)
+        return False
+
+    if resp.status_code not in (200, 201):
+        logger.error("  Storage upload HTTP %d: %s",
+                      resp.status_code, resp.text[:500])
+        return False
+
+    storage_id = resp.json().get("data", {}).get("id")
+    if not storage_id:
+        logger.error("  Storage upload returned no storage ID")
+        return False
+
+    # Step 2: Create or update the file in the project
+    file_id = existing_files.get(pot_filename)
+    if file_id:
+        # Update existing file
+        update_url = f"{_CROWDIN_API_URL}/projects/{project_id}/files/{file_id}"
+        payload = {"storageId": storage_id}
+        try:
+            resp = session.put(
+                update_url, json=payload, timeout=DEFAULT_TIMEOUT_SECONDS
+            )
+        except requests.exceptions.RequestException as exc:
+            logger.error("  File update failed: %s", exc)
+            return False
+
+        if resp.status_code != 200:
+            logger.error("  File update HTTP %d: %s",
+                          resp.status_code, resp.text[:500])
+            return False
+        logger.info("  ✓ Updated: %s (file_id=%d)", pot_filename, file_id)
+    else:
+        # Create new file
+        create_url = f"{_CROWDIN_API_URL}/projects/{project_id}/files"
+        payload = {
+            "storageId": storage_id,
+            "name": pot_filename,
+            "type": "gettext",
+        }
+        try:
+            resp = session.post(
+                create_url, json=payload, timeout=DEFAULT_TIMEOUT_SECONDS
+            )
+        except requests.exceptions.RequestException as exc:
+            logger.error("  File create failed: %s", exc)
+            return False
+
+        if resp.status_code not in (200, 201):
+            logger.error("  File create HTTP %d: %s",
+                          resp.status_code, resp.text[:500])
+            return False
+
+        new_id = resp.json().get("data", {}).get("id", "?")
+        logger.info("  ✓ Created: %s (file_id=%s)", pot_filename, new_id)
+
+    return True
+
+
+# ---------------------------------------------------------------------------
 # Main registration logic
 # ---------------------------------------------------------------------------
 
@@ -345,17 +563,23 @@ def register_project(
             # Launchpad API integration would go here
             logger.info("✓ Launchpad registration completed (stub)")
 
-    # Crowdin (stub — logs info about what would be registered)
+    # Crowdin
     if "crowdin" in enabled_services:
         api_token = os.environ.get("CROWDIN_API_TOKEN", "")
         if not api_token:
             logger.error("CROWDIN_API_TOKEN not set — cannot register with Crowdin")
             errors = True
         else:
-            logger.info("Crowdin registration: project=%s (%d components)",
-                        project_slug, len(components))
-            # Crowdin API integration would go here
-            logger.info("✓ Crowdin registration completed (stub)")
+            logger.info(
+                "Registering with Crowdin (token: %s)",
+                redact_for_log(api_token),
+            )
+            ok = _register_crowdin_project(
+                project_slug, config, components, api_token,
+                repo_root=repo_root,
+            )
+            if not ok:
+                errors = True
 
     return 1 if errors else 0
 
