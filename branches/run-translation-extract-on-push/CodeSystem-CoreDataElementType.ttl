@@ -1,0 +1,57 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/CoreDataElementType> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "CoreDataElementType"] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem CoreDataElementType</b></p><a name=\"CoreDataElementType\"> </a><a name=\"hcCoreDataElementType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/CoreDataElementType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">valueset<a name=\"CoreDataElementType-valueset\"> </a></td><td>ValueSet</td><td>Reference to a FHIR ValueSet resource</td></tr><tr><td style=\"white-space:nowrap\">codesystem<a name=\"CoreDataElementType-codesystem\"> </a></td><td>CodeSystem</td><td>Reference to a FHIR CodeSystem resource</td></tr><tr><td style=\"white-space:nowrap\">conceptmap<a name=\"CoreDataElementType-conceptmap\"> </a></td><td>ConceptMap</td><td>Reference to a FHIR ConceptMap resource</td></tr><tr><td style=\"white-space:nowrap\">logicalmodel<a name=\"CoreDataElementType-logicalmodel\"> </a></td><td>Logical Model</td><td>Reference to a Logical Model adherent to SGLogicalModel</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem CoreDataElementType</b></p><a name=\"fr-CoreDataElementType\"> </a><a name=\"fr-hcCoreDataElementType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/CoreDataElementType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style=\"white-space:nowrap\">valueset<a name=\"fr-CoreDataElementType-valueset\"> </a></td><td>ValueSet</td><td>Reference to a FHIR ValueSet resource</td></tr><tr><td style=\"white-space:nowrap\">codesystem<a name=\"fr-CoreDataElementType-codesystem\"> </a></td><td>CodeSystem</td><td>Reference to a FHIR CodeSystem resource</td></tr><tr><td style=\"white-space:nowrap\">conceptmap<a name=\"fr-CoreDataElementType-conceptmap\"> </a></td><td>ConceptMap</td><td>Reference to a FHIR ConceptMap resource</td></tr><tr><td style=\"white-space:nowrap\">logicalmodel<a name=\"fr-CoreDataElementType-logicalmodel\"> </a></td><td>Logical Model</td><td>Reference to a Logical Model adherent to SGLogicalModel</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem CoreDataElementType</b></p><a name=\"ar-CoreDataElementType\"> </a><a name=\"ar-hcCoreDataElementType\"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/CoreDataElementType</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style=\"white-space:nowrap\">valueset<a name=\"ar-CoreDataElementType-valueset\"> </a></td><td>ValueSet</td><td>Reference to a FHIR ValueSet resource</td></tr><tr><td style=\"white-space:nowrap\">codesystem<a name=\"ar-CoreDataElementType-codesystem\"> </a></td><td>CodeSystem</td><td>Reference to a FHIR CodeSystem resource</td></tr><tr><td style=\"white-space:nowrap\">conceptmap<a name=\"ar-CoreDataElementType-conceptmap\"> </a></td><td>ConceptMap</td><td>Reference to a FHIR ConceptMap resource</td></tr><tr><td style=\"white-space:nowrap\">logicalmodel<a name=\"ar-CoreDataElementType-logicalmodel\"> </a></td><td>Logical Model</td><td>Reference to a Logical Model adherent to SGLogicalModel</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 CoreDataElementType</b></p><a name=\"zh-CoreDataElementType\"> </a><a name=\"zh-hcCoreDataElementType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/CoreDataElementType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">valueset<a name=\"zh-CoreDataElementType-valueset\"> </a></td><td>ValueSet</td><td>Reference to a FHIR ValueSet resource</td></tr><tr><td style=\"white-space:nowrap\">codesystem<a name=\"zh-CoreDataElementType-codesystem\"> </a></td><td>CodeSystem</td><td>Reference to a FHIR CodeSystem resource</td></tr><tr><td style=\"white-space:nowrap\">conceptmap<a name=\"zh-CoreDataElementType-conceptmap\"> </a></td><td>ConceptMap</td><td>Reference to a FHIR ConceptMap resource</td></tr><tr><td style=\"white-space:nowrap\">logicalmodel<a name=\"zh-CoreDataElementType-logicalmodel\"> </a></td><td>Logical Model</td><td>Reference to a Logical Model adherent to SGLogicalModel</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem CoreDataElementType</b></p><a name=\"ru-CoreDataElementType\"> </a><a name=\"ru-hcCoreDataElementType\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/CoreDataElementType</code> case-sensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style=\"white-space:nowrap\">valueset<a name=\"ru-CoreDataElementType-valueset\"> </a></td><td>ValueSet</td><td>Reference to a FHIR ValueSet resource</td></tr><tr><td style=\"white-space:nowrap\">codesystem<a name=\"ru-CoreDataElementType-codesystem\"> </a></td><td>CodeSystem</td><td>Reference to a FHIR CodeSystem resource</td></tr><tr><td style=\"white-space:nowrap\">conceptmap<a name=\"ru-CoreDataElementType-conceptmap\"> </a></td><td>ConceptMap</td><td>Reference to a FHIR ConceptMap resource</td></tr><tr><td style=\"white-space:nowrap\">logicalmodel<a name=\"ru-CoreDataElementType-logicalmodel\"> </a></td><td>Logical Model</td><td>Reference to a Logical Model adherent to SGLogicalModel</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos CoreDataElementType</b></p><a name=\"es-CoreDataElementType\"> </a><a name=\"es-hcCoreDataElementType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/CoreDataElementType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">valueset<a name=\"es-CoreDataElementType-valueset\"> </a></td><td>ValueSet</td><td>Reference to a FHIR ValueSet resource</td></tr><tr><td style=\"white-space:nowrap\">codesystem<a name=\"es-CoreDataElementType-codesystem\"> </a></td><td>CodeSystem</td><td>Reference to a FHIR CodeSystem resource</td></tr><tr><td style=\"white-space:nowrap\">conceptmap<a name=\"es-CoreDataElementType-conceptmap\"> </a></td><td>ConceptMap</td><td>Reference to a FHIR ConceptMap resource</td></tr><tr><td style=\"white-space:nowrap\">logicalmodel<a name=\"es-CoreDataElementType-logicalmodel\"> </a></td><td>Logical Model</td><td>Reference to a Logical Model adherent to SGLogicalModel</td></tr></table></div></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:url [
+     fhir:v "http://smart.who.int/base/CodeSystem/CoreDataElementType"^^xsd:anyURI ;
+     fhir:l <http://smart.who.int/base/CodeSystem/CoreDataElementType>
+  ] ; # 
+  fhir:version [ fhir:v "0.2.0"] ; # 
+  fhir:name [ fhir:v "CoreDataElementType"] ; # 
+  fhir:title [ fhir:v "Core Data Element Type"] ; # 
+  fhir:status [ fhir:v "active"] ; # 
+  fhir:experimental [ fhir:v false] ; # 
+  fhir:date [ fhir:v "2026-03-11T11:03:26+00:00"^^xsd:dateTime] ; # 
+  fhir:publisher [ fhir:v "WHO"] ; # 
+  fhir:contact ( [
+     fhir:name [ fhir:v "WHO" ] ;
+     fhir:telecom ( [
+       fhir:system [ fhir:v "url" ] ;
+       fhir:value [ fhir:v "http://who.int" ]
+     ] )
+  ] ) ; # 
+  fhir:description [ fhir:v "CodeSystem for Core Data Element types - defines the type of FHIR resource that a Core Data Element references."] ; # 
+  fhir:caseSensitive [ fhir:v true] ; # 
+  fhir:content [ fhir:v "complete"] ; # 
+  fhir:count [ fhir:v "4"^^xsd:nonNegativeInteger] ; # 
+  fhir:concept ( [
+     fhir:code [ fhir:v "valueset" ] ;
+     fhir:display [ fhir:v "ValueSet" ] ;
+     fhir:definition [ fhir:v "Reference to a FHIR ValueSet resource" ]
+  ] [
+     fhir:code [ fhir:v "codesystem" ] ;
+     fhir:display [ fhir:v "CodeSystem" ] ;
+     fhir:definition [ fhir:v "Reference to a FHIR CodeSystem resource" ]
+  ] [
+     fhir:code [ fhir:v "conceptmap" ] ;
+     fhir:display [ fhir:v "ConceptMap" ] ;
+     fhir:definition [ fhir:v "Reference to a FHIR ConceptMap resource" ]
+  ] [
+     fhir:code [ fhir:v "logicalmodel" ] ;
+     fhir:display [ fhir:v "Logical Model" ] ;
+     fhir:definition [ fhir:v "Reference to a Logical Model adherent to SGLogicalModel" ]
+  ] ) . # 
+
+# -------------------------------------------------------------------------------------
+
