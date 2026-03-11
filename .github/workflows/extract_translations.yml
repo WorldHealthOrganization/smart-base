@@ -29,10 +29,6 @@ on:
         description: 'Optional terminology server URL (use n/a for offline)'
         required: false
 
-  # ── Run automatically on every push to main ──────────────────────────────
-  push:
-    branches:
-      - main
 
 # Extraction runs are fully independent of deploy (ci.yml) runs — different
 # branches can extract and deploy simultaneously.  Within a single branch, a
