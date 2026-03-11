@@ -22,7 +22,7 @@ on:
   push:
     branches-ignore:
       - 'gh-pages'
-  pull_request:
+  pull_request_target:
     branches-ignore:
       - 'gh-pages'
   workflow_dispatch:
@@ -60,11 +60,11 @@ jobs:
     with:
       tx: ${{ inputs.tx || '' }}
       do_dak: ${{ inputs.do_dak != false }}
-      # Only deploy to gh-pages on push / workflow_dispatch (not on pull_request events).
+      # Only deploy to gh-pages on push / workflow_dispatch (not on pull_request_target events).
       # For PRs, gh-pages deployment is gated by the 'pr-preview' GitHub Actions environment
       # (pr-preview.yml) which requires reviewer approval, or by the /deploy slash command
       # (pr-deploy-slash.yml) for ad-hoc manual deploys.
-      deploy: ${{ github.event_name != 'pull_request' }}
+      deploy: ${{ github.event_name != 'pull_request_target' }}
     secrets: inherit
 
   commit-pot:
@@ -74,7 +74,7 @@ jobs:
     # independently of the full IG build.
     # Pull-request runs (including forks) are skipped because they do not have
     # contents: write and would fail trying to push back to the branch.
-    if: always() && github.event_name != 'pull_request'
+    if: always() && github.event_name != 'pull_request_target'
 
     permissions:
       contents: write
