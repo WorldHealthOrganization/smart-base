@@ -62,5 +62,4 @@ jobs:
 
     uses: ./.github/workflows/ghbuild.yml
     with:
-      ref: ${{ github.event.pull_request.head.sha }}
       deploy: true

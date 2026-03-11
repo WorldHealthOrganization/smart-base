@@ -22,14 +22,6 @@ name: FHIR IG Build and GitHub Pages Deployment
 on:
   workflow_call: # Reusable by other workflows
     inputs:
-      ref:
-        description: >-
-          Git ref or SHA to checkout. When non-empty, trusted scripts from main are
-          always overlaid on top (see overlay steps below) so that executable code
-          always comes from a reviewed commit regardless of what the ref contains.
-          Leave empty to use github.ref (the default for push/dispatch events).
-        required: false
-        type: string
       tx:
         required: false
         type: string
@@ -48,10 +40,6 @@ on:
   # (useful for downstream repos and for ad-hoc smart-base builds).
   workflow_dispatch:
     inputs:
-      ref:
-        description: 'Branch, tag, or commit SHA to build and deploy (defaults to the branch selected above)'
-        required: false
-        type: string
       tx:
         description: 'Optional Custom terminology server URL'
         required: false
@@ -91,37 +79,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.ref || github.ref }}
-
-      # Trusted scripts overlay: whenever an explicit ref is provided (PR head SHA,
-      # or any other ref passed by a caller), replace input/scripts/ with the version
-      # from main.  This ensures that all executed Python always comes from a reviewed
-      # commit, regardless of what the checked-out ref contains.
-      # Push and dispatch runs that do NOT supply an explicit ref use github.ref
-      # (the branch being built), which is already trusted.
-      - name: Checkout trusted scripts from main
-        if: inputs.ref != ''
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          path: __trusted_scripts__
-          sparse-checkout: |
-            input/scripts
-          sparse-checkout-cone-mode: false
-
-      - name: Overlay trusted scripts onto workspace
-        if: inputs.ref != ''
-        run: |
-          set -e
-          if [ ! -d "__trusted_scripts__/input/scripts" ]; then
-            echo "❌ Trusted scripts directory not found in __trusted_scripts__/input/scripts"
-            exit 1
-          fi
-          rm -rf input/scripts
-          cp -r __trusted_scripts__/input/scripts input/scripts
-          rm -rf __trusted_scripts__
-          echo "✅ input/scripts/ now contains trusted code from main"
 
       - name: Record checkout timestamp
         run: echo "TS_CHECKOUT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
@@ -140,7 +97,7 @@ jobs:
         id: find_pr
         run: |
           # Check if this is a PR event
-          if [[ "${{ github.event_name }}" == "pull_request" || "${{ github.event_name }}" == "pull_request_target" ]]; then
+          if [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
             echo "PR_NUMBER=${{ github.event.number }}" >> $GITHUB_OUTPUT
             echo "IS_PR=true" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event_name }}" == "push" ]]; then
@@ -192,17 +149,11 @@ jobs:
         env:
           GH_HEAD_REF: ${{ github.head_ref }}
           GH_REF_NAME: ${{ github.ref_name }}
-          INPUT_REF: ${{ inputs.ref }}
         run: |
           echo "$GH_HEAD_REF"
           echo "$GH_REF_NAME"
           echo "${GITHUB_REF#refs/heads/}"
-          if [ -n "$INPUT_REF" ]; then
-            # Use the explicit ref input if provided, stripping refs/heads/ prefix if present
-            ACTUAL_BRANCH="${INPUT_REF#refs/heads/}"
-          else
-            ACTUAL_BRANCH="${GH_HEAD_REF:-$GH_REF_NAME}"
-          fi
+          ACTUAL_BRANCH="${GH_HEAD_REF:-$GH_REF_NAME}"
           echo "BRANCH_DIR=${ACTUAL_BRANCH##*/}"
           echo "BRANCH_DIR=${ACTUAL_BRANCH##*/}" >> "$GITHUB_ENV"
           echo "BRANCH_NAME=${ACTUAL_BRANCH}" >> "$GITHUB_ENV"

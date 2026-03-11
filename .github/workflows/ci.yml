@@ -58,7 +58,6 @@ jobs:
       pull-requests: write   # required so ghbuild.yml can post PR build-status comments
     uses: ./.github/workflows/ghbuild.yml
     with:
-      ref: ${{ github.event.pull_request.head.sha || '' }}
       tx: ${{ inputs.tx || '' }}
       do_dak: ${{ inputs.do_dak != false }}
       # Only deploy to gh-pages on push / workflow_dispatch (not on pull_request_target events).
