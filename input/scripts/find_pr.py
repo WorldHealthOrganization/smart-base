@@ -8,7 +8,7 @@ values such as branch names cannot be used for script injection.
 Environment variables
 ---------------------
 GH_EVENT_NAME   GitHub event type (e.g. "pull_request", "pull_request_target", "push").
-GH_EVENT_NUMBER PR number when ``GH_EVENT_NAME == "pull_request"``.
+GH_EVENT_NUMBER PR number when ``GH_EVENT_NAME`` is ``"pull_request"`` or ``"pull_request_target"``.
 GH_REF_NAME     Branch or tag name (used to look up a PR on "push").
 GH_TOKEN        GitHub API token for ``gh`` CLI calls.
 GITHUB_OUTPUT   Path to the file that receives step outputs.

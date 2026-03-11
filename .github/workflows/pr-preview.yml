@@ -33,10 +33,10 @@
 # default GITHUB_TOKEN for fork PRs does not have contents: write access
 # needed to push to gh-pages.
 #
-# The companion ci.yml workflow runs the IG build for validation on every
-# PR push (using pull_request, not pull_request_target) so CI status checks
-# always reflect the latest commit regardless of whether a preview has been
-# approved.
+# The companion ci.yml workflow (which uses the regular pull_request trigger,
+# not pull_request_target) runs the IG build for validation on every PR push
+# so CI status checks always reflect the latest commit regardless of whether
+# a preview has been approved.
 
 name: PR Preview Deploy (approval required)
 
