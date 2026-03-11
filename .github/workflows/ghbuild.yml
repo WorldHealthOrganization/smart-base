@@ -23,7 +23,11 @@ on:
   workflow_call: # Reusable by other workflows
     inputs:
       ref:
-        description: 'Git ref or SHA to checkout (e.g. PR head SHA for pull_request_target callers; defaults to github.ref if omitted)'
+        description: >-
+          Git ref or SHA to checkout. When non-empty, trusted scripts from main are
+          always overlaid on top (see overlay steps below) so that executable code
+          always comes from a reviewed commit regardless of what the ref contains.
+          Leave empty to use github.ref (the default for push/dispatch events).
         required: false
         type: string
       tx:
@@ -90,12 +94,14 @@ jobs:
         with:
           ref: ${{ inputs.ref || github.ref }}
 
-      # For pull_request_target events: overlay trusted scripts from main so that only
-      # reviewed Python code is ever executed, regardless of what the PR branch contains.
-      # The PR branch provides data (FSH, BPMN, YAML, JSON, images) while all executable
-      # scripts come from the trusted main branch.
+      # Trusted scripts overlay: whenever an explicit ref is provided (PR head SHA,
+      # or any other ref passed by a caller), replace input/scripts/ with the version
+      # from main.  This ensures that all executed Python always comes from a reviewed
+      # commit, regardless of what the checked-out ref contains.
+      # Push and dispatch runs that do NOT supply an explicit ref use github.ref
+      # (the branch being built), which is already trusted.
       - name: Checkout trusted scripts from main
-        if: github.event_name == 'pull_request_target'
+        if: inputs.ref != ''
         uses: actions/checkout@v4
         with:
           ref: main
@@ -105,7 +111,7 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: Overlay trusted scripts onto workspace
-        if: github.event_name == 'pull_request_target'
+        if: inputs.ref != ''
         run: |
           set -e
           if [ ! -d "__trusted_scripts__/input/scripts" ]; then
