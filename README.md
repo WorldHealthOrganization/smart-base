@@ -11,7 +11,7 @@
 
 # WHO SMART GUIDELINES - Base IG
 
-## Overview
+## Overview 
 
 This repository contains the **core FHIR profiles** that define the common knowledge representation artifacts used by WHO SMART Guidelines. It serves as the foundational Implementation Guide for the WHO SMART Guidelines ecosystem, providing base profiles and common dependencies to assist in the creation of SMART Implementation Guides.
 
