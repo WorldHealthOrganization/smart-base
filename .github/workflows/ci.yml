@@ -82,6 +82,7 @@ jobs:
       inputs.scripts_ref != '' &&
       inputs.scripts_ref != 'main'
     runs-on: ubuntu-latest
+    permissions: {}
     environment: scripts-override
     steps:
       - run: |
@@ -90,7 +91,7 @@ jobs:
           SCRIPTS_REF: ${{ inputs.scripts_ref }}
 
   build-and-deploy:
-    needs: [approve-scripts-override]
+    needs: approve-scripts-override
     # Run when approval succeeded OR was skipped (normal flow).
     if: >-
       always() &&
