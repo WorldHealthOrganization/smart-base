@@ -3,6 +3,13 @@
 # Deploys the PR branch preview to gh-pages once a repository collaborator
 # approves the deployment via GitHub Actions environment protection.
 #
+# This workflow uses pull_request_target so it runs in the context of the
+# base repository (with access to secrets and write permissions), NOT in the
+# context of the PR head.  The PR's code is checked out only AFTER a
+# reviewer has approved, by passing the PR head SHA to ghbuild.yml's ref
+# input.  This is the standard "split-checkout" security model for
+# deployment workflows.
+#
 # Prerequisites
 # ─────────────
 # Create a "pr-preview" environment in repository Settings → Environments
@@ -16,8 +23,8 @@
 #      "pr-preview" environment gate, showing a "Review deployments" button
 #      in the Actions tab.
 #   2. A reviewer approves (or rejects) the pending deployment.
-#   3. After approval the deploy-preview job runs the full FHIR IG build and
-#      the output is deployed
+#   3. After approval the deploy-preview job runs the full FHIR IG build
+#      checking out the PR head commit, and the output is deployed
 #      to gh-pages at:
 #        https://<owner>.github.io/<repo>/branches/<branch-dir>/
 #   4. The PR receives a comment with the build status and preview URL.
@@ -27,14 +34,14 @@
 # needed to push to gh-pages.
 #
 # The companion ci.yml workflow runs the IG build for validation on every
-# PR push (deploy: false, i.e. `github.event_name != 'pull_request'` evaluates
-# to false) so CI status checks always reflect the latest commit regardless of
-# whether a preview has been approved.
+# PR push (using pull_request, not pull_request_target) so CI status checks
+# always reflect the latest commit regardless of whether a preview has been
+# approved.
 
 name: PR Preview Deploy (approval required)
 
 on:
-  pull_request:
+  pull_request_target:
     branches-ignore:
       - 'gh-pages'
     types: [opened, synchronize, reopened]
@@ -72,4 +79,6 @@ jobs:
 
     uses: ./.github/workflows/ghbuild.yml
     with:
+      # Check out the PR head commit — safe because a reviewer just approved.
+      ref: ${{ github.event.pull_request.head.sha }}
       deploy: true

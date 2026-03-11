@@ -22,6 +22,10 @@ name: FHIR IG Build and GitHub Pages Deployment
 on:
   workflow_call: # Reusable by other workflows
     inputs:
+      ref:
+        description: 'Git ref to check out (e.g. PR head SHA).  When empty the default ref for the triggering event is used.'
+        required: false
+        type: string
       tx:
         required: false
         type: string
@@ -40,10 +44,6 @@ on:
   # (useful for downstream repos and for ad-hoc smart-base builds).
   workflow_dispatch:
     inputs:
-      ref:
-        description: 'Branch, tag, or commit SHA to build and deploy (defaults to the branch selected above)'
-        required: false
-        type: string
       tx:
         description: 'Optional Custom terminology server URL'
         required: false
@@ -142,7 +142,6 @@ jobs:
         env:
           GH_HEAD_REF: ${{ github.head_ref }}
           GH_REF_NAME: ${{ github.ref_name }}
-          INPUT_REF: ${{ inputs.ref }}
         run: python3 input/scripts/resolve_branch.py
 
       - name: Echo branch name and check if it's the default branch

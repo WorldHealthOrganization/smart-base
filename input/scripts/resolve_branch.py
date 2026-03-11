@@ -5,12 +5,15 @@ Reads GitHub context exclusively from environment variables so that
 attacker-controlled values (branch names, refs) cannot be injected into
 shell commands.
 
+The branch name is resolved from GH_HEAD_REF (set on pull_request /
+pull_request_target events) or GH_REF_NAME (fallback).  This is used only
+for deployment directory naming — the code that is actually built is
+controlled by the separate ``ref`` input to the checkout action.
+
 Environment variables
 ---------------------
-GH_HEAD_REF   ``github.head_ref`` — set on pull_request events.
+GH_HEAD_REF   ``github.head_ref`` — set on pull_request / pull_request_target events.
 GH_REF_NAME   ``github.ref_name`` — always set by Actions.
-INPUT_REF     ``inputs.ref`` — optional explicit ref from workflow_dispatch.
-GITHUB_REF    ``github.ref`` — the full ref, e.g. ``refs/heads/main``.
 GITHUB_ENV    Path to the file that receives ``KEY=VALUE`` environment exports.
 
 Outputs (written to ``$GITHUB_ENV``)
@@ -86,15 +89,13 @@ def _set_env(name: str, value: str) -> None:
 # ---------------------------------------------------------------------------
 
 def main() -> None:
-    input_ref = _read_env("INPUT_REF")
     head_ref = _read_env("GH_HEAD_REF")
     ref_name = _read_env("GH_REF_NAME")
 
-    # Resolution order matches the original shell logic:
-    #   1. Explicit INPUT_REF (workflow_dispatch)
-    #   2. GH_HEAD_REF (pull_request event — the PR branch name)
-    #   3. GH_REF_NAME (fallback — the branch/tag that triggered the event)
-    raw = input_ref or head_ref or ref_name
+    # Resolution order:
+    #   1. GH_HEAD_REF (pull_request / pull_request_target — the PR branch name)
+    #   2. GH_REF_NAME (fallback — the branch/tag that triggered the event)
+    raw = head_ref or ref_name
 
     if not raw:
         print("⚠️  No branch information available — falling back to 'unknown'",

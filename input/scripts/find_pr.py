@@ -7,7 +7,7 @@ values such as branch names cannot be used for script injection.
 
 Environment variables
 ---------------------
-GH_EVENT_NAME   GitHub event type (e.g. "pull_request", "push").
+GH_EVENT_NAME   GitHub event type (e.g. "pull_request", "pull_request_target", "push").
 GH_EVENT_NUMBER PR number when ``GH_EVENT_NAME == "pull_request"``.
 GH_REF_NAME     Branch or tag name (used to look up a PR on "push").
 GH_TOKEN        GitHub API token for ``gh`` CLI calls.
@@ -139,7 +139,7 @@ def main() -> None:
         _set_output("IS_PR", "false")
         return
 
-    if event_name == "pull_request":
+    if event_name in ("pull_request", "pull_request_target"):
         try:
             pr_number = _validate_pr_number(event_number)
             _set_output("PR_NUMBER", str(pr_number))
