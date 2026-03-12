@@ -1,0 +1,38 @@
+name: Classify Issue
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  classify:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check DAK enabled
+        # dak.json in the repo root signals that DAK skill features are active.
+        # See .github/skills/README.md for configuration details.
+        id: dak
+        run: |
+          [ -f dak.json ] \
+            && echo "enabled=true"  >> $GITHUB_OUTPUT \
+            || echo "enabled=false" >> $GITHUB_OUTPUT
+
+      - name: Install Python dependencies
+        if: steps.dak.outputs.enabled == 'true'
+        run: pip install litellm requests
+
+      - name: Classify and label
+        if: steps.dak.outputs.enabled == 'true'
+        env:
+          GITHUB_TOKEN:    ${{ secrets.GITHUB_TOKEN }}
+          DAK_LLM_API_KEY: ${{ secrets.DAK_LLM_API_KEY }}
+          DAK_LLM_MODEL:   ${{ vars.DAK_LLM_MODEL || 'gpt-4o-mini' }}
+          ISSUE_NUMBER:    ${{ github.event.issue.number }}
+          ISSUE_TITLE:     ${{ github.event.issue.title }}
+          ISSUE_BODY:      ${{ github.event.issue.body }}
+        run: python3 .github/skills/dak_authoring/actions/classify_issue_action.py

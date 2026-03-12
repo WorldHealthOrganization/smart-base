@@ -1,0 +1,24 @@
+name: Translation Skill
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  translation:
+    if: github.event.label.name == 'content:translation'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run translation skill
+        env:
+          GITHUB_TOKEN:    ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER:    ${{ github.event.issue.number }}
+          ISSUE_TITLE:     ${{ github.event.issue.title }}
+          ISSUE_BODY:      ${{ github.event.issue.body }}
+        run: python3 .github/skills/translation/actions/translation_action.py

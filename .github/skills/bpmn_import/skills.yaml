@@ -1,0 +1,18 @@
+# bpmn_import skill
+name: bpmn_import
+version: "0.1.0"
+description: Import BPMN files via bpmn_extractor.py and validate lane-to-actor mapping
+
+commands:
+  - name: import-bpmn
+    description: Run bpmn_extractor.py pipeline and validate output
+    requires_llm: false
+  - name: validate-actors
+    description: Validate that every innermost lane maps to an ActorDefinition
+    requires_llm: false
+
+validators:
+  - swimlane_actor_validator
+
+prompts:
+  - interpret_import_errors

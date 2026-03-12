@@ -1,0 +1,17 @@
+# dak_authoring skill
+name: dak_authoring
+version: "0.1.0"
+description: Issue classification and DAK L2 content authoring
+
+commands:
+  - name: classify-issue
+    description: Classify a GitHub issue and apply content labels
+    requires_llm: false  # keyword fallback works without LLM
+  - name: author-l2
+    description: Author L2 DAK content from an issue description
+    requires_llm: true
+
+prompts:
+  - classify_issue
+  - l2_authoring
+  - change_proposal
