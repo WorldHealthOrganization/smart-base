@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  id="Definitions_DAKLifecycle"
+                  targetNamespace="http://smart.who.int/base/bpmn"
+                  exporter="SMART Guidelines Authoring"
+                  exporterVersion="0.1.0">
+
+  <!-- =================================================================== -->
+  <!-- COLLABORATION: DAK Authoring and SMART Guideline Publication        -->
+  <!-- Based on: WHO SMART IG Starter Kit v1.0.0                           -->
+  <!-- =================================================================== -->
+  <bpmn:collaboration id="Collaboration_DAKLifecycle">
+    <bpmn:participant id="Participant_ProgrammeManager" name="Programme Manager" processRef="Process_Planning"/>
+    <bpmn:participant id="Participant_BusinessAnalyst" name="Business Analyst" processRef="Process_L2Authoring"/>
+    <bpmn:participant id="Participant_ClinicalSME" name="Clinical SME" processRef="Process_ClinicalReview"/>
+    <bpmn:participant id="Participant_FHIRModeller" name="FHIR Modeller" processRef="Process_L3Authoring"/>
+    <bpmn:participant id="Participant_Terminologist" name="Terminologist" processRef="Process_Terminology"/>
+    <bpmn:participant id="Participant_QCReviewer" name="QC Reviewer" processRef="Process_QualityControl"/>
+    <bpmn:participant id="Participant_PublicationManager" name="Publication Manager" processRef="Process_Publication"/>
+    <bpmn:participant id="Participant_Translator" name="Translator" processRef="Process_Translation"/>
+
+    <!-- Message flows between participants -->
+    <bpmn:messageFlow id="MF_PM_BA" sourceRef="Task_AssignWork" targetRef="Task_ReviewL1"/>
+    <bpmn:messageFlow id="MF_BA_SME" sourceRef="Task_DraftDAKComponents" targetRef="Task_ValidateClinical"/>
+    <bpmn:messageFlow id="MF_SME_BA" sourceRef="Task_ProvideFeedback" targetRef="Task_IncorporateFeedback"/>
+    <bpmn:messageFlow id="MF_BA_FM" sourceRef="Task_FinalizeL2" targetRef="Task_VerifyL2Input"/>
+    <bpmn:messageFlow id="MF_FM_TM" sourceRef="Task_AuthorTerminology" targetRef="Task_ReviewTermBindings"/>
+    <bpmn:messageFlow id="MF_FM_QC" sourceRef="Task_RunBuild" targetRef="Task_ReviewQA"/>
+    <bpmn:messageFlow id="MF_QC_FM" sourceRef="Task_ReportIssues" targetRef="Task_FixIssues"/>
+    <bpmn:messageFlow id="MF_QC_PUB" sourceRef="Task_ApprovePublication" targetRef="Task_PrepareRelease"/>
+    <bpmn:messageFlow id="MF_FM_TR" sourceRef="Task_CompleteL3" targetRef="Task_TranslateContent"/>
+    <bpmn:messageFlow id="MF_TR_QC" sourceRef="Task_CompleteTranslation" targetRef="Task_ReviewTranslatedContent"/>
+  </bpmn:collaboration>
+
+  <!-- =================================================================== -->
+  <!-- PHASE 1: PLANNING (Programme Manager)                                -->
+  <!-- =================================================================== -->
+  <bpmn:process id="Process_Planning" name="Phase 1: Planning" isExecutable="false">
+    <bpmn:startEvent id="Start_Planning" name="DAK Development Initiated">
+      <bpmn:outgoing>Flow_P1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:task id="Task_Scoping" name="Define DAK scope, purpose, and target audience">
+      <bpmn:incoming>Flow_P1</bpmn:incoming>
+      <bpmn:outgoing>Flow_P2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_FormTeam" name="Form DAK development team and define RASCI matrix">
+      <bpmn:incoming>Flow_P2</bpmn:incoming>
+      <bpmn:outgoing>Flow_P3</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_EstablishProcess" name="Establish development process (Agile/Scrum) and tooling">
+      <bpmn:incoming>Flow_P3</bpmn:incoming>
+      <bpmn:outgoing>Flow_P4</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_GatherDocs" name="Gather source documents (guidelines, registers, policies)">
+      <bpmn:incoming>Flow_P4</bpmn:incoming>
+      <bpmn:outgoing>Flow_P5</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_PlanTimeline" name="Draft project roadmap, backlog, and sprint cadence">
+      <bpmn:incoming>Flow_P5</bpmn:incoming>
+      <bpmn:outgoing>Flow_P6</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_PlanConsultations" name="Plan SME consultation schedule and format">
+      <bpmn:incoming>Flow_P6</bpmn:incoming>
+      <bpmn:outgoing>Flow_P7</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AssignWork" name="Assign work and begin sprint cycle">
+      <bpmn:incoming>Flow_P7</bpmn:incoming>
+      <bpmn:outgoing>Flow_P8</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:endEvent id="End_Planning" name="Planning Complete">
+      <bpmn:incoming>Flow_P8</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_P1" sourceRef="Start_Planning" targetRef="Task_Scoping"/>
+    <bpmn:sequenceFlow id="Flow_P2" sourceRef="Task_Scoping" targetRef="Task_FormTeam"/>
+    <bpmn:sequenceFlow id="Flow_P3" sourceRef="Task_FormTeam" targetRef="Task_EstablishProcess"/>
+    <bpmn:sequenceFlow id="Flow_P4" sourceRef="Task_EstablishProcess" targetRef="Task_GatherDocs"/>
+    <bpmn:sequenceFlow id="Flow_P5" sourceRef="Task_GatherDocs" targetRef="Task_PlanTimeline"/>
+    <bpmn:sequenceFlow id="Flow_P6" sourceRef="Task_PlanTimeline" targetRef="Task_PlanConsultations"/>
+    <bpmn:sequenceFlow id="Flow_P7" sourceRef="Task_PlanConsultations" targetRef="Task_AssignWork"/>
+    <bpmn:sequenceFlow id="Flow_P8" sourceRef="Task_AssignWork" targetRef="End_Planning"/>
+  </bpmn:process>
+
+  <!-- =================================================================== -->
+  <!-- PHASE 2a: L2 DAK AUTHORING (Business Analyst)                       -->
+  <!-- Iterative sprint cycle: Fill → Validate → Incorporate               -->
+  <!-- =================================================================== -->
+  <bpmn:process id="Process_L2Authoring" name="Phase 2a: L2 DAK Authoring" isExecutable="false">
+    <bpmn:startEvent id="Start_L2" name="Sprint Begins">
+      <bpmn:outgoing>Flow_L2_1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:task id="Task_ReviewL1" name="Review L1 source documents for current sprint scope">
+      <bpmn:incoming>Flow_L2_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_L2_2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_IdentifyInterventions" name="Identify health interventions and recommendations (Component 1)">
+      <bpmn:incoming>Flow_L2_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_L2_3</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AuthorPersonas" name="Author generic personas (Component 2)">
+      <bpmn:incoming>Flow_L2_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_L2_4</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AuthorScenarios" name="Author user scenarios (Component 3)">
+      <bpmn:incoming>Flow_L2_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_L2_5</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AuthorBPMN" name="Author BPMN business processes (Component 4)">
+      <bpmn:incoming>Flow_L2_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_L2_6</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:subProcess id="SubProcess_PerBP" name="For each business process">
+      <bpmn:incoming>Flow_L2_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_L2_7</bpmn:outgoing>
+
+      <bpmn:task id="Task_DetailWorkflow" name="Draft detailed workflow annotations"/>
+      <bpmn:task id="Task_DefineDataElements" name="Define core data elements (Component 5)"/>
+      <bpmn:task id="Task_DevelopDecisionLogic" name="Develop decision-support logic (Component 6)"/>
+      <bpmn:task id="Task_DevelopSchedulingLogic" name="Develop scheduling logic (Component 7)"/>
+      <bpmn:task id="Task_ListIndicators" name="List indicators and metrics (Component 8)"/>
+      <bpmn:task id="Task_DefineRequirements" name="Define functional/non-functional requirements (Component 9)"/>
+    </bpmn:subProcess>
+
+    <bpmn:task id="Task_DraftDAKComponents" name="Streamline and cross-check all DAK components">
+      <bpmn:incoming>Flow_L2_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_L2_8</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Feedback loop -->
+    <bpmn:task id="Task_IncorporateFeedback" name="Incorporate SME feedback into DAK components">
+      <bpmn:incoming>Flow_L2_8</bpmn:incoming>
+      <bpmn:incoming>Flow_L2_Loop</bpmn:incoming>
+      <bpmn:outgoing>Flow_L2_9</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:exclusiveGateway id="GW_MoreSprints" name="More sprints needed?">
+      <bpmn:incoming>Flow_L2_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_L2_Loop</bpmn:outgoing>
+      <bpmn:outgoing>Flow_L2_10</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:task id="Task_FinalizeL2" name="Finalize L2 DAK for L3 authoring">
+      <bpmn:incoming>Flow_L2_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_L2_End</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:endEvent id="End_L2" name="L2 DAK Complete">
+      <bpmn:incoming>Flow_L2_End</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_L2_1" sourceRef="Start_L2" targetRef="Task_ReviewL1"/>
+    <bpmn:sequenceFlow id="Flow_L2_2" sourceRef="Task_ReviewL1" targetRef="Task_IdentifyInterventions"/>
+    <bpmn:sequenceFlow id="Flow_L2_3" sourceRef="Task_IdentifyInterventions" targetRef="Task_AuthorPersonas"/>
+    <bpmn:sequenceFlow id="Flow_L2_4" sourceRef="Task_AuthorPersonas" targetRef="Task_AuthorScenarios"/>
+    <bpmn:sequenceFlow id="Flow_L2_5" sourceRef="Task_AuthorScenarios" targetRef="Task_AuthorBPMN"/>
+    <bpmn:sequenceFlow id="Flow_L2_6" sourceRef="Task_AuthorBPMN" targetRef="SubProcess_PerBP"/>
+    <bpmn:sequenceFlow id="Flow_L2_7" sourceRef="SubProcess_PerBP" targetRef="Task_DraftDAKComponents"/>
+    <bpmn:sequenceFlow id="Flow_L2_8" sourceRef="Task_DraftDAKComponents" targetRef="Task_IncorporateFeedback"/>
+    <bpmn:sequenceFlow id="Flow_L2_9" sourceRef="Task_IncorporateFeedback" targetRef="GW_MoreSprints"/>
+    <bpmn:sequenceFlow id="Flow_L2_Loop" name="Yes - next sprint" sourceRef="GW_MoreSprints" targetRef="Task_IncorporateFeedback"/>
+    <bpmn:sequenceFlow id="Flow_L2_10" name="No - L2 finalized" sourceRef="GW_MoreSprints" targetRef="Task_FinalizeL2"/>
+    <bpmn:sequenceFlow id="Flow_L2_End" sourceRef="Task_FinalizeL2" targetRef="End_L2"/>
+  </bpmn:process>
+
+  <!-- =================================================================== -->
+  <!-- CLINICAL REVIEW (Clinical SME)                                       -->
+  <!-- =================================================================== -->
+  <bpmn:process id="Process_ClinicalReview" name="Clinical Review" isExecutable="false">
+    <bpmn:startEvent id="Start_ClinReview" name="DAK Components Ready for Review">
+      <bpmn:outgoing>Flow_CR1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:task id="Task_ValidateClinical" name="Validate DAK components against L1 recommendations">
+      <bpmn:incoming>Flow_CR1</bpmn:incoming>
+      <bpmn:outgoing>Flow_CR2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_GroundTruth" name="Ground-truth with field practice (country visits/interviews)">
+      <bpmn:incoming>Flow_CR2</bpmn:incoming>
+      <bpmn:outgoing>Flow_CR3</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_ProvideFeedback" name="Provide clinical feedback and identify gaps">
+      <bpmn:incoming>Flow_CR3</bpmn:incoming>
+      <bpmn:outgoing>Flow_CR4</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:endEvent id="End_ClinReview" name="Clinical Review Complete">
+      <bpmn:incoming>Flow_CR4</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_CR1" sourceRef="Start_ClinReview" targetRef="Task_ValidateClinical"/>
+    <bpmn:sequenceFlow id="Flow_CR2" sourceRef="Task_ValidateClinical" targetRef="Task_GroundTruth"/>
+    <bpmn:sequenceFlow id="Flow_CR3" sourceRef="Task_GroundTruth" targetRef="Task_ProvideFeedback"/>
+    <bpmn:sequenceFlow id="Flow_CR4" sourceRef="Task_ProvideFeedback" targetRef="End_ClinReview"/>
+  </bpmn:process>
+
+  <!-- =================================================================== -->
+  <!-- PHASE 2b: L3 FHIR AUTHORING (FHIR Modeller)                         -->
+  <!-- =================================================================== -->
+  <bpmn:process id="Process_L3Authoring" name="Phase 2b: L3 FHIR Authoring" isExecutable="false">
+    <bpmn:startEvent id="Start_L3" name="L2 DAK Available">
+      <bpmn:outgoing>Flow_L3_1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:task id="Task_VerifyL2Input" name="Verify L2 input availability and consistency">
+      <bpmn:incoming>Flow_L3_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_SetupIG" name="Set up IG repository from template">
+      <bpmn:incoming>Flow_L3_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_3</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AuthorLogicalModels" name="Author logical models from L2 data dictionary">
+      <bpmn:incoming>Flow_L3_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_4</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AuthorProfiles" name="Author FHIR profiles">
+      <bpmn:incoming>Flow_L3_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_5</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AuthorQuestionnaires" name="Author questionnaires and structure maps">
+      <bpmn:incoming>Flow_L3_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_6</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AuthorTerminology" name="Author CodeSystems, ValueSets, ConceptMaps">
+      <bpmn:incoming>Flow_L3_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_7</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AuthorCQL" name="Author CQL (decision logic, scheduling, indicators)">
+      <bpmn:incoming>Flow_L3_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_8</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AuthorPlanDefs" name="Author PlanDefinitions (processes, decision tables)">
+      <bpmn:incoming>Flow_L3_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_9</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AuthorActors" name="Author ActorDefinitions (reuse Commons)">
+      <bpmn:incoming>Flow_L3_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_10</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AuthorRemainingL3" name="Author Measures, Requirements, Scenarios, Tests">
+      <bpmn:incoming>Flow_L3_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_11</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_RunBuild" name="Run IG Publisher build">
+      <bpmn:incoming>Flow_L3_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_12</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_FixIssues" name="Fix QA issues from review">
+      <bpmn:incoming>Flow_L3_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_13</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:exclusiveGateway id="GW_L3Done" name="All issues resolved?">
+      <bpmn:incoming>Flow_L3_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_FixLoop</bpmn:outgoing>
+      <bpmn:outgoing>Flow_L3_14</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:task id="Task_CompleteL3" name="L3 authoring complete - ready for review">
+      <bpmn:incoming>Flow_L3_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_L3_End</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:endEvent id="End_L3" name="L3 Complete">
+      <bpmn:incoming>Flow_L3_End</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_L3_1" sourceRef="Start_L3" targetRef="Task_VerifyL2Input"/>
+    <bpmn:sequenceFlow id="Flow_L3_2" sourceRef="Task_VerifyL2Input" targetRef="Task_SetupIG"/>
+    <bpmn:sequenceFlow id="Flow_L3_3" sourceRef="Task_SetupIG" targetRef="Task_AuthorLogicalModels"/>
+    <bpmn:sequenceFlow id="Flow_L3_4" sourceRef="Task_AuthorLogicalModels" targetRef="Task_AuthorProfiles"/>
+    <bpmn:sequenceFlow id="Flow_L3_5" sourceRef="Task_AuthorProfiles" targetRef="Task_AuthorQuestionnaires"/>
+    <bpmn:sequenceFlow id="Flow_L3_6" sourceRef="Task_AuthorQuestionnaires" targetRef="Task_AuthorTerminology"/>
+    <bpmn:sequenceFlow id="Flow_L3_7" sourceRef="Task_AuthorTerminology" targetRef="Task_AuthorCQL"/>
+    <bpmn:sequenceFlow id="Flow_L3_8" sourceRef="Task_AuthorCQL" targetRef="Task_AuthorPlanDefs"/>
+    <bpmn:sequenceFlow id="Flow_L3_9" sourceRef="Task_AuthorPlanDefs" targetRef="Task_AuthorActors"/>
+    <bpmn:sequenceFlow id="Flow_L3_10" sourceRef="Task_AuthorActors" targetRef="Task_AuthorRemainingL3"/>
+    <bpmn:sequenceFlow id="Flow_L3_11" sourceRef="Task_AuthorRemainingL3" targetRef="Task_RunBuild"/>
+    <bpmn:sequenceFlow id="Flow_L3_12" sourceRef="Task_RunBuild" targetRef="Task_FixIssues"/>
+    <bpmn:sequenceFlow id="Flow_L3_13" sourceRef="Task_FixIssues" targetRef="GW_L3Done"/>
+    <bpmn:sequenceFlow id="Flow_L3_FixLoop" name="No - fix and rebuild" sourceRef="GW_L3Done" targetRef="Task_RunBuild"/>
+    <bpmn:sequenceFlow id="Flow_L3_14" name="Yes" sourceRef="GW_L3Done" targetRef="Task_CompleteL3"/>
+    <bpmn:sequenceFlow id="Flow_L3_End" sourceRef="Task_CompleteL3" targetRef="End_L3"/>
+  </bpmn:process>
+
+  <!-- =================================================================== -->
+  <!-- TERMINOLOGY (Terminologist)                                          -->
+  <!-- =================================================================== -->
+  <bpmn:process id="Process_Terminology" name="Terminology Management" isExecutable="false">
+    <bpmn:startEvent id="Start_Term" name="Terminology Review Requested">
+      <bpmn:outgoing>Flow_T1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:task id="Task_ReviewTermBindings" name="Review terminology bindings and code systems">
+      <bpmn:incoming>Flow_T1</bpmn:incoming>
+      <bpmn:outgoing>Flow_T2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_MapToCommons" name="Map concepts to WHO Commons dictionary">
+      <bpmn:incoming>Flow_T2</bpmn:incoming>
+      <bpmn:outgoing>Flow_T3</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_MapToStandards" name="Map to ICD-11, SNOMED CT, LOINC">
+      <bpmn:incoming>Flow_T3</bpmn:incoming>
+      <bpmn:outgoing>Flow_T4</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_OnboardConcepts" name="Onboard new concepts to Commons (governance)">
+      <bpmn:incoming>Flow_T4</bpmn:incoming>
+      <bpmn:outgoing>Flow_T5</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:endEvent id="End_Term" name="Terminology Complete">
+      <bpmn:incoming>Flow_T5</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_T1" sourceRef="Start_Term" targetRef="Task_ReviewTermBindings"/>
+    <bpmn:sequenceFlow id="Flow_T2" sourceRef="Task_ReviewTermBindings" targetRef="Task_MapToCommons"/>
+    <bpmn:sequenceFlow id="Flow_T3" sourceRef="Task_MapToCommons" targetRef="Task_MapToStandards"/>
+    <bpmn:sequenceFlow id="Flow_T4" sourceRef="Task_MapToStandards" targetRef="Task_OnboardConcepts"/>
+    <bpmn:sequenceFlow id="Flow_T5" sourceRef="Task_OnboardConcepts" targetRef="End_Term"/>
+  </bpmn:process>
+
+  <!-- =================================================================== -->
+  <!-- QUALITY CONTROL (QC Reviewer)                                        -->
+  <!-- =================================================================== -->
+  <bpmn:process id="Process_QualityControl" name="Phase 3: Quality Control" isExecutable="false">
+    <bpmn:startEvent id="Start_QC" name="IG Build Available">
+      <bpmn:outgoing>Flow_QC1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:task id="Task_ReviewQA" name="Review IG Publisher QA report (qa.html)">
+      <bpmn:incoming>Flow_QC1</bpmn:incoming>
+      <bpmn:outgoing>Flow_QC2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_ReviewChecklistL1L2" name="Review L1 and L2 checklist items">
+      <bpmn:incoming>Flow_QC2</bpmn:incoming>
+      <bpmn:outgoing>Flow_QC3</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_ReviewChecklistL3L4" name="Review L3 and L4 checklist items">
+      <bpmn:incoming>Flow_QC3</bpmn:incoming>
+      <bpmn:outgoing>Flow_QC4</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_ValidateConformance" name="Validate artifact conformance (CRMI profiles)">
+      <bpmn:incoming>Flow_QC4</bpmn:incoming>
+      <bpmn:outgoing>Flow_QC5</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_TestFunctionality" name="Test L3 functionality (StructureMaps, CQL, Measures)">
+      <bpmn:incoming>Flow_QC5</bpmn:incoming>
+      <bpmn:outgoing>Flow_QC6</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:exclusiveGateway id="GW_QCPass" name="Publication ready?">
+      <bpmn:incoming>Flow_QC6</bpmn:incoming>
+      <bpmn:outgoing>Flow_QC_Fail</bpmn:outgoing>
+      <bpmn:outgoing>Flow_QC_Pass</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:task id="Task_ReportIssues" name="Report issues to author for resolution">
+      <bpmn:incoming>Flow_QC_Fail</bpmn:incoming>
+      <bpmn:outgoing>Flow_QC7</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_ApprovePublication" name="Approve IG for publication">
+      <bpmn:incoming>Flow_QC_Pass</bpmn:incoming>
+      <bpmn:outgoing>Flow_QC8</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_ReviewTranslatedContent" name="Review translated content for completeness">
+      <bpmn:incoming>Flow_QC8</bpmn:incoming>
+      <bpmn:outgoing>Flow_QC9</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:endEvent id="End_QC" name="QC Complete">
+      <bpmn:incoming>Flow_QC7</bpmn:incoming>
+      <bpmn:incoming>Flow_QC9</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_QC1" sourceRef="Start_QC" targetRef="Task_ReviewQA"/>
+    <bpmn:sequenceFlow id="Flow_QC2" sourceRef="Task_ReviewQA" targetRef="Task_ReviewChecklistL1L2"/>
+    <bpmn:sequenceFlow id="Flow_QC3" sourceRef="Task_ReviewChecklistL1L2" targetRef="Task_ReviewChecklistL3L4"/>
+    <bpmn:sequenceFlow id="Flow_QC4" sourceRef="Task_ReviewChecklistL3L4" targetRef="Task_ValidateConformance"/>
+    <bpmn:sequenceFlow id="Flow_QC5" sourceRef="Task_ValidateConformance" targetRef="Task_TestFunctionality"/>
+    <bpmn:sequenceFlow id="Flow_QC6" sourceRef="Task_TestFunctionality" targetRef="GW_QCPass"/>
+    <bpmn:sequenceFlow id="Flow_QC_Fail" name="No - issues found" sourceRef="GW_QCPass" targetRef="Task_ReportIssues"/>
+    <bpmn:sequenceFlow id="Flow_QC_Pass" name="Yes - approved" sourceRef="GW_QCPass" targetRef="Task_ApprovePublication"/>
+    <bpmn:sequenceFlow id="Flow_QC7" sourceRef="Task_ReportIssues" targetRef="End_QC"/>
+    <bpmn:sequenceFlow id="Flow_QC8" sourceRef="Task_ApprovePublication" targetRef="Task_ReviewTranslatedContent"/>
+    <bpmn:sequenceFlow id="Flow_QC9" sourceRef="Task_ReviewTranslatedContent" targetRef="End_QC"/>
+  </bpmn:process>
+
+  <!-- =================================================================== -->
+  <!-- PHASE 4: PUBLICATION (Publication Manager)                           -->
+  <!-- =================================================================== -->
+  <bpmn:process id="Process_Publication" name="Phase 4: Publication" isExecutable="false">
+    <bpmn:startEvent id="Start_Pub" name="QC Approval Received">
+      <bpmn:outgoing>Flow_Pub1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:task id="Task_PrepareRelease" name="Review changes and determine version number">
+      <bpmn:incoming>Flow_Pub1</bpmn:incoming>
+      <bpmn:outgoing>Flow_Pub2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_CreateReleaseBranch" name="Optionally create release-candidate branch">
+      <bpmn:incoming>Flow_Pub2</bpmn:incoming>
+      <bpmn:outgoing>Flow_Pub3</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_UpdateIGStatus" name="Update IG status to active, set version, date">
+      <bpmn:incoming>Flow_Pub3</bpmn:incoming>
+      <bpmn:outgoing>Flow_Pub4</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_CreatePubRequest" name="Create publication-request.json">
+      <bpmn:incoming>Flow_Pub4</bpmn:incoming>
+      <bpmn:outgoing>Flow_Pub5</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_FinalBuild" name="Run final IG Publisher build and verify">
+      <bpmn:incoming>Flow_Pub5</bpmn:incoming>
+      <bpmn:outgoing>Flow_Pub6</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_CreateReleaseTag" name="Create GitHub release and tag (vX.Y.Z)">
+      <bpmn:incoming>Flow_Pub6</bpmn:incoming>
+      <bpmn:outgoing>Flow_Pub7</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_VerifyAutomation" name="Verify automated publication workflow succeeded">
+      <bpmn:incoming>Flow_Pub7</bpmn:incoming>
+      <bpmn:outgoing>Flow_Pub8</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_RequestWHOUpdate" name="Request WHO team to update smart.who.int">
+      <bpmn:incoming>Flow_Pub8</bpmn:incoming>
+      <bpmn:outgoing>Flow_Pub9</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_ResetToDraft" name="Reset main branch to draft, update version">
+      <bpmn:incoming>Flow_Pub9</bpmn:incoming>
+      <bpmn:outgoing>Flow_Pub10</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:endEvent id="End_Pub" name="Publication Complete">
+      <bpmn:incoming>Flow_Pub10</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_Pub1" sourceRef="Start_Pub" targetRef="Task_PrepareRelease"/>
+    <bpmn:sequenceFlow id="Flow_Pub2" sourceRef="Task_PrepareRelease" targetRef="Task_CreateReleaseBranch"/>
+    <bpmn:sequenceFlow id="Flow_Pub3" sourceRef="Task_CreateReleaseBranch" targetRef="Task_UpdateIGStatus"/>
+    <bpmn:sequenceFlow id="Flow_Pub4" sourceRef="Task_UpdateIGStatus" targetRef="Task_CreatePubRequest"/>
+    <bpmn:sequenceFlow id="Flow_Pub5" sourceRef="Task_CreatePubRequest" targetRef="Task_FinalBuild"/>
+    <bpmn:sequenceFlow id="Flow_Pub6" sourceRef="Task_FinalBuild" targetRef="Task_CreateReleaseTag"/>
+    <bpmn:sequenceFlow id="Flow_Pub7" sourceRef="Task_CreateReleaseTag" targetRef="Task_VerifyAutomation"/>
+    <bpmn:sequenceFlow id="Flow_Pub8" sourceRef="Task_VerifyAutomation" targetRef="Task_RequestWHOUpdate"/>
+    <bpmn:sequenceFlow id="Flow_Pub9" sourceRef="Task_RequestWHOUpdate" targetRef="Task_ResetToDraft"/>
+    <bpmn:sequenceFlow id="Flow_Pub10" sourceRef="Task_ResetToDraft" targetRef="End_Pub"/>
+  </bpmn:process>
+
+  <!-- =================================================================== -->
+  <!-- TRANSLATION (Translator)                                             -->
+  <!-- =================================================================== -->
+  <bpmn:process id="Process_Translation" name="Translation" isExecutable="false">
+    <bpmn:startEvent id="Start_Trans" name="L3 Content Ready">
+      <bpmn:outgoing>Flow_Tr1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:task id="Task_TranslateContent" name="Translate narrative and resource metadata">
+      <bpmn:incoming>Flow_Tr1</bpmn:incoming>
+      <bpmn:outgoing>Flow_Tr2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_TranslateExamples" name="Create example resources per UN language">
+      <bpmn:incoming>Flow_Tr2</bpmn:incoming>
+      <bpmn:outgoing>Flow_Tr3</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_CompleteTranslation" name="Submit translations for review">
+      <bpmn:incoming>Flow_Tr3</bpmn:incoming>
+      <bpmn:outgoing>Flow_Tr4</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:endEvent id="End_Trans" name="Translation Complete">
+      <bpmn:incoming>Flow_Tr4</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_Tr1" sourceRef="Start_Trans" targetRef="Task_TranslateContent"/>
+    <bpmn:sequenceFlow id="Flow_Tr2" sourceRef="Task_TranslateContent" targetRef="Task_TranslateExamples"/>
+    <bpmn:sequenceFlow id="Flow_Tr3" sourceRef="Task_TranslateExamples" targetRef="Task_CompleteTranslation"/>
+    <bpmn:sequenceFlow id="Flow_Tr4" sourceRef="Task_CompleteTranslation" targetRef="End_Trans"/>
+  </bpmn:process>
+
+</bpmn:definitions>
