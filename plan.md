@@ -1,0 +1,203 @@
+# Plan: Instantiate PreQual Database Models as PCMT Profiles
+
+## Context
+
+The PreQual repo currently defines standalone logical models (`FinishedVaccineProducts`, `PreQualManufacturer`, etc.) that mirror the WHO PreQual API structure. The PCMT repo defines two core logical models:
+- **Product** — identifiers, names, classification, manufacturer, dosageForm, routeOfAdministration, doseQuantity, shelfLife, strength, attributes, associatedProducts
+- **ProductAuthorization** — number, status, type, jurisdiction, holder, products, validityPeriod
+
+The goal is to make the PreQual data instantiate PCMT's `Product` and `ProductAuthorization` models, so PreQual vaccines are first-class PCMT catalog entries.
+
+---
+
+## Step 1: Add `smart.who.int.pcmt` dependency
+
+**File**: `sushi-config.yaml`
+
+Add back the PCMT dependency:
+```yaml
+dependencies:
+  smart.who.int.base: current
+  smart.who.int.pcmt: current
+  ihe.iti.mcsd:
+    id: IHE_ITI_mCSD
+    uri: https://profiles.ihe.net/ITI/mCSD/ImplementationGuide/ihe.iti.mcsd
+    version: 3.8.0
+```
+
+---
+
+## Step 2: Create `PreQualProduct` profile of PCMT `Product`
+
+**New file**: `input/fsh/profiles/PreQualProduct.fsh`
+
+This profile constrains PCMT's `Product` for PreQual vaccines:
+
+| PCMT Product field | Constraint / Mapping | Source from PreQual API |
+|---|---|---|
+| `identifier` | Slice: `prequalId` (1..1) with system `https://extranet.who.int/prequal/api` | `productId` |
+| `name` | Slice: `official` (1..1) — the FVP reference name | `productName` (e.g. "FVP-P-447") |
+| `name` | Slice: `commercial` (0..1) — the trade name | `vaccineCommercialName` (e.g. "CYVAC") |
+| `classification` | Bind to `PreQualVaccineType` ValueSet | vaccine type code |
+| `status` | Constrain to `#active` | from `status` field |
+| `manufacturer` | Reference(IHE.mCSD.Organization) — require 1..1 | `manufacturerReference` |
+| `dosageForm` | Bind to `PreQualPresentation` ValueSet | `presentation` |
+| `routeOfAdministration` | Bind to PreQualDatabaseMetadata route codes | `routeOfAdministration` |
+| `doseQuantity` | Map from numDoses | `numDoses` |
+| `shelfLife` | Map from shelf life string (parse to days) | `shelfLife` |
+| `attribute` | Slices for PreQual-specific data (see below) | various fields |
+
+**Attribute slices** for PreQual-specific fields that don't map to core Product fields:
+- `attribute[vaccineFullName]` — type=#vaccineFullName, value=string
+- `attribute[vaccineAbbreviatedName]` — type=#vaccineAbbreviatedName, value=string
+- `attribute[storageTemperature]` — type=#storageTemperature, value=string
+- `attribute[vialMonitor]` — type=#vialMonitor, value=string
+- `attribute[preservative]` — type=#preservative, value=string
+- `attribute[preservativeConcentration]` — type=#preservativeConcentration, value=string
+- `attribute[diluent]` — type=#diluent, value=string
+- `attribute[multidoseVialPolicy]` — type=#multidoseVialPolicy, value=string
+- `attribute[pharmaceuticalForm]` — type=#pharmaceuticalForm, value=code
+- `attribute[assessmentProcedure]` — type=#assessmentProcedure, value=code
+- `attribute[publishingRemarks]` — type=#publishingRemarks, value=string
+- `attribute[lastPublishingDate]` — type=#lastPublishingDate, value=dateTime
+
+**associatedProduct** for packaging hierarchy:
+- Each `PreQualProductPackaging` instance maps to an `associatedProduct` entry with relationship `#contains`
+
+---
+
+## Step 3: Create `PreQualAuthorization` profile of PCMT `ProductAuthorization`
+
+**New file**: `input/fsh/profiles/PreQualAuthorization.fsh`
+
+| PCMT ProductAuthorization field | Constraint / Mapping | Source |
+|---|---|---|
+| `number` | Identifier with system `https://extranet.who.int/prequal/api` | derived from `productId` |
+| `status` | Constrain to `#active` for prequalified products | `status` |
+| `type` | Fixed to `#prequal` | always PreQualification |
+| `jurisdiction` | Fixed to WHO | always WHO |
+| `holder` | Reference(IHE.mCSD.Organization) — the NRA | `responsibleNRAReference` |
+| `product` | Reference(PreQualProduct) | link to the product profile |
+| `validityPeriod.start` | dateTime | `dateOfPrequal` |
+
+---
+
+## Step 4: Extend `PreQualAttributeType` CodeSystem
+
+**New file**: `input/fsh/codesystems/PreQualAttributeType.fsh`
+
+Add codes for attribute types used in the Product profile:
+- `#vaccineFullName`, `#vaccineAbbreviatedName`, `#storageTemperature`, `#vialMonitor`,
+  `#preservative`, `#preservativeConcentration`, `#diluent`, `#multidoseVialPolicy`,
+  `#pharmaceuticalForm`, `#assessmentProcedure`, `#publishingRemarks`, `#lastPublishingDate`
+
+---
+
+## Step 5: Update `import_salesforce.py` to generate PCMT instances
+
+**File**: `scripts/import_salesforce.py`
+
+Modify the script to generate instances of the PCMT profiles instead of the raw logical models:
+
+### 5a. Generate `PreQualProduct` instances (replaces FinishedVaccineProducts instances)
+For each product in the API data, generate:
+```fsh
+Instance: PreQualProductXXX
+InstanceOf: PreQualProduct
+Usage: #example
+* identifier[prequalId].system = "https://extranet.who.int/prequal/api"
+* identifier[prequalId].value = "a3K3X000005atRtUAI"
+* name[official].nameType = #official
+* name[official].value = "FVP-P-447"
+* name[commercial].nameType = #commercial  // if available
+* name[commercial].value = "CYVAC"
+* classification = PreQualVaccineType#Malaria
+* status = #active
+* manufacturer = Reference(Manufacturer0013X00003cPkzfQAC)
+* dosageForm = PreQualPresentation#Vial
+* doseQuantity = 2 'doses'
+* attribute[vaccineFullName].type = PreQualAttributeType#vaccineFullName
+* attribute[vaccineFullName].valueString = "Recombinant malaria vaccine"
+* attribute[vaccineAbbreviatedName].type = PreQualAttributeType#vaccineAbbreviatedName
+* attribute[vaccineAbbreviatedName].valueString = "Malaria"
+// ... other attributes as available
+```
+
+### 5b. Generate `PreQualAuthorization` instances (new — currently no equivalent)
+For each product:
+```fsh
+Instance: PreQualAuthXXX
+InstanceOf: PreQualAuthorization
+Usage: #example
+* status = #active
+* type = #prequal
+* jurisdiction.coding.display = "WHO"
+* holder = Reference(Holder0013X0000498p4fQAA)
+* product = Reference(PreQualProductXXX)
+* validityPeriod.start = 2023-12-19
+```
+
+### 5c. Keep sub-entity logical model instances as-is
+The `PreQualManufacturer`, `PreQualNRA`, `PreQualVaccine`, `PreQualBulkSupplier`, `PreQualProductPackaging`, `PreQualDocumentDetail`, `PreQualSiteDetail`, `PreQualProductIngredient` instances remain unchanged — they represent PreQual-specific detail that doesn't have a PCMT equivalent. They are referenced from the Product profile via extensions or attributes.
+
+### 5d. Keep Organization instances (manufacturers, holders) as-is
+These already use `IHE.mCSD.Organization` which is what PCMT's `Product.manufacturer` and `ProductAuthorization.holder` expect.
+
+---
+
+## Step 6: Add extensions for sub-entity references
+
+**New file**: `input/fsh/extensions/PreQualExtensions.fsh`
+
+Extensions on `PreQualProduct` to link to the sub-entity logical model instances:
+- `manufacturerLM` → Reference(PreQualManufacturer)
+- `nraLM` → Reference(PreQualNRA)
+- `vaccineLM` → Reference(PreQualVaccine)
+- `bulkSupplierLM` → Reference(PreQualBulkSupplier)
+- `packagingLM` → Reference(PreQualProductPackaging) (0..*)
+- `documentLM` → Reference(PreQualDocumentDetail) (0..*)
+- `siteLM` → Reference(PreQualSiteDetail) (0..*)
+- `ingredientLM` → Reference(PreQualProductIngredient) (0..*)
+
+---
+
+## Step 7: Update tests
+
+**File**: `tests/test_import_salesforce.py`
+
+Update the 33+ tests to validate:
+- Generated instances are `InstanceOf: PreQualProduct` (not `FinishedVaccineProducts`)
+- Generated authorization instances are `InstanceOf: PreQualAuthorization`
+- Correct attribute slice structure
+- Correct identifier slice structure
+
+---
+
+## Step 8: Keep backward compatibility via ConceptMap
+
+The existing `PreQualCSVtoAPIConceptMap` bridges old CSV MD5-based IDs to new API IDs. No changes needed.
+
+---
+
+## What stays unchanged
+
+- `PreQualDB` / `PreQualDBwithIds` logical models (CSV-based legacy model)
+- `FinishedVaccineProducts` logical model definition (kept as documentation of the API structure)
+- All sub-entity logical models (PreQualManufacturer, PreQualNRA, etc.)
+- Organization instances (manufacturers, holders)
+- CodeSystems and ValueSets
+- `presushi.sh` (generates CSV-based instances, separate from API-based)
+
+---
+
+## File summary
+
+| Action | File |
+|--------|------|
+| Modify | `sushi-config.yaml` — add pcmt dependency |
+| Create | `input/fsh/profiles/PreQualProduct.fsh` |
+| Create | `input/fsh/profiles/PreQualAuthorization.fsh` |
+| Create | `input/fsh/codesystems/PreQualAttributeType.fsh` |
+| Create | `input/fsh/extensions/PreQualExtensions.fsh` |
+| Modify | `scripts/import_salesforce.py` — generate PCMT profile instances |
+| Modify | `tests/test_import_salesforce.py` — update assertions |
