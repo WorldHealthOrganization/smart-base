@@ -770,6 +770,57 @@ jobs:
         if: success()
         run: sudo chown -R "$USER:$USER" ./output 2>/dev/null || true
 
+      # ── Branch index + history page ─────────────────────────────────────
+      # Fetches the list of deployed feature branches from gh-pages and:
+      #   1. Generates output/history.html (CI build history listing all branches)
+      #   2. Updates the ## Publication section of README.md with build URLs
+      #      and a sorted feature-branch link table.
+      # README.md changes are committed back to the source branch when deploying
+      # from a non-PR push (only when the content actually changed, idempotent).
+      - name: Generate history page and update README branch links
+        if: success()
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ ! -f "input/scripts/update_branch_index.py" ]; then
+            echo "update_branch_index.py not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/update_branch_index.py" \
+              "${SCRIPTS_BASE_URL}/input/scripts/update_branch_index.py" \
+              2>/dev/null || echo "Failed to download update_branch_index.py"
+          fi
+          if [ -f "input/scripts/update_branch_index.py" ]; then
+            python3 input/scripts/update_branch_index.py
+            echo "✅ Branch index generated"
+          else
+            echo "⚠️ update_branch_index.py not available, skipping"
+          fi
+
+      # ── Per-page CI build banner ─────────────────────────────────────────
+      # Injects a visible info box at the top of every HTML page in output/,
+      # showing the IG version, git commit SHA, and feature branch name.
+      - name: Inject CI build banner into output pages
+        if: success()
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GH_SHA: ${{ github.sha }}
+          IS_DEFAULT_BRANCH: ${{ env.IS_DEFAULT_BRANCH }}
+        run: |
+          if [ ! -f "input/scripts/inject_build_banner.py" ]; then
+            echo "inject_build_banner.py not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/inject_build_banner.py" \
+              "${SCRIPTS_BASE_URL}/input/scripts/inject_build_banner.py" \
+              2>/dev/null || echo "Failed to download inject_build_banner.py"
+          fi
+          if [ -f "input/scripts/inject_build_banner.py" ]; then
+            python3 input/scripts/inject_build_banner.py
+            echo "✅ CI build banner injected"
+          else
+            echo "⚠️ inject_build_banner.py not available, skipping"
+          fi
+
       - name: Delete files >100MB before deployment
         run: |
           echo "Removing files over 100 MB from ./output..."
@@ -797,6 +848,39 @@ jobs:
           clean-exclude: |
             branches
             sitepreview
+
+      # ── Commit updated README.md back to the source branch ──────────────
+      # Runs only when deploying from the default branch (not on PRs or
+      # feature-branch pushes) and only when README.md actually changed.
+      # Uses [skip ci] in the commit message to prevent a build loop.
+      - name: Commit README.md branch links update
+        if: env.IS_DEFAULT_BRANCH == 'true' && inputs.deploy != false
+        env:
+          GH_REPOSITORY: ${{ github.repository }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if git diff --quiet README.md; then
+            echo "ℹ️  README.md unchanged — nothing to commit."
+          else
+            git add README.md
+            git commit -m "chore: update README.md with branch build links [skip ci]"
+            # Push with retry (up to 4 attempts, exponential back-off)
+            for i in 1 2 3 4; do
+              if git push; then
+                echo "✅ README.md pushed to branch."
+                break
+              fi
+              if [ "$i" -lt 4 ]; then
+                WAIT=$(( 2 ** i ))
+                echo "Push attempt $i failed, retrying in ${WAIT}s..."
+                sleep "$WAIT"
+              else
+                echo "⚠️  Could not push README.md after 4 attempts."
+              fi
+            done
+          fi
 
       - name: Comment on PR - Deployment completed
         if: steps.find_pr.outputs.IS_PR == 'true' && (success() || failure())
