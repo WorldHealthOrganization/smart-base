@@ -116,10 +116,11 @@ def _build_extra_html(
         return ""
 
     inner = " &nbsp; ".join(parts)
+    # Use <br><span> so this can be safely injected inside a <p> (publish-box).
     return (
-        f'<p {_MARKER_ATTR} style="margin:.4rem 0 0 0;font-size:.9em;">'
+        f'<br/><span {_MARKER_ATTR} style="font-size:.85em;">'
         f'{inner}'
-        f'</p>'
+        f'</span>'
     )
 
 
@@ -157,9 +158,9 @@ def _build_standalone_banner(
 # Injection helpers
 # ---------------------------------------------------------------------------
 
-# Matches the previously injected extra-info paragraph so we can replace it.
+# Matches the previously injected extra-info span (inside publish-box).
 _PREV_EXTRA_RE = re.compile(
-    r'<p\s+' + re.escape(_MARKER_ATTR) + r'[^>]*>.*?</p>',
+    r'<br/><span\s+' + re.escape(_MARKER_ATTR) + r'[^>]*>.*?</span>',
     re.DOTALL | re.IGNORECASE,
 )
 
@@ -169,12 +170,12 @@ _PREV_BANNER_RE = re.compile(
     re.DOTALL | re.IGNORECASE,
 )
 
-# Matches <div id="publish-box"> … first </div>  (publish-box has no nested divs).
+# Matches the publish-box element.  The IG Publisher renders it as
+# <p id="publish-box">…</p> (confirmed from live output).  We also
+# handle the <div> variant for forward-compatibility.
 _PUBLISH_BOX_RE = re.compile(
-    r'(<div\s[^>]*\bid=["\']publish-box["\'][^>]*>)'   # group 1: opening tag
-    r'(.*?)'                                             # group 2: content
-    r'(</div>)',                                          # group 3: closing tag
-    re.DOTALL | re.IGNORECASE,
+    r'<(p|div)\s[^>]*\bid=["\']publish-box["\'][^>]*>',
+    re.IGNORECASE,
 )
 
 # Matches the opening of segment-content for the fallback insertion.
@@ -197,11 +198,17 @@ def _inject(content: str, extra_html: str, banner_html: str) -> str:
     """Inject build info into *content* using the best available location."""
     content = _remove_previous(content)
 
-    # ── Strategy 1: append extra-info inside the existing publish-box ──────
+    # ── Strategy 1: append inline extra-info inside the existing publish-box ─
+    # The IG Publisher renders publish-box as <p id="publish-box">…</p>.
+    # We locate the opening tag, derive the closing tag, and insert our
+    # <br/><span> just before it so the info appears inside the same box.
     m = _PUBLISH_BOX_RE.search(content)
     if m and extra_html:
-        new_box = m.group(1) + m.group(2) + "\n" + extra_html + "\n" + m.group(3)
-        return content[: m.start()] + new_box + content[m.end() :]
+        tag_name  = m.group(1).lower()          # "p" or "div"
+        close_tag = f"</{tag_name}>"
+        close_pos = content.find(close_tag, m.end())
+        if close_pos != -1:
+            return content[:close_pos] + extra_html + content[close_pos:]
 
     # ── Strategy 2: insert standalone banner before segment-content ─────────
     if banner_html:
