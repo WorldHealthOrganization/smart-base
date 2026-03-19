@@ -1,155 +1,89 @@
 Alias: $orgType = http://terminology.hl7.org/CodeSystem/organization-type
 
-Instance: Holdera1ed2fb3196a19ac1010392bdc5e8646
+Instance: Holder0013X0000498p4bQAA
 InstanceOf: IHE.mCSD.Organization
-Usage: #definition
+Usage: #example
+Title: "PreQual NRA/Holder: Agence nationale de sécurité du médicament et des produits de santé (ANSM)"
+Description: "National Regulatory Authority: Agence nationale de sécurité du médicament et des produits de santé (ANSM)"
 * active = true
-* name = "Agence nationale de sécurité du médicament et des produits de santé"
+* name = "Agence nationale de sécurité du médicament et des produits de santé (ANSM)"
 * type = $orgType#govt
+* identifier.system = "https://extranet.who.int/prequal/api"
+* identifier.value = "0013X0000498p4bQAA"
 
-Instance: Holder18181d26c8e4df1d6fc819c02c55b8e6
+Instance: Holder0013X00003cPkgXQAS
 InstanceOf: IHE.mCSD.Organization
-Usage: #definition
+Usage: #example
+Title: "PreQual NRA/Holder: Bulgarian Drug Agency (BDA)"
+Description: "National Regulatory Authority: Bulgarian Drug Agency (BDA)"
 * active = true
-* name = "Agencia Nacional da Vigilancia Sanitaria"
+* name = "Bulgarian Drug Agency (BDA)"
 * type = $orgType#govt
+* identifier.system = "https://extranet.who.int/prequal/api"
+* identifier.value = "0013X00003cPkgXQAS"
 
-Instance: Holder2249658a617cfcc38ca334756748dcd0
+Instance: Holder0013X0000498p4fQAA
 InstanceOf: IHE.mCSD.Organization
-Usage: #definition
+Usage: #example
+Title: "PreQual NRA/Holder: Central Drugs Standard Control Organization (CDSCO)"
+Description: "National Regulatory Authority: Central Drugs Standard Control Organization (CDSCO)"
 * active = true
-* name = "Bulgarian Drug Agency"
+* name = "Central Drugs Standard Control Organization (CDSCO)"
 * type = $orgType#govt
+* identifier.system = "https://extranet.who.int/prequal/api"
+* identifier.value = "0013X0000498p4fQAA"
 
-Instance: Holder9d7db6151eea8bf9048690e4b4504c90
+Instance: Holder0013X0000498p67QAA
 InstanceOf: IHE.mCSD.Organization
-Usage: #definition
+Usage: #example
+Title: "PreQual NRA/Holder: Federal Agency for Medicines and Health Products  (FAMPH)"
+Description: "National Regulatory Authority: Federal Agency for Medicines and Health Products  (FAMPH)"
 * active = true
-* name = "CBER/FDA"
+* name = "Federal Agency for Medicines and Health Products  (FAMPH)"
 * type = $orgType#govt
+* identifier.system = "https://extranet.who.int/prequal/api"
+* identifier.value = "0013X0000498p67QAA"
 
-Instance: Holderf79f23b4c5122fd96b2c87cc385157fc
+Instance: Holder0013X00004993qyQAA
 InstanceOf: IHE.mCSD.Organization
-Usage: #definition
+Usage: #example
+Title: "PreQual NRA/Holder: Ministry of Food and Drug Safety (MFDS)"
+Description: "National Regulatory Authority: Ministry of Food and Drug Safety (MFDS)"
 * active = true
-* name = "Central Drugs Standard Control Organization"
+* name = "Ministry of Food and Drug Safety (MFDS)"
 * type = $orgType#govt
+* identifier.system = "https://extranet.who.int/prequal/api"
+* identifier.value = "0013X00004993qyQAA"
 
-Instance: Holderce0f4cd586d4fa26a21297b87993de9a
+Instance: Holder0013X0000498p53QAA
 InstanceOf: IHE.mCSD.Organization
-Usage: #definition
+Usage: #example
+Title: "PreQual NRA/Holder: Ministère de la Santé publique (DPM)"
+Description: "National Regulatory Authority: Ministère de la Santé publique (DPM)"
 * active = true
-* name = "Centro para el Control Estatal de la Calidad de los Medicamentos"
+* name = "Ministère de la Santé publique (DPM)"
 * type = $orgType#govt
+* identifier.system = "https://extranet.who.int/prequal/api"
+* identifier.value = "0013X0000498p53QAA"
 
-Instance: Holdera5a3d2d85f2b1e0fcd688a9dbd32e328
+Instance: Holder0013X0000498p4wQAA
 InstanceOf: IHE.mCSD.Organization
-Usage: #definition
+Usage: #example
+Title: "PreQual NRA/Holder: National Medical Products Administration  (NMPA)"
+Description: "National Regulatory Authority: National Medical Products Administration  (NMPA)"
 * active = true
-* name = "Danish Medicines Agency"
+* name = "National Medical Products Administration  (NMPA)"
 * type = $orgType#govt
+* identifier.system = "https://extranet.who.int/prequal/api"
+* identifier.value = "0013X0000498p4wQAA"
 
-Instance: Holder06fc63d243e39d8519007322a0fddc52
+Instance: Holder0013X0000498p4mQAA
 InstanceOf: IHE.mCSD.Organization
-Usage: #definition
+Usage: #example
+Title: "PreQual NRA/Holder: Pharmaceutical and Medical Devices Agency (PMDA)"
+Description: "National Regulatory Authority: Pharmaceutical and Medical Devices Agency (PMDA)"
 * active = true
-* name = "European Medicines Agency"
+* name = "Pharmaceutical and Medical Devices Agency (PMDA)"
 * type = $orgType#govt
-
-Instance: Holdere0e3ed9114ce62feea705c24aceb2ee2
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "Federal Agency for Medicines and Health Products"
-* type = $orgType#govt
-
-Instance: Holder8327c2d0eaf7c8d58e6036f3a9aee92d
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "Federal Service on Surveillance in Healthcare (ROSZDRAVNADZOR) of the Russian Federation"
-* type = $orgType#govt
-
-Instance: Holder6237d292dd8018497991076b85cae399
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "Health Canada - Santé Canada"
-* type = $orgType#govt
-
-Instance: Holderf651f2cc6236f906af0a310308a8de06
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "Medical Products Agency"
-* type = $orgType#govt
-
-Instance: Holderba27f505e9f51f464d1a574696de85c5
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "Medicines Evaluation Board (MEB)"
-* type = $orgType#govt
-
-Instance: Holder2727357adb2fdf08fa5c9bb57e9ce617
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "Ministère de la Santé publique"
-* type = $orgType#govt
-
-Instance: Holderd4e6bca678dea34fa256538a18200187
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "Ministry of Food and Drug Safety"
-* type = $orgType#govt
-
-Instance: Holder9899e21a11ed6ac7b548ef6171579c60
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "National Agency of Drug and Food Control Indonesia"
-* type = $orgType#govt
-
-Instance: Holder6f85b90926148cce1ad5a1fa8afe673a
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "National Medical Products Administration"
-* type = $orgType#govt
-
-Instance: Holder2ca9bea235654620194199f17ca78e94
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "Paul-Ehrlich-Institut"
-* type = $orgType#govt
-
-Instance: Holder4d70627b72cb75bcde38e52b0f1b7db2
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "Pharmaceutical and Medical Devices Agency"
-* type = $orgType#govt
-
-Instance: Holderff846f1753a67d1fcaa62a05358b9ff4
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "Thai Food and Drug Administration"
-* type = $orgType#govt
-
-Instance: Holderfc05b3d6a15f33e5f2a764fcfbc0ec16
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "Therapeutic Goods Administration"
-* type = $orgType#govt
-
-Instance: Holder2df14aa8a419a11f1b47bb8c2a82636c
-InstanceOf: IHE.mCSD.Organization
-Usage: #definition
-* active = true
-* name = "US Food and Drug Administration- Office of Vaccine Research and Review"
-* type = $orgType#govt
+* identifier.system = "https://extranet.who.int/prequal/api"
+* identifier.value = "0013X0000498p4mQAA"

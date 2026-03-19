@@ -1,5 +1,3 @@
-Alias: $Product = http://smart.who.int/pcmt/StructureDefinition/Product
-Alias: $ProductAuthorization = http://smart.who.int/pcmt/StructureDefinition/ProductAuthorization
 
 Logical: 	PreQualDB
 Title: 		"WHO Vaccine PreQual DB"
@@ -37,7 +35,7 @@ with additional data fields for appropriately referencing associated data object
 * index obeys is-a-prequal-product-id
 * manufacturerReference 1..1 Reference(IHE.mCSD.Organization)  "Manufacturer referecne"
 * responsibleNRAReference 1..1 Reference(IHE.mCSD.Organization)  "Responsible NRA reference"
-* productReference 1..1 Reference($Product)  "Product reference"
+* productReference 0..1 Reference  "Product reference (when available from pcmt dependency)"
 
 
 
