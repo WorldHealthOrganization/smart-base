@@ -791,8 +791,9 @@ jobs:
               2>/dev/null || echo "Failed to download update_branch_index.py"
           fi
           if [ -f "input/scripts/update_branch_index.py" ]; then
-            python3 input/scripts/update_branch_index.py
-            echo "✅ Branch index generated"
+            python3 input/scripts/update_branch_index.py \
+              || echo "⚠️ update_branch_index.py exited with error (non-blocking)"
+            echo "✅ Branch index step complete"
           else
             echo "⚠️ update_branch_index.py not available, skipping"
           fi
@@ -815,8 +816,9 @@ jobs:
               2>/dev/null || echo "Failed to download inject_build_banner.py"
           fi
           if [ -f "input/scripts/inject_build_banner.py" ]; then
-            python3 input/scripts/inject_build_banner.py
-            echo "✅ CI build banner injected"
+            python3 input/scripts/inject_build_banner.py \
+              || echo "⚠️ inject_build_banner.py exited with error (non-blocking)"
+            echo "✅ CI build banner step complete"
           else
             echo "⚠️ inject_build_banner.py not available, skipping"
           fi
