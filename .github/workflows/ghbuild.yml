@@ -116,16 +116,35 @@ jobs:
       # ── Resolve the smart-base scripts source ──────────────────────────
       # Sets SCRIPTS_BASE_URL for curl-based downloads (downstream repos)
       # and SCRIPTS_REF for the git-based overlay (smart-base itself).
+      # ── Resolve the smart-base scripts source ──────────────────────────
+      # SCRIPTS_BASE_URL is always pinned to the main branch.  This is a
+      # deliberate security decision: curl-downloaded scripts are executed
+      # with the job's permissions (contents:write, GITHUB_TOKEN), so they
+      # must come from a trusted, reviewed branch — never from an
+      # arbitrary ref that an attacker could control via the scripts_ref
+      # input or a compromised downstream caller.
+      #
+      # The scripts_ref input ONLY affects the git overlay step (which
+      # runs exclusively inside the smart-base repository and is gated
+      # by the approve-scripts-override environment in ci.yml).
       - name: Resolve scripts source
         env:
           SCRIPTS_REF_INPUT: ${{ inputs.scripts_ref || 'main' }}
         run: |
-          # Sanitize: allow only valid Git ref characters
+          # Sanitize scripts_ref: allow only valid Git ref characters.
+          # This value is ONLY used for the git overlay step inside
+          # smart-base — never for curl downloads.
           SCRIPTS_REF="$(printf '%s' "$SCRIPTS_REF_INPUT" | tr -cd 'a-zA-Z0-9._/-')"
           if [ -z "$SCRIPTS_REF" ]; then
             SCRIPTS_REF="main"
           fi
-          SCRIPTS_BASE_URL="https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/${SCRIPTS_REF}"
+
+          # Always pin downloads to main — do NOT use scripts_ref here.
+          # This prevents an attacker from supplying a malicious branch
+          # via scripts_ref to get arbitrary code executed in downstream
+          # repos or via workflow_dispatch.
+          SCRIPTS_BASE_URL="https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main"
+
           printf 'SCRIPTS_REF=%s\n' "$SCRIPTS_REF"
           printf 'SCRIPTS_REF=%s\n' "$SCRIPTS_REF" >> "$GITHUB_ENV"
           printf 'SCRIPTS_BASE_URL=%s\n' "$SCRIPTS_BASE_URL"
