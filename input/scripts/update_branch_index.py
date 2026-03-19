@@ -231,6 +231,44 @@ def update_history_html(
 
 
 # ---------------------------------------------------------------------------
+# Rewrite publication history.html links in IG output
+# ---------------------------------------------------------------------------
+
+def rewrite_history_links(output_dir: Path, pub_url: str) -> None:
+    """Replace absolute pub_url/history.html hrefs with relative history.html.
+
+    The IG Publisher embeds the canonical publication URL in the publish-box
+    and nav (e.g. href='https://smart.who.int/base/history.html').  For CI
+    builds that URL is wrong; the correct target is the local history.html
+    sitting in the same directory.  This rewrites every HTML file in output/.
+    """
+    if not output_dir.is_dir():
+        print(f"ℹ️  {output_dir} not found — skipping history-link rewrite.")
+        return
+
+    # Match both http:// and https:// and both single/double quotes.
+    base = re.sub(r"^https?://", "", pub_url.rstrip("/"))
+    pattern = re.compile(
+        r"""(href=)(["'])https?://""" + re.escape(base) + r"""/history\.html\2""",
+        re.IGNORECASE,
+    )
+    replacement = r'\1\2history.html\2'
+
+    rewritten = 0
+    for html_file in output_dir.glob("*.html"):
+        text = html_file.read_text(encoding="utf-8")
+        updated = pattern.sub(replacement, text)
+        if updated != text:
+            html_file.write_text(updated, encoding="utf-8")
+            rewritten += 1
+
+    if rewritten:
+        print(f"✅ Rewrote history.html links to relative URL in {rewritten} HTML file(s).")
+    else:
+        print("ℹ️  No absolute history.html links found in output HTML files.")
+
+
+# ---------------------------------------------------------------------------
 # README.md
 # ---------------------------------------------------------------------------
 
@@ -334,7 +372,11 @@ def main() -> None:
     # standalone page is generated so the URL never returns 404.
     update_history_html(root / "output" / "history.html", branches, ci_base, title)
 
-    # 2. Update README.md (only when the markers are present and content changed)
+    # 2. Rewrite absolute pub_url/history.html hrefs in all output HTML files
+    # so the publish-box and nav "Version History" link points to the local copy.
+    rewrite_history_links(root / "output", pub_url)
+
+    # 4. Update README.md (only when the markers are present and content changed)
     if not skip_readme:
         changed = update_readme(root / "README.md", branches, ci_base, pub_url)
         print("README_CHANGED=true" if changed else "README_CHANGED=false")
