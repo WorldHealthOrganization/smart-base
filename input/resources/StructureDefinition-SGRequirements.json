@@ -9,7 +9,9 @@
   ],
   "url": "http://smart.who.int/base/StructureDefinition/SGRequirements",
   "version": "1.0.0",
-  "name": "SMART Guidelines Requirements",
+  "name": "SGRequirements",
+  "title": "SMART Guidelines Requirements",
+  "status": "draft",
   "description": "Smart Guidelines Requirements",
   "fhirVersion": "4.0.1",
   "kind": "resource",
@@ -17,6 +19,764 @@
   "type": "Requirements",
   "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Requirements",
   "derivation": "constraint",
+  "snapshot": {
+    "element": [
+      {
+        "id": "Requirements",
+        "path": "Requirements",
+        "short": "A set of requirements - features of systems that are necessary",
+        "definition": "A set of requirements - a list of features or behaviors of designed systems that are necessary to achieve organizational or regulatory goals.",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Requirements",
+          "min": 0,
+          "max": "*"
+        }
+      },
+      {
+        "id": "Requirements.id",
+        "path": "Requirements.id",
+        "short": "Logical id of this artifact",
+        "definition": "The logical id of the resource.",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Resource.id",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "http://hl7.org/fhirpath/System.String",
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                "valueUrl": "id"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Requirements.meta",
+        "path": "Requirements.meta",
+        "short": "Metadata about the resource",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Resource.meta",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Meta"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.implicitRules",
+        "path": "Requirements.implicitRules",
+        "short": "A set of rules under which this content was created",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Resource.implicitRules",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "uri"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.language",
+        "path": "Requirements.language",
+        "short": "Language of the resource content",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Resource.language",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.text",
+        "path": "Requirements.text",
+        "short": "Text summary of the resource",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "DomainResource.text",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "Narrative"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.extension",
+        "path": "Requirements.extension",
+        "slicing": {
+          "discriminator": [
+            {
+              "type": "value",
+              "path": "url"
+            }
+          ],
+          "ordered": false,
+          "rules": "open"
+        },
+        "short": "Additional content defined by implementations",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "DomainResource.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.extension:task",
+        "path": "Requirements.extension",
+        "sliceName": "task",
+        "short": "SGTask reference",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "DomainResource.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension",
+            "profile": [
+              "http://smart.who.int/base/StructureDefinition/SGTask"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Requirements.extension:satisfies",
+        "path": "Requirements.extension",
+        "sliceName": "satisfies",
+        "short": "Satisfies reference",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "DomainResource.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension",
+            "profile": [
+              "http://smart.who.int/base/StructureDefinition/Satisfies"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Requirements.extension:userstory",
+        "path": "Requirements.extension",
+        "sliceName": "userstory",
+        "short": "User story reference",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "DomainResource.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension",
+            "profile": [
+              "http://smart.who.int/base/StructureDefinition/SGUserStory"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Requirements.modifierExtension",
+        "path": "Requirements.modifierExtension",
+        "short": "Extensions that cannot be ignored",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "DomainResource.modifierExtension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.url",
+        "path": "Requirements.url",
+        "short": "Canonical identifier for this requirements",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Requirements.url",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "uri"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.identifier",
+        "path": "Requirements.identifier",
+        "short": "Additional identifier for the requirements",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Requirements.identifier",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Identifier"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.version",
+        "path": "Requirements.version",
+        "short": "Business version of the requirements",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Requirements.version",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.name",
+        "path": "Requirements.name",
+        "short": "Name for this requirements (computer friendly)",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Requirements.name",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.title",
+        "path": "Requirements.title",
+        "short": "Name for this requirements (human friendly)",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Requirements.title",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.status",
+        "path": "Requirements.status",
+        "short": "draft | active | retired | unknown",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Requirements.status",
+          "min": 1,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "mustSupport": true,
+        "binding": {
+          "strength": "required",
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status"
+        }
+      },
+      {
+        "id": "Requirements.experimental",
+        "path": "Requirements.experimental",
+        "short": "For testing purposes, not real usage",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Requirements.experimental",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "boolean"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.date",
+        "path": "Requirements.date",
+        "short": "Date last changed",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Requirements.date",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "dateTime"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.publisher",
+        "path": "Requirements.publisher",
+        "short": "Name of the publisher/steward (organization or individual)",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Requirements.publisher",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.contact",
+        "path": "Requirements.contact",
+        "short": "Contact details for the publisher",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Requirements.contact",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "ContactDetail"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.description",
+        "path": "Requirements.description",
+        "short": "Natural language description of the requirements",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Requirements.description",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "markdown"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.useContext",
+        "path": "Requirements.useContext",
+        "short": "The context that the content is intended to support",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Requirements.useContext",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "UsageContext"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.jurisdiction",
+        "path": "Requirements.jurisdiction",
+        "short": "Intended jurisdiction for requirements",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Requirements.jurisdiction",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "CodeableConcept"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.purpose",
+        "path": "Requirements.purpose",
+        "short": "Why this requirements is defined",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Requirements.purpose",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "markdown"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.copyright",
+        "path": "Requirements.copyright",
+        "short": "Use and/or publishing restrictions",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Requirements.copyright",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "markdown"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.copyrightLabel",
+        "path": "Requirements.copyrightLabel",
+        "short": "Copyright holder and year(s)",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Requirements.copyrightLabel",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.derivedFrom",
+        "path": "Requirements.derivedFrom",
+        "short": "Other set of requirements this builds on",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Requirements.derivedFrom",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "canonical"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.actor",
+        "path": "Requirements.actor",
+        "short": "Actor for these requirements",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Requirements.actor",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "canonical"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.statement",
+        "path": "Requirements.statement",
+        "short": "Actual statement as markdown",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Requirements.statement",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "BackboneElement"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.statement.id",
+        "path": "Requirements.statement.id",
+        "short": "Unique id for inter-element referencing",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Element.id",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "http://hl7.org/fhirpath/System.String",
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                "valueUrl": "string"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Requirements.statement.extension",
+        "path": "Requirements.statement.extension",
+        "short": "Additional content defined by implementations",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Element.extension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.statement.modifierExtension",
+        "path": "Requirements.statement.modifierExtension",
+        "short": "Extensions that cannot be ignored even if unrecognized",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "BackboneElement.modifierExtension",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Extension"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.statement.key",
+        "path": "Requirements.statement.key",
+        "short": "Key that identifies this statement",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Requirements.statement.key",
+          "min": 1,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "id"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.statement.label",
+        "path": "Requirements.statement.label",
+        "short": "Short Human label for this statement",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Requirements.statement.label",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.statement.conformance",
+        "path": "Requirements.statement.conformance",
+        "short": "SHALL | SHOULD | MAY | SHOULD-NOT",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Requirements.statement.conformance",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "code"
+          }
+        ],
+        "binding": {
+          "strength": "required",
+          "valueSet": "http://hl7.org/fhir/ValueSet/conformance-expectation"
+        }
+      },
+      {
+        "id": "Requirements.statement.requirement",
+        "path": "Requirements.statement.requirement",
+        "short": "The actual requirement",
+        "min": 1,
+        "max": "1",
+        "base": {
+          "path": "Requirements.statement.requirement",
+          "min": 1,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "markdown"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.statement.derivedFrom",
+        "path": "Requirements.statement.derivedFrom",
+        "short": "Another statement this clarifies/restricts",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Requirements.statement.derivedFrom",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.statement.parent",
+        "path": "Requirements.statement.parent",
+        "short": "A larger requirement that this requirement helps to refine and enable",
+        "min": 0,
+        "max": "1",
+        "base": {
+          "path": "Requirements.statement.parent",
+          "min": 0,
+          "max": "1"
+        },
+        "type": [
+          {
+            "code": "string"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.statement.satisfiedBy",
+        "path": "Requirements.statement.satisfiedBy",
+        "short": "Design artifact that satisfies this requirement",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Requirements.statement.satisfiedBy",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "url"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.statement.reference",
+        "path": "Requirements.statement.reference",
+        "short": "External artifact (rule/document etc. that) created this requirement",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Requirements.statement.reference",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "url"
+          }
+        ]
+      },
+      {
+        "id": "Requirements.statement.source",
+        "path": "Requirements.statement.source",
+        "short": "Who asked for this statement",
+        "min": 0,
+        "max": "*",
+        "base": {
+          "path": "Requirements.statement.source",
+          "min": 0,
+          "max": "*"
+        },
+        "type": [
+          {
+            "code": "Reference"
+          }
+        ]
+      }
+    ]
+  },
   "differential": {
     "element": [
       {
@@ -49,7 +809,7 @@
         ]
       },
       {
-        "Id": "Requirements.extension:satisfies",
+        "id": "Requirements.extension:satisfies",
         "path": "Requirements.extension",
         "sliceName": "satisfies",
         "min": 0,
@@ -62,7 +822,7 @@
             ]
           }
         ]
-      },	
+      },
       {
         "id": "Requirements.extension:userstory",
         "path": "Requirements.extension",
@@ -76,7 +836,7 @@
             ]
           }
         ]
-      },	
+      },
       {
         "id": "Requirements.name",
         "path": "Requirements.name",
