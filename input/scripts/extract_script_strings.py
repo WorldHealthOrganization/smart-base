@@ -21,7 +21,9 @@ import argparse
 import ast
 import datetime
 import logging
+import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
@@ -93,6 +95,33 @@ _POT_CREATION_DATE_RE = re.compile(r'^"POT-Creation-Date:.*\\n"\s*$')
 _GENERATED_COMMENT_RE = re.compile(r'^# Generated: ')
 
 
+def _reproducible_timestamp() -> datetime.datetime:
+    """Return a deterministic UTC timestamp for .pot file headers.
+
+    Checks ``SOURCE_DATE_EPOCH`` first, then the git author date of HEAD,
+    so that the same commit always produces the same .pot timestamp.
+    Falls back to ``datetime.now(UTC)`` when neither is available.
+    """
+    epoch = os.environ.get("SOURCE_DATE_EPOCH")
+    if epoch:
+        try:
+            return datetime.datetime.fromtimestamp(int(epoch), tz=datetime.timezone.utc)
+        except (ValueError, OSError):
+            pass
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%ct"],
+            capture_output=True, text=True, timeout=5,
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            return datetime.datetime.fromtimestamp(
+                int(result.stdout.strip()), tz=datetime.timezone.utc
+            )
+    except (OSError, subprocess.TimeoutExpired, ValueError):
+        pass
+    return datetime.datetime.now(datetime.timezone.utc)
+
+
 def _normalize_pot_content(content: str) -> str:
     """Strip timestamp-varying lines from ``.pot`` content for comparison.
 
@@ -153,7 +182,7 @@ def generate_pot(
         msgid_refs[msgid].append((file_path, lineno))
 
     # Generate .pot content
-    now = datetime.datetime.now(datetime.timezone.utc)
+    now = _reproducible_timestamp()
     timestamp = now.strftime("%Y-%m-%d %H:%M+0000")
 
     lines: List[str] = []

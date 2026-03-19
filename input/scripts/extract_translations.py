@@ -46,6 +46,7 @@ import io
 import logging
 import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -188,6 +189,35 @@ msgstr ""
 # Regex patterns for lines that vary only by timestamp/year in .pot files.
 _POT_CREATION_DATE_RE = re.compile(r'^"POT-Creation-Date:.*\\n"\s*$')
 _POT_COPYRIGHT_RE = re.compile(r"^# Copyright \(C\) \d{4} ")
+
+
+def _reproducible_timestamp() -> datetime.datetime:
+    """Return a deterministic UTC timestamp for .pot file headers.
+
+    Checks ``SOURCE_DATE_EPOCH`` (standard reproducible-builds env var) first,
+    then falls back to the git author date of HEAD so that the same commit
+    always produces the same .pot timestamp regardless of wall-clock time.
+    This prevents timestamp-only diffs that cause merge conflicts across
+    branches.  Falls back to ``datetime.now(UTC)`` when git is unavailable.
+    """
+    epoch = os.environ.get("SOURCE_DATE_EPOCH")
+    if epoch:
+        try:
+            return datetime.datetime.fromtimestamp(int(epoch), tz=datetime.timezone.utc)
+        except (ValueError, OSError):
+            pass
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%ct"],
+            capture_output=True, text=True, timeout=5,
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            return datetime.datetime.fromtimestamp(
+                int(result.stdout.strip()), tz=datetime.timezone.utc
+            )
+    except (OSError, subprocess.TimeoutExpired, ValueError):
+        pass
+    return datetime.datetime.now(datetime.timezone.utc)
 
 
 def _normalize_pot_content(content: str) -> str:
@@ -874,7 +904,7 @@ def write_pot(
             deduped[key] = []
         deduped[key].append((entry.source_file, entry.line_number, entry.context_url))
 
-    now = datetime.datetime.now(datetime.timezone.utc)
+    now = _reproducible_timestamp()
     timestamp = now.strftime("%Y-%m-%d %H:%M+0000")
     year = now.year
 
