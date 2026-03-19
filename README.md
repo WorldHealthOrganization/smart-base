@@ -32,10 +32,13 @@ As a convenience, this repository currently includes a comprehensive set of Digi
 For detailed documentation on the DAK extraction functionality, see [input/scripts/README.md](input/scripts/README.md). 
 
 ## Publication
-Continuous Build: __http://WorldHealthOrganization.github.io/smart-base/index.html__  
-Canonical / permanent URL: 
-<br> </br>
+<!-- CI_BUILD_LINKS_START -->
+Continuous Build: [https://WorldHealthOrganization.github.io/smart-base/](https://WorldHealthOrganization.github.io/smart-base/)
+Published: [https://smart.who.int/base](https://smart.who.int/base)
 
+### Feature Branch Builds
+_No feature branches deployed yet._
+<!-- CI_BUILD_LINKS_END -->
 
 This framework is published under a Creative Commons - IGO [license](LICENSE.md).
 
