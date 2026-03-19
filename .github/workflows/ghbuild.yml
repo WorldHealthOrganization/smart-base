@@ -755,7 +755,8 @@ jobs:
             -e "GITHUB_REPOSITORY=${GITHUB_REPOSITORY}" \
             -e "TS_CHECKOUT=${TS_CHECKOUT:-}" \
             -e "TS_IG_BUILD=${TS_IG_BUILD:-}" \
-            ig-run python3 input/scripts/stamp_deploy.py output/index.html
+            ig-run python3 input/scripts/stamp_deploy.py output/index.html \
+            || echo "⚠️ stamp_deploy.py exited with error (non-blocking)"
 
       # ── Clean up the Docker container ──────────────────────────────────
       # The ig-run container was kept alive for post-processing steps.
@@ -767,7 +768,7 @@ jobs:
 
       # Fix output ownership so deploy actions (running on host) can read files
       - name: Fix output directory ownership
-        if: success()
+        if: ${{ !cancelled() }}
         run: sudo chown -R "$USER:$USER" ./output 2>/dev/null || true
 
       # ── Branch index + history page ─────────────────────────────────────
@@ -778,7 +779,7 @@ jobs:
       # README.md changes are committed back to the source branch when deploying
       # from a non-PR push (only when the content actually changed, idempotent).
       - name: Generate history page and update README branch links
-        if: success()
+        if: ${{ !cancelled() }}
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -802,7 +803,7 @@ jobs:
       # Injects a visible info box at the top of every HTML page in output/,
       # showing the IG version, git commit SHA, and feature branch name.
       - name: Inject CI build banner into output pages
-        if: success()
+        if: ${{ !cancelled() }}
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GH_SHA: ${{ github.sha }}
