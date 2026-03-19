@@ -138,6 +138,12 @@ jobs:
           if [ -z "$SCRIPTS_REF" ]; then
             SCRIPTS_REF="main"
           fi
+          # Reject refs starting with '-' to prevent git argument injection
+          # (e.g. --upload-pack, --help) when used in 'git fetch origin "$REF"'.
+          if printf '%s' "$SCRIPTS_REF" | grep -qE '^-'; then
+            echo "::error::scripts_ref must not start with a dash"
+            exit 1
+          fi
 
           # Always pin downloads to main — do NOT use scripts_ref here.
           # This prevents an attacker from supplying a malicious branch
