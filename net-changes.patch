@@ -1,0 +1,627 @@
+diff --git a/.github/workflows/release.yml b/.github/workflows/release.yml
+index b2a8a6e..de5ca84 100644
+--- a/.github/workflows/release.yml
++++ b/.github/workflows/release.yml
+@@ -1,8 +1,11 @@
+-# This workflow calls a remote workflow for setting up a release publication, 
+-# This workflow is triggered by the creation of a GitHub release and requires a file called publication-request.json in the branch.
+-
+ name: Release build
+ 
++permissions:
++  contents: write
++  pages: write
++  id-token: write
++  pull-requests: write
++  
+ on:
+   release:
+     types: [created]
+@@ -15,7 +18,7 @@ jobs:
+       file_exists: ${{ steps.checkfile.outputs.exists }}
+     steps:
+       - name: Checkout code
+-        uses: actions/checkout@v3
++        uses: actions/checkout@v2
+         with:
+           ref: ${{ github.event.release.tag_name }}
+ 
+@@ -32,4 +35,5 @@ jobs:
+     needs: check
+     if: needs.check.outputs.file_exists == 'true'
+     uses: WorldHealthOrganization/smart-html/.github/workflows/release.yml@main
+-  
++#    with:
++#      tag_name: ${{ github.event.release.tag_name }}
+diff --git a/.github/workflows/repo_actions.yml b/.github/workflows/repo_actions.ymlOFF
+similarity index 100%
+rename from .github/workflows/repo_actions.yml
+rename to .github/workflows/repo_actions.ymlOFF
+diff --git a/README.md b/README.md
+index 8721f7d..a8df71c 100644
+--- a/README.md
++++ b/README.md
+@@ -7,12 +7,13 @@
+ ![QA hints](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2FWorldHealthOrganization.github.io%2Fsmart-ig-empty%2Fqa.json&query=%24.hints&logoColor=yellow&label=QA%20hints&color=yellow)
+ <!--/badges-->
+ 
+-# WHO SMART GUIDELINES - EMPTY IG
++# WHO SMART GUIDELINES 
+ 
+ This is an empty framework, to be used to create SMART Implementation Guides.
+ 
+ Please see these [instructions](https://smart.who.int/ig-starter-kit/ig_setup.html#github-setup)
+ 
++CI Build [here](https://worldhealthorganization.github.io/smart-prequal-vaccines/) 
+ 
+ ## Generating Instances Locally
+ 
+diff --git a/_gencontinuous.bat b/_gencontinuous.bat
+new file mode 100644
+index 0000000..ca2867a
+--- /dev/null
++++ b/_gencontinuous.bat
+@@ -0,0 +1,2 @@
++@ECHO OFF
++CALL ./_genonce.bat -watch
+\ No newline at end of file
+diff --git a/_gencontinuous.sh b/_gencontinuous.sh
+new file mode 100755
+index 0000000..b9ac593
+--- /dev/null
++++ b/_gencontinuous.sh
+@@ -0,0 +1,2 @@
++#!/bin/bash
++./_genonce.sh -watch
+diff --git a/_genonce.sh b/_genonce.sh
+old mode 100644
+new mode 100755
+diff --git a/_updatePublisher.sh b/_updatePublisher.sh
+old mode 100644
+new mode 100755
+diff --git a/input/pagecontent/dak-api.md b/input/pagecontent/dak-api.md
+new file mode 100644
+index 0000000..3a1a958
+--- /dev/null
++++ b/input/pagecontent/dak-api.md
+@@ -0,0 +1,13 @@
++# DAK API Documentation Hub
++
++This page provides access to Data Access Kit (DAK) API documentation and schemas.
++
++{: .no_toc}
++
++## Table of Contents
++{: .no_toc .text-delta }
++
++1. TOC
++{:toc}
++
++<!-- DAK_API_CONTENT -->
+diff --git a/plan.md b/plan.md
+new file mode 100644
+index 0000000..2a5679b
+--- /dev/null
++++ b/plan.md
+@@ -0,0 +1,203 @@
++# Plan: Instantiate PreQual Database Models as PCMT Profiles
++
++## Context
++
++The PreQual repo currently defines standalone logical models (`FinishedVaccineProducts`, `PreQualManufacturer`, etc.) that mirror the WHO PreQual API structure. The PCMT repo defines two core logical models:
++- **Product** — identifiers, names, classification, manufacturer, dosageForm, routeOfAdministration, doseQuantity, shelfLife, strength, attributes, associatedProducts
++- **ProductAuthorization** — number, status, type, jurisdiction, holder, products, validityPeriod
++
++The goal is to make the PreQual data instantiate PCMT's `Product` and `ProductAuthorization` models, so PreQual vaccines are first-class PCMT catalog entries.
++
++---
++
++## Step 1: Add `smart.who.int.pcmt` dependency
++
++**File**: `sushi-config.yaml`
++
++Add back the PCMT dependency:
++```yaml
++dependencies:
++  smart.who.int.base: current
++  smart.who.int.pcmt: current
++  ihe.iti.mcsd:
++    id: IHE_ITI_mCSD
++    uri: https://profiles.ihe.net/ITI/mCSD/ImplementationGuide/ihe.iti.mcsd
++    version: 3.8.0
++```
++
++---
++
++## Step 2: Create `PreQualProduct` profile of PCMT `Product`
++
++**New file**: `input/fsh/profiles/PreQualProduct.fsh`
++
++This profile constrains PCMT's `Product` for PreQual vaccines:
++
++| PCMT Product field | Constraint / Mapping | Source from PreQual API |
++|---|---|---|
++| `identifier` | Slice: `prequalId` (1..1) with system `https://extranet.who.int/prequal/api` | `productId` |
++| `name` | Slice: `official` (1..1) — the FVP reference name | `productName` (e.g. "FVP-P-447") |
++| `name` | Slice: `commercial` (0..1) — the trade name | `vaccineCommercialName` (e.g. "CYVAC") |
++| `classification` | Bind to `PreQualVaccineType` ValueSet | vaccine type code |
++| `status` | Constrain to `#active` | from `status` field |
++| `manufacturer` | Reference(IHE.mCSD.Organization) — require 1..1 | `manufacturerReference` |
++| `dosageForm` | Bind to `PreQualPresentation` ValueSet | `presentation` |
++| `routeOfAdministration` | Bind to PreQualDatabaseMetadata route codes | `routeOfAdministration` |
++| `doseQuantity` | Map from numDoses | `numDoses` |
++| `shelfLife` | Map from shelf life string (parse to days) | `shelfLife` |
++| `attribute` | Slices for PreQual-specific data (see below) | various fields |
++
++**Attribute slices** for PreQual-specific fields that don't map to core Product fields:
++- `attribute[vaccineFullName]` — type=#vaccineFullName, value=string
++- `attribute[vaccineAbbreviatedName]` — type=#vaccineAbbreviatedName, value=string
++- `attribute[storageTemperature]` — type=#storageTemperature, value=string
++- `attribute[vialMonitor]` — type=#vialMonitor, value=string
++- `attribute[preservative]` — type=#preservative, value=string
++- `attribute[preservativeConcentration]` — type=#preservativeConcentration, value=string
++- `attribute[diluent]` — type=#diluent, value=string
++- `attribute[multidoseVialPolicy]` — type=#multidoseVialPolicy, value=string
++- `attribute[pharmaceuticalForm]` — type=#pharmaceuticalForm, value=code
++- `attribute[assessmentProcedure]` — type=#assessmentProcedure, value=code
++- `attribute[publishingRemarks]` — type=#publishingRemarks, value=string
++- `attribute[lastPublishingDate]` — type=#lastPublishingDate, value=dateTime
++
++**associatedProduct** for packaging hierarchy:
++- Each `PreQualProductPackaging` instance maps to an `associatedProduct` entry with relationship `#contains`
++
++---
++
++## Step 3: Create `PreQualAuthorization` profile of PCMT `ProductAuthorization`
++
++**New file**: `input/fsh/profiles/PreQualAuthorization.fsh`
++
++| PCMT ProductAuthorization field | Constraint / Mapping | Source |
++|---|---|---|
++| `number` | Identifier with system `https://extranet.who.int/prequal/api` | derived from `productId` |
++| `status` | Constrain to `#active` for prequalified products | `status` |
++| `type` | Fixed to `#prequal` | always PreQualification |
++| `jurisdiction` | Fixed to WHO | always WHO |
++| `holder` | Reference(IHE.mCSD.Organization) — the NRA | `responsibleNRAReference` |
++| `product` | Reference(PreQualProduct) | link to the product profile |
++| `validityPeriod.start` | dateTime | `dateOfPrequal` |
++
++---
++
++## Step 4: Extend `PreQualAttributeType` CodeSystem
++
++**New file**: `input/fsh/codesystems/PreQualAttributeType.fsh`
++
++Add codes for attribute types used in the Product profile:
++- `#vaccineFullName`, `#vaccineAbbreviatedName`, `#storageTemperature`, `#vialMonitor`,
++  `#preservative`, `#preservativeConcentration`, `#diluent`, `#multidoseVialPolicy`,
++  `#pharmaceuticalForm`, `#assessmentProcedure`, `#publishingRemarks`, `#lastPublishingDate`
++
++---
++
++## Step 5: Update `import_salesforce.py` to generate PCMT instances
++
++**File**: `scripts/import_salesforce.py`
++
++Modify the script to generate instances of the PCMT profiles instead of the raw logical models:
++
++### 5a. Generate `PreQualProduct` instances (replaces FinishedVaccineProducts instances)
++For each product in the API data, generate:
++```fsh
++Instance: PreQualProductXXX
++InstanceOf: PreQualProduct
++Usage: #example
++* identifier[prequalId].system = "https://extranet.who.int/prequal/api"
++* identifier[prequalId].value = "a3K3X000005atRtUAI"
++* name[official].nameType = #official
++* name[official].value = "FVP-P-447"
++* name[commercial].nameType = #commercial  // if available
++* name[commercial].value = "CYVAC"
++* classification = PreQualVaccineType#Malaria
++* status = #active
++* manufacturer = Reference(Manufacturer0013X00003cPkzfQAC)
++* dosageForm = PreQualPresentation#Vial
++* doseQuantity = 2 'doses'
++* attribute[vaccineFullName].type = PreQualAttributeType#vaccineFullName
++* attribute[vaccineFullName].valueString = "Recombinant malaria vaccine"
++* attribute[vaccineAbbreviatedName].type = PreQualAttributeType#vaccineAbbreviatedName
++* attribute[vaccineAbbreviatedName].valueString = "Malaria"
++// ... other attributes as available
++```
++
++### 5b. Generate `PreQualAuthorization` instances (new — currently no equivalent)
++For each product:
++```fsh
++Instance: PreQualAuthXXX
++InstanceOf: PreQualAuthorization
++Usage: #example
++* status = #active
++* type = #prequal
++* jurisdiction.coding.display = "WHO"
++* holder = Reference(Holder0013X0000498p4fQAA)
++* product = Reference(PreQualProductXXX)
++* validityPeriod.start = 2023-12-19
++```
++
++### 5c. Keep sub-entity logical model instances as-is
++The `PreQualManufacturer`, `PreQualNRA`, `PreQualVaccine`, `PreQualBulkSupplier`, `PreQualProductPackaging`, `PreQualDocumentDetail`, `PreQualSiteDetail`, `PreQualProductIngredient` instances remain unchanged — they represent PreQual-specific detail that doesn't have a PCMT equivalent. They are referenced from the Product profile via extensions or attributes.
++
++### 5d. Keep Organization instances (manufacturers, holders) as-is
++These already use `IHE.mCSD.Organization` which is what PCMT's `Product.manufacturer` and `ProductAuthorization.holder` expect.
++
++---
++
++## Step 6: Add extensions for sub-entity references
++
++**New file**: `input/fsh/extensions/PreQualExtensions.fsh`
++
++Extensions on `PreQualProduct` to link to the sub-entity logical model instances:
++- `manufacturerLM` → Reference(PreQualManufacturer)
++- `nraLM` → Reference(PreQualNRA)
++- `vaccineLM` → Reference(PreQualVaccine)
++- `bulkSupplierLM` → Reference(PreQualBulkSupplier)
++- `packagingLM` → Reference(PreQualProductPackaging) (0..*)
++- `documentLM` → Reference(PreQualDocumentDetail) (0..*)
++- `siteLM` → Reference(PreQualSiteDetail) (0..*)
++- `ingredientLM` → Reference(PreQualProductIngredient) (0..*)
++
++---
++
++## Step 7: Update tests
++
++**File**: `tests/test_import_salesforce.py`
++
++Update the 33+ tests to validate:
++- Generated instances are `InstanceOf: PreQualProduct` (not `FinishedVaccineProducts`)
++- Generated authorization instances are `InstanceOf: PreQualAuthorization`
++- Correct attribute slice structure
++- Correct identifier slice structure
++
++---
++
++## Step 8: Keep backward compatibility via ConceptMap
++
++The existing `PreQualCSVtoAPIConceptMap` bridges old CSV MD5-based IDs to new API IDs. No changes needed.
++
++---
++
++## What stays unchanged
++
++- `PreQualDB` / `PreQualDBwithIds` logical models (CSV-based legacy model)
++- `FinishedVaccineProducts` logical model definition (kept as documentation of the API structure)
++- All sub-entity logical models (PreQualManufacturer, PreQualNRA, etc.)
++- Organization instances (manufacturers, holders)
++- CodeSystems and ValueSets
++- `presushi.sh` (generates CSV-based instances, separate from API-based)
++
++---
++
++## File summary
++
++| Action | File |
++|--------|------|
++| Modify | `sushi-config.yaml` — add pcmt dependency |
++| Create | `input/fsh/profiles/PreQualProduct.fsh` |
++| Create | `input/fsh/profiles/PreQualAuthorization.fsh` |
++| Create | `input/fsh/codesystems/PreQualAttributeType.fsh` |
++| Create | `input/fsh/extensions/PreQualExtensions.fsh` |
++| Modify | `scripts/import_salesforce.py` — generate PCMT profile instances |
++| Modify | `tests/test_import_salesforce.py` — update assertions |
+diff --git a/presushi.sh b/presushi.sh
+index 142d7cb..97322f3 100755
+--- a/presushi.sh
++++ b/presushi.sh
+@@ -111,7 +111,7 @@ awk -vFPAT='([^,]*)|("[^"]+")' -vOFS=, '
+   print ""
+   print "Instance: Manufacturer"MD5
+   print "InstanceOf: IHE.mCSD.Organization"
+-  print "Usage: #example"
++  print "Usage: #definition"
+   print "* active = true"
+   print "* name = \""$0"\""
+   print "* type = $orgType#other"
+@@ -135,7 +135,7 @@ awk -vFPAT='([^,]*)|("[^"]+")' -vOFS=, 'NR>1  {
+   print ""
+   print "Instance: Holder"MD5
+   print "InstanceOf: IHE.mCSD.Organization"
+-  print "Usage: #example"
++  print "Usage: #definition"
+   print "* active = true"
+   print "* name = \""$0"\""
+   print "* type = $orgType#govt"
+@@ -214,6 +214,7 @@ NR > 1{
+   print ""
+   print "Instance: PreQualDB"MD5
+   print "InstanceOf: PreQualDBwithIds"
++  print "Usage: #definition"
+   print "* dateOfPrequal = "VDATE
+   print "* vaccineType.coding.code = #"VAXTYPE
+   print "* vaccineType.coding.display = \""VAX"\"" 
+@@ -233,7 +234,7 @@ NR > 1{
+   print ""    
+   print "Instance: "PRODID
+   print "InstanceOf: $Product"
+-  print "Usage: #example"
++  print "Usage: #definition"
+   print "* status = #active"
+   print "* name"
+   print "  * nameType = #official"
+@@ -248,7 +249,7 @@ NR > 1{
+   print ""
+   print "Instance: PreQual" MD5
+   print "InstanceOf: $ProductAuthorization"
+-  print "Usage: #example"
++  print "Usage: #definition"
+   print "* status = #active"
+   print "* type = #prequal"
+   print "* jurisdiction.coding.display = \"WHO\""
+diff --git a/publication-request.json b/publication-request.json
+new file mode 100644
+index 0000000..6e96fff
+--- /dev/null
++++ b/publication-request.json
+@@ -0,0 +1,14 @@
++{
++  "package-id" : "smart.who.int.pcmt-vaxprequal",
++  "title" : "SMART Product Dataset for Prequalified Vaccines", 
++  "category" : "base",
++  "introduction" : "SMART Product Dataset for Prequalified Vaccines",
++  "version" : "0.1.0",
++  "desc" : "0.1.0 draft release",
++  "mode" : "milestone",    
++  "path" : "http://smart.who.int/pcmt-vaxprequal/v0.1.0",
++  "ci-build": "http://worldhealthorganization.github.io/smart-pcmt-vaxprequal",    
++  "first": false,
++  "status" : "draft",
++  "sequence" : "Releases"
++}
+\ No newline at end of file
+diff --git a/sushi-config.yaml b/sushi-config.yaml
+index 2ff162f..422ce4a 100644
+--- a/sushi-config.yaml
++++ b/sushi-config.yaml
+@@ -1,25 +1,20 @@
+ id: smart.who.int.pcmt-vaxprequal
+ canonical: http://smart.who.int/pcmt-vaxprequal
+-name: SMARTPCMTDatasetVAXPreQual
+-title: SMART Product Catalog
+-description: Data exchange specifications for Product Catalog supporting the SMART Guidelines
+-status: draft # draft | active | retired | unknown
+-version: 0.1.0
+-fhirVersion: 5.0.0 # https://www.hl7.org/fhir/valueset-FHIR-version.html
++name: PCMTVAXPreQual
++title: SMART Product Dataset for Prequalified Vaccines
++description: Data exchange specifications for Product Catalog supporting the SMART
++  Guidelines
++status: draft
++version: 0.2.0
++fhirVersion: 4.0.1
+ copyrightYear: 2023+
+-releaseLabel: ci-build # ci-build | draft | qa-preview | ballot | trial-use | release | update | normative+trial-use
+-# license: CC0-1.0 # https://www.hl7.org/fhir/valueset-spdx-license.html
+-# jurisdiction: urn:iso:std:iso:3166#US "United States of America" # https://www.hl7.org/fhir/valueset-jurisdiction.html
++releaseLabel: ci-build
+ publisher:
+   name: WHO
+   url: http://who.int
+-  # email: test@example.org
+-
+-
+ meta:
+   profile:
+-    - http://smart.who.int/smart-base/ImplementationGuide-SGImplementationGuide
+-
++  - http://smart.who.int/smart-base/ImplementationGuide-SGImplementationGuide
+ pages:
+   index.md:
+     title: Home
+@@ -61,44 +56,40 @@ pages:
+       title: Sequence Diagrams
+     transactions.md:
+       title: Transactions
+-#    logical-models.md:                                                                                                                                                   
+-#      title: Logical Models                                                                                                                                              
+     indicators-measures.md:
+       title: Indicators and Measures
+-#    profiles.xml:                                                                                                                                                        
+-#      title: Content profiles 
+     codings.md:
+       title: Codings
+   deployment.md:
+     title: Deployment
+     security-privacy.md:
+       title: Security and Privacy Considerations
+-    testing.md: 
++    testing.md:
+       title: Testing
+-    test-data.md: 
++    test-data.md:
+       title: Test Data
+-    reference-implementations.md: 
++    reference-implementations.md:
+       title: Reference Implementations
+     trust_domain.md:
+       title: Trust Domains
+-    downloads.md: 
++    downloads.md:
+       title: Downloads
+   indices.md:
+     title: Indices
+-    artifacts.html: 
++    artifacts.html:
+       title: Artifact Index
+-    maps.md: 
++    maps.md:
+       title: Mappings
+-
+-
++  dak-api.md:
++    title: DAK API Documentation Hub
+ menu:
+-  Home: 
++  Home:
+     Summary: index.html
+     Changes: changes.html
+     Dependencies: dependencies.html
+     References: references.html
+     Adapting Guidelines for Country use: adapting.html
+-  Business Requirements: 
++  Business Requirements:
+     Concepts: concepts.html
+     Generic Personas: personas.html
+     User Scenarios: scenarios.html
+@@ -114,7 +105,6 @@ menu:
+     Transactions: transactions.html
+     Indicators and Measures: indicators-measures.html
+     Codings: codings.html
+-
+   Deployment:
+     Security and Privacy Considerations: security-privacy.html
+     Testing: testing.html
+@@ -122,143 +112,13 @@ menu:
+     Reference Implementations: reference-implementations.html
+     Trust Domains: trust_domain.html
+     Downloads: downloads.html
+-
+   Indices:
+     Artifact Index: artifacts.html
+     Mappings: maps.html
+-    
+-# ╭───────────────────────────Less Common Implementation Guide Properties──────────────────────────╮
+-# │  Uncomment the properties below to configure additional properties on the ImplementationGuide  │
+-# │  resource. These properties are less commonly needed than those above.                         │
+-# ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
+-#
+-# Those who need more control or want to add additional details to the contact values can use
+-# contact directly and follow the format outlined in the ImplementationGuide resource and
+-# ContactDetail.
+-#
+-# contact:
+-#   - name: Bob Smith
+-#     telecom:
+-#       - system: email # phone | fax | email | pager | url | sms | other
+-#         value: bobsmith@example.org
+-#         use: work
+-#
+-#
+-# The global property corresponds to the IG.global property, but it
+-# uses the type as the YAML key and the profile as its value. Since
+-# FHIR does not explicitly disallow more than one profile per type,
+-# neither do we; the value can be a single profile URL or an array
+-# of profile URLs. If a value is an id or name, SUSHI will replace
+-# it with the correct canonical when generating the IG JSON.
+-#
+-# global:
+-#   Patient: http://example.org/fhir/StructureDefinition/my-patient-profile
+-#   Encounter: http://example.org/fhir/StructureDefinition/my-encounter-profile
+-#
+-#
+-# The resources property corresponds to IG.definition.resource.
+-# SUSHI can auto-generate all of the resource entries based on
+-# the FSH definitions and/or information in any user-provided
+-# JSON or XML resource files. If the generated entries are not
+-# sufficient or complete, however, the author can add entries
+-# here. If the reference matches a generated entry, it will
+-# replace the generated entry. If it doesn't match any generated
+-# entries, it will be added to the generated entries. The format
+-# follows IG.definition.resource with the following differences:
+-#   * use IG.definition.resource.reference.reference as the YAML key.
+-#   * if the key is an id or name, SUSHI will replace it with the
+-#     correct URL when generating the IG JSON.
+-#   * specify "omit" to omit a FSH-generated resource from the
+-#     resource list.
+-#   * if the exampleCanonical is an id or name, SUSHI will replace
+-#     it with the correct canonical when generating the IG JSON.
+-#   * groupingId can be used, but top-level groups syntax may be a
+-#     better option (see below).
+-# The following are simple examples to demonstrate what this might
+-# look like:
+-#
+-# resources:
+-#   Patient/my-example-patient:
+-#     name: My Example Patient
+-#     description: An example Patient
+-#     exampleBoolean: true
+-#   Patient/bad-example: omit
+-#
+-#
+-# Groups can control certain aspects of the IG generation.  The IG
+-# documentation recommends that authors use the default groups that
+-# are provided by the templating framework, but if authors want to
+-# use their own instead, they can use the mechanism below.  This will
+-# create IG.definition.grouping entries and associate the individual
+-# resource entries with the corresponding groupIds. If a resource
+-# is specified by id or name, SUSHI will replace it with the correct
+-# URL when generating the IG JSON.
+-#
+-# groups:
+-#   GroupA:
+-#     name: Group A
+-#     description: The Alpha Group
+-#     resources:
+-#     - StructureDefinition/animal-patient
+-#     - StructureDefinition/arm-procedure
+-#   GroupB:
+-#     name: Group B
+-#     description: The Beta Group
+-#     resources:
+-#     - StructureDefinition/bark-control
+-#     - StructureDefinition/bee-sting
+-#
+-#
+-# The ImplementationGuide resource defines several other properties
+-# not represented above. These properties can be used as-is and
+-# should follow the format defined in ImplementationGuide:
+-# * date
+-# * meta
+-# * implicitRules
+-# * language
+-# * text
+-# * contained
+-# * extension
+-# * modifierExtension
+-# * experimental
+-# * useContext
+-# * copyright
+-# * packageId
+-#
+-#
+-# ╭──────────────────────────────────────────SUSHI flags───────────────────────────────────────────╮
+-# │  The flags below configure aspects of how SUSHI processes FSH.                                 │
+-# ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
+-# The FSHOnly flag indicates if only FSH resources should be exported.
+-# If set to true, no IG related content will be generated.
+-# The default value for this property is false.
+-#
+-# FSHOnly: false
+-#
+-#
+-# When set to true, the "short" and "definition" field on the root element of an Extension will
+-# be set to the "Title" and "Description" of that Extension. Default is true.
+-#
+-# applyExtensionMetadataToRoot: true
+-#
+-#
+-# The instanceOptions property is used to configure certain aspects of how SUSHI processes instances.
+-# See the individual option definitions below for more detail.
+-#
+-# instanceOptions:
+-#   Determines for which types of Instances SUSHI will automatically set meta.profile
+-#   if InstanceOf references a profile:
+-#
+-#   setMetaProfile: always # always | never | inline-only | standalone-only
+-#
+-#
+-#   Determines for which types of Instances SUSHI will automatically set id
+-#   if InstanceOf references a profile:
+-#
+-#   setId: always # always | standalone-only
++    DAK API: dak-api.html
+ dependencies:
+   smart.who.int.base: current
+-  ihe.iti.mcsd: 
++  ihe.iti.mcsd:
+    id: IHE_ITI_mCSD
+-   uri: https://profiles.ihe.net/ITI/mCSD/ImplementationGuide/ihe.iti.mcsd 
++   uri: https://profiles.ihe.net/ITI/mCSD/ImplementationGuide/ihe.iti.mcsd
+    version: 3.8.0
