@@ -1,0 +1,53 @@
+name: bpmn_layout
+version: "0.1.0"
+description: >
+  Generate SVG layout for BPMN 2.0 diagrams using Graphviz and validate
+  that all swimlanes correspond to ActorDefinition resources.
+
+commands:
+  - name: layout-bpmn
+    description: >
+      Parse BPMN XML, generate Graphviz DOT with subgraph clusters per
+      swimlane, render SVG, and inject BPMNDI coordinates back into BPMN.
+    entry_point: bpmn_to_svg.py
+    args:
+      - name: input
+        description: Path to BPMN 2.0 XML file
+        required: true
+      - name: --svg
+        description: Output SVG file path (default: same name as input with .svg)
+      - name: --bpmn
+        description: Output BPMN file with BPMNDI layout (default: .layout.bpmn)
+      - name: --dot
+        description: Output DOT file for debugging
+
+  - name: validate-swimlanes
+    description: >
+      Validate that every innermost swimlane (participant/lane) in a BPMN
+      file maps to an ActorDefinition in the IG. Reports matched, missing,
+      and suggests resolutions for missing mappings (dependency reference,
+      create new, or typo correction).
+    entry_point: validate_swimlanes.py
+    args:
+      - name: input
+        description: Path to BPMN 2.0 XML file
+        required: true
+      - name: --fsh-dir
+        description: Directory containing FSH files (default: input/fsh)
+      - name: --actors-dir
+        description: Directory containing JSON ActorDefinitions (default: input/actors)
+      - name: --json
+        description: Output results as JSON
+
+requires_llm_for: []
+
+review_checks:
+  - id: swimlane-actor-mapping
+    description: >
+      Every innermost swimlane in a BPMN diagram SHALL correspond to an
+      ActorDefinition resource. If a swimlane has no matching ActorDefinition,
+      the author must resolve by: (1) referencing an ActorDefinition from a
+      dependency IG, (2) creating a new ActorDefinition in this IG, or
+      (3) correcting a typo in the swimlane name.
+    severity: error
+    command: validate-swimlanes

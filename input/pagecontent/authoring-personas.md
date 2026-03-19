@@ -15,6 +15,7 @@ These personas are derived from the [WHO SMART IG Starter Kit](https://smart.who
 | [FHIR Modeller](ActorDefinition-SGAuthoring.Persona.FHIRModeller.html) | Authors L3 FHIR artifacts from L2 specifications | L3 Authoring |
 | [Terminologist](ActorDefinition-SGAuthoring.Persona.Terminologist.html) | Manages terminology, concept mappings, and WHO Commons dictionary | L3 Authoring, Governance |
 | [QC Reviewer](ActorDefinition-SGAuthoring.Persona.QCReviewer.html) | Reviews publication readiness using checklists and QA reports | Quality Control |
+| [Content Reviewer](ActorDefinition-SGAuthoring.Persona.ContentReviewer.html) | Approves content at decision gates (L2→L3, draft→publication) | Review / Approval |
 | [Publication Manager](ActorDefinition-SGAuthoring.Persona.PublicationManager.html) | Manages IG configuration, builds, versioning, and releases | Publication |
 | [Translator](ActorDefinition-SGAuthoring.Persona.Translator.html) | Translates IG content across UN languages | Translation |
 
@@ -22,15 +23,16 @@ These personas are derived from the [WHO SMART IG Starter Kit](https://smart.who
 
 The IG Starter Kit recommends defining a RASCI (Responsible, Accountable, Support, Consulted, Informed) matrix. Below is a reference matrix mapping personas to lifecycle phases:
 
-| Phase | Programme Manager | Technical Officer | Clinical SME | Business Analyst | FHIR Modeller | Terminologist | QC Reviewer | Publication Manager | Translator |
-|-------|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| Planning | **A/R** | S | C | C | I | I | I | I | I |
-| L2 Authoring | S | **A** | C | **R** | I | C | I | I | I |
-| Clinical Review | I | S | **A/R** | S | I | I | I | I | I |
-| L3 Authoring | I | I | C | S | **A/R** | **R** | I | S | I |
-| Quality Control | I | I | C | S | S | S | **A/R** | S | I |
-| Translation | I | I | C | I | S | I | S | I | **A/R** |
-| Publication | I | I | I | I | S | I | S | **A/R** | I |
+| Phase | Programme Manager | Technical Officer | Clinical SME | Business Analyst | FHIR Modeller | Terminologist | QC Reviewer | Content Reviewer | Publication Manager | Translator |
+|-------|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| Planning | **A/R** | S | C | C | I | I | I | I | I | I |
+| L2 Authoring | S | **A** | C | **R** | I | C | I | I | I | I |
+| Clinical Review | I | S | **A/R** | S | I | I | I | C | I | I |
+| L3 Authoring | I | I | C | S | **A/R** | **R** | I | I | S | I |
+| Quality Control | I | I | C | S | S | S | **A/R** | S | S | I |
+| Content Approval | I | I | C | I | S | I | S | **A/R** | I | I |
+| Translation | I | I | C | I | S | I | S | I | I | **A/R** |
+| Publication | I | I | I | I | S | I | S | S | **A/R** | I |
 
 **Legend**: **R** = Responsible, **A** = Accountable, **S** = Support, **C** = Consulted, **I** = Informed
 

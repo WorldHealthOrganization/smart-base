@@ -18,4 +18,5 @@ the clinical/health personas defined within a DAK.
 * #terminologist "Terminologist" "Manages terminology bindings, concept mappings, and WHO Commons dictionary alignment"
 * #qc-reviewer "Quality Control Reviewer" "Reviews publication readiness using checklists and QA validation reports"
 * #publication-manager "Publication Manager" "Manages IG configuration, build process, versioning, and release publication"
+* #content-reviewer "Content Reviewer / Approver" "Reviews and formally approves content at decision gates in the authoring lifecycle"
 * #translator "Translator" "Translates IG content across UN languages"

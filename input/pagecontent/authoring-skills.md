@@ -6,6 +6,11 @@ Skills are organized by domain and assigned to [authoring personas](authoring-pe
 
 #### Skill Inventory
 
+##### Content Review Skills
+| Skill | Description | Personas |
+|-------|-------------|----------|
+| [Can review and approve content](Requirements-SGAuthoring.Skills.ReviewAndApproveContent.html) | Review and formally approve content at decision gates | Content Reviewer |
+
 ##### Project Management Skills
 | Skill | Description | Personas |
 |-------|-------------|----------|
@@ -91,5 +96,15 @@ Each persona has a defined package of skills. The full set of skills for each pe
 | FHIR Modeller | 17 | L3 FHIR Authoring, Terminology, QA, IG Build |
 | Terminologist | 7 | Terminology Management, Governance |
 | QC Reviewer | 7 | QA, Checklists, Conformance, Functionality Testing |
+| Content Reviewer | 1 | Content Approval at decision gates |
 | Publication Manager | 6 | IG Configuration, Build, Release, Governance |
 | Translator | 2 | Translation, Review |
+
+#### BPMN Swimlane Validation
+
+As part of the BPMN authoring and review process, every innermost swimlane in a BPMN diagram **SHALL** correspond to an ActorDefinition resource. The [`bpmn_layout` skill](.github/skills/bpmn_layout/skills.yaml) includes a `validate-swimlanes` command that checks this automatically.
+
+When a swimlane has no matching ActorDefinition, the author must resolve by:
+1. **Referencing** an ActorDefinition from a dependency IG
+2. **Creating** a new ActorDefinition in this IG
+3. **Correcting** a typo in the swimlane name

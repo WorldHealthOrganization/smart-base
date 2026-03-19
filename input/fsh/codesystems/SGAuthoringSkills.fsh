@@ -62,6 +62,9 @@ Skills are used to define Requirements resources as capability statements.
 * #can-translate-content "Can translate content" "Ability to translate IG content across UN languages"
 * #can-review-translations "Can review translations" "Ability to review translated content for accuracy and completeness"
 
+// Content Review Skills
+* #can-review-and-approve-content "Can review and approve content" "Ability to review and formally approve SMART Guidelines content at decision gates"
+
 // Project Management Skills
 * #can-scope-dak "Can scope DAK" "Ability to define DAK scope, identify source documents, and establish development process"
 * #can-manage-stakeholders "Can manage stakeholders" "Ability to engage SMEs, coordinate consultations, and manage RASCI matrix"
