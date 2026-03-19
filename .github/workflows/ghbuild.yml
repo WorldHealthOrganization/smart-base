@@ -830,8 +830,10 @@ jobs:
           find ./output -type f -size +100M -print -delete
 
       - name: Deploy candidate
+        id: deploy_candidate_1
         uses: JamesIves/github-pages-deploy-action@v4.4.2
         if: env.IS_DEFAULT_BRANCH == 'false' && inputs.deploy != false
+        continue-on-error: true
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.
@@ -840,13 +842,38 @@ jobs:
           single-commit: true
           clean: false
 
+      - name: Deploy candidate (retry after gh-pages ref conflict)
+        uses: JamesIves/github-pages-deploy-action@v4.4.2
+        if: env.IS_DEFAULT_BRANCH == 'false' && inputs.deploy != false && steps.deploy_candidate_1.outcome == 'failure'
+        with:
+          branch: gh-pages
+          folder: ./output
+          commit-message: Deploy candidate branch (retry)
+          target-folder: branches/${{ env.BRANCH_DIR }}
+          single-commit: true
+          clean: false
+
       - name: Deploy main
+        id: deploy_main_1
         uses: JamesIves/github-pages-deploy-action@v4.4.2
         if: env.IS_DEFAULT_BRANCH == 'true' && inputs.deploy != false
+        continue-on-error: true
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.
           commit-message: Deploy main branch
+          single-commit: true
+          clean-exclude: |
+            branches
+            sitepreview
+
+      - name: Deploy main (retry after gh-pages ref conflict)
+        uses: JamesIves/github-pages-deploy-action@v4.4.2
+        if: env.IS_DEFAULT_BRANCH == 'true' && inputs.deploy != false && steps.deploy_main_1.outcome == 'failure'
+        with:
+          branch: gh-pages
+          folder: ./output
+          commit-message: Deploy main branch (retry)
           single-commit: true
           clean-exclude: |
             branches
