@@ -4,8 +4,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillReviewTerminology"
-* title = "Skill: Can review terminology"
+* title = "Can review terminology"
 * description = "Capability to review and validate terminology bindings, code systems, and value sets for correctness and completeness."
+* actor[+] = Canonical(SGAuthoring.Persona.Terminologist)
 
 * statement[+].key = "TERMREV-01"
 * statement[=].label = "Review CodeSystem definitions"
@@ -34,8 +35,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillMapConcepts"
-* title = "Skill: Can map concepts"
+* title = "Can map concepts"
 * description = "Capability to map data elements to WHO Commons dictionary, ICD-11, SNOMED CT, LOINC, and other standard terminologies."
+* actor[+] = Canonical(SGAuthoring.Persona.Terminologist)
 
 * statement[+].key = "CMAP-01"
 * statement[=].label = "Map to WHO Commons dictionary"
@@ -69,8 +71,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorCodeSystems"
-* title = "Skill: Can author code systems"
+* title = "Can author code systems"
 * description = "Capability to create and maintain FHIR CodeSystem resources."
+* actor[+] = Canonical(SGAuthoring.Persona.Terminologist)
 
 * statement[+].key = "CS-01"
 * statement[=].label = "Create CodeSystem resources"
@@ -94,8 +97,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorValueSets"
-* title = "Skill: Can author value sets"
+* title = "Can author value sets"
 * description = "Capability to create and maintain FHIR ValueSet resources with appropriate terminology bindings."
+* actor[+] = Canonical(SGAuthoring.Persona.Terminologist)
 
 * statement[+].key = "VS-01"
 * statement[=].label = "Create ValueSet resources"
@@ -119,8 +123,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorConceptMaps"
-* title = "Skill: Can author concept maps"
+* title = "Can author concept maps"
 * description = "Capability to create FHIR ConceptMap resources for cross-terminology mappings."
+* actor[+] = Canonical(SGAuthoring.Persona.Terminologist)
 
 * statement[+].key = "CM-01"
 * statement[=].label = "Create ConceptMap resources"

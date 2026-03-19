@@ -4,8 +4,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorLogicalModels"
-* title = "Skill: Can author logical models"
+* title = "Can author logical models"
 * description = "Capability to create FHIR logical models (StructureDefinitions) from L2 data dictionaries."
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "LM-01"
 * statement[=].label = "Create StructureDefinition from data dictionary"
@@ -34,8 +35,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorFHIRProfiles"
-* title = "Skill: Can author FHIR profiles"
+* title = "Can author FHIR profiles"
 * description = "Capability to create FHIR profiles (StructureDefinitions) constraining base FHIR resources."
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "PROF-01"
 * statement[=].label = "Create resource profiles"
@@ -64,8 +66,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorQuestionnaires"
-* title = "Skill: Can author questionnaires"
+* title = "Can author questionnaires"
 * description = "Capability to create FHIR Questionnaire resources aligned with L2 forms and data collection needs."
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "QUEST-01"
 * statement[=].label = "Create FHIR Questionnaires"
@@ -89,8 +92,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorCQL"
-* title = "Skill: Can author CQL"
+* title = "Can author CQL"
 * description = "Capability to write Clinical Quality Language (CQL) for decision logic, scheduling logic, and indicator calculations."
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "CQL-01"
 * statement[=].label = "Write CQL decision logic"
@@ -124,8 +128,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorStructureMaps"
-* title = "Skill: Can author structure maps"
+* title = "Can author structure maps"
 * description = "Capability to create FHIR StructureMaps for data extraction from QuestionnaireResponses to FHIR resources."
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "SMAP-01"
 * statement[=].label = "Create StructureMaps"
@@ -149,8 +154,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorPlanDefinitions"
-* title = "Skill: Can author plan definitions"
+* title = "Can author plan definitions"
 * description = "Capability to create FHIR PlanDefinitions for business processes and decision tables."
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "PLAN-01"
 * statement[=].label = "Create business process PlanDefinitions"
@@ -179,8 +185,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorActorDefinitions"
-* title = "Skill: Can author actor definitions"
+* title = "Can author actor definitions"
 * description = "Capability to create FHIR ActorDefinitions from L2 personas, reusing existing definitions from the Commons repository."
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "ACTOR-01"
 * statement[=].label = "Reuse Commons personas"
@@ -209,8 +216,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorExampleScenarios"
-* title = "Skill: Can author example scenarios"
+* title = "Can author example scenarios"
 * description = "Capability to create ExampleScenario resources from L2 user scenarios."
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "EXSC-01"
 * statement[=].label = "Create ExampleScenario resources"
@@ -229,8 +237,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorMeasures"
-* title = "Skill: Can author measures"
+* title = "Can author measures"
 * description = "Capability to create FHIR Measure resources from L2 indicators."
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "MEAS-01"
 * statement[=].label = "Create Measure resources"
@@ -254,8 +263,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorFHIRRequirements"
-* title = "Skill: Can author FHIR requirements"
+* title = "Can author FHIR requirements"
 * description = "Capability to create FHIR Requirements resources from L2 functional and non-functional requirements."
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "FHIRREQ-01"
 * statement[=].label = "Create Requirements resources"
@@ -279,8 +289,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorTestCases"
-* title = "Skill: Can author test cases"
+* title = "Can author test cases"
 * description = "Capability to create TestPlan, TestScript, and example instances for validation of L3 artifacts."
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "TEST-01"
 * statement[=].label = "Create TestPlan resources"

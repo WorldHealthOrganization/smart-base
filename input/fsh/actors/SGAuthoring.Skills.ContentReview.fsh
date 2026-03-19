@@ -4,8 +4,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillReviewAndApproveContent"
-* title = "Skill: Can review and approve content"
+* title = "Can review and approve content"
 * description = "Capability to review and formally approve SMART Guidelines content at decision gates in the authoring lifecycle."
+* actor[+] = Canonical(SGAuthoring.Persona.ContentReviewer)
 
 * statement[+].key = "APPROVE-01"
 * statement[=].label = "Review L2 DAK for completeness"

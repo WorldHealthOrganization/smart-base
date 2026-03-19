@@ -4,8 +4,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillManageStakeholders"
-* title = "Skill: Can manage stakeholders"
+* title = "Can manage stakeholders"
 * description = "Capability to engage SMEs, coordinate consultations, and manage the RASCI matrix for DAK development."
+* actor[+] = Canonical(SGAuthoring.Persona.ProgrammeManager)
 
 * statement[+].key = "STAKEHOLDER-01"
 * statement[=].label = "Define RASCI matrix"
@@ -39,8 +40,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillPlanIterations"
-* title = "Skill: Can plan iterations"
+* title = "Can plan iterations"
 * description = "Capability to plan sprint iterations, maintain the DAK backlog, draft the project roadmap, and facilitate retrospectives."
+* actor[+] = Canonical(SGAuthoring.Persona.ProgrammeManager)
 
 * statement[+].key = "ITERATE-01"
 * statement[=].label = "Maintain DAK backlog"

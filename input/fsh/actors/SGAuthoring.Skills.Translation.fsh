@@ -4,8 +4,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillTranslateContent"
-* title = "Skill: Can translate content"
+* title = "Can translate content"
 * description = "Capability to translate IG content across UN languages."
+* actor[+] = Canonical(SGAuthoring.Persona.Translator)
 
 * statement[+].key = "TRANS-01"
 * statement[=].label = "Translate narrative pages"
@@ -34,8 +35,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillReviewTranslations"
-* title = "Skill: Can review translations"
+* title = "Can review translations"
 * description = "Capability to review translated content for accuracy and completeness."
+* actor[+] = Canonical(SGAuthoring.Persona.Translator)
 
 * statement[+].key = "TRANSREV-01"
 * statement[=].label = "Review translation accuracy"

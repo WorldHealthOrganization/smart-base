@@ -4,8 +4,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillConfigureIG"
-* title = "Skill: Can configure IG"
+* title = "Can configure IG"
 * description = "Capability to set up and configure a FHIR Implementation Guide (sushi-config, canonical URL, packages)."
+* actor[+] = Canonical(SGAuthoring.Persona.PublicationManager)
 
 * statement[+].key = "IGCFG-01"
 * statement[=].label = "Fork IG template"
@@ -34,8 +35,10 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillBuildIG"
-* title = "Skill: Can build IG"
+* title = "Can build IG"
 * description = "Capability to run the FHIR IG Publisher build process and verify output."
+* actor[+] = Canonical(SGAuthoring.Persona.PublicationManager)
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "BUILD-01"
 * statement[=].label = "Run IG Publisher locally"
@@ -64,8 +67,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillManageReleases"
-* title = "Skill: Can manage releases"
+* title = "Can manage releases"
 * description = "Capability to manage versioning, publication-request.json, release tags, and publication workflow."
+* actor[+] = Canonical(SGAuthoring.Persona.PublicationManager)
 
 * statement[+].key = "REL-01"
 * statement[=].label = "Determine version number"
@@ -109,8 +113,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillManageGovernance"
-* title = "Skill: Can manage governance"
+* title = "Can manage governance"
 * description = "Capability to manage cross-IG governance for shared artifacts including common personas, terminology, and libraries."
+* actor[+] = Canonical(SGAuthoring.Persona.PublicationManager)
 
 * statement[+].key = "GOV-01"
 * statement[=].label = "Manage shared artifact lifecycle"

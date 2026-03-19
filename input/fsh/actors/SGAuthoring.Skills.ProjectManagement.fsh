@@ -4,8 +4,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillScopeDAK"
-* title = "Skill: Can scope DAK"
+* title = "Can scope DAK"
 * description = "Capability to define DAK scope, identify source documents, and establish the development process and governance."
+* actor[+] = Canonical(SGAuthoring.Persona.ProgrammeManager)
 
 * statement[+].key = "SCOPE-01"
 * statement[=].label = "Define DAK purpose and target audience"

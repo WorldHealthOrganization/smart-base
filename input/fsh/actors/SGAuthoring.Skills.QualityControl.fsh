@@ -4,8 +4,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillRunQAChecks"
-* title = "Skill: Can run QA checks"
+* title = "Can run QA checks"
 * description = "Capability to run and interpret IG Publisher QA validation reports."
+* actor[+] = Canonical(SGAuthoring.Persona.QCReviewer)
 
 * statement[+].key = "QA-01"
 * statement[=].label = "Run IG Publisher QA"
@@ -34,8 +35,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillReviewChecklist"
-* title = "Skill: Can review checklist"
+* title = "Can review checklist"
 * description = "Capability to review the SMART Guidelines publication checklist across L1-L4 layers and global requirements."
+* actor[+] = Canonical(SGAuthoring.Persona.QCReviewer)
 
 * statement[+].key = "CHKLST-01"
 * statement[=].label = "Review L1 checklist"
@@ -69,8 +71,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillValidateArtifactConformance"
-* title = "Skill: Can validate artifact conformance"
+* title = "Can validate artifact conformance"
 * description = "Capability to verify conformance to CRMI Shareable, Publishable, Computable, and Executable profiles."
+* actor[+] = Canonical(SGAuthoring.Persona.QCReviewer)
 
 * statement[+].key = "CONF-01"
 * statement[=].label = "Check Shareable conformance"
@@ -99,8 +102,10 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillValidateL3Functionality"
-* title = "Skill: Can validate L3 functionality"
+* title = "Can validate L3 functionality"
 * description = "Capability to test StructureMap extraction, CQL execution, and measure calculation using reference tooling."
+* actor[+] = Canonical(SGAuthoring.Persona.QCReviewer)
+* actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
 * statement[+].key = "L3FUNC-01"
 * statement[=].label = "Test StructureMap extraction"

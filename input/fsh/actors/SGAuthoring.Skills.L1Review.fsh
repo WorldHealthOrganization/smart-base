@@ -4,8 +4,11 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillReviewL1Guidelines"
-* title = "Skill: Can review L1 guidelines"
+* title = "Can review L1 guidelines"
 * description = "Capability to review WHO L1 narrative guidelines and normative products for accuracy and completeness."
+* actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
+* actor[+] = Canonical(SGAuthoring.Persona.ClinicalSME)
+* actor[+] = Canonical(SGAuthoring.Persona.TechnicalOfficer)
 
 * statement[+].key = "L1REV-01"
 * statement[=].label = "Identify source documents"
@@ -39,8 +42,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillInterpretClinicalRecommendations"
-* title = "Skill: Can interpret clinical recommendations"
+* title = "Can interpret clinical recommendations"
 * description = "Capability to interpret clinical recommendations from L1 source documents with domain expertise."
+* actor[+] = Canonical(SGAuthoring.Persona.ClinicalSME)
 
 * statement[+].key = "CLINREC-01"
 * statement[=].label = "Interpret clinical protocols"

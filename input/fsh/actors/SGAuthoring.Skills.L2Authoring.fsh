@@ -4,8 +4,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorPersonas"
-* title = "Skill: Can author personas"
+* title = "Can author personas"
 * description = "Capability to define generic personas based on task-shifting guidelines and ground-truthing interviews."
+* actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
 * statement[+].key = "PERSONA-01"
 * statement[=].label = "Identify personas from L1 guidance"
@@ -39,8 +40,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorUserScenarios"
-* title = "Skill: Can author user scenarios"
+* title = "Can author user scenarios"
 * description = "Capability to create user scenario narratives depicting typical interactions in health programme workflows."
+* actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
 * statement[+].key = "SCENARIO-01"
 * statement[=].label = "Create workflow narratives"
@@ -69,8 +71,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorBusinessProcesses"
-* title = "Skill: Can author business processes"
+* title = "Can author business processes"
 * description = "Capability to create BPMN 2.0 business process diagrams for DAK workflows."
+* actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
 * statement[+].key = "BPMN-01"
 * statement[=].label = "Create BPMN 2.0 diagrams"
@@ -109,8 +112,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorDataDictionary"
-* title = "Skill: Can author data dictionary"
+* title = "Can author data dictionary"
 * description = "Capability to define core data elements and map to standard terminologies."
+* actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
 * statement[+].key = "DICT-01"
 * statement[=].label = "Define data elements from workflows"
@@ -144,8 +148,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorDecisionLogic"
-* title = "Skill: Can author decision-support logic"
+* title = "Can author decision-support logic"
 * description = "Capability to develop decision-support logic tables following the DMN standard."
+* actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
 * statement[+].key = "DT-01"
 * statement[=].label = "Create DMN-compliant decision tables"
@@ -174,8 +179,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorSchedulingLogic"
-* title = "Skill: Can author scheduling logic"
+* title = "Can author scheduling logic"
 * description = "Capability to develop scheduling logic tables following the DMN standard."
+* actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
 * statement[+].key = "SCHED-01"
 * statement[=].label = "Create scheduling logic tables"
@@ -199,8 +205,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorIndicators"
-* title = "Skill: Can author indicators"
+* title = "Can author indicators"
 * description = "Capability to define indicators and performance metrics with numerator/denominator specifications."
+* actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
 * statement[+].key = "IND-01"
 * statement[=].label = "Define indicator specifications"
@@ -229,8 +236,9 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillAuthorFunctionalRequirements"
-* title = "Skill: Can author functional requirements"
+* title = "Can author functional requirements"
 * description = "Capability to define high-level functional and non-functional requirements linked to personas and business processes."
+* actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
 * statement[+].key = "FREQ-01"
 * statement[=].label = "Define functional requirements from L1"
@@ -259,8 +267,10 @@ Usage: #definition
 * status = #draft
 * experimental = true
 * name = "SkillValidateDAKContent"
-* title = "Skill: Can validate DAK content"
+* title = "Can validate DAK content"
 * description = "Capability to review and validate DAK components against L1 source documents and for cross-component consistency."
+* actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
+* actor[+] = Canonical(SGAuthoring.Persona.ClinicalSME)
 
 * statement[+].key = "DAKVAL-01"
 * statement[=].label = "Verify L1 accuracy"
