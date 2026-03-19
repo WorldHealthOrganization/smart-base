@@ -116,16 +116,41 @@ jobs:
       # ── Resolve the smart-base scripts source ──────────────────────────
       # Sets SCRIPTS_BASE_URL for curl-based downloads (downstream repos)
       # and SCRIPTS_REF for the git-based overlay (smart-base itself).
+      # ── Resolve the smart-base scripts source ──────────────────────────
+      # SCRIPTS_BASE_URL is always pinned to the main branch.  This is a
+      # deliberate security decision: curl-downloaded scripts are executed
+      # with the job's permissions (contents:write, GITHUB_TOKEN), so they
+      # must come from a trusted, reviewed branch — never from an
+      # arbitrary ref that an attacker could control via the scripts_ref
+      # input or a compromised downstream caller.
+      #
+      # The scripts_ref input ONLY affects the git overlay step (which
+      # runs exclusively inside the smart-base repository and is gated
+      # by the approve-scripts-override environment in ci.yml).
       - name: Resolve scripts source
         env:
           SCRIPTS_REF_INPUT: ${{ inputs.scripts_ref || 'main' }}
         run: |
-          # Sanitize: allow only valid Git ref characters
+          # Sanitize scripts_ref: allow only valid Git ref characters.
+          # This value is ONLY used for the git overlay step inside
+          # smart-base — never for curl downloads.
           SCRIPTS_REF="$(printf '%s' "$SCRIPTS_REF_INPUT" | tr -cd 'a-zA-Z0-9._/-')"
           if [ -z "$SCRIPTS_REF" ]; then
             SCRIPTS_REF="main"
           fi
-          SCRIPTS_BASE_URL="https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/${SCRIPTS_REF}"
+          # Reject refs starting with '-' to prevent git argument injection
+          # (e.g. --upload-pack, --help) when used in 'git fetch origin "$REF"'.
+          if printf '%s' "$SCRIPTS_REF" | grep -qE '^-'; then
+            echo "::error::scripts_ref must not start with a dash"
+            exit 1
+          fi
+
+          # Always pin downloads to main — do NOT use scripts_ref here.
+          # This prevents an attacker from supplying a malicious branch
+          # via scripts_ref to get arbitrary code executed in downstream
+          # repos or via workflow_dispatch.
+          SCRIPTS_BASE_URL="https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main"
+
           printf 'SCRIPTS_REF=%s\n' "$SCRIPTS_REF"
           printf 'SCRIPTS_REF=%s\n' "$SCRIPTS_REF" >> "$GITHUB_ENV"
           printf 'SCRIPTS_BASE_URL=%s\n' "$SCRIPTS_BASE_URL"
@@ -176,7 +201,13 @@ jobs:
           GH_EVENT_NAME: ${{ github.event_name }}
           GH_EVENT_NUMBER: ${{ github.event.number }}
           GH_REF_NAME: ${{ github.ref_name }}
-        run: python3 input/scripts/find_pr.py
+        run: |
+          if [ ! -f "input/scripts/find_pr.py" ]; then
+            echo "find_pr.py not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/find_pr.py" "${SCRIPTS_BASE_URL}/input/scripts/find_pr.py"
+          fi
+          python3 input/scripts/find_pr.py
 
       - name: Comment on PR - Build started
         if: steps.find_pr.outputs.IS_PR == 'true'
@@ -212,7 +243,13 @@ jobs:
         env:
           GH_HEAD_REF: ${{ github.head_ref }}
           GH_REF_NAME: ${{ github.ref_name }}
-        run: python3 input/scripts/resolve_branch.py
+        run: |
+          if [ ! -f "input/scripts/resolve_branch.py" ]; then
+            echo "resolve_branch.py not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/resolve_branch.py" "${SCRIPTS_BASE_URL}/input/scripts/resolve_branch.py"
+          fi
+          python3 input/scripts/resolve_branch.py
 
       - name: Echo branch name and check if it's the default branch
         run: |
@@ -296,10 +333,9 @@ jobs:
             echo "✅ Found dak.json - DAK processing will be enabled"
             echo "DAK_ENABLED=true" >> "$GITHUB_ENV"
 
-            # Set repository context for DAK URL generation
-            echo "GITHUB_REPOSITORY=${GH_REPOSITORY}" >> "$GITHUB_ENV"
-            echo "GITHUB_REF_NAME=${GH_REF_NAME}" >> "$GITHUB_ENV"
-            echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> "$GITHUB_ENV"
+            # GITHUB_REPOSITORY and GITHUB_REF_NAME are already set by GitHub Actions.
+            # BRANCH_NAME is already set (and sanitized) by resolve_branch.py above.
+            # Do NOT overwrite them here — the previous values are validated.
 
           else
             echo "⚠️ do_dak=true but no dak.json found in repository root"
@@ -431,21 +467,21 @@ jobs:
           INPUT_TX: ${{ inputs.tx }}
           GH_WORKSPACE: ${{ github.workspace }}
         run: |
-          echo "TX input: $INPUT_TX"
-
-          CMD="java -Xmx6g -jar ./input-cache/publisher.jar publisher \
-            -ig . \
-            -auto-ig-build \
-            -repo https://github.com/${GITHUB_REPOSITORY}/tree/${GITHUB_REF_NAME} \
-            -package-cache-folder ./fhir-package-cache"
-
+          # ── Validate TX input to prevent command injection ──────────────
+          # INPUT_TX is user-supplied via workflow_dispatch.  Only allow
+          # characters that are valid in URLs; reject anything else.
           if [ -n "$INPUT_TX" ]; then
-            CMD="$CMD -tx $INPUT_TX"
+            if ! printf '%s' "$INPUT_TX" | grep -qE '^https?://[a-zA-Z0-9./_:@?&=%+,-]+$'; then
+              echo "::error::TX input contains characters that are not valid in a URL"
+              exit 1
+            fi
+            echo "TX input (validated): $INPUT_TX"
           fi
 
-          echo "Running command: $CMD"
-
-          # Start container with entrypoint (sets up sushi, jekyll, etc.) and keep it running
+          # ── Start the IG publisher Docker container ────────────────────
+          # The container stays running so that both the IG publisher and
+          # post-processing Python scripts execute in the same environment,
+          # sharing the same Python installation, packages, and filesystem.
           docker run -d --name ig-run \
             -v "${GH_WORKSPACE}":/work \
             -w /work \
@@ -458,7 +494,7 @@ jobs:
           # Mark /work as a safe directory to suppress git dubious ownership warnings
           docker exec ig-run git config --global --add safe.directory /work
 
-          # Install Python and SUSHI as root
+          # Install Python and SUSHI as root inside the container
           docker exec --user root ig-run sh -c '\
             apt-get update && \
             apt-get install -y --no-install-recommends python3 python3-pip python3-venv && \
@@ -467,11 +503,25 @@ jobs:
             npm install -g fsh-sushi && \
             sushi --version'
 
-          # Run publisher as the default user
-          docker exec -w /work ig-run sh -c "$CMD"
-
-          # Cleanup
-          docker rm -f ig-run
+          # ── Build the publisher command safely ─────────────────────────
+          # Pass repository context and tx URL as environment variables
+          # into the container.  The shell script inside the container uses
+          # single quotes so the host shell does NOT expand any variables;
+          # only the container's sh expands them, preventing injection
+          # through branch names or tx values.
+          docker exec -w /work \
+            -e "IG_REPO=${GITHUB_REPOSITORY}" \
+            -e "IG_REF=${GITHUB_REF_NAME}" \
+            -e "TX_URL=${INPUT_TX:-}" \
+            ig-run sh -c '
+              set -e
+              java -Xmx6g -jar ./input-cache/publisher.jar publisher \
+                -ig . \
+                -auto-ig-build \
+                -repo "https://github.com/${IG_REPO}/tree/${IG_REF}" \
+                -package-cache-folder ./fhir-package-cache \
+                ${TX_URL:+-tx} ${TX_URL:+"$TX_URL"}
+            '
 
           echo "TS_IG_BUILD=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
 
@@ -511,8 +561,9 @@ jobs:
           echo "Found $found translation file(s) from IG Publisher"
 
           # Merge per-resource .po files into base.pot using the Python helper.
+          # Runs inside the Docker container for environment consistency.
           if [ -f "input/scripts/run_ig_publisher.py" ]; then
-            python3 -c "
+            docker exec -w /work ig-run python3 -c "
           import sys, os
           sys.path.insert(0, os.path.join('.', 'input', 'scripts'))
           from run_ig_publisher import collect_publisher_pot_files
@@ -539,13 +590,15 @@ jobs:
           if-no-files-found: ignore
           retention-days: 1
 
-      - name: Fix output directory ownership for DAK post-processing
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        run: |
-          # The IG publisher runs in Docker as root, so output/ files are root-owned.
-          # Python post-processing scripts run as the GitHub Actions runner (non-root)
-          # and must be able to write schema files and modify HTML pages.
-          sudo chown -R "$USER:$USER" ./output || true
+      # ── DAK Post-processing ────────────────────────────────────────────
+      # All post-processing Python scripts run inside the same Docker
+      # container (ig-run) that ran the IG Publisher.  This ensures a
+      # single, consistent environment for Python, avoids root-owned file
+      # permission issues, and eliminates version drift between host and
+      # container Python installations.
+      #
+      # Download-if-missing logic runs on the host (curl), which writes
+      # into the volume-mounted workspace visible inside Docker.
 
       - name: DAK Postprocessing - Generate JSON Schemas
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
@@ -560,15 +613,15 @@ jobs:
             curl -L -f -o "input/scripts/generate_valueset_schemas.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_valueset_schemas.py" 2>/dev/null || echo "Failed to download valueset schema generator"
           fi
 
-          # Generate logical model schemas
+          # Generate logical model schemas inside the IG publisher container
           if [ -f "input/scripts/generate_logical_model_schemas.py" ]; then
-            python3 input/scripts/generate_logical_model_schemas.py
+            docker exec -w /work ig-run python3 input/scripts/generate_logical_model_schemas.py
             echo "✅ Logical model schemas generated"
           fi
 
           # Generate valueset schemas
           if [ -f "input/scripts/generate_valueset_schemas.py" ]; then
-            python3 input/scripts/generate_valueset_schemas.py
+            docker exec -w /work ig-run python3 input/scripts/generate_valueset_schemas.py
             echo "✅ ValueSet schemas generated"
           fi
 
@@ -584,9 +637,9 @@ jobs:
             curl -L -f -o "input/scripts/generate_jsonld_vocabularies.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_jsonld_vocabularies.py" 2>/dev/null || echo "Failed to download JSON-LD vocabulary generator"
           fi
 
-          # Generate JSON-LD vocabularies
+          # Generate JSON-LD vocabularies inside the IG publisher container
           if [ -f "input/scripts/generate_jsonld_vocabularies.py" ]; then
-            python3 input/scripts/generate_jsonld_vocabularies.py
+            docker exec -w /work ig-run python3 input/scripts/generate_jsonld_vocabularies.py
             echo "✅ JSON-LD vocabularies generated"
           else
             echo "⚠️ JSON-LD vocabulary generator not available, skipping vocabulary generation"
@@ -604,9 +657,9 @@ jobs:
             curl -L -f -o "input/scripts/generate_dak_api_hub.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_dak_api_hub.py" 2>/dev/null || echo "Failed to download DAK API hub generator"
           fi
 
-          # Generate DAK API hub
+          # Generate DAK API hub inside the IG publisher container
           if [ -f "input/scripts/generate_dak_api_hub.py" ]; then
-            python3 input/scripts/generate_dak_api_hub.py
+            docker exec -w /work ig-run python3 input/scripts/generate_dak_api_hub.py
             echo "✅ DAK API hub generated"
           else
             echo "⚠️ DAK API hub generator not available, skipping API hub generation"
@@ -628,9 +681,9 @@ jobs:
             echo "Using local update_translated_image_refs.py"
           fi
 
-          # Run the reference updater if available
+          # Run the reference updater inside the IG publisher container
           if [ -f "input/scripts/update_translated_image_refs.py" ]; then
-            python3 input/scripts/update_translated_image_refs.py
+            docker exec -w /work ig-run python3 input/scripts/update_translated_image_refs.py
             echo "✅ Translated image references updated"
           else
             echo "⚠️ update_translated_image_refs.py not available, skipping"
@@ -653,9 +706,9 @@ jobs:
             echo "Using local generate_smart_liquid.py"
           fi
 
-          # Run the generator if available
+          # Run the generator inside the IG publisher container
           if [ -f "input/scripts/generate_smart_liquid.py" ]; then
-            python3 input/scripts/generate_smart_liquid.py
+            docker exec -w /work ig-run python3 input/scripts/generate_smart_liquid.py
             echo "✅ smart.liquid variables generated"
           else
             echo "⚠️ generate_smart_liquid.py not available, skipping"
@@ -677,9 +730,9 @@ jobs:
             echo "Using local inject_smart_liquid.py"
           fi
 
-          # Run the injector if available
+          # Run the injector inside the IG publisher container
           if [ -f "input/scripts/inject_smart_liquid.py" ]; then
-            python3 input/scripts/inject_smart_liquid.py
+            docker exec -w /work ig-run python3 input/scripts/inject_smart_liquid.py
             echo "✅ smart.liquid include injected into markdown pages"
           else
             echo "⚠️ inject_smart_liquid.py not available, skipping"
@@ -689,8 +742,33 @@ jobs:
         if: env.DAK_ENABLED == 'true'
         env:
           GH_SHA: ${{ github.sha }}
-        run: python3 input/scripts/stamp_deploy.py output/index.html
+        run: |
+          if [ ! -f "input/scripts/stamp_deploy.py" ]; then
+            echo "stamp_deploy.py not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/stamp_deploy.py" "${SCRIPTS_BASE_URL}/input/scripts/stamp_deploy.py"
+            curl -L -f -o "input/scripts/stamp_deploy_metadata.py" "${SCRIPTS_BASE_URL}/input/scripts/stamp_deploy_metadata.py" 2>/dev/null || true
+          fi
+          docker exec -w /work \
+            -e "GH_SHA=${GH_SHA}" \
+            -e "BRANCH_DIR=${BRANCH_DIR}" \
+            -e "GITHUB_REPOSITORY=${GITHUB_REPOSITORY}" \
+            -e "TS_CHECKOUT=${TS_CHECKOUT:-}" \
+            -e "TS_IG_BUILD=${TS_IG_BUILD:-}" \
+            ig-run python3 input/scripts/stamp_deploy.py output/index.html
 
+      # ── Clean up the Docker container ──────────────────────────────────
+      # The ig-run container was kept alive for post-processing steps.
+      # Remove it now before deployment.  Runs even on failure so we don't
+      # leak containers.
+      - name: Cleanup Docker container
+        if: always()
+        run: docker rm -f ig-run 2>/dev/null || true
+
+      # Fix output ownership so deploy actions (running on host) can read files
+      - name: Fix output directory ownership
+        if: success()
+        run: sudo chown -R "$USER:$USER" ./output 2>/dev/null || true
 
       - name: Delete files >100MB before deployment
         run: |
