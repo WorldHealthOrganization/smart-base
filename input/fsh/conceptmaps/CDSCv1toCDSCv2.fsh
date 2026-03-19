@@ -22,8 +22,8 @@ Usage: #definition
 * sourceCanonical = Canonical(CDSCv1)
 * targetCanonical = Canonical(CDSCv2)
 * group[+]
-  * source = Canonical(CDSCv1)
-  * target = Canonical(CDSCv2)
+  * source = "http://smart.who.int/base/CodeSystem/CDSCv1"
+  * target = "http://smart.who.int/base/CodeSystem/CDSCv2"
   * insert ElementMapComment( A, C1, equivalent,  "v1 'Census; population information & data warehouse' → v2 C1 'Census and population information systems'")
   * insert ElementMapComment( B, C2, equivalent,  "v1 'Civil Registration and Vital Statistics' → v2 C2 [same concept; refined name]")
   * insert ElementMapComment( C, A7, inexact,     "v1 'Client applications' [broad] most closely maps to v2 A7 'Personal health records'; point-of-service apps generally fall under A. group")
