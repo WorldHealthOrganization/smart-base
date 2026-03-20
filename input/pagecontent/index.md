@@ -27,6 +27,17 @@ The diagram below illustrates the nine components of a WHO DAK and how they rela
 
 This implementation guide contains base conformance resources for use in all WHO SMART Guidelines implementation guides.
 
+### Authoring Lifecycle
+
+The DAK authoring lifecycle is a five-phase process spanning planning, L2 DAK authoring, L3 FHIR authoring, quality control, and publication. The BPMN 2.0 collaboration diagram below shows the end-to-end process with swimlanes for each [authoring persona](authoring-personas.html).
+
+<figure>
+  <img src="SGAuthoring.DAKLifecycle.svg"
+       alt="SMART Guidelines DAK Authoring Lifecycle – BPMN 2.0 process diagram"
+       style="width:100%; max-width:80em; height:auto;" />
+  <figcaption>Figure 2 – DAK Authoring Lifecycle (BPMN 2.0). See <a href="authoring-process.html">Authoring Process</a> for details.</figcaption>
+</figure>
+
 See the [SMART IG Starter Kit](https://smart.who.int/ig-starter-kit/) for more information on building and using WHO SMART Guidelines.
 
 ### DAK (Digital Adaptation Kit) URL Handling
