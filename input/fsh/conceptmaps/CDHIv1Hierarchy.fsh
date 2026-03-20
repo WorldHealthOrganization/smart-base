@@ -9,8 +9,8 @@ Usage:        #definition
 * sourceCanonical = Canonical(CDHIv1)
 * targetCanonical = Canonical(CDHIv1)
 * group[+]
-  * source = Canonical(CDHIv1)
-  * target = Canonical(CDHIv1)
+  * source = "http://smart.who.int/base/CodeSystem/CDHIv1"
+  * target = "http://smart.who.int/base/CodeSystem/CDHIv1"
   * insert ElementMap( 1.0, 1, narrower)
   * insert ElementMap( 1.1, 1, narrower)
   * insert ElementMap( 1.1.1, 1.1, narrower)

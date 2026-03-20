@@ -25,8 +25,8 @@ Usage: #definition
 * sourceCanonical = Canonical(CDHIv1)
 * targetCanonical = Canonical(CDHIv2)
 * group[+]
-  * source = Canonical(CDHIv1)
-  * target = Canonical(CDHIv2)
+  * source = "http://smart.who.int/base/CodeSystem/CDHIv1"
+  * target = "http://smart.who.int/base/CodeSystem/CDHIv2"
 
   // ── Group headers ─────────────────────────────────────────────────────────
   * insert ElementMapComment( 1.0, 1, equivalent, "Renamed: 'Clients' → 'Persons'")

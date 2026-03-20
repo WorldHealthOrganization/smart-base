@@ -78,6 +78,33 @@ logger = logging.getLogger(__name__)
 # stripped before comparing old and new base.pot content.
 _POT_CREATION_DATE_RE = re.compile(r'^"POT-Creation-Date:.*\\n"\s*$')
 
+
+def _reproducible_timestamp() -> datetime.datetime:
+    """Return a deterministic UTC timestamp for .pot file headers.
+
+    Checks ``SOURCE_DATE_EPOCH`` first, then the git author date of HEAD,
+    so that the same commit always produces the same .pot timestamp.
+    Falls back to ``datetime.now(UTC)`` when neither is available.
+    """
+    epoch = os.environ.get("SOURCE_DATE_EPOCH")
+    if epoch:
+        try:
+            return datetime.datetime.fromtimestamp(int(epoch), tz=datetime.timezone.utc)
+        except (ValueError, OSError):
+            pass
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%ct"],
+            capture_output=True, text=True, timeout=5,
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            return datetime.datetime.fromtimestamp(
+                int(result.stdout.strip()), tz=datetime.timezone.utc
+            )
+    except (OSError, subprocess.TimeoutExpired, ValueError):
+        pass
+    return datetime.datetime.now(datetime.timezone.utc)
+
 # ---------------------------------------------------------------------------
 # SUSHI availability check
 # ---------------------------------------------------------------------------
@@ -602,7 +629,7 @@ def _derive_fhir_source_path(ig_root: str, resource_slug: str) -> Optional[str]:
 
 def _pot_header() -> str:
     """Return a standard ``.pot`` file header."""
-    now = datetime.datetime.now(datetime.timezone.utc).strftime(
+    now = _reproducible_timestamp().strftime(
         "%Y-%m-%d %H:%M+0000"
     )
     return (
