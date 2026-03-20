@@ -8,6 +8,14 @@ Usage: #definition
 * description = "Capability to run and interpret IG Publisher QA validation reports."
 * actor[+] = Canonical(SGAuthoring.Persona.QCReviewer)
 
+* extension[task][+].valueCoding = $SGTasks#scriptTask "Script Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "run and interpret IG Publisher QA validation reports"
+* extension[userstory][=].extension[benefit].valueString = "IG quality issues are identified and resolved before publication"
+
 * statement[+].key = "QA-01"
 * statement[=].label = "Run IG Publisher QA"
 * statement[=].requirement = "Can run the FHIR IG Publisher and locate the generated qa.html report."
@@ -38,6 +46,15 @@ Usage: #definition
 * title = "Can review checklist"
 * description = "Capability to review the SMART Guidelines publication checklist across L1-L4 layers and global requirements."
 * actor[+] = Canonical(SGAuthoring.Persona.QCReviewer)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "review the SMART Guidelines publication checklist across L1-L4 layers"
+* extension[userstory][=].extension[benefit].valueString = "all publication requirements are systematically verified before release"
 
 * statement[+].key = "CHKLST-01"
 * statement[=].label = "Review L1 checklist"
@@ -75,6 +92,14 @@ Usage: #definition
 * description = "Capability to verify conformance to CRMI Shareable, Publishable, Computable, and Executable profiles."
 * actor[+] = Canonical(SGAuthoring.Persona.QCReviewer)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "verify conformance to CRMI Shareable, Publishable, Computable, and Executable profiles"
+* extension[userstory][=].extension[benefit].valueString = "all artifacts meet the required conformance levels for interoperability and publication"
+
 * statement[+].key = "CONF-01"
 * statement[=].label = "Check Shareable conformance"
 * statement[=].requirement = "Can verify artifacts conform to CRMIShareable profiles (name, title, description, status)."
@@ -106,6 +131,14 @@ Usage: #definition
 * description = "Capability to test StructureMap extraction, CQL execution, and measure calculation using reference tooling."
 * actor[+] = Canonical(SGAuthoring.Persona.QCReviewer)
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
+
+* extension[task][+].valueCoding = $SGTasks#scriptTask "Script Task"
+* extension[task][+].valueCoding = $SGTasks#scriptTask "Script Task"
+* extension[task][+].valueCoding = $SGTasks#scriptTask "Script Task"
+* extension[task][+].valueCoding = $SGTasks#manualTask "Manual Task"
+
+* extension[userstory][+].extension[capability].valueString = "test StructureMap extraction, CQL execution, and measure calculation"
+* extension[userstory][=].extension[benefit].valueString = "L3 artifacts produce correct, verified results before publication"
 
 * statement[+].key = "L3FUNC-01"
 * statement[=].label = "Test StructureMap extraction"

@@ -8,6 +8,14 @@ Usage: #definition
 * description = "Capability to translate IG content across UN languages."
 * actor[+] = Canonical(SGAuthoring.Persona.Translator)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "translate IG content across UN languages"
+* extension[userstory][=].extension[benefit].valueString = "SMART Guidelines are accessible to implementers in all UN languages"
+
 * statement[+].key = "TRANS-01"
 * statement[=].label = "Translate narrative pages"
 * statement[=].requirement = "Can translate IG narrative page content (markdown/HTML) to target UN languages."
@@ -38,6 +46,13 @@ Usage: #definition
 * title = "Can review translations"
 * description = "Capability to review translated content for accuracy and completeness."
 * actor[+] = Canonical(SGAuthoring.Persona.Translator)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "review translated content for accuracy and completeness"
+* extension[userstory][=].extension[benefit].valueString = "translations are linguistically accurate and clinically correct across all target languages"
 
 * statement[+].key = "TRANSREV-01"
 * statement[=].label = "Review translation accuracy"

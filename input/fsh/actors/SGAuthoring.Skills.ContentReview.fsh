@@ -8,6 +8,16 @@ Usage: #definition
 * description = "Capability to review and formally approve SMART Guidelines content at decision gates in the authoring lifecycle."
 * actor[+] = Canonical(SGAuthoring.Persona.ContentReviewer)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "review and formally approve SMART Guidelines content at decision gates"
+* extension[userstory][=].extension[benefit].valueString = "content quality is assured through structured governance before publication"
+
 * statement[+].key = "APPROVE-01"
 * statement[=].label = "Review L2 DAK for completeness"
 * statement[=].requirement = "Can review all 9 DAK components for completeness, accuracy against L1 recommendations, and cross-component consistency."

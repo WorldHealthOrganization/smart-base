@@ -8,6 +8,14 @@ Usage: #definition
 * description = "Capability to set up and configure a FHIR Implementation Guide (sushi-config, canonical URL, packages)."
 * actor[+] = Canonical(SGAuthoring.Persona.PublicationManager)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "set up and configure a FHIR Implementation Guide"
+* extension[userstory][=].extension[benefit].valueString = "IG repositories are correctly configured for building, publishing, and national adaptation"
+
 * statement[+].key = "IGCFG-01"
 * statement[=].label = "Fork IG template"
 * statement[=].requirement = "Can fork the smart-ig-empty template repository using 'Use this Template' with 'Include all branches' to ensure gh-pages branch is cloned."
@@ -40,6 +48,14 @@ Usage: #definition
 * actor[+] = Canonical(SGAuthoring.Persona.PublicationManager)
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
+* extension[task][+].valueCoding = $SGTasks#scriptTask "Script Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "run the FHIR IG Publisher build process and verify output"
+* extension[userstory][=].extension[benefit].valueString = "IG builds are verified locally and on CI before publication"
+
 * statement[+].key = "BUILD-01"
 * statement[=].label = "Run IG Publisher locally"
 * statement[=].requirement = "Can run the FHIR IG Publisher build process locally and interpret build output."
@@ -70,6 +86,17 @@ Usage: #definition
 * title = "Can manage releases"
 * description = "Capability to manage versioning, publication-request.json, release tags, and publication workflow."
 * actor[+] = Canonical(SGAuthoring.Persona.PublicationManager)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "manage versioning, release tags, and the publication workflow"
+* extension[userstory][=].extension[benefit].valueString = "IG releases follow semantic versioning and are published through a governed, repeatable process"
 
 * statement[+].key = "REL-01"
 * statement[=].label = "Determine version number"
@@ -116,6 +143,14 @@ Usage: #definition
 * title = "Can manage governance"
 * description = "Capability to manage cross-IG governance for shared artifacts including common personas, terminology, and libraries."
 * actor[+] = Canonical(SGAuthoring.Persona.PublicationManager)
+
+* extension[task][+].valueCoding = $SGTasks#manualTask "Manual Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#sendTask "Send Task"
+
+* extension[userstory][+].extension[capability].valueString = "manage cross-IG governance for shared artifacts"
+* extension[userstory][=].extension[benefit].valueString = "shared artifacts are consistently governed and reused across SMART Guidelines IGs"
 
 * statement[+].key = "GOV-01"
 * statement[=].label = "Manage shared artifact lifecycle"

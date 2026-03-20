@@ -8,6 +8,15 @@ Usage: #definition
 * description = "Capability to define generic personas based on task-shifting guidelines and ground-truthing interviews."
 * actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "define generic personas from L1 guidance and SME consultations"
+* extension[userstory][=].extension[benefit].valueString = "workflows accurately reflect the roles and competencies of health workers in real-world settings"
+
 * statement[+].key = "PERSONA-01"
 * statement[=].label = "Identify personas from L1 guidance"
 * statement[=].requirement = "Can identify personas referenced in L1 normative guidance."
@@ -44,6 +53,14 @@ Usage: #definition
 * description = "Capability to create user scenario narratives depicting typical interactions in health programme workflows."
 * actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create user scenario narratives depicting typical health worker interactions"
+* extension[userstory][=].extension[benefit].valueString = "stakeholders can understand workflows through concrete, real-world examples"
+
 * statement[+].key = "SCENARIO-01"
 * statement[=].label = "Create workflow narratives"
 * statement[=].requirement = "Can create high-level narratives based on the actual context the majority of end users operate in."
@@ -74,6 +91,16 @@ Usage: #definition
 * title = "Can author business processes"
 * description = "Capability to create BPMN 2.0 business process diagrams for DAK workflows."
 * actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create BPMN 2.0 business process diagrams for DAK workflows"
+* extension[userstory][=].extension[benefit].valueString = "health programme workflows are clearly documented and implementable across country contexts"
 
 * statement[+].key = "BPMN-01"
 * statement[=].label = "Create BPMN 2.0 diagrams"
@@ -116,6 +143,15 @@ Usage: #definition
 * description = "Capability to define core data elements and map to standard terminologies."
 * actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "define core data elements and map them to standard terminologies"
+* extension[userstory][=].extension[benefit].valueString = "data collection is standardized and interoperable across health information systems"
+
 * statement[+].key = "DICT-01"
 * statement[=].label = "Define data elements from workflows"
 * statement[=].requirement = "Can define data elements required throughout different points of the workflow for service delivery and indicator reporting."
@@ -152,6 +188,14 @@ Usage: #definition
 * description = "Capability to develop decision-support logic tables following the DMN standard."
 * actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
+* extension[task][+].valueCoding = $SGTasks#businessRuleTask "Business Rule Task"
+* extension[task][+].valueCoding = $SGTasks#businessRuleTask "Business Rule Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "develop decision-support logic tables following the DMN standard"
+* extension[userstory][=].extension[benefit].valueString = "clinical decision-support recommendations are computable and consistently applied"
+
 * statement[+].key = "DT-01"
 * statement[=].label = "Create DMN-compliant decision tables"
 * statement[=].requirement = "Can create decision-support logic tables following the normative contents of the DMN standard."
@@ -183,6 +227,13 @@ Usage: #definition
 * description = "Capability to develop scheduling logic tables following the DMN standard."
 * actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
+* extension[task][+].valueCoding = $SGTasks#businessRuleTask "Business Rule Task"
+* extension[task][+].valueCoding = $SGTasks#businessRuleTask "Business Rule Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "develop scheduling logic tables following the DMN standard"
+* extension[userstory][=].extension[benefit].valueString = "service reminders and follow-up visit schedules are automated and consistent"
+
 * statement[+].key = "SCHED-01"
 * statement[=].label = "Create scheduling logic tables"
 * statement[=].requirement = "Can create scheduling logic tables following the DMN standard for service reminders and follow-up visits."
@@ -208,6 +259,14 @@ Usage: #definition
 * title = "Can author indicators"
 * description = "Capability to define indicators and performance metrics with numerator/denominator specifications."
 * actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "define indicators and performance metrics with numerator/denominator specifications"
+* extension[userstory][=].extension[benefit].valueString = "programme monitoring and evaluation is data-driven and standardized"
 
 * statement[+].key = "IND-01"
 * statement[=].label = "Define indicator specifications"
@@ -240,6 +299,14 @@ Usage: #definition
 * description = "Capability to define high-level functional and non-functional requirements linked to personas and business processes."
 * actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "define functional and non-functional requirements linked to personas and business processes"
+* extension[userstory][=].extension[benefit].valueString = "implementation requirements are traceable to clinical guidance and user workflows"
+
 * statement[+].key = "FREQ-01"
 * statement[=].label = "Define functional requirements from L1"
 * statement[=].requirement = "Can define functional requirements based on L1 recommendations in terms of health content, decision-support, and scheduling logic."
@@ -271,6 +338,15 @@ Usage: #definition
 * description = "Capability to review and validate DAK components against L1 source documents and for cross-component consistency."
 * actor[+] = Canonical(SGAuthoring.Persona.BusinessAnalyst)
 * actor[+] = Canonical(SGAuthoring.Persona.ClinicalSME)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "review and validate DAK components against L1 source documents"
+* extension[userstory][=].extension[benefit].valueString = "DAK content is accurate, consistent, and faithfully represents WHO clinical recommendations"
 
 * statement[+].key = "DAKVAL-01"
 * statement[=].label = "Verify L1 accuracy"

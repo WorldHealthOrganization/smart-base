@@ -8,6 +8,14 @@ Usage: #definition
 * description = "Capability to create FHIR logical models (StructureDefinitions) from L2 data dictionaries."
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create FHIR logical models from L2 data dictionaries"
+* extension[userstory][=].extension[benefit].valueString = "data elements are formally modelled and mapped to standard terminologies for interoperability"
+
 * statement[+].key = "LM-01"
 * statement[=].label = "Create StructureDefinition from data dictionary"
 * statement[=].requirement = "Can create a FHIR StructureDefinition (kind: logical) for each core data set from the L2 data dictionary."
@@ -38,6 +46,14 @@ Usage: #definition
 * title = "Can author FHIR profiles"
 * description = "Capability to create FHIR profiles (StructureDefinitions) constraining base FHIR resources."
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create FHIR profiles constraining base FHIR resources"
+* extension[userstory][=].extension[benefit].valueString = "resource structures are constrained and validated for DAK-specific use cases"
 
 * statement[+].key = "PROF-01"
 * statement[=].label = "Create resource profiles"
@@ -70,6 +86,13 @@ Usage: #definition
 * description = "Capability to create FHIR Questionnaire resources aligned with L2 forms and data collection needs."
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create FHIR Questionnaire resources aligned with L2 data collection forms"
+* extension[userstory][=].extension[benefit].valueString = "data collection instruments are standardized and linked to the logical model"
+
 * statement[+].key = "QUEST-01"
 * statement[=].label = "Create FHIR Questionnaires"
 * statement[=].requirement = "Can create FHIR Questionnaire resources aligned with L2 data collection forms and workflow activities."
@@ -95,6 +118,15 @@ Usage: #definition
 * title = "Can author CQL"
 * description = "Capability to write Clinical Quality Language (CQL) for decision logic, scheduling logic, and indicator calculations."
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
+
+* extension[task][+].valueCoding = $SGTasks#scriptTask "Script Task"
+* extension[task][+].valueCoding = $SGTasks#scriptTask "Script Task"
+* extension[task][+].valueCoding = $SGTasks#scriptTask "Script Task"
+* extension[task][+].valueCoding = $SGTasks#scriptTask "Script Task"
+* extension[task][+].valueCoding = $SGTasks#scriptTask "Script Task"
+
+* extension[userstory][+].extension[capability].valueString = "write CQL for decision logic, scheduling logic, and indicator calculations"
+* extension[userstory][=].extension[benefit].valueString = "clinical decision-support and indicator calculations are computable and testable"
 
 * statement[+].key = "CQL-01"
 * statement[=].label = "Write CQL decision logic"
@@ -132,6 +164,13 @@ Usage: #definition
 * description = "Capability to create FHIR StructureMaps for data extraction from QuestionnaireResponses to FHIR resources."
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#scriptTask "Script Task"
+
+* extension[userstory][+].extension[capability].valueString = "create FHIR StructureMaps for data extraction from QuestionnaireResponses"
+* extension[userstory][=].extension[benefit].valueString = "questionnaire data is automatically extracted into structured FHIR resources"
+
 * statement[+].key = "SMAP-01"
 * statement[=].label = "Create StructureMaps"
 * statement[=].requirement = "Can create FHIR StructureMaps for extracting data from QuestionnaireResponses into FHIR resources."
@@ -157,6 +196,14 @@ Usage: #definition
 * title = "Can author plan definitions"
 * description = "Capability to create FHIR PlanDefinitions for business processes and decision tables."
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create FHIR PlanDefinitions for business processes and decision tables"
+* extension[userstory][=].extension[benefit].valueString = "business processes and decision logic are formally represented as executable FHIR resources"
 
 * statement[+].key = "PLAN-01"
 * statement[=].label = "Create business process PlanDefinitions"
@@ -189,6 +236,14 @@ Usage: #definition
 * description = "Capability to create FHIR ActorDefinitions from L2 personas, reusing existing definitions from the Commons repository."
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create FHIR ActorDefinitions from L2 personas"
+* extension[userstory][=].extension[benefit].valueString = "personas are formally defined as reusable FHIR resources across SMART Guidelines IGs"
+
 * statement[+].key = "ACTOR-01"
 * statement[=].label = "Reuse Commons personas"
 * statement[=].requirement = "Can check the Commons repository for existing ActorDefinitions and reuse them when adequate."
@@ -220,6 +275,12 @@ Usage: #definition
 * description = "Capability to create ExampleScenario resources from L2 user scenarios."
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create ExampleScenario resources from L2 user scenarios"
+* extension[userstory][=].extension[benefit].valueString = "user scenarios are formally represented and linked to actors and business processes"
+
 * statement[+].key = "EXSC-01"
 * statement[=].label = "Create ExampleScenario resources"
 * statement[=].requirement = "Can create FHIR ExampleScenario resources that formalize L2 user scenarios."
@@ -240,6 +301,13 @@ Usage: #definition
 * title = "Can author measures"
 * description = "Capability to create FHIR Measure resources from L2 indicators."
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create FHIR Measure resources from L2 indicators"
+* extension[userstory][=].extension[benefit].valueString = "indicator calculations are computable and aligned with the Data Sharing Specification"
 
 * statement[+].key = "MEAS-01"
 * statement[=].label = "Create Measure resources"
@@ -267,6 +335,13 @@ Usage: #definition
 * description = "Capability to create FHIR Requirements resources from L2 functional and non-functional requirements."
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create FHIR Requirements resources from L2 functional and non-functional requirements"
+* extension[userstory][=].extension[benefit].valueString = "requirements are formally tracked as FHIR resources with traceability to actors and processes"
+
 * statement[+].key = "FHIRREQ-01"
 * statement[=].label = "Create Requirements resources"
 * statement[=].requirement = "Can create FHIR Requirements resources representing L2 functional and non-functional requirements."
@@ -292,6 +367,14 @@ Usage: #definition
 * title = "Can author test cases"
 * description = "Capability to create TestPlan, TestScript, and example instances for validation of L3 artifacts."
 * actor[+] = Canonical(SGAuthoring.Persona.FHIRModeller)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#scriptTask "Script Task"
+
+* extension[userstory][+].extension[capability].valueString = "create TestPlan, TestScript, and example instances for validation"
+* extension[userstory][=].extension[benefit].valueString = "L3 artifacts are validated against defined acceptance criteria with reproducible tests"
 
 * statement[+].key = "TEST-01"
 * statement[=].label = "Create TestPlan resources"

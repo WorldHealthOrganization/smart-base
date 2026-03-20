@@ -10,6 +10,15 @@ Usage: #definition
 * actor[+] = Canonical(SGAuthoring.Persona.ClinicalSME)
 * actor[+] = Canonical(SGAuthoring.Persona.TechnicalOfficer)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "review WHO L1 narrative guidelines and normative products"
+* extension[userstory][=].extension[benefit].valueString = "L2 DAK components are grounded in accurate and complete clinical guidance"
+
 * statement[+].key = "L1REV-01"
 * statement[=].label = "Identify source documents"
 * statement[=].requirement = "Can identify and locate relevant WHO guidelines, normative products, and associated publications for a given health area."
@@ -45,6 +54,14 @@ Usage: #definition
 * title = "Can interpret clinical recommendations"
 * description = "Capability to interpret clinical recommendations from L1 source documents with domain expertise."
 * actor[+] = Canonical(SGAuthoring.Persona.ClinicalSME)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "interpret clinical recommendations from L1 source documents with domain expertise"
+* extension[userstory][=].extension[benefit].valueString = "DAK content accurately represents clinical protocols and is validated against real-world practice"
 
 * statement[+].key = "CLINREC-01"
 * statement[=].label = "Interpret clinical protocols"

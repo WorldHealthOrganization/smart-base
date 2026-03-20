@@ -8,6 +8,15 @@ Usage: #definition
 * description = "Capability to define DAK scope, identify source documents, and establish the development process and governance."
 * actor[+] = Canonical(SGAuthoring.Persona.ProgrammeManager)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "define DAK scope, identify source documents, and establish governance"
+* extension[userstory][=].extension[benefit].valueString = "DAK development is well-scoped with clear ownership, tooling, and resource allocation"
+
 * statement[+].key = "SCOPE-01"
 * statement[=].label = "Define DAK purpose and target audience"
 * statement[=].requirement = "Can articulate the purpose of the DAK, identify the target audience, assess whether similar publications exist, and define the gaps the DAK will address."

@@ -8,6 +8,15 @@ Usage: #definition
 * description = "Capability to engage SMEs, coordinate consultations, and manage the RASCI matrix for DAK development."
 * actor[+] = Canonical(SGAuthoring.Persona.ProgrammeManager)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "engage SMEs, coordinate consultations, and manage the RASCI matrix"
+* extension[userstory][=].extension[benefit].valueString = "all stakeholders are appropriately engaged with clear roles throughout DAK development"
+
 * statement[+].key = "STAKEHOLDER-01"
 * statement[=].label = "Define RASCI matrix"
 * statement[=].requirement = "Can define and maintain a RASCI (Responsible, Accountable, Support, Consulted, Informed) matrix for all DAK activities."
@@ -43,6 +52,15 @@ Usage: #definition
 * title = "Can plan iterations"
 * description = "Capability to plan sprint iterations, maintain the DAK backlog, draft the project roadmap, and facilitate retrospectives."
 * actor[+] = Canonical(SGAuthoring.Persona.ProgrammeManager)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "plan sprint iterations, maintain the backlog, and facilitate retrospectives"
+* extension[userstory][=].extension[benefit].valueString = "DAK development proceeds in focused, time-boxed increments with continuous improvement"
 
 * statement[+].key = "ITERATE-01"
 * statement[=].label = "Maintain DAK backlog"

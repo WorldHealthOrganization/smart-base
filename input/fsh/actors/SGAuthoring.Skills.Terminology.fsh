@@ -8,6 +8,14 @@ Usage: #definition
 * description = "Capability to review and validate terminology bindings, code systems, and value sets for correctness and completeness."
 * actor[+] = Canonical(SGAuthoring.Persona.Terminologist)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "review and validate terminology bindings, code systems, and value sets"
+* extension[userstory][=].extension[benefit].valueString = "terminology artifacts are correct, complete, and consistently applied"
+
 * statement[+].key = "TERMREV-01"
 * statement[=].label = "Review CodeSystem definitions"
 * statement[=].requirement = "Can review FHIR CodeSystem resources for correctness, completeness, and proper hierarchy."
@@ -38,6 +46,15 @@ Usage: #definition
 * title = "Can map concepts"
 * description = "Capability to map data elements to WHO Commons dictionary, ICD-11, SNOMED CT, LOINC, and other standard terminologies."
 * actor[+] = Canonical(SGAuthoring.Persona.Terminologist)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "map data elements to WHO Commons, ICD-11, SNOMED CT, and LOINC"
+* extension[userstory][=].extension[benefit].valueString = "data elements have standardized semantic references enabling cross-system interoperability"
 
 * statement[+].key = "CMAP-01"
 * statement[=].label = "Map to WHO Commons dictionary"
@@ -75,6 +92,13 @@ Usage: #definition
 * description = "Capability to create and maintain FHIR CodeSystem resources."
 * actor[+] = Canonical(SGAuthoring.Persona.Terminologist)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create and maintain FHIR CodeSystem resources"
+* extension[userstory][=].extension[benefit].valueString = "terminology is formally defined and versioned as FHIR resources"
+
 * statement[+].key = "CS-01"
 * statement[=].label = "Create CodeSystem resources"
 * statement[=].requirement = "Can create FHIR CodeSystem resources with appropriate properties, hierarchy, and designations."
@@ -101,6 +125,13 @@ Usage: #definition
 * description = "Capability to create and maintain FHIR ValueSet resources with appropriate terminology bindings."
 * actor[+] = Canonical(SGAuthoring.Persona.Terminologist)
 
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create and maintain FHIR ValueSet resources"
+* extension[userstory][=].extension[benefit].valueString = "value sets are properly defined and conform to executable profiles for implementation"
+
 * statement[+].key = "VS-01"
 * statement[=].label = "Create ValueSet resources"
 * statement[=].requirement = "Can create FHIR ValueSet resources with appropriate include/exclude criteria."
@@ -126,6 +157,13 @@ Usage: #definition
 * title = "Can author concept maps"
 * description = "Capability to create FHIR ConceptMap resources for cross-terminology mappings."
 * actor[+] = Canonical(SGAuthoring.Persona.Terminologist)
+
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+* extension[task][+].valueCoding = $SGTasks#userTask "User Task"
+
+* extension[userstory][+].extension[capability].valueString = "create FHIR ConceptMap resources for cross-terminology mappings"
+* extension[userstory][=].extension[benefit].valueString = "cross-terminology relationships are formally defined enabling semantic interoperability"
 
 * statement[+].key = "CM-01"
 * statement[=].label = "Create ConceptMap resources"
