@@ -26,6 +26,7 @@ Defaults:
 Author: SMART Guidelines Team
 """
 
+import html
 import json
 import logging
 import re
@@ -51,21 +52,58 @@ _ELM_CONTENT_TYPES = {
     "application/elm+xml",
 }
 
+_FHIR_NS = "http://hl7.org/fhir"
+_XHTML_NS = "http://www.w3.org/1999/xhtml"
 
-# ---------------------------------------------------------------------------
-# JSON processing
-# ---------------------------------------------------------------------------
 
 def _is_elm(entry: dict) -> bool:
     """Return True if a content entry is an ELM payload."""
     return entry.get("contentType", "") in _ELM_CONTENT_TYPES
 
 
-def strip_library_json(output_dir: Path) -> int:
-    """Strip ELM base64 data from Library-*.json files.
+def _strip_elm_from_dict(resource: dict) -> bool:
+    """Clear ``data`` on ELM content entries in a Library dict.
 
-    Returns the number of files modified.
+    Returns True if anything was changed.
     """
+    contents = resource.get("content")
+    if not isinstance(contents, list):
+        return False
+    changed = False
+    for entry in contents:
+        if _is_elm(entry) and entry.get("data"):
+            entry["data"] = ""
+            changed = True
+    return changed
+
+
+def _strip_elm_from_xml_tree(root: ET.Element) -> bool:
+    """Clear ``data`` on ELM content entries in a parsed FHIR XML tree.
+
+    Returns True if anything was changed.
+    """
+    ns = {"f": _FHIR_NS}
+    changed = False
+    for content_el in root.findall("f:content", ns):
+        ct_el = content_el.find("f:contentType", ns)
+        if ct_el is None:
+            continue
+        if ct_el.get("value", "") not in _ELM_CONTENT_TYPES:
+            continue
+        data_el = content_el.find("f:data", ns)
+        if data_el is not None and data_el.get("value"):
+            data_el.set("value", "")
+            changed = True
+    return changed
+
+
+# ---------------------------------------------------------------------------
+# JSON processing
+# ---------------------------------------------------------------------------
+
+
+def strip_library_json(output_dir: Path) -> int:
+    """Strip ELM base64 data from Library-*.json files."""
     modified = 0
     for fpath in sorted(output_dir.glob("Library-*.json")):
         try:
@@ -78,17 +116,7 @@ def strip_library_json(output_dir: Path) -> int:
         if resource.get("resourceType") != "Library":
             continue
 
-        contents = resource.get("content")
-        if not isinstance(contents, list):
-            continue
-
-        changed = False
-        for entry in contents:
-            if _is_elm(entry) and entry.get("data"):
-                entry["data"] = ""
-                changed = True
-
-        if changed:
+        if _strip_elm_from_dict(resource):
             fpath.write_text(
                 json.dumps(resource, indent=2, ensure_ascii=False) + "\n",
                 encoding="utf-8",
@@ -103,15 +131,13 @@ def strip_library_json(output_dir: Path) -> int:
 # XML processing
 # ---------------------------------------------------------------------------
 
-_FHIR_NS = "http://hl7.org/fhir"
-_NS = {"f": _FHIR_NS}
+# Register namespaces so ElementTree preserves them on write-back.
+ET.register_namespace("", _FHIR_NS)
+ET.register_namespace("xhtml", _XHTML_NS)
 
 
 def strip_library_xml(output_dir: Path) -> int:
-    """Strip ELM base64 data from Library-*.xml files.
-
-    Returns the number of files modified.
-    """
+    """Strip ELM base64 data from Library-*.xml files."""
     modified = 0
     for fpath in sorted(output_dir.glob("Library-*.xml")):
         try:
@@ -124,68 +150,34 @@ def strip_library_xml(output_dir: Path) -> int:
         if root.tag != f"{{{_FHIR_NS}}}Library":
             continue
 
-        changed = False
-        for content_el in root.findall("f:content", _NS):
-            ct_el = content_el.find("f:contentType", _NS)
-            if ct_el is None:
-                continue
-            ct_value = ct_el.get("value", "")
-            if ct_value not in _ELM_CONTENT_TYPES:
-                continue
-            data_el = content_el.find("f:data", _NS)
-            if data_el is not None and data_el.get("value"):
-                data_el.set("value", "")
-                changed = True
-
-        if changed:
-            # Preserve the XML declaration and namespace prefixes as written
-            # by the IG Publisher.  ElementTree cannot round-trip perfectly,
-            # so fall back to a regex-based approach on the raw text instead.
-            raw = fpath.read_text(encoding="utf-8")
-            new_raw = _strip_elm_data_in_raw_xml(raw)
-            if new_raw != raw:
-                fpath.write_text(new_raw, encoding="utf-8")
-                modified += 1
-                logger.info("Stripped ELM data from %s", fpath.name)
+        if _strip_elm_from_xml_tree(root):
+            tree.write(fpath, encoding="unicode", xml_declaration=True)
+            modified += 1
+            logger.info("Stripped ELM data from %s", fpath.name)
 
     return modified
-
-
-# Regex for raw FHIR XML: match <contentType value="application/elm+…"/>
-# followed (non-greedy) by <data value="…base64…"/> and clear the value.
-_RAW_XML_ELM_DATA_RE = re.compile(
-    r'(<contentType\s+value="application/elm\+(?:json|xml)"\s*/>'
-    r'.*?'
-    r'<data\s+value=")[A-Za-z0-9+/=]+(")',
-    re.DOTALL,
-)
-
-
-def _strip_elm_data_in_raw_xml(raw: str) -> str:
-    """Replace ELM base64 data values with empty strings in raw FHIR XML."""
-    return _RAW_XML_ELM_DATA_RE.sub(r"\1\2", raw)
 
 
 # ---------------------------------------------------------------------------
 # TTL (Turtle/RDF) processing
 # ---------------------------------------------------------------------------
 
-# In the Turtle serialisation the IG Publisher renders content entries as e.g.:
+# No Turtle parser in the standard library.  We use a targeted regex that
+# matches the IG Publisher's predictable serialisation of content entries:
+#
 #   fhir:contentType [ fhir:v "application/elm+json" ] ;
 #   fhir:data [ fhir:v "eyJ…base64…"^^xsd:base64Binary ]
 _TTL_ELM_DATA_RE = re.compile(
-    r'(fhir:contentType\s+\[\s*fhir:v\s+"application/elm\+(?:json|xml)"\s*\]'
-    r'.*?'
+    r"(fhir:contentType\s+\[\s*fhir:v\s+"
+    r'"application/elm\+(?:json|xml)"\s*\]'
+    r".*?"
     r'fhir:data\s+\[\s*fhir:v\s+")[A-Za-z0-9+/=]+(")',
     re.DOTALL,
 )
 
 
 def strip_library_ttl(output_dir: Path) -> int:
-    """Strip ELM base64 data from Library-*.ttl files.
-
-    Returns the number of files modified.
-    """
+    """Strip ELM base64 data from Library-*.ttl files."""
     modified = 0
     for fpath in sorted(output_dir.glob("Library-*.ttl")):
         try:
@@ -207,52 +199,75 @@ def strip_library_ttl(output_dir: Path) -> int:
 # HTML processing
 # ---------------------------------------------------------------------------
 
-# In the JSON view the IG Publisher renders:
-#   "contentType" : "application/elm+json",
-#   "data" : "eyJ…very long base64…"
-# We match the contentType line, optional whitespace/lines, then the data line
-# and replace just the base64 value with an empty string.
-_JSON_ELM_DATA_RE = re.compile(
-    r'("contentType"\s*:\s*"application/elm\+(?:json|xml)"'  # contentType line
-    r'.*?'                                                    # anything between
-    r'"data"\s*:\s*)"[A-Za-z0-9+/=]+"',                      # data value
+# The IG Publisher embeds the full resource representation inside
+# <pre class="json"><code>…</code></pre> and
+# <pre class="xml"><code>…</code></pre> blocks.
+# We locate each block, extract and unescape the text content, parse it
+# with the proper parser (json / XML), strip ELM data, and write it back.
+
+_PRE_CODE_RE = re.compile(
+    r'(<pre\s+class="(json|xml|rdf)"\s*>\s*<code[^>]*>)'
+    r"(.*?)"
+    r"(</code>\s*</pre>)",
     re.DOTALL,
 )
 
-# In the XML view the IG Publisher renders:
-#   <contentType value="application/elm+json"/>
-#   <data value="eyJ…very long base64…"/>
-_XML_ELM_DATA_RE = re.compile(
-    r'(&lt;contentType\s+value=(?:&quot;|")application/elm\+(?:json|xml)(?:&quot;|")\s*/&gt;'
-    r'.*?'
-    r'&lt;data\s+value=(?:&quot;|"))[A-Za-z0-9+/=]+((?:&quot;|")\s*/&gt;)',
-    re.DOTALL,
-)
+
+def _replace_html_code_block(match: re.Match) -> str:
+    """Callback for _PRE_CODE_RE: parse the embedded content and strip ELM."""
+    prefix = match.group(1)
+    lang = match.group(2)
+    encoded_body = match.group(3)
+    suffix = match.group(4)
+
+    body = html.unescape(encoded_body)
+
+    if lang == "json":
+        try:
+            resource = json.loads(body)
+        except (json.JSONDecodeError, ValueError):
+            return match.group(0)
+        if resource.get("resourceType") != "Library":
+            return match.group(0)
+        if not _strip_elm_from_dict(resource):
+            return match.group(0)
+        new_body = json.dumps(resource, indent=2, ensure_ascii=False)
+        return prefix + html.escape(new_body, quote=False) + suffix
+
+    if lang == "xml":
+        try:
+            root = ET.fromstring(body)  # noqa: S314
+        except ET.ParseError:
+            return match.group(0)
+        if root.tag != f"{{{_FHIR_NS}}}Library":
+            return match.group(0)
+        if not _strip_elm_from_xml_tree(root):
+            return match.group(0)
+        new_body = ET.tostring(root, encoding="unicode")
+        return prefix + html.escape(new_body, quote=False) + suffix
+
+    if lang == "rdf":
+        new_body = _TTL_ELM_DATA_RE.sub(r"\1\2", body)
+        if new_body == body:
+            return match.group(0)
+        return prefix + html.escape(new_body, quote=False) + suffix
+
+    return match.group(0)
 
 
 def strip_library_html(output_dir: Path) -> int:
-    """Strip ELM base64 data from Library-*.html files.
-
-    Returns the number of files modified.
-    """
+    """Strip ELM base64 data from Library-*.html files."""
     modified = 0
     for fpath in sorted(output_dir.glob("Library-*.html")):
         try:
-            html = fpath.read_text(encoding="utf-8")
+            raw = fpath.read_text(encoding="utf-8")
         except OSError as exc:
             logger.warning("Skipping %s: %s", fpath.name, exc)
             continue
 
-        new_html = html
-
-        # Strip from JSON representation
-        new_html = _JSON_ELM_DATA_RE.sub(r'\1""', new_html)
-
-        # Strip from XML representation
-        new_html = _XML_ELM_DATA_RE.sub(r"\1\2", new_html)
-
-        if new_html != html:
-            fpath.write_text(new_html, encoding="utf-8")
+        new_raw = _PRE_CODE_RE.sub(_replace_html_code_block, raw)
+        if new_raw != raw:
+            fpath.write_text(new_raw, encoding="utf-8")
             modified += 1
             logger.info("Stripped ELM data from %s", fpath.name)
 
@@ -262,6 +277,7 @@ def strip_library_html(output_dir: Path) -> int:
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
+
 
 def main() -> None:
     output_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "output")
