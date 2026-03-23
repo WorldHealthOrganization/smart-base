@@ -867,6 +867,34 @@ jobs:
             echo "⚠️ inject_build_banner.py not available, skipping"
           fi
 
+      # ── Upload large package files as GitHub Release assets ────────
+      # Instead of deploying package.db, package.tgz, package.r4.tgz,
+      # package.r4b.tgz, and ai.zip to gh-pages (where they bloat the
+      # branch), upload them as binary assets on a GitHub Release tagged
+      # with the IG version from sushi-config.yaml.
+      - name: Upload FHIR package assets as GitHub Release
+        if: success()
+        id: package_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          # Check if release script exists locally, download if needed
+          if [ ! -f "input/scripts/create_package_release.py" ]; then
+            echo "Release script not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/create_package_release.py" \
+              "${SCRIPTS_BASE_URL}/input/scripts/create_package_release.py" \
+              2>/dev/null || echo "Failed to download create_package_release.py"
+          fi
+
+          if [ -f "input/scripts/create_package_release.py" ]; then
+            python3 input/scripts/create_package_release.py --output-dir ./output
+            echo "✅ Package release created"
+          else
+            echo "⚠️ create_package_release.py not available, skipping package release"
+          fi
+
       - name: Delete files >100MB before deployment
         run: |
           echo "Removing files over 100 MB from ./output..."
