@@ -292,9 +292,10 @@ def derive_github_blob_base(repo_root: Optional[Path] = None) -> Optional[str]:
     3. ``None`` when no repository information can be determined.
     """
     github_repo = os.environ.get("GITHUB_REPOSITORY", "")
-    branch = os.environ.get("GITHUB_REF_NAME", "main")
     if github_repo and "/" in github_repo:
-        return f"https://github.com/{github_repo}/blob/{branch}"
+        # Always link to main — source references in .pot files should be
+        # stable and not reflect transient feature/CI branches.
+        return f"https://github.com/{github_repo}/blob/main"
 
     # Fallback: parse dak.json previewUrl
     if repo_root is not None:
