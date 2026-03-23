@@ -851,7 +851,17 @@ jobs:
       - name: Delete files >100MB before deployment
         run: |
           echo "Removing files over 100 MB from ./output..."
-          find ./output -type f -size +100M -print -delete
+          large_files=$(find ./output -type f -size +100M -print)
+          if [ -n "$large_files" ]; then
+            echo "::warning::The following files exceed 100 MB and will be removed before deployment (GitHub Pages size constraint):"
+            echo "$large_files" | while read -r f; do
+              size=$(du -h "$f" | cut -f1)
+              echo "  - $f ($size)"
+              rm "$f"
+            done
+          else
+            echo "No files over 100 MB found."
+          fi
 
       - name: Deploy candidate
         id: deploy_candidate_1
