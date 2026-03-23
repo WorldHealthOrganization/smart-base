@@ -13,6 +13,9 @@ commands:
   - name: build-ig
     description: Run full IG Publisher build
     requires_llm: false
+  - name: strip-elm
+    description: Extract ELM binary data from Library resources (post-build)
+    requires_llm: false
   - name: interpret-errors
     description: Interpret IG Publisher errors using LLM
     requires_llm: true

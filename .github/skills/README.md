@@ -76,6 +76,7 @@ Skills run automatically via GitHub Actions workflows:
 | BPMN structure validation | ✅ runs | ✅ runs |
 | Swimlane ↔ ActorDef validation | ✅ runs | ✅ runs |
 | IG Publisher build/validate | ✅ runs | ✅ runs |
+| ELM binary extraction (strip-elm) | ✅ runs | ✅ runs |
 | Issue classification | keyword fallback | LLM classification |
 | LLM BPMN authoring | ⚠️ skipped | ✅ runs |
 | LLM error interpretation | ⚠️ skipped | ✅ runs |

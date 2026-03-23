@@ -6,6 +6,7 @@ Usage:
     dak-skill validate          # DAK structural validation (no LLM needed)
     dak-skill validate-ig       # Full IG Publisher validation
     dak-skill build-ig          # Full IG Publisher build
+    dak-skill strip-elm         # Extract ELM binaries from Library resources
     dak-skill import-bpmn       # Import BPMN files and validate
     dak-skill author "..."      # LLM-assisted BPMN authoring
     dak-skill classify          # Classify current issue
@@ -32,6 +33,7 @@ _COMMANDS = {
     "validate": "ig_publisher.actions.validate_dak_action",
     "validate-ig": "ig_publisher.actions.validate_ig_action",
     "build-ig": "ig_publisher.actions.build_ig_action",
+    "strip-elm": "ig_publisher.actions.strip_elm_action",
     "import-bpmn": "bpmn_import.actions.bpmn_import_action",
     "author": "bpmn_author.actions.bpmn_author_action",
     "classify": "dak_authoring.actions.classify_issue_action",

@@ -1,6 +1,10 @@
 """
 IG Publisher build action — runs the full IG Publisher build.
 
+After a successful build, automatically runs ELM binary extraction
+to replace large base64-encoded ELM payloads in Library resources
+with standalone files and interactive viewers.
+
 Environment variables:
     GITHUB_TOKEN  — GitHub API token
     DAK_IG_ROOT   — IG root directory (default: current directory)
@@ -16,6 +20,19 @@ if str(_SKILLS_ROOT) not in sys.path:
     sys.path.insert(0, str(_SKILLS_ROOT))
 
 from common.ig_publisher_iface import run_ig_publisher
+
+
+def _run_post_build(ig_root: str) -> None:
+    """Run post-build processing steps."""
+    from ig_publisher.actions.strip_elm_action import main as strip_elm
+
+    print("\n📦 Post-build: extracting ELM binary data...")
+    try:
+        strip_elm()
+    except SystemExit:
+        # strip_elm calls sys.exit(1) on missing output dir — not fatal
+        # since the build itself succeeded.
+        pass
 
 
 def main() -> None:
@@ -34,6 +51,9 @@ def main() -> None:
         sys.exit(1)
 
     print("✅ IG Publisher build completed successfully.")
+
+    # Post-build: extract ELM binaries from Library resources.
+    _run_post_build(ig_root)
 
 
 if __name__ == "__main__":

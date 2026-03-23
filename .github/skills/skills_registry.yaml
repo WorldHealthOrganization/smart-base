@@ -19,7 +19,7 @@ skills:
   - name: ig_publisher
     version: "0.1.0"
     description: IG Publisher validation, build, and error interpretation
-    commands: [validate-dak, validate-ig, build-ig, interpret-errors]
+    commands: [validate-dak, validate-ig, build-ig, strip-elm, interpret-errors]
     requires_llm_for: [interpret-errors]
 
   - name: dak_authoring

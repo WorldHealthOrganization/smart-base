@@ -1,6 +1,6 @@
 # DAK Skills — local compose
 # Alias: alias dak='docker compose -f .github/skills/docker-compose.yml run --rm'
-# Usage: dak validate | dak validate-ig | dak import-bpmn | dak author "..." | dak shell
+# Usage: dak validate | dak validate-ig | dak build-ig | dak strip-elm | dak import-bpmn | dak author "..." | dak shell
 
 x-dak: &dak
   image: dak-skill:latest
@@ -19,6 +19,7 @@ services:
   validate-ig: { <<: *dak, command: [validate-ig] }
   import-bpmn: { <<: *dak, command: [import-bpmn] }
   build-ig:    { <<: *dak, command: [build-ig]    }
+  strip-elm:   { <<: *dak, command: [strip-elm]   }
   author:      { <<: *dak, command: [author]      }
   shell:       { <<: *dak, entrypoint: /bin/bash  }
 
