@@ -600,6 +600,30 @@ jobs:
       # Download-if-missing logic runs on the host (curl), which writes
       # into the volume-mounted workspace visible inside Docker.
 
+      - name: DAK Postprocessing - Strip binary data from Library resources
+        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+        run: |
+          echo "Stripping encoded binary data from Library resource files..."
+
+          # Check if the script exists locally, download if needed
+          if [ ! -f "input/scripts/strip_library_binaries.py" ]; then
+            echo "strip_library_binaries.py not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/strip_library_binaries.py" \
+              "${SCRIPTS_BASE_URL}/input/scripts/strip_library_binaries.py" \
+              2>/dev/null || echo "Failed to download strip_library_binaries.py"
+          else
+            echo "Using local strip_library_binaries.py"
+          fi
+
+          # Run inside the IG publisher container
+          if [ -f "input/scripts/strip_library_binaries.py" ]; then
+            docker exec -w /work ig-run python3 input/scripts/strip_library_binaries.py
+            echo "✅ Library binary data stripped"
+          else
+            echo "⚠️ strip_library_binaries.py not available, skipping"
+          fi
+
       - name: DAK Postprocessing - Generate JSON Schemas
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
