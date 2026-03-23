@@ -10,7 +10,8 @@ reference to the extracted file.
 Library resources contain a ``content`` array whose entries carry a
 ``data`` field with base64-encoded payloads.  ELM payloads
 (application/elm+json, application/elm+xml) are large and not needed
-inline.  CQL source (text/cql) is kept as-is.
+inline.  CQL source (text/cql) is decoded and displayed as pretty-printed,
+collapsible blocks in the Library HTML pages.
 
 For each ELM content entry the script:
   1. Decodes the base64 ``data`` payload.
@@ -61,6 +62,8 @@ _ELM_CONTENT_TYPES = {
     "application/elm+xml",
 }
 
+_CQL_CONTENT_TYPE = "text/cql"
+
 _FHIR_NS = "http://hl7.org/fhir"
 _XHTML_NS = "http://www.w3.org/1999/xhtml"
 
@@ -68,6 +71,31 @@ _XHTML_NS = "http://www.w3.org/1999/xhtml"
 def _is_elm(entry: dict) -> bool:
     """Return True if a content entry is an ELM payload."""
     return entry.get("contentType", "") in _ELM_CONTENT_TYPES
+
+
+def _is_cql(entry: dict) -> bool:
+    """Return True if a content entry is a CQL source payload."""
+    return entry.get("contentType", "") == _CQL_CONTENT_TYPE
+
+
+def _decode_cql_from_library_json(json_path: Path) -> str | None:
+    """Read a Library JSON file and return the decoded CQL source, if any."""
+    try:
+        resource = json.loads(json_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
+    if resource.get("resourceType") != "Library":
+        return None
+    for entry in resource.get("content", []):
+        if not _is_cql(entry):
+            continue
+        data = entry.get("data")
+        if data:
+            try:
+                return base64.b64decode(data).decode("utf-8")
+            except Exception:
+                return None
+    return None
 
 
 def _elm_filename(library_stem: str, content_type: str = "") -> str:
@@ -450,6 +478,38 @@ function loadElm(btn, url) {{
 </script>"""
 
 
+def _cql_viewer_snippet(cql_source: str) -> str:
+    """Return an HTML snippet that displays CQL source in a collapsible block.
+
+    The CQL is rendered as a ``<pre><code>`` block wrapped in a toggle so
+    users can show/hide it.
+    """
+    if not cql_source:
+        return ""
+
+    escaped = html.escape(cql_source, quote=False)
+    return f"""<div class="cql-viewer" style="margin:1em 0">
+<h4>CQL Source
+<button type="button" class="cql-toggle" onclick="toggleCql(this)"
+  style="cursor:pointer;padding:2px 10px;margin-left:10px;font-size:0.8em">Hide</button>
+</h4>
+<pre class="cql-content" style="max-height:400px;overflow:auto;\
+border:1px solid #ccc;padding:8px;background:#f8f8f8"><code>{escaped}</code></pre>
+</div>
+<script>
+function toggleCql(btn) {{
+  var pre = btn.closest('.cql-viewer').querySelector('pre.cql-content');
+  if (pre.style.display === 'none') {{
+    pre.style.display = '';
+    btn.textContent = 'Hide';
+  }} else {{
+    pre.style.display = 'none';
+    btn.textContent = 'Show';
+  }}
+}}
+</script>"""
+
+
 # Regex to find the first <pre class="json"> block — we inject the viewer
 # right before it so it appears alongside the resource representations.
 _FIRST_PRE_JSON_RE = re.compile(
@@ -462,6 +522,14 @@ _FIRST_PRE_JSON_RE = re.compile(
 #   <tr><td><pre><code>Encoded data (98412 characters)</code></pre></td></tr>
 _NARRATIVE_ELM_DATA_RE = re.compile(
     r"(application/elm\+(json|xml)"    # ELM content type (group 2 = format)
+    r".*?)"                            # anything between (e.g. closing tags)
+    r"<pre><code>\s*Encoded data \(\d+ characters?\)\s*</code></pre>",
+    re.DOTALL | re.IGNORECASE,
+)
+
+# Match CQL "Encoded data" entries in the IG Publisher's narrative section.
+_NARRATIVE_CQL_DATA_RE = re.compile(
+    r"(text/cql"                       # CQL content type
     r".*?)"                            # anything between (e.g. closing tags)
     r"<pre><code>\s*Encoded data \(\d+ characters?\)\s*</code></pre>",
     re.DOTALL | re.IGNORECASE,
@@ -483,7 +551,7 @@ def _library_stem_from_html(fpath: Path) -> str:
 
 
 def strip_library_html(output_dir: Path) -> int:
-    """Update ELM references in Library-*.html files."""
+    """Update ELM references and add CQL viewer in Library-*.html files."""
     modified = 0
     for fpath in sorted(output_dir.glob("Library-*.html")):
         try:
@@ -517,19 +585,50 @@ def strip_library_html(output_dir: Path) -> int:
 
         new_raw = _NARRATIVE_ELM_DATA_RE.sub(_narrative_elm_replacer, new_raw)
 
-        if new_raw != raw:
-            # Inject the ELM viewer widget if not already present.
-            if "elm-viewer" not in new_raw:
-                snippet = _elm_viewer_snippet(library_stem, output_dir)
-                # Try to insert before the first JSON code block.
+        # --- Pass 3: Replace CQL "Encoded data" with pretty-printed source. ---
+        cql_source = _decode_cql_from_library_json(
+            output_dir / (library_stem + ".json")
+        )
+        if cql_source:
+            escaped_cql = html.escape(cql_source, quote=False)
+
+            def _narrative_cql_replacer(m: re.Match) -> str:
+                prefix = m.group(1)
+                return (
+                    prefix
+                    + f'<pre style="max-height:400px;overflow:auto;border:1px solid #ccc;'
+                    f'padding:8px;background:#f8f8f8"><code>{escaped_cql}</code></pre>'
+                )
+
+            new_raw = _NARRATIVE_CQL_DATA_RE.sub(_narrative_cql_replacer, new_raw)
+
+        # Inject the CQL viewer widget if not already present.
+        if cql_source and "cql-viewer" not in new_raw:
+            cql_snippet = _cql_viewer_snippet(cql_source)
+            m = _FIRST_PRE_JSON_RE.search(new_raw)
+            if m:
+                new_raw = (
+                    new_raw[: m.start()] + cql_snippet + "\n" + new_raw[m.start() :]
+                )
+            else:
+                for marker in ("</div><!-- no hierarchical", "</body>"):
+                    idx = new_raw.find(marker)
+                    if idx != -1:
+                        new_raw = (
+                            new_raw[:idx] + cql_snippet + "\n" + new_raw[idx:]
+                        )
+                        break
+
+        # Inject the ELM viewer widget if not already present.
+        if "elm-viewer" not in new_raw:
+            snippet = _elm_viewer_snippet(library_stem, output_dir)
+            if snippet:
                 m = _FIRST_PRE_JSON_RE.search(new_raw)
                 if m:
                     new_raw = (
                         new_raw[: m.start()] + snippet + "\n" + new_raw[m.start() :]
                     )
                 else:
-                    # Main page has no code blocks — inject before closing
-                    # </div> of the narrative or before </body>.
                     for marker in ("</div><!-- no hierarchical", "</body>"):
                         idx = new_raw.find(marker)
                         if idx != -1:
@@ -537,9 +636,14 @@ def strip_library_html(output_dir: Path) -> int:
                                 new_raw[:idx] + snippet + "\n" + new_raw[idx:]
                             )
                             break
+
+        if new_raw != raw:
             fpath.write_text(new_raw, encoding="utf-8")
             modified += 1
-            logger.info("Updated %s with url references and ELM viewer", fpath.name)
+            logger.info(
+                "Updated %s with url references, CQL and ELM viewers",
+                fpath.name,
+            )
 
     return modified
 
