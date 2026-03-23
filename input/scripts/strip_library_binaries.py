@@ -70,12 +70,28 @@ def _is_elm(entry: dict) -> bool:
     return entry.get("contentType", "") in _ELM_CONTENT_TYPES
 
 
-def _elm_filename(library_stem: str) -> str:
+def _elm_filename(library_stem: str, content_type: str = "") -> str:
     """Return the extracted ELM filename for a Library resource.
 
-    E.g. Library-Foo -> Library-Foo.elm
+    Uses a content-type–specific extension so both XML and JSON ELM
+    can coexist:
+        application/elm+json -> Library-Foo.elm.json
+        application/elm+xml  -> Library-Foo.elm.xml
+        (fallback)           -> Library-Foo.elm
     """
+    if "json" in content_type:
+        return library_stem + ".elm.json"
+    if "xml" in content_type:
+        return library_stem + ".elm.xml"
     return library_stem + ".elm"
+
+
+def _elm_filenames(library_stem: str) -> list[str]:
+    """Return all possible ELM filenames for a Library resource."""
+    return [
+        _elm_filename(library_stem, "json"),
+        _elm_filename(library_stem, "xml"),
+    ]
 
 
 def _extract_and_replace_elm_in_dict(
@@ -92,22 +108,22 @@ def _extract_and_replace_elm_in_dict(
     for entry in contents:
         if not _is_elm(entry) or not entry.get("data"):
             continue
-        elm_file = _elm_filename(library_stem)
+        ct = entry.get("contentType", "")
+        elm_file = _elm_filename(library_stem, ct)
         elm_path = output_dir / elm_file
-        # Only extract once per Library (first ELM entry wins).
         if not elm_path.exists():
             try:
                 decoded = base64.b64decode(entry["data"])
             except Exception as exc:
                 logger.warning(
                     "Could not decode base64 data for %s in %s: %s",
-                    entry["contentType"],
+                    ct,
                     library_stem,
                     exc,
                 )
                 continue
             elm_path.write_bytes(decoded)
-            logger.info("Extracted %s -> %s", entry["contentType"], elm_file)
+            logger.info("Extracted %s -> %s", ct, elm_file)
         # Replace data with a relative url reference.
         del entry["data"]
         entry["url"] = elm_file
@@ -130,7 +146,8 @@ def _replace_elm_data_with_url_in_dict(
     for entry in contents:
         if not _is_elm(entry):
             continue
-        elm_file = _elm_filename(library_stem)
+        ct = entry.get("contentType", "")
+        elm_file = _elm_filename(library_stem, ct)
         if entry.get("data"):
             del entry["data"]
             entry["url"] = elm_file
@@ -154,9 +171,10 @@ def _replace_elm_data_with_url_in_xml(
         ct_el = content_el.find("f:contentType", ns)
         if ct_el is None:
             continue
-        if ct_el.get("value", "") not in _ELM_CONTENT_TYPES:
+        ct_value = ct_el.get("value", "")
+        if ct_value not in _ELM_CONTENT_TYPES:
             continue
-        elm_file = _elm_filename(library_stem)
+        elm_file = _elm_filename(library_stem, ct_value)
         data_el = content_el.find("f:data", ns)
         if data_el is not None:
             content_el.remove(data_el)
@@ -258,7 +276,8 @@ _TTL_ELM_BLOCK_RE = re.compile(
 def _ttl_elm_replacer(match: re.Match, library_stem: str) -> str:
     """Replace fhir:data with fhir:url in a TTL ELM block."""
     prefix = match.group(1)
-    elm_file = _elm_filename(library_stem)
+    fmt = match.group(2)  # "json" or "xml"
+    elm_file = _elm_filename(library_stem, f"application/elm+{fmt}")
     return f'{prefix}fhir:url [ fhir:v "{elm_file}" ]'
 
 
@@ -350,29 +369,47 @@ def _make_html_code_block_replacer(library_stem: str):
     return _replace
 
 
-def _elm_viewer_snippet(elm_file: str) -> str:
-    """Return an HTML/JS snippet that loads and displays an extracted .elm file."""
+def _elm_viewer_snippet(library_stem: str, output_dir: Path | None = None) -> str:
+    """Return an HTML/JS snippet that loads and displays extracted .elm files.
+
+    When *output_dir* is given, only list files that actually exist on disk.
+    Otherwise list both possible formats.
+    """
+    candidates = _elm_filenames(library_stem)
+    if output_dir is not None:
+        candidates = [f for f in candidates if (output_dir / f).exists()]
+    if not candidates:
+        return ""
+
+    links = "\n".join(
+        f'<li><a href="{f}">{f}</a> '
+        f'<button type="button" onclick="loadElm(this, \'{f}\')"'
+        f'  style="cursor:pointer;padding:2px 10px;margin-left:6px">View</button>'
+        f'<pre class="elm-content" style="display:none;max-height:400px;overflow:auto;'
+        f'border:1px solid #ccc;padding:8px;margin-top:6px;background:#f8f8f8"><code></code></pre>'
+        f"</li>"
+        for f in candidates
+    )
+
     return f"""<div class="elm-viewer" style="margin:1em 0">
 <h4>ELM Content</h4>
-<p>ELM binary data has been extracted to
-<a href="{elm_file}">{elm_file}</a>.</p>
-<button type="button" onclick="loadElm(this, '{elm_file}')"
-  style="cursor:pointer;padding:4px 12px">View ELM</button>
-<pre class="elm-content" style="display:none;max-height:400px;overflow:auto;
-border:1px solid #ccc;padding:8px;margin-top:6px;background:#f8f8f8"><code></code></pre>
+<p>ELM binary data has been extracted to separate files:</p>
+<ul>
+{links}
+</ul>
 </div>
 <script>
 function loadElm(btn, url) {{
   var pre = btn.nextElementSibling;
   if (pre.style.display !== 'none') {{
     pre.style.display = 'none';
-    btn.textContent = 'View ELM';
+    btn.textContent = 'View';
     return;
   }}
   var code = pre.querySelector('code');
   if (code.textContent) {{
     pre.style.display = '';
-    btn.textContent = 'Hide ELM';
+    btn.textContent = 'Hide';
     return;
   }}
   btn.textContent = 'Loading\u2026';
@@ -402,12 +439,12 @@ function loadElm(btn, url) {{
       }}
       code.textContent = text;
       pre.style.display = '';
-      btn.textContent = 'Hide ELM';
+      btn.textContent = 'Hide';
     }})
     .catch(function(err) {{
       code.textContent = 'Failed to load: ' + err;
       pre.style.display = '';
-      btn.textContent = 'View ELM';
+      btn.textContent = 'View';
     }});
 }}
 </script>"""
@@ -418,6 +455,31 @@ function loadElm(btn, url) {{
 _FIRST_PRE_JSON_RE = re.compile(
     r'<pre\s+class="json"\s*>', re.IGNORECASE
 )
+
+# Match ELM "Encoded data" entries in the IG Publisher's narrative section.
+# The narrative renders content entries as:
+#   <th><b>Content: </b> application/elm+xml</th></tr>
+#   <tr><td><pre><code>Encoded data (98412 characters)</code></pre></td></tr>
+_NARRATIVE_ELM_DATA_RE = re.compile(
+    r"(application/elm\+(json|xml)"    # ELM content type (group 2 = format)
+    r".*?)"                            # anything between (e.g. closing tags)
+    r"<pre><code>\s*Encoded data \(\d+ characters?\)\s*</code></pre>",
+    re.DOTALL | re.IGNORECASE,
+)
+
+
+def _library_stem_from_html(fpath: Path) -> str:
+    """Derive the base Library stem from an HTML filename.
+
+    E.g. Library-Foo.html       -> Library-Foo
+         Library-Foo.json.html  -> Library-Foo
+         Library-Foo.xml.html   -> Library-Foo
+    """
+    stem = fpath.stem  # Library-Foo or Library-Foo.json
+    for suffix in (".json", ".xml", ".ttl"):
+        if stem.endswith(suffix):
+            return stem[: -len(suffix)]
+    return stem
 
 
 def strip_library_html(output_dir: Path) -> int:
@@ -431,17 +493,50 @@ def strip_library_html(output_dir: Path) -> int:
             continue
 
         # Derive the library stem from the HTML filename.
-        library_stem = fpath.stem
+        # Library-Foo.json.html -> Library-Foo (not Library-Foo.json)
+        library_stem = _library_stem_from_html(fpath)
 
+        new_raw = raw
+
+        # --- Pass 1: Update <pre class="json|xml|rdf"> code blocks. ---
         replacer = _make_html_code_block_replacer(library_stem)
-        new_raw = _PRE_CODE_RE.sub(replacer, raw)
+        new_raw = _PRE_CODE_RE.sub(replacer, new_raw)
+
+        # --- Pass 2: Update ELM entries in the narrative section. ---
+        # The IG Publisher's narrative shows "Encoded data (N characters)"
+        # for binary content.  Replace with a download link.
+        def _narrative_elm_replacer(m: re.Match) -> str:
+            prefix = m.group(1)
+            fmt = m.group(2)  # "json" or "xml"
+            elm_file = _elm_filename(library_stem, f"application/elm+{fmt}")
+            return (
+                prefix
+                + f'<a href="{elm_file}">'
+                + f"Download ({elm_file})</a>"
+            )
+
+        new_raw = _NARRATIVE_ELM_DATA_RE.sub(_narrative_elm_replacer, new_raw)
+
         if new_raw != raw:
-            # Inject the ELM viewer widget before the first JSON code block.
-            elm_file = _elm_filename(library_stem)
-            snippet = _elm_viewer_snippet(elm_file)
-            m = _FIRST_PRE_JSON_RE.search(new_raw)
-            if m:
-                new_raw = new_raw[: m.start()] + snippet + "\n" + new_raw[m.start() :]
+            # Inject the ELM viewer widget if not already present.
+            if "elm-viewer" not in new_raw:
+                snippet = _elm_viewer_snippet(library_stem, output_dir)
+                # Try to insert before the first JSON code block.
+                m = _FIRST_PRE_JSON_RE.search(new_raw)
+                if m:
+                    new_raw = (
+                        new_raw[: m.start()] + snippet + "\n" + new_raw[m.start() :]
+                    )
+                else:
+                    # Main page has no code blocks — inject before closing
+                    # </div> of the narrative or before </body>.
+                    for marker in ("</div><!-- no hierarchical", "</body>"):
+                        idx = new_raw.find(marker)
+                        if idx != -1:
+                            new_raw = (
+                                new_raw[:idx] + snippet + "\n" + new_raw[idx:]
+                            )
+                            break
             fpath.write_text(new_raw, encoding="utf-8")
             modified += 1
             logger.info("Updated %s with url references and ELM viewer", fpath.name)
