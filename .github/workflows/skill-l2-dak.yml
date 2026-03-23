@@ -1,0 +1,30 @@
+name: L2 DAK Content Skill
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  dak-authoring:
+    if: github.event.label.name == 'content:L2'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Python dependencies
+        run: pip install litellm requests
+
+      - name: Run L2 DAK authoring skill
+        env:
+          GITHUB_TOKEN:    ${{ secrets.GITHUB_TOKEN }}
+          DAK_LLM_API_KEY: ${{ secrets.DAK_LLM_API_KEY }}
+          DAK_LLM_MODEL:   ${{ vars.DAK_LLM_MODEL || 'gpt-4o' }}
+          ISSUE_NUMBER:    ${{ github.event.issue.number }}
+          ISSUE_TITLE:     ${{ github.event.issue.title }}
+          ISSUE_BODY:      ${{ github.event.issue.body }}
+        run: python3 .github/skills/dak_authoring/actions/dak_authoring_action.py

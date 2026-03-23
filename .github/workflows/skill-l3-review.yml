@@ -1,0 +1,29 @@
+name: L3 Implementation Review Skill
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  l3-review:
+    if: github.event.label.name == 'content:L3'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Python dependencies
+        run: pip install litellm requests
+
+      - name: Run L3 review skill
+        env:
+          GITHUB_TOKEN:    ${{ secrets.GITHUB_TOKEN }}
+          DAK_LLM_API_KEY: ${{ secrets.DAK_LLM_API_KEY }}
+          DAK_LLM_MODEL:   ${{ vars.DAK_LLM_MODEL || 'gpt-4o' }}
+          ISSUE_NUMBER:    ${{ github.event.issue.number }}
+          ISSUE_TITLE:     ${{ github.event.issue.title }}
+          ISSUE_BODY:      ${{ github.event.issue.body }}
+        run: python3 .github/skills/l3_review/actions/l3_review_action.py

@@ -1,0 +1,47 @@
+# DAK Skill Library — Registry
+#
+# Lists all registered skills with their entry points and capabilities.
+# Used by the CLI and GitHub Actions to discover available skills.
+
+skills:
+  - name: bpmn_author
+    version: "0.1.0"
+    description: Author and edit standard BPMN 2.0 XML for DAK business processes
+    commands: [create-bpmn, edit-bpmn, validate-bpmn]
+    requires_llm_for: [create-bpmn, edit-bpmn]
+
+  - name: bpmn_import
+    version: "0.1.0"
+    description: Import BPMN files and validate lane-to-actor mapping
+    commands: [import-bpmn, validate-actors]
+    requires_llm_for: []
+
+  - name: ig_publisher
+    version: "0.1.0"
+    description: IG Publisher validation, build, and error interpretation
+    commands: [validate-dak, validate-ig, build-ig, interpret-errors]
+    requires_llm_for: [interpret-errors]
+
+  - name: dak_authoring
+    version: "0.1.0"
+    description: Issue classification and DAK L2 content authoring
+    commands: [classify-issue, author-l2]
+    requires_llm_for: [author-l2]
+
+  - name: l1_review
+    version: "0.1.0"
+    description: WHO L1 source guideline review (placeholder)
+    commands: [review-l1]
+    requires_llm_for: [review-l1]
+
+  - name: l3_review
+    version: "0.1.0"
+    description: Implementation adaptation review (placeholder)
+    commands: [review-l3]
+    requires_llm_for: [review-l3]
+
+  - name: translation
+    version: "0.1.0"
+    description: Translation management (placeholder)
+    commands: [manage-translation]
+    requires_llm_for: []

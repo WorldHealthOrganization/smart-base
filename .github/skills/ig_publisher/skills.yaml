@@ -1,0 +1,22 @@
+# ig_publisher skill
+name: ig_publisher
+version: "0.1.0"
+description: IG Publisher validation, build, and error interpretation
+
+commands:
+  - name: validate-dak
+    description: Run DAK structural validation (no IG Publisher needed)
+    requires_llm: false
+  - name: validate-ig
+    description: Run full IG Publisher validation
+    requires_llm: false
+  - name: build-ig
+    description: Run full IG Publisher build
+    requires_llm: false
+  - name: interpret-errors
+    description: Interpret IG Publisher errors using LLM
+    requires_llm: true
+
+prompts:
+  - interpret_ig_errors
+  - validate_dak
