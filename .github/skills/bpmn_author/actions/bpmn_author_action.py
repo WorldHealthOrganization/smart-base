@@ -44,10 +44,26 @@ def main() -> None:
     bpmn_xml_schema = (_prompts_dir / "bpmn_xml_schema.md").read_text(encoding="utf-8")
     actor_context = (_prompts_dir / "actor_context.md").read_text(encoding="utf-8")
 
+    # Load additional prompt components required by the create_or_edit_bpmn template
+    dak_bpmn_constraints_path = _SKILLS_ROOT / "common" / "prompts" / "dak_bpmn_constraints.md"
+    bpmn_xml_schema_path = _SKILLS_ROOT / "common" / "prompts" / "bpmn_xml_schema.md"
+    actor_context_path = _SKILLS_ROOT / "common" / "prompts" / "actor_context.md"
+
+    with dak_bpmn_constraints_path.open(encoding="utf-8") as f:
+        dak_bpmn_constraints = f.read()
+    with bpmn_xml_schema_path.open(encoding="utf-8") as f:
+        bpmn_xml_schema = f.read()
+    with actor_context_path.open(encoding="utf-8") as f:
+        actor_context = f.read()
+
     prompt = load_prompt(
-        "bpmn_author", "create_or_edit_bpmn",
+        "bpmn_author",
+        "create_or_edit_bpmn",
         user_request=f"{issue_title}\n\n{issue_body}",
         current_bpmn="(none — creating new BPMN)",
+        dak_bpmn_constraints=dak_bpmn_constraints,
+        bpmn_xml_schema=bpmn_xml_schema,
+        actor_context=actor_context,
         dak_bpmn_constraints=dak_bpmn_constraints,
         bpmn_xml_schema=bpmn_xml_schema,
         actor_context=actor_context,
