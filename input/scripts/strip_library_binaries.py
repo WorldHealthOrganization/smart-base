@@ -379,21 +379,27 @@ function loadElm(btn, url) {{
   fetch(url)
     .then(function(r) {{ return r.text(); }})
     .then(function(text) {{
-      try {{
-        var doc = new DOMParser().parseFromString(text, 'application/xml');
-        if (!doc.querySelector('parsererror')) {{
-          var s = new XMLSerializer().serializeToString(doc);
-          var indent = 0;
-          text = s.replace(/>\s*</g, '><').replace(/<([^!?/][^>]*[^/])>|<([^!?/][^>]*)\/>|<\/([^>]+)>|<([^!?/][^>]*)>/g,
-            function(m, open, selfClose, close, openEmpty) {{
-              var r;
-              if (close) {{ indent--; r = '  '.repeat(Math.max(indent,0)) + m; }}
-              else if (selfClose) {{ r = '  '.repeat(indent) + m; }}
-              else {{ r = '  '.repeat(indent) + m; indent++; }}
-              return r;
-            }}).split(/(?<=>)(?=\s*<)/).join('\\n');
-        }}
-      }} catch(e) {{}}
+      var trimmed = text.trimStart();
+      if (trimmed.charAt(0) === '{{' || trimmed.charAt(0) === '[') {{
+        try {{ text = JSON.stringify(JSON.parse(text), null, 2); }} catch(e) {{}}
+      }} else if (trimmed.charAt(0) === '<') {{
+        try {{
+          var doc = new DOMParser().parseFromString(text, 'application/xml');
+          if (!doc.querySelector('parsererror')) {{
+            var s = new XMLSerializer().serializeToString(doc);
+            var indent = 0;
+            text = s.replace(/>\s*</g, '><')
+              .replace(/<([^!?/][^>]*[^/])>|<([^!?/][^>]*)\/>|<\/([^>]+)>|<([^!?/][^>]*)>/g,
+              function(m, open, selfClose, close, openEmpty) {{
+                var r;
+                if (close) {{ indent--; r = '  '.repeat(Math.max(indent,0)) + m; }}
+                else if (selfClose) {{ r = '  '.repeat(indent) + m; }}
+                else {{ r = '  '.repeat(indent) + m; indent++; }}
+                return r;
+              }}).split(/(?<=>)(?=\s*<)/).join('\\n');
+          }}
+        }} catch(e) {{}}
+      }}
       code.textContent = text;
       pre.style.display = '';
       btn.textContent = 'Hide ELM';
