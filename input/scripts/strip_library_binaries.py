@@ -350,6 +350,56 @@ def _make_html_code_block_replacer(library_stem: str):
     return _replace
 
 
+def _elm_viewer_snippet(elm_file: str) -> str:
+    """Return an HTML/JS snippet that loads and displays an extracted .elm file."""
+    return f"""<div class="elm-viewer" style="margin:1em 0">
+<h4>ELM Content</h4>
+<p>ELM binary data has been extracted to
+<a href="{elm_file}">{elm_file}</a>.</p>
+<button type="button" onclick="loadElm(this, '{elm_file}')"
+  style="cursor:pointer;padding:4px 12px">View ELM</button>
+<pre class="elm-content" style="display:none;max-height:400px;overflow:auto;
+border:1px solid #ccc;padding:8px;margin-top:6px;background:#f8f8f8"><code></code></pre>
+</div>
+<script>
+function loadElm(btn, url) {{
+  var pre = btn.nextElementSibling;
+  if (pre.style.display !== 'none') {{
+    pre.style.display = 'none';
+    btn.textContent = 'View ELM';
+    return;
+  }}
+  var code = pre.querySelector('code');
+  if (code.textContent) {{
+    pre.style.display = '';
+    btn.textContent = 'Hide ELM';
+    return;
+  }}
+  btn.textContent = 'Loading\u2026';
+  fetch(url)
+    .then(function(r) {{ return r.text(); }})
+    .then(function(text) {{
+      try {{ text = JSON.stringify(JSON.parse(text), null, 2); }} catch(e) {{}}
+      code.textContent = text;
+      pre.style.display = '';
+      btn.textContent = 'Hide ELM';
+    }})
+    .catch(function(err) {{
+      code.textContent = 'Failed to load: ' + err;
+      pre.style.display = '';
+      btn.textContent = 'View ELM';
+    }});
+}}
+</script>"""
+
+
+# Regex to find the first <pre class="json"> block — we inject the viewer
+# right before it so it appears alongside the resource representations.
+_FIRST_PRE_JSON_RE = re.compile(
+    r'<pre\s+class="json"\s*>', re.IGNORECASE
+)
+
+
 def strip_library_html(output_dir: Path) -> int:
     """Update ELM references in Library-*.html files."""
     modified = 0
@@ -366,9 +416,15 @@ def strip_library_html(output_dir: Path) -> int:
         replacer = _make_html_code_block_replacer(library_stem)
         new_raw = _PRE_CODE_RE.sub(replacer, raw)
         if new_raw != raw:
+            # Inject the ELM viewer widget before the first JSON code block.
+            elm_file = _elm_filename(library_stem)
+            snippet = _elm_viewer_snippet(elm_file)
+            m = _FIRST_PRE_JSON_RE.search(new_raw)
+            if m:
+                new_raw = new_raw[: m.start()] + snippet + "\n" + new_raw[m.start() :]
             fpath.write_text(new_raw, encoding="utf-8")
             modified += 1
-            logger.info("Updated %s with url references", fpath.name)
+            logger.info("Updated %s with url references and ELM viewer", fpath.name)
 
     return modified
 
