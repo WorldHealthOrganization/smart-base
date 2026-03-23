@@ -867,6 +867,31 @@ jobs:
             echo "⚠️ inject_build_banner.py not available, skipping"
           fi
 
+      # ── Fix release links for downstream repos ─────────────────────
+      # The downloads.md template contains hardcoded release links
+      # pointing to WorldHealthOrganization/smart-base.  For downstream
+      # IGs that reuse this workflow, replace those links with the
+      # actual repository URL.
+      - name: Fix release links in output pages
+        if: ${{ !cancelled() }}
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          if [ ! -f "input/scripts/fix_release_links.py" ]; then
+            echo "fix_release_links.py not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/fix_release_links.py" \
+              "${SCRIPTS_BASE_URL}/input/scripts/fix_release_links.py" \
+              2>/dev/null || echo "Failed to download fix_release_links.py"
+          fi
+          if [ -f "input/scripts/fix_release_links.py" ]; then
+            python3 input/scripts/fix_release_links.py \
+              || echo "⚠️ fix_release_links.py exited with error (non-blocking)"
+            echo "✅ Release link fix step complete"
+          else
+            echo "⚠️ fix_release_links.py not available, skipping"
+          fi
+
       # ── Upload large package files as GitHub Release assets ────────
       # Instead of deploying package.db, package.tgz, package.r4.tgz,
       # package.r4b.tgz, and ai.zip to gh-pages (where they bloat the
