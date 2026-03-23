@@ -163,6 +163,28 @@ python3 input/scripts/generate_valueset_schemas.py
 - **npm certificate issues**: Use `npm config set strict-ssl false` if needed
 - **Build will continue** even if some dependencies fail to download
 
+### Accessing GitHub Source Files Directly
+
+When you need to read source files from GitHub repositories (including this one or other WHO SMART IGs), use `raw.githubusercontent.com` URLs instead of the GitHub web UI:
+
+```
+https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{path}
+```
+
+**Examples:**
+```bash
+# Read a file from smart-base main branch
+curl https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/input/scripts/strip_library_binaries.py
+
+# Read a built page from a downstream IG's gh-pages branch
+curl https://raw.githubusercontent.com/WorldHealthOrganization/smart-immunizations/gh-pages/Library-SomeLibrary.html
+
+# Read a workflow file
+curl https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main/.github/workflows/ghbuild.yml
+```
+
+This is the most reliable way to access file content from GitHub — it works when `github.com` pages are blocked or require JavaScript rendering. Use `gh-pages` branch to inspect published IG output.
+
 ## Project Structure
 
 ### Core Directories
