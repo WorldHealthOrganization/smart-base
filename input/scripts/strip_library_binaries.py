@@ -15,7 +15,7 @@ inline.  CQL source (text/cql) is kept as-is.
 For each ELM content entry the script:
   1. Decodes the base64 ``data`` payload.
   2. Writes it to a file next to the Library resource
-     (e.g. ``Library-Foo.elm.json`` or ``Library-Foo.elm.xml``).
+     (e.g. ``Library-Foo.elm``).
   3. Removes the ``data`` field and adds a ``url`` field with a relative
      reference to the extracted file.
 
@@ -61,12 +61,6 @@ _ELM_CONTENT_TYPES = {
     "application/elm+xml",
 }
 
-# Map content type to file extension for the extracted file.
-_ELM_EXTENSIONS = {
-    "application/elm+json": ".elm.json",
-    "application/elm+xml": ".elm.xml",
-}
-
 _FHIR_NS = "http://hl7.org/fhir"
 _XHTML_NS = "http://www.w3.org/1999/xhtml"
 
@@ -76,13 +70,12 @@ def _is_elm(entry: dict) -> bool:
     return entry.get("contentType", "") in _ELM_CONTENT_TYPES
 
 
-def _elm_filename(library_stem: str, content_type: str) -> str:
+def _elm_filename(library_stem: str) -> str:
     """Return the extracted ELM filename for a Library resource.
 
-    E.g. Library-Foo with application/elm+json -> Library-Foo.elm.json
+    E.g. Library-Foo -> Library-Foo.elm
     """
-    ext = _ELM_EXTENSIONS.get(content_type, ".elm")
-    return library_stem + ext
+    return library_stem + ".elm"
 
 
 def _extract_and_replace_elm_in_dict(
@@ -99,22 +92,22 @@ def _extract_and_replace_elm_in_dict(
     for entry in contents:
         if not _is_elm(entry) or not entry.get("data"):
             continue
-        content_type = entry["contentType"]
-        elm_file = _elm_filename(library_stem, content_type)
-        try:
-            decoded = base64.b64decode(entry["data"])
-        except Exception as exc:
-            logger.warning(
-                "Could not decode base64 data for %s in %s: %s",
-                content_type,
-                library_stem,
-                exc,
-            )
-            continue
-        # Write the decoded ELM content to a file.
+        elm_file = _elm_filename(library_stem)
         elm_path = output_dir / elm_file
-        elm_path.write_bytes(decoded)
-        logger.info("Extracted %s -> %s", content_type, elm_file)
+        # Only extract once per Library (first ELM entry wins).
+        if not elm_path.exists():
+            try:
+                decoded = base64.b64decode(entry["data"])
+            except Exception as exc:
+                logger.warning(
+                    "Could not decode base64 data for %s in %s: %s",
+                    entry["contentType"],
+                    library_stem,
+                    exc,
+                )
+                continue
+            elm_path.write_bytes(decoded)
+            logger.info("Extracted %s -> %s", entry["contentType"], elm_file)
         # Replace data with a relative url reference.
         del entry["data"]
         entry["url"] = elm_file
@@ -137,8 +130,7 @@ def _replace_elm_data_with_url_in_dict(
     for entry in contents:
         if not _is_elm(entry):
             continue
-        content_type = entry["contentType"]
-        elm_file = _elm_filename(library_stem, content_type)
+        elm_file = _elm_filename(library_stem)
         if entry.get("data"):
             del entry["data"]
             entry["url"] = elm_file
@@ -162,10 +154,9 @@ def _replace_elm_data_with_url_in_xml(
         ct_el = content_el.find("f:contentType", ns)
         if ct_el is None:
             continue
-        content_type = ct_el.get("value", "")
-        if content_type not in _ELM_CONTENT_TYPES:
+        if ct_el.get("value", "") not in _ELM_CONTENT_TYPES:
             continue
-        elm_file = _elm_filename(library_stem, content_type)
+        elm_file = _elm_filename(library_stem)
         data_el = content_el.find("f:data", ns)
         if data_el is not None:
             content_el.remove(data_el)
@@ -187,8 +178,8 @@ def strip_library_json(output_dir: Path) -> int:
     """Extract ELM data from Library-*.json files and replace with url."""
     modified = 0
     for fpath in sorted(output_dir.glob("Library-*.json")):
-        # Skip already-extracted .elm.json files.
-        if ".elm.json" in fpath.name:
+        # Skip extracted .elm files that happen to end in .json.
+        if fpath.suffixes == [".elm", ".json"]:
             continue
         try:
             raw = fpath.read_text(encoding="utf-8")
@@ -224,7 +215,7 @@ def strip_library_xml(output_dir: Path) -> int:
     """Replace ELM data with url references in Library-*.xml files."""
     modified = 0
     for fpath in sorted(output_dir.glob("Library-*.xml")):
-        if ".elm.xml" in fpath.name:
+        if fpath.suffixes == [".elm", ".xml"]:
             continue
         try:
             tree = ET.parse(fpath)  # noqa: S314
@@ -267,8 +258,7 @@ _TTL_ELM_BLOCK_RE = re.compile(
 def _ttl_elm_replacer(match: re.Match, library_stem: str) -> str:
     """Replace fhir:data with fhir:url in a TTL ELM block."""
     prefix = match.group(1)
-    elm_type = match.group(2)  # "json" or "xml"
-    elm_file = f"{library_stem}.elm.{elm_type}"
+    elm_file = _elm_filename(library_stem)
     return f'{prefix}fhir:url [ fhir:v "{elm_file}" ]'
 
 
