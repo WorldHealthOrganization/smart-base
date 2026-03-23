@@ -624,6 +624,25 @@ jobs:
             echo "⚠️ strip_library_binaries.py not available, skipping"
           fi
 
+      - name: Strip inline content from Library resources
+        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+        run: |
+          echo "Replacing inline CQL/ELM data with URL references in Library resources..."
+
+          # Check if the script exists locally, download if needed
+          if [ ! -f "input/scripts/strip_library_content.py" ]; then
+            echo "strip_library_content.py not found locally, downloading from smart-base repository..."
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/strip_library_content.py" "${SCRIPTS_BASE_URL}/input/scripts/strip_library_content.py" 2>/dev/null || echo "Failed to download strip_library_content.py"
+          fi
+
+          if [ -f "input/scripts/strip_library_content.py" ]; then
+            python3 input/scripts/strip_library_content.py
+            echo "✅ Library inline content stripped"
+          else
+            echo "⚠️ strip_library_content.py not available, skipping"
+          fi
+
       - name: DAK Postprocessing - Generate JSON Schemas
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
