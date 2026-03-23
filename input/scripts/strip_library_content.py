@@ -34,6 +34,7 @@ Author: SMART Guidelines Team
 import json
 import logging
 import os
+import stat
 import sys
 import xml.etree.ElementTree as ET
 from typing import Optional
@@ -58,6 +59,13 @@ def setup_logging() -> logging.Logger:
 
 
 logger = setup_logging()
+
+
+def _ensure_writable(path: str) -> None:
+    """Make *path* writable by the owner if it is not already."""
+    st = os.stat(path)
+    if not st.st_mode & stat.S_IWUSR:
+        os.chmod(path, st.st_mode | stat.S_IWUSR)
 
 
 # ------------------------------------------------------------------
@@ -120,6 +128,7 @@ def _process_library_xml(xml_path: str, output_dir: str) -> bool:
         )
 
     if modified:
+        _ensure_writable(xml_path)
         tree.write(xml_path, xml_declaration=True, encoding="UTF-8")
 
     return modified
@@ -174,6 +183,7 @@ def _process_library_json(json_path: str, output_dir: str) -> bool:
         )
 
     if modified:
+        _ensure_writable(json_path)
         with open(json_path, "w", encoding="utf-8") as fh:
             json.dump(resource, fh, indent=2, ensure_ascii=False)
             fh.write("\n")
