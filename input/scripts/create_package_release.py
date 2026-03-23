@@ -92,11 +92,8 @@ def next_release_version(base_version: str, existing_tags: list[str]) -> str:
     If vX.Y.Z doesn't exist yet, use X.Y.Z.
     If it does, find the highest X.Y.Z.N and return X.Y.Z.(N+1).
     """
-    if base_version not in existing_tags:
-        return base_version
-
-    # Find highest .N suffix
-    max_n = 0
+    # Always use X.Y.Z.N format, starting at X.Y.Z.0
+    max_n = -1
     pattern = re.compile(re.escape(base_version) + r"\.(\d+)$")
     for tag in existing_tags:
         m = pattern.match(tag)
