@@ -3,10 +3,11 @@
 
 This script:
 1. Reads the IG version from sushi-config.yaml
-2. Finds large binary artifacts in the output directory
-3. Determines the next available semver tag (appending .N if needed)
-4. Creates a GitHub Release and uploads the assets
-5. Removes the uploaded files from the output directory so they
+2. Bundles loose .xlsx files into spreadsheets.zip
+3. Finds binary artifacts in the output directory
+4. Determines the next available semver tag (appending .N if needed)
+5. Creates a GitHub Release and uploads the assets
+6. Removes the uploaded files from the output directory so they
    don't bloat the gh-pages deployment
 
 Requires:
@@ -25,6 +26,7 @@ import re
 import subprocess
 import sys
 import time
+import zipfile
 from pathlib import Path
 
 import requests
@@ -37,6 +39,21 @@ RELEASE_ASSET_PATTERNS = [
     "package.r4.tgz",
     "package.r4b.tgz",
     "ai.zip",
+    "package-combined.tgz",
+    "validator.pack",
+    # IG Publisher generated zip archives — binary files that bloat gh-pages
+    "definitions.json.zip",
+    "definitions.xml.zip",
+    "definitions.ttl.zip",
+    "examples.json.zip",
+    "examples.xml.zip",
+    "examples.ttl.zip",
+    "expansions.json.zip",
+    "expansions.xml.zip",
+    "csvs.zip",
+    "excels.zip",
+    "schematrons.zip",
+    "spreadsheets.zip",
 ]
 
 # MIME types for upload
@@ -101,6 +118,35 @@ def next_release_version(base_version: str, existing_tags: list[str]) -> str:
             max_n = max(max_n, int(m.group(1)))
 
     return f"{base_version}.{max_n + 1}"
+
+
+def bundle_xlsx_files(output_dir: Path) -> Path | None:
+    """Bundle loose .xlsx files in output_dir into spreadsheets.zip.
+
+    The IG Publisher produces individual .xlsx files (e.g.
+    ValueSet-*.xlsx, CodeSystem-*.xlsx).  These are binary files that
+    should not be deployed to gh-pages.  This function collects them
+    into a single spreadsheets.zip archive, then removes the originals.
+
+    Returns the path to spreadsheets.zip, or None if no .xlsx files found.
+    """
+    xlsx_files = sorted(output_dir.glob("*.xlsx"))
+    if not xlsx_files:
+        return None
+
+    zip_path = output_dir / "spreadsheets.zip"
+    print(f"Bundling {len(xlsx_files)} .xlsx file(s) into {zip_path.name}")
+    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+        for xlsx in xlsx_files:
+            zf.write(xlsx, xlsx.name)
+
+    # Remove the individual xlsx files from output
+    for xlsx in xlsx_files:
+        xlsx.unlink()
+
+    size_mb = zip_path.stat().st_size / (1024 * 1024)
+    print(f"  Created {zip_path.name} ({size_mb:.1f} MB, {len(xlsx_files)} files)")
+    return zip_path
 
 
 def find_release_assets(output_dir: Path) -> list[Path]:
@@ -177,7 +223,10 @@ def main():
     ig_version = read_ig_version(repo_root)
     print(f"IG version from sushi-config.yaml: {ig_version}")
 
-    # 2. Find assets
+    # 2. Bundle loose .xlsx files into spreadsheets.zip
+    bundle_xlsx_files(output_dir)
+
+    # 3. Find assets
     assets = find_release_assets(output_dir)
     if not assets:
         print("No release assets found in output directory — skipping release creation")
@@ -189,7 +238,7 @@ def main():
         flag = " ⚠️  (>=100 MB — would be stripped from gh-pages)" if size_mb >= 100 else ""
         print(f"  {a.name} ({size_mb:.1f} MB){flag}")
 
-    # 3. Determine next version tag
+    # 4. Determine next version tag
     if not args.dry_run:
         existing = get_existing_tags(token, repo, ig_version)
     else:
@@ -201,7 +250,7 @@ def main():
         print("DRY RUN — would create release and upload assets, then remove from output/")
         return
 
-    # 4. Create release
+    # 5. Create release
     release_name = f"FHIR Package v{release_version}"
     body_lines = [
         f"Automated FHIR package release for IG version **{ig_version}**.",
@@ -223,13 +272,13 @@ def main():
     release_html_url = release["html_url"]
     print(f"Release created: {release_html_url}")
 
-    # 5. Upload assets
+    # 6. Upload assets
     for asset_path in assets:
         print(f"Uploading {asset_path.name}...")
         result = upload_asset(token, upload_url, asset_path)
         print(f"  Uploaded: {result['browser_download_url']}")
 
-    # 6. Remove uploaded files from output dir
+    # 7. Remove uploaded files from output dir
     for asset_path in assets:
         print(f"Removing {asset_path.name} from output directory")
         asset_path.unlink()
