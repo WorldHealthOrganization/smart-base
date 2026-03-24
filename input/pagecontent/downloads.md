@@ -16,6 +16,7 @@ Available assets per release:
 | `package.db` | FHIR package database (SQLite) |
 | `ai.zip` | AI-ready package archive |
 | `package-combined.tgz` | Combined FHIR NPM package |
+| `validator.pack` | FHIR Validator package |
 | `definitions.json.zip` | FHIR definitions (JSON) |
 | `definitions.xml.zip` | FHIR definitions (XML) |
 | `definitions.ttl.zip` | FHIR definitions (Turtle) |

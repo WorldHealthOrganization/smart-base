@@ -40,6 +40,7 @@ RELEASE_ASSET_PATTERNS = [
     "package.r4b.tgz",
     "ai.zip",
     "package-combined.tgz",
+    "validator.pack",
     # IG Publisher generated zip archives — binary files that bloat gh-pages
     "definitions.json.zip",
     "definitions.xml.zip",
