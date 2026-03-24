@@ -590,8 +590,8 @@ jobs:
           if-no-files-found: ignore
           retention-days: 1
 
-      # ── DAK Post-processing ────────────────────────────────────────────
-      # All post-processing Python scripts run inside the same Docker
+      # ── Post-processing ───────────────────────────────────────────────
+      # Post-processing Python scripts run inside the same Docker
       # container (ig-run) that ran the IG Publisher.  This ensures a
       # single, consistent environment for Python, avoids root-owned file
       # permission issues, and eliminates version drift between host and
@@ -599,9 +599,12 @@ jobs:
       #
       # Download-if-missing logic runs on the host (curl), which writes
       # into the volume-mounted workspace visible inside Docker.
+      #
+      # ELM/CQL stripping runs for ALL IGs.  DAK-specific steps are
+      # gated on DAK_ENABLED below.
 
-      - name: DAK Postprocessing - Strip binary data from Library resources
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+      - name: Strip binary data from Library resources
+        if: success()
         run: |
           echo "Stripping encoded binary data from Library resource files..."
 
@@ -625,7 +628,7 @@ jobs:
           fi
 
       - name: Strip inline content from Library resources
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+        if: success()
         run: |
           echo "Replacing inline CQL/ELM data with URL references in Library resources..."
 
@@ -637,7 +640,7 @@ jobs:
           fi
 
           if [ -f "input/scripts/strip_library_content.py" ]; then
-            python3 input/scripts/strip_library_content.py
+            docker exec -w /work ig-run python3 input/scripts/strip_library_content.py
             echo "✅ Library inline content stripped"
           else
             echo "⚠️ strip_library_content.py not available, skipping"
