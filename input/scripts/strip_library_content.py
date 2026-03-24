@@ -61,20 +61,24 @@ def setup_logging() -> logging.Logger:
 logger = setup_logging()
 
 
-def _ensure_writable(path: str) -> None:
+def _ensure_writable(path: str) -> bool:
     """Make *path* writable if it is not already.
 
     Uses ``os.access`` to check effective write permission for the
     current user and adds user/group/other write bits as needed so that
     the file can be overwritten regardless of ownership.
+
+    Returns True if the file is writable, False otherwise.
     """
     if os.access(path, os.W_OK):
-        return
+        return True
     try:
         st = os.stat(path)
         os.chmod(path, st.st_mode | stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
+        return True
     except OSError as exc:
         logger.warning("Could not make %s writable: %s", path, exc)
+        return False
 
 
 # ------------------------------------------------------------------
@@ -137,7 +141,9 @@ def _process_library_xml(xml_path: str, output_dir: str) -> bool:
         )
 
     if modified:
-        _ensure_writable(xml_path)
+        if not _ensure_writable(xml_path):
+            logger.error("Skipping %s: file is not writable", xml_path)
+            return False
         tree.write(xml_path, xml_declaration=True, encoding="UTF-8")
 
     return modified
@@ -192,7 +198,9 @@ def _process_library_json(json_path: str, output_dir: str) -> bool:
         )
 
     if modified:
-        _ensure_writable(json_path)
+        if not _ensure_writable(json_path):
+            logger.error("Skipping %s: file is not writable", json_path)
+            return False
         with open(json_path, "w", encoding="utf-8") as fh:
             json.dump(resource, fh, indent=2, ensure_ascii=False)
             fh.write("\n")
