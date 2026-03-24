@@ -37,6 +37,18 @@ RELEASE_ASSET_PATTERNS = [
     "package.r4.tgz",
     "package.r4b.tgz",
     "ai.zip",
+    # IG Publisher generated zip archives — binary files that bloat gh-pages
+    "definitions.json.zip",
+    "definitions.xml.zip",
+    "definitions.ttl.zip",
+    "examples.json.zip",
+    "examples.xml.zip",
+    "examples.ttl.zip",
+    "expansions.json.zip",
+    "expansions.xml.zip",
+    "csvs.zip",
+    "excels.zip",
+    "schematrons.zip",
 ]
 
 # MIME types for upload
