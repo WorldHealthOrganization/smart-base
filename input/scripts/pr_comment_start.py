@@ -132,6 +132,11 @@ def post_pr_comment(pr_number: int, repository: str, run_id: int, sha: str, bran
                 response.raise_for_status()
                 break
             except requests.exceptions.HTTPError as e:
+                if response.status_code in (401, 403):
+                    print(f"⚠️ Permission denied posting PR comment (HTTP {response.status_code}).")
+                    print("   This is expected when the caller workflow does not grant pull-requests: write permission.")
+                    print("   The build will continue without PR comments.")
+                    return ""
                 if response.status_code >= 500 and attempt < 2:
                     time.sleep(2 ** attempt)
                     continue
@@ -141,21 +146,22 @@ def post_pr_comment(pr_number: int, repository: str, run_id: int, sha: str, bran
                     time.sleep(2 ** attempt)
                     continue
                 raise
-        
+
         comment_data = response.json()
         comment_id = str(comment_data['id'])
-        
+
         # Save comment ID for later updates
         os.makedirs('/tmp', exist_ok=True)
         with open('/tmp/comment_id.txt', 'w') as f:
             f.write(comment_id)
-        
+
         print(f"Successfully posted PR comment. Comment ID: {comment_id}")
         return comment_id
-        
+
     except requests.exceptions.RequestException as e:
-        print(f"Error posting PR comment: {e}")
-        sys.exit(1)
+        print(f"⚠️ Failed to post PR comment: {e}")
+        print("   The build will continue without PR comments.")
+        return ""
 
 
 def main():
