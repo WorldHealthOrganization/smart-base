@@ -15,6 +15,7 @@ Available assets per release:
 | `package.r4b.tgz` | FHIR NPM package (R4B specific) |
 | `package.db` | FHIR package database (SQLite) |
 | `ai.zip` | AI-ready package archive |
+| `package-combined.tgz` | Combined FHIR NPM package |
 | `definitions.json.zip` | FHIR definitions (JSON) |
 | `definitions.xml.zip` | FHIR definitions (XML) |
 | `definitions.ttl.zip` | FHIR definitions (Turtle) |
@@ -26,5 +27,6 @@ Available assets per release:
 | `csvs.zip` | CSV exports |
 | `excels.zip` | Excel exports |
 | `schematrons.zip` | Schematron validation rules |
+| `spreadsheets.zip` | Individual resource spreadsheets (.xlsx) |
 
 [Browse all releases](https://github.com/WorldHealthOrganization/smart-base/releases)
