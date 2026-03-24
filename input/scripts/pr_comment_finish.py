@@ -155,16 +155,16 @@ def update_pr_comment(pr_number: int, repository: str, run_id: int, sha: str, br
     # Try to update existing comment first
     comment_updated = False
     comment_id_file = '/tmp/comment_id.txt'
-    
+
     if os.path.exists(comment_id_file):
         try:
             with open(comment_id_file, 'r') as f:
                 comment_id = f.read().strip()
-            
+
             # Validate comment ID is numeric
             if comment_id.isdigit():
                 update_url = f'https://api.github.com/repos/{repository}/issues/comments/{comment_id}'
-                
+
                 data = {'body': comment_body}
                 for attempt in range(3):
                     try:
@@ -173,6 +173,11 @@ def update_pr_comment(pr_number: int, repository: str, run_id: int, sha: str, br
                             comment_updated = True
                             print(f"Successfully updated existing comment {comment_id}")
                             break
+                        elif response.status_code in (401, 403):
+                            print(f"⚠️ Permission denied updating PR comment (HTTP {response.status_code}).")
+                            print("   This is expected when the caller workflow does not grant pull-requests: write permission.")
+                            print("   The build will continue without PR comments.")
+                            return
                         elif response.status_code >= 500 and attempt < 2:
                             time.sleep(2 ** attempt)
                             continue
@@ -184,22 +189,27 @@ def update_pr_comment(pr_number: int, repository: str, run_id: int, sha: str, br
                             time.sleep(2 ** attempt)
                             continue
                         raise
-            
+
         except Exception as e:
             print(f"Failed to update existing comment: {e}")
-    
+
     # If update failed, create new comment
     if not comment_updated:
         try:
             create_url = f'https://api.github.com/repos/{repository}/issues/{pr_number}/comments'
             data = {'body': comment_body}
-            
+
             for attempt in range(3):
                 try:
                     response = requests.post(create_url, headers=headers, json=data, timeout=30)
                     response.raise_for_status()
                     break
                 except requests.exceptions.HTTPError as e:
+                    if response.status_code in (401, 403):
+                        print(f"⚠️ Permission denied posting PR comment (HTTP {response.status_code}).")
+                        print("   This is expected when the caller workflow does not grant pull-requests: write permission.")
+                        print("   The build will continue without PR comments.")
+                        return
                     if response.status_code >= 500 and attempt < 2:
                         time.sleep(2 ** attempt)
                         continue
@@ -209,12 +219,12 @@ def update_pr_comment(pr_number: int, repository: str, run_id: int, sha: str, br
                         time.sleep(2 ** attempt)
                         continue
                     raise
-            
+
             print("Successfully created new comment")
-            
+
         except requests.exceptions.RequestException as e:
-            print(f"Error creating new PR comment: {e}")
-            sys.exit(1)
+            print(f"⚠️ Failed to post PR comment: {e}")
+            print("   The build will continue without PR comments.")
 
 
 def main():
