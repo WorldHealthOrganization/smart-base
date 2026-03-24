@@ -637,7 +637,7 @@ jobs:
           fi
 
           if [ -f "input/scripts/strip_library_content.py" ]; then
-            python3 input/scripts/strip_library_content.py
+            docker exec -w /work ig-run python3 input/scripts/strip_library_content.py
             echo "✅ Library inline content stripped"
           else
             echo "⚠️ strip_library_content.py not available, skipping"
