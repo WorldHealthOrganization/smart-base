@@ -62,10 +62,19 @@ logger = setup_logging()
 
 
 def _ensure_writable(path: str) -> None:
-    """Make *path* writable by the owner if it is not already."""
-    st = os.stat(path)
-    if not st.st_mode & stat.S_IWUSR:
-        os.chmod(path, st.st_mode | stat.S_IWUSR)
+    """Make *path* writable if it is not already.
+
+    Uses ``os.access`` to check effective write permission for the
+    current user and adds user/group/other write bits as needed so that
+    the file can be overwritten regardless of ownership.
+    """
+    if os.access(path, os.W_OK):
+        return
+    try:
+        st = os.stat(path)
+        os.chmod(path, st.st_mode | stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
+    except OSError as exc:
+        logger.warning("Could not make %s writable: %s", path, exc)
 
 
 # ------------------------------------------------------------------
