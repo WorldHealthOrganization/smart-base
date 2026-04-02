@@ -625,138 +625,138 @@ jobs:
             echo "⚠️ strip_library_binaries.py not available, skipping"
           fi
 
-      - name: Strip inline content from Library resources
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        run: |
-          echo "Replacing inline CQL/ELM data with URL references in Library resources..."
+      # - name: Strip inline content from Library resources
+      #   if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+      #   run: |
+      #     echo "Replacing inline CQL/ELM data with URL references in Library resources..."
 
-          # Check if the script exists locally, download if needed
-          if [ ! -f "input/scripts/strip_library_content.py" ]; then
-            echo "strip_library_content.py not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/strip_library_content.py" "${SCRIPTS_BASE_URL}/input/scripts/strip_library_content.py" 2>/dev/null || echo "Failed to download strip_library_content.py"
-          fi
+      #     # Check if the script exists locally, download if needed
+      #     if [ ! -f "input/scripts/strip_library_content.py" ]; then
+      #       echo "strip_library_content.py not found locally, downloading from smart-base repository..."
+      #       mkdir -p input/scripts
+      #       curl -L -f -o "input/scripts/strip_library_content.py" "${SCRIPTS_BASE_URL}/input/scripts/strip_library_content.py" 2>/dev/null || echo "Failed to download strip_library_content.py"
+      #     fi
 
-          if [ -f "input/scripts/strip_library_content.py" ]; then
-            docker exec -w /work ig-run python3 input/scripts/strip_library_content.py
-            echo "✅ Library inline content stripped"
-          else
-            echo "⚠️ strip_library_content.py not available, skipping"
-          fi
+      #     if [ -f "input/scripts/strip_library_content.py" ]; then
+      #       docker exec -w /work ig-run python3 input/scripts/strip_library_content.py
+      #       echo "✅ Library inline content stripped"
+      #     else
+      #       echo "⚠️ strip_library_content.py not available, skipping"
+      #     fi
 
-      - name: DAK Postprocessing - Generate JSON Schemas
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        run: |
-          echo "Generating JSON schemas from FHIR resources..."
+      # - name: DAK Postprocessing - Generate JSON Schemas
+      #   if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+      #   run: |
+      #     echo "Generating JSON schemas from FHIR resources..."
 
-          # Check if schema generation files exist locally, download if needed
-          if [ ! -f "input/scripts/generate_logical_model_schemas.py" ]; then
-            echo "Schema generation files not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/generate_logical_model_schemas.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_logical_model_schemas.py" 2>/dev/null || echo "Failed to download logical model schema generator"
-            curl -L -f -o "input/scripts/generate_valueset_schemas.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_valueset_schemas.py" 2>/dev/null || echo "Failed to download valueset schema generator"
-          fi
+      #     # Check if schema generation files exist locally, download if needed
+      #     if [ ! -f "input/scripts/generate_logical_model_schemas.py" ]; then
+      #       echo "Schema generation files not found locally, downloading from smart-base repository..."
+      #       mkdir -p input/scripts
+      #       curl -L -f -o "input/scripts/generate_logical_model_schemas.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_logical_model_schemas.py" 2>/dev/null || echo "Failed to download logical model schema generator"
+      #       curl -L -f -o "input/scripts/generate_valueset_schemas.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_valueset_schemas.py" 2>/dev/null || echo "Failed to download valueset schema generator"
+      #     fi
 
-          # Generate logical model schemas inside the IG publisher container
-          if [ -f "input/scripts/generate_logical_model_schemas.py" ]; then
-            docker exec -w /work ig-run python3 input/scripts/generate_logical_model_schemas.py
-            echo "✅ Logical model schemas generated"
-          fi
+      #     # Generate logical model schemas inside the IG publisher container
+      #     if [ -f "input/scripts/generate_logical_model_schemas.py" ]; then
+      #       docker exec -w /work ig-run python3 input/scripts/generate_logical_model_schemas.py
+      #       echo "✅ Logical model schemas generated"
+      #     fi
 
-          # Generate valueset schemas
-          if [ -f "input/scripts/generate_valueset_schemas.py" ]; then
-            docker exec -w /work ig-run python3 input/scripts/generate_valueset_schemas.py
-            echo "✅ ValueSet schemas generated"
-          fi
+      #     # Generate valueset schemas
+      #     if [ -f "input/scripts/generate_valueset_schemas.py" ]; then
+      #       docker exec -w /work ig-run python3 input/scripts/generate_valueset_schemas.py
+      #       echo "✅ ValueSet schemas generated"
+      #     fi
 
-      - name: DAK Postprocessing - Generate JSON-LD Vocabularies
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        run: |
-          echo "Generating JSON-LD vocabularies from ValueSet expansions..."
+      # - name: DAK Postprocessing - Generate JSON-LD Vocabularies
+      #   if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+      #   run: |
+      #     echo "Generating JSON-LD vocabularies from ValueSet expansions..."
 
-          # Check if JSON-LD generation files exist locally, download if needed
-          if [ ! -f "input/scripts/generate_jsonld_vocabularies.py" ]; then
-            echo "JSON-LD vocabulary generator not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/generate_jsonld_vocabularies.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_jsonld_vocabularies.py" 2>/dev/null || echo "Failed to download JSON-LD vocabulary generator"
-          fi
+      #     # Check if JSON-LD generation files exist locally, download if needed
+      #     if [ ! -f "input/scripts/generate_jsonld_vocabularies.py" ]; then
+      #       echo "JSON-LD vocabulary generator not found locally, downloading from smart-base repository..."
+      #       mkdir -p input/scripts
+      #       curl -L -f -o "input/scripts/generate_jsonld_vocabularies.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_jsonld_vocabularies.py" 2>/dev/null || echo "Failed to download JSON-LD vocabulary generator"
+      #     fi
 
-          # Generate JSON-LD vocabularies inside the IG publisher container
-          if [ -f "input/scripts/generate_jsonld_vocabularies.py" ]; then
-            docker exec -w /work ig-run python3 input/scripts/generate_jsonld_vocabularies.py
-            echo "✅ JSON-LD vocabularies generated"
-          else
-            echo "⚠️ JSON-LD vocabulary generator not available, skipping vocabulary generation"
-          fi
+      #     # Generate JSON-LD vocabularies inside the IG publisher container
+      #     if [ -f "input/scripts/generate_jsonld_vocabularies.py" ]; then
+      #       docker exec -w /work ig-run python3 input/scripts/generate_jsonld_vocabularies.py
+      #       echo "✅ JSON-LD vocabularies generated"
+      #     else
+      #       echo "⚠️ JSON-LD vocabulary generator not available, skipping vocabulary generation"
+      #     fi
 
-      - name: DAK Postprocessing - Generate DAK API Hub
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        run: |
-          echo "Generating DAK API documentation hub..."
+      # - name: DAK Postprocessing - Generate DAK API Hub
+      #   if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+      #   run: |
+      #     echo "Generating DAK API documentation hub..."
 
-          # Check if API hub generation files exist locally, download if needed
-          if [ ! -f "input/scripts/generate_dak_api_hub.py" ]; then
-            echo "DAK API hub generator not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/generate_dak_api_hub.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_dak_api_hub.py" 2>/dev/null || echo "Failed to download DAK API hub generator"
-          fi
+      #     # Check if API hub generation files exist locally, download if needed
+      #     if [ ! -f "input/scripts/generate_dak_api_hub.py" ]; then
+      #       echo "DAK API hub generator not found locally, downloading from smart-base repository..."
+      #       mkdir -p input/scripts
+      #       curl -L -f -o "input/scripts/generate_dak_api_hub.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_dak_api_hub.py" 2>/dev/null || echo "Failed to download DAK API hub generator"
+      #     fi
 
-          # Generate DAK API hub inside the IG publisher container
-          if [ -f "input/scripts/generate_dak_api_hub.py" ]; then
-            docker exec -w /work ig-run python3 input/scripts/generate_dak_api_hub.py
-            echo "✅ DAK API hub generated"
-          else
-            echo "⚠️ DAK API hub generator not available, skipping API hub generation"
-          fi
+      #     # Generate DAK API hub inside the IG publisher container
+      #     if [ -f "input/scripts/generate_dak_api_hub.py" ]; then
+      #       docker exec -w /work ig-run python3 input/scripts/generate_dak_api_hub.py
+      #       echo "✅ DAK API hub generated"
+      #     else
+      #       echo "⚠️ DAK API hub generator not available, skipping API hub generation"
+      #     fi
 
-      - name: DAK Postprocessing - Update translated image references
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        run: |
-          echo "Updating image references in translated HTML pages..."
+      # - name: DAK Postprocessing - Update translated image references
+      #   if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+      #   run: |
+      #     echo "Updating image references in translated HTML pages..."
 
-          # Check if the script exists locally, download if needed
-          if [ ! -f "input/scripts/update_translated_image_refs.py" ]; then
-            echo "update_translated_image_refs.py not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/update_translated_image_refs.py" \
-              "${SCRIPTS_BASE_URL}/input/scripts/update_translated_image_refs.py" \
-              2>/dev/null || echo "Failed to download update_translated_image_refs.py"
-          else
-            echo "Using local update_translated_image_refs.py"
-          fi
+      #     # Check if the script exists locally, download if needed
+      #     if [ ! -f "input/scripts/update_translated_image_refs.py" ]; then
+      #       echo "update_translated_image_refs.py not found locally, downloading from smart-base repository..."
+      #       mkdir -p input/scripts
+      #       curl -L -f -o "input/scripts/update_translated_image_refs.py" \
+      #         "${SCRIPTS_BASE_URL}/input/scripts/update_translated_image_refs.py" \
+      #         2>/dev/null || echo "Failed to download update_translated_image_refs.py"
+      #     else
+      #       echo "Using local update_translated_image_refs.py"
+      #     fi
 
-          # Run the reference updater inside the IG publisher container
-          if [ -f "input/scripts/update_translated_image_refs.py" ]; then
-            docker exec -w /work ig-run python3 input/scripts/update_translated_image_refs.py
-            echo "✅ Translated image references updated"
-          else
-            echo "⚠️ update_translated_image_refs.py not available, skipping"
-          fi
+      #     # Run the reference updater inside the IG publisher container
+      #     if [ -f "input/scripts/update_translated_image_refs.py" ]; then
+      #       docker exec -w /work ig-run python3 input/scripts/update_translated_image_refs.py
+      #       echo "✅ Translated image references updated"
+      #     else
+      #       echo "⚠️ update_translated_image_refs.py not available, skipping"
+      #     fi
 
 
-      - name: DAK Postprocessing - Generate smart.liquid variables
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        run: |
-          echo "Generating smart.liquid Liquid variable include from IG Publisher output..."
+      # - name: DAK Postprocessing - Generate smart.liquid variables
+      #   if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+      #   run: |
+      #     echo "Generating smart.liquid Liquid variable include from IG Publisher output..."
 
-          # Check if the script exists locally, download if needed
-          if [ ! -f "input/scripts/generate_smart_liquid.py" ]; then
-            echo "generate_smart_liquid.py not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/generate_smart_liquid.py" \
-              "${SCRIPTS_BASE_URL}/input/scripts/generate_smart_liquid.py" \
-              2>/dev/null || echo "Failed to download generate_smart_liquid.py"
-          else
-            echo "Using local generate_smart_liquid.py"
-          fi
+      #     # Check if the script exists locally, download if needed
+      #     if [ ! -f "input/scripts/generate_smart_liquid.py" ]; then
+      #       echo "generate_smart_liquid.py not found locally, downloading from smart-base repository..."
+      #       mkdir -p input/scripts
+      #       curl -L -f -o "input/scripts/generate_smart_liquid.py" \
+      #         "${SCRIPTS_BASE_URL}/input/scripts/generate_smart_liquid.py" \
+      #         2>/dev/null || echo "Failed to download generate_smart_liquid.py"
+      #     else
+      #       echo "Using local generate_smart_liquid.py"
+      #     fi
 
-          # Run the generator inside the IG publisher container
-          if [ -f "input/scripts/generate_smart_liquid.py" ]; then
-            docker exec -w /work ig-run python3 input/scripts/generate_smart_liquid.py
-            echo "✅ smart.liquid variables generated"
-          else
-            echo "⚠️ generate_smart_liquid.py not available, skipping"
-          fi
+      #     # Run the generator inside the IG publisher container
+      #     if [ -f "input/scripts/generate_smart_liquid.py" ]; then
+      #       docker exec -w /work ig-run python3 input/scripts/generate_smart_liquid.py
+      #       echo "✅ smart.liquid variables generated"
+      #     else
+      #       echo "⚠️ generate_smart_liquid.py not available, skipping"
+      #     fi
 
       - name: DAK Postprocessing - Inject smart.liquid include into markdown pages
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
