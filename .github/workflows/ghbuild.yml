@@ -165,24 +165,24 @@ jobs:
       # For downstream repos this step is a no-op — those repos don't have
       # input/scripts/ in their own tree and rely on the curl-based
       # fallback downloads in subsequent steps.
-      - name: Overlay smart-base scripts
-        env:
-          GH_REPOSITORY: ${{ github.repository }}
-        run: |
-          # Only overlay when running inside the smart-base repository.
-          SMART_BASE_REPO="WorldHealthOrganization/smart-base"
-          if [[ "$GH_REPOSITORY" != "$SMART_BASE_REPO" ]]; then
-            echo "Downstream repository — scripts will be fetched on demand"
-            exit 0
-          fi
+      # - name: Overlay smart-base scripts
+      #   env:
+      #     GH_REPOSITORY: ${{ github.repository }}
+      #   run: |
+      #     # Only overlay when running inside the smart-base repository.
+      #     SMART_BASE_REPO="WorldHealthOrganization/smart-base"
+      #     if [[ "$GH_REPOSITORY" != "$SMART_BASE_REPO" ]]; then
+      #       echo "Downstream repository — scripts will be fetched on demand"
+      #       exit 0
+      #     fi
 
-          echo "Smart-base repo detected — overlaying scripts from ${SCRIPTS_REF}"
-          git fetch origin "${SCRIPTS_REF}" --depth=1
-          # Overlay input/scripts/ and supporting includes from the scripts ref.
-          # This overwrites any locally-modified copies with the canonical versions.
-          git checkout FETCH_HEAD -- input/scripts/
-          git checkout FETCH_HEAD -- input/includes/dmn2html.xslt input/includes/dmn.css 2>/dev/null || true
-          echo "✅ Scripts overlaid from ${SCRIPTS_REF}"
+      #     echo "Smart-base repo detected — overlaying scripts from ${SCRIPTS_REF}"
+      #     git fetch origin "${SCRIPTS_REF}" --depth=1
+      #     # Overlay input/scripts/ and supporting includes from the scripts ref.
+      #     # This overwrites any locally-modified copies with the canonical versions.
+      #     git checkout FETCH_HEAD -- input/scripts/
+      #     git checkout FETCH_HEAD -- input/includes/dmn2html.xslt input/includes/dmn.css 2>/dev/null || true
+      #     echo "✅ Scripts overlaid from ${SCRIPTS_REF}"
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -194,76 +194,76 @@ jobs:
           python -m pip install --upgrade pip
           pip install "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml
 
-      - name: Find PR number
-        id: find_pr
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_EVENT_NAME: ${{ github.event_name }}
-          GH_EVENT_NUMBER: ${{ github.event.number }}
-          GH_REF_NAME: ${{ github.ref_name }}
-        run: |
-          if [ ! -f "input/scripts/find_pr.py" ]; then
-            echo "find_pr.py not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/find_pr.py" "${SCRIPTS_BASE_URL}/input/scripts/find_pr.py"
-          fi
-          python3 input/scripts/find_pr.py
+      # - name: Find PR number
+      #   id: find_pr
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     GH_EVENT_NAME: ${{ github.event_name }}
+      #     GH_EVENT_NUMBER: ${{ github.event.number }}
+      #     GH_REF_NAME: ${{ github.ref_name }}
+      #   run: |
+      #     if [ ! -f "input/scripts/find_pr.py" ]; then
+      #       echo "find_pr.py not found locally, downloading from smart-base repository..."
+      #       mkdir -p input/scripts
+      #       curl -L -f -o "input/scripts/find_pr.py" "${SCRIPTS_BASE_URL}/input/scripts/find_pr.py"
+      #     fi
+      #     python3 input/scripts/find_pr.py
 
-      - name: Comment on PR - Build started
-        if: steps.find_pr.outputs.IS_PR == 'true'
-        continue-on-error: true
-        env:
-          PR_NUMBER: ${{ steps.find_pr.outputs.PR_NUMBER }}
-          GH_REPOSITORY: ${{ github.repository }}
-          GH_RUN_ID: ${{ github.run_id }}
-          GH_SHA: ${{ github.sha }}
-          GH_BRANCH: ${{ github.head_ref || github.ref_name }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Check if PR comment script exists locally, download if needed
-          if [ ! -f "input/scripts/pr_comment_start.py" ]; then
-            echo "PR comment script not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/pr_comment_start.py" "${SCRIPTS_BASE_URL}/input/scripts/pr_comment_start.py" 2>/dev/null || echo "Failed to download pr_comment_start.py"
-          fi
+      # - name: Comment on PR - Build started
+      #   if: steps.find_pr.outputs.IS_PR == 'true'
+      #   continue-on-error: true
+      #   env:
+      #     PR_NUMBER: ${{ steps.find_pr.outputs.PR_NUMBER }}
+      #     GH_REPOSITORY: ${{ github.repository }}
+      #     GH_RUN_ID: ${{ github.run_id }}
+      #     GH_SHA: ${{ github.sha }}
+      #     GH_BRANCH: ${{ github.head_ref || github.ref_name }}
+      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     # Check if PR comment script exists locally, download if needed
+      #     if [ ! -f "input/scripts/pr_comment_start.py" ]; then
+      #       echo "PR comment script not found locally, downloading from smart-base repository..."
+      #       mkdir -p input/scripts
+      #       curl -L -f -o "input/scripts/pr_comment_start.py" "${SCRIPTS_BASE_URL}/input/scripts/pr_comment_start.py" 2>/dev/null || echo "Failed to download pr_comment_start.py"
+      #     fi
 
-          # Run PR comment script if available
-          if [ -f "input/scripts/pr_comment_start.py" ]; then
-            python3 input/scripts/pr_comment_start.py \
-              "$PR_NUMBER" \
-              "$GH_REPOSITORY" \
-              "$GH_RUN_ID" \
-              "$GH_SHA" \
-              "$GH_BRANCH" \
-              "$GH_TOKEN"
-          else
-            echo "⚠️ PR comment script not available, skipping build start comment"
-          fi
+      #     # Run PR comment script if available
+      #     if [ -f "input/scripts/pr_comment_start.py" ]; then
+      #       python3 input/scripts/pr_comment_start.py \
+      #         "$PR_NUMBER" \
+      #         "$GH_REPOSITORY" \
+      #         "$GH_RUN_ID" \
+      #         "$GH_SHA" \
+      #         "$GH_BRANCH" \
+      #         "$GH_TOKEN"
+      #     else
+      #       echo "⚠️ PR comment script not available, skipping build start comment"
+      #     fi
 
-      - name: Get branch name
-        env:
-          GH_HEAD_REF: ${{ github.head_ref }}
-          GH_REF_NAME: ${{ github.ref_name }}
-        run: |
-          if [ ! -f "input/scripts/resolve_branch.py" ]; then
-            echo "resolve_branch.py not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/resolve_branch.py" "${SCRIPTS_BASE_URL}/input/scripts/resolve_branch.py"
-          fi
-          python3 input/scripts/resolve_branch.py
+      # - name: Get branch name
+      #   env:
+      #     GH_HEAD_REF: ${{ github.head_ref }}
+      #     GH_REF_NAME: ${{ github.ref_name }}
+      #   run: |
+      #     if [ ! -f "input/scripts/resolve_branch.py" ]; then
+      #       echo "resolve_branch.py not found locally, downloading from smart-base repository..."
+      #       mkdir -p input/scripts
+      #       curl -L -f -o "input/scripts/resolve_branch.py" "${SCRIPTS_BASE_URL}/input/scripts/resolve_branch.py"
+      #     fi
+      #     python3 input/scripts/resolve_branch.py
 
-      - name: Echo branch name and check if it's the default branch
-        run: |
-          echo "Current Branch: $BRANCH_NAME"
-          DEFAULT_BRANCH=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
-          echo "Default Branch: $DEFAULT_BRANCH"
-          if [ "$BRANCH_NAME" == "$DEFAULT_BRANCH" ]; then
-            echo "This is the default branch."
-            echo "IS_DEFAULT_BRANCH=true" >> $GITHUB_ENV
-          else
-            echo "This is NOT the default branch."
-            echo "IS_DEFAULT_BRANCH=false" >> $GITHUB_ENV
-          fi
+      # - name: Echo branch name and check if it's the default branch
+      #   run: |
+      #     echo "Current Branch: $BRANCH_NAME"
+      #     DEFAULT_BRANCH=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
+      #     echo "Default Branch: $DEFAULT_BRANCH"
+      #     if [ "$BRANCH_NAME" == "$DEFAULT_BRANCH" ]; then
+      #       echo "This is the default branch."
+      #       echo "IS_DEFAULT_BRANCH=true" >> $GITHUB_ENV
+      #     else
+      #       echo "This is NOT the default branch."
+      #       echo "IS_DEFAULT_BRANCH=false" >> $GITHUB_ENV
+      #     fi
 
 
       # - name: Create gh-pages branch if it doesn't exist
@@ -365,83 +365,83 @@ jobs:
             echo "⚠️ DAK generation script not available, using existing dak.json"
           fi
 
-      - name: DAK Preprocessing - Generate DMN Questionnaires
-        if: (inputs.do_dak != 'false') && (env.DAK_ENABLED == 'true')
-        run: |
-          echo "Generating FHIR Questionnaires from DMN files before IG publisher runs..."
+      # - name: DAK Preprocessing - Generate DMN Questionnaires
+      #   if: (inputs.do_dak != 'false') && (env.DAK_ENABLED == 'true')
+      #   run: |
+      #     echo "Generating FHIR Questionnaires from DMN files before IG publisher runs..."
 
-          # Check if questionnaire generation files exist locally
-          if [ ! -f "input/scripts/dmn_questionnaire_generator.py" ]; then
-            echo "DMN questionnaire generator not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
+      #     # Check if questionnaire generation files exist locally
+      #     if [ ! -f "input/scripts/dmn_questionnaire_generator.py" ]; then
+      #       echo "DMN questionnaire generator not found locally, downloading from smart-base repository..."
+      #       mkdir -p input/scripts
 
-            # Download questionnaire generator from smart-base repository
-            if curl -L -f -o "input/scripts/dmn_questionnaire_generator.py" "${SCRIPTS_BASE_URL}/input/scripts/dmn_questionnaire_generator.py" 2>/dev/null; then
-              echo "Downloaded questionnaire generator from main branch"
-            else
-              echo "Failed to download questionnaire generator, skipping questionnaire generation"
-            fi
-          else
-            echo "Using local DMN questionnaire generator"
-          fi
+      #       # Download questionnaire generator from smart-base repository
+      #       if curl -L -f -o "input/scripts/dmn_questionnaire_generator.py" "${SCRIPTS_BASE_URL}/input/scripts/dmn_questionnaire_generator.py" 2>/dev/null; then
+      #         echo "Downloaded questionnaire generator from main branch"
+      #       else
+      #         echo "Failed to download questionnaire generator, skipping questionnaire generation"
+      #       fi
+      #     else
+      #       echo "Using local DMN questionnaire generator"
+      #     fi
 
-          # Run questionnaire generation if script is available
-          if [ -f "input/scripts/dmn_questionnaire_generator.py" ]; then
-            python3 input/scripts/dmn_questionnaire_generator.py
-            echo "✅ Questionnaires generated successfully"
-          else
-            echo "⚠️ DMN questionnaire generator not available, skipping questionnaire generation"
-          fi
+      #     # Run questionnaire generation if script is available
+      #     if [ -f "input/scripts/dmn_questionnaire_generator.py" ]; then
+      #       python3 input/scripts/dmn_questionnaire_generator.py
+      #       echo "✅ Questionnaires generated successfully"
+      #     else
+      #       echo "⚠️ DMN questionnaire generator not available, skipping questionnaire generation"
+      #     fi
 
-      - name: DAK Preprocessing - Transform DMN files to HTML
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        run: |
-          echo "Transforming DMN files to HTML before IG publisher runs..."
+      # - name: DAK Preprocessing - Transform DMN files to HTML
+      #   if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+      #   run: |
+      #     echo "Transforming DMN files to HTML before IG publisher runs..."
 
-          # Check if DMN transformation files exist locally
-          if [ ! -f "input/scripts/transform_dmn.py" ]; then
-            echo "DMN transformation files not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts input/includes
+      #     # Check if DMN transformation files exist locally
+      #     if [ ! -f "input/scripts/transform_dmn.py" ]; then
+      #       echo "DMN transformation files not found locally, downloading from smart-base repository..."
+      #       mkdir -p input/scripts input/includes
 
-            # Download transformation files from smart-base repository
-            curl -L -f -o "input/scripts/transform_dmn.py" "${SCRIPTS_BASE_URL}/input/scripts/transform_dmn.py" 2>/dev/null || echo "Failed to download transform_dmn.py"
-            curl -L -f -o "input/includes/dmn2html.xslt" "${SCRIPTS_BASE_URL}/input/includes/dmn2html.xslt" 2>/dev/null || echo "Failed to download dmn2html.xslt"
-            curl -L -f -o "input/includes/dmn.css" "${SCRIPTS_BASE_URL}/input/includes/dmn.css" 2>/dev/null || echo "Failed to download dmn.css"
-          else
-            echo "Using local DMN transformation files"
-          fi
+      #       # Download transformation files from smart-base repository
+      #       curl -L -f -o "input/scripts/transform_dmn.py" "${SCRIPTS_BASE_URL}/input/scripts/transform_dmn.py" 2>/dev/null || echo "Failed to download transform_dmn.py"
+      #       curl -L -f -o "input/includes/dmn2html.xslt" "${SCRIPTS_BASE_URL}/input/includes/dmn2html.xslt" 2>/dev/null || echo "Failed to download dmn2html.xslt"
+      #       curl -L -f -o "input/includes/dmn.css" "${SCRIPTS_BASE_URL}/input/includes/dmn.css" 2>/dev/null || echo "Failed to download dmn.css"
+      #     else
+      #       echo "Using local DMN transformation files"
+      #     fi
 
-          # Run DMN transformation if script is available
-          if [ -f "input/scripts/transform_dmn.py" ]; then
-            python3 input/scripts/transform_dmn.py
-            echo "✅ DMN files transformed successfully"
-          else
-            echo "⚠️ DMN transformation script not available, skipping DMN transformation"
-          fi
+      #     # Run DMN transformation if script is available
+      #     if [ -f "input/scripts/transform_dmn.py" ]; then
+      #       python3 input/scripts/transform_dmn.py
+      #       echo "✅ DMN files transformed successfully"
+      #     else
+      #       echo "⚠️ DMN transformation script not available, skipping DMN transformation"
+      #     fi
 
-      - name: DAK Preprocessing - Inject diagram translations
-        if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
-        run: |
-          echo "Injecting translations into diagram sources before IG publisher runs..."
+      # - name: DAK Preprocessing - Inject diagram translations
+      #   if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
+      #   run: |
+      #     echo "Injecting translations into diagram sources before IG publisher runs..."
 
-          # Check if injection script exists locally, download if needed
-          if [ ! -f "input/scripts/inject_translations.py" ]; then
-            echo "Translation injection script not found locally, downloading from smart-base repository..."
-            mkdir -p input/scripts
-            curl -L -f -o "input/scripts/inject_translations.py" \
-              "${SCRIPTS_BASE_URL}/input/scripts/inject_translations.py" \
-              2>/dev/null || echo "Failed to download inject_translations.py"
-          else
-            echo "Using local inject_translations.py"
-          fi
+      #     # Check if injection script exists locally, download if needed
+      #     if [ ! -f "input/scripts/inject_translations.py" ]; then
+      #       echo "Translation injection script not found locally, downloading from smart-base repository..."
+      #       mkdir -p input/scripts
+      #       curl -L -f -o "input/scripts/inject_translations.py" \
+      #         "${SCRIPTS_BASE_URL}/input/scripts/inject_translations.py" \
+      #         2>/dev/null || echo "Failed to download inject_translations.py"
+      #     else
+      #       echo "Using local inject_translations.py"
+      #     fi
 
-          # Run injection if script is available
-          if [ -f "input/scripts/inject_translations.py" ]; then
-            python3 input/scripts/inject_translations.py
-            echo "✅ Diagram translations injected successfully"
-          else
-            echo "⚠️ Translation injection script not available, skipping"
-          fi
+      #     # Run injection if script is available
+      #     if [ -f "input/scripts/inject_translations.py" ]; then
+      #       python3 input/scripts/inject_translations.py
+      #       echo "✅ Diagram translations injected successfully"
+      #     else
+      #       echo "⚠️ Translation injection script not available, skipping"
+      #     fi
 
       - name: Update the image to the latest publisher
         uses: docker://hl7fhir/ig-publisher-base:latest
