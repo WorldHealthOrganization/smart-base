@@ -53,11 +53,26 @@ on:
         required: false
         type: boolean
         default: true
+<<<<<<< Updated upstream
       deploy:
         description: 'Deploy the built IG to GitHub Pages'
         required: false
         type: boolean
         default: true
+=======
+      publisher_version:
+        description: 'IG Publisher version to use (e.g. "2.2.0"). Defaults to latest.'
+        required: false
+        type: string
+        default: 'latest'
+  # Triggers the workflow on push or pull request events for any branch
+  push:
+    branches-ignore:    
+      - 'gh-pages'
+  pull_request:
+    branches-ignore:    
+      - 'gh-pages'
+>>>>>>> Stashed changes
 
   # Allows you to run this workflow manually from the Actions tab
   # (useful for downstream repos and for ad-hoc smart-base builds).
@@ -76,11 +91,19 @@ on:
         required: false
         type: boolean
         default: true
+<<<<<<< Updated upstream
       deploy:
         description: 'Deploy the built IG to GitHub Pages'
         required: false
         type: boolean
         default: true
+=======
+      publisher_version:
+        description: 'IG Publisher version to use (e.g. "2.2.0"). Defaults to latest.'
+        required: false
+        type: string
+        default: 'latest'
+>>>>>>> Stashed changes
 
 # NOTE: No workflow-level concurrency block here.  When this workflow is
 # invoked via workflow_call, github.workflow resolves to the *caller's*
@@ -419,6 +442,7 @@ jobs:
             echo "⚠️ DMN transformation script not available, skipping DMN transformation"
           fi
 
+<<<<<<< Updated upstream
       - name: DAK Preprocessing - Inject diagram translations
         if: inputs.do_dak != 'false' && env.DAK_ENABLED == 'true'
         run: |
@@ -444,10 +468,18 @@ jobs:
           fi
 
       - name: Update the image to the latest publisher
+=======
+      - name: Download IG Publisher
+>>>>>>> Stashed changes
         uses: docker://hl7fhir/ig-publisher-base:latest
         with:
-          # Get the latest publisher - don't run the batch script but run the line directly
-          args: curl -L https://github.com/HL7/fhir-ig-publisher/releases/latest/download/publisher.jar -o ./input-cache/publisher.jar --create-dirs
+          # Download specific version if provided, otherwise latest
+          args: >-
+            curl -L
+            ${{ inputs.publisher_version != '' && inputs.publisher_version != 'latest'
+                && format('https://github.com/HL7/fhir-ig-publisher/releases/download/{0}/publisher.jar', inputs.publisher_version)
+                || 'https://github.com/HL7/fhir-ig-publisher/releases/latest/download/publisher.jar' }}
+            -o ./input-cache/publisher.jar --create-dirs
 
 
       - name: Create package cache folder
