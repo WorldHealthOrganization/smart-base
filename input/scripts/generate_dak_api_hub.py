@@ -2213,6 +2213,20 @@ class SchemaDocumentationRenderer:
             base_name = html_file[:-5]  # strip .html
             html_path = os.path.join(output_dir, html_file)
 
+            # Only apply dynamic loading to per-format view pages (e.g.
+            # Foo.json.html, Foo.xml.html, Foo.profile.json.html) — NOT to
+            # the main resource page (Foo.html).  The main page for Binary
+            # resources contains the decoded logical-model instance inline;
+            # replacing it with a fetch() would load the Binary wrapper
+            # (base64-encoded) instead.
+            FORMAT_EXTENSIONS = {ext for _, _, ext in FORMATS}
+            is_format_page = any(
+                base_name.endswith(f'.profile.{ext}') or base_name.endswith(f'.{ext}')
+                for ext in FORMAT_EXTENSIONS
+            )
+            if not is_format_page:
+                continue
+
             # The FHIR IG Publisher creates dedicated per-format view pages in two
             # naming conventions:
             #   1. StructureDefinitions: "Foo.profile.{ext}.html" → source "Foo.{ext}"
