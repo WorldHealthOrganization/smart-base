@@ -5,7 +5,7 @@ title: SMART Base
 description: Base SMART Guidelines implementation guide to be used as the base dependency for all SMART Guidelines IGs
 status: draft # draft | active | retired | unknown
 experimental: false
-version: 0.2.0
+version: 0.3.0
 # fhirVersion: 4.3.0 # https://www.hl7.org/fhir/valueset-FHIR-version.html
 # fhirVersion: 5.0.0 # https://www.hl7.org/fhir/valueset-FHIR-version.html
 fhirVersion: 4.0.1 # https://www.hl7.org/fhir/valueset-FHIR-version.html
@@ -25,12 +25,12 @@ dependencies:
 #    version: 4.6.0
 #    reason: |
 #      This IG leverages subscription constructs pre-adopted from R4B.  Importing this IG makes the relevant terminologies available.
-  hl7.terminology: 5.5.0
-  hl7.fhir.uv.extensions.r4: 5.1.0
-  hl7.fhir.uv.extensions.r5: 5.2.0
+  hl7.terminology: 7.3.0
+  hl7.fhir.uv.extensions.r4: 5.3.0
+#  hl7.fhir.uv.extensions.r5: 5.2.0
   hl7.fhir.uv.cql:
     id: cql
-    version: 1.0.0
+    version: 2.0.0
     reason: This IG uses CQL profiles and capabilities provided by the Using CQL With FHIR IG
   hl7.fhir.uv.cpg:
     id: cpg
@@ -38,11 +38,11 @@ dependencies:
     reason: For Decision Tables
   hl7.fhir.uv.crmi:
     id: crmi
-    version: 1.0.0
+    version: 2.0.0
     reason: This IG uses content management profiles and capabilities provided by the Canonical Resource Management Infrastructure (CRMI) IG
   hl7.fhir.uv.sdc:
     id: sdc
-    version: 3.0.0
+    version: 4.0.0
     reason: This IG uses questionnaire profiles and capabilities provided by the Structure Data Capture (SDC) IG
 # ihe.madx? I cannot find this dependency in the FHIR registry or the IHE github
 
@@ -93,6 +93,7 @@ parameters:
     - zh
     - ru
     - es
+  path-liquid-ig: templates/liquid
 
 # ── Translation configuration ─────────────────────────────────────────────
 # Single source of truth for target languages, plural forms, and translation
