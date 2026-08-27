@@ -1,0 +1,402 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/Basic/SGAuthoring.Skills.ValidateL3Functionality> a fhir:Basic ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "SGAuthoring.Skills.ValidateL3Functionality"] ; # 
+  fhir:meta [
+     fhir:profile ( [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGRequirements"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGRequirements>
+     ] )
+  ] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.ValidateL3Functionality</b></p><a name=\"SGAuthoring.Skills.ValidateL3Functionality\"> </a><a name=\"hcSGAuthoring.Skills.ValidateL3Functionality\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the following actors: </p><ul><li><a href=\"ActorDefinition-SGAuthoring.Persona.QCReviewer.html\">Quality Control Reviewer</a></li><li><a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></li></ul><table class=\"grid\"><tr><td><b><a name=\"L3FUNC-01\"> </a></b>Test StructureMap extraction</td><td>SHALL</td><td><div><p>Can execute StructureMaps against test QuestionnaireResponses and verify extracted resources match expected output.</p>\n</div></td></tr><tr><td><b><a name=\"L3FUNC-02\"> </a></b>Test CQL execution</td><td>SHALL</td><td><div><p>Can execute CQL libraries against test data and verify decision logic, scheduling logic, and indicator calculations.</p>\n</div></td></tr><tr><td><b><a name=\"L3FUNC-03\"> </a></b>Test measure calculation</td><td>SHALL</td><td><div><p>Can execute FHIR Measure evaluations and verify numerator/denominator calculations against expected results.</p>\n</div></td></tr><tr><td><b><a name=\"L3FUNC-04\"> </a></b>Verify L2 content coverage</td><td>SHALL</td><td><div><p>Can manually verify that all L2 specifications are covered by corresponding L3 artifacts.</p>\n</div></td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : Requirements SGAuthoring.Skills.ValidateL3Functionality</b></p><a name=\"fr-SGAuthoring.Skills.ValidateL3Functionality\"> </a><a name=\"fr-hcSGAuthoring.Skills.ValidateL3Functionality\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profil: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>Ces exigences s'appliquent aux acteurs suivants : </p><ul><li><a href=\"ActorDefinition-SGAuthoring.Persona.QCReviewer.html\">Quality Control Reviewer</a></li><li><a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></li></ul><table class=\"grid\"><tr><td><b><a name=\"fr-L3FUNC-01\"> </a></b>Test StructureMap extraction</td><td>SHALL</td><td><div><p>Can execute StructureMaps against test QuestionnaireResponses and verify extracted resources match expected output.</p>\n</div></td></tr><tr><td><b><a name=\"fr-L3FUNC-02\"> </a></b>Test CQL execution</td><td>SHALL</td><td><div><p>Can execute CQL libraries against test data and verify decision logic, scheduling logic, and indicator calculations.</p>\n</div></td></tr><tr><td><b><a name=\"fr-L3FUNC-03\"> </a></b>Test measure calculation</td><td>SHALL</td><td><div><p>Can execute FHIR Measure evaluations and verify numerator/denominator calculations against expected results.</p>\n</div></td></tr><tr><td><b><a name=\"fr-L3FUNC-04\"> </a></b>Verify L2 content coverage</td><td>SHALL</td><td><div><p>Can manually verify that all L2 specifications are covered by corresponding L3 artifacts.</p>\n</div></td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: Requirements SGAuthoring.Skills.ValidateL3Functionality</b></p><a name=\"ar-SGAuthoring.Skills.ValidateL3Functionality\"> </a><a name=\"ar-hcSGAuthoring.Skills.ValidateL3Functionality\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">الملف الشخصي: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>تنطبق هذه المتطلبات على الجهات التالية </p><ul><li><a href=\"ActorDefinition-SGAuthoring.Persona.QCReviewer.html\">Quality Control Reviewer</a></li><li><a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></li></ul><table class=\"grid\"><tr><td><b><a name=\"ar-L3FUNC-01\"> </a></b>Test StructureMap extraction</td><td>SHALL</td><td><div><p>Can execute StructureMaps against test QuestionnaireResponses and verify extracted resources match expected output.</p>\n</div></td></tr><tr><td><b><a name=\"ar-L3FUNC-02\"> </a></b>Test CQL execution</td><td>SHALL</td><td><div><p>Can execute CQL libraries against test data and verify decision logic, scheduling logic, and indicator calculations.</p>\n</div></td></tr><tr><td><b><a name=\"ar-L3FUNC-03\"> </a></b>Test measure calculation</td><td>SHALL</td><td><div><p>Can execute FHIR Measure evaluations and verify numerator/denominator calculations against expected results.</p>\n</div></td></tr><tr><td><b><a name=\"ar-L3FUNC-04\"> </a></b>Verify L2 content coverage</td><td>SHALL</td><td><div><p>Can manually verify that all L2 specifications are covered by corresponding L3 artifacts.</p>\n</div></td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.ValidateL3Functionality</b></p><a name=\"zh-SGAuthoring.Skills.ValidateL3Functionality\"> </a><a name=\"zh-hcSGAuthoring.Skills.ValidateL3Functionality\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the following actors: </p><ul><li><a href=\"ActorDefinition-SGAuthoring.Persona.QCReviewer.html\">Quality Control Reviewer</a></li><li><a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></li></ul><table class=\"grid\"><tr><td><b><a name=\"zh-L3FUNC-01\"> </a></b>Test StructureMap extraction</td><td>SHALL</td><td><div><p>Can execute StructureMaps against test QuestionnaireResponses and verify extracted resources match expected output.</p>\n</div></td></tr><tr><td><b><a name=\"zh-L3FUNC-02\"> </a></b>Test CQL execution</td><td>SHALL</td><td><div><p>Can execute CQL libraries against test data and verify decision logic, scheduling logic, and indicator calculations.</p>\n</div></td></tr><tr><td><b><a name=\"zh-L3FUNC-03\"> </a></b>Test measure calculation</td><td>SHALL</td><td><div><p>Can execute FHIR Measure evaluations and verify numerator/denominator calculations against expected results.</p>\n</div></td></tr><tr><td><b><a name=\"zh-L3FUNC-04\"> </a></b>Verify L2 content coverage</td><td>SHALL</td><td><div><p>Can manually verify that all L2 specifications are covered by corresponding L3 artifacts.</p>\n</div></td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: Requirements SGAuthoring.Skills.ValidateL3Functionality</b></p><a name=\"ru-SGAuthoring.Skills.ValidateL3Functionality\"> </a><a name=\"ru-hcSGAuthoring.Skills.ValidateL3Functionality\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Профиль: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>Эти требования применяются к следующим субъектам: </p><ul><li><a href=\"ActorDefinition-SGAuthoring.Persona.QCReviewer.html\">Quality Control Reviewer</a></li><li><a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></li></ul><table class=\"grid\"><tr><td><b><a name=\"ru-L3FUNC-01\"> </a></b>Test StructureMap extraction</td><td>SHALL</td><td><div><p>Can execute StructureMaps against test QuestionnaireResponses and verify extracted resources match expected output.</p>\n</div></td></tr><tr><td><b><a name=\"ru-L3FUNC-02\"> </a></b>Test CQL execution</td><td>SHALL</td><td><div><p>Can execute CQL libraries against test data and verify decision logic, scheduling logic, and indicator calculations.</p>\n</div></td></tr><tr><td><b><a name=\"ru-L3FUNC-03\"> </a></b>Test measure calculation</td><td>SHALL</td><td><div><p>Can execute FHIR Measure evaluations and verify numerator/denominator calculations against expected results.</p>\n</div></td></tr><tr><td><b><a name=\"ru-L3FUNC-04\"> </a></b>Verify L2 content coverage</td><td>SHALL</td><td><div><p>Can manually verify that all L2 specifications are covered by corresponding L3 artifacts.</p>\n</div></td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.ValidateL3Functionality</b></p><a name=\"es-SGAuthoring.Skills.ValidateL3Functionality\"> </a><a name=\"es-hcSGAuthoring.Skills.ValidateL3Functionality\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the following actors: </p><ul><li><a href=\"ActorDefinition-SGAuthoring.Persona.QCReviewer.html\">Quality Control Reviewer</a></li><li><a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></li></ul><table class=\"grid\"><tr><td><b><a name=\"es-L3FUNC-01\"> </a></b>Test StructureMap extraction</td><td>SHALL</td><td><div><p>Can execute StructureMaps against test QuestionnaireResponses and verify extracted resources match expected output.</p>\n</div></td></tr><tr><td><b><a name=\"es-L3FUNC-02\"> </a></b>Test CQL execution</td><td>SHALL</td><td><div><p>Can execute CQL libraries against test data and verify decision logic, scheduling logic, and indicator calculations.</p>\n</div></td></tr><tr><td><b><a name=\"es-L3FUNC-03\"> </a></b>Test measure calculation</td><td>SHALL</td><td><div><p>Can execute FHIR Measure evaluations and verify numerator/denominator calculations against expected results.</p>\n</div></td></tr><tr><td><b><a name=\"es-L3FUNC-04\"> </a></b>Verify L2 content coverage</td><td>SHALL</td><td><div><p>Can manually verify that all L2 specifications are covered by corresponding L3 artifacts.</p>\n</div></td></tr></table></div></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:extension ( [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "scriptTask" ] ;
+       fhir:display [ fhir:v "Script Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "scriptTask" ] ;
+       fhir:display [ fhir:v "Script Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "scriptTask" ] ;
+       fhir:display [ fhir:v "Script Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "manualTask" ] ;
+       fhir:display [ fhir:v "Manual Task" ]
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://smart.who.int/base/StructureDefinition/SGString"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/StructureDefinition/SGString>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "test StructureMap extraction, CQL execution, and measure calculation"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://smart.who.int/base/StructureDefinition/SGString"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/StructureDefinition/SGString>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "L3 artifacts produce correct, verified results before publication"
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGUserStory"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGUserStory>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.url"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.url>
+     ] ;
+     fhir:value [
+       a fhir:Uri ;
+       fhir:v "http://smart.who.int/base/Requirements/SGAuthoring.Skills.ValidateL3Functionality"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/Requirements/SGAuthoring.Skills.ValidateL3Functionality>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.version"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.version>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "0.2.0"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.name"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.name>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "SkillValidateL3Functionality"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.title"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.title>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "Can validate L3 functionality"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.status"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.status>
+     ] ;
+     fhir:value [
+       a fhir:Code ;
+       fhir:v "draft"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.experimental"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.experimental>
+     ] ;
+     fhir:value [
+       a fhir:Boolean ;
+       fhir:v true
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.date"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.date>
+     ] ;
+     fhir:value [
+       a fhir:DateTime ;
+       fhir:v "2026-03-23T13:25:54+00:00"^^xsd:dateTime
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.publisher"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.publisher>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "WHO"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.contact"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.contact>
+     ] ;
+     fhir:value [
+       a fhir:ContactDetail ;
+       fhir:name [ fhir:v "WHO" ] ;
+       fhir:telecom ( [
+         fhir:system [ fhir:v "url" ] ;
+         fhir:value [ fhir:v "http://who.int" ]
+       ] )
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.description"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.description>
+     ] ;
+     fhir:value [
+       a fhir:Markdown ;
+       fhir:v "Capability to test StructureMap extraction, CQL execution, and measure calculation using reference tooling."
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.jurisdiction"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.jurisdiction>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor>
+     ] ;
+     fhir:value [
+       a fhir:Canonical ;
+       fhir:v "http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.QCReviewer"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.QCReviewer>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor>
+     ] ;
+     fhir:value [
+       a fhir:Canonical ;
+       fhir:v "http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.FHIRModeller"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.FHIRModeller>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "L3FUNC-01"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Test StructureMap extraction"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can execute StructureMaps against test QuestionnaireResponses and verify extracted resources match expected output."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "L3FUNC-02"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Test CQL execution"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can execute CQL libraries against test data and verify decision logic, scheduling logic, and indicator calculations."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "L3FUNC-03"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Test measure calculation"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can execute FHIR Measure evaluations and verify numerator/denominator calculations against expected results."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "L3FUNC-04"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Verify L2 content coverage"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can manually verify that all L2 specifications are covered by corresponding L3 artifacts."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] ) ; # 
+  fhir:code [
+     fhir:coding ( [
+       fhir:system [
+         fhir:v "http://hl7.org/fhir/fhir-types"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/fhir-types>
+       ] ;
+       fhir:code [ fhir:v "Requirements" ]
+     ] )
+  ] . # 
+
+# -------------------------------------------------------------------------------------
+

@@ -1,0 +1,14 @@
+# Can author business processes - TTL Representation - SMART Base v0.2.0
+
+* [**Table of Contents**](toc.md)
+* [**Artifacts Summary**](artifacts.md)
+* **Can author business processes**
+
+## : Can author business processes - TTL Representation
+
+| |
+| :--- |
+| Draft as of 2026-03-20 |
+
+[Raw ttl](Requirements-SGAuthoring.Skills.AuthorBusinessProcesses.ttl) | [Download](Requirements-SGAuthoring.Skills.AuthorBusinessProcesses.ttl)
+

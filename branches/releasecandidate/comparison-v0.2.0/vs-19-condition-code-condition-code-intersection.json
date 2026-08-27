@@ -1,0 +1,24 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "cb45fc0b-b357-43a0-9bc1-21299ac4d1b2-57",
+  "url" : "http://hl7.org/fhir/comparison/ValueSet/cb45fc0b-b357-43a0-9bc1-21299ac4d1b2-57",
+  "name" : "IntersectionCondition/Problem/DiagnosisCodesAndCondition/Problem/DiagnosisCodes",
+  "title" : "Intersection of Condition/Problem/Diagnosis Codes And Condition/Problem/Diagnosis Codes",
+  "status" : "draft",
+  "date" : "2026-08-27T08:24:36+00:00",
+  "compose" : {
+    "include" : [{
+      "filter" : [{
+        "property" : "concept",
+        "op" : "is-a",
+        "value" : "404684003"
+      }]
+    },
+    {
+      "concept" : [{
+        "code" : "160245001",
+        "display" : "No current problems or disability"
+      }]
+    }]
+  }
+}

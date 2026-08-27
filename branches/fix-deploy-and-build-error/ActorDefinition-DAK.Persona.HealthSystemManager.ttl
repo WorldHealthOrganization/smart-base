@@ -1,0 +1,146 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/Basic/DAK.Persona.HealthSystemManager> a fhir:Basic ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "DAK.Persona.HealthSystemManager"] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ActorDefinition DAK.Persona.HealthSystemManager</b></p><a name=\"DAK.Persona.HealthSystemManager\"> </a><a name=\"hcDAK.Persona.HealthSystemManager\"> </a><table class=\"grid\"><tr><td><b>Actor: HealthSystemManager </b></td><td>Health System Manager</td><td>Type: person </td></tr><tr><td colspan=\"3\"><div><p>https://www.who.int/publications/i/item/9789240081949</p>\n</div></td></tr></table></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:extension ( [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.url"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.url>
+     ] ;
+     fhir:value [
+       a fhir:Uri ;
+       fhir:v "http://smart.who.int/base/ActorDefinition/DAK.Persona.HealthSystemManager"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/ActorDefinition/DAK.Persona.HealthSystemManager>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.version"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.version>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "0.2.0"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.name"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.name>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "HealthSystemManager"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.title"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.title>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "Health System Manager"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.status"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.status>
+     ] ;
+     fhir:value [
+       a fhir:Code ;
+       fhir:v "draft"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.experimental"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.experimental>
+     ] ;
+     fhir:value [
+       a fhir:Boolean ;
+       fhir:v true
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.date"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.date>
+     ] ;
+     fhir:value [
+       a fhir:DateTime ;
+       fhir:v "2026-03-06T03:01:34+00:00"^^xsd:dateTime
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.publisher"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.publisher>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "WHO"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.contact"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.contact>
+     ] ;
+     fhir:value [
+       a fhir:ContactDetail ;
+       fhir:name [ fhir:v "WHO" ] ;
+       fhir:telecom ( [
+         fhir:system [ fhir:v "url" ] ;
+         fhir:value [ fhir:v "http://who.int" ]
+       ] )
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.description"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.description>
+     ] ;
+     fhir:value [
+       a fhir:Markdown ;
+       fhir:v "A professional involved in the administration and oversight of health systems.\n\nHealth system managers use DHIs to:\n- Manage health workforce information, performance, and certification (3.1)\n- Oversee supply chain, inventory, cold chain, and procurement (3.2)\n- Receive notifications of public health events (3.3)\n- Register and certify vital events — births and deaths (3.4)\n- Administer health coverage schemes, billing, payroll, and budgets (3.5)\n- Monitor and track health equipment and assets (3.6)\n- Manage health facility information and conduct assessments (3.7)\n- Manage person-centred health certificate information (3.8)\n\n**ISCO-08**: 1342 (Health services managers), 2446 (Social work professionals\nn.e.c.), 3354 (Government social benefits officials), 4311 (Accounting and\nbookkeeping clerks).\n\n**Examples**: District health officer, programme manager, supply chain officer,\nHMIS coordinator, hospital administrator, vital registration officer,\nhealth insurance administrator."
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.jurisdiction"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.jurisdiction>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.type"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.type>
+     ] ;
+     fhir:value [
+       a fhir:Code ;
+       fhir:v "person"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.documentation"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.documentation>
+     ] ;
+     fhir:value [
+       a fhir:Markdown ;
+       fhir:v "https://www.who.int/publications/i/item/9789240081949"
+     ]
+  ] ) ; # 
+  fhir:code [
+     fhir:coding ( [
+       fhir:system [
+         fhir:v "http://hl7.org/fhir/fhir-types"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/fhir-types>
+       ] ;
+       fhir:code [ fhir:v "ActorDefinition" ]
+     ] )
+  ] . # 
+
+# -------------------------------------------------------------------------------------
+

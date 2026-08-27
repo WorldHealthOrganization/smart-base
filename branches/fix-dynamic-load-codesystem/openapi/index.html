@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>OpenAPI Documentation - SMART Base</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css"
+          href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css">
+    <style>
+      body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+      /* WHO-styled header bar */
+      .who-header {
+        background-color: #00477d;
+        color: #ffffff;
+        padding: 0.6rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+      }
+      .who-header a.home-link {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: 1px solid rgba(255,255,255,0.6);
+        padding: 0.25rem 0.75rem;
+        border-radius: 3px;
+        transition: background-color 0.2s ease;
+      }
+      .who-header a.home-link:hover {
+        background-color: rgba(255,255,255,0.15);
+        text-decoration: none;
+      }
+      .who-header .header-title {
+        flex: 1;
+      }
+      /* Definition selector bar below the header */
+      #definition-selector-bar {
+        background-color: #0070a1;
+        color: #ffffff;
+        padding: 0.5rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        flex-wrap: wrap;
+      }
+      #definition-selector-bar label {
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      #definition-select {
+        font-size: 0.9rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+        border: 1px solid rgba(255,255,255,0.6);
+        background-color: #ffffff;
+        color: #00477d;
+        min-width: 200px;
+        max-width: 100%;
+        flex: 1;
+      }
+      /* Hide Swagger UI topbar entirely */
+      .swagger-ui .topbar {
+        display: none;
+      }
+      .existing-api-content { padding: 1rem 2rem; }
+    </style>
+  </head>
+  <body>
+  <div class="who-header">
+    <a href="../index.html" class="home-link">&#8962; Home</a>
+    <span class="header-title">SMART Base &mdash; OpenAPI Documentation</span>
+  </div>
+
+  <div id="definition-selector-bar">
+    <label for="definition-select">Select a definition:</label>
+    <select id="definition-select" onchange="switchDefinition(this.value)">
+    </select>
+  </div>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js"></script>
+  <script>
+  var swaggerUrls = [
+  {
+    "url": "../ValueSet-CDHIv1.openapi.json",
+    "name": "Classification of Digital Health Interventions v1 Schema"
+  },
+  {
+    "url": "../ValueSet-CoreDataElementTypeVS.openapi.json",
+    "name": "Core Data Element Type Value Set Schema"
+  },
+  {
+    "url": "../ValueSets.openapi.json",
+    "name": "ValueSet Enumeration Schema"
+  },
+  {
+    "url": "../ValueSet-DecisionTableActions.openapi.json",
+    "name": "Smart Guidelines Decision Table Actions Schema"
+  },
+  {
+    "url": "../ValueSet-ISCO08ValueSet.openapi.json",
+    "name": "ISCO-08 Value Set Schema"
+  },
+  {
+    "url": "../ValueSet-SGPersonaTypesVS.openapi.json",
+    "name": "Smart Guidelines Persona Types Value Set Schema"
+  },
+  {
+    "url": "../ValueSet-CDSCv1.openapi.json",
+    "name": "Classification of Digital Health System Categories v1 Schema"
+  },
+  {
+    "url": "../StructureDefinition-DecisionSupportLogicSource.openapi.json",
+    "name": "Decision Support Logic Source"
+  },
+  {
+    "url": "../StructureDefinition-DublinCore.openapi.json",
+    "name": "Dublin Core Metadata Element Set"
+  },
+  {
+    "url": "../StructureDefinition-DAK.openapi.json",
+    "name": "Digital Adaptation Kit (DAK)"
+  },
+  {
+    "url": "../StructureDefinition-NonFunctionalRequirement.openapi.json",
+    "name": "Non-Functional Requirement (DAK)"
+  },
+  {
+    "url": "../StructureDefinition-CoreDataElementSource.openapi.json",
+    "name": "Core Data Element Source"
+  },
+  {
+    "url": "../StructureDefinition-ProgramIndicator.openapi.json",
+    "name": "Program Indicator (DAK)"
+  },
+  {
+    "url": "../StructureDefinition-HealthInterventions.openapi.json",
+    "name": "Health Interventions and Recommendations (DAK)"
+  },
+  {
+    "url": "../StructureDefinition-DecisionSupportLogic.openapi.json",
+    "name": "Decision-Support Logic (DAK)"
+  },
+  {
+    "url": "../StructureDefinition-UserScenarioSource.openapi.json",
+    "name": "User Scenario Source"
+  },
+  {
+    "url": "../StructureDefinition-HealthInterventionsSource.openapi.json",
+    "name": "Health Interventions Source"
+  },
+  {
+    "url": "../StructureDefinition-UserScenario.openapi.json",
+    "name": "User Scenario (DAK)"
+  },
+  {
+    "url": "../StructureDefinition-ProgramIndicatorSource.openapi.json",
+    "name": "Program Indicator Source"
+  },
+  {
+    "url": "../StructureDefinition-FHIRSchemaBase.openapi.json",
+    "name": "FHIR Schema Base (SMART Guidelines)"
+  },
+  {
+    "url": "../StructureDefinition-GenericPersona.openapi.json",
+    "name": "Generic Persona (DAK)"
+  },
+  {
+    "url": "../StructureDefinition-FunctionalRequirement.openapi.json",
+    "name": "Functional Requirement (DAK)"
+  },
+  {
+    "url": "../StructureDefinition-TestScenarioSource.openapi.json",
+    "name": "Test Scenario Source"
+  },
+  {
+    "url": "../StructureDefinition-TestScenario.openapi.json",
+    "name": "Test Scenario (DAK)"
+  },
+  {
+    "url": "../StructureDefinition-Persona.openapi.json",
+    "name": "Persona (DAK)"
+  },
+  {
+    "url": "../LogicalModels.openapi.json",
+    "name": "Logical Model Enumeration Schema"
+  },
+  {
+    "url": "../StructureDefinition-BusinessProcessWorkflow.openapi.json",
+    "name": "Business Process Workflow (DAK)"
+  },
+  {
+    "url": "../StructureDefinition-GenericPersonaSource.openapi.json",
+    "name": "Generic Persona Source"
+  },
+  {
+    "url": "../StructureDefinition-Requirements.openapi.json",
+    "name": "Functional and Non-Functional Requirements (DAK)"
+  },
+  {
+    "url": "../StructureDefinition-SushiConfigLogicalModel.openapi.json",
+    "name": "SUSHI Configuration Logical Model"
+  },
+  {
+    "url": "../StructureDefinition-CoreDataElement.openapi.json",
+    "name": "Core Data Element (DAK)"
+  },
+  {
+    "url": "../StructureDefinition-RequirementsSource.openapi.json",
+    "name": "Requirements Source"
+  },
+  {
+    "url": "../StructureDefinition-BusinessProcessWorkflowSource.openapi.json",
+    "name": "Business Process Workflow Source"
+  }
+];
+  var ui;
+  window.onload = function() {
+    var select = document.getElementById('definition-select');
+    swaggerUrls.forEach(function(item, idx) {
+      var opt = document.createElement('option');
+      opt.value = item.url;
+      opt.textContent = item.name;
+      select.appendChild(opt);
+    });
+    ui = SwaggerUIBundle({
+      url: "../ValueSet-CDHIv1.openapi.json",
+      dom_id: '#swagger-ui',
+      presets: [SwaggerUIBundle.presets.apis],
+      layout: "BaseLayout"
+    });
+  };
+  function switchDefinition(url) {
+    ui.specActions.updateUrl(url);
+    ui.specActions.download(url);
+  }
+  </script>
+
+  </body>
+</html>

@@ -1,0 +1,448 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/Basic/SGAuthoring.Skills.AuthorCQL> a fhir:Basic ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "SGAuthoring.Skills.AuthorCQL"] ; # 
+  fhir:meta [
+     fhir:profile ( [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGRequirements"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGRequirements>
+     ] )
+  ] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.AuthorCQL</b></p><a name=\"SGAuthoring.Skills.AuthorCQL\"> </a><a name=\"hcSGAuthoring.Skills.AuthorCQL\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the actor <a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></p><table class=\"grid\"><tr><td><b><a name=\"CQL-01\"> </a></b>Write CQL decision logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing L2 decision-support logic tables.</p>\n</div></td></tr><tr><td><b><a name=\"CQL-02\"> </a></b>Write CQL scheduling logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing L2 scheduling logic tables.</p>\n</div></td></tr><tr><td><b><a name=\"CQL-03\"> </a></b>Write CQL indicator logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing indicator calculations with numerator/denominator definitions.</p>\n</div></td></tr><tr><td><b><a name=\"CQL-04\"> </a></b>Create CQL concept definitions</td><td>SHALL</td><td><div><p>Can create CQL concept and data element definitions for use across libraries.</p>\n</div></td></tr><tr><td><b><a name=\"CQL-05\"> </a></b>Test CQL execution</td><td>SHALL</td><td><div><p>Can validate CQL execution against test data using reference tooling.</p>\n</div></td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : Requirements SGAuthoring.Skills.AuthorCQL</b></p><a name=\"fr-SGAuthoring.Skills.AuthorCQL\"> </a><a name=\"fr-hcSGAuthoring.Skills.AuthorCQL\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profil: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>Ces exigences s'appliquent à l'acteur <a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></p><table class=\"grid\"><tr><td><b><a name=\"fr-CQL-01\"> </a></b>Write CQL decision logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing L2 decision-support logic tables.</p>\n</div></td></tr><tr><td><b><a name=\"fr-CQL-02\"> </a></b>Write CQL scheduling logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing L2 scheduling logic tables.</p>\n</div></td></tr><tr><td><b><a name=\"fr-CQL-03\"> </a></b>Write CQL indicator logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing indicator calculations with numerator/denominator definitions.</p>\n</div></td></tr><tr><td><b><a name=\"fr-CQL-04\"> </a></b>Create CQL concept definitions</td><td>SHALL</td><td><div><p>Can create CQL concept and data element definitions for use across libraries.</p>\n</div></td></tr><tr><td><b><a name=\"fr-CQL-05\"> </a></b>Test CQL execution</td><td>SHALL</td><td><div><p>Can validate CQL execution against test data using reference tooling.</p>\n</div></td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: Requirements SGAuthoring.Skills.AuthorCQL</b></p><a name=\"ar-SGAuthoring.Skills.AuthorCQL\"> </a><a name=\"ar-hcSGAuthoring.Skills.AuthorCQL\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">الملف الشخصي: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>تنطبق هذه المتطلبات على الممثل <a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></p><table class=\"grid\"><tr><td><b><a name=\"ar-CQL-01\"> </a></b>Write CQL decision logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing L2 decision-support logic tables.</p>\n</div></td></tr><tr><td><b><a name=\"ar-CQL-02\"> </a></b>Write CQL scheduling logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing L2 scheduling logic tables.</p>\n</div></td></tr><tr><td><b><a name=\"ar-CQL-03\"> </a></b>Write CQL indicator logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing indicator calculations with numerator/denominator definitions.</p>\n</div></td></tr><tr><td><b><a name=\"ar-CQL-04\"> </a></b>Create CQL concept definitions</td><td>SHALL</td><td><div><p>Can create CQL concept and data element definitions for use across libraries.</p>\n</div></td></tr><tr><td><b><a name=\"ar-CQL-05\"> </a></b>Test CQL execution</td><td>SHALL</td><td><div><p>Can validate CQL execution against test data using reference tooling.</p>\n</div></td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.AuthorCQL</b></p><a name=\"zh-SGAuthoring.Skills.AuthorCQL\"> </a><a name=\"zh-hcSGAuthoring.Skills.AuthorCQL\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the actor <a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></p><table class=\"grid\"><tr><td><b><a name=\"zh-CQL-01\"> </a></b>Write CQL decision logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing L2 decision-support logic tables.</p>\n</div></td></tr><tr><td><b><a name=\"zh-CQL-02\"> </a></b>Write CQL scheduling logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing L2 scheduling logic tables.</p>\n</div></td></tr><tr><td><b><a name=\"zh-CQL-03\"> </a></b>Write CQL indicator logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing indicator calculations with numerator/denominator definitions.</p>\n</div></td></tr><tr><td><b><a name=\"zh-CQL-04\"> </a></b>Create CQL concept definitions</td><td>SHALL</td><td><div><p>Can create CQL concept and data element definitions for use across libraries.</p>\n</div></td></tr><tr><td><b><a name=\"zh-CQL-05\"> </a></b>Test CQL execution</td><td>SHALL</td><td><div><p>Can validate CQL execution against test data using reference tooling.</p>\n</div></td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: Requirements SGAuthoring.Skills.AuthorCQL</b></p><a name=\"ru-SGAuthoring.Skills.AuthorCQL\"> </a><a name=\"ru-hcSGAuthoring.Skills.AuthorCQL\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Профиль: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>Эти требования распространяются и на актера <a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></p><table class=\"grid\"><tr><td><b><a name=\"ru-CQL-01\"> </a></b>Write CQL decision logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing L2 decision-support logic tables.</p>\n</div></td></tr><tr><td><b><a name=\"ru-CQL-02\"> </a></b>Write CQL scheduling logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing L2 scheduling logic tables.</p>\n</div></td></tr><tr><td><b><a name=\"ru-CQL-03\"> </a></b>Write CQL indicator logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing indicator calculations with numerator/denominator definitions.</p>\n</div></td></tr><tr><td><b><a name=\"ru-CQL-04\"> </a></b>Create CQL concept definitions</td><td>SHALL</td><td><div><p>Can create CQL concept and data element definitions for use across libraries.</p>\n</div></td></tr><tr><td><b><a name=\"ru-CQL-05\"> </a></b>Test CQL execution</td><td>SHALL</td><td><div><p>Can validate CQL execution against test data using reference tooling.</p>\n</div></td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.AuthorCQL</b></p><a name=\"es-SGAuthoring.Skills.AuthorCQL\"> </a><a name=\"es-hcSGAuthoring.Skills.AuthorCQL\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the actor <a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></p><table class=\"grid\"><tr><td><b><a name=\"es-CQL-01\"> </a></b>Write CQL decision logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing L2 decision-support logic tables.</p>\n</div></td></tr><tr><td><b><a name=\"es-CQL-02\"> </a></b>Write CQL scheduling logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing L2 scheduling logic tables.</p>\n</div></td></tr><tr><td><b><a name=\"es-CQL-03\"> </a></b>Write CQL indicator logic</td><td>SHALL</td><td><div><p>Can write CQL libraries implementing indicator calculations with numerator/denominator definitions.</p>\n</div></td></tr><tr><td><b><a name=\"es-CQL-04\"> </a></b>Create CQL concept definitions</td><td>SHALL</td><td><div><p>Can create CQL concept and data element definitions for use across libraries.</p>\n</div></td></tr><tr><td><b><a name=\"es-CQL-05\"> </a></b>Test CQL execution</td><td>SHALL</td><td><div><p>Can validate CQL execution against test data using reference tooling.</p>\n</div></td></tr></table></div></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:extension ( [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "scriptTask" ] ;
+       fhir:display [ fhir:v "Script Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "scriptTask" ] ;
+       fhir:display [ fhir:v "Script Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "scriptTask" ] ;
+       fhir:display [ fhir:v "Script Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "scriptTask" ] ;
+       fhir:display [ fhir:v "Script Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "scriptTask" ] ;
+       fhir:display [ fhir:v "Script Task" ]
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://smart.who.int/base/StructureDefinition/SGString"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/StructureDefinition/SGString>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "write CQL for decision logic, scheduling logic, and indicator calculations"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://smart.who.int/base/StructureDefinition/SGString"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/StructureDefinition/SGString>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "clinical decision-support and indicator calculations are computable and testable"
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGUserStory"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGUserStory>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.url"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.url>
+     ] ;
+     fhir:value [
+       a fhir:Uri ;
+       fhir:v "http://smart.who.int/base/Requirements/SGAuthoring.Skills.AuthorCQL"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/Requirements/SGAuthoring.Skills.AuthorCQL>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.version"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.version>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "0.2.0"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.name"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.name>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "SkillAuthorCQL"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.title"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.title>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "Can author CQL"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.status"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.status>
+     ] ;
+     fhir:value [
+       a fhir:Code ;
+       fhir:v "draft"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.experimental"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.experimental>
+     ] ;
+     fhir:value [
+       a fhir:Boolean ;
+       fhir:v true
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.date"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.date>
+     ] ;
+     fhir:value [
+       a fhir:DateTime ;
+       fhir:v "2026-03-24T11:41:30+00:00"^^xsd:dateTime
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.publisher"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.publisher>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "WHO"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.contact"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.contact>
+     ] ;
+     fhir:value [
+       a fhir:ContactDetail ;
+       fhir:name [ fhir:v "WHO" ] ;
+       fhir:telecom ( [
+         fhir:system [ fhir:v "url" ] ;
+         fhir:value [ fhir:v "http://who.int" ]
+       ] )
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.description"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.description>
+     ] ;
+     fhir:value [
+       a fhir:Markdown ;
+       fhir:v "Capability to write Clinical Quality Language (CQL) for decision logic, scheduling logic, and indicator calculations."
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.jurisdiction"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.jurisdiction>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor>
+     ] ;
+     fhir:value [
+       a fhir:Canonical ;
+       fhir:v "http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.FHIRModeller"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.FHIRModeller>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "CQL-01"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Write CQL decision logic"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can write CQL libraries implementing L2 decision-support logic tables."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "CQL-02"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Write CQL scheduling logic"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can write CQL libraries implementing L2 scheduling logic tables."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "CQL-03"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Write CQL indicator logic"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can write CQL libraries implementing indicator calculations with numerator/denominator definitions."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "CQL-04"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Create CQL concept definitions"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can create CQL concept and data element definitions for use across libraries."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "CQL-05"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Test CQL execution"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can validate CQL execution against test data using reference tooling."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] ) ; # 
+  fhir:code [
+     fhir:coding ( [
+       fhir:system [
+         fhir:v "http://hl7.org/fhir/fhir-types"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/fhir-types>
+       ] ;
+       fhir:code [ fhir:v "Requirements" ]
+     ] )
+  ] . # 
+
+# -------------------------------------------------------------------------------------
+

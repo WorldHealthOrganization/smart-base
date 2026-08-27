@@ -1,0 +1,137 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/Basic/SGAuthoring.Persona.Translator> a fhir:Basic ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "SGAuthoring.Persona.Translator"] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ActorDefinition SGAuthoring.Persona.Translator</b></p><a name=\"SGAuthoring.Persona.Translator\"> </a><a name=\"hcSGAuthoring.Persona.Translator\"> </a><table class=\"grid\"><tr><td><b>Actor: Translator </b></td><td>Translator</td><td>Type: person </td></tr><tr><td colspan=\"3\"/></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : ActorDefinition SGAuthoring.Persona.Translator</b></p><a name=\"fr-SGAuthoring.Persona.Translator\"> </a><a name=\"fr-hcSGAuthoring.Persona.Translator\"> </a><table class=\"grid\"><tr><td><b>Acteur : Translator </b></td><td>Translator</td><td>Type : person </td></tr><tr><td colspan=\"3\"/></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: ActorDefinition SGAuthoring.Persona.Translator</b></p><a name=\"ar-SGAuthoring.Persona.Translator\"> </a><a name=\"ar-hcSGAuthoring.Persona.Translator\"> </a><table class=\"grid\"><tr><td><b>Project-Id-Version: FHIR\nReport-Msgid-Bugs-To: you@example.com\nPOT-Creation-Date: 2025-07-19 23:19+0000\nPO-Revision-Date: 2025-07-19 23:19+0000\nLanguage: ar\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit </b></td><td>Translator</td><td>اكتب: person </td></tr><tr><td colspan=\"3\"/></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ActorDefinition SGAuthoring.Persona.Translator</b></p><a name=\"zh-SGAuthoring.Persona.Translator\"> </a><a name=\"zh-hcSGAuthoring.Persona.Translator\"> </a><table class=\"grid\"><tr><td><b>Actor: Translator </b></td><td>Translator</td><td>Type: person </td></tr><tr><td colspan=\"3\"/></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: ActorDefinition SGAuthoring.Persona.Translator</b></p><a name=\"ru-SGAuthoring.Persona.Translator\"> </a><a name=\"ru-hcSGAuthoring.Persona.Translator\"> </a><table class=\"grid\"><tr><td><b>Актер: Translator </b></td><td>Translator</td><td>Тип: person </td></tr><tr><td colspan=\"3\"/></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ActorDefinition SGAuthoring.Persona.Translator</b></p><a name=\"es-SGAuthoring.Persona.Translator\"> </a><a name=\"es-hcSGAuthoring.Persona.Translator\"> </a><table class=\"grid\"><tr><td><b>Actor: Translator </b></td><td>Translator</td><td>Type: person </td></tr><tr><td colspan=\"3\"/></tr></table></div></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:extension ( [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.url"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.url>
+     ] ;
+     fhir:value [
+       a fhir:Uri ;
+       fhir:v "http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.Translator"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.Translator>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.version"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.version>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "0.2.0"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.name"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.name>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "Translator"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.title"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.title>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "Translator"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.status"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.status>
+     ] ;
+     fhir:value [
+       a fhir:Code ;
+       fhir:v "draft"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.experimental"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.experimental>
+     ] ;
+     fhir:value [
+       a fhir:Boolean ;
+       fhir:v true
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.date"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.date>
+     ] ;
+     fhir:value [
+       a fhir:DateTime ;
+       fhir:v "2026-03-23T15:11:30+00:00"^^xsd:dateTime
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.publisher"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.publisher>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "WHO"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.contact"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.contact>
+     ] ;
+     fhir:value [
+       a fhir:ContactDetail ;
+       fhir:name [ fhir:v "WHO" ] ;
+       fhir:telecom ( [
+         fhir:system [ fhir:v "url" ] ;
+         fhir:value [ fhir:v "http://who.int" ]
+       ] )
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.description"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.description>
+     ] ;
+     fhir:value [
+       a fhir:Markdown ;
+       fhir:v "A language specialist responsible for translating SMART Guidelines\nImplementation Guide content across UN languages to support global\nadoption and adaptation.\n\nKey activities:\n- Translate IG narrative content across UN languages\n- Translate FHIR resource display names and descriptions\n- Review translated content for accuracy and clinical correctness\n- Manage .pot/.po translation template files\n- Coordinate with clinical SMEs for domain-specific terminology\n- Ensure translated examples are available for each non-abstract profile\n\n**Source**: IG Starter Kit, Checklist L4 (example resources per UN language);\nPR 288 translation skill infrastructure"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.jurisdiction"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.jurisdiction>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.type"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.type>
+     ] ;
+     fhir:value [
+       a fhir:Code ;
+       fhir:v "person"
+     ]
+  ] ) ; # 
+  fhir:code [
+     fhir:coding ( [
+       fhir:system [
+         fhir:v "http://hl7.org/fhir/fhir-types"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/fhir-types>
+       ] ;
+       fhir:code [ fhir:v "ActorDefinition" ]
+     ] )
+  ] . # 
+
+# -------------------------------------------------------------------------------------
+

@@ -1,0 +1,14 @@
+# Translator - JSON Representation - SMART Base v0.2.0
+
+* [**Table of Contents**](toc.md)
+* [**Artifacts Summary**](artifacts.md)
+* **Translator**
+
+## : Translator - JSON Representation
+
+| |
+| :--- |
+| Draft as of 2026-04-02 |
+
+[Raw json](ActorDefinition-SGAuthoring.Persona.Translator.json) | [Download](ActorDefinition-SGAuthoring.Persona.Translator.json)
+

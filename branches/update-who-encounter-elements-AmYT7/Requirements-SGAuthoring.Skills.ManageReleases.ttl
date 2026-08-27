@@ -1,0 +1,560 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/Basic/SGAuthoring.Skills.ManageReleases> a fhir:Basic ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "SGAuthoring.Skills.ManageReleases"] ; # 
+  fhir:meta [
+     fhir:profile ( [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGRequirements"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGRequirements>
+     ] )
+  ] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.ManageReleases</b></p><a name=\"SGAuthoring.Skills.ManageReleases\"> </a><a name=\"hcSGAuthoring.Skills.ManageReleases\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the actor <a href=\"ActorDefinition-SGAuthoring.Persona.PublicationManager.html\">Publication Manager</a></p><table class=\"grid\"><tr><td><b><a name=\"REL-01\"> </a></b>Determine version number</td><td>SHALL</td><td><div><p>Can review changes since last release, determine if changes are breaking, and update version number following semantic versioning.</p>\n</div></td></tr><tr><td><b><a name=\"REL-02\"> </a></b>Update IG status for release</td><td>SHALL</td><td><div><p>Can update IG and all conformance artifacts: status to active, version without label, releaseLabel to release, and date to current date.</p>\n</div></td></tr><tr><td><b><a name=\"REL-03\"> </a></b>Create publication-request.json</td><td>SHALL</td><td><div><p>Can create a correct publication-request.json with matching package-id, version, path, ci-build, and first/subsequent flags.</p>\n</div></td></tr><tr><td><b><a name=\"REL-04\"> </a></b>Create release tag</td><td>SHALL</td><td><div><p>Can create a GitHub release and tag in the form vX.Y.Z to trigger the automated publication workflow.</p>\n</div></td></tr><tr><td><b><a name=\"REL-05\"> </a></b>Verify publication</td><td>SHALL</td><td><div><p>Can verify the publication workflow succeeded and the IG is available at the sitepreview URL.</p>\n</div></td></tr><tr><td><b><a name=\"REL-06\"> </a></b>Reset to draft</td><td>SHALL</td><td><div><p>Can reset the main branch to draft status with updated version number after publication.</p>\n</div></td></tr><tr><td><b><a name=\"REL-07\"> </a></b>Maintain change log</td><td>SHALL</td><td><div><p>Can maintain a changes page with release summary, known issues, and categorized changes (non-compatible, compatible substantive, non-substantive).</p>\n</div></td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : Requirements SGAuthoring.Skills.ManageReleases</b></p><a name=\"fr-SGAuthoring.Skills.ManageReleases\"> </a><a name=\"fr-hcSGAuthoring.Skills.ManageReleases\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profil: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>Ces exigences s'appliquent à l'acteur <a href=\"ActorDefinition-SGAuthoring.Persona.PublicationManager.html\">Publication Manager</a></p><table class=\"grid\"><tr><td><b><a name=\"fr-REL-01\"> </a></b>Determine version number</td><td>SHALL</td><td><div><p>Can review changes since last release, determine if changes are breaking, and update version number following semantic versioning.</p>\n</div></td></tr><tr><td><b><a name=\"fr-REL-02\"> </a></b>Update IG status for release</td><td>SHALL</td><td><div><p>Can update IG and all conformance artifacts: status to active, version without label, releaseLabel to release, and date to current date.</p>\n</div></td></tr><tr><td><b><a name=\"fr-REL-03\"> </a></b>Create publication-request.json</td><td>SHALL</td><td><div><p>Can create a correct publication-request.json with matching package-id, version, path, ci-build, and first/subsequent flags.</p>\n</div></td></tr><tr><td><b><a name=\"fr-REL-04\"> </a></b>Create release tag</td><td>SHALL</td><td><div><p>Can create a GitHub release and tag in the form vX.Y.Z to trigger the automated publication workflow.</p>\n</div></td></tr><tr><td><b><a name=\"fr-REL-05\"> </a></b>Verify publication</td><td>SHALL</td><td><div><p>Can verify the publication workflow succeeded and the IG is available at the sitepreview URL.</p>\n</div></td></tr><tr><td><b><a name=\"fr-REL-06\"> </a></b>Reset to draft</td><td>SHALL</td><td><div><p>Can reset the main branch to draft status with updated version number after publication.</p>\n</div></td></tr><tr><td><b><a name=\"fr-REL-07\"> </a></b>Maintain change log</td><td>SHALL</td><td><div><p>Can maintain a changes page with release summary, known issues, and categorized changes (non-compatible, compatible substantive, non-substantive).</p>\n</div></td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: Requirements SGAuthoring.Skills.ManageReleases</b></p><a name=\"ar-SGAuthoring.Skills.ManageReleases\"> </a><a name=\"ar-hcSGAuthoring.Skills.ManageReleases\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">الملف الشخصي: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>تنطبق هذه المتطلبات على الممثل <a href=\"ActorDefinition-SGAuthoring.Persona.PublicationManager.html\">Publication Manager</a></p><table class=\"grid\"><tr><td><b><a name=\"ar-REL-01\"> </a></b>Determine version number</td><td>SHALL</td><td><div><p>Can review changes since last release, determine if changes are breaking, and update version number following semantic versioning.</p>\n</div></td></tr><tr><td><b><a name=\"ar-REL-02\"> </a></b>Update IG status for release</td><td>SHALL</td><td><div><p>Can update IG and all conformance artifacts: status to active, version without label, releaseLabel to release, and date to current date.</p>\n</div></td></tr><tr><td><b><a name=\"ar-REL-03\"> </a></b>Create publication-request.json</td><td>SHALL</td><td><div><p>Can create a correct publication-request.json with matching package-id, version, path, ci-build, and first/subsequent flags.</p>\n</div></td></tr><tr><td><b><a name=\"ar-REL-04\"> </a></b>Create release tag</td><td>SHALL</td><td><div><p>Can create a GitHub release and tag in the form vX.Y.Z to trigger the automated publication workflow.</p>\n</div></td></tr><tr><td><b><a name=\"ar-REL-05\"> </a></b>Verify publication</td><td>SHALL</td><td><div><p>Can verify the publication workflow succeeded and the IG is available at the sitepreview URL.</p>\n</div></td></tr><tr><td><b><a name=\"ar-REL-06\"> </a></b>Reset to draft</td><td>SHALL</td><td><div><p>Can reset the main branch to draft status with updated version number after publication.</p>\n</div></td></tr><tr><td><b><a name=\"ar-REL-07\"> </a></b>Maintain change log</td><td>SHALL</td><td><div><p>Can maintain a changes page with release summary, known issues, and categorized changes (non-compatible, compatible substantive, non-substantive).</p>\n</div></td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.ManageReleases</b></p><a name=\"zh-SGAuthoring.Skills.ManageReleases\"> </a><a name=\"zh-hcSGAuthoring.Skills.ManageReleases\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the actor <a href=\"ActorDefinition-SGAuthoring.Persona.PublicationManager.html\">Publication Manager</a></p><table class=\"grid\"><tr><td><b><a name=\"zh-REL-01\"> </a></b>Determine version number</td><td>SHALL</td><td><div><p>Can review changes since last release, determine if changes are breaking, and update version number following semantic versioning.</p>\n</div></td></tr><tr><td><b><a name=\"zh-REL-02\"> </a></b>Update IG status for release</td><td>SHALL</td><td><div><p>Can update IG and all conformance artifacts: status to active, version without label, releaseLabel to release, and date to current date.</p>\n</div></td></tr><tr><td><b><a name=\"zh-REL-03\"> </a></b>Create publication-request.json</td><td>SHALL</td><td><div><p>Can create a correct publication-request.json with matching package-id, version, path, ci-build, and first/subsequent flags.</p>\n</div></td></tr><tr><td><b><a name=\"zh-REL-04\"> </a></b>Create release tag</td><td>SHALL</td><td><div><p>Can create a GitHub release and tag in the form vX.Y.Z to trigger the automated publication workflow.</p>\n</div></td></tr><tr><td><b><a name=\"zh-REL-05\"> </a></b>Verify publication</td><td>SHALL</td><td><div><p>Can verify the publication workflow succeeded and the IG is available at the sitepreview URL.</p>\n</div></td></tr><tr><td><b><a name=\"zh-REL-06\"> </a></b>Reset to draft</td><td>SHALL</td><td><div><p>Can reset the main branch to draft status with updated version number after publication.</p>\n</div></td></tr><tr><td><b><a name=\"zh-REL-07\"> </a></b>Maintain change log</td><td>SHALL</td><td><div><p>Can maintain a changes page with release summary, known issues, and categorized changes (non-compatible, compatible substantive, non-substantive).</p>\n</div></td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: Requirements SGAuthoring.Skills.ManageReleases</b></p><a name=\"ru-SGAuthoring.Skills.ManageReleases\"> </a><a name=\"ru-hcSGAuthoring.Skills.ManageReleases\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Профиль: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>Эти требования распространяются и на актера <a href=\"ActorDefinition-SGAuthoring.Persona.PublicationManager.html\">Publication Manager</a></p><table class=\"grid\"><tr><td><b><a name=\"ru-REL-01\"> </a></b>Determine version number</td><td>SHALL</td><td><div><p>Can review changes since last release, determine if changes are breaking, and update version number following semantic versioning.</p>\n</div></td></tr><tr><td><b><a name=\"ru-REL-02\"> </a></b>Update IG status for release</td><td>SHALL</td><td><div><p>Can update IG and all conformance artifacts: status to active, version without label, releaseLabel to release, and date to current date.</p>\n</div></td></tr><tr><td><b><a name=\"ru-REL-03\"> </a></b>Create publication-request.json</td><td>SHALL</td><td><div><p>Can create a correct publication-request.json with matching package-id, version, path, ci-build, and first/subsequent flags.</p>\n</div></td></tr><tr><td><b><a name=\"ru-REL-04\"> </a></b>Create release tag</td><td>SHALL</td><td><div><p>Can create a GitHub release and tag in the form vX.Y.Z to trigger the automated publication workflow.</p>\n</div></td></tr><tr><td><b><a name=\"ru-REL-05\"> </a></b>Verify publication</td><td>SHALL</td><td><div><p>Can verify the publication workflow succeeded and the IG is available at the sitepreview URL.</p>\n</div></td></tr><tr><td><b><a name=\"ru-REL-06\"> </a></b>Reset to draft</td><td>SHALL</td><td><div><p>Can reset the main branch to draft status with updated version number after publication.</p>\n</div></td></tr><tr><td><b><a name=\"ru-REL-07\"> </a></b>Maintain change log</td><td>SHALL</td><td><div><p>Can maintain a changes page with release summary, known issues, and categorized changes (non-compatible, compatible substantive, non-substantive).</p>\n</div></td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.ManageReleases</b></p><a name=\"es-SGAuthoring.Skills.ManageReleases\"> </a><a name=\"es-hcSGAuthoring.Skills.ManageReleases\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the actor <a href=\"ActorDefinition-SGAuthoring.Persona.PublicationManager.html\">Publication Manager</a></p><table class=\"grid\"><tr><td><b><a name=\"es-REL-01\"> </a></b>Determine version number</td><td>SHALL</td><td><div><p>Can review changes since last release, determine if changes are breaking, and update version number following semantic versioning.</p>\n</div></td></tr><tr><td><b><a name=\"es-REL-02\"> </a></b>Update IG status for release</td><td>SHALL</td><td><div><p>Can update IG and all conformance artifacts: status to active, version without label, releaseLabel to release, and date to current date.</p>\n</div></td></tr><tr><td><b><a name=\"es-REL-03\"> </a></b>Create publication-request.json</td><td>SHALL</td><td><div><p>Can create a correct publication-request.json with matching package-id, version, path, ci-build, and first/subsequent flags.</p>\n</div></td></tr><tr><td><b><a name=\"es-REL-04\"> </a></b>Create release tag</td><td>SHALL</td><td><div><p>Can create a GitHub release and tag in the form vX.Y.Z to trigger the automated publication workflow.</p>\n</div></td></tr><tr><td><b><a name=\"es-REL-05\"> </a></b>Verify publication</td><td>SHALL</td><td><div><p>Can verify the publication workflow succeeded and the IG is available at the sitepreview URL.</p>\n</div></td></tr><tr><td><b><a name=\"es-REL-06\"> </a></b>Reset to draft</td><td>SHALL</td><td><div><p>Can reset the main branch to draft status with updated version number after publication.</p>\n</div></td></tr><tr><td><b><a name=\"es-REL-07\"> </a></b>Maintain change log</td><td>SHALL</td><td><div><p>Can maintain a changes page with release summary, known issues, and categorized changes (non-compatible, compatible substantive, non-substantive).</p>\n</div></td></tr></table></div></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:extension ( [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://smart.who.int/base/StructureDefinition/SGString"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/StructureDefinition/SGString>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "manage versioning, release tags, and the publication workflow"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://smart.who.int/base/StructureDefinition/SGString"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/StructureDefinition/SGString>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "IG releases follow semantic versioning and are published through a governed, repeatable process"
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGUserStory"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGUserStory>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.url"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.url>
+     ] ;
+     fhir:value [
+       a fhir:Uri ;
+       fhir:v "http://smart.who.int/base/Requirements/SGAuthoring.Skills.ManageReleases"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/Requirements/SGAuthoring.Skills.ManageReleases>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.version"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.version>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "0.2.0"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.name"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.name>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "SkillManageReleases"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.title"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.title>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "Can manage releases"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.status"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.status>
+     ] ;
+     fhir:value [
+       a fhir:Code ;
+       fhir:v "draft"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.experimental"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.experimental>
+     ] ;
+     fhir:value [
+       a fhir:Boolean ;
+       fhir:v true
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.date"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.date>
+     ] ;
+     fhir:value [
+       a fhir:DateTime ;
+       fhir:v "2026-03-24T00:45:34+00:00"^^xsd:dateTime
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.publisher"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.publisher>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "WHO"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.contact"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.contact>
+     ] ;
+     fhir:value [
+       a fhir:ContactDetail ;
+       fhir:name [ fhir:v "WHO" ] ;
+       fhir:telecom ( [
+         fhir:system [ fhir:v "url" ] ;
+         fhir:value [ fhir:v "http://who.int" ]
+       ] )
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.description"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.description>
+     ] ;
+     fhir:value [
+       a fhir:Markdown ;
+       fhir:v "Capability to manage versioning, publication-request.json, release tags, and publication workflow."
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.jurisdiction"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.jurisdiction>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor>
+     ] ;
+     fhir:value [
+       a fhir:Canonical ;
+       fhir:v "http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.PublicationManager"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.PublicationManager>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "REL-01"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Determine version number"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can review changes since last release, determine if changes are breaking, and update version number following semantic versioning."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "REL-02"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Update IG status for release"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can update IG and all conformance artifacts: status to active, version without label, releaseLabel to release, and date to current date."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "REL-03"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Create publication-request.json"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can create a correct publication-request.json with matching package-id, version, path, ci-build, and first/subsequent flags."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "REL-04"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Create release tag"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can create a GitHub release and tag in the form vX.Y.Z to trigger the automated publication workflow."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "REL-05"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Verify publication"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can verify the publication workflow succeeded and the IG is available at the sitepreview URL."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "REL-06"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Reset to draft"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can reset the main branch to draft status with updated version number after publication."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "REL-07"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Maintain change log"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can maintain a changes page with release summary, known issues, and categorized changes (non-compatible, compatible substantive, non-substantive)."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] ) ; # 
+  fhir:code [
+     fhir:coding ( [
+       fhir:system [
+         fhir:v "http://hl7.org/fhir/fhir-types"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/fhir-types>
+       ] ;
+       fhir:code [ fhir:v "Requirements" ]
+     ] )
+  ] . # 
+
+# -------------------------------------------------------------------------------------
+
