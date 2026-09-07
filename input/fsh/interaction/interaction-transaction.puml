@@ -1,0 +1,220 @@
+@startuml Interaction and Transaction Logical Models
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 12
+skinparam class {
+  BackgroundColor #F7F7F7
+  BorderColor #555555
+  ArrowColor #555555
+}
+hide empty methods
+
+' ──────────────────────────────────────
+'  External references
+' ──────────────────────────────────────
+
+class ActorDefinition <<R5 Resource>> #E8F5E9 {
+  type : code {system | entity}
+  ..
+  Referenced, not defined here
+}
+
+' ──────────────────────────────────────
+'  Interaction (base)
+' ──────────────────────────────────────
+
+class Interaction #DCEEFB {
+  identifier : Identifier [0..*]
+  name : string [1..1]
+  title : string [0..1]
+  description : markdown [0..1]
+  type : code [1..1] «InteractionType»
+  status : code [0..1] «PublicationStatus»
+  date : dateTime [0..1]
+  purpose : markdown [0..1]
+  trigger : string [0..1]
+  preCondition : string [0..*]
+  postCondition : string [0..*]
+}
+
+class "Interaction.\nparticipant" as Participant #DCEEFB {
+  role : code [1..1] «ParticipantRole»
+  position : integer [0..1]
+  description : string [0..1]
+}
+
+class "Interaction.\nrequest" as Request #DCEEFB {
+  description : markdown [0..1]
+  .. added by Transaction ..
+  profile : url [0..*]
+  contentType : string [0..1]
+}
+
+class "Interaction.\nresponse" as Response #DCEEFB {
+  description : markdown [0..1]
+  .. added by Transaction ..
+  trigger : string [0..1]
+  profile : url [0..*]
+  contentType : string [0..1]
+}
+
+class "Interaction.\nsemantics" as Semantics #DCEEFB {
+  description : markdown [0..1]
+}
+
+class "Interaction.\nsemantics.\nactorBehavior" as ActorBehavior #DCEEFB {
+  expectation : markdown [1..1]
+}
+
+Interaction "1" *-- "0..*" Participant : participant
+Interaction "1" *-- "1..1" Request : request
+Interaction "1" *-- "0..1" Response : response
+Interaction "1" *-- "0..1" Semantics : semantics
+Semantics "1" *-- "0..*" ActorBehavior : actorBehavior
+
+Interaction "1" --> "1..1" ActorDefinition : initiator
+Interaction "1" --> "1..1" ActorDefinition : responder
+Participant "1" --> "1..1" ActorDefinition : actor
+ActorBehavior "1" --> "1..1" ActorDefinition : actor
+
+' ──────────────────────────────────────
+'  Transaction (extends Interaction)
+' ──────────────────────────────────────
+
+class Transaction #C8E6C9 {
+  type = #system-to-system {fixed}
+  ..
+  direction : code [1..1] «TransactionDirection»
+  exchangePattern : code [1..1] «ExchangePattern»
+  transportProtocol : code [0..*] «TransportProtocol»
+  synchronicity : code [0..1] «Synchronicity»
+}
+
+Transaction -up-|> Interaction
+
+class "Transaction.\nstandard" as Standard #C8E6C9 {
+  url : url [1..1]
+  version : string [0..1]
+  description : markdown [0..1]
+  conformance : code [0..1] «Conformance»
+  constraint : markdown [0..*]
+}
+
+class "Transaction.\nsecurity" as Security #C8E6C9 {
+  mechanism : code [1..1] «SecurityMechanismType»
+  description : markdown [0..1]
+  profile : url [0..*]
+}
+
+class "Transaction.\nrelatedTransaction" as RelatedTx #C8E6C9 {
+  relationship : code [1..1] «TransactionRelationship»
+}
+
+Transaction "1" *-- "0..*" Standard : standard
+Transaction "1" *-- "0..*" Security : security
+Transaction "1" *-- "0..*" RelatedTx : relatedTransaction
+
+RelatedTx "1" --> "1..1" Transaction : transaction
+
+' ──────────────────────────────────────
+'  Value Sets (as enumerations)
+' ──────────────────────────────────────
+
+enum InteractionType <<ValueSet>> #FFF3E0 {
+  user-to-system
+  system-to-user
+  system-to-system
+  user-to-user
+}
+
+enum ParticipantRole <<ValueSet>> #FFF3E0 {
+  gateway
+  broker
+  proxy
+  observer
+  authz-server
+  fulfiller
+  validator
+}
+
+enum ExchangePattern <<ValueSet>> #FFF3E0 {
+  request-response
+  query
+  messaging
+  document
+  publish-subscribe
+  event-notification
+  batch
+}
+
+enum TransportProtocol <<ValueSet>> #FFF3E0 {
+  http
+  soap
+  mllp
+  smtp
+  ftp
+  dicom
+  websocket
+  amqp
+  kafka
+  filesystem
+}
+
+enum TransactionDirection <<ValueSet>> #FFF3E0 {
+  pull
+  push
+}
+
+enum Synchronicity <<ValueSet>> #FFF3E0 {
+  synchronous
+  asynchronous
+}
+
+enum SecurityMechanismType <<ValueSet>> #FFF3E0 {
+  transport
+  authentication
+  authorization
+  audit
+  consent
+}
+
+enum TransactionRelationship <<ValueSet>> #FFF3E0 {
+  setup
+  follows
+  triggers
+  alternative
+}
+
+enum Conformance <<ValueSet>> #FFF3E0 {
+  required
+  recommended
+  optional
+}
+
+' ──────────────────────────────────────
+'  Layout hints
+' ──────────────────────────────────────
+
+InteractionType -[hidden]right- ParticipantRole
+ParticipantRole -[hidden]right- ExchangePattern
+ExchangePattern -[hidden]right- TransportProtocol
+TransportProtocol -[hidden]right- TransactionDirection
+
+TransactionDirection -[hidden]right- Synchronicity
+Synchronicity -[hidden]right- SecurityMechanismType
+SecurityMechanismType -[hidden]right- TransactionRelationship
+TransactionRelationship -[hidden]right- Conformance
+
+' ──────────────────────────────────────
+'  Legend
+' ──────────────────────────────────────
+
+legend bottom left
+  |= Color |= Meaning |
+  | <#DCEEFB> | Interaction (base) |
+  | <#C8E6C9> | Transaction (specialization) |
+  | <#E8F5E9> | External FHIR Resource |
+  | <#FFF3E0> | ValueSet |
+end legend
+
+@enduml
