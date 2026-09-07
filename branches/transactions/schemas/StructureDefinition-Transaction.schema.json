@@ -1,0 +1,576 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-Transaction.schema.json",
+  "title": "Transaction",
+  "description": "A system-to-system technical exchange contract, extending the Interaction model. \nAdds the technical details needed to describe data exchanges between systems: exchange pattern, \ntransport protocol, payload specifications, security requirements, and relationships to other \ntransactions. This model is technology-agnostic — it can describe exchanges based on FHIR, \nHL7 v2, CDA, DICOM, X12, SOAP, or any other standard.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "Transaction",
+      "description": "Resource type identifier for Transaction logical model"
+    },
+    "@context": {
+      "description": "JSON-LD context for this logical model with ValueSet vocabularies",
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uri",
+          "description": "URI reference to external JSON-LD context"
+        },
+        {
+          "type": "object",
+          "description": "Inline JSON-LD context",
+          "properties": {
+            "@version": {
+              "type": "number",
+              "const": 1.1
+            },
+            "fhir": {
+              "type": "string",
+              "const": "http://hl7.org/fhir/"
+            }
+          },
+          "additionalProperties": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        {
+          "type": "array",
+          "description": "Array of JSON-LD context objects/URIs",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "@type": {
+      "type": "string",
+      "description": "JSON-LD type identifier for Transaction logical model",
+      "examples": [
+        "LogicalModel-Transaction"
+      ]
+    },
+    "identifier": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Unique identifier(s) for this interaction definition."
+    },
+    "name": {
+      "type": "string",
+      "description": "A short human-readable label for the interaction (e.g., 'Patient Demographics Query')."
+    },
+    "title": {
+      "type": "string",
+      "description": "A display title for the interaction."
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the specific security requirements."
+    },
+    "type": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet interaction-type (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet interaction-type (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-interaction-type.jsonld",
+              "description": "JSON-LD type reference to ValueSet interaction-type"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet interaction-type"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "The type of actors involved."
+    },
+    "status": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet publication-status (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet publication-status (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-publication-status.jsonld",
+              "description": "JSON-LD type reference to ValueSet publication-status"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet publication-status"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "The publication status of this interaction definition."
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date this interaction definition was last changed."
+    },
+    "purpose": {
+      "type": "string",
+      "description": "Why this interaction is defined — the business or clinical need it addresses."
+    },
+    "initiator": {
+      "type": "object",
+      "description": "The actor that triggers the interaction (logical source)."
+    },
+    "responder": {
+      "type": "object",
+      "description": "The actor that receives and responds to the interaction (logical endpoint)."
+    },
+    "participant": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Additional actors involved in the interaction beyond initiator and responder."
+    },
+    "id": {
+      "type": "object",
+      "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces."
+    },
+    "modifierExtension": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Extension"
+      },
+      "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."
+    },
+    "actor": {
+      "type": "object",
+      "description": "The actor whose behavior is described."
+    },
+    "role": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet participant-role (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet participant-role (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-participant-role.jsonld",
+              "description": "JSON-LD type reference to ValueSet participant-role"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet participant-role"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "The role this participant plays in the interaction."
+    },
+    "position": {
+      "type": "integer",
+      "description": "Order in a sequential chain of intermediaries (1-based). Used when multiple participants form an ordered path between initiator and responder."
+    },
+    "trigger": {
+      "type": "string",
+      "description": "What triggers the response — typically receipt of the request, but may differ in asynchronous or event-driven patterns (e.g., 'when a matching result becomes available')."
+    },
+    "preCondition": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Conditions that must be true before this interaction can occur."
+    },
+    "postCondition": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Conditions that are expected to be true after this interaction completes successfully."
+    },
+    "request": {
+      "type": "object",
+      "description": "The outbound payload — what the initiator supplies."
+    },
+    "profile": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "Reference to a security specification or profile that applies (e.g., IHE IUA, SMART App Launch, IHE ATNA/BALP, WS-Security policy)."
+    },
+    "contentType": {
+      "type": "string",
+      "description": "The content type or format of the response payload."
+    },
+    "response": {
+      "type": "object",
+      "description": "The return payload — what the responder returns. Absent for fire-and-forget patterns."
+    },
+    "semantics": {
+      "type": "object",
+      "description": "The processing semantics of the interaction — what actors do during the exchange, beyond what is expressed in pre/postConditions and the payload structure."
+    },
+    "actorBehavior": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "The expected behavior of a specific actor during this interaction."
+    },
+    "expectation": {
+      "type": "string",
+      "description": "What this actor is expected to do during the interaction (e.g., validate, cross-reference, transform, store, forward)."
+    },
+    "direction": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet transaction-direction (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet transaction-direction (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-transaction-direction.jsonld",
+              "description": "JSON-LD type reference to ValueSet transaction-direction"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet transaction-direction"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Whether the data consumer (pull) or data source (push) initiates the data flow."
+    },
+    "exchangePattern": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet exchange-pattern (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet exchange-pattern (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-exchange-pattern.jsonld",
+              "description": "JSON-LD type reference to ValueSet exchange-pattern"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet exchange-pattern"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "The broad architectural pattern (e.g., request-response, messaging, document, publish-subscribe)."
+    },
+    "transportProtocol": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "string",
+            "description": "Code from ValueSet transport-protocol (plain string)"
+          },
+          {
+            "type": "object",
+            "description": "Code from ValueSet transport-protocol (JSON-LD structure)",
+            "properties": {
+              "@type": {
+                "type": "string",
+                "const": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld",
+                "description": "JSON-LD type reference to ValueSet transport-protocol"
+              },
+              "@id": {
+                "type": "string",
+                "format": "uri",
+                "description": "Full IRI of the code from ValueSet transport-protocol"
+              }
+            },
+            "required": [
+              "@type",
+              "@id"
+            ],
+            "additionalProperties": false
+          }
+        ],
+        "description": "Code from ValueSet transport-protocol. Can be a plain string or JSON-LD structure with @type and @id."
+      },
+      "description": "The transport protocol(s) that may carry this exchange (e.g., HTTP, SOAP, MLLP)."
+    },
+    "synchronicity": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet synchronicity (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet synchronicity (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-synchronicity.jsonld",
+              "description": "JSON-LD type reference to ValueSet synchronicity"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet synchronicity"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Whether the exchange completes synchronously or asynchronously."
+    },
+    "standard": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Specifications, implementation guides, or standards that govern this transaction."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The URL or identifier of the specification (e.g., an IHE profile URL, a FHIR IG canonical, an RFC, a standard number)."
+    },
+    "version": {
+      "type": "string",
+      "description": "The version of the referenced specification."
+    },
+    "conformance": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet conformance (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet conformance (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-conformance.jsonld",
+              "description": "JSON-LD type reference to ValueSet conformance"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet conformance"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "How binding this standard is for the transaction."
+    },
+    "constraint": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Specific constraints or restrictions applied to the base standard in this transaction."
+    },
+    "security": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Security requirements for this transaction."
+    },
+    "mechanism": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet security-mechanism-type (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet security-mechanism-type (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-security-mechanism-type.jsonld",
+              "description": "JSON-LD type reference to ValueSet security-mechanism-type"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet security-mechanism-type"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "The category of security mechanism (e.g., transport, authentication, authorization, audit)."
+    },
+    "relatedTransaction": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Relationships to other transactions (e.g., subscription setup, workflow sequencing)."
+    },
+    "transaction": {
+      "type": "object",
+      "description": "The related transaction."
+    },
+    "relationship": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet transaction-relationship-type (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet transaction-relationship-type (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-transaction-relationship-type.jsonld",
+              "description": "JSON-LD type reference to ValueSet transaction-relationship-type"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet transaction-relationship-type"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "The nature of the relationship."
+    }
+  },
+  "required": [
+    "resourceType",
+    "name",
+    "type",
+    "initiator",
+    "responder",
+    "actor",
+    "role",
+    "request",
+    "actor",
+    "expectation",
+    "direction",
+    "exchangePattern",
+    "url",
+    "mechanism",
+    "transaction",
+    "relationship"
+  ],
+  "resourceDefinition": "http://smart.who.int/base/StructureDefinition/Transaction",
+  "fhir:parent": "http://smart.who.int/base/StructureDefinition/Interaction",
+  "jsonld:valuesets": [
+    "interaction-type",
+    "transport-protocol",
+    "security-mechanism-type",
+    "participant-role",
+    "publication-status",
+    "synchronicity",
+    "transaction-relationship-type",
+    "conformance",
+    "transaction-direction",
+    "exchange-pattern"
+  ],
+  "jsonld:contextTemplate": {
+    "@version": 1.1,
+    "fhir": "http://hl7.org/fhir/",
+    "interaction-type": "http://smart.who.int/base/ValueSet-interaction-type.jsonld",
+    "transport-protocol": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld",
+    "security-mechanism-type": "http://smart.who.int/base/ValueSet-security-mechanism-type.jsonld",
+    "participant-role": "http://smart.who.int/base/ValueSet-participant-role.jsonld",
+    "publication-status": "http://smart.who.int/base/ValueSet-publication-status.jsonld",
+    "synchronicity": "http://smart.who.int/base/ValueSet-synchronicity.jsonld",
+    "transaction-relationship-type": "http://smart.who.int/base/ValueSet-transaction-relationship-type.jsonld",
+    "conformance": "http://smart.who.int/base/ValueSet-conformance.jsonld",
+    "transaction-direction": "http://smart.who.int/base/ValueSet-transaction-direction.jsonld",
+    "exchange-pattern": "http://smart.who.int/base/ValueSet-exchange-pattern.jsonld"
+  }
+}

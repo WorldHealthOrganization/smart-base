@@ -1,0 +1,458 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/Basic/SGAuthoring.Skills.ValidateDAKContent> a fhir:Basic ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "SGAuthoring.Skills.ValidateDAKContent"] ; # 
+  fhir:meta [
+     fhir:profile ( [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGRequirements"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGRequirements>
+     ] )
+  ] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.ValidateDAKContent</b></p><a name=\"SGAuthoring.Skills.ValidateDAKContent\"> </a><a name=\"hcSGAuthoring.Skills.ValidateDAKContent\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the following actors: </p><ul><li><a href=\"ActorDefinition-SGAuthoring.Persona.BusinessAnalyst.html\">Business Analyst</a></li><li><a href=\"ActorDefinition-SGAuthoring.Persona.ClinicalSME.html\">Clinical Subject Matter Expert</a></li></ul><table class=\"grid\"><tr><td><b><a name=\"DAKVAL-01\"> </a></b>Verify L1 accuracy</td><td>SHALL</td><td><div><p>Can verify that DAK components accurately reflect L1 recommendations.</p>\n</div></td></tr><tr><td><b><a name=\"DAKVAL-02\"> </a></b>Identify gaps and changes</td><td>SHALL</td><td><div><p>Can identify gaps, key changes, and alternatives in DAK content.</p>\n</div></td></tr><tr><td><b><a name=\"DAKVAL-03\"> </a></b>Verify software neutrality</td><td>SHALL</td><td><div><p>Can verify that DAK components are software-neutral and do not assume any specific software or device.</p>\n</div></td></tr><tr><td><b><a name=\"DAKVAL-04\"> </a></b>Streamline cross-component consistency</td><td>SHALL</td><td><div><p>Can review DAK for cross-component consistency: persona naming, data element usage, workflow alignment, and requirement linkage.</p>\n</div></td></tr><tr><td><b><a name=\"DAKVAL-05\"> </a></b>Incorporate SME feedback</td><td>SHALL</td><td><div><p>Can analyse feedback from SMEs, identify patterns, incorporate changes, and confirm accurate reflection of suggestions.</p>\n</div></td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : Requirements SGAuthoring.Skills.ValidateDAKContent</b></p><a name=\"fr-SGAuthoring.Skills.ValidateDAKContent\"> </a><a name=\"fr-hcSGAuthoring.Skills.ValidateDAKContent\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profil: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>Ces exigences s'appliquent aux acteurs suivants : </p><ul><li><a href=\"ActorDefinition-SGAuthoring.Persona.BusinessAnalyst.html\">Business Analyst</a></li><li><a href=\"ActorDefinition-SGAuthoring.Persona.ClinicalSME.html\">Clinical Subject Matter Expert</a></li></ul><table class=\"grid\"><tr><td><b><a name=\"fr-DAKVAL-01\"> </a></b>Verify L1 accuracy</td><td>SHALL</td><td><div><p>Can verify that DAK components accurately reflect L1 recommendations.</p>\n</div></td></tr><tr><td><b><a name=\"fr-DAKVAL-02\"> </a></b>Identify gaps and changes</td><td>SHALL</td><td><div><p>Can identify gaps, key changes, and alternatives in DAK content.</p>\n</div></td></tr><tr><td><b><a name=\"fr-DAKVAL-03\"> </a></b>Verify software neutrality</td><td>SHALL</td><td><div><p>Can verify that DAK components are software-neutral and do not assume any specific software or device.</p>\n</div></td></tr><tr><td><b><a name=\"fr-DAKVAL-04\"> </a></b>Streamline cross-component consistency</td><td>SHALL</td><td><div><p>Can review DAK for cross-component consistency: persona naming, data element usage, workflow alignment, and requirement linkage.</p>\n</div></td></tr><tr><td><b><a name=\"fr-DAKVAL-05\"> </a></b>Incorporate SME feedback</td><td>SHALL</td><td><div><p>Can analyse feedback from SMEs, identify patterns, incorporate changes, and confirm accurate reflection of suggestions.</p>\n</div></td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: Requirements SGAuthoring.Skills.ValidateDAKContent</b></p><a name=\"ar-SGAuthoring.Skills.ValidateDAKContent\"> </a><a name=\"ar-hcSGAuthoring.Skills.ValidateDAKContent\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">الملف الشخصي: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>تنطبق هذه المتطلبات على الجهات التالية </p><ul><li><a href=\"ActorDefinition-SGAuthoring.Persona.BusinessAnalyst.html\">Business Analyst</a></li><li><a href=\"ActorDefinition-SGAuthoring.Persona.ClinicalSME.html\">Clinical Subject Matter Expert</a></li></ul><table class=\"grid\"><tr><td><b><a name=\"ar-DAKVAL-01\"> </a></b>Verify L1 accuracy</td><td>SHALL</td><td><div><p>Can verify that DAK components accurately reflect L1 recommendations.</p>\n</div></td></tr><tr><td><b><a name=\"ar-DAKVAL-02\"> </a></b>Identify gaps and changes</td><td>SHALL</td><td><div><p>Can identify gaps, key changes, and alternatives in DAK content.</p>\n</div></td></tr><tr><td><b><a name=\"ar-DAKVAL-03\"> </a></b>Verify software neutrality</td><td>SHALL</td><td><div><p>Can verify that DAK components are software-neutral and do not assume any specific software or device.</p>\n</div></td></tr><tr><td><b><a name=\"ar-DAKVAL-04\"> </a></b>Streamline cross-component consistency</td><td>SHALL</td><td><div><p>Can review DAK for cross-component consistency: persona naming, data element usage, workflow alignment, and requirement linkage.</p>\n</div></td></tr><tr><td><b><a name=\"ar-DAKVAL-05\"> </a></b>Incorporate SME feedback</td><td>SHALL</td><td><div><p>Can analyse feedback from SMEs, identify patterns, incorporate changes, and confirm accurate reflection of suggestions.</p>\n</div></td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.ValidateDAKContent</b></p><a name=\"zh-SGAuthoring.Skills.ValidateDAKContent\"> </a><a name=\"zh-hcSGAuthoring.Skills.ValidateDAKContent\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the following actors: </p><ul><li><a href=\"ActorDefinition-SGAuthoring.Persona.BusinessAnalyst.html\">Business Analyst</a></li><li><a href=\"ActorDefinition-SGAuthoring.Persona.ClinicalSME.html\">Clinical Subject Matter Expert</a></li></ul><table class=\"grid\"><tr><td><b><a name=\"zh-DAKVAL-01\"> </a></b>Verify L1 accuracy</td><td>SHALL</td><td><div><p>Can verify that DAK components accurately reflect L1 recommendations.</p>\n</div></td></tr><tr><td><b><a name=\"zh-DAKVAL-02\"> </a></b>Identify gaps and changes</td><td>SHALL</td><td><div><p>Can identify gaps, key changes, and alternatives in DAK content.</p>\n</div></td></tr><tr><td><b><a name=\"zh-DAKVAL-03\"> </a></b>Verify software neutrality</td><td>SHALL</td><td><div><p>Can verify that DAK components are software-neutral and do not assume any specific software or device.</p>\n</div></td></tr><tr><td><b><a name=\"zh-DAKVAL-04\"> </a></b>Streamline cross-component consistency</td><td>SHALL</td><td><div><p>Can review DAK for cross-component consistency: persona naming, data element usage, workflow alignment, and requirement linkage.</p>\n</div></td></tr><tr><td><b><a name=\"zh-DAKVAL-05\"> </a></b>Incorporate SME feedback</td><td>SHALL</td><td><div><p>Can analyse feedback from SMEs, identify patterns, incorporate changes, and confirm accurate reflection of suggestions.</p>\n</div></td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: Requirements SGAuthoring.Skills.ValidateDAKContent</b></p><a name=\"ru-SGAuthoring.Skills.ValidateDAKContent\"> </a><a name=\"ru-hcSGAuthoring.Skills.ValidateDAKContent\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Профиль: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>Эти требования применяются к следующим субъектам: </p><ul><li><a href=\"ActorDefinition-SGAuthoring.Persona.BusinessAnalyst.html\">Business Analyst</a></li><li><a href=\"ActorDefinition-SGAuthoring.Persona.ClinicalSME.html\">Clinical Subject Matter Expert</a></li></ul><table class=\"grid\"><tr><td><b><a name=\"ru-DAKVAL-01\"> </a></b>Verify L1 accuracy</td><td>SHALL</td><td><div><p>Can verify that DAK components accurately reflect L1 recommendations.</p>\n</div></td></tr><tr><td><b><a name=\"ru-DAKVAL-02\"> </a></b>Identify gaps and changes</td><td>SHALL</td><td><div><p>Can identify gaps, key changes, and alternatives in DAK content.</p>\n</div></td></tr><tr><td><b><a name=\"ru-DAKVAL-03\"> </a></b>Verify software neutrality</td><td>SHALL</td><td><div><p>Can verify that DAK components are software-neutral and do not assume any specific software or device.</p>\n</div></td></tr><tr><td><b><a name=\"ru-DAKVAL-04\"> </a></b>Streamline cross-component consistency</td><td>SHALL</td><td><div><p>Can review DAK for cross-component consistency: persona naming, data element usage, workflow alignment, and requirement linkage.</p>\n</div></td></tr><tr><td><b><a name=\"ru-DAKVAL-05\"> </a></b>Incorporate SME feedback</td><td>SHALL</td><td><div><p>Can analyse feedback from SMEs, identify patterns, incorporate changes, and confirm accurate reflection of suggestions.</p>\n</div></td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.ValidateDAKContent</b></p><a name=\"es-SGAuthoring.Skills.ValidateDAKContent\"> </a><a name=\"es-hcSGAuthoring.Skills.ValidateDAKContent\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the following actors: </p><ul><li><a href=\"ActorDefinition-SGAuthoring.Persona.BusinessAnalyst.html\">Business Analyst</a></li><li><a href=\"ActorDefinition-SGAuthoring.Persona.ClinicalSME.html\">Clinical Subject Matter Expert</a></li></ul><table class=\"grid\"><tr><td><b><a name=\"es-DAKVAL-01\"> </a></b>Verify L1 accuracy</td><td>SHALL</td><td><div><p>Can verify that DAK components accurately reflect L1 recommendations.</p>\n</div></td></tr><tr><td><b><a name=\"es-DAKVAL-02\"> </a></b>Identify gaps and changes</td><td>SHALL</td><td><div><p>Can identify gaps, key changes, and alternatives in DAK content.</p>\n</div></td></tr><tr><td><b><a name=\"es-DAKVAL-03\"> </a></b>Verify software neutrality</td><td>SHALL</td><td><div><p>Can verify that DAK components are software-neutral and do not assume any specific software or device.</p>\n</div></td></tr><tr><td><b><a name=\"es-DAKVAL-04\"> </a></b>Streamline cross-component consistency</td><td>SHALL</td><td><div><p>Can review DAK for cross-component consistency: persona naming, data element usage, workflow alignment, and requirement linkage.</p>\n</div></td></tr><tr><td><b><a name=\"es-DAKVAL-05\"> </a></b>Incorporate SME feedback</td><td>SHALL</td><td><div><p>Can analyse feedback from SMEs, identify patterns, incorporate changes, and confirm accurate reflection of suggestions.</p>\n</div></td></tr></table></div></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:extension ( [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://smart.who.int/base/StructureDefinition/SGString"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/StructureDefinition/SGString>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "review and validate DAK components against L1 source documents"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://smart.who.int/base/StructureDefinition/SGString"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/StructureDefinition/SGString>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "DAK content is accurate, consistent, and faithfully represents WHO clinical recommendations"
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGUserStory"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGUserStory>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.url"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.url>
+     ] ;
+     fhir:value [
+       a fhir:Uri ;
+       fhir:v "http://smart.who.int/base/Requirements/SGAuthoring.Skills.ValidateDAKContent"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/Requirements/SGAuthoring.Skills.ValidateDAKContent>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.version"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.version>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "0.2.0"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.name"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.name>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "SkillValidateDAKContent"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.title"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.title>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "Can validate DAK content"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.status"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.status>
+     ] ;
+     fhir:value [
+       a fhir:Code ;
+       fhir:v "draft"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.experimental"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.experimental>
+     ] ;
+     fhir:value [
+       a fhir:Boolean ;
+       fhir:v true
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.date"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.date>
+     ] ;
+     fhir:value [
+       a fhir:DateTime ;
+       fhir:v "2026-04-01T14:11:42+00:00"^^xsd:dateTime
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.publisher"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.publisher>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "WHO"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.contact"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.contact>
+     ] ;
+     fhir:value [
+       a fhir:ContactDetail ;
+       fhir:name [ fhir:v "WHO" ] ;
+       fhir:telecom ( [
+         fhir:system [ fhir:v "url" ] ;
+         fhir:value [ fhir:v "http://who.int" ]
+       ] )
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.description"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.description>
+     ] ;
+     fhir:value [
+       a fhir:Markdown ;
+       fhir:v "Capability to review and validate DAK components against L1 source documents and for cross-component consistency."
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.jurisdiction"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.jurisdiction>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor>
+     ] ;
+     fhir:value [
+       a fhir:Canonical ;
+       fhir:v "http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.BusinessAnalyst"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.BusinessAnalyst>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor>
+     ] ;
+     fhir:value [
+       a fhir:Canonical ;
+       fhir:v "http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.ClinicalSME"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.ClinicalSME>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "DAKVAL-01"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Verify L1 accuracy"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can verify that DAK components accurately reflect L1 recommendations."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "DAKVAL-02"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Identify gaps and changes"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can identify gaps, key changes, and alternatives in DAK content."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "DAKVAL-03"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Verify software neutrality"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can verify that DAK components are software-neutral and do not assume any specific software or device."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "DAKVAL-04"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Streamline cross-component consistency"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can review DAK for cross-component consistency: persona naming, data element usage, workflow alignment, and requirement linkage."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "DAKVAL-05"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Incorporate SME feedback"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can analyse feedback from SMEs, identify patterns, incorporate changes, and confirm accurate reflection of suggestions."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] ) ; # 
+  fhir:code [
+     fhir:coding ( [
+       fhir:system [
+         fhir:v "http://hl7.org/fhir/fhir-types"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/fhir-types>
+       ] ;
+       fhir:code [ fhir:v "Requirements" ]
+     ] )
+  ] . # 
+
+# -------------------------------------------------------------------------------------
+

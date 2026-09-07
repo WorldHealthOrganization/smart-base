@@ -1,0 +1,28 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "exchange-pattern",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ValueSet exchange-pattern</b></p><a name=\"exchange-pattern\"> </a><a name=\"hcexchange-pattern\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-exchange-pattern.html\"><code>http://smart.who.int/base/CodeSystem/exchange-pattern</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : EnsembleValeurs exchange-pattern</b></p><a name=\"fr-exchange-pattern\"> </a><a name=\"fr-hcexchange-pattern\"> </a><ul><li>Include tous les codes définis dans <a href=\"CodeSystem-exchange-pattern.html\"><code>http://smart.who.int/base/CodeSystem/exchange-pattern</code></a><span title=\"La version n'est pas explicitement indiquée, ce qui signifie quelle est fixée à la version fournie dans cette spécification\"> version &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: ValueSet exchange-pattern</b></p><a name=\"ar-exchange-pattern\"> </a><a name=\"ar-hcexchange-pattern\"> </a><ul><li>Include جميع الرموز المحددة في <a href=\"CodeSystem-exchange-pattern.html\"><code>http://smart.who.int/base/CodeSystem/exchange-pattern</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> الإصدار &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 取值集合 exchange-pattern</b></p><a name=\"zh-exchange-pattern\"> </a><a name=\"zh-hcexchange-pattern\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-exchange-pattern.html\"><code>http://smart.who.int/base/CodeSystem/exchange-pattern</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: ValueSet exchange-pattern</b></p><a name=\"ru-exchange-pattern\"> </a><a name=\"ru-hcexchange-pattern\"> </a><ul><li>Include все коды, определенные в <a href=\"CodeSystem-exchange-pattern.html\"><code>http://smart.who.int/base/CodeSystem/exchange-pattern</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> версия &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ConjuntoValores / ConjuntoDeValores exchange-pattern</b></p><a name=\"es-exchange-pattern\"> </a><a name=\"es-hcexchange-pattern\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-exchange-pattern.html\"><code>http://smart.who.int/base/CodeSystem/exchange-pattern</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version &#x1F4E6;0.3.0</span></li></ul></div></div>"
+  },
+  "url" : "http://smart.who.int/base/ValueSet/exchange-pattern",
+  "version" : "0.3.0",
+  "name" : "ExchangePatternVS",
+  "title" : "Exchange Pattern",
+  "status" : "draft",
+  "date" : "2026-09-07T06:11:01+00:00",
+  "publisher" : "WHO",
+  "contact" : [{
+    "name" : "WHO",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://who.int"
+    }]
+  }],
+  "description" : "The broad architectural pattern of the data exchange.",
+  "compose" : {
+    "include" : [{
+      "system" : "http://smart.who.int/base/CodeSystem/exchange-pattern"
+    }]
+  }
+}

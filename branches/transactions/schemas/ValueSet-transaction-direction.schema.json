@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-transaction-direction.schema.json",
+  "title": "Transaction Direction Schema",
+  "description": "JSON Schema for Transaction Direction ValueSet codes. Generated from FHIR expansions using IRI format.",
+  "type": "string",
+  "enum": [
+    "http://smart.who.int/base/CodeSystem/transaction-direction#pull",
+    "http://smart.who.int/base/CodeSystem/transaction-direction#push"
+  ],
+  "narrative": "This schema validates IRI-formatted codes for the Transaction Direction ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-transaction-direction.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+  "fhir:displays": "http://smart.who.int/base/ValueSet-transaction-direction.displays.json",
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/transaction-direction",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-09-07T06:15:33.122207"
+}

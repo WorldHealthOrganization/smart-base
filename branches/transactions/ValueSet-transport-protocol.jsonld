@@ -1,0 +1,77 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-09-07T06:15:33.340713Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld#http",
+      "name": "HTTP/REST",
+      "fhir:code": "http",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transport-protocol"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld#soap",
+      "name": "SOAP",
+      "fhir:code": "soap",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transport-protocol"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld#mllp",
+      "name": "MLLP",
+      "fhir:code": "mllp",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transport-protocol"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld#smtp",
+      "name": "SMTP",
+      "fhir:code": "smtp",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transport-protocol"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld#ftp",
+      "name": "FTP/SFTP",
+      "fhir:code": "ftp",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transport-protocol"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld#dicom",
+      "name": "DICOM",
+      "fhir:code": "dicom",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transport-protocol"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld#websocket",
+      "name": "WebSocket",
+      "fhir:code": "websocket",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transport-protocol"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld#amqp",
+      "name": "AMQP",
+      "fhir:code": "amqp",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transport-protocol"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld#kafka",
+      "name": "Kafka",
+      "fhir:code": "kafka",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transport-protocol"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-transport-protocol.jsonld#filesystem",
+      "name": "File System",
+      "fhir:code": "filesystem",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transport-protocol"
+    }
+  ]
+}

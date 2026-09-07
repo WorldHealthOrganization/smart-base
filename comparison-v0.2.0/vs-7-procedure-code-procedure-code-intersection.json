@@ -1,0 +1,18 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "e8405923-ae8b-4fc6-8d08-bf35654244ff-21",
+  "url" : "http://hl7.org/fhir/comparison/ValueSet/e8405923-ae8b-4fc6-8d08-bf35654244ff-21",
+  "name" : "IntersectionProcedureCodes(SNOMEDCT)AndProcedureCodes(SNOMEDCT)",
+  "title" : "Intersection of Procedure Codes (SNOMED CT) And Procedure Codes (SNOMED CT)",
+  "status" : "draft",
+  "date" : "2026-08-26T08:28:24+00:00",
+  "compose" : {
+    "include" : [{
+      "filter" : [{
+        "property" : "concept",
+        "op" : "is-a",
+        "value" : "71388002"
+      }]
+    }]
+  }
+}

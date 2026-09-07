@@ -1,0 +1,53 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/transaction-direction> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "transaction-direction"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem transaction-direction</b></p><a name=\"transaction-direction\"> </a><a name=\"hctransaction-direction\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/transaction-direction</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">pull<a name=\"transaction-direction-pull\"> </a></td><td>Pull</td><td>The data consumer initiates the exchange to retrieve data from the source.</td></tr><tr><td style=\"white-space:nowrap\">push<a name=\"transaction-direction-push\"> </a></td><td>Push</td><td>The data source initiates the exchange to send data to the consumer.</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem transaction-direction</b></p><a name=\"fr-transaction-direction\"> </a><a name=\"fr-hctransaction-direction\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/transaction-direction</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style=\"white-space:nowrap\">pull<a name=\"fr-transaction-direction-pull\"> </a></td><td>Pull</td><td>The data consumer initiates the exchange to retrieve data from the source.</td></tr><tr><td style=\"white-space:nowrap\">push<a name=\"fr-transaction-direction-push\"> </a></td><td>Push</td><td>The data source initiates the exchange to send data to the consumer.</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem transaction-direction</b></p><a name=\"ar-transaction-direction\"> </a><a name=\"ar-hctransaction-direction\"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/transaction-direction</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style=\"white-space:nowrap\">pull<a name=\"ar-transaction-direction-pull\"> </a></td><td>Pull</td><td>The data consumer initiates the exchange to retrieve data from the source.</td></tr><tr><td style=\"white-space:nowrap\">push<a name=\"ar-transaction-direction-push\"> </a></td><td>Push</td><td>The data source initiates the exchange to send data to the consumer.</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 transaction-direction</b></p><a name=\"zh-transaction-direction\"> </a><a name=\"zh-hctransaction-direction\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/transaction-direction</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">pull<a name=\"zh-transaction-direction-pull\"> </a></td><td>Pull</td><td>The data consumer initiates the exchange to retrieve data from the source.</td></tr><tr><td style=\"white-space:nowrap\">push<a name=\"zh-transaction-direction-push\"> </a></td><td>Push</td><td>The data source initiates the exchange to send data to the consumer.</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem transaction-direction</b></p><a name=\"ru-transaction-direction\"> </a><a name=\"ru-hctransaction-direction\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/transaction-direction</code> case-sensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style=\"white-space:nowrap\">pull<a name=\"ru-transaction-direction-pull\"> </a></td><td>Pull</td><td>The data consumer initiates the exchange to retrieve data from the source.</td></tr><tr><td style=\"white-space:nowrap\">push<a name=\"ru-transaction-direction-push\"> </a></td><td>Push</td><td>The data source initiates the exchange to send data to the consumer.</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos transaction-direction</b></p><a name=\"es-transaction-direction\"> </a><a name=\"es-hctransaction-direction\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/transaction-direction</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">pull<a name=\"es-transaction-direction-pull\"> </a></td><td>Pull</td><td>The data consumer initiates the exchange to retrieve data from the source.</td></tr><tr><td style=\"white-space:nowrap\">push<a name=\"es-transaction-direction-push\"> </a></td><td>Push</td><td>The data source initiates the exchange to send data to the consumer.</td></tr></table></div></div>"
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://smart.who.int/base/CodeSystem/transaction-direction"] ;
+  fhir:CodeSystem.version [ fhir:value "0.3.0"] ;
+  fhir:CodeSystem.name [ fhir:value "TransactionDirectionCS"] ;
+  fhir:CodeSystem.title [ fhir:value "Transaction Direction"] ;
+  fhir:CodeSystem.status [ fhir:value "draft"] ;
+  fhir:CodeSystem.date [ fhir:value "2026-09-07T06:11:01+00:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "WHO"] ;
+  fhir:CodeSystem.contact [
+     fhir:index 0 ;
+     fhir:ContactDetail.name [ fhir:value "WHO" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index 0 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://who.int" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "Whether the data consumer or data source initiates the data flow."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "2"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index 0 ;
+     fhir:CodeSystem.concept.code [ fhir:value "pull" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Pull" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "The data consumer initiates the exchange to retrieve data from the source." ]
+  ], [
+     fhir:index 1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "push" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Push" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "The data source initiates the exchange to send data to the consumer." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/transaction-direction.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl .
+
+# -------------------------------------------------------------------------------------
+

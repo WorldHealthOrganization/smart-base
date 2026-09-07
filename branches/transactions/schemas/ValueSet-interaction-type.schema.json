@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-interaction-type.schema.json",
+  "title": "Interaction Type Schema",
+  "description": "JSON Schema for Interaction Type ValueSet codes. Generated from FHIR expansions using IRI format.",
+  "type": "string",
+  "enum": [
+    "http://smart.who.int/base/CodeSystem/interaction-type#user-to-system",
+    "http://smart.who.int/base/CodeSystem/interaction-type#system-to-user",
+    "http://smart.who.int/base/CodeSystem/interaction-type#system-to-system",
+    "http://smart.who.int/base/CodeSystem/interaction-type#user-to-user"
+  ],
+  "narrative": "This schema validates IRI-formatted codes for the Interaction Type ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-interaction-type.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+  "fhir:displays": "http://smart.who.int/base/ValueSet-interaction-type.displays.json",
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/interaction-type",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-09-07T06:15:33.124385"
+}

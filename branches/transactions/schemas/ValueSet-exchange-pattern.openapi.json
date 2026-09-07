@@ -1,0 +1,53 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Exchange Pattern Schema API",
+    "description": "JSON Schema for Exchange Pattern ValueSet codes. Generated from FHIR expansions using IRI format.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSet-exchange-pattern.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the enumeration ValueSet-exchange-pattern",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSet-exchange-pattern.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for ValueSet-exchange-pattern",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./ValueSet-exchange-pattern.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValueSet-exchange-pattern": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/ValueSet-exchange-pattern.schema.json",
+        "title": "Exchange Pattern Schema",
+        "description": "JSON Schema for Exchange Pattern ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "type": "string",
+        "enum": [
+          "http://smart.who.int/base/CodeSystem/exchange-pattern#request-response",
+          "http://smart.who.int/base/CodeSystem/exchange-pattern#query",
+          "http://smart.who.int/base/CodeSystem/exchange-pattern#messaging",
+          "http://smart.who.int/base/CodeSystem/exchange-pattern#document",
+          "http://smart.who.int/base/CodeSystem/exchange-pattern#publish-subscribe",
+          "http://smart.who.int/base/CodeSystem/exchange-pattern#event-notification",
+          "http://smart.who.int/base/CodeSystem/exchange-pattern#batch"
+        ],
+        "narrative": "This schema validates IRI-formatted codes for the Exchange Pattern ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-exchange-pattern.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+        "fhir:displays": "http://smart.who.int/base/ValueSet-exchange-pattern.displays.json",
+        "fhir:valueSet": "http://smart.who.int/base/ValueSet/exchange-pattern",
+        "fhir:version": "0.3.0",
+        "fhir:expansionTimestamp": "2026-09-07T06:15:33.121135"
+      }
+    }
+  }
+}

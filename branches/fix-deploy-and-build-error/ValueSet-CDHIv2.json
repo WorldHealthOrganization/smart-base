@@ -1,0 +1,29 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "CDHIv2",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet CDHIv2</b></p><a name=\"CDHIv2\"> </a><a name=\"hcCDHIv2\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-CDHIv2.html\"><code>http://smart.who.int/base/CodeSystem/CDHIv2</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version &#x1F4E6;0.2.0</span></li></ul></div>"
+  },
+  "url" : "http://smart.who.int/base/ValueSet/CDHIv2",
+  "version" : "0.2.0",
+  "name" : "CDHIv2",
+  "title" : "Classification of Digital Health Interventions v2",
+  "status" : "active",
+  "experimental" : true,
+  "date" : "2026-03-06T03:01:34+00:00",
+  "publisher" : "WHO",
+  "contact" : [{
+    "name" : "WHO",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://who.int"
+    }]
+  }],
+  "description" : "Value Set for the Classification of Digital Interventions, Services and Applications in Health (CDISAH), second edition (2023).",
+  "compose" : {
+    "include" : [{
+      "system" : "http://smart.who.int/base/CodeSystem/CDHIv2"
+    }]
+  }
+}
