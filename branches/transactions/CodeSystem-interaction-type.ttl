@@ -1,0 +1,63 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/interaction-type> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "interaction-type"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem interaction-type</b></p><a name=\"interaction-type\"> </a><a name=\"hcinteraction-type\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/interaction-type</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">user-to-system<a name=\"interaction-type-user-to-system\"> </a></td><td>User to System</td><td>A human actor initiates an exchange with a system.</td></tr><tr><td style=\"white-space:nowrap\">system-to-user<a name=\"interaction-type-system-to-user\"> </a></td><td>System to User</td><td>A system initiates an exchange directed at a human actor.</td></tr><tr><td style=\"white-space:nowrap\">system-to-system<a name=\"interaction-type-system-to-system\"> </a></td><td>System to System</td><td>An exchange between two systems with no human involvement.</td></tr><tr><td style=\"white-space:nowrap\">user-to-user<a name=\"interaction-type-user-to-user\"> </a></td><td>User to User</td><td>An exchange between two human actors, mediated by systems.</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem interaction-type</b></p><a name=\"fr-interaction-type\"> </a><a name=\"fr-hcinteraction-type\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/interaction-type</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style=\"white-space:nowrap\">user-to-system<a name=\"fr-interaction-type-user-to-system\"> </a></td><td>User to System</td><td>A human actor initiates an exchange with a system.</td></tr><tr><td style=\"white-space:nowrap\">system-to-user<a name=\"fr-interaction-type-system-to-user\"> </a></td><td>System to User</td><td>A system initiates an exchange directed at a human actor.</td></tr><tr><td style=\"white-space:nowrap\">system-to-system<a name=\"fr-interaction-type-system-to-system\"> </a></td><td>System to System</td><td>An exchange between two systems with no human involvement.</td></tr><tr><td style=\"white-space:nowrap\">user-to-user<a name=\"fr-interaction-type-user-to-user\"> </a></td><td>User to User</td><td>An exchange between two human actors, mediated by systems.</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem interaction-type</b></p><a name=\"ar-interaction-type\"> </a><a name=\"ar-hcinteraction-type\"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/interaction-type</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style=\"white-space:nowrap\">user-to-system<a name=\"ar-interaction-type-user-to-system\"> </a></td><td>User to System</td><td>A human actor initiates an exchange with a system.</td></tr><tr><td style=\"white-space:nowrap\">system-to-user<a name=\"ar-interaction-type-system-to-user\"> </a></td><td>System to User</td><td>A system initiates an exchange directed at a human actor.</td></tr><tr><td style=\"white-space:nowrap\">system-to-system<a name=\"ar-interaction-type-system-to-system\"> </a></td><td>System to System</td><td>An exchange between two systems with no human involvement.</td></tr><tr><td style=\"white-space:nowrap\">user-to-user<a name=\"ar-interaction-type-user-to-user\"> </a></td><td>User to User</td><td>An exchange between two human actors, mediated by systems.</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 interaction-type</b></p><a name=\"zh-interaction-type\"> </a><a name=\"zh-hcinteraction-type\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/interaction-type</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">user-to-system<a name=\"zh-interaction-type-user-to-system\"> </a></td><td>User to System</td><td>A human actor initiates an exchange with a system.</td></tr><tr><td style=\"white-space:nowrap\">system-to-user<a name=\"zh-interaction-type-system-to-user\"> </a></td><td>System to User</td><td>A system initiates an exchange directed at a human actor.</td></tr><tr><td style=\"white-space:nowrap\">system-to-system<a name=\"zh-interaction-type-system-to-system\"> </a></td><td>System to System</td><td>An exchange between two systems with no human involvement.</td></tr><tr><td style=\"white-space:nowrap\">user-to-user<a name=\"zh-interaction-type-user-to-user\"> </a></td><td>User to User</td><td>An exchange between two human actors, mediated by systems.</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem interaction-type</b></p><a name=\"ru-interaction-type\"> </a><a name=\"ru-hcinteraction-type\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/interaction-type</code> case-sensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style=\"white-space:nowrap\">user-to-system<a name=\"ru-interaction-type-user-to-system\"> </a></td><td>User to System</td><td>A human actor initiates an exchange with a system.</td></tr><tr><td style=\"white-space:nowrap\">system-to-user<a name=\"ru-interaction-type-system-to-user\"> </a></td><td>System to User</td><td>A system initiates an exchange directed at a human actor.</td></tr><tr><td style=\"white-space:nowrap\">system-to-system<a name=\"ru-interaction-type-system-to-system\"> </a></td><td>System to System</td><td>An exchange between two systems with no human involvement.</td></tr><tr><td style=\"white-space:nowrap\">user-to-user<a name=\"ru-interaction-type-user-to-user\"> </a></td><td>User to User</td><td>An exchange between two human actors, mediated by systems.</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos interaction-type</b></p><a name=\"es-interaction-type\"> </a><a name=\"es-hcinteraction-type\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/interaction-type</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">user-to-system<a name=\"es-interaction-type-user-to-system\"> </a></td><td>User to System</td><td>A human actor initiates an exchange with a system.</td></tr><tr><td style=\"white-space:nowrap\">system-to-user<a name=\"es-interaction-type-system-to-user\"> </a></td><td>System to User</td><td>A system initiates an exchange directed at a human actor.</td></tr><tr><td style=\"white-space:nowrap\">system-to-system<a name=\"es-interaction-type-system-to-system\"> </a></td><td>System to System</td><td>An exchange between two systems with no human involvement.</td></tr><tr><td style=\"white-space:nowrap\">user-to-user<a name=\"es-interaction-type-user-to-user\"> </a></td><td>User to User</td><td>An exchange between two human actors, mediated by systems.</td></tr></table></div></div>"
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://smart.who.int/base/CodeSystem/interaction-type"] ;
+  fhir:CodeSystem.version [ fhir:value "0.3.0"] ;
+  fhir:CodeSystem.name [ fhir:value "InteractionTypeCS"] ;
+  fhir:CodeSystem.title [ fhir:value "Interaction Type"] ;
+  fhir:CodeSystem.status [ fhir:value "draft"] ;
+  fhir:CodeSystem.date [ fhir:value "2026-09-07T06:11:01+00:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "WHO"] ;
+  fhir:CodeSystem.contact [
+     fhir:index 0 ;
+     fhir:ContactDetail.name [ fhir:value "WHO" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index 0 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://who.int" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "The type of actors involved in an interaction."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "4"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index 0 ;
+     fhir:CodeSystem.concept.code [ fhir:value "user-to-system" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "User to System" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A human actor initiates an exchange with a system." ]
+  ], [
+     fhir:index 1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "system-to-user" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "System to User" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A system initiates an exchange directed at a human actor." ]
+  ], [
+     fhir:index 2 ;
+     fhir:CodeSystem.concept.code [ fhir:value "system-to-system" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "System to System" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "An exchange between two systems with no human involvement." ]
+  ], [
+     fhir:index 3 ;
+     fhir:CodeSystem.concept.code [ fhir:value "user-to-user" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "User to User" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "An exchange between two human actors, mediated by systems." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/interaction-type.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl .
+
+# -------------------------------------------------------------------------------------
+

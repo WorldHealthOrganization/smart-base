@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-Interaction.schema.json",
+  "title": "Interaction",
+  "description": "A logical model representing an exchange between actors. \nThis is the base model for all interactions, including user-to-system, system-to-user, \nsystem-to-system, and user-to-user exchanges. The Transaction logical model extends \nthis for system-to-system technical contracts.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "Interaction",
+      "description": "Resource type identifier for Interaction logical model"
+    },
+    "@context": {
+      "description": "JSON-LD context for this logical model with ValueSet vocabularies",
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uri",
+          "description": "URI reference to external JSON-LD context"
+        },
+        {
+          "type": "object",
+          "description": "Inline JSON-LD context",
+          "properties": {
+            "@version": {
+              "type": "number",
+              "const": 1.1
+            },
+            "fhir": {
+              "type": "string",
+              "const": "http://hl7.org/fhir/"
+            }
+          },
+          "additionalProperties": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        {
+          "type": "array",
+          "description": "Array of JSON-LD context objects/URIs",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "@type": {
+      "type": "string",
+      "description": "JSON-LD type identifier for Interaction logical model",
+      "examples": [
+        "LogicalModel-Interaction"
+      ]
+    },
+    "identifier": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Unique identifier(s) for this interaction definition."
+    },
+    "name": {
+      "type": "string",
+      "description": "A short human-readable label for the interaction (e.g., 'Patient Demographics Query')."
+    },
+    "title": {
+      "type": "string",
+      "description": "A display title for the interaction."
+    },
+    "description": {
+      "type": "string",
+      "description": "Overall narrative description of the processing semantics."
+    },
+    "type": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet interaction-type (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet interaction-type (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-interaction-type.jsonld",
+              "description": "JSON-LD type reference to ValueSet interaction-type"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet interaction-type"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "The type of actors involved."
+    },
+    "status": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet publication-status (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet publication-status (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-publication-status.jsonld",
+              "description": "JSON-LD type reference to ValueSet publication-status"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet publication-status"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "The publication status of this interaction definition."
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date this interaction definition was last changed."
+    },
+    "purpose": {
+      "type": "string",
+      "description": "Why this interaction is defined — the business or clinical need it addresses."
+    },
+    "initiator": {
+      "type": "object",
+      "description": "The actor that triggers the interaction (logical source)."
+    },
+    "responder": {
+      "type": "object",
+      "description": "The actor that receives and responds to the interaction (logical endpoint)."
+    },
+    "participant": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Additional actors involved in the interaction beyond initiator and responder."
+    },
+    "id": {
+      "type": "object",
+      "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces."
+    },
+    "modifierExtension": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Extension"
+      },
+      "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."
+    },
+    "actor": {
+      "type": "object",
+      "description": "The actor whose behavior is described."
+    },
+    "role": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet participant-role (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet participant-role (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-participant-role.jsonld",
+              "description": "JSON-LD type reference to ValueSet participant-role"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet participant-role"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "The role this participant plays in the interaction."
+    },
+    "position": {
+      "type": "integer",
+      "description": "Order in a sequential chain of intermediaries (1-based). Used when multiple participants form an ordered path between initiator and responder."
+    },
+    "trigger": {
+      "type": "string",
+      "description": "A description of the event or condition that initiates this interaction."
+    },
+    "preCondition": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Conditions that must be true before this interaction can occur."
+    },
+    "postCondition": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Conditions that are expected to be true after this interaction completes successfully."
+    },
+    "request": {
+      "type": "object",
+      "description": "The outbound payload — what the initiator supplies."
+    },
+    "response": {
+      "type": "object",
+      "description": "The return payload — what the responder returns. Absent for fire-and-forget patterns."
+    },
+    "semantics": {
+      "type": "object",
+      "description": "The processing semantics of the interaction — what actors do during the exchange, beyond what is expressed in pre/postConditions and the payload structure."
+    },
+    "actorBehavior": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "The expected behavior of a specific actor during this interaction."
+    },
+    "expectation": {
+      "type": "string",
+      "description": "What this actor is expected to do during the interaction (e.g., validate, cross-reference, transform, store, forward)."
+    }
+  },
+  "required": [
+    "resourceType",
+    "name",
+    "type",
+    "initiator",
+    "responder",
+    "actor",
+    "role",
+    "request",
+    "actor",
+    "expectation"
+  ],
+  "resourceDefinition": "http://smart.who.int/base/StructureDefinition/Interaction",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base",
+  "jsonld:valuesets": [
+    "interaction-type",
+    "publication-status",
+    "participant-role"
+  ],
+  "jsonld:contextTemplate": {
+    "@version": 1.1,
+    "fhir": "http://hl7.org/fhir/",
+    "interaction-type": "http://smart.who.int/base/ValueSet-interaction-type.jsonld",
+    "publication-status": "http://smart.who.int/base/ValueSet-publication-status.jsonld",
+    "participant-role": "http://smart.who.int/base/ValueSet-participant-role.jsonld"
+  }
+}

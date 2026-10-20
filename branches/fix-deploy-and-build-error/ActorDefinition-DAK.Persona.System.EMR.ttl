@@ -1,0 +1,146 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/Basic/DAK.Persona.System.EMR> a fhir:Basic ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "DAK.Persona.System.EMR"] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ActorDefinition DAK.Persona.System.EMR</b></p><a name=\"DAK.Persona.System.EMR\"> </a><a name=\"hcDAK.Persona.System.EMR\"> </a><table class=\"grid\"><tr><td><b>Actor: ElectronicMedicalRecord </b></td><td>Electronic Medical Record (EMR) System</td><td>Type: system </td></tr><tr><td colspan=\"3\"><div><p>https://www.who.int/publications/i/item/9789240081949</p>\n</div></td></tr></table></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:extension ( [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.url"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.url>
+     ] ;
+     fhir:value [
+       a fhir:Uri ;
+       fhir:v "http://smart.who.int/base/ActorDefinition/DAK.Persona.System.EMR"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/ActorDefinition/DAK.Persona.System.EMR>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.version"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.version>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "0.2.0"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.name"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.name>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "ElectronicMedicalRecord"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.title"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.title>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "Electronic Medical Record (EMR) System"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.status"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.status>
+     ] ;
+     fhir:value [
+       a fhir:Code ;
+       fhir:v "draft"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.experimental"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.experimental>
+     ] ;
+     fhir:value [
+       a fhir:Boolean ;
+       fhir:v true
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.date"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.date>
+     ] ;
+     fhir:value [
+       a fhir:DateTime ;
+       fhir:v "2026-03-06T03:01:34+00:00"^^xsd:dateTime
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.publisher"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.publisher>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "WHO"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.contact"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.contact>
+     ] ;
+     fhir:value [
+       a fhir:ContactDetail ;
+       fhir:name [ fhir:v "WHO" ] ;
+       fhir:telecom ( [
+         fhir:system [ fhir:v "url" ] ;
+         fhir:value [ fhir:v "http://who.int" ]
+       ] )
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.description"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.description>
+     ] ;
+     fhir:value [
+       a fhir:Markdown ;
+       fhir:v "A secure, digital system that holds information about people's health and\nclinical care managed by healthcare providers. Also referred to as an\nElectronic Health Record (EHR).\n\nThe EMR system supports DHIs including:\n- Longitudinal tracking of person's health status and services (2.2.1)\n- Management of structured clinical records (2.2.2)\n- Management of unstructured clinical records such as notes and images (2.2.3)\n- Clinical decision support prompts and checklists (2.3)\n- Person identification and registration (2.1)\n- Prescription and medication management (2.9)\n- Laboratory results reception (2.10.1)\n- Routine health indicator data collection (2.2.4)\n\n**Services and Application Type**: A5 — Electronic medical record systems\n\n**Functional areas**: Clinical decision support, record management,\nperson registration, appointment scheduling, referral tracking."
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.jurisdiction"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.jurisdiction>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.type"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.type>
+     ] ;
+     fhir:value [
+       a fhir:Code ;
+       fhir:v "system"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.documentation"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-ActorDefinition.documentation>
+     ] ;
+     fhir:value [
+       a fhir:Markdown ;
+       fhir:v "https://www.who.int/publications/i/item/9789240081949"
+     ]
+  ] ) ; # 
+  fhir:code [
+     fhir:coding ( [
+       fhir:system [
+         fhir:v "http://hl7.org/fhir/fhir-types"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/fhir-types>
+       ] ;
+       fhir:code [ fhir:v "ActorDefinition" ]
+     ] )
+  ] . # 
+
+# -------------------------------------------------------------------------------------
+

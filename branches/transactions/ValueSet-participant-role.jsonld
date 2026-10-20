@@ -1,0 +1,59 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-participant-role.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-09-07T06:15:33.349382Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-participant-role.jsonld#gateway",
+      "name": "Gateway",
+      "fhir:code": "gateway",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-participant-role"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-participant-role.jsonld#broker",
+      "name": "Broker",
+      "fhir:code": "broker",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-participant-role"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-participant-role.jsonld#proxy",
+      "name": "Proxy",
+      "fhir:code": "proxy",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-participant-role"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-participant-role.jsonld#observer",
+      "name": "Observer",
+      "fhir:code": "observer",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-participant-role"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-participant-role.jsonld#authz-server",
+      "name": "Authorization Server",
+      "fhir:code": "authz-server",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-participant-role"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-participant-role.jsonld#fulfiller",
+      "name": "Fulfiller",
+      "fhir:code": "fulfiller",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-participant-role"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-participant-role.jsonld#validator",
+      "name": "Validator",
+      "fhir:code": "validator",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-participant-role"
+    }
+  ]
+}
