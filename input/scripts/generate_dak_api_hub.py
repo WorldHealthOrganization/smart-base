@@ -259,13 +259,12 @@ class SchemaDetector:
                     schemas['valueset'].append(file_path)
                     self.logger.info(f"  -> Categorized as ValueSet schema")
                 elif file in ['ValueSets.schema.json', 'LogicalModels.schema.json']:
-                    # These are enumeration schemas, categorize appropriately
-                    if file == 'ValueSets.schema.json':
-                        schemas['valueset'].append(file_path) 
-                        self.logger.info(f"  -> Categorized as ValueSet enumeration schema")
-                    else:
-                        schemas['logical_model'].append(file_path)
-                        self.logger.info(f"  -> Categorized as Logical Model enumeration schema")
+                    # Enumeration schemas left by an earlier run: they are rebuilt
+                    # from the individual schemas below, and have no IG page of
+                    # their own, so they must not be listed as a ValueSet or
+                    # Logical Model (that is what linked LogicalModels.html).
+                    schemas['other'].append(file_path)
+                    self.logger.info(f"  -> Categorized as enumeration schema (rebuilt, not listed)")
                 elif not file.startswith('ValueSet-') and not file.startswith('CodeSystem-'):
                     # Assume logical model if not ValueSet or CodeSystem
                     schemas['logical_model'].append(file_path)
@@ -3530,11 +3529,12 @@ def main():
             else:
                 logger.warning("⚠️ Failed to create ValueSets enumeration OpenAPI wrapper")
             
-            # Add to enumeration docs (IG publisher should create the HTML)
+            # Add to enumeration docs
             enumeration_docs.append({
                 'title': 'ValueSets.schema.json',
                 'description': 'Enumeration of all available ValueSet schemas',
-                'html_file': 'ValueSets-enumeration.html',  # This should be created by IG publisher
+                # No page is generated for an enumeration; link the schema itself
+                'html_file': 'ValueSets.schema.json',
                 'type': 'enumeration-valueset'
             })
             logger.info(f"✅ Added ValueSets enumeration to hub documentation")
@@ -3557,11 +3557,12 @@ def main():
             else:
                 logger.warning("⚠️ Failed to create LogicalModels enumeration OpenAPI wrapper")
             
-            # Add to enumeration docs (IG publisher should create the HTML)
+            # Add to enumeration docs
             enumeration_docs.append({
                 'title': 'LogicalModels.schema.json',
                 'description': 'Enumeration of all available Logical Model schemas',
-                'html_file': 'LogicalModels-enumeration.html',  # This should be created by IG publisher
+                # No page is generated for an enumeration; link the schema itself
+                'html_file': 'LogicalModels.schema.json',
                 'type': 'enumeration-logicalmodel'
             })
             logger.info(f"✅ Added LogicalModels enumeration to hub documentation")
