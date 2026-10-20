@@ -259,13 +259,12 @@ class SchemaDetector:
                     schemas['valueset'].append(file_path)
                     self.logger.info(f"  -> Categorized as ValueSet schema")
                 elif file in ['ValueSets.schema.json', 'LogicalModels.schema.json']:
-                    # These are enumeration schemas, categorize appropriately
-                    if file == 'ValueSets.schema.json':
-                        schemas['valueset'].append(file_path) 
-                        self.logger.info(f"  -> Categorized as ValueSet enumeration schema")
-                    else:
-                        schemas['logical_model'].append(file_path)
-                        self.logger.info(f"  -> Categorized as Logical Model enumeration schema")
+                    # Enumeration schemas left by an earlier run: they are rebuilt
+                    # from the individual schemas below, and have no IG page of
+                    # their own, so they must not be listed as a ValueSet or
+                    # Logical Model (that is what linked LogicalModels.html).
+                    schemas['other'].append(file_path)
+                    self.logger.info(f"  -> Categorized as enumeration schema (rebuilt, not listed)")
                 elif not file.startswith('ValueSet-') and not file.startswith('CodeSystem-'):
                     # Assume logical model if not ValueSet or CodeSystem
                     schemas['logical_model'].append(file_path)
@@ -1313,6 +1312,10 @@ class SchemaDocumentationRenderer:
         # All generated view pages that should be excluded from sibling injection
         excluded_pages = {main_page, schema_page}
         excluded_pages.update(pf for _, _, pf in extra_tabs)
+        nav_tabs_re = re.compile(
+            r'<ul[^>]*class="[^"]*(?:nav-tabs|fhir-nav-tabs)[^"]*"[^>]*>.*?</ul>',
+            re.DOTALL | re.IGNORECASE,
+        )
         count = 0
 
         try:
@@ -1335,6 +1338,15 @@ class SchemaDocumentationRenderer:
                 with open(html_path, 'r', encoding='utf-8', errors='replace') as f:
                     original_content = f.read()
                 html_content = original_content
+
+                # The name prefix alone also matches another resource whose
+                # name extends this one (ValueSet-CDHIv1. matches
+                # ValueSet-CDHIv1.1.html), which put this resource's tabs on
+                # that resource's pages a second time.  A sibling's nav-tabs
+                # link back to this resource's main page; require that.
+                nav_match = nav_tabs_re.search(html_content)
+                if not nav_match or f'href="{main_page}"' not in nav_match.group(0):
+                    continue
 
                 updated = self._inject_schema_as_new_tab(
                     html_content, schema_filename, spec_name
@@ -1417,11 +1429,13 @@ class SchemaDocumentationRenderer:
             # 2. Make the target tab active; change its href to "#"
             nav_section = html_content[nav_match.start():nav_match.end()]
 
-            # Content tab — flexible match for whitespace/attribute variations
-            # Matches: <li class="active"> ... <a href="#">Content</a> ... </li>
+            # The page's own tab — whatever its label ("Content" on
+            # StructureDefinitions, "Narrative Content" on ValueSets) — stops
+            # being active and links back to the resource page.
+            # Matches: <li class="active"> ... <a href="#">Label</a> ... </li>
             nav_section = re.sub(
-                r'<li[^>]*class="active"[^>]*>\s*<a[^>]*href="#"[^>]*>(\s*Content\s*)</a>\s*</li>',
-                f'<li>\n    <a href="{spec_name}.html">Content</a>\n  </li>',
+                r'<li[^>]*class="active"[^>]*>\s*<a[^>]*href="#"[^>]*>\s*([^<]*?)\s*</a>\s*</li>',
+                lambda m: f'<li>\n    <a href="{spec_name}.html">{m.group(1)}</a>\n  </li>',
                 nav_section,
                 flags=re.DOTALL | re.IGNORECASE,
             )
@@ -1849,11 +1863,6 @@ class SchemaDocumentationRenderer:
                     if updated is not None:
                         html_content = updated
                         self.logger.info(f'Injected JSON Schema tab into {html_path}')
-                        self._generate_schema_view_page(
-                            html_content, schema_file, spec_name, output_dir,
-                            tab_label='JSON Schema', page_filename=schema_page,
-                            language='json'
-                        )
                         extra_tabs.append((schema_file, 'JSON Schema', schema_page))
                     else:
                         self.logger.warning(
@@ -1874,11 +1883,6 @@ class SchemaDocumentationRenderer:
                     if updated is not None:
                         html_content = updated
                         self.logger.info(f'Injected JSON-LD tab into {html_path}')
-                        self._generate_schema_view_page(
-                            html_content, jsonld_file, spec_name, output_dir,
-                            tab_label='JSON-LD', page_filename=jsonld_page,
-                            language='json'
-                        )
                         extra_tabs.append((jsonld_file, 'JSON-LD', jsonld_page))
                     else:
                         self.logger.warning(
@@ -1887,6 +1891,16 @@ class SchemaDocumentationRenderer:
                 else:
                     self.logger.info(
                         f'No JSON-LD file found for {spec_name} ({jsonld_path_check}) – skipping tab'
+                    )
+
+                # Generate the view pages only now, from the page carrying every
+                # new tab: a view page built between the two injections lacked
+                # the tabs added after it.
+                for res_file, tab_lbl, page_fn in extra_tabs:
+                    self._generate_schema_view_page(
+                        html_content, res_file, spec_name, output_dir,
+                        tab_label=tab_lbl, page_filename=page_fn,
+                        language='json'
                     )
 
                 # Propagate all new tabs to sibling pages (e.g. ValueSet expansion page)
@@ -3530,11 +3544,12 @@ def main():
             else:
                 logger.warning("⚠️ Failed to create ValueSets enumeration OpenAPI wrapper")
             
-            # Add to enumeration docs (IG publisher should create the HTML)
+            # Add to enumeration docs
             enumeration_docs.append({
                 'title': 'ValueSets.schema.json',
                 'description': 'Enumeration of all available ValueSet schemas',
-                'html_file': 'ValueSets-enumeration.html',  # This should be created by IG publisher
+                # No page is generated for an enumeration; link the schema itself
+                'html_file': 'ValueSets.schema.json',
                 'type': 'enumeration-valueset'
             })
             logger.info(f"✅ Added ValueSets enumeration to hub documentation")
@@ -3557,11 +3572,12 @@ def main():
             else:
                 logger.warning("⚠️ Failed to create LogicalModels enumeration OpenAPI wrapper")
             
-            # Add to enumeration docs (IG publisher should create the HTML)
+            # Add to enumeration docs
             enumeration_docs.append({
                 'title': 'LogicalModels.schema.json',
                 'description': 'Enumeration of all available Logical Model schemas',
-                'html_file': 'LogicalModels-enumeration.html',  # This should be created by IG publisher
+                # No page is generated for an enumeration; link the schema itself
+                'html_file': 'LogicalModels.schema.json',
                 'type': 'enumeration-logicalmodel'
             })
             logger.info(f"✅ Added LogicalModels enumeration to hub documentation")
