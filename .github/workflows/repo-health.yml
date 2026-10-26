@@ -61,23 +61,23 @@ jobs:
       actions: read        # workflow runs of the tracked repositories
       pull-requests: read  # reviews of open PRs
     steps:
+      # The caller is checked out at the workspace root: the Pages deploy
+      # action pushes from the git repository it finds there.
       - name: Checkout caller (config and dashboard page)
         uses: actions/checkout@v4
-        with:
-          path: caller
 
       - name: Checkout repo-health code from smart-base
         uses: actions/checkout@v4
         with:
           repository: WorldHealthOrganization/smart-base
           ref: ${{ inputs.tools_ref }}
-          path: tools
+          path: .repo-health-tools
           sparse-checkout: .github/repo-health
 
       - uses: oven-sh/setup-bun@v2
 
       - name: Install and fetch the pinned ci-health module
-        working-directory: tools/.github/repo-health
+        working-directory: .repo-health-tools/.github/repo-health
         run: |
           bun install --frozen-lockfile
           bun fetch-pinned.ts
@@ -88,10 +88,9 @@ jobs:
           STATE_BRANCH: ${{ inputs.state_branch }}
         run: |
           mkdir -p state
-          cd caller
           if git ls-remote --exit-code --heads origin "$STATE_BRANCH" >/dev/null; then
             git fetch --depth 1 origin "$STATE_BRANCH"
-            git --work-tree="$GITHUB_WORKSPACE/state" checkout FETCH_HEAD -- .
+            git archive FETCH_HEAD | tar -x -C state
             echo "State mounted from $STATE_BRANCH."
           else
             echo "No $STATE_BRANCH branch yet: this run seeds state and opens no alerts."
@@ -100,12 +99,12 @@ jobs:
       - name: Check
         id: check
         continue-on-error: true
-        working-directory: tools/.github/repo-health
+        working-directory: .repo-health-tools/.github/repo-health
         env:
           GITHUB_TOKEN: ${{ github.token }}
           MODE: ${{ inputs.mode }}
-          CONFIG: ${{ github.workspace }}/caller/${{ inputs.config }}
-          TEMPLATE: ${{ github.workspace }}/caller/${{ inputs.template }}
+          CONFIG: ${{ github.workspace }}/${{ inputs.config }}
+          TEMPLATE: ${{ github.workspace }}/${{ inputs.template }}
           DRY: ${{ inputs.dry_run && '--dry-run' || '' }}
           ENVIRONMENT: ${{ inputs.environment }}
         run: |
