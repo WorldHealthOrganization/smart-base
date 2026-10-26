@@ -1,0 +1,18 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "268bd681-eaca-459b-be58-1c89be62f2db-48",
+  "url" : "http://hl7.org/fhir/comparison/ValueSet/268bd681-eaca-459b-be58-1c89be62f2db-48",
+  "name" : "IntersectionSNOMEDCTClinicalFindingsAndSNOMEDCTClinicalFindings",
+  "title" : "Intersection of SNOMED CT Clinical Findings And SNOMED CT Clinical Findings",
+  "status" : "draft",
+  "date" : "2026-08-19T05:34:42+00:00",
+  "compose" : {
+    "include" : [{
+      "filter" : [{
+        "property" : "concept",
+        "op" : "is-a",
+        "value" : "404684003"
+      }]
+    }]
+  }
+}

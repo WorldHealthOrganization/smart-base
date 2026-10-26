@@ -1,0 +1,59 @@
+{
+  "resourceType" : "CodeSystem",
+  "id" : "9ac433a8-3de0-4c11-a889-f6814ae472aa-27",
+  "url" : "http://hl7.org/fhir/comparison/CodeSystem/9ac433a8-3de0-4c11-a889-f6814ae472aa-27",
+  "name" : "IntersectionSGAuthoringPersonaTypesAndSGAuthoringPersonaTypes",
+  "title" : "Intersection of SMART Guidelines Authoring Persona Types And SMART Guidelines Authoring Persona Types",
+  "status" : "active",
+  "date" : "2026-09-07T06:14:22+00:00",
+  "concept" : [{
+    "code" : "programme-manager",
+    "display" : "Programme Manager",
+    "definition" : "Manages DAK development scope, timeline, resources, and stakeholder engagement"
+  },
+  {
+    "code" : "technical-officer",
+    "display" : "Technical Officer",
+    "definition" : "Coordinates DAK development work and performs first-pass content review"
+  },
+  {
+    "code" : "clinical-sme",
+    "display" : "Clinical Subject Matter Expert",
+    "definition" : "Validates clinical accuracy of DAK content against L1 guidelines"
+  },
+  {
+    "code" : "business-analyst",
+    "display" : "Business Analyst",
+    "definition" : "Authors L2 DAK components including business processes, data dictionaries, and requirements"
+  },
+  {
+    "code" : "fhir-modeller",
+    "display" : "FHIR Modeller",
+    "definition" : "Authors L3 FHIR artifacts from L2 DAK specifications"
+  },
+  {
+    "code" : "terminologist",
+    "display" : "Terminologist",
+    "definition" : "Manages terminology bindings, concept mappings, and WHO Commons dictionary alignment"
+  },
+  {
+    "code" : "qc-reviewer",
+    "display" : "Quality Control Reviewer",
+    "definition" : "Reviews publication readiness using checklists and QA validation reports"
+  },
+  {
+    "code" : "publication-manager",
+    "display" : "Publication Manager",
+    "definition" : "Manages IG configuration, build process, versioning, and release publication"
+  },
+  {
+    "code" : "content-reviewer",
+    "display" : "Content Reviewer / Approver",
+    "definition" : "Reviews and formally approves content at decision gates in the authoring lifecycle"
+  },
+  {
+    "code" : "translator",
+    "display" : "Translator",
+    "definition" : "Translates IG content across UN languages"
+  }]
+}

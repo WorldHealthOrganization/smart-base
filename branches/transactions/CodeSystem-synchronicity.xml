@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CodeSystem xmlns="http://hl7.org/fhir">
+  <id value="synchronicity"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><div xml:lang="en" lang="en"><hr/><p><b>English</b></p><hr/><p class="res-header-id"><b>Generated Narrative: CodeSystem synchronicity</b></p><a name="synchronicity"> </a><a name="hcsynchronicity"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/synchronicity</code> defines the following codes:</p><table class="codes"><tr><td style="white-space:nowrap"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style="white-space:nowrap">synchronous<a name="synchronicity-synchronous"> </a></td><td>Synchronous</td><td>The response is returned within the same connection or session.</td></tr><tr><td style="white-space:nowrap">asynchronous<a name="synchronicity-asynchronous"> </a></td><td>Asynchronous</td><td>The response is returned separately, via callback, polling, or a different channel.</td></tr></table></div><div xml:lang="fr" lang="fr"><hr/><p><b>French</b></p><hr/><p class="res-header-id"><b>Narratif généré : CodeSystem synchronicity</b></p><a name="fr-synchronicity"> </a><a name="fr-hcsynchronicity"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/synchronicity</code> defines the following codes:</p><table class="codes"><tr><td style="white-space:nowrap"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style="white-space:nowrap">synchronous<a name="fr-synchronicity-synchronous"> </a></td><td>Synchronous</td><td>The response is returned within the same connection or session.</td></tr><tr><td style="white-space:nowrap">asynchronous<a name="fr-synchronicity-asynchronous"> </a></td><td>Asynchronous</td><td>The response is returned separately, via callback, polling, or a different channel.</td></tr></table></div><div xml:lang="ar" lang="ar"><hr/><p><b>Arabic</b></p><hr/><p class="res-header-id"><b>السرد المُنشأ: CodeSystem synchronicity</b></p><a name="ar-synchronicity"> </a><a name="ar-hcsynchronicity"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/synchronicity</code> الرمز التالي<f test="code-count != 1">s</f>:</p><table class="codes"><tr><td style="white-space:nowrap"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style="white-space:nowrap">synchronous<a name="ar-synchronicity-synchronous"> </a></td><td>Synchronous</td><td>The response is returned within the same connection or session.</td></tr><tr><td style="white-space:nowrap">asynchronous<a name="ar-synchronicity-asynchronous"> </a></td><td>Asynchronous</td><td>The response is returned separately, via callback, polling, or a different channel.</td></tr></table></div><div xml:lang="zh" lang="zh"><hr/><p><b>Chinese</b></p><hr/><p class="res-header-id"><b>Generated Narrative: 代码系统 synchronicity</b></p><a name="zh-synchronicity"> </a><a name="zh-hcsynchronicity"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/synchronicity</code> defines the following codes:</p><table class="codes"><tr><td style="white-space:nowrap"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style="white-space:nowrap">synchronous<a name="zh-synchronicity-synchronous"> </a></td><td>Synchronous</td><td>The response is returned within the same connection or session.</td></tr><tr><td style="white-space:nowrap">asynchronous<a name="zh-synchronicity-asynchronous"> </a></td><td>Asynchronous</td><td>The response is returned separately, via callback, polling, or a different channel.</td></tr></table></div><div xml:lang="ru" lang="ru"><hr/><p><b>Russian</b></p><hr/><p class="res-header-id"><b>Сгенерированный нарратив: CodeSystem synchronicity</b></p><a name="ru-synchronicity"> </a><a name="ru-hcsynchronicity"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/synchronicity</code> case-sensitive определяет следующие коды:</p><table class="codes"><tr><td style="white-space:nowrap"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style="white-space:nowrap">synchronous<a name="ru-synchronicity-synchronous"> </a></td><td>Synchronous</td><td>The response is returned within the same connection or session.</td></tr><tr><td style="white-space:nowrap">asynchronous<a name="ru-synchronicity-asynchronous"> </a></td><td>Asynchronous</td><td>The response is returned separately, via callback, polling, or a different channel.</td></tr></table></div><div xml:lang="es" lang="es"><hr/><p><b>Spanish</b></p><hr/><p class="res-header-id"><b>Generated Narrative: SistemaDeCodigos synchronicity</b></p><a name="es-synchronicity"> </a><a name="es-hcsynchronicity"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/synchronicity</code> defines the following codes:</p><table class="codes"><tr><td style="white-space:nowrap"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style="white-space:nowrap">synchronous<a name="es-synchronicity-synchronous"> </a></td><td>Synchronous</td><td>The response is returned within the same connection or session.</td></tr><tr><td style="white-space:nowrap">asynchronous<a name="es-synchronicity-asynchronous"> </a></td><td>Asynchronous</td><td>The response is returned separately, via callback, polling, or a different channel.</td></tr></table></div></div>
+  </text>
+  <url value="http://smart.who.int/base/CodeSystem/synchronicity"/>
+  <version value="0.3.0"/>
+  <name value="SynchronicityCS"/>
+  <title value="Synchronicity"/>
+  <status value="draft"/>
+  <date value="2026-09-07T06:11:01+00:00"/>
+  <publisher value="WHO"/>
+  <contact>
+    <name value="WHO"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://who.int"/>
+    </telecom>
+  </contact>
+  <description value="Whether the exchange completes synchronously or asynchronously."/>
+  <caseSensitive value="true"/>
+  <content value="complete"/>
+  <count value="2"/>
+  <concept>
+    <code value="synchronous"/>
+    <display value="Synchronous"/>
+    <definition value="The response is returned within the same connection or session."/>
+  </concept>
+  <concept>
+    <code value="asynchronous"/>
+    <display value="Asynchronous"/>
+    <definition value="The response is returned separately, via callback, polling, or a different channel."/>
+  </concept>
+</CodeSystem>

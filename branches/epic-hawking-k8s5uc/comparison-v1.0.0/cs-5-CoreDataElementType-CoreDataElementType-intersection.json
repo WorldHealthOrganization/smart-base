@@ -1,0 +1,29 @@
+{
+  "resourceType" : "CodeSystem",
+  "id" : "c71fe6a5-d069-4a17-a77f-eedde2074e63-15",
+  "url" : "http://hl7.org/fhir/comparison/CodeSystem/c71fe6a5-d069-4a17-a77f-eedde2074e63-15",
+  "name" : "IntersectionCoreDataElementTypeAndCoreDataElementType",
+  "title" : "Intersection of Core Data Element Type And Core Data Element Type",
+  "status" : "active",
+  "date" : "2026-10-26T09:18:28+00:00",
+  "concept" : [{
+    "code" : "valueset",
+    "display" : "ValueSet",
+    "definition" : "Reference to a FHIR ValueSet resource"
+  },
+  {
+    "code" : "codesystem",
+    "display" : "CodeSystem",
+    "definition" : "Reference to a FHIR CodeSystem resource"
+  },
+  {
+    "code" : "conceptmap",
+    "display" : "ConceptMap",
+    "definition" : "Reference to a FHIR ConceptMap resource"
+  },
+  {
+    "code" : "logicalmodel",
+    "display" : "Logical Model",
+    "definition" : "Reference to a Logical Model adherent to SGLogicalModel"
+  }]
+}

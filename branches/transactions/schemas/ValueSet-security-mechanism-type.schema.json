@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-security-mechanism-type.schema.json",
+  "title": "Security Mechanism Type Schema",
+  "description": "JSON Schema for Security Mechanism Type ValueSet codes. Generated from FHIR expansions using IRI format.",
+  "type": "string",
+  "enum": [
+    "http://smart.who.int/base/CodeSystem/security-mechanism-type#transport",
+    "http://smart.who.int/base/CodeSystem/security-mechanism-type#authentication",
+    "http://smart.who.int/base/CodeSystem/security-mechanism-type#authorization",
+    "http://smart.who.int/base/CodeSystem/security-mechanism-type#audit",
+    "http://smart.who.int/base/CodeSystem/security-mechanism-type#consent"
+  ],
+  "narrative": "This schema validates IRI-formatted codes for the Security Mechanism Type ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-security-mechanism-type.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+  "fhir:displays": "http://smart.who.int/base/ValueSet-security-mechanism-type.displays.json",
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/security-mechanism-type",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-09-07T06:15:33.121333"
+}

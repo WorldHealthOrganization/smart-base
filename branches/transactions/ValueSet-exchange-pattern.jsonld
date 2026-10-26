@@ -1,0 +1,59 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-exchange-pattern.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-09-07T06:15:33.343741Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-exchange-pattern.jsonld#request-response",
+      "name": "Request-Response",
+      "fhir:code": "request-response",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-exchange-pattern"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-exchange-pattern.jsonld#query",
+      "name": "Query",
+      "fhir:code": "query",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-exchange-pattern"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-exchange-pattern.jsonld#messaging",
+      "name": "Messaging",
+      "fhir:code": "messaging",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-exchange-pattern"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-exchange-pattern.jsonld#document",
+      "name": "Document",
+      "fhir:code": "document",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-exchange-pattern"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-exchange-pattern.jsonld#publish-subscribe",
+      "name": "Publish-Subscribe",
+      "fhir:code": "publish-subscribe",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-exchange-pattern"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-exchange-pattern.jsonld#event-notification",
+      "name": "Event Notification",
+      "fhir:code": "event-notification",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-exchange-pattern"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-exchange-pattern.jsonld#batch",
+      "name": "Batch",
+      "fhir:code": "batch",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-exchange-pattern"
+    }
+  ]
+}

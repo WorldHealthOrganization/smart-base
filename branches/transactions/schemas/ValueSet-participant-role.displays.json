@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-participant-role.displays.json",
+  "title": "Participant Role Display Values",
+  "description": "Display values for Participant Role ValueSet codes. Generated from FHIR expansions.",
+  "type": "object",
+  "properties": {
+    "fhir:displays": {
+      "type": "object",
+      "description": "Multilingual display values for ValueSet codes using IRI format to match JSON schema enum values",
+      "patternProperties": {
+        "^https?://.*": {
+          "type": "object",
+          "description": "Display values for a specific IRI-formatted code by language",
+          "properties": {
+            "en": {
+              "type": "string",
+              "description": "English display value"
+            }
+          },
+          "patternProperties": {
+            "^[a-z]{2}(-[A-Z]{2})?$": {
+              "type": "string",
+              "description": "Display value in the specified language (ISO 639-1 code)"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "fhir:displays"
+  ],
+  "additionalProperties": true,
+  "fhir:displays": {
+    "http://smart.who.int/base/CodeSystem/participant-role#gateway": {
+      "en": "Gateway"
+    },
+    "http://smart.who.int/base/CodeSystem/participant-role#broker": {
+      "en": "Broker"
+    },
+    "http://smart.who.int/base/CodeSystem/participant-role#proxy": {
+      "en": "Proxy"
+    },
+    "http://smart.who.int/base/CodeSystem/participant-role#observer": {
+      "en": "Observer"
+    },
+    "http://smart.who.int/base/CodeSystem/participant-role#authz-server": {
+      "en": "Authorization Server"
+    },
+    "http://smart.who.int/base/CodeSystem/participant-role#fulfiller": {
+      "en": "Fulfiller"
+    },
+    "http://smart.who.int/base/CodeSystem/participant-role#validator": {
+      "en": "Validator"
+    }
+  },
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/participant-role",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-09-07T06:15:33.124774"
+}

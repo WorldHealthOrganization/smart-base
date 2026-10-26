@@ -1,0 +1,15 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "cb45fc0b-b357-43a0-9bc1-21299ac4d1b2-23",
+  "url" : "http://hl7.org/fhir/comparison/ValueSet/cb45fc0b-b357-43a0-9bc1-21299ac4d1b2-23",
+  "name" : "UnionActionParticipantRoleAndActionParticipantRole",
+  "title" : "Union of Action participant role And Action participant role",
+  "status" : "draft",
+  "date" : "2026-08-27T08:24:36+00:00",
+  "compose" : {
+    "include" : [{
+      "valueSet" : ["http://hl7.org/fhir/ValueSet/practitioner-role|4.0.1",
+      "http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype|4.0.1"]
+    }]
+  }
+}

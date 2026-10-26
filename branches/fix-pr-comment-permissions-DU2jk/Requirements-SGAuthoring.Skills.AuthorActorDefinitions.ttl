@@ -1,0 +1,392 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/Basic/SGAuthoring.Skills.AuthorActorDefinitions> a fhir:Basic ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "SGAuthoring.Skills.AuthorActorDefinitions"] ; # 
+  fhir:meta [
+     fhir:profile ( [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGRequirements"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGRequirements>
+     ] )
+  ] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.AuthorActorDefinitions</b></p><a name=\"SGAuthoring.Skills.AuthorActorDefinitions\"> </a><a name=\"hcSGAuthoring.Skills.AuthorActorDefinitions\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the actor <a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></p><table class=\"grid\"><tr><td><b><a name=\"ACTOR-01\"> </a></b>Reuse Commons personas</td><td>SHALL</td><td><div><p>Can check the Commons repository for existing ActorDefinitions and reuse them when adequate.</p>\n</div></td></tr><tr><td><b><a name=\"ACTOR-02\"> </a></b>Create new ActorDefinitions</td><td>SHALL</td><td><div><p>Can create draft ActorDefinitions with appropriate name, title, description, and type when no existing persona fits.</p>\n</div></td></tr><tr><td><b><a name=\"ACTOR-03\"> </a></b>Submit for governance approval</td><td>SHALL</td><td><div><p>Can submit new persona definitions to the Commons governance process for approval before final publication.</p>\n</div></td></tr><tr><td><b><a name=\"ACTOR-04\"> </a></b>Write FSH for ActorDefinitions</td><td>SHALL</td><td><div><p>Can author ActorDefinition instances using FHIR Shorthand (FSH) syntax.</p>\n</div></td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : Requirements SGAuthoring.Skills.AuthorActorDefinitions</b></p><a name=\"fr-SGAuthoring.Skills.AuthorActorDefinitions\"> </a><a name=\"fr-hcSGAuthoring.Skills.AuthorActorDefinitions\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profil: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>Ces exigences s'appliquent à l'acteur <a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></p><table class=\"grid\"><tr><td><b><a name=\"fr-ACTOR-01\"> </a></b>Reuse Commons personas</td><td>SHALL</td><td><div><p>Can check the Commons repository for existing ActorDefinitions and reuse them when adequate.</p>\n</div></td></tr><tr><td><b><a name=\"fr-ACTOR-02\"> </a></b>Create new ActorDefinitions</td><td>SHALL</td><td><div><p>Can create draft ActorDefinitions with appropriate name, title, description, and type when no existing persona fits.</p>\n</div></td></tr><tr><td><b><a name=\"fr-ACTOR-03\"> </a></b>Submit for governance approval</td><td>SHALL</td><td><div><p>Can submit new persona definitions to the Commons governance process for approval before final publication.</p>\n</div></td></tr><tr><td><b><a name=\"fr-ACTOR-04\"> </a></b>Write FSH for ActorDefinitions</td><td>SHALL</td><td><div><p>Can author ActorDefinition instances using FHIR Shorthand (FSH) syntax.</p>\n</div></td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: Requirements SGAuthoring.Skills.AuthorActorDefinitions</b></p><a name=\"ar-SGAuthoring.Skills.AuthorActorDefinitions\"> </a><a name=\"ar-hcSGAuthoring.Skills.AuthorActorDefinitions\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">الملف الشخصي: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>تنطبق هذه المتطلبات على الممثل <a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></p><table class=\"grid\"><tr><td><b><a name=\"ar-ACTOR-01\"> </a></b>Reuse Commons personas</td><td>SHALL</td><td><div><p>Can check the Commons repository for existing ActorDefinitions and reuse them when adequate.</p>\n</div></td></tr><tr><td><b><a name=\"ar-ACTOR-02\"> </a></b>Create new ActorDefinitions</td><td>SHALL</td><td><div><p>Can create draft ActorDefinitions with appropriate name, title, description, and type when no existing persona fits.</p>\n</div></td></tr><tr><td><b><a name=\"ar-ACTOR-03\"> </a></b>Submit for governance approval</td><td>SHALL</td><td><div><p>Can submit new persona definitions to the Commons governance process for approval before final publication.</p>\n</div></td></tr><tr><td><b><a name=\"ar-ACTOR-04\"> </a></b>Write FSH for ActorDefinitions</td><td>SHALL</td><td><div><p>Can author ActorDefinition instances using FHIR Shorthand (FSH) syntax.</p>\n</div></td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.AuthorActorDefinitions</b></p><a name=\"zh-SGAuthoring.Skills.AuthorActorDefinitions\"> </a><a name=\"zh-hcSGAuthoring.Skills.AuthorActorDefinitions\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the actor <a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></p><table class=\"grid\"><tr><td><b><a name=\"zh-ACTOR-01\"> </a></b>Reuse Commons personas</td><td>SHALL</td><td><div><p>Can check the Commons repository for existing ActorDefinitions and reuse them when adequate.</p>\n</div></td></tr><tr><td><b><a name=\"zh-ACTOR-02\"> </a></b>Create new ActorDefinitions</td><td>SHALL</td><td><div><p>Can create draft ActorDefinitions with appropriate name, title, description, and type when no existing persona fits.</p>\n</div></td></tr><tr><td><b><a name=\"zh-ACTOR-03\"> </a></b>Submit for governance approval</td><td>SHALL</td><td><div><p>Can submit new persona definitions to the Commons governance process for approval before final publication.</p>\n</div></td></tr><tr><td><b><a name=\"zh-ACTOR-04\"> </a></b>Write FSH for ActorDefinitions</td><td>SHALL</td><td><div><p>Can author ActorDefinition instances using FHIR Shorthand (FSH) syntax.</p>\n</div></td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: Requirements SGAuthoring.Skills.AuthorActorDefinitions</b></p><a name=\"ru-SGAuthoring.Skills.AuthorActorDefinitions\"> </a><a name=\"ru-hcSGAuthoring.Skills.AuthorActorDefinitions\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Профиль: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>Эти требования распространяются и на актера <a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></p><table class=\"grid\"><tr><td><b><a name=\"ru-ACTOR-01\"> </a></b>Reuse Commons personas</td><td>SHALL</td><td><div><p>Can check the Commons repository for existing ActorDefinitions and reuse them when adequate.</p>\n</div></td></tr><tr><td><b><a name=\"ru-ACTOR-02\"> </a></b>Create new ActorDefinitions</td><td>SHALL</td><td><div><p>Can create draft ActorDefinitions with appropriate name, title, description, and type when no existing persona fits.</p>\n</div></td></tr><tr><td><b><a name=\"ru-ACTOR-03\"> </a></b>Submit for governance approval</td><td>SHALL</td><td><div><p>Can submit new persona definitions to the Commons governance process for approval before final publication.</p>\n</div></td></tr><tr><td><b><a name=\"ru-ACTOR-04\"> </a></b>Write FSH for ActorDefinitions</td><td>SHALL</td><td><div><p>Can author ActorDefinition instances using FHIR Shorthand (FSH) syntax.</p>\n</div></td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Requirements SGAuthoring.Skills.AuthorActorDefinitions</b></p><a name=\"es-SGAuthoring.Skills.AuthorActorDefinitions\"> </a><a name=\"es-hcSGAuthoring.Skills.AuthorActorDefinitions\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-SGRequirements.html\">SMART Guidelines Requirements</a></p></div><p>These requirements apply to the actor <a href=\"ActorDefinition-SGAuthoring.Persona.FHIRModeller.html\">FHIR Modeller</a></p><table class=\"grid\"><tr><td><b><a name=\"es-ACTOR-01\"> </a></b>Reuse Commons personas</td><td>SHALL</td><td><div><p>Can check the Commons repository for existing ActorDefinitions and reuse them when adequate.</p>\n</div></td></tr><tr><td><b><a name=\"es-ACTOR-02\"> </a></b>Create new ActorDefinitions</td><td>SHALL</td><td><div><p>Can create draft ActorDefinitions with appropriate name, title, description, and type when no existing persona fits.</p>\n</div></td></tr><tr><td><b><a name=\"es-ACTOR-03\"> </a></b>Submit for governance approval</td><td>SHALL</td><td><div><p>Can submit new persona definitions to the Commons governance process for approval before final publication.</p>\n</div></td></tr><tr><td><b><a name=\"es-ACTOR-04\"> </a></b>Write FSH for ActorDefinitions</td><td>SHALL</td><td><div><p>Can author ActorDefinition instances using FHIR Shorthand (FSH) syntax.</p>\n</div></td></tr></table></div></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:extension ( [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGTask"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGTask>
+     ] ;
+     fhir:value [
+       a fhir:Coding ;
+       fhir:system [
+         fhir:v "http://smart.who.int/base/CodeSystem/SGTasks"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/CodeSystem/SGTasks>
+       ] ;
+       fhir:code [ fhir:v "userTask" ] ;
+       fhir:display [ fhir:v "User Task" ]
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://smart.who.int/base/StructureDefinition/SGString"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/StructureDefinition/SGString>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "create FHIR ActorDefinitions from L2 personas"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://smart.who.int/base/StructureDefinition/SGString"^^xsd:anyURI ;
+         fhir:l <http://smart.who.int/base/StructureDefinition/SGString>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "personas are formally defined as reusable FHIR resources across SMART Guidelines IGs"
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://smart.who.int/base/StructureDefinition/SGUserStory"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/StructureDefinition/SGUserStory>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.url"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.url>
+     ] ;
+     fhir:value [
+       a fhir:Uri ;
+       fhir:v "http://smart.who.int/base/Requirements/SGAuthoring.Skills.AuthorActorDefinitions"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/Requirements/SGAuthoring.Skills.AuthorActorDefinitions>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.version"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.version>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "0.2.0"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.name"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.name>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "SkillAuthorActorDefinitions"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.title"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.title>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "Can author actor definitions"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.status"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.status>
+     ] ;
+     fhir:value [
+       a fhir:Code ;
+       fhir:v "draft"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.experimental"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.experimental>
+     ] ;
+     fhir:value [
+       a fhir:Boolean ;
+       fhir:v true
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.date"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.date>
+     ] ;
+     fhir:value [
+       a fhir:DateTime ;
+       fhir:v "2026-03-24T14:49:30+00:00"^^xsd:dateTime
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.publisher"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.publisher>
+     ] ;
+     fhir:value [
+       a fhir:String ;
+       fhir:v "WHO"
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.contact"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.contact>
+     ] ;
+     fhir:value [
+       a fhir:ContactDetail ;
+       fhir:name [ fhir:v "WHO" ] ;
+       fhir:telecom ( [
+         fhir:system [ fhir:v "url" ] ;
+         fhir:value [ fhir:v "http://who.int" ]
+       ] )
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.description"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.description>
+     ] ;
+     fhir:value [
+       a fhir:Markdown ;
+       fhir:v "Capability to create FHIR ActorDefinitions from L2 personas, reusing existing definitions from the Commons repository."
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.jurisdiction"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.jurisdiction>
+     ]
+  ] [
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.actor>
+     ] ;
+     fhir:value [
+       a fhir:Canonical ;
+       fhir:v "http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.FHIRModeller"^^xsd:anyURI ;
+       fhir:l <http://smart.who.int/base/ActorDefinition/SGAuthoring.Persona.FHIRModeller>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "ACTOR-01"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Reuse Commons personas"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can check the Commons repository for existing ActorDefinitions and reuse them when adequate."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "ACTOR-02"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Create new ActorDefinitions"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can create draft ActorDefinitions with appropriate name, title, description, and type when no existing persona fits."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "ACTOR-03"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Submit for governance approval"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can submit new persona definitions to the Commons governance process for approval before final publication."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] [
+     fhir:extension ( [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.key>
+       ] ;
+       fhir:value [
+         a fhir:Id ;
+         fhir:v "ACTOR-04"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.label>
+       ] ;
+       fhir:value [
+         a fhir:String ;
+         fhir:v "Write FSH for ActorDefinitions"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.conformance>
+       ] ;
+       fhir:value [
+         a fhir:Code ;
+         fhir:v "SHALL"
+       ]
+     ] [
+       fhir:url [
+         fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement.requirement>
+       ] ;
+       fhir:value [
+         a fhir:Markdown ;
+         fhir:v "Can author ActorDefinition instances using FHIR Shorthand (FSH) syntax."
+       ]
+     ] ) ;
+     fhir:url [
+       fhir:v "http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement"^^xsd:anyURI ;
+       fhir:l <http://hl7.org/fhir/5.0/StructureDefinition/extension-Requirements.statement>
+     ]
+  ] ) ; # 
+  fhir:code [
+     fhir:coding ( [
+       fhir:system [
+         fhir:v "http://hl7.org/fhir/fhir-types"^^xsd:anyURI ;
+         fhir:l <http://hl7.org/fhir/fhir-types>
+       ] ;
+       fhir:code [ fhir:v "Requirements" ]
+     ] )
+  ] . # 
+
+# -------------------------------------------------------------------------------------
+

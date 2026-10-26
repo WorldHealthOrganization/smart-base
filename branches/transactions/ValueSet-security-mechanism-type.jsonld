@@ -1,0 +1,47 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-security-mechanism-type.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-09-07T06:15:33.344054Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-security-mechanism-type.jsonld#transport",
+      "name": "Transport Security",
+      "fhir:code": "transport",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-security-mechanism-type"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-security-mechanism-type.jsonld#authentication",
+      "name": "Authentication",
+      "fhir:code": "authentication",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-security-mechanism-type"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-security-mechanism-type.jsonld#authorization",
+      "name": "Authorization",
+      "fhir:code": "authorization",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-security-mechanism-type"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-security-mechanism-type.jsonld#audit",
+      "name": "Audit",
+      "fhir:code": "audit",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-security-mechanism-type"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-security-mechanism-type.jsonld#consent",
+      "name": "Consent",
+      "fhir:code": "consent",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-security-mechanism-type"
+    }
+  ]
+}

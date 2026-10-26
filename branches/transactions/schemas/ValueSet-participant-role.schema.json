@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-participant-role.schema.json",
+  "title": "Participant Role Schema",
+  "description": "JSON Schema for Participant Role ValueSet codes. Generated from FHIR expansions using IRI format.",
+  "type": "string",
+  "enum": [
+    "http://smart.who.int/base/CodeSystem/participant-role#gateway",
+    "http://smart.who.int/base/CodeSystem/participant-role#broker",
+    "http://smart.who.int/base/CodeSystem/participant-role#proxy",
+    "http://smart.who.int/base/CodeSystem/participant-role#observer",
+    "http://smart.who.int/base/CodeSystem/participant-role#authz-server",
+    "http://smart.who.int/base/CodeSystem/participant-role#fulfiller",
+    "http://smart.who.int/base/CodeSystem/participant-role#validator"
+  ],
+  "narrative": "This schema validates IRI-formatted codes for the Participant Role ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-participant-role.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+  "fhir:displays": "http://smart.who.int/base/ValueSet-participant-role.displays.json",
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/participant-role",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-09-07T06:15:33.124774"
+}
