@@ -84,3 +84,18 @@ describe("workflowSignal treats a workflow file as one stream", () => {
     expect(workflowSignal(runs, PATH, { now: NOW }).verdict).toBe("green");
   });
 });
+
+describe("fhirSignal when qas.json has no entry", () => {
+  const base = { fullName: "WorldHealthOrganization/smart-y", branch: "main", qasRead: true, qa: undefined, failure: { present: false } };
+  test("no published page and no failure log is none (checked, nothing there)", () => {
+    expect(fhirSignal({ ...base, page: { present: false } }).verdict).toBe("none");
+  });
+  test("a published page missing from qas.json stays unknown, and says why", () => {
+    const s = fhirSignal({ ...base, page: { present: true } });
+    expect(s.verdict).toBe("unknown");
+    expect(s.detail).toContain("missing from qas.json");
+  });
+  test("a page that could not be checked stays unknown", () => {
+    expect(fhirSignal({ ...base, page: { present: undefined } }).verdict).toBe("unknown");
+  });
+});

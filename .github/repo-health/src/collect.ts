@@ -6,8 +6,8 @@
  * 1,000 requests an hour.
  */
 import type { Config } from "./config.ts";
-import { failureLog, fhirSignal, indexQas, FHIR_BUILD, type QaEntry } from "./fhir.ts";
-import type { GitHub } from "./github.ts";
+import { failureLog, fhirSignal, indexQas, publishedPage, FHIR_BUILD, type QaEntry } from "./fhir.ts";
+import { GitHubError, type GitHub } from "./github.ts";
 import { pagesSignal, workflowSignal, type RunSummary } from "./signals.ts";
 import type { RepoStatus, Signal, StatusReport, WorkItem } from "./types.ts";
 
@@ -105,6 +105,33 @@ export async function collectRepo(
   const r = `/repos/${repo.full_name}`;
   const b = repo.default_branch;
 
+  // An empty repository names a default branch that does not exist. That is
+  // a fact about the repository, not a failed read, so it must not turn the
+  // whole check red every day.
+  if (repo.size === 0) {
+    const empty = await gh.get(`${r}/branches/${encodeURIComponent(b)}`).then(
+      () => false,
+      (e) => e instanceof GitHubError && e.status === 404,
+    );
+    if (empty) {
+      const n = none("empty repository (no commits)");
+      return {
+        repo: repo.name,
+        url: repo.html_url,
+        archived: repo.archived,
+        defaultBranch: b,
+        pushedAt: repo.pushed_at,
+        sizeKb: 0,
+        signals: { ci: n, fhir: n, release: n, pages: n },
+        openIssues: 0,
+        openPrs: 0,
+        untriaged: 0,
+        items: [],
+        errors: [],
+      };
+    }
+  }
+
   const head = await attempt(errors, "branch", () =>
     gh.get<{ commit: { sha: string; commit: { committer: { date: string } } } }>(`${r}/branches/${encodeURIComponent(b)}`),
   );
@@ -166,10 +193,12 @@ export async function collectRepo(
   if (!workflows) fhir = unknown("workflows could not be read");
   else if (!has("fhirbuild.yml")) fhir = none("no fhirbuild.yml workflow");
   else {
+    const qa = qas?.get(`${repo.full_name}#${b}`.toLowerCase());
     fhir = fhirSignal({
       fullName: repo.full_name,
       branch: b,
-      qa: qas?.get(`${repo.full_name}#${b}`.toLowerCase()),
+      qa,
+      page: qa ? undefined : await publishedPage(repo.full_name, b),
       qasRead: qas !== undefined,
       failure: await failureLog(repo.full_name, b),
       headCommitAt: head?.commit.commit.committer.date,

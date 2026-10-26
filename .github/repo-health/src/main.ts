@@ -61,6 +61,9 @@ function summary(report: StatusReport): string {
 const only = flag("repos")?.split(",").map((r) => r.trim()).filter(Boolean);
 const report = await collect(gh, cfg, now, only);
 report.environment = flag("environment") ?? "production";
+if (process.env.GITHUB_RUN_ID) {
+  report.runUrl = `${process.env.GITHUB_SERVER_URL ?? "https://github.com"}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
+}
 
 if (cmd === "collect") {
   const out = flag("out") ?? "out";

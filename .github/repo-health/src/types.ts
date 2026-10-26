@@ -76,6 +76,8 @@ export interface StatusReport {
   undetermined: boolean;
   /** "production", or e.g. "staging" for a preview run that sends no alerts. */
   environment?: string;
+  /** The workflow run that produced this report, when run in GitHub Actions. */
+  runUrl?: string;
 }
 
 /** What the notifier remembers about one repo × signal between runs. */

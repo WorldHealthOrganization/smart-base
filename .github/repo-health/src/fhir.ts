@@ -38,8 +38,8 @@ export interface FailureLog {
   at?: string;
 }
 
-export async function failureLog(fullName: string, branch: string): Promise<FailureLog> {
-  const url = `${FHIR_BUILD}/${fullName}/branches/${branch}/failure/build.log`;
+/** HEAD a build.fhir.org file: true = there, false = 404, undefined = could not tell. */
+export async function exists(url: string): Promise<FailureLog> {
   try {
     const res = await fetch(url, { method: "HEAD" });
     if (res.status === 404) return { present: false };
@@ -50,6 +50,13 @@ export async function failureLog(fullName: string, branch: string): Promise<Fail
     return { present: undefined };
   }
 }
+
+export const failureLog = (fullName: string, branch: string) =>
+  exists(`${FHIR_BUILD}/${fullName}/branches/${branch}/failure/build.log`);
+
+/** The published IG's front page: tells "never built here" from "built, but not in qas.json". */
+export const publishedPage = (fullName: string, branch: string) =>
+  exists(`${FHIR_BUILD}/${fullName}/branches/${branch}/index.html`);
 
 const day = (iso?: string) => (iso ? iso.slice(0, 10) : "?");
 
@@ -63,6 +70,8 @@ export function fhirSignal(input: {
   /** undefined when qas.json itself could not be read. */
   qasRead: boolean;
   failure: FailureLog;
+  /** Is there a published IG page for the branch? Only consulted when qas.json has no entry. */
+  page?: FailureLog;
   /** ISO time of the newest commit on the branch, when known. */
   headCommitAt?: string;
 }): Signal {
@@ -86,7 +95,14 @@ export function fhirSignal(input: {
     };
   }
   if (!qa || Number.isNaN(builtMs)) {
-    return { verdict: "unknown", url: igUrl, detail: "no build of this branch found on build.fhir.org" };
+    // Checked, and nothing is there: a definite answer, not a blind spot.
+    if (input.page?.present === false) {
+      return { verdict: "none", url: igUrl, detail: "not built on build.fhir.org (no published page, no failure log)" };
+    }
+    if (input.page?.present === true) {
+      return { verdict: "unknown", url: igUrl, detail: "published on build.fhir.org, but missing from qas.json, so its result cannot be read" };
+    }
+    return { verdict: "unknown", url: igUrl, detail: "no qas.json entry, and the published page could not be checked" };
   }
   const qaLine = `QA ${qa.errs ?? "?"} errors, ${qa.warnings ?? "?"} warnings`;
   const headMs = input.headCommitAt ? Date.parse(input.headCommitAt) : NaN;
