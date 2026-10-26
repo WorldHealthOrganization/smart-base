@@ -1,0 +1,136 @@
+# bpmn: .github/repo-health/processes/repo-health-watch.bpmn
+#
+# SMART repo health: the daily check and weekly digest of every non-fork
+# smart-* repository in the org. Reusable: the CALLER supplies the schedule,
+# the config and its own GITHUB_TOKEN, and alerts, digest, state and dashboard
+# all land in the caller repository (today smart-ig-starter-kit). No secret is
+# needed: every smart-* repository is public, so the caller's token can read
+# them, and it only ever writes to the caller.
+#
+# Why "could not determine" fails the job: a watchdog that has gone blind must
+# not look like a quiet one. The dashboard data and the state are still
+# published first, and issues are left untouched for anything unread.
+# Pattern and reasoning: cat-harness ci-health-watch (litlfred/cat-harness,
+# processes/sdlc/ci-health-watch.bpmn).
+
+name: SMART repo health (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        description: 'collect (daily check, alerts, dashboard) or digest (weekly digest issue)'
+        type: string
+        default: collect
+      config:
+        description: 'Path of the config file in the caller repository'
+        type: string
+        default: .github/repo-health/config.yml
+      template:
+        description: 'Path of the dashboard page in the caller repository'
+        type: string
+        default: dashboard/index.html
+      state_branch:
+        description: 'Branch in the caller repository that holds alert state and trend history'
+        type: string
+        default: dashboard-state
+      dry_run:
+        description: 'Read and report only: no issues, no state, no dashboard'
+        type: boolean
+        default: false
+      tools_ref:
+        description: 'Branch/ref of smart-base to take the repo-health code from'
+        type: string
+        default: main
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write      # state branch + gh-pages/dashboard in the caller
+      issues: write        # alerts and digest in the caller
+      actions: read        # workflow runs of the tracked repositories
+      pull-requests: read  # reviews of open PRs
+    steps:
+      - name: Checkout caller (config and dashboard page)
+        uses: actions/checkout@v4
+        with:
+          path: caller
+
+      - name: Checkout repo-health code from smart-base
+        uses: actions/checkout@v4
+        with:
+          repository: WorldHealthOrganization/smart-base
+          ref: ${{ inputs.tools_ref }}
+          path: tools
+          sparse-checkout: .github/repo-health
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install and fetch the pinned ci-health module
+        working-directory: tools/.github/repo-health
+        run: |
+          bun install --frozen-lockfile
+          bun fetch-pinned.ts
+
+      - name: Mount the state branch
+        if: inputs.mode == 'collect'
+        env:
+          STATE_BRANCH: ${{ inputs.state_branch }}
+        run: |
+          mkdir -p state
+          cd caller
+          if git ls-remote --exit-code --heads origin "$STATE_BRANCH" >/dev/null; then
+            git fetch --depth 1 origin "$STATE_BRANCH"
+            git --work-tree="$GITHUB_WORKSPACE/state" checkout FETCH_HEAD -- .
+            echo "State mounted from $STATE_BRANCH."
+          else
+            echo "No $STATE_BRANCH branch yet: this run seeds state and opens no alerts."
+          fi
+
+      - name: Check
+        id: check
+        continue-on-error: true
+        working-directory: tools/.github/repo-health
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          MODE: ${{ inputs.mode }}
+          CONFIG: ${{ github.workspace }}/caller/${{ inputs.config }}
+          TEMPLATE: ${{ github.workspace }}/caller/${{ inputs.template }}
+          DRY: ${{ inputs.dry_run && '--dry-run' || '' }}
+        run: |
+          if [ "$MODE" = collect ]; then
+            bun src/main.ts collect --config "$CONFIG" --state "$GITHUB_WORKSPACE/state" \
+              --out "$GITHUB_WORKSPACE/out" --template "$TEMPLATE" $DRY
+          else
+            bun src/main.ts digest --config "$CONFIG" $DRY
+          fi
+
+      # Published even when the check could not read everything: the state
+      # records the alerts this run did act on, and the dashboard shows
+      # `unknown` for what it could not read rather than going stale.
+      - name: Publish state
+        if: inputs.mode == 'collect' && !inputs.dry_run && hashFiles('state/state.json') != ''
+        uses: JamesIves/github-pages-deploy-action@v4.4.2
+        with:
+          folder: state
+          branch: ${{ inputs.state_branch }}
+          commit-message: 'repo-health: state ${{ github.run_id }}'
+          clean: true
+
+      - name: Publish dashboard
+        if: inputs.mode == 'collect' && !inputs.dry_run && hashFiles('out/status.json') != ''
+        uses: JamesIves/github-pages-deploy-action@v4.4.2
+        with:
+          folder: out
+          branch: gh-pages
+          target-folder: dashboard
+          commit-message: 'repo-health: dashboard ${{ github.run_id }}'
+          clean: true
+
+      - name: Fail when something could not be determined
+        if: steps.check.outcome == 'failure'
+        run: |
+          echo "::error::The check could not read everything (see the Check step and the job summary). Issues were left untouched for what it could not read."
+          exit 1

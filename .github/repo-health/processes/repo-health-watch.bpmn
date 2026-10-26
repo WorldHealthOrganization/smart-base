@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Source of truth for .github/workflows/repo-health.yml (mode collect). Pattern: cat-harness processes/sdlc/ci-health-watch.bpmn and publish-alert.bpmn (litlfred/cat-harness). Edit the diagram first, then the code. -->
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_Process_RepoHealthWatch" targetNamespace="https://github.com/WorldHealthOrganization/smart-base/repo-health">
+  <bpmn:collaboration id="Collab_Process_RepoHealthWatch">
+    <bpmn:participant id="Part_Process_RepoHealthWatch" name="SMART repo health watch" processRef="Process_RepoHealthWatch"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Process_RepoHealthWatch" name="SMART repo health watch" isExecutable="false">
+    <bpmn:documentation>Every day, read every non-fork smart-* repository and keep exactly one tracking issue per failing build, changed only on a transition. A check that could not see changes nothing it could not see, and fails its own job.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_Bot" name="Daily check (GitHub Actions)">
+        <bpmn:documentation>role: build-pipeline</bpmn:documentation>
+        <bpmn:flowNodeRef>Start_Daily</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Collect</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Publish</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>GW_First</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Seeded</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>GW_Determined</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Unknown</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>GW_Transition</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Create</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Close</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>GW_Kind</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Edit</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>GW_Cause</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Comment</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Recorded</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Lead" name="Triage lead (rotates weekly)">
+        <bpmn:documentation>role: triage-lead</bpmn:documentation>
+        <bpmn:flowNodeRef>Task_Ack</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Acked</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Pub" name="Publication manager">
+        <bpmn:documentation>role: publication-manager</bpmn:documentation>
+        <bpmn:flowNodeRef>Task_Hold</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Decided</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_Daily" name="Daily 05:41 UTC, or on dispatch">
+      <bpmn:outgoing>F1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_Collect" name="Read every smart-* repo">
+      <bpmn:documentation>CI and release runs (classified by the pinned cat-harness-tools ci-health assess), GitHub Pages deployments, build.fhir.org, open issues and PRs. Verdicts: green, red, stale, superseded, unknown, none.</bpmn:documentation>
+      <bpmn:incoming>F1</bpmn:incoming>
+      <bpmn:outgoing>F2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_Publish" name="Write dashboard data before any exit">
+      <bpmn:documentation>status.json and trend.json are written whatever happens next.</bpmn:documentation>
+      <bpmn:incoming>F2</bpmn:incoming>
+      <bpmn:outgoing>F3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="GW_First" name="Previous state?">
+      <bpmn:incoming>F3</bpmn:incoming>
+      <bpmn:outgoing>F4</bpmn:outgoing>
+      <bpmn:outgoing>F5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="End_Seeded" name="Seeded: no alerts on the first run">
+      <bpmn:incoming>F4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="GW_Determined" name="Signal determined?">
+      <bpmn:incoming>F5</bpmn:incoming>
+      <bpmn:outgoing>F6</bpmn:outgoing>
+      <bpmn:outgoing>F7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="End_Unknown" name="Unknown: issue untouched, job red">
+      <bpmn:incoming>F6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="GW_Transition" name="What changed?">
+      <bpmn:incoming>F7</bpmn:incoming>
+      <bpmn:outgoing>F8</bpmn:outgoing>
+      <bpmn:outgoing>F9</bpmn:outgoing>
+      <bpmn:outgoing>F10</bpmn:outgoing>
+      <bpmn:outgoing>F11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_Create" name="Create the alert issue, @mention maintainers">
+      <bpmn:documentation>Labels build-broken and P0 (plus publication-manager for a release build). Not when a person closed the previous alert while still red.</bpmn:documentation>
+      <bpmn:incoming>F8</bpmn:incoming>
+      <bpmn:outgoing>F12</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_Close" name="Comment recovered and close">
+      <bpmn:incoming>F9</bpmn:incoming>
+      <bpmn:outgoing>F21</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="GW_Kind" name="Release build?">
+      <bpmn:incoming>F12</bpmn:incoming>
+      <bpmn:outgoing>F13</bpmn:outgoing>
+      <bpmn:outgoing>F14</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_Edit" name="Edit the issue body in place (silent)">
+      <bpmn:incoming>F10</bpmn:incoming>
+      <bpmn:outgoing>F17</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="GW_Cause" name="Cause changed?">
+      <bpmn:incoming>F17</bpmn:incoming>
+      <bpmn:outgoing>F18</bpmn:outgoing>
+      <bpmn:outgoing>F19</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_Comment" name="Comment the new failure (notifies)">
+      <bpmn:incoming>F18</bpmn:incoming>
+      <bpmn:outgoing>F20</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="End_Recorded" name="Recorded">
+      <bpmn:incoming>F11</bpmn:incoming>
+      <bpmn:incoming>F19</bpmn:incoming>
+      <bpmn:incoming>F20</bpmn:incoming>
+      <bpmn:incoming>F21</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="Task_Ack" name="Acknowledge today; fix within 2 working days">
+      <bpmn:incoming>F13</bpmn:incoming>
+      <bpmn:outgoing>F15</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="End_Acked" name="Owned">
+      <bpmn:incoming>F15</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="Task_Hold" name="Decide: hold the release or fix forward">
+      <bpmn:incoming>F14</bpmn:incoming>
+      <bpmn:outgoing>F16</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="End_Decided" name="Decided">
+      <bpmn:incoming>F16</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="F1" sourceRef="Start_Daily" targetRef="Task_Collect"/>
+    <bpmn:sequenceFlow id="F2" sourceRef="Task_Collect" targetRef="Task_Publish"/>
+    <bpmn:sequenceFlow id="F3" sourceRef="Task_Publish" targetRef="GW_First"/>
+    <bpmn:sequenceFlow id="F4" name="no" sourceRef="GW_First" targetRef="End_Seeded"/>
+    <bpmn:sequenceFlow id="F5" name="yes" sourceRef="GW_First" targetRef="GW_Determined"/>
+    <bpmn:sequenceFlow id="F6" name="no" sourceRef="GW_Determined" targetRef="End_Unknown"/>
+    <bpmn:sequenceFlow id="F7" name="yes" sourceRef="GW_Determined" targetRef="GW_Transition"/>
+    <bpmn:sequenceFlow id="F8" name="green to red" sourceRef="GW_Transition" targetRef="Task_Create"/>
+    <bpmn:sequenceFlow id="F9" name="to green, issue open" sourceRef="GW_Transition" targetRef="Task_Close"/>
+    <bpmn:sequenceFlow id="F10" name="still not green, issue open" sourceRef="GW_Transition" targetRef="Task_Edit"/>
+    <bpmn:sequenceFlow id="F11" name="nothing to do" sourceRef="GW_Transition" targetRef="End_Recorded"/>
+    <bpmn:sequenceFlow id="F12" sourceRef="Task_Create" targetRef="GW_Kind"/>
+    <bpmn:sequenceFlow id="F13" name="no" sourceRef="GW_Kind" targetRef="Task_Ack"/>
+    <bpmn:sequenceFlow id="F14" name="yes" sourceRef="GW_Kind" targetRef="Task_Hold"/>
+    <bpmn:sequenceFlow id="F15" sourceRef="Task_Ack" targetRef="End_Acked"/>
+    <bpmn:sequenceFlow id="F16" sourceRef="Task_Hold" targetRef="End_Decided"/>
+    <bpmn:sequenceFlow id="F17" sourceRef="Task_Edit" targetRef="GW_Cause"/>
+    <bpmn:sequenceFlow id="F18" name="yes" sourceRef="GW_Cause" targetRef="Task_Comment"/>
+    <bpmn:sequenceFlow id="F19" name="no" sourceRef="GW_Cause" targetRef="End_Recorded"/>
+    <bpmn:sequenceFlow id="F20" sourceRef="Task_Comment" targetRef="End_Recorded"/>
+    <bpmn:sequenceFlow id="F21" sourceRef="Task_Close" targetRef="End_Recorded"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_Process_RepoHealthWatch">
+    <bpmndi:BPMNPlane id="Plane_Process_RepoHealthWatch" bpmnElement="Collab_Process_RepoHealthWatch">
+      <bpmndi:BPMNShape id="Part_Process_RepoHealthWatch_di" bpmnElement="Part_Process_RepoHealthWatch" isHorizontal="true"><dc:Bounds x="0" y="0" width="2160" height="690"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Bot_di" bpmnElement="Lane_Bot" isHorizontal="true"><dc:Bounds x="30" y="0" width="2130" height="230"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Lead_di" bpmnElement="Lane_Lead" isHorizontal="true"><dc:Bounds x="30" y="230" width="2130" height="230"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Pub_di" bpmnElement="Lane_Pub" isHorizontal="true"><dc:Bounds x="30" y="460" width="2130" height="230"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_Daily_di" bpmnElement="Start_Daily"><dc:Bounds x="172" y="97" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Collect_di" bpmnElement="Task_Collect"><dc:Bounds x="305" y="75" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Publish_di" bpmnElement="Task_Publish"><dc:Bounds x="490" y="75" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="GW_First_di" bpmnElement="GW_First" isMarkerVisible="true"><dc:Bounds x="720" y="90" width="50" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Seeded_di" bpmnElement="End_Seeded"><dc:Bounds x="912" y="32" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="GW_Determined_di" bpmnElement="GW_Determined" isMarkerVisible="true"><dc:Bounds x="905" y="145" width="50" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Unknown_di" bpmnElement="End_Unknown"><dc:Bounds x="1097" y="32" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="GW_Transition_di" bpmnElement="GW_Transition" isMarkerVisible="true"><dc:Bounds x="1090" y="145" width="50" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Create_di" bpmnElement="Task_Create"><dc:Bounds x="1230" y="15" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Close_di" bpmnElement="Task_Close"><dc:Bounds x="1230" y="140" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="GW_Kind_di" bpmnElement="GW_Kind" isMarkerVisible="true"><dc:Bounds x="1460" y="30" width="50" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Edit_di" bpmnElement="Task_Edit"><dc:Bounds x="1415" y="140" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="GW_Cause_di" bpmnElement="GW_Cause" isMarkerVisible="true"><dc:Bounds x="1645" y="155" width="50" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Comment_di" bpmnElement="Task_Comment"><dc:Bounds x="1785" y="140" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Recorded_di" bpmnElement="End_Recorded"><dc:Bounds x="2022" y="97" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Ack_di" bpmnElement="Task_Ack"><dc:Bounds x="1600" y="305" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Acked_di" bpmnElement="End_Acked"><dc:Bounds x="1837" y="327" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Hold_di" bpmnElement="Task_Hold"><dc:Bounds x="1600" y="535" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Decided_di" bpmnElement="End_Decided"><dc:Bounds x="1837" y="557" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="F1_di" bpmnElement="F1"><di:waypoint x="208" y="115"/><di:waypoint x="305" y="115"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F2_di" bpmnElement="F2"><di:waypoint x="445" y="115"/><di:waypoint x="490" y="115"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F3_di" bpmnElement="F3"><di:waypoint x="630" y="115"/><di:waypoint x="720" y="115"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F4_di" bpmnElement="F4"><di:waypoint x="770" y="115"/><di:waypoint x="792" y="115"/><di:waypoint x="792" y="50"/><di:waypoint x="912" y="50"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F5_di" bpmnElement="F5"><di:waypoint x="770" y="115"/><di:waypoint x="792" y="115"/><di:waypoint x="792" y="170"/><di:waypoint x="905" y="170"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F6_di" bpmnElement="F6"><di:waypoint x="955" y="170"/><di:waypoint x="977" y="170"/><di:waypoint x="977" y="50"/><di:waypoint x="1097" y="50"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F7_di" bpmnElement="F7"><di:waypoint x="955" y="170"/><di:waypoint x="1090" y="170"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F8_di" bpmnElement="F8"><di:waypoint x="1140" y="170"/><di:waypoint x="1162" y="170"/><di:waypoint x="1162" y="55"/><di:waypoint x="1230" y="55"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F9_di" bpmnElement="F9"><di:waypoint x="1140" y="170"/><di:waypoint x="1162" y="170"/><di:waypoint x="1162" y="180"/><di:waypoint x="1230" y="180"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F10_di" bpmnElement="F10"><di:waypoint x="1140" y="170"/><di:waypoint x="1162" y="170"/><di:waypoint x="1162" y="180"/><di:waypoint x="1415" y="180"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F11_di" bpmnElement="F11"><di:waypoint x="1140" y="170"/><di:waypoint x="1162" y="170"/><di:waypoint x="1162" y="115"/><di:waypoint x="2022" y="115"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F12_di" bpmnElement="F12"><di:waypoint x="1370" y="55"/><di:waypoint x="1460" y="55"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F13_di" bpmnElement="F13"><di:waypoint x="1510" y="55"/><di:waypoint x="1532" y="55"/><di:waypoint x="1532" y="345"/><di:waypoint x="1600" y="345"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F14_di" bpmnElement="F14"><di:waypoint x="1510" y="55"/><di:waypoint x="1532" y="55"/><di:waypoint x="1532" y="575"/><di:waypoint x="1600" y="575"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F15_di" bpmnElement="F15"><di:waypoint x="1740" y="345"/><di:waypoint x="1837" y="345"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F16_di" bpmnElement="F16"><di:waypoint x="1740" y="575"/><di:waypoint x="1837" y="575"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F17_di" bpmnElement="F17"><di:waypoint x="1555" y="180"/><di:waypoint x="1645" y="180"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F18_di" bpmnElement="F18"><di:waypoint x="1695" y="180"/><di:waypoint x="1785" y="180"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F19_di" bpmnElement="F19"><di:waypoint x="1695" y="180"/><di:waypoint x="1717" y="180"/><di:waypoint x="1717" y="115"/><di:waypoint x="2022" y="115"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F20_di" bpmnElement="F20"><di:waypoint x="1925" y="180"/><di:waypoint x="1947" y="180"/><di:waypoint x="1947" y="115"/><di:waypoint x="2022" y="115"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F21_di" bpmnElement="F21"><di:waypoint x="1370" y="180"/><di:waypoint x="1392" y="180"/><di:waypoint x="1392" y="115"/><di:waypoint x="2022" y="115"/></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

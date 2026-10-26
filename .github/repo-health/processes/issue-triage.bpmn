@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Source of truth for TRIAGE.md in smart-ig-starter-kit. Roles are lanes; the triage lead rotates weekly (config.yml rota). Edit the diagram first, then TRIAGE.md. -->
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_Process_IssueTriage" targetNamespace="https://github.com/WorldHealthOrganization/smart-base/repo-health">
+  <bpmn:collaboration id="Collab_Process_IssueTriage">
+    <bpmn:participant id="Part_Process_IssueTriage" name="SMART issue and PR triage" processRef="Process_IssueTriage"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Process_IssueTriage" name="SMART issue and PR triage" isExecutable="false">
+    <bpmn:documentation>Every new issue or PR in a smart-* repository is triaged within 7 days: closed with a reason, or given a type and a priority (P0-P3). P0 and P1 are assigned at once; P2 and P3 go to the backlog. A PR gets a first review within 7 days.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_Reporter" name="Reporter or contributor">
+        <bpmn:documentation>role: contributor</bpmn:documentation>
+        <bpmn:flowNodeRef>Start_New</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Reply</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Lead" name="Triage lead (rotates weekly)">
+        <bpmn:documentation>role: triage-lead</bpmn:documentation>
+        <bpmn:flowNodeRef>Task_Read</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>GW_Scope</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CloseReason</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Closed</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>GW_Info</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AskInfo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Prioritise</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>GW_Prio</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Backlog</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Backlog</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Maint" name="Maintainer">
+        <bpmn:documentation>role: maintainer</bpmn:documentation>
+        <bpmn:flowNodeRef>Task_Fix</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Done</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_New" name="New issue or PR (listed in the weekly digest)">
+      <bpmn:outgoing>T1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_Read" name="Read it (under 2 minutes)">
+      <bpmn:documentation>A PR also gets a first review within 7 days, by the lead or a maintainer the lead names.</bpmn:documentation>
+      <bpmn:incoming>T1</bpmn:incoming>
+      <bpmn:incoming>T8</bpmn:incoming>
+      <bpmn:outgoing>T2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="GW_Scope" name="Duplicate or out of scope?">
+      <bpmn:incoming>T2</bpmn:incoming>
+      <bpmn:outgoing>T3</bpmn:outgoing>
+      <bpmn:outgoing>T5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_CloseReason" name="Close with a one-line reason">
+      <bpmn:incoming>T3</bpmn:incoming>
+      <bpmn:outgoing>T4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="End_Closed" name="Closed">
+      <bpmn:incoming>T4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="GW_Info" name="Enough information?">
+      <bpmn:incoming>T5</bpmn:incoming>
+      <bpmn:outgoing>T6</bpmn:outgoing>
+      <bpmn:outgoing>T9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_AskInfo" name="Label needs-info; ask one specific question">
+      <bpmn:incoming>T6</bpmn:incoming>
+      <bpmn:outgoing>T7</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_Reply" name="Reply">
+      <bpmn:incoming>T7</bpmn:incoming>
+      <bpmn:outgoing>T8</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_Prioritise" name="Set type and priority P0-P3">
+      <bpmn:documentation>P0 broken build, broken published IG or release blocker; P1 blocks a country or partner, or an upcoming release; P2 normal content fix or feedback; P3 nice to have.</bpmn:documentation>
+      <bpmn:incoming>T9</bpmn:incoming>
+      <bpmn:outgoing>T10</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="GW_Prio" name="P0 or P1?">
+      <bpmn:incoming>T10</bpmn:incoming>
+      <bpmn:outgoing>T11</bpmn:outgoing>
+      <bpmn:outgoing>T12</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_Backlog" name="Label ready; backlog">
+      <bpmn:incoming>T12</bpmn:incoming>
+      <bpmn:outgoing>T13</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="End_Backlog" name="In the backlog">
+      <bpmn:incoming>T13</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="Task_Fix" name="Assigned: fix this week (P0: same day, 2 working days)">
+      <bpmn:incoming>T11</bpmn:incoming>
+      <bpmn:outgoing>T14</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="End_Done" name="Fixed">
+      <bpmn:incoming>T14</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="T1" sourceRef="Start_New" targetRef="Task_Read"/>
+    <bpmn:sequenceFlow id="T2" sourceRef="Task_Read" targetRef="GW_Scope"/>
+    <bpmn:sequenceFlow id="T3" name="yes" sourceRef="GW_Scope" targetRef="Task_CloseReason"/>
+    <bpmn:sequenceFlow id="T4" sourceRef="Task_CloseReason" targetRef="End_Closed"/>
+    <bpmn:sequenceFlow id="T5" name="no" sourceRef="GW_Scope" targetRef="GW_Info"/>
+    <bpmn:sequenceFlow id="T6" name="no" sourceRef="GW_Info" targetRef="Task_AskInfo"/>
+    <bpmn:sequenceFlow id="T7" sourceRef="Task_AskInfo" targetRef="Task_Reply"/>
+    <bpmn:sequenceFlow id="T8" sourceRef="Task_Reply" targetRef="Task_Read"/>
+    <bpmn:sequenceFlow id="T9" name="yes" sourceRef="GW_Info" targetRef="Task_Prioritise"/>
+    <bpmn:sequenceFlow id="T10" sourceRef="Task_Prioritise" targetRef="GW_Prio"/>
+    <bpmn:sequenceFlow id="T11" name="yes" sourceRef="GW_Prio" targetRef="Task_Fix"/>
+    <bpmn:sequenceFlow id="T12" name="no" sourceRef="GW_Prio" targetRef="Task_Backlog"/>
+    <bpmn:sequenceFlow id="T13" sourceRef="Task_Backlog" targetRef="End_Backlog"/>
+    <bpmn:sequenceFlow id="T14" sourceRef="Task_Fix" targetRef="End_Done"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_Process_IssueTriage">
+    <bpmndi:BPMNPlane id="Plane_Process_IssueTriage" bpmnElement="Collab_Process_IssueTriage">
+      <bpmndi:BPMNShape id="Part_Process_IssueTriage_di" bpmnElement="Part_Process_IssueTriage" isHorizontal="true"><dc:Bounds x="0" y="0" width="1790" height="690"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Reporter_di" bpmnElement="Lane_Reporter" isHorizontal="true"><dc:Bounds x="30" y="0" width="1760" height="230"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Lead_di" bpmnElement="Lane_Lead" isHorizontal="true"><dc:Bounds x="30" y="230" width="1760" height="230"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Maint_di" bpmnElement="Lane_Maint" isHorizontal="true"><dc:Bounds x="30" y="460" width="1760" height="230"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_New_di" bpmnElement="Start_New"><dc:Bounds x="172" y="97" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Read_di" bpmnElement="Task_Read"><dc:Bounds x="305" y="305" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="GW_Scope_di" bpmnElement="GW_Scope" isMarkerVisible="true"><dc:Bounds x="535" y="320" width="50" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CloseReason_di" bpmnElement="Task_CloseReason"><dc:Bounds x="675" y="245" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Closed_di" bpmnElement="End_Closed"><dc:Bounds x="912" y="267" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="GW_Info_di" bpmnElement="GW_Info" isMarkerVisible="true"><dc:Bounds x="720" y="380" width="50" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_AskInfo_di" bpmnElement="Task_AskInfo"><dc:Bounds x="860" y="365" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Reply_di" bpmnElement="Task_Reply"><dc:Bounds x="1045" y="75" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Prioritise_di" bpmnElement="Task_Prioritise"><dc:Bounds x="1045" y="305" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="GW_Prio_di" bpmnElement="GW_Prio" isMarkerVisible="true"><dc:Bounds x="1275" y="320" width="50" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Backlog_di" bpmnElement="Task_Backlog"><dc:Bounds x="1415" y="305" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Backlog_di" bpmnElement="End_Backlog"><dc:Bounds x="1652" y="327" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Fix_di" bpmnElement="Task_Fix"><dc:Bounds x="1415" y="535" width="140" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Done_di" bpmnElement="End_Done"><dc:Bounds x="1652" y="557" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="T1_di" bpmnElement="T1"><di:waypoint x="208" y="115"/><di:waypoint x="230" y="115"/><di:waypoint x="230" y="345"/><di:waypoint x="305" y="345"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T2_di" bpmnElement="T2"><di:waypoint x="445" y="345"/><di:waypoint x="535" y="345"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T3_di" bpmnElement="T3"><di:waypoint x="585" y="345"/><di:waypoint x="607" y="345"/><di:waypoint x="607" y="285"/><di:waypoint x="675" y="285"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T4_di" bpmnElement="T4"><di:waypoint x="815" y="285"/><di:waypoint x="912" y="285"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T5_di" bpmnElement="T5"><di:waypoint x="585" y="345"/><di:waypoint x="607" y="345"/><di:waypoint x="607" y="405"/><di:waypoint x="720" y="405"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T6_di" bpmnElement="T6"><di:waypoint x="770" y="405"/><di:waypoint x="860" y="405"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T7_di" bpmnElement="T7"><di:waypoint x="1000" y="405"/><di:waypoint x="1022" y="405"/><di:waypoint x="1022" y="115"/><di:waypoint x="1045" y="115"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T8_di" bpmnElement="T8"><di:waypoint x="1115" y="155"/><di:waypoint x="1115" y="415"/><di:waypoint x="375" y="415"/><di:waypoint x="375" y="385"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T9_di" bpmnElement="T9"><di:waypoint x="770" y="405"/><di:waypoint x="792" y="405"/><di:waypoint x="792" y="345"/><di:waypoint x="1045" y="345"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T10_di" bpmnElement="T10"><di:waypoint x="1185" y="345"/><di:waypoint x="1275" y="345"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T11_di" bpmnElement="T11"><di:waypoint x="1325" y="345"/><di:waypoint x="1347" y="345"/><di:waypoint x="1347" y="575"/><di:waypoint x="1415" y="575"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T12_di" bpmnElement="T12"><di:waypoint x="1325" y="345"/><di:waypoint x="1415" y="345"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T13_di" bpmnElement="T13"><di:waypoint x="1555" y="345"/><di:waypoint x="1652" y="345"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T14_di" bpmnElement="T14"><di:waypoint x="1555" y="575"/><di:waypoint x="1652" y="575"/></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

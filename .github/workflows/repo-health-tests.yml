@@ -1,0 +1,32 @@
+# Tests and typecheck for .github/repo-health, on changes to it only.
+name: SMART repo health tests
+
+on:
+  pull_request:
+    paths:
+      - '.github/repo-health/**'
+      - '.github/workflows/repo-health*.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.github/repo-health/**'
+      - '.github/workflows/repo-health*.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: .github/repo-health
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun fetch-pinned.ts
+      - run: bun run check
+      - run: bun test

@@ -946,6 +946,7 @@ jobs:
           clean-exclude: |
             branches
             sitepreview
+            dashboard
 
       - name: Deploy main (retry after gh-pages ref conflict)
         uses: JamesIves/github-pages-deploy-action@v4.4.2
@@ -958,6 +959,7 @@ jobs:
           clean-exclude: |
             branches
             sitepreview
+            dashboard
 
       # ── Commit updated README.md back to the source branch ──────────────
       # Runs only when deploying from the default branch (not on PRs or
