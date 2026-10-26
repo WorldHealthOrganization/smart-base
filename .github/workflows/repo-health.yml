@@ -35,9 +35,17 @@ on:
         type: string
         default: dashboard-state
       dry_run:
-        description: 'Read and report only: no issues, no state, no dashboard'
+        description: 'No issues and no state written (the dashboard is still published to pages_dir unless that is empty)'
         type: boolean
         default: false
+      pages_dir:
+        description: 'Folder on the caller''s gh-pages for the dashboard; empty = do not publish'
+        type: string
+        default: dashboard
+      environment:
+        description: 'Shown on the page; anything but production adds a banner (e.g. staging)'
+        type: string
+        default: production
       tools_ref:
         description: 'Branch/ref of smart-base to take the repo-health code from'
         type: string
@@ -99,10 +107,11 @@ jobs:
           CONFIG: ${{ github.workspace }}/caller/${{ inputs.config }}
           TEMPLATE: ${{ github.workspace }}/caller/${{ inputs.template }}
           DRY: ${{ inputs.dry_run && '--dry-run' || '' }}
+          ENVIRONMENT: ${{ inputs.environment }}
         run: |
           if [ "$MODE" = collect ]; then
             bun src/main.ts collect --config "$CONFIG" --state "$GITHUB_WORKSPACE/state" \
-              --out "$GITHUB_WORKSPACE/out" --template "$TEMPLATE" $DRY
+              --out "$GITHUB_WORKSPACE/out" --template "$TEMPLATE" --environment "$ENVIRONMENT" $DRY
           else
             bun src/main.ts digest --config "$CONFIG" $DRY
           fi
@@ -120,12 +129,12 @@ jobs:
           clean: true
 
       - name: Publish dashboard
-        if: inputs.mode == 'collect' && !inputs.dry_run && hashFiles('out/status.json') != ''
+        if: inputs.mode == 'collect' && inputs.pages_dir != '' && hashFiles('out/status.json') != ''
         uses: JamesIves/github-pages-deploy-action@v4.4.2
         with:
           folder: out
           branch: gh-pages
-          target-folder: dashboard
+          target-folder: ${{ inputs.pages_dir }}
           commit-message: 'repo-health: dashboard ${{ github.run_id }}'
           clean: true
 

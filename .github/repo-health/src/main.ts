@@ -4,6 +4,8 @@
  *   bun src/main.ts collect --config <yml> --state <dir> --out <dir> [--template <html>] [--dry-run]
  *   bun src/main.ts digest  --config <yml> [--dry-run]
  *
+ *   --environment staging  label the published data; the page shows a
+ *                banner for anything other than production.
  *   --repos a,b  restrict to the named repositories (testing); default is every
  *                non-fork repository in the org whose name starts with the prefix.
  *
@@ -58,6 +60,7 @@ function summary(report: StatusReport): string {
 
 const only = flag("repos")?.split(",").map((r) => r.trim()).filter(Boolean);
 const report = await collect(gh, cfg, now, only);
+report.environment = flag("environment") ?? "production";
 
 if (cmd === "collect") {
   const out = flag("out") ?? "out";

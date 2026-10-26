@@ -74,6 +74,8 @@ export interface StatusReport {
   repos: RepoStatus[];
   /** True when at least one verdict could not be determined. */
   undetermined: boolean;
+  /** "production", or e.g. "staging" for a preview run that sends no alerts. */
+  environment?: string;
 }
 
 /** What the notifier remembers about one repo × signal between runs. */
