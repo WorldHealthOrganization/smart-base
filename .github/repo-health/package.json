@@ -1,0 +1,20 @@
+{
+  "name": "smart-repo-health",
+  "private": true,
+  "type": "module",
+  "description": "Daily health check of the WHO SMART smart-* repositories: dashboard, build-broken alerts, weekly digest.",
+  "scripts": {
+    "fetch-pinned": "bun fetch-pinned.ts",
+    "collect": "bun src/main.ts collect",
+    "digest": "bun src/main.ts digest",
+    "test": "bun test",
+    "check": "tsc -p ."
+  },
+  "dependencies": {
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "bun-types": "^1.4.4",
+    "typescript": "5"
+  }
+}
