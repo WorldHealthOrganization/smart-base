@@ -31,6 +31,14 @@ const IG = join(LAYER_ROOT, "..");
 const BCG = join(IG, "input/dmn/DAK.DT.IMMZ.D2.DT.BCG.dmn");
 const FSH = join(IG, "input/fsh");
 const BPMN = join(IG, "smart-base/collab/processes/content/SGAuthoring.DAKLifecycle.bpmn");
+/**
+ * Whether the IG's own inputs are in this checkout. An index mounts this
+ * package (`smart-base/`) but not the IG around it, so there `input/` is not
+ * here and the extractors that read it are n/a, as in `generated.test.ts`.
+ * In the IG repository `input/` is present and a missing input still fails.
+ */
+const IG_INPUT = existsSync(join(IG, "input"));
+const IG_ONLY = { skip: IG_INPUT ? false : "no input/ here (an index mounts the package, not the IG): NOT checked (n/a, not a pass)" };
 
 type AnyNode = { id: string; type: string; properties?: Record<string, unknown> };
 const externalOf = (...docs: { nodes: AnyNode[] }[]): Map<string, AnyNode> => {
@@ -45,7 +53,7 @@ const noErrors = (doc: unknown, external?: Map<string, AnyNode>) => {
   return v;
 };
 
-test("extractCitations: the BCG table's L1 references, with the README's coverage", () => {
+test("extractCitations: the BCG table's L1 references, with the README's coverage", IG_ONLY, () => {
   assert.ok(existsSync(BCG), `missing real input ${BCG}`);
   const { doc, stats } = extractCitations(readFileSync(BCG, "utf8"), BCG);
   // README: "25 rules, 1 distinct L1 citation(s)" and "coverage: 1/25 rules cite an L1 source".
@@ -56,7 +64,7 @@ test("extractCitations: the BCG table's L1 references, with the README's coverag
   noErrors(doc);
 });
 
-test("extractDmn: the BCG table's interior as the L2-DMN subgraph", () => {
+test("extractDmn: the BCG table's interior as the L2-DMN subgraph", IG_ONLY, () => {
   const { doc } = extractDmn(readFileSync(BCG, "utf8"), BCG);
   for (const c of ["dmn-definitions", "dmn-decision", "dmn-decision-table", "dmn-input-clause", "dmn-output-clause", "dmn-rule", "data-element"]) {
     assert.ok(classes(doc).has(c), `expected a ${c} node`);
@@ -105,7 +113,7 @@ test("extractBpmn: a pool resolves against ActorDefinition titles (built fixture
   noErrors(doc, externalOf({ nodes: [persona] }));
 });
 
-test("extractDak: personas and requirements from the real FSH tree", () => {
+test("extractDak: personas and requirements from the real FSH tree", IG_ONLY, () => {
   assert.ok(existsSync(FSH), `missing real input ${FSH}`);
   const dak = mkdtempSync(join(tmpdir(), "kg-dak-"));
   const dakPath = join(dak, "dak.json");
@@ -124,7 +132,7 @@ test("extractDak: personas and requirements from the real FSH tree", () => {
   assert.ok(joins && joins.resolved! > 0);
 });
 
-test("extractL3: the IG's FHIR artefacts as the L3 subgraph", () => {
+test("extractL3: the IG's FHIR artefacts as the L3 subgraph", IG_ONLY, () => {
   assert.ok(existsSync(join(IG, "sushi-config.yaml")), "missing sushi-config.yaml");
   const { doc, stats } = extractL3(IG);
   for (const c of ["actor-definition", "requirements", "value-set", "code-system", "structure-definition", "profile"]) {
