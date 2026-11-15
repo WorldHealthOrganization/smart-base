@@ -190,6 +190,11 @@ in **prose**, a link count takes a stylesheet `href` as a way out. For
 navigated pages, the instrument that holds is `<nav class="fa-nav"` OR
 `id="site-nav"`.
 
+For a count of NODES with a page, an IRI and a folder-page row, do not write
+an instrument: `bun run cat node-views:report -- --site <dir>` is that count,
+validated by its tests, and it says `unknown` rather than 0 where it could not
+ask. It reads a folder's data files, so rows a script draws are counted.
+
 For a site-wide count, the `gh-pages` route above scales. Use a
 `--filter=blob:none --sparse` clone of `gh-pages`, with sparse patterns for
 the files counted, and exclude `branches/`. All HTML is about 1.7 GB and takes

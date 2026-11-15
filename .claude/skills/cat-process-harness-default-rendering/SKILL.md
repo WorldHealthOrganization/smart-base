@@ -40,9 +40,17 @@ Renders a harness layer as its default interface: its left-hand nav and docs on 
 - Skill: `liquid-templates`.
 - What: `head_custom.html` sets the ground behind every page of the harness, under two scrims of the page's own colour, so text and links keep the plain page's contrast.
 - Record it: `workflow_complete` with `node: "A_Publish"`.
+- next: → `A_NodeViews` (Report node-view coverage)
+
+### 4. Report node-view coverage (`A_NodeViews`)
+
+- Who: the `Build pipeline` lane (role `build-pipeline`).
+- Skill: `kg-viewer`.
+- What: The Tool `node-view-coverage` (`bun run cat node-views:report -- --site <built site>`) counts, per layer, folder and kind, which nodes have an IRI, a `.jsonld`, a page and a row on their folder page, and which folder links are dead or point at the raw repository.
+- Record it: `workflow_complete` with `node: "A_NodeViews"`.
 - next: → `A_Board` (Draw the board of todos and beans)
 
-### 4. Draw the board of todos and beans (`A_Board`)
+### 5. Draw the board of todos and beans (`A_Board`)
 
 - Who: the `Board renderer` lane (role `board-renderer`).
 - Skill: `board-windows`.
@@ -50,7 +58,7 @@ Renders a harness layer as its default interface: its left-hand nav and docs on 
 - Record it: `workflow_complete` with `node: "A_Board"`.
 - next: → `A_Read` (Read a page or a card)
 
-### 5. Read a page or a card (`A_Read`)
+### 6. Read a page or a card (`A_Read`)
 
 - Who: the `Reviewer` lane (role `reviewer`).
 - Skill: `content-review`.
@@ -65,7 +73,7 @@ Renders a harness layer as its default interface: its left-hand nav and docs on 
   - «yes» → `A_Propose` (Propose the change)
   - «no» → `A_Todo` (Leave it as feedback)
 
-### 6. Propose the change (`A_Propose`)
+### 7. Propose the change (`A_Propose`)
 
 - Who: the `Reviewer` lane (role `reviewer`).
 - Skill: `kg-affordances`.
@@ -73,7 +81,7 @@ Renders a harness layer as its default interface: its left-hand nav and docs on 
 - Record it: `workflow_complete` with `node: "A_Propose"`.
 - next: → `End_Proposed` (Change in the content review)
 
-### 7. Leave it as feedback (`A_Todo`)
+### 8. Leave it as feedback (`A_Todo`)
 
 - Who: the `Reviewer` lane (role `reviewer`).
 - Skill: `content-feedback`.

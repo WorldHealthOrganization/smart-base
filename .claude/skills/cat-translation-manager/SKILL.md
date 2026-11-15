@@ -271,6 +271,21 @@ bun run pipeline/translation-signoff.ts --locale <locale> --level <block|section
 Or use the `translation_signoff` MCP tool. Updates the `TranslationNode`
 manifest with sign-off metadata and source hash.
 
+#### Before sign-off: review and adjudication, catalogue by catalogue
+
+A reviewer who reads one catalogue and finds it acceptable, or finds a
+mistranslation and picks a candidate or writes their own text, records that
+through the review page, a `translation-adjudication/v1` issue and a PR — the
+loop in [`translation-adjudication`](translation-adjudication.md), drawn as
+[`translation-review-adjudication.bpmn`](../../processes/translation-review-adjudication.bpmn).
+It marks a catalogue **reviewed** (or **flagged**, when a suggestion was
+applied) and never official: the sign-off above stays a separate act.
+Candidate translations from any engine — an agent model, OPUS-MT,
+LibreTranslate / Argos — are produced through
+[`translation-candidate-source`](translation-candidate-source.md), and **an
+empty `msgstr` gets the first candidate, marked fuzzy**: candidates are never
+a barrier to having a translation.
+
 ### 9. Staleness watch
 
 On every content change, the pipeline checks whether any official translation's
