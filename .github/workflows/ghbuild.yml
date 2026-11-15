@@ -58,6 +58,11 @@ on:
         required: false
         type: boolean
         default: true
+      smart_owner:
+        description: 'GitHub owner of the smart-base to fetch scripts from (default: the calling repository''s owner)'
+        required: false
+        type: string
+        default: ''
 
   # Allows you to run this workflow manually from the Actions tab
   # (useful for downstream repos and for ad-hoc smart-base builds).
@@ -81,6 +86,11 @@ on:
         required: false
         type: boolean
         default: true
+      smart_owner:
+        description: 'GitHub owner of the smart-base to fetch scripts from (default: this repository''s owner)'
+        required: false
+        type: string
+        default: ''
 
 # NOTE: No workflow-level concurrency block here.  When this workflow is
 # invoked via workflow_call, github.workflow resolves to the *caller's*
@@ -92,9 +102,12 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 env:
-  # The GitHub owner of smart-base (smart-base/schemas/site-roots.ts SMART_OWNER).
-  # Change both together when smart-base moves to the WHO org.
-  SMART_OWNER: litlfred
+  # The GitHub owner of the smart-base the scripts come from: the CALLER's
+  # owner, derived, so a fork builds from the fork and WHO from WHO at the same
+  # pinned commit (WHO migration plan T3, smart-base#421). A repository that
+  # stays behind while smart-base moves (smart-immunizations-uganda) passes
+  # `smart_owner: WorldHealthOrganization`.
+  SMART_OWNER: ${{ inputs.smart_owner || github.repository_owner }}
 
 jobs:
   # This workflow contains a single job called "build"

@@ -40,7 +40,7 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
-import { stagingSite } from "../schemas/site-roots.ts";
+import { iriSite } from "../schemas/site-roots.ts";
 
 export const TEMPLATE_DIR = join(import.meta.dir, "..", "templates", "dth");
 
@@ -101,7 +101,7 @@ export function plan(o: DthInitOptions): Planned[] {
       name: o.name,
       title: o.title,
       version: "0.1.0",
-      iriBase: stagingSite(o.name),
+      iriBase: iriSite(o.name),
       // declared-path-literal: these ARE the new layer's declarations; no
       // declaration exists yet to read them from.
       directories: [
