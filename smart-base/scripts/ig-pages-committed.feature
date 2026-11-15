@@ -25,15 +25,6 @@ Feature: The committed WHO IG pages and data
     Then smart-trust has no docs/index.md and no docs/artifacts.md
     And its docs/artifact/index.jsonld is a folio-ig-artifact-index-jsonld/v1 node identified "smart.who.int.trust" and titled "WHO SMART Trust"
 
-  @test:smart-base/scripts/ig-pages-committed.test.ts::the_committed_identities::smartTrustIdentityValidates
-  Scenario: smart-trust's validates and names its own package
-    Given smart-trust's IG identity read from its fhir-artifact-index
-    Then it exists, validates against the IG identity schema, and its id is "smart.who.int.trust"
-
-  @test:smart-base/scripts/ig-pages-committed.test.ts::the_committed_identities::smartBaseHasNoIdentity
-  Scenario: smart-base has none, so it states no status (the third state)
-    Then reading smart-base's IG identity from its fhir-artifact-index finds none
-
   @test:smart-base/scripts/ig-pages-committed.test.ts::site.data.fhir_from_smart-base's_committed_artifact_index::writesWhatIndexCarries
   Scenario: writes what the index carries, from the index
     Given site.data.fhir built from smart-base
@@ -48,11 +39,6 @@ Feature: The committed WHO IG pages and data
     And the data contains no empty string
 
   @test:smart-base/scripts/ig-pages-committed.test.ts::site.data.fhir_from_smart-base's_committed_artifact_index::smartBaseStatesNoStatus
-  Scenario: states no status: smart-base has no ig-identity.json, and the template's chrome states none
+  Scenario: states no status: smart-base's committed index records none, and the template's chrome states none
     Given site.data.fhir built from smart-base
     Then it has no IG status and nothing refused
-
-  @test:smart-base/scripts/ig-pages-committed.test.ts::site.data.fhir_from_smart-trust's_index,_which_carries_its_own_ig-identity.json::statusFromOwnIdentityFile
-  Scenario: status comes from the IG's own identity file
-    Given site.data.fhir built from smart-trust
-    Then its IG status is "draft", with provenance "fhir-artifact-index/ig-identity.json"

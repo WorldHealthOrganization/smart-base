@@ -13,6 +13,7 @@ Part of [SMART Base](../README.md) 0.1.0, declared as `smart-base-findings`, hol
 
 | file | what it is | used by |
 |---|---|---|
+| [`dth-candidates-2026-10-02.json`](dth-candidates-2026-10-02.json) | data |  |
 | [`dth-term-alternatives.json`](dth-term-alternatives.json) | DTH terms: alternatives, one phase figure, and what "actor" means |  |
 | [`dth-terms.md`](dth-terms.md) | "Where the WHO Digital Transformation Handbooks and the draft DPI-H [Reference](https://litlfred.github.io/bootstrap/schemas/#reference) Architecture define a term differently, each definition recorded as an alternat… |  |
 | [`ra-actor-comment.md`](ra-actor-comment.md) | "A DRAFT comment on WHO's [Reference](https://litlfred.github.io/bootstrap/schemas/#reference) Architecture and Guidance for DPI-H, DRAFT V1.0, for the owner to send. |  |

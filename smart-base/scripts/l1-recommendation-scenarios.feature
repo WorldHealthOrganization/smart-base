@@ -92,3 +92,9 @@ Feature: L1 recommendation scenario candidates
   @test:smart-base/scripts/l1-recommendation-scenarios.test.ts::inputs::emitsOnlyPinnedClasses
   Scenario: emits only classes the KG class lists hold
     Then there are no unpinned classes
+
+  @test:smart-base/scripts/l1-recommendation-scenarios.test.ts::inputs::alwaysOnScriptsStayOffOptInSubgraphsAndL1CheckExits78WhenUnmounted
+  Scenario: always-on scripts in smart-base/scripts/ never import into opt-in L1..L4 subgraphs, and smart-base:smart-kg-l1:check exits 78 when L1/ is unmounted
+    Given the always-on scripts in smart-base/scripts/ and smart-base/package.json
+    Then no file in smart-base/scripts/ imports from ../L1/, ../L2/, ../L2-bpmn/, ../L2-dmn/, ../L3/ or ../L4/
+    And running smart-base:smart-kg-l1:check in a directory where smart-base/L1/ is absent exits 78 with "NOT APPLICABLE in this root"

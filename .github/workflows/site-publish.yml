@@ -31,9 +31,14 @@ on:
 
 permissions:
   contents: write
+  # A preview reads the cone run's report (`preview-qa-<sha>`, an artifact of
+  # the PR's `preview` checks run) to put "This change (preview)" on top of
+  # its QA pages (scripts/preview-qa.ts). Granted here first: the reusable
+  # workflow can only ask for it once every caller grants it.
+  actions: read
 
 jobs:
   publish:
-    uses: litlfred/cat-harness-tools/.github/workflows/folio-site-publish.yml@49b2eb15b14b52ae19422876bcc825607ebe22f4 # index.lock.json
+    uses: litlfred/cat-harness-tools/.github/workflows/folio-site-publish.yml@5ba5c29d0adaf6e9115b84c9771db5d7168da418 # index.lock.json
     with:
       plan: ${{ inputs.plan == true }}

@@ -20,6 +20,9 @@ Part of [SMART Base](../README.md) 0.1.0, declared as `smart-base-code-lists`, h
 | [`grade-recommendation-direction.json`](grade-recommendation-direction.json) | GRADE recommendation direction |  |
 | [`grade-recommendation-strength.json`](grade-recommendation-strength.json) | GRADE recommendation strength |  |
 | [`sgkg-l1-classes.json`](sgkg-l1-classes.json) | SMART Guidelines KG L1 classes |  |
+| [`sgkg-l2-bpmn-classes.json`](sgkg-l2-bpmn-classes.json) | SMART Guidelines KG L2-BPMN classes |  |
 | [`sgkg-l2-classes.json`](sgkg-l2-classes.json) | SMART Guidelines KG L2 classes |  |
+| [`sgkg-l2-dmn-classes.json`](sgkg-l2-dmn-classes.json) | SMART Guidelines KG L2-DMN classes |  |
+| [`sgkg-l3-classes.json`](sgkg-l3-classes.json) | SMART Guidelines KG L3 classes |  |
 
 <!-- kg:subgraph:end -->

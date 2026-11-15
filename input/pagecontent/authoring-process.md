@@ -103,6 +103,6 @@ The L2 authoring follows an iterative sprint cycle of **Fill → Validate → In
 
 #### BPMN Process Diagram
 
-The formal BPMN 2.0 process diagram is available at: [SGAuthoring.DAKLifecycle.bpmn](https://github.com/litlfred/smart-base/blob/main/smart-base/processes/content/SGAuthoring.DAKLifecycle.bpmn) (with the other authoring processes under `smart-base/processes/`)
+The formal BPMN 2.0 process diagram is available at: [SGAuthoring.DAKLifecycle.bpmn](https://github.com/litlfred/smart-base/blob/main/smart-base/collab/processes/content/SGAuthoring.DAKLifecycle.bpmn) (with the other authoring processes under `smart-base/processes/`)
 
 This diagram models the full lifecycle as a collaboration with swimlanes for each authoring persona, including message flows between participants for handoffs (e.g. Business Analyst → Clinical SME for validation, QC Reviewer → Publication Manager for approval).

@@ -15,19 +15,7 @@ Part of [SMART Base](../README.md) 0.1.0, declared as `tools`, holding `tools`.
 |---|---|---|
 | [`index.ts`](index.ts) | a file |  |
 | [`lib.ts`](lib.ts) | a file |  |
-| [`bpmn-to-fsh/`](bpmn-to-fsh/) | _nothing declares what this holds_ | |
-| [`dak-api-hub/`](dak-api-hub/) | _nothing declares what this holds_ | |
-| [`dak-config-from-sushi/`](dak-config-from-sushi/) | _nothing declares what this holds_ | |
-| [`dmn-to-html/`](dmn-to-html/) | _nothing declares what this holds_ | |
-| [`dmn-to-questionnaire/`](dmn-to-questionnaire/) | _nothing declares what this holds_ | |
-| [`extract-dak/`](extract-dak/) | _nothing declares what this holds_ | |
-| [`immz-schedule-app-local/`](immz-schedule-app-local/) | _nothing declares what this holds_ | |
 | [`l1-extraction-pages/`](l1-extraction-pages/) | _nothing declares what this holds_ | |
-| [`l1-recommendation-candidates/`](l1-recommendation-candidates/) | _nothing declares what this holds_ | |
-| [`l1-recommendation-scenarios/`](l1-recommendation-scenarios/) | _nothing declares what this holds_ | |
-| [`l1-transcription-verbatim/`](l1-transcription-verbatim/) | _nothing declares what this holds_ | |
 | [`smart-fhir-cache-seed/`](smart-fhir-cache-seed/) | _nothing declares what this holds_ | |
-| [`smart-liquid-variables/`](smart-liquid-variables/) | _nothing declares what this holds_ | |
-| [`terminology-lookup/`](terminology-lookup/) | _nothing declares what this holds_ | |
 
 <!-- kg:subgraph:end -->

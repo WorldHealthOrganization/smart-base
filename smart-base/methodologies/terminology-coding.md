@@ -37,9 +37,9 @@ applies-when: >
 
 # WHO SMART Guidelines Terminology Classification and Reuse-First Coding
 
-**The method behind [`classify-and-code-content`](../skills/content/authoring-who-smart-guidelines/classify-and-code-content.md),
-[`recommendation-extraction`](../skills/content/authoring-who-smart-guidelines/recommendation-extraction.md),
-and [`recommendation-scenarios`](../skills/content/authoring-who-smart-guidelines/recommendation-scenarios.md).**
+**The method behind [`classify-and-code-content`](https://github.com/litlfred/smart-base/blob/main/smart-base/L1/skills/smart-l1/classify-and-code-content.md),
+[`recommendation-extraction`](https://github.com/litlfred/smart-base/blob/main/smart-base/L1/skills/smart-l1/recommendation-extraction.md),
+and [`recommendation-scenarios`](https://github.com/litlfred/smart-base/blob/main/smart-base/L1/skills/smart-l1/recommendation-scenarios.md).**
 It joins the platform's generic ontology and glossary rules —
 [`ontologist`](../../folio-assistant-core/skills/library/cataloguing/ontologist.md),
 [`glossary-terms`](../../folio-assistant-core/skills/library/cataloguing/glossary-terms.md),
@@ -121,11 +121,11 @@ Every classification or coding link records two independent facts:
      against the scheme's definitions.
 2. **Where it sits in review (`status`):**
    - `candidate` — proposed by the `authoring-agent` (using
-     [`terminology-lookup`](../tools/terminology-lookup/terminology-lookup.ts)
-     and [`classify-and-code-content`](../skills/content/authoring-who-smart-guidelines/classify-and-code-content.md));
+     [`terminology-lookup`](https://github.com/litlfred/smart-base/blob/main/smart-base/L3/tools/terminology-lookup/terminology-lookup.ts)
+     and [`classify-and-code-content`](https://github.com/litlfred/smart-base/blob/main/smart-base/L1/skills/smart-l1/classify-and-code-content.md));
    - `reviewed` / `authored` — checked and signed off by a person acting in the
      `terminologist` (or `l1-extraction-reviewer`) role in
-     [`classify-and-code-content.bpmn`](../processes/content/classify-and-code-content.bpmn).
+     [`classify-and-code-content.bpmn`](https://github.com/litlfred/smart-base/blob/main/smart-base/L1/processes/classify-and-code-content.bpmn).
 
 ## 4. Adjudicating L1 coverage exclusions (`l1-extraction-reviewer`)
 
@@ -139,7 +139,7 @@ or `part-of`) or be **excluded** with one of the five closed reasons
 An agent may **propose** an exclusion in `exclusions.proposed.json`
 (`"signerRole": {"role": "l1-extraction-reviewer"}`) and **never signs it**. A
 person acting as `l1-extraction-reviewer`, in
-[`classify-and-code-content.bpmn`](../processes/content/classify-and-code-content.bpmn),
+[`classify-and-code-content.bpmn`](https://github.com/litlfred/smart-base/blob/main/smart-base/L1/processes/classify-and-code-content.bpmn),
 reads each candidate sentence in place on the printed page
 (`sections/page-NNN.md`), checks that it is non-normative under the stated
 reason, and either signs it (`signedOffBy`) or rejects it back to extraction

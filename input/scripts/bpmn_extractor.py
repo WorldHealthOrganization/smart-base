@@ -54,13 +54,13 @@ class bpmn_extractor(extractor):
         """
         Find all BPMN files in the business processes directory.
         
-        Searches for files with .bpmn extension in the input/business-processes/
+        Searches for files with .bpmn extension in the input/bpmn/
         directory.
         
         Returns:
             List of BPMN file paths to process
         """
-        return glob.glob("input/business-processes/*bpmn")
+        return glob.glob("input/bpmn/*.bpmn")
         
 
     def extract_file(self) -> bool:

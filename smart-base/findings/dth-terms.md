@@ -45,8 +45,8 @@ The phases, in the DIIG's words:
 | relation | where | caption, verbatim |
 |---|---|---|
 | reproduces | PHC §2.3, Fig. 6, PDF pp.24-26 (`9789240093362-eng/sec-009-23-before-using-this-resource`) | Planning and implementing a digital health enterprise: phases, steps and resources |
-| reproduces | SC Introduction > Alignment with the DIIG, Fig 5, PDF p.15 (`9789240101197-eng/page-015`) | Fig 5. DIIG process for planning and implementing a digital health enterprise |
-| reproduces | PC Introduction, Fig. 4, PDF p.13 (`9789240116191-eng/page-013`) | Fig. 4: Planning and implementing a digital health enterprise: phases, steps and resources |
+| reproduces | SC Introduction > Alignment with the DIIG, Fig 5, PDF p.15 (`9789240101197-eng/sec-003-introduction`) | Fig 5. DIIG process for planning and implementing a digital health enterprise |
+| reproduces | PC Introduction, Fig. 4, PDF p.13 (`9789240116191-eng/sec-003-introduction`) | Fig. 4: Planning and implementing a digital health enterprise: phases, steps and resources |
 | reproduces | SFP Introduction, Fig. 1, PDF p.16 (printed p.4) (`9789240120747-eng/sec-006-how-to-use-this-handbook`) | Fig. 1. Planning and implementing a digital health enterprise: phases, steps and resources |
 | adapts | RA DRAFT V1.0, Executive Summary, Figure 1, PDF p.12 (`who-dpi-h-reference-architecture-draft-v1/sec-front-matter`) | The Reference Architecture within planning and implementing a digital health enterprise<br>*Not a copy: the draft overlays its own place on the DIIG phases (Phases 1-4), so it is an adaptation that cites the figure, not a second source for it.* |
 
@@ -60,7 +60,7 @@ DIIG Chapter 3 and the supply chain handbook's Annex 3 ask the same three questi
 
 > "Formula for scoring and ranking bottlenecks, with examples."<br>— DIIG Table 3.3.1, PDF p.50 (printed p.38) (`9789240010567-eng/page-050`)
 
-> "Adding the scores yields the prioritized ranking."<br>— SC Annex 3, Template for prioritizing DHSC challenges, PDF p.68 (`9789240101197-eng/page-068`)
+> "Adding the scores yields the prioritized ranking."<br>— SC Annex 3, Template for prioritizing DHSC challenges, PDF p.68 (`9789240101197-eng/sec-034-annex-3-template-for-prioritizing-dhsc-challenge`)
 
 **Alternative B: Answer each criterion with its reason, and order by argument; print no score.**
 

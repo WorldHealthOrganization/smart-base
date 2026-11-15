@@ -58,3 +58,10 @@ export {
 export {
   ownDeclaredDirectories,
 } from "../../cat-harness-tools/schemas/kg/declared-nodes.js";
+export {
+  RUN_CONTEXT_SCHEMA_TAG,
+  RunContextSchema,
+  runContextRef,
+  type RunContext,
+  type RunContextRef,
+} from "../../cat-harness-tools/schemas/sdlc/run-context.ts";

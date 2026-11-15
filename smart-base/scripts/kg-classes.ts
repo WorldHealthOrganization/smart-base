@@ -6,10 +6,10 @@
  * `sgkg-l2#<code>` (`modelledBy`), and the L1 extraction and the L1
  * recommendation scenarios emit those classes. Each checks against this set.
  *
- * The lists were taken from litlfred/smart-kg on 2026-10-23, where they had
- * been pinned by commit since 2026-10-02 (bean pebe). smart-kg is deprecated
- * (owner, 2026-10-16), so smart-base owns them now and there is no pin to
- * keep in step.
+ * The lists are GENERATED from the layer sources (each `smart-base/<Layer>/schemas/`) by
+ * `smart-base/L1/schemas/emit.ts`, one per layer: L1, L2, L2-BPMN, L2-DMN and
+ * L3. smart-kg is deprecated (owner, 2026-10-16); the lists were hand copies of
+ * its files until #359.
  *
  * @module smart-base/scripts/kg-classes
  */
@@ -22,14 +22,18 @@ const HERE = resolve(import.meta.dir, "..");
 export const KG_CLASS_LISTS = {
   "sgkg-l1": join(HERE, "code-lists", "sgkg-l1-classes.json"),
   "sgkg-l2": join(HERE, "code-lists", "sgkg-l2-classes.json"),
+  "sgkg-l2-bpmn": join(HERE, "code-lists", "sgkg-l2-bpmn-classes.json"),
+  "sgkg-l2-dmn": join(HERE, "code-lists", "sgkg-l2-dmn-classes.json"),
+  "sgkg-l3": join(HERE, "code-lists", "sgkg-l3-classes.json"),
 } as const;
 
 /** Every class, as `<system>#<code>`. */
 export function kgClasses(lists: Record<string, string> = KG_CLASS_LISTS): Set<string> {
   const out = new Set<string>();
   for (const [system, file] of Object.entries(lists)) {
-    const list = JSON.parse(readFileSync(file, "utf-8")) as { codes: { code: string }[] };
-    for (const c of list.codes) out.add(`${system}#${c.code}`);
+    const list = JSON.parse(readFileSync(file, "utf-8")) as { codes: { code: string; status?: string }[] };
+    // Only active codes are the list's values; a retired code stays resolvable but is not offered.
+    for (const c of list.codes) if (c.status !== "retired") out.add(`${system}#${c.code}`);
   }
   return out;
 }

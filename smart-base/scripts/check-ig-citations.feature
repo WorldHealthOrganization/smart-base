@@ -3,16 +3,23 @@ Feature: The IG citation gate
   lists, hand-written references and unlisted links are flagged, and the gate
   applies only to an IG that has adopted a references directory.
 
-  @test:smart-base/scripts/check-ig-citations.test.ts::check-ig-citations::passesCitationIntoBibliography
-  Scenario: passes a citation into the bibliography page
-    Given a page citing "voo2021" and "w3c-did-core" through the bibliography page's anchors
+  @test:smart-base/scripts/check-ig-citations.test.ts::check-ig-citations::passesCitationOfEntryPage
+  Scenario: passes a citation of a bibliography entry's own page
+    Given a page citing "voo2021" and "w3c-did-core" by links to their entry pages under the bibliography
     Then it has no findings
 
-  @test:smart-base/scripts/check-ig-citations.test.ts::check-ig-citations::flagsDanglingKeyAndSelfCitation
-  Scenario: flags a key with no entry, and a citation to the page itself
-    Given a page citing "#ref-nope" on the bibliography page and "#ref-voo2021" on the page itself
+  @test:smart-base/scripts/check-ig-citations.test.ts::check-ig-citations::flagsDanglingEntryPage
+  Scenario: flags a link to a bibliography page that is no entry
+    Given a page linking the bibliography's "references/nope/" and "catalogue/voo2021/"
     Then it has two "dangling-citation" findings
-    And the second says "not the bibliography page"
+    And the second says "bibliography/catalogue/voo2021/ is no entry of the KG bibliography"
+
+  @test:smart-base/scripts/check-ig-citations.test.ts::check-ig-citations::flagsAnchorCitationWithItsPage
+  Scenario: flags a "#ref-" anchor citation and names the entry page to link instead
+    Given a page citing "#ref-voo2021" on the bibliography page and "#ref-nope" on the page itself
+    Then it has two "anchor-citation" findings
+    And the first says "#ref-voo2021 is an anchor; link the entry's own page, bibliography/references/voo2021/"
+    And the second says there is no entry
 
   @test:smart-base/scripts/check-ig-citations.test.ts::check-ig-citations::flagsPageReferenceList
   Scenario: flags a page reference list

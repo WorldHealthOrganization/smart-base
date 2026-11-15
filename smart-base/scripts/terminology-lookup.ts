@@ -30,9 +30,8 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 
-import { ownDeclaredDirectories } from "../platform/index.js";
-import { slug } from "./l1-kgid.ts";
-import { VocabularySchema, type Vocabulary } from "./l1-scenario-vocabulary.ts";
+import { ownDeclaredDirectories } from "../platform/schema.js";
+import { slug, VocabularySchema, type Vocabulary } from "./l1-scenario-vocabulary.ts";
 import { HARNESS_PAGES_ROOT, stagingSite } from "../schemas/site-roots.ts";
 
 export const SLOTS = [

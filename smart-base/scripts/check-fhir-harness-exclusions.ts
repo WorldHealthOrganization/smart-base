@@ -57,10 +57,11 @@
  * @covers code
  */
 import { execFileSync } from "node:child_process";
-import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
 import { mountScopeFor } from "../../cat-harness-tools/schemas/kg/remote-mount.ts";
+import { exitNotApplicable } from "../../cat-harness-tools/scripts/lib/not-applicable.ts";
 
 import { BASELINE, type BaselineEntry } from "./fhir-harness-exclusions.baseline.ts";
 
@@ -90,8 +91,8 @@ export interface Rule {
 }
 
 const STEP_TABLES = [
-  "smart-base/skills/content/authoring-who-smart-guidelines/dak-preprocessing.md",
-  "smart-base/skills/content/authoring-who-smart-guidelines/dak-postprocessing.md",
+  "smart-base/L3/skills/smart-l3/dak-preprocessing.md",
+  "smart-base/L3/skills/smart-l3/dak-postprocessing.md",
 ];
 
 /** Script names from the step tables (`| n | \`x.py\` ...`), minus {@link MOVED_DOWN}. */
@@ -329,6 +330,17 @@ function writeShrunk(path: string, baseline: readonly BaselineEntry[], graded: r
 
 if (import.meta.main) {
   const root = resolve(import.meta.dir, "..", "..");
+  // The DAK step names are read from L3's tables, and L3 is an opt-in group
+  // (`smart-base.smart-base-L3`): a downstream that switched on only L1 has no
+  // L3/ on disk. That root cannot judge this list, so it says so (exit 78)
+  // rather than crash on the missing file or pass over nothing.
+  const missing = STEP_TABLES.filter((rel) => !existsSync(join(root, rel)));
+  if (missing.length > 0) {
+    exitNotApplicable(
+      "check:fhir-harness-exclusions",
+      `the DAK step tables are not mounted (${missing.join(", ")}): switch on smart-base.smart-base-L3 to run this check`,
+    );
+  }
   const rs = rules(root);
   const files = layerFiles(root).map((path) => ({ path, text: readFileSync(join(root, path), "utf-8") }));
   // A scan over nothing is not a clean scan: an absent or unmounted layer

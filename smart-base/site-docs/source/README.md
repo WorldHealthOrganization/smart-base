@@ -14,6 +14,7 @@ Part of [SMART Base](../../README.md) 0.1.0, declared as `docs-source`, holding 
 | file | what it is | used by |
 |---|---|---|
 | [`concepts-who-smart-content-types/`](concepts-who-smart-content-types/) | _nothing declares what this holds_ | |
+| [`guides-smart-base-build/`](guides-smart-base-build/) | _nothing declares what this holds_ | |
 | [`guides-who-smart-dak/`](guides-who-smart-dak/) | _nothing declares what this holds_ | |
 | [`guides-who-smart-ig/`](guides-who-smart-ig/) | _nothing declares what this holds_ | |
 

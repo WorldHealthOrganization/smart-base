@@ -7,7 +7,7 @@
  *
  * - `dak-data-dictionary/v1`: a DAK's core data dictionary workbook as JSON,
  *   loaded on demand by the IG site's annex view
- *   (`scripts/dak-data-dictionary.ts`).
+ *   (`L2/scripts/dak-data-dictionary.ts`).
  * - `dak-swimlanes/v1`: the declared mapping from a DAK's generic personas to
  *   the swimlanes of its business-process figures
  *   (`scripts/dak-swimlanes.ts`).

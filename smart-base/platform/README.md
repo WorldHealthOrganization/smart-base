@@ -14,6 +14,7 @@ Part of [SMART Base](../README.md) 0.1.0, declared as `smart-base-platform`, hol
 | file | what it is | used by |
 |---|---|---|
 | [`index.ts`](index.ts) | a file |  |
+| [`schema.feature`](schema.feature) | a file |  |
 | [`schema.test.ts`](schema.test.ts) | a file |  |
 | [`schema.ts`](schema.ts) | a file |  |
 

@@ -111,7 +111,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.ref || github.ref }}
 
@@ -200,14 +200,14 @@ jobs:
           echo "✅ Seeded input/scripts/ from ${SMART_BASE_REPO}@${SCRIPTS_BASE_COMMIT}"
 
       - name: Setup Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.11'
 
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install --require-hashes -r .github/requirements/build-scripts.lock
+          pip install --require-hashes -r input/scripts/build-scripts.lock
 
       - name: Find PR number
         id: find_pr
@@ -565,7 +565,7 @@ jobs:
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
         if: success()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: qa-json-artifact
           path: ./output/qa.json  # Adjust the path based on where qa.json is located
@@ -613,7 +613,7 @@ jobs:
       # re-running the publisher.
       - name: Upload POT file artifacts
         if: success()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: pot-files
           path: |
@@ -963,7 +963,7 @@ jobs:
           if git fetch -q --depth=1 --filter=blob:none origin gh-pages 2>/dev/null \
              && { git cat-file -e FETCH_HEAD:folio-build.json 2>/dev/null || git cat-file -e FETCH_HEAD:_main-site.json 2>/dev/null; }; then
             echo "FOLIO_ROOT=true" >> "$GITHUB_ENV"
-            echo "::notice::The gh-pages root is a folio site (folio-build.json / _main-site.json): this build deploys to branches/${BRANCH_DIR}/ only, without single-commit; the root is published by stage-local.ts."
+            echo "::notice::The gh-pages root is a folio site (folio-build.json / _main-site.json): this build deploys to branches/${BRANCH_DIR}/ only, without single-commit; the root is published by site-publish.yml."
           else
             echo "FOLIO_ROOT=false" >> "$GITHUB_ENV"
             echo "The gh-pages root is not a folio site: deploying as before."
@@ -996,7 +996,7 @@ jobs:
 
       - name: Deploy candidate
         id: deploy_candidate_1
-        uses: JamesIves/github-pages-deploy-action@22a6ee251d6f13c6ab1ecb200d974f1a6feb1b8d # v4.4.2
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
         if: env.IS_DEFAULT_BRANCH == 'false' && inputs.deploy != false
         continue-on-error: true
         with:
@@ -1008,7 +1008,7 @@ jobs:
           clean: false
 
       - name: Deploy candidate (retry after gh-pages ref conflict)
-        uses: JamesIves/github-pages-deploy-action@22a6ee251d6f13c6ab1ecb200d974f1a6feb1b8d # v4.4.2
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
         if: env.IS_DEFAULT_BRANCH == 'false' && inputs.deploy != false && steps.deploy_candidate_1.outcome == 'failure'
         with:
           branch: gh-pages
@@ -1020,7 +1020,7 @@ jobs:
 
       - name: Deploy main
         id: deploy_main_1
-        uses: JamesIves/github-pages-deploy-action@22a6ee251d6f13c6ab1ecb200d974f1a6feb1b8d # v4.4.2
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
         if: env.IS_DEFAULT_BRANCH == 'true' && env.FOLIO_ROOT != 'true' && inputs.deploy != false
         continue-on-error: true
         with:
@@ -1043,7 +1043,7 @@ jobs:
             folio-build.json
 
       - name: Deploy main (retry after gh-pages ref conflict)
-        uses: JamesIves/github-pages-deploy-action@22a6ee251d6f13c6ab1ecb200d974f1a6feb1b8d # v4.4.2
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
         if: env.IS_DEFAULT_BRANCH == 'true' && env.FOLIO_ROOT != 'true' && inputs.deploy != false && steps.deploy_main_1.outcome == 'failure'
         with:
           branch: gh-pages
@@ -1067,7 +1067,7 @@ jobs:
       # The default branch over a folio root: a preview like any branch's,
       # never the root (see "Is the gh-pages root a folio site?").
       - name: Deploy main beside the folio root
-        uses: JamesIves/github-pages-deploy-action@22a6ee251d6f13c6ab1ecb200d974f1a6feb1b8d # v4.4.2
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
         if: env.IS_DEFAULT_BRANCH == 'true' && env.FOLIO_ROOT == 'true' && inputs.deploy != false
         with:
           branch: gh-pages

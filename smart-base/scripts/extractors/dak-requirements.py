@@ -38,8 +38,8 @@ stop.
 nothing reworded, so `l1:coverage` (core) can match it by normalised
 substring and report every normative sentence not captured.
 
-The normative markers are core's `l1-coverage` closed list (smart-kg
-`docs/COVERAGE.md` §1), so a sentence the coverage report counts is a
+The normative markers are core's `l1-coverage` closed list (its methodology
+`methodologies/l1-coverage.md` §1, formerly smart-kg's `docs/COVERAGE.md`), so a sentence the coverage report counts is a
 sentence this aspect proposes: `shall`, `must`, `should`, `recommend*`, `is
 not a reason`, `are not a contraindication`, and `may be` with given,
 administered, offered, considered, used, co-administered or implemented.

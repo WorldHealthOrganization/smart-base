@@ -11,31 +11,31 @@ publication:
   publicationType: implementation-guidance
   basis: Title and electronic ISBN as printed on page 3. publicationType implementation-guidance — a "how to" handbook that makes no recommendations of its own (handbook for guideline development §1.9), so every statement decided below is an implementation-practice node, not a recommendation (owner ruling 1b, 2026-10-12).
 decisions:
-  p3:s4:
+  p1:s4:
     as: exclude
     reason: editorial
     basis: licence text on the imprint page; not guidance.
-  p3:s6:
+  p1:s6:
     as: exclude
     reason: editorial
     basis: licence text on the imprint page; not guidance.
-  p3:s7:
+  p1:s7:
     as: exclude
     reason: editorial
     basis: licence text on the imprint page; not guidance.
-  p3:s9:
+  p1:s9:
     as: exclude
     reason: editorial
     basis: licence text on the imprint page; not guidance.
-  p3:s10:
+  p1:s10:
     as: exclude
     reason: editorial
     basis: licence text on the imprint page; not guidance.
-  p3:s26:
+  p1:s26:
     as: exclude
     reason: editorial
     basis: licence text on the imprint page; not guidance.
-  p3:s31:
+  p1:s31:
     as: exclude
     reason: editorial
     basis: licence text on the imprint page; not guidance.
@@ -59,7 +59,7 @@ decisions:
     as: exclude
     reason: editorial
     basis: A glossary definition (page 8, 'Glossary'); it defines a term and recommends nothing.
-  p9:s2:
+  p8:s16:
     as: exclude
     reason: editorial
     basis: A glossary definition of SMART Guidelines.
@@ -67,35 +67,35 @@ decisions:
   - as: recommendation
     key: NPC-R01
     basis: Printed as the handbook's premise for product master data; a normative 'must' on all stakeholders.
-  p13:s2:
+  p10:s36:
     as: exclude
     reason: editorial
     basis: Figure 4's labels and legend, read as running text.
-  p14:s2:
+  p10:s37:
     as: exclude
     reason: background-fact
     basis: Describes WHO SMART Guidelines (Introduction); recommends nothing about product master data.
-  p14:s3:
+  p10:s38:
     as: exclude
     reason: background-fact
     basis: Describes WHO SMART Guidelines (Introduction); recommends nothing about product master data.
-  p14:s6:
+  p10:s41:
     as: exclude
     reason: background-fact
     basis: Describes WHO SMART Guidelines (Introduction); recommends nothing about product master data.
-  p14:s15:
+  p10:s50:
     as: exclude
     reason: background-fact
     basis: Describes WHO SMART Guidelines (Introduction); recommends nothing about product master data.
-  p14:s16:
+  p10:s51:
     as: exclude
     reason: editorial
     basis: Figure labels (Fig. 5 / Fig. 6) read as running text.
-  p15:s2:
+  p10:s52:
     as: exclude
     reason: background-fact
     basis: Describes WHO SMART Guidelines (Introduction); recommends nothing about product master data.
-  p15:s5:
+  p10:s55:
     as: exclude
     reason: editorial
     basis: Figure labels (Fig. 5 / Fig. 6) read as running text.
@@ -108,30 +108,30 @@ decisions:
     key: NPC-R03
     basis: A second bullet of the same step table.
     statement: Timelines with phased roll-out of policies should be outlined to ensure effective compliance by manufacturers.
-  p23:s1:
+  p23:s2:
     as: exclude
     reason: editorial
     basis: An 'End of chapter checkpoint' list of outputs (with step-table text); the steps it summarises are not normative sentences.
-  p25:s1:
+  p24:s1:
   - as: recommendation
     key: NPC-R04
     basis: The chapter's opening statement, without the running header the splitter joined to it.
     statement: For effective use of data in operations, analysis, and decision-making, the integrity and quality of data must be consistently and continuously maintained.
-  p25:s3:
+  p24:s3:
   - as: recommendation
     key: NPC-R05
     basis: A normative 'should' on data management policies.
-  p25:s5:
+  p24:s5:
     as: exclude
     reason: editorial
     basis: A note on reading the chapter's steps, not guidance.
-  p26:s1:
+  p25:s3:
   - as: recommendation
     key: NPC-R06
     basis: The footnoted (*) statement on page 26, without the running header.
     statement: 'Master data management procedures should include the following key elements to continuously and securely maintain master data: • Data governance framework: Establish clear policies, roles,
       responsibilities, and processes to ensure data quality and consistency for use across the health supply chain.'
-  p26:s3:
+  p25:s5:
     as: exclude
     reason: editorial
     basis: Defines the data owner role the governance framework in NPC-R06 assigns. Was a `remark` (definition) of NPC-R06; L1 3.0's remark attaches only to a recommendation, and NPC-R06 is an implementation-practice (owner ruling 1b, 2026-10-12), so it is proposed for exclusion until remark is licensed on a practice upstream.
@@ -140,17 +140,17 @@ decisions:
     key: NPC-R07
     basis: A bullet of the step table on page 27.
     statement: Data harmonization activities must consider all sources of product data, as well as the systems, processes, and organizations or stakeholders that will utilize this data.
-  p28:s1:
+  p27:s5:
   - as: recommendation
     key: NPC-R08
     basis: The footnoted (*) statement on page 28, without the running header.
     statement: Master data definitions and structures should include provisions for maintaining product classifications, generic product information, and trade item details.
-  p29:s3:
+  p27:s19:
   - as: recommendation
     key: NPC-R09
     basis: Printed under 'Best practices'; the figure caption before it is not part of it.
     statement: It is generally recommended to avoid including product classification or product characteristics such as dosage and strength in the generic national product code.
-  p29:s4:
+  p27:s20:
   - as: recommendation
     key: NPC-R10
     basis: Best practice, first sentence of the bullet; the splitter joined the next bullet.
@@ -159,7 +159,7 @@ decisions:
     key: NPC-R11
     basis: The next 'Best practices' bullet.
     statement: Product characteristics such as dosage, strength, pack size, and route of administration should be defined as attributes and linked to the product codes.
-  p29:s5:
+  p27:s21:
   - as: recommendation
     key: NPC-R12
     basis: A 'Best practices' bullet.
@@ -173,7 +173,7 @@ decisions:
     key: NPC-R14
     basis: A 'Best practices' bullet.
     statement: Product master data structures should support the mapping of one generic national product code to multiple corresponding trade items.
-  p29:s6:
+  p27:s22:
   - as: recommendation
     key: NPC-R15
     basis: Continues NPC-R14's bullet; the remark after it explains why (packaging hierarchies are critical).
@@ -196,20 +196,20 @@ decisions:
     as: exclude
     reason: editorial
     basis: An 'End of chapter checkpoint' list of outputs (with step-table text); the steps it summarises are not normative sentences.
-  p37:s9:
+  p37:s10:
     as: exclude
     reason: editorial
     basis: An 'End of chapter checkpoint' list of outputs (with step-table text); the steps it summarises are not normative sentences.
-  p39:s9:
+  p39:s5:
   - as: recommendation
     key: NPC-R19
     basis: Printed under 'Best practices'.
     statement: When global identifiers such as GTINs are not available—e.g., if a manufacturer has not yet subscribed for a GTIN—it is recommended to use a local identifier for trade items.
-  p40:s7:
+  p40:s6:
   - as: recommendation
     key: NPC-R20
     basis: The change-management plan's required contents.
-  p41:s5:
+  p40:s12:
     as: exclude
     reason: editorial
     basis: An 'End of chapter checkpoint' list of outputs (with step-table text); the steps it summarises are not normative sentences.
@@ -217,11 +217,11 @@ decisions:
   - as: recommendation
     key: NPC-R21
     basis: A normative 'must' on the workforce.
-  p44:s8:
+  p44:s5:
     as: exclude
     reason: editorial
     basis: An 'End of chapter checkpoint' list of outputs (with step-table text); the steps it summarises are not normative sentences.
-  p47:s6:
+  p45:s16:
     as: exclude
     reason: background-fact
     basis: Annex 1 describes how one tool (PCMT) is used; a product's manual, not a recommendation.
@@ -229,7 +229,7 @@ decisions:
     as: exclude
     reason: editorial
     basis: A reference-list title.
-  p57:s2:
+  p56:s13:
   - as: recommendation
     key: NPC-R22
     basis: Annex 2's lead sentence; the table it introduces lists the roles.

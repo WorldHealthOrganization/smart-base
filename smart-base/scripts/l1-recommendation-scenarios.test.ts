@@ -8,9 +8,10 @@
  * properties makes `keepsL2PropertiesDomainOnEdge` fail.
  */
 import { describe, expect, it } from "bun:test";
-import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 
 import {
   buildScenarios,
@@ -194,5 +195,25 @@ describe("inputs", () => {
 
   it("emitsOnlyPinnedClasses", () => {
     expect(unpinnedClasses()).toEqual([]);
+  });
+
+  it("alwaysOnScriptsStayOffOptInSubgraphsAndL1CheckExits78WhenUnmounted", () => {
+    const scriptsDir = import.meta.dir;
+    const optInImport = /from\s+["']\.\.\/L(?:1|2|2-bpmn|2-dmn|3|4)\//;
+    const bad: string[] = [];
+    for (const f of readdirSync(scriptsDir)) {
+      if (!f.endsWith(".ts")) continue;
+      if (optInImport.test(readFileSync(join(scriptsDir, f), "utf8"))) bad.push(f);
+    }
+    expect(bad).toEqual([]);
+
+    const pkg = JSON.parse(readFileSync(resolve(scriptsDir, "..", "package.json"), "utf8")) as {
+      checkoutScripts: Record<string, string>;
+    };
+    const cmd = pkg.checkoutScripts["smart-base:smart-kg-l1:check"]!;
+    const emptyRoot = mkdtempSync(join(tmpdir(), "unmounted-l1-"));
+    const res = spawnSync("sh", ["-c", cmd], { cwd: emptyRoot, encoding: "utf8" });
+    expect(res.status).toBe(78);
+    expect(res.stdout).toContain("NOT APPLICABLE in this root");
   });
 });

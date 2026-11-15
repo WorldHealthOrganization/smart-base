@@ -57,9 +57,10 @@ Nothing else differs from the FHIR IG layer's route.
 
 [✎ Edit](https://github.com/litlfred/smart-base/edit/main/site-docs/source/guides-smart-base-build/run-it-locally.md){: .fa-node-edit title="Edit site-docs/source/guides-smart-base-build/run-it-locally.md" data-fa-link="edit" data-src="site-docs/source/guides-smart-base-build/run-it-locally.md" data-repo="litlfred/smart-base" } <span class="fa-qa-badges"><button type="button" class="fa-qa-badge fa-qa-pending fa-qa-fam-block" lang="en" dir="ltr" data-qa-family="block" data-qa-key="run-it-locally.block" data-qa-label="Content QA" data-qa-noun="block" data-qa-src="{{ '/assets/qa/smart-base/guides-smart-base-build/run-it-locally.block.json' | relative_url }}" data-qa-index="{{ '/assets/qa/smart-base/guides-smart-base-build/qa-index.json' | relative_url }}" aria-expanded="false" aria-busy="true" title="Content QA: loading the verdict…" aria-label="Content QA: loading the verdict…"><span class="fa-qa-tag">QA</span><span class="fa-qa-glyph" aria-hidden="true">…</span></button> <button type="button" class="fa-qa-badge fa-qa-pending fa-qa-fam-translation" lang="en" dir="ltr" data-qa-family="translation" data-qa-key="run-it-locally.translation" data-qa-label="Translation QA" data-qa-noun="block" data-qa-src="{{ '/assets/qa/smart-base/guides-smart-base-build/run-it-locally.translation.json' | relative_url }}" data-qa-index="{{ '/assets/qa/smart-base/guides-smart-base-build/qa-index.json' | relative_url }}" aria-expanded="false" aria-busy="true" title="Translation QA: loading the verdict…" aria-label="Translation QA: loading the verdict…"><span class="fa-qa-tag">TR</span><span class="fa-qa-glyph" aria-hidden="true">…</span></button></span>
 
-From a checkout of `litlfred/smart-base`, mount the layers that
-`index.lock.json` pins (the commands are on the FHIR IG layer's page,
-§"What you need installed"), then:
+From a checkout of `litlfred/smart-base`. On a fresh clone the first
+`bun run cat …` mounts the layers `index.lock.json` pins, then runs the
+command (`"cat": "bun .github/cat.ts"`); after a re-pin,
+`bash .github/mount-from-lock.sh` remounts them.
 
 ```bash
 # See what would be built and where
@@ -81,6 +82,20 @@ repository's **IG AST refresh** workflow (`.github/workflows/ig-ast-refresh.yml`
 on your branch. Running `bun run cat prepare:fhir-harness` on your machine
 builds an AST **without** the DAK pre-processing, because that script does not
 run a `pre-export` step. Use it only to check that the FSH compiles.
+
+**The content gate.** Before it composes the site, the render checks every
+narrative, markdown field and page for injection attempts. It needs an agent
+review of exactly that content in `qa/ig-content-qa.json`. When the IG's
+content changes, the review goes stale and the publish is refused until it is
+recorded again:
+
+```bash
+bun run cat ig-content-qa:scan                       # what the reviewer reads
+bun run cat ig-content-qa:record --reviewer <who>    # update qa/ig-content-qa.json
+```
+
+For a local look only, `IG_CONTENT_QA_ACCEPT_UNREVIEWED=1` skips a missing or
+stale review. The steps are the `ig-content-qa` skill.
 
 To run the DAK pre-processing on its own, for example to inspect what it
 writes: `bun run cat smart-base:dak-pre-export`. It changes files under
@@ -114,20 +129,31 @@ what this repository publishes.
 
 [✎ Edit](https://github.com/litlfred/smart-base/edit/main/site-docs/source/guides-smart-base-build/publishing.md){: .fa-node-edit title="Edit site-docs/source/guides-smart-base-build/publishing.md" data-fa-link="edit" data-src="site-docs/source/guides-smart-base-build/publishing.md" data-repo="litlfred/smart-base" } <span class="fa-qa-badges"><button type="button" class="fa-qa-badge fa-qa-pending fa-qa-fam-block" lang="en" dir="ltr" data-qa-family="block" data-qa-key="publishing.block" data-qa-label="Content QA" data-qa-noun="block" data-qa-src="{{ '/assets/qa/smart-base/guides-smart-base-build/publishing.block.json' | relative_url }}" data-qa-index="{{ '/assets/qa/smart-base/guides-smart-base-build/qa-index.json' | relative_url }}" aria-expanded="false" aria-busy="true" title="Content QA: loading the verdict…" aria-label="Content QA: loading the verdict…"><span class="fa-qa-tag">QA</span><span class="fa-qa-glyph" aria-hidden="true">…</span></button> <button type="button" class="fa-qa-badge fa-qa-pending fa-qa-fam-translation" lang="en" dir="ltr" data-qa-family="translation" data-qa-key="publishing.translation" data-qa-label="Translation QA" data-qa-noun="block" data-qa-src="{{ '/assets/qa/smart-base/guides-smart-base-build/publishing.translation.json' | relative_url }}" data-qa-index="{{ '/assets/qa/smart-base/guides-smart-base-build/qa-index.json' | relative_url }}" aria-expanded="false" aria-busy="true" title="Translation QA: loading the verdict…" aria-label="Translation QA: loading the verdict…"><span class="fa-qa-tag">TR</span><span class="fa-qa-glyph" aria-hidden="true">…</span></button></span>
 
-Every workflow here is **started by hand** from the Actions tab. Nothing
-publishes on push.
+**To release**, the owner tags the version in `sushi-config.yaml` as
+`v<version>` on `main` and pushes the tag. The steps are the FHIR IG
+layer's [Releasing](https://litlfred.github.io/folio-assistant/fhir-harness/fhir/publishing.html#releasing).
+
+**A merged pull request publishes the site.** A push to `main` that changes
+`input/`, `sushi-config.yaml` or `ig.ini` refreshes the AST, and every push to
+`main` republishes the site. The publish waits for that commit's AST refresh
+(`"publishAfter": ["ig-ast-refresh.yml"]` in `index.config.json`). Previews of
+other branches, and every other workflow here, are started by hand from the
+Actions tab.
 
 | Workflow | What it does |
 |---|---|
-| [`ig-ast-refresh.yml`](https://github.com/litlfred/smart-base/blob/main/.github/workflows/ig-ast-refresh.yml) | calls the FHIR IG layer's reusable refresh, with `pre-export: bash smart-base/scripts/dak-pre-export.sh` and the WHO template. Seeds the AST cache from `main` |
-| [`site-publish.yml`](https://github.com/litlfred/smart-base/blob/main/.github/workflows/site-publish.yml) | mounts the layers and runs `stage-local.ts --repo .`. On `main` it publishes the `gh-pages` root; on another branch, `branches/<branch>/` |
+| [`ig-ast-refresh.yml`](https://github.com/litlfred/smart-base/blob/main/.github/workflows/ig-ast-refresh.yml) | on a push to `main` that changes the IG's inputs, and by hand. Calls the FHIR IG layer's reusable refresh, with `pre-export: bash smart-base/scripts/dak-pre-export.sh` and the WHO template. Seeds the AST cache from `main` |
+| [`site-publish.yml`](https://github.com/litlfred/smart-base/blob/main/.github/workflows/site-publish.yml) | on every push to `main`, and by hand. Calls cat-harness-tools' reusable `folio-site-publish.yml`, which mounts the layers and runs `stage-local.ts --repo .`. On `main` it publishes the `gh-pages` root; on another branch, `branches/<branch>/` |
+| [`standing-repin.yml`](https://github.com/litlfred/smart-base/blob/main/.github/workflows/standing-repin.yml) | when an upstream layer merges, and by hand: opens one PR that moves the pins a standing consent covers |
 | [`pr-preview.yml`](https://github.com/litlfred/smart-base/blob/main/.github/workflows/pr-preview.yml) | a pull request preview, deployed after a collaborator approves it in the `pr-preview` environment |
 | [`ghbuild.yml`](https://github.com/litlfred/smart-base/blob/main/.github/workflows/ghbuild.yml) | the plain WHO build (above) |
-| [`release.yml`](https://github.com/litlfred/smart-base/blob/main/.github/workflows/release.yml) | checks `publication-request.json` for a release |
+| [`ig-release.yml`](https://github.com/litlfred/smart-base/blob/main/.github/workflows/ig-release.yml) | on a `v*` tag, and by hand for an existing tag: a full build of the tag with the DAK pre-processing, then a GitHub **draft** release with `package.tgz` (and its R4/R4B variants), `ast-data.zip` and `SHA256SUMS`. The owner publishes the draft |
+| [`release.yml`](https://github.com/litlfred/smart-base/blob/main/.github/workflows/release.yml) | by hand, after the draft is published: checks `publication-request.json` and calls WHO's publication workflow |
 
-The `gh-pages` root publish also keeps `ns/`, `0.1.0/` and `sitepreview/`
-(`site.build.keep` in `index.config.json`): the JSON-LD context and
-vocabulary that `publish-context.yml` writes.
+The `gh-pages` root publish also keeps `v0/`, `ns/`, `0.1.0/` and
+`sitepreview/` (`site.build.keep` in `index.config.json`): the JSON-LD
+vocabulary and context that `publish-context.yml` writes. A root publish that
+would drop one of them is refused.
 
 ## What is published now
 {: #published-assets data-fa-label="sec:smart-base-build-published-assets" }

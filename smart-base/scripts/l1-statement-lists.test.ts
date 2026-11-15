@@ -2,7 +2,7 @@ import { describe, expect, it } from "bun:test";
 import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { firstPage, libraryIdOfL1, listsOf, parseLocation, recommendationsOf, scenariosOf } from "./l1-statement-lists.ts";
+import { firstPage, libraryIdOfL1, listsOf, parseLocation, recommendationsOf, scenarioListName, scenariosOf } from "./l1-statement-lists.ts";
 
 describe("where an L1 source came from", () => {
   it("reads graph.source.entry, else the library/<id>/ its paths name, else nothing", () => {
@@ -55,5 +55,31 @@ describe("a directory", () => {
     const { lists, problems } = listsOf(dir, dir);
     expect(problems).toEqual([]);
     expect([...lists.keys()].sort()).toEqual([`${dir.split("/").pop()}-scenario-candidates.scenarios.json`, "src.recommendations.json"].sort());
+  });
+});
+
+describe("list names", () => {
+  it("name a candidates/<source>/ graph after its source, and a <x>/candidates/ graph after <x>", () => {
+    expect(scenarioListName("/r/uganda/candidates/unepi-deck/scenario-candidates.l2.json", "scenario-candidates")).toBe("unepi-deck");
+    expect(scenarioListName("/r/measles/candidates/scenario-candidates.l2.json", "scenario-candidates")).toBe("measles-scenario-candidates");
+    expect(scenarioListName("/r/x/graph.l2.json", "graph")).toBe("graph");
+  });
+
+  it("keep two sources' scenario lists apart (the Uganda layout), and refuse a name two inputs share", () => {
+    const dir = mkdtempSync(join(tmpdir(), "l1sl-"));
+    for (const src of ["poster", "deck"]) {
+      writeFileSync(join(dir, `${src}.l1.yaml`), `graph:\n  source:\n    entry: library/${src}\nrecommendations:\n  - {key: R1, page: '1', statement: S.}\n`);
+      mkdirSync(join(dir, "candidates", src), { recursive: true });
+      writeFileSync(join(dir, "candidates", src, "scenario-candidates.l2.json"), JSON.stringify({ "@context": "x", nodes: [{ id: `${src}-s1`, type: "user-scenario", label: "S", evidence: { location: `${src}.l1.yaml#R1 (p1)` } }] }));
+    }
+    const { lists, problems } = listsOf(dir, dir);
+    expect(problems).toEqual([]);
+    expect(lists.get("poster.scenarios.json")?.statements[0]?.source.libraryId).toBe("poster");
+    expect(lists.get("deck.scenarios.json")?.statements[0]?.source.libraryId).toBe("deck");
+
+    // A second graph that would land on the same name is refused, not written over the first.
+    mkdirSync(join(dir, "more", "candidates", "deck"), { recursive: true });
+    writeFileSync(join(dir, "more", "candidates", "deck", "scenario-candidates.l2.json"), JSON.stringify({ "@context": "x", nodes: [{ id: "d2", type: "user-scenario", label: "S", evidence: { location: "../../../deck.l1.yaml#R1 (p1)" } }] }));
+    expect(listsOf(dir, dir).problems.some((p) => p.includes("deck.scenarios.json"))).toBe(true);
   });
 });

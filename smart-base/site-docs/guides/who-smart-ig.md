@@ -66,7 +66,7 @@ pins its versions, see [Building and publishing the SMART Base IG](smart-base-bu
        alt="BPMN swimlane diagram: the FHIR modeller maps L2 to L3 and authors FSH, the build pipeline compiles with SUSHI and validates against profiles, a failed validation returns to FSH authoring, the QC reviewer's gates file findings as beans when they fail, and a clean run goes through the IG Publisher to a published IG site.">
 </div>
 
-[BPMN 2.0 source](https://github.com/litlfred/fhir-harness/blob/main/processes/content/l3-fhir-pipeline.bpmn) · [full-size SVG]({{ '/assets/img/workflows/l3-fhir-pipeline.svg' | relative_url }})
+[BPMN 2.0 source](https://github.com/litlfred/fhir-harness/blob/main/collab/processes/content/l3-fhir-pipeline.bpmn) · [full-size SVG]({{ '/assets/img/workflows/l3-fhir-pipeline.svg' | relative_url }})
 {: .bpmn-source }
 
 | Step | Skill |
@@ -100,7 +100,7 @@ pins its versions, see [Building and publishing the SMART Base IG](smart-base-bu
        alt="BPMN swimlane diagram: a source change restores the derived state; if the cache is usable the build computes the change's dependency cone, posts the cone report for the reviewer, checks out and compiles only the cone, validates it against the warm validator service, re-renders the cone's records, merges them with the restored ones, rebuilds the meta-index and assembles the site; a cache miss or a moved toolchain falls back to a full publisher build; QC gates run on the aggregate QA and file findings as beans; a PR branch deploys a preview and never seeds, while main or a release deploys the site and seeds the cache from the green build.">
 </div>
 
-[BPMN 2.0 source](https://github.com/litlfred/fhir-harness/blob/main/processes/content/ig-incremental-build.bpmn) · [full-size SVG]({{ '/assets/img/workflows/ig-incremental-build.svg' | relative_url }})
+[BPMN 2.0 source](https://github.com/litlfred/fhir-harness/blob/main/collab/processes/content/ig-incremental-build.bpmn) · [full-size SVG]({{ '/assets/img/workflows/ig-incremental-build.svg' | relative_url }})
 {: .bpmn-source }
 
 On the immunizations IG the median artefact has no dependents and the 90th

@@ -49,7 +49,29 @@ import { basename, join, relative, resolve } from "node:path";
 import { z } from "zod";
 
 import { readIgDakMetadata } from "./ig-dak-metadata.ts";
-import { dakNamespace, slug } from "./l1-kgid.ts";
+
+/**
+ * Kept in the always-on `scripts/` (and re-exported by `L1/scripts/l1-kgid.ts`)
+ * so `l1-scenario-vocabulary.ts`, `l1-recommendation-scenarios.ts` and
+ * `terminology-lookup.ts` never import into the opt-in `L1/` subgraph, which is
+ * omitted when a downstream mounts `smart-base` without `smart-base.smart-base-L1`.
+ */
+export const slug = (s: unknown): string =>
+  String(s)
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+/** The DAK namespace a file belongs to: trailing format segment dropped, smart.who.int on https. */
+export const dakNamespace = (raw: unknown): string =>
+  String(raw ?? "urn:unknown")
+    .replace(/\/$/, "")
+    .replace(/\/(bpmn|dmn|cql|fsh)$/i, "")
+    .replace(/^http:\/\/(smart\.who\.int\b)/, "https://$1");
+
+export const L1_NAMESPACE = "https://smart.who.int/kg/l1";
 
 export const VOCABULARY_SCHEMA_TAG = "l1-scenario-vocabulary/v1" as const;
 

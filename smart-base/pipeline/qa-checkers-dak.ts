@@ -93,7 +93,7 @@ import { DAK_LABEL_PREFIXES, type DakBlockKind } from "../schemas/dak-kinds";
  * An earlier version required a `.dmn` for `decision-table` and
  * `scheduling-logic`, on the strength of this repo's own `dmn-authoring` skill
  * and the "Decision logic · DMN tables" activity in
- * `smart-base/processes/content/l2-dak-authoring.bpmn`. Measured against real content there
+ * `smart-base/L2/collab/processes/l2-dak-authoring.bpmn`. Measured against real content there
  * are **zero `.dmn` files across all three repositories** — WHO authors
  * decision-support logic as a spreadsheet
  * (`input/decision-logic/IMMZ DAK_decision-support logic.xlsx`). The

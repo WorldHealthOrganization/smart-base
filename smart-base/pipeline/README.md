@@ -13,7 +13,9 @@ Part of [SMART Base](../README.md) 0.1.0, declared as `smart-base-pipeline`, hol
 
 | file | what it is | used by |
 |---|---|---|
+| [`qa-checkers-dak-registers.feature`](qa-checkers-dak-registers.feature) | a file |  |
 | [`qa-checkers-dak-registers.test.ts`](qa-checkers-dak-registers.test.ts) | a file |  |
+| [`qa-checkers-dak.feature`](qa-checkers-dak.feature) | a file |  |
 | [`qa-checkers-dak.test.ts`](qa-checkers-dak.test.ts) | a file |  |
 | [`qa-checkers-dak.ts`](qa-checkers-dak.ts) | a file |  |
 

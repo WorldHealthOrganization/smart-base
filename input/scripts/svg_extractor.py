@@ -56,13 +56,13 @@ class svg_extractor(extractor):
         """
         Find all SVG files in the business processes directory.
         
-        Searches for files with .svg extension in the input/business-processes/
+        Searches for files with .svg extension in the input/bpmn/
         directory.
         
         Returns:
             List of SVG file paths to process
         """
-        return glob.glob("input/business-processes/*svg")
+        return glob.glob("input/bpmn/*.svg")
         
 
     def extract_file(self) -> bool:

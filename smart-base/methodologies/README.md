@@ -15,6 +15,5 @@ Part of [SMART Base](../README.md) 0.1.0, declared as `methodologies`, holding `
 |---|---|---|
 | [`diig.md`](diig.md) | DIIG — the investment path from a health system bottleneck to a costed plan |  |
 | [`terminology-coding.md`](terminology-coding.md) | WHO SMART Guidelines Terminology Classification and Reuse-First Coding |  |
-| [`processes/`](processes/README.md) | described in its own README | |
 
 <!-- kg:subgraph:end -->

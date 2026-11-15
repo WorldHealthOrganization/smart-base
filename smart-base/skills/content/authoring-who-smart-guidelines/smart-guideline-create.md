@@ -43,7 +43,7 @@ Ask it as one more numbered question, only when the request did not say:
 > **Default if you do not answer: 1.**
 
 An L1 or DAK start is a document kind inside smart-base, authored with
-[`l2-dak-authoring`](l2-dak-authoring.md) or as an L1 document, not a new
+[`l2-dak-authoring`](https://github.com/litlfred/smart-base/blob/main/smart-base/L2/skills/smart-l2/l2-dak-authoring.md) or as an L1 document, not a new
 layer. Only the IG (option 1) goes through the routes below.
 
 ### 2. The declaration `needs` the IG-publication layer, not fhir-harness
@@ -100,7 +100,7 @@ content, copied from an existing guideline repository
 | `.claude/settings.json` + `.claude/mount-platform.sh` | the SessionStart hook that mounts the platform, so the skills and processes are on disk in every session |
 | `index.config.json` | the mount of smart-base (and through it the platform), as in every guideline repository (§3) |
 | its site, its checks, its `.gitignore` mount block, and an IG's site templates | what [`sub-kg-lifecycle`](https://github.com/litlfred/cat-harness/blob/main/skills/kg/graph-management/sub-kg-lifecycle.md) stage 10 (*its site*, *its checks*, `.gitignore`) and [`fhir-ig-create`](https://github.com/litlfred/fhir-harness/blob/main/skills/fhir-ig-base/fhir-ig-create.md) `new-repo` step 5 list, copied from the guideline repository named above |
-| `<name>.json` | the layer declaration: its `assets` (above), `library/` as `library`, and one `l1-extraction` entry per extraction directory as each is created ([`recommendation-extraction`](recommendation-extraction.md), *Declare every output directory*) — an undeclared one fails folio-assistant's `check:l1-complete` and with it the staging build |
+| `<name>.json` | the layer declaration: its `assets` (above), `library/` as `library`, and one `l1-extraction` entry per extraction directory as each is created ([`recommendation-extraction`](https://github.com/litlfred/smart-base/blob/main/smart-base/L1/skills/smart-l1/recommendation-extraction.md), *Declare every output directory*) — an undeclared one fails folio-assistant's `check:l1-complete` and with it the staging build |
 
 An existing repository that lacks any of these gets them copied first, in
 their own commit.

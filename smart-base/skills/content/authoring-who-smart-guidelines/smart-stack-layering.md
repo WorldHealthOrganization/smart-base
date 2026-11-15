@@ -107,8 +107,8 @@ the deploy, in `WorldHealthOrganization/smart-base`'s
 phases). If a step cannot be placed, or two layers both claim it, **the split
 is wrong** and this skill changes. Do not resolve a conflict by adding a
 layer; report it. The per-step assignment is in
-[`dak-preprocessing`](dak-preprocessing.md) and
-[`dak-postprocessing`](dak-postprocessing.md).
+[`dak-preprocessing`](https://github.com/litlfred/smart-base/blob/main/smart-base/L3/skills/smart-l3/dak-preprocessing.md) and
+[`dak-postprocessing`](https://github.com/litlfred/smart-base/blob/main/smart-base/L3/skills/smart-l3/dak-postprocessing.md).
 
 **Current result: all 26 steps place** (6 pre-processing, 1 Publisher run, 9
 post-processing, 10 deploy), none needs a new layer and none has two owners.

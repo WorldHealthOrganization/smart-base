@@ -16,7 +16,7 @@ output: schemas/skills/guideline-use-case/output.schema.json
 > Skill id: `guideline-use-case` · Package: `authoring-who-smart-guidelines` ·
 > Stage 0 of [`smart-guideline-end-to-end`](smart-guideline-end-to-end.md),
 > task `Task_DescribeUseCase` of
-> [`smart-guideline-end-to-end.bpmn`](../../../processes/content/smart-guideline-end-to-end.bpmn),
+> `smart-guideline-end-to-end.bpmn` (opt-in `smart-base.collab`),
 > in the requester's (`user`) lane.
 
 **The use case is the requester's, not the agent's.** Every later stage
@@ -28,7 +28,7 @@ is built) is chosen against it.
 The contract is [`input.schema.json`](../../../schemas/skills/guideline-use-case/input.schema.json) and [`output.schema.json`](../../../schemas/skills/guideline-use-case/output.schema.json).
 
 - **In:** the `request`, verbatim, and the `jurisdiction` and the guideline it `adapts` when the request names them.
-- **Out:** the `useCase` (`population`, `setting`, `jurisdiction`, `interventions`, `kind` new or adaptation, the requester's `words`), which stage 1 ([`dak-l1-library`](dak-l1-library.md)) takes as its `useCase`; and the numbered `questions` asked to get it.
+- **Out:** the `useCase` (`population`, `setting`, `jurisdiction`, `interventions`, `kind` new or adaptation, the requester's `words`), which stage 1 ([`dak-l1-library`](https://github.com/litlfred/smart-base/blob/main/smart-base/L1/skills/smart-l1/dak-l1-library.md)) takes as its `useCase`; and the numbered `questions` asked to get it.
 
 ## Steps
 

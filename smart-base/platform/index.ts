@@ -31,6 +31,13 @@ export {
   repoRootFor,
 } from "../../cat-harness-tools/schemas/kg/cat-harness.js";
 export { isBuiltAtPublish } from "../../cat-harness-tools/schemas/kg/built-at-publish.js";
+// `overlayPath` (sm8r) through a namespace import, not a named re-export: a
+// composition that still pins a cat-harness-tools without it (folio-assistant
+// main) must keep loading this shim. There no writer puts anything at the
+// output root, so reading the path as given is the right answer.
+import * as layerOutput from "../../cat-harness-tools/scripts/lib/layer-output.js";
+export const overlayPath: (abs: string, root?: string) => string =
+  (layerOutput as { overlayPath?: (abs: string, root?: string) => string }).overlayPath ?? ((abs: string) => abs);
 export {
   ContentTypeConflictError,
   describeRepository,
@@ -108,10 +115,6 @@ export {
   assertPrefixesInSync,
   typesForKind,
 } from "../../cat-harness-tools/schemas/kg/jsonld.js";
-export {
-  IgIdentitySchema,
-  readIgIdentity,
-} from "../../fhir-harness/schemas/ig-identity.js";
 export {
   igSiteData,
 } from "../../fhir-harness/scripts/ig-site-data.js";

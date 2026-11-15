@@ -10,9 +10,9 @@
  *
  * smart-base's chrome was ingested from smart-trust's template chain (bean
  * `bamf`). Since stage D (#1767) the chrome is the TEMPLATE's and states no
- * IG's status; each IG's status is its own `ig-identity.json`. smart-trust
- * carries one (read from its sushi-config); smart-base does not. Deleting
- * smart-trust's `ig-identity.json` fails the first test of each group.
+ * IG's status; each IG's status is its own, from its sushi-config or its
+ * artefact index. (The separate `ig-identity.json` that once held it was
+ * excised on 2026-11-14, owner: "excise ig-identy.json in this and other repos".)
  *
  * Coupled to bean `lbz8` (#2082): it plans to move the generated IG pages off
  * `main` to the `cat/fhir-harness/ig-docs` branch. When it lands, the
@@ -26,7 +26,7 @@ import { describe, expect, it } from "bun:test";
 import { existsSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
-import { IgIdentitySchema, igSiteData, readIgIdentity } from "../platform/index.js";
+import { igSiteData } from "../platform/index.js";
 
 const ROOT = resolve(import.meta.dir, "..", "..");
 
@@ -104,18 +104,6 @@ describe("the committed pages: the landing page", () => {
   });
 });
 
-describe("the committed identities", () => {
-  it("smartTrustIdentityValidates", () => {
-    const id = readIgIdentity(join(ROOT, "smart-trust", "fhir-artifact-index"));
-    expect(id).toBeDefined();
-    expect(IgIdentitySchema.safeParse(id).success).toBe(true);
-    expect(id!.id).toBe("smart.who.int.trust");
-  });
-  it("smartBaseHasNoIdentity", () => {
-    expect(readIgIdentity(join(ROOT, "smart-base", "fhir-artifact-index"))).toBeUndefined();
-  });
-});
-
 describe("site.data.fhir from smart-base's committed artifact index", () => {
   const r = igSiteData(join(ROOT, "smart-base"));
 
@@ -135,14 +123,5 @@ describe("site.data.fhir from smart-base's committed artifact index", () => {
   it("smartBaseStatesNoStatus", () => {
     expect(r.data.ig.status).toBeUndefined();
     expect(r.refused).toEqual([]);
-  });
-});
-
-describe("site.data.fhir from smart-trust's index, which carries its own ig-identity.json", () => {
-  const r = igSiteData(join(ROOT, "smart-trust"));
-
-  it("statusFromOwnIdentityFile", () => {
-    expect(r.data.ig.status).toBe("draft");
-    expect(r.provenance["ig.status"]).toBe("fhir-artifact-index/ig-identity.json");
   });
 });

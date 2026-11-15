@@ -12,12 +12,25 @@
   "_title_comment": "The HUMAN display name, for the LHS navbar's harness tabs. `name` stays the machine identifier that filenames, `needs` edges and `declaredBy` resolve against; `title` is what a reader sees and nothing resolves against it. Bean `t3n8`.",
   "title": "SMART Base",
   "description": "The WHO SMART Guidelines base layer — the ingested WHO digital-health corpus, the methodologies read out of it, and the editorial voices derived from it.",
+  "_skillPrefix_comment": "Skills from this layer install as smartbase-<name> (cat-harness-tools' install-skills, bean x4mt; owner ruling 2026-10-11: each harness has its own prefix, e.g. cat, fa). Without one, `install-skills --root smart-base` skipped every smart-base skill and installed only cat- and fa- ones (bean folio-assistant-dtda). Lowercase letters and digits only: the schema refuses a hyphen.",
+  "skillPrefix": "smartbase",
   "avatar": {
     "glyph": "M3 18h18M6 14h12M9 10h6M11 6h2",
     "tone": 199,
     "reads": "a broad base under narrowing courses — the layer the SMART stack rests on, in WHO blue"
   },
   "_avatar_comment": "WHO blue (tone 199, measured from #0093D5), shared with `who-iris` on purpose: both are the same organisation's material, so the navbar shows them as a family. The registry requires distinct glyphs, not distinct tones: the glyph says which instance, the tone says whose. No emblem: an organisation's published colour with a neutral glyph does not invent its identity. The glyph is a broad base with three narrowing courses above it, the layer the stack rests on: `fhir-harness` sits under smart-base and `smart-ig` and the IGs that need it are built on top.",
+  "enableSubgraphs": [
+    "smart-base.smart-base-L1",
+    "smart-base.smart-base-L2",
+    "smart-base.smart-base-L2-bpmn",
+    "smart-base.smart-base-L2-dmn",
+    "smart-base.smart-base-L3",
+    "smart-base.smart-base-L4",
+    "smart-base.collab",
+    "smart-base.L2-collab",
+    "smart-base.L3-collab"
+  ],
   "directories": [
     {
       "id": "smart-base-site-docs",
@@ -85,20 +98,19 @@
       ]
     },
     {
-      "id": "processes",
-      "path": "methodologies/processes/",
-      "description": "The executable half of this layer's methodologies: `diig-investment-path.bpmn` renders DIIG's nine chapters as a process with its two progress checks as gateways. Declared separately from `methodologies/` because a directory entry names one graph typology: the prose says what the method is, the diagram how it runs.",
+      "id": "collab",
+      "path": "collab/",
+      "optIn": true,
+      "requires": [
+        "cat-harness.sdlc",
+        "smart-base.smart-base-L1",
+        "smart-base.smart-base-L2",
+        "smart-base.smart-base-L3",
+        "smart-base.smart-base-L4"
+      ],
+      "description": "The collaborative-development sub-graph — a NAMED SUB-GRAPH of this layer, OPT-IN: off in every layer, this one included, unless that layer lists `smart-base.collab` in its own `enableSubgraphs` (owner, 2026-11-13, check:optin-refs follow-up). It holds the processes that run on cat-harness's work plan and delivery process — they claim and close a bean, keep the work plan, or stage, preview and release a change: `smart-guideline-end-to-end`, `SGAuthoring.DAKLifecycle`, and DIIG's `diig-investment-path`. The L2 and L3 processes of the same kind are in each level's own opt-in collab group, `L2/collab/` and `L3/collab/` (`smart-base.L2-collab`, `smart-base.L3-collab`; owner, 2026-11-13: L2/L3 own collab). It `requires` `cat-harness.sdlc`, which requires `cat-harness.work-plan`, and the four knowledge-graph levels `smart-base-L1`..`smart-base-L4` whose skills its end-to-end process calls (owner, 2026-11-13), so switching it on switches all of them on. The graph inside it is declared FROM WITHIN, in `collab/graph.json`.",
       "graphTypologies": [
-        "processes"
-      ]
-    },
-    {
-      "id": "smart-base-house-processes",
-      "path": "processes/",
-      "dependents": "skip",
-      "description": "The BPMN this layer owns as house processes, under `content/` (as against `methodologies/processes/`, which holds methodologies adopted from the corpus): `l2-dak-authoring.bpmn`, whose tracks each call `l2-component-edit-review.bpmn` (the agent edits, checks, renders and stages one component while a person in its reviewing role reviews it alongside, never as a gate); `smart-guideline-end-to-end.bpmn`, use case to consuming application through the L1 KG, L2 and L3, with adjudication as QA rather than a gate, calling `l2-dak-authoring.bpmn` and `dak-l3-ig.bpmn` for its L2 and L3 stages; `dth-authoring.bpmn`, a Digital Transformation Handbook from sources to publication in seven stages, each ending in a milestone recorded on the work plan; `SGAuthoring.DAKLifecycle.bpmn`; `classify-and-code-content.bpmn`; and two point-of-care processes any DAK calls by call activity, `questionnaire-data-capture.bpmn` (a health worker completes an SDC form, the system extracts its resources) and `act-on-decision-support.bpmn` (the system applies a PlanDefinition, the health worker accepts or declines, may note why on a branch nothing waits for, and the care plan is updated). Skill refs this layer does not own resolve down through `fhir-harness`. cat-harness-tools' `render:bpmn` draws each beside its source (bean folio-assistant-akiq); folio-assistant's just-the-docs site, which mounts this directory, shows them.",
-      "graphTypologies": [
-        "processes"
+        "cat-harness"
       ]
     },
     {
@@ -208,13 +220,79 @@
       ]
     },
     {
+      "id": "smart-base-L1",
+      "path": "L1/",
+      "optIn": true,
+      "title": "L1 — what a WHO publication says",
+      "graphTypologies": [
+        "cat-harness"
+      ],
+      "description": "Knowledge-graph layer L1 as a NAMED SUBGRAPH of this layer (owner, 2026-11-13: 'L1..L3 as named subgraphs', after smart-kg's deprecation, issue #359). OPT-IN like cat-harness's `sdlc/`, so that each layer's `tools/` is a tools graph of its own: off in a downstream layer unless it lists `smart-base.smart-base-L1` in its `enableSubgraphs`; this layer enables all six. `L1/graph.json` names what it holds FROM WITHIN: `schemas/` (L1 3.0 and the `l1-library` extension as Zod, the engine every layer uses, and their generated JSON and contexts), and the L1 `skills/`, `processes/`, `tools/` and the `scripts/` those tools run. The layers above, `L2/`, `L2-bpmn/`, `L2-dmn/`, `L3/` and `L4/`, are its siblings and import from it; nothing in L1 imports from them."
+    },
+    {
+      "id": "smart-base-L2",
+      "path": "L2/",
+      "optIn": true,
+      "requires": [
+        "smart-base.smart-base-L1"
+      ],
+      "title": "L2 — what a DAK declares",
+      "graphTypologies": [
+        "cat-harness"
+      ],
+      "description": "Knowledge-graph layer L2 as a NAMED SUBGRAPH of this layer, OPT-IN like `L1/` (a downstream layer lists `smart-base.smart-base-L2` in its `enableSubgraphs`), beside `L1/` (owner, 2026-11-13: 'L1..L3 as named subgraphs', issue #359). `L2/graph.json` names what it holds FROM WITHIN: its `schemas/` and, as they move in, its tools, skills and processes. It imports only from the layers below it."
+    },
+    {
+      "id": "smart-base-L2-bpmn",
+      "path": "L2-bpmn/",
+      "optIn": true,
+      "title": "L2-BPMN — inside a BPMN file",
+      "graphTypologies": [
+        "cat-harness"
+      ],
+      "description": "Knowledge-graph layer L2-bpmn as a NAMED SUBGRAPH of this layer, OPT-IN like `L1/` (a downstream layer lists `smart-base.smart-base-L2-bpmn` in its `enableSubgraphs`), beside `L1/` (owner, 2026-11-13: 'L1..L3 as named subgraphs', issue #359). `L2-bpmn/graph.json` names what it holds FROM WITHIN: its `schemas/` and, as they move in, its tools, skills and processes. It imports only from the layers below it."
+    },
+    {
+      "id": "smart-base-L2-dmn",
+      "path": "L2-dmn/",
+      "optIn": true,
+      "title": "L2-DMN — inside a DMN file",
+      "graphTypologies": [
+        "cat-harness"
+      ],
+      "description": "Knowledge-graph layer L2-dmn as a NAMED SUBGRAPH of this layer, OPT-IN like `L1/` (a downstream layer lists `smart-base.smart-base-L2-dmn` in its `enableSubgraphs`), beside `L1/` (owner, 2026-11-13: 'L1..L3 as named subgraphs', issue #359). `L2-dmn/graph.json` names what it holds FROM WITHIN: its `schemas/` and, as they move in, its tools, skills and processes. It imports only from the layers below it."
+    },
+    {
+      "id": "smart-base-L3",
+      "path": "L3/",
+      "optIn": true,
+      "requires": [
+        "smart-base.smart-base-L2"
+      ],
+      "title": "L3 — the FHIR artefacts",
+      "graphTypologies": [
+        "cat-harness"
+      ],
+      "description": "Knowledge-graph layer L3 as a NAMED SUBGRAPH of this layer, OPT-IN like `L1/` (a downstream layer lists `smart-base.smart-base-L3` in its `enableSubgraphs`), beside `L1/` (owner, 2026-11-13: 'L1..L3 as named subgraphs', issue #359). `L3/graph.json` names what it holds FROM WITHIN: its `schemas/` and, as they move in, its tools, skills and processes. It imports only from the layers below it."
+    },
+    {
+      "id": "smart-base-L4",
+      "path": "L4/",
+      "optIn": true,
+      "title": "L4 — the application",
+      "graphTypologies": [
+        "cat-harness"
+      ],
+      "description": "The L4 work as a NAMED SUBGRAPH, OPT-IN like `L1/`..`L3/` (a downstream layer lists `smart-base.smart-base-L4` in its `enableSubgraphs`), beside them (owner, 2026-11-13: an L4 subgraph for the point-of-care and application skills, processes and tools): what a running application does with a DAK at the point of care, and briefing, building and running one. `L4/graph.json` names what it holds FROM WITHIN: `skills/`, `processes/` and `tools/`. No `schemas/`: the knowledge graph has no L4 layer."
+    },
+    {
       "id": "smart-base-schemas",
       "path": "schemas/",
       "graphTypologies": [
         "code",
         "schemas"
       ],
-      "description": "The dak vocabulary in code: `dak-blocks.ts` (the block builders `content-adapters/dak.json` names), `dak-kinds.ts` and `dak-jsonld.ts` (read off `block-kinds/`), `dak-content-type.ts`, `dak.ts`, and the l2-dak-authoring skill's input/output JSON Schemas. The mounted adapter and QA checkers name these modules. Also the `schemas` graph, declared so the schema reader never falls back to `<instance>/schemas/` by convention, which stops once any instance stacked on smart-base has a `schemas` directory."
+      "description": "The dak vocabulary in code: `dak-blocks.ts` (the block builders `content-adapters/dak.json` names), `dak-kinds.ts` and `dak-jsonld.ts` (read off `block-kinds/`), `dak-content-type.ts`, `dak.ts`, and `skills/`: the input/output JSON Schemas of the two skills that span L1-L4 (guideline-use-case, smart-guideline-end-to-end). Every other skill's contracts sit in its subgraph, `L<n>/schemas/skills/` (bean folio-assistant-kjea). The mounted adapter and QA checkers name these modules. Also the `schemas` graph, declared so the schema reader never falls back to `<instance>/schemas/` by convention, which stops once any instance stacked on smart-base has a `schemas` directory."
     },
     {
       "id": "smart-base-pipeline",
@@ -230,7 +308,7 @@
       "graphTypologies": [
         "code"
       ],
-      "description": "This layer's own scripts and their tests: document kinds, the DAK components figure, the DTH term findings, the smart-kg L1 extraction, the fhir-harness exclusions check, the L1 recommendation scenario candidates with the vocabulary reader they resolve against (fixtures and the measles run under `scripts/fixtures/`), and `dth-init.ts`, which writes a new DTH repository's wiring. Declared so a remote mount brings them."
+      "description": "This layer's own scripts and their tests: document kinds, the DAK components figure, the DTH term findings, the `l1-extraction` viewer's pages (`gen-l1-extraction-pages.ts`) and the statement lists they read, the fhir-harness exclusions check, the L1 recommendation scenario candidates with the vocabulary reader they resolve against (fixtures and the measles run under `scripts/fixtures/`), and `dth-init.ts`, which writes a new DTH repository's wiring. The L1 extraction code (the smart-kg L1 extractor, the recommendation candidates, the L1 IRIs) is in the opt-in `L1/scripts/`. The L2-only scripts (the data dictionary and its diff, the L2 DTH check) are in `L2/scripts/`. Declared so a remote mount brings them."
     },
     {
       "id": "smart-base-templates",
@@ -239,14 +317,6 @@
         "code"
       ],
       "description": "Files this layer's tools write into a repository they set up, kept as real files rather than strings inside a script. `dth/` holds the AGENTS.md, session-start hook, PR checks workflow and other wiring that `scripts/dth-init.ts` copies into a new DTH repository (`TEMPLATE_DIR`)."
-    },
-    {
-      "id": "smart-base-kg",
-      "path": "kg/",
-      "graphTypologies": [
-        "code"
-      ],
-      "description": "The SMART Guidelines knowledge-graph schema, L1 3.0, as Zod: `src/` (the L1 layer and its `l1-library` extension, the graph-document shape, `validate.ts`, `kgid.ts`, the offline JSON-LD loader and the emitters), `test/`, and `generated/l1/` (the ontology JSON, the document JSON Schema and the JSON-LD contexts, written by `src/emit.ts`), with its own `package.json` for `kg.yml`. The emitter also writes the IG's FSH (`input/fsh/models/KGL1*.fsh`, `input/fsh/codesystems/KG*.fsh`, `input/fsh/valuesets/KG*VS.fsh`) at the repository root. `scripts/l1-recommendation-candidates.ts` imports `kg/src/`."
     },
     {
       "id": "smart-base-skills",
@@ -305,7 +375,7 @@
       "description": "The checkout scripts this instance's code runs, under `checkoutScripts`, each relative to the downstream checkout root. A downstream that mounts this instance reads them with `bun run cat` and `check:script-placement` only while this file's sha256 matches the mount lock."
     }
   ],
-  "_visualisers_comment": "The visualisers this harness declares. `artifact-index` is the artefact index of the SMART IGs, drawn by fhir-harness's `ig-pages` Tool per layer: <base>/smart-base/artifact-index/ opens this IG's own artifacts page, and <base>/smart-base/artifact-index/<instance>/ each covered IG's (smart-trust, smart-immunizations). `l1-extraction` is this layer's own kind, drawn by smart-base's `l1-extraction-pages` Tool per layer: <base>/smart-base/l1-extraction/<instance>/ shows what each declared extraction holds, or unknown where the directory is not in the build. Routes are computed by visualiserRoute. Not `artifacts`: the IG already publishes artifacts.html beside it, and check:visualiser-routes refuses a route a harness's own served directory also answers.",
+  "_visualisers_comment": "The visualisers this harness declares. `artifact-index` is the artefact index of the SMART IGs, drawn by fhir-harness's `ig-pages` Tool per layer: <base>/smart-base/artifact-index/ opens this IG's own artifacts page, and <base>/smart-base/artifact-index/<instance>/ each covered IG's (smart-trust, smart-immunizations). `l1-extraction` is this layer's own kind, drawn by smart-base's `l1-extraction-pages` Tool per layer (in the always-on `tools/`, not the opt-in `L1/tools/`, so a layer that does not enable `smart-base-L1` still resolves it): <base>/smart-base/l1-extraction/<instance>/ shows what each declared extraction holds, or unknown where the directory is not in the build. Routes are computed by visualiserRoute. Not `artifacts`: the IG already publishes artifacts.html beside it, and check:visualiser-routes refuses a route a harness's own served directory also answers.",
   "visualisers": [
     {"id": "artifact-index", "renderedBy": "ig-pages", "coversKinds": ["fhir-artifact-index"], "subgraphs": "instance", "title": "Artefact index"},
     {"id": "l1-extraction", "renderedBy": "l1-extraction-pages", "coversKinds": ["l1-extraction"], "subgraphs": "instance", "title": "L1 extraction"}
@@ -416,7 +486,6 @@
       ],
       "rtlSupported": true,
       "bpmnDiagrams": [
-        "processes/content/draft-to-publication.bpmn",
         "processes/library/translation-workflow.bpmn",
         "processes/library/human-translation-workflow.bpmn"
       ],

@@ -36,7 +36,7 @@ import {
   type DocumentKind,
   type DocumentKindCoverage,
 } from "../platform/index.js";
-import { directoriesForGraph, instanceDirectoryForGraph, instanceRootsIn, isBuiltAtPublish, readDeclaration, repoRootFor } from "../platform/index.js";
+import { directoriesForGraph, instanceDirectoryForGraph, instanceRootsIn, isBuiltAtPublish, overlayPath, readDeclaration, repoRootFor } from "../platform/index.js";
 import { DAK_CARDS } from "./gen-dak-components-figure.ts";
 import { kgClasses } from "./kg-classes.ts";
 
@@ -208,8 +208,13 @@ function ingestedIgs(repoRoot: string): IngestedIg[] {
     if (!subject) continue;
     for (const dir of directoriesForGraph(root, "fhir-artifact-index")) {
       const path = join(dir, "index.json");
-      if (!existsSync(path)) continue;
-      const ix = JSON.parse(readFileSync(path, "utf-8")) as { artifacts?: IndexArtifact[] };
+      // Read through the layer output overlay: ig-index:build writes a mounted
+      // layer's index at the output root (fhir-harness a58233b, sm8r), so the
+      // path under the mount is only the name. Read there, an index checkout
+      // found no IG and wrote no coverage report (folio-assistant#3124).
+      const at = overlayPath(path, repoRoot);
+      if (!existsSync(at)) continue;
+      const ix = JSON.parse(readFileSync(at, "utf-8")) as { artifacts?: IndexArtifact[] };
       out.push({ subject, root, from: relative(repoRoot, path).split("\\").join("/"), artifacts: ix.artifacts ?? [] });
     }
   }

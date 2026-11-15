@@ -142,10 +142,39 @@ function filesIn(dir: string): string[] {
     .sort();
 }
 
+/**
+ * The name of a scenario-candidate graph's list, read off where it sits:
+ *
+ * - `<x>/candidates/<stem>.l2.json` (one source per extraction directory, the
+ *   measles layout) is named after `<x>`: `measles-scenario-candidates`;
+ * - `candidates/<source>/<stem>.l2.json` (one sub-directory per source, the
+ *   Uganda layout) is named after `<source>`: `ug-moh-schedule-poster`;
+ * - anything else keeps its file stem.
+ */
+export function scenarioListName(path: string, stem: string): string {
+  const parent = basename(dirname(path));
+  const grand = basename(dirname(dirname(path)));
+  if (grand === "candidates") return parent;
+  if (parent === "candidates") return `${grand}-${stem}`;
+  return stem;
+}
+
 /** Every list a directory yields, keyed by its output file name. */
 export function listsOf(dir: string, instanceRoot: string): { lists: Map<string, ExtractedStatements>; problems: string[] } {
   const lists = new Map<string, ExtractedStatements>();
   const problems: string[] = [];
+  // Two inputs that map to one output name would overwrite each other
+  // silently, losing the first list's statements. Refuse instead.
+  const from = new Map<string, string>();
+  const put = (name: string, path: string, list: ExtractedStatements): void => {
+    const prior = from.get(name);
+    if (prior !== undefined) {
+      problems.push(`${relative(dir, path)}: its list would be ${name}, which ${relative(dir, prior)} already writes`);
+      return;
+    }
+    from.set(name, path);
+    lists.set(name, list);
+  };
   const entryCache = new Map<string, string | null | undefined>();
   const entryOfFile = (file: string): string | null | undefined => {
     const abs = [resolve(instanceRoot, file), resolve(dir, file), resolve(dir, basename(file))].find((p) => existsSync(p));
@@ -171,7 +200,7 @@ export function listsOf(dir: string, instanceRoot: string): { lists: Map<string,
         continue;
       }
       const title = isObj(doc["publication"]) ? str(doc["publication"]["title"]) : undefined;
-      lists.set(`${stem}.recommendations.json`, {
+      put(`${stem}.recommendations.json`, path, {
         _schema: EXTRACTED_STATEMENTS_SCHEMA_ID,
         ...(title ? { title } : {}),
         statements: recommendationsOf(doc, libraryId),
@@ -180,8 +209,7 @@ export function listsOf(dir: string, instanceRoot: string): { lists: Map<string,
       const { statements, unresolved } = scenariosOf(doc, entryOfFile);
       problems.push(...unresolved.map((u) => `${relative(dir, path)}: ${u}`));
       if (statements.length > 0) {
-        const name = basename(dirname(path)) === "candidates" ? `${basename(dirname(dirname(path)))}-${stem}` : stem;
-        lists.set(`${name}.scenarios.json`, { _schema: EXTRACTED_STATEMENTS_SCHEMA_ID, title: "Scenario candidates", statements });
+        put(`${scenarioListName(path, stem)}.scenarios.json`, path, { _schema: EXTRACTED_STATEMENTS_SCHEMA_ID, title: "Scenario candidates", statements });
       }
     }
   }

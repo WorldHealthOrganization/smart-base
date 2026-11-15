@@ -18,7 +18,10 @@ folio-assistant-core, cat-harness, cat-harness-tools, bootstrap and
 bootstrap-tools on disk at the repository root (gitignored). **Read the
 platform's skills there before choosing how to build, render, review or
 stage anything** (`cat-harness/skills/`, `fhir-harness/skills/`). If they
-are missing, run `bash .claude/mount-platform.sh`.
+are missing, run `bash .claude/mount-platform.sh`. Every platform script
+runs as `bun run cat <script>` (the root `cat` script, `.github/cat.ts`,
+written from cat-harness-tools' `templates/root-bootstrap/`), which mounts
+the layers first when they are missing or `index.lock.json` has moved.
 
 `./smart-base/` is this repository's own copy of the harness layer (its
 `index.config.json` entry is `source.local`). Edit it here; downstream IGs
