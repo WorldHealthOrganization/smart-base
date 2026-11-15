@@ -77,6 +77,12 @@ Four rules, for every viewer that shows addressable things:
    IRI with `history.replaceState` (or navigates, when the asset belongs to
    another page), and nothing new emits it.
 
+These rules are measured per node by `bun run cat node-views:report` (the
+`node-view-coverage` Tool): for each node a declared directory holds, an IRI,
+its `.jsonld`, a page at the path IRI and a row on the folder page. Every row
+must read `ok`, or carry a waiver with a ruling; none is recorded (owner,
+2026-11-13: every listed node kind gets pages).
+
 ### The asset and its rendering are two resources with two IRIs
 
 **This is the one place the rule is stated**; other skills point here.
@@ -242,3 +248,11 @@ generates them if absent, so the suite runs from a clean checkout.
 property (a Tool's `io`) pushing the rest of a node off screen are caught only
 by looking, because no test reports that a property makes a node unreadable.
 Nested objects are collapsed behind a disclosure for that reason.
+
+**Count the nodes, too.** A viewer that renders one folder page well can still
+leave most of its nodes without a page, an IRI or a row: a census of folder
+pages passes over that. Run `bun run cat node-views:report -- --site <built
+site>` (or `--base <live url>`) and read the rows for your viewer's kind. It
+reads the folder page's data files as well as its HTML, so rows your script
+draws count. It is a QA report and exits 0; `node-views:judge --against main`
+fails only on a finding your change made new.

@@ -75,7 +75,9 @@ layer that owns the site root is `site.landing` in `index.config.json`
 ## Check and publish
 
 `check:maintained-artefacts`, `check:escaped-markup` and `publish-verify.ts`
-check the built tree. `publish-gh-pages.sh` then replaces `gh-pages`
+check the built tree. `node-views:report -- --site <built tree>` reports,
+beside them and without gating, which nodes have no IRI, `.jsonld`, page or
+folder-page row (the `node-view-coverage` Tool, `test/results/node-views/`). `publish-gh-pages.sh` then replaces `gh-pages`
 wholesale. Before each push attempt it copies in every open pull request's
 `branches/<slug>/` preview (`restore-staging.ts`). After the push,
 `restore-staging.ts --verify` confirms that the previews survived. Any failure

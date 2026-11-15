@@ -99,6 +99,13 @@ The split is read from the workflow at run time.
   there because bpmn-js renders through a browser, so it can pass locally only
   because a browser happened to be installed.
 
+`render:bpmn:check` and `node-views:report` are **QA reports, not merge
+gates**: their results go to the `qa-reports` branch and show on each layer's
+QA page, and neither is in `index-gates.json` or always-green. The node-view
+report needs a built site or a live base, so it is not in the fast set either;
+its author's check is `node-views:judge --against main`, which fails only on a
+finding new against the baseline.
+
 ---
 
 ## Running "the gates that relate to my change" is not running the gates
