@@ -64,7 +64,7 @@ takes `--instance <root>`, so one checkout serves every layer.
 | 1. detect | `translation:status --instance <root>`, `translation:drift:check --instance <root>`, `translation:obsolete:check --instance <root>`, and the layer's template checks | any shows something to do |
 | 2. refresh templates | the layer's extractors (`translate-bpmn --instance <root> --extract` for diagrams; pages and glossary as its `AGENTS.md` names) | the template checks pass |
 | 3. merge into each locale | `msgmerge --update --backup=none`, or `translation:obsolete --instance <root>` | every catalogue matches its template |
-| 4. translate new and fuzzy | by hand or by agent, with the locale term base | no empty or fuzzy entry is left |
+| 4. translate new and fuzzy | optionally candidates first: `translation:candidates --instance <root> --engine opus-mt` (Tool [`translation-candidates`](../../../tools/translation-candidates/translation-candidates.json)), then by hand or by agent, with the locale term base | no empty entry is left, and every fuzzy entry is either re-translated or a candidate awaiting review |
 | 5. gates | below | every gate passes |
 | 6. round trip | [`translation-round-trip.bpmn`](../../processes/translation-round-trip.bpmn) on the changed strings | both drift and not-drift are recorded |
 | 7. QA report | `translation:page-qa --instance <root>`, and the report | it is written |
@@ -134,9 +134,23 @@ worded it differently today. Translate with the locale term base
 a term a lower layer fixes keeps its fixed form. Clear `#, fuzzy` only on an
 entry you have actually re-translated.
 
+**Machine candidates are allowed, and stay drafts.** `bun run cat
+translation:candidates --instance <root> --engine opus-mt` (add
+`,libretranslate --url <self-hosted>` for a second source) asks open engines
+for candidates for the empty and fuzzy entries, never a hosted freemium API.
+The candidates go to `<catalogue>.candidates.json` for the review page. An
+EMPTY entry also gets the first good candidate, `#, fuzzy`, so it is never left
+untranslated. A candidate whose placeholders do not round-trip is not
+recorded. The tool does not change a fuzzy entry that already has text, a
+plural entry, a catalogue that says `DO NOT MACHINE-FILL`, or a catalogue whose
+node is official (those get candidates only). Its strings stay fuzzy until you
+re-translate them or a person picks or accepts one on the review page. Do not
+clear the flag because a machine wrote the string.
+
 FHIR terms go into the locale's one CodeSystem supplement, never into the
-resource. Translation-node manifests stay `official: false`,
-`generatedBy: "agent"`. Write no `status.json`.
+resource. Translation-node manifests stay `official: false`, with
+`generatedBy: "agent"`, or `"machine"` where the candidates step filled an
+empty entry. Write no `status.json`.
 
 **A mistake in the source is not fixed here.** Translate what the source says,
 and note the location for step 10.

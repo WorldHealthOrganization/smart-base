@@ -6,6 +6,12 @@ description: >-
   here, the pros and cons behind each ruling, how DC and SKOS overlap and what
   stops them drifting, and the normalisation-first rule for any modelling or
   mapping exercise.
+conformsTo:
+  - w3c-skos
+  - dcmi-terms
+  - hl7-fhir
+  - schema-org
+  - w3c-dcat-3
 ---
 <!-- installed by cat-harness-tools/scripts/install-skills.ts; edit the source, not this copy -->
 <!-- source: ../cat-harness/skills/kg/kg-core/vocabulary-authority.md -->

@@ -54,7 +54,7 @@ Translate one or more layers into several locales at once, as a team: one source
 
 - Who: the `Locale translator (one per locale)` lane (role `locale-translator`).
 - Skill: `translation-manager`.
-- What: From the merged templates, with the locale term base: `translations/<locale>/**.po`, a translation-node manifest beside each (`official: false`, `generatedBy: "agent"`; no `status.json`), and the FHIR terms as CodeSystem supplements, all in one file for the locale rather than edits inside the resour
+- What: From the merged templates, with the locale term base: `translations/<locale>/**.po`, a translation-node manifest beside each (`official: false`, `generatedBy: "agent"`, or `"machine"` where `translation:candidates` filled an empty entry with its first candidate, which stays fuzzy; no `status.json`),
 - Record it: `workflow_complete` with `node: "Task_ML_Translate"`.
 - next: → `Gateway_ML_SourceError` (Source-text error found?)
 

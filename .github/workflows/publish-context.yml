@@ -15,7 +15,7 @@ permissions:
   contents: write
 jobs:
   publish:
-    uses: litlfred/cat-harness-tools/.github/workflows/layer-publish-context.yml@2d30ca6540e2587768323620735f4cfe90b57efc # index.lock.json
+    uses: litlfred/cat-harness-tools/.github/workflows/layer-publish-context.yml@d87d43edc1f96489156b7d8eaeefa95329b64e57 # index.lock.json
     with:
       # The layer sits in a sub-directory; the IG is the repository root.
       path-in-repo: smart-base

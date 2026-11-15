@@ -61,6 +61,19 @@ byte-identical files:
   and `<https://iris.who.int/graph/metadata>`, each in its own
   `iris_who_int_graph_{catalogue,metadata}.nq(.gz)`, and merged in
   `who-iris-dataset.nq` and `.nq.gz` for server-side use and integrity checks.
+- **The documents' reference lists** — the `folio-reference/v1` nodes in
+  `references/` (written by `references:extract`, one per entry a document
+  prints). In the spine, the citation edges: the document's Handle
+  `cito:cites` the reference (`https://litlfred.github.io/folio/references/<key>`,
+  the IRI its bibliography page names), and `cito:cites` the IRIS item when
+  the library holds the cited work (`heldAt`). In the metadata graph and the
+  citing document's community partition, the reference itself: `fabio:Work`,
+  `dcterms:title` or `dcterms:bibliographicCitation` (as printed),
+  `dcterms:issued` (`xsd:gYear`), `bibo:doi`, `dcterms:identifier`. A
+  document's Handle comes from the catalogue node whose `libraryId` is its
+  library slug. A `--records` build reads none unless given `referencesDir`.
+  The bibliography's own word search is a separate static index
+  (`<route>/search/`, core's `bibliography-search.ts`).
 - **`subgraph-manifest.json`** — the spine and each community partition, with
   file names, quad counts and item counts.
 - **`queries.json`** — prepared SPARQL queries.

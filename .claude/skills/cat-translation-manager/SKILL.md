@@ -167,11 +167,37 @@ Translate with the term base open. Options, in order of preference:
 
 1. **Existing `.po` from SMART Base** — if the DAK already has translations
    from Weblate/Crowdin, use them.
-2. **FHIR/translation-utils** — the `po-translate` CLI for batch machine
-   translation via DeepL/Google Translate. Tags results `# fuzzy`.
+2. **Open machine translation, as candidates** — `bun run cat
+   translation:candidates --instance <root> --engine opus-mt` (OPUS-MT,
+   Helsinki-NLP Marian models, CC-BY 4.0, run locally), or
+   `--engine opus-mt,libretranslate --url <yours>` to add a self-hosted
+   LibreTranslate as a second source. The Tool is
+   [`translation-candidates`](../../../tools/translation-candidates/translation-candidates.json).
+   Each source's text for each empty or fuzzy string is a CANDIDATE, appended
+   to `<locale>/<catalogue>.candidates.json` (`translation-candidates/v1`). A
+   candidate whose placeholders or markup do not round-trip is not recorded.
+   Candidates are never a barrier to having a translation: an EMPTY `msgstr`
+   gets the first good candidate, `#, fuzzy`. A non-empty `msgstr` is never
+   overwritten, and `official` is never set. `--init` starts a `.po` from a
+   template that has none.
+   No hosted freemium API is used. The DeepL / Google Translate route through
+   `po-translate` is no longer recommended, because it needs a quota and sends
+   the text to a third party. Paid services (DeepL, Google Cloud Translation,
+   Azure Translator, Amazon Translate) are deliberately not candidate sources
+   here.
 3. **Agent translation** — LLM translation of `.pot` → `.po`. Also tagged
-   unofficial.
+   unofficial. An agent's text can be recorded as a candidate with
+   `source.kind: "agent"` through the same writer.
 4. **Human translation** — the gold standard.
+
+A candidate is a draft, never a verdict. Candidates reach a person through
+the translation review page (`review.html`, beside the status page). There a
+reviewer picks one candidate per string, accepts the fuzzy default, or types
+their own text. The resulting issue becomes the recorded adjudication, and it
+names the source of the picked candidate. A catalogue whose author wrote
+`DO NOT MACHINE-FILL` in its header (the viewer's `kg-viewer.po`) still gets
+candidates for a reviewer. Its `.po` is never machine-filled: the tool
+refuses that, and so does an agent.
 
 #### Modal strength: a recommendation stays a recommendation
 
