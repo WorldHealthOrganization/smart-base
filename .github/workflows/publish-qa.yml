@@ -16,7 +16,7 @@ permissions:
   contents: write
 jobs:
   publish:
-    uses: litlfred/cat-harness-tools/.github/workflows/layer-qa-publish.yml@5ba5c29d0adaf6e9115b84c9771db5d7168da418 # index.lock.json
+    uses: litlfred/cat-harness-tools/.github/workflows/layer-qa-publish.yml@389fda7eb30b0105fd4f94fe5b7bd2cd5ed7b4d3 # index.lock.json
     with:
       instance: smart-base
       path-in-repo: smart-base
