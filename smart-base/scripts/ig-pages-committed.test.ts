@@ -30,6 +30,26 @@ import { igSiteData } from "../platform/index.js";
 
 const ROOT = resolve(import.meta.dir, "..", "..");
 
+/**
+ * The status an IG's own artefact index records (`index.json` `status`, from its
+ * ImplementationGuide), or undefined when it records none or is not on disk.
+ * Since the separate `ig-identity.json` was excised (owner, 2026-11-14), the
+ * banner's status class comes from here and nowhere else.
+ */
+function indexStatus(instance: string): string | undefined {
+  const f = join(ROOT, instance, "fhir-artifact-index", "index.json");
+  if (!existsSync(f)) return undefined;
+  const s = (JSON.parse(readFileSync(f, "utf8")) as { status?: unknown }).status;
+  return typeof s === "string" && s ? s : undefined;
+}
+
+/** The banner's status class as the IG's own index decides it: its status, or none. */
+function expectStatusFromIndex(b: string, instance: string): void {
+  const status = indexStatus(instance);
+  if (status) expect(b).toContain(`class="ig-status-${status}"`);
+  else expect(b).not.toMatch(/class="ig-status-/);
+}
+
 /** The banner markup only — the stylesheet above it legitimately names `.ig-status-draft`. */
 function banner(src: string): string {
   const start = src.indexOf('<div class="st-ig">');
@@ -45,10 +65,10 @@ describe("the committed pages: the banner's identity is the index's", () => {
   // a thin `.html` shell that draws itself from its JSON-LD node and carries no
   // banner; the banner is on the full pages that remain — the JSON view and
   // tab pages, and the IG API view pages — so it is read there.
-  it("smartTrustKeepsDraftWatermark", () => {
+  it("smartTrustStatusIsItsIndexs", () => {
     const b = banner(readFileSync(join(ROOT, "smart-trust", "docs", "artifact", "ActorDefinition-Holder.json.md"), "utf8"));
     expect(b).toContain(">smart.who.int.trust</a>");
-    expect(b).toContain('class="ig-status-draft"');
+    expectStatusFromIndex(b, "smart-trust");
   });
 
   // smart-base's docs build into its IG site too (bean `mftp`, "no drift").
@@ -69,7 +89,7 @@ describe("the committed pages: the banner's identity is the index's", () => {
     expect(b).toContain(">smart.who.int.base</a>");
     expect(b).toContain("http://smart.who.int/base");
     expect(b).not.toContain("smart.who.int.trust");
-    expect(b).not.toMatch(/class="ig-status-/);
+    expectStatusFromIndex(b, "smart-base");
   });
 });
 

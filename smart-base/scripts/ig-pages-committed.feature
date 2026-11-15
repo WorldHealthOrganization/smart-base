@@ -3,17 +3,18 @@ Feature: The committed WHO IG pages and data
   /smart-trust/ in this checkout: the banner, the landing page and artefact
   index node, the IG identities, and site.data.fhir.
 
-  @test:smart-base/scripts/ig-pages-committed.test.ts::the_committed_pages:_the_banner's_identity_is_the_index's::smartTrustKeepsDraftWatermark
-  Scenario: smart-trust, whose chrome IS its own, keeps its draft watermark
+  @test:smart-base/scripts/ig-pages-committed.test.ts::the_committed_pages:_the_banner's_identity_is_the_index's::smartTrustStatusIsItsIndexs
+  Scenario: smart-trust's banner states the status its own index records
     Given the banner of smart-trust's committed docs/artifact/ActorDefinition-Holder.json.md
     Then it links ">smart.who.int.trust</a>"
-    And it carries class "ig-status-draft"
+    And it carries class "ig-status-<status>" exactly when smart-trust's fhir-artifact-index/index.json records a status, and no status class otherwise
 
   @test:smart-base/scripts/ig-pages-committed.test.ts::the_committed_pages:_the_banner's_identity_is_the_index's::smartBaseBannerNamesItselfNoStatus
   Scenario: smart-base names itself and asserts no status borrowed from smart-trust
     Given the banner of smart-base's committed StructureDefinition-DAK view page in docs/artifact/
     Then it links ">smart.who.int.base</a>" and contains "http://smart.who.int/base"
-    And it does not contain "smart.who.int.trust" or any "ig-status-" class
+    And it does not contain "smart.who.int.trust"
+    And its status class is the one smart-base's own index records, or none, never smart-trust's
 
   @test:smart-base/scripts/ig-pages-committed.test.ts::the_committed_pages:_the_landing_page::smartBaseNoLandingPageIndexNode
   Scenario: smart-base commits no landing page, and its artefact index is the thin page's node
