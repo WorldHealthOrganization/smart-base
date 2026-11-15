@@ -18,6 +18,7 @@ gates.** That sentence is the whole skill.
 
 Run `bun run cat audit:coverage` before saying a corpus is unaudited, before writing
 a criterion for a kind, and before building any coverage report of your own.
+It measures **audits**; `node-views:report` measures **views** (an IRI, a `.jsonld`, a page and a row per node).
 
 ---
 

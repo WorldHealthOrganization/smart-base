@@ -265,6 +265,16 @@ which inputs the renderer could not place. A page the list does not name and
 you add anyway is fine; a page on the list that you leave out is a gap the
 reviewer cannot see.
 
+### Read the node-view report for the preview
+
+Before asking for review of a viewer change, run
+`bun run cat node-views:report -- --base <preview root>/branches/<slug>/`
+(or `--site` on the built tree) and read the rows for the folders the change
+touches: which nodes there have no page, no row or no `.jsonld`, and which
+folder links are dead or point at the raw repository. It is a QA report, not
+a gate; quote its row for each folder you list, so the reviewer sees the
+nodes the screenshots do not.
+
 ## When to provide before/after URLs
 
 Provide before/after URLs in **every** interaction where:
