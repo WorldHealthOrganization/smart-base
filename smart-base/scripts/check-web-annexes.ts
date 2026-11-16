@@ -60,7 +60,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 
-import { DOCUMENT_KIND_SCHEMA_TAG, directoriesForGraph, instanceRootsIn, readDeclaration, repoRootFor } from "../platform/index.js";
+import { DOCUMENT_KIND_SCHEMA_TAG, directoriesForGraph, layerRootsIn, readDeclaration, repoRootFor } from "../platform/index.js";
 import {
   IRIS_HANDLE,
   LIBRARY_ENTRY_REF,
@@ -333,7 +333,7 @@ function readOrUndefined(abs: string): string | undefined {
 function main(): number {
   const repo = repoRootFor(resolve(import.meta.dir, ".."));
   const dirs = new Set<string>();
-  const roots = instanceRootsIn(repo);
+  const roots = layerRootsIn(repo);
   const sections = sectionRefs(documentKindsIn(roots));
   const libraryHeld = libraryHeldIn(roots);
   /** Each web-annex directory's layer's artefact index directories. */

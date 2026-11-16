@@ -27,6 +27,7 @@ export {
   directoriesForGraph,
   instanceDirectoryForGraph,
   instanceRootsIn,
+  layerRootsIn,
   readDeclaration,
   repoRootFor,
 } from "../../cat-harness-tools/schemas/kg/cat-harness.js";

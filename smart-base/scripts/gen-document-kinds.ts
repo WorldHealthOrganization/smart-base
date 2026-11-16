@@ -36,7 +36,7 @@ import {
   type DocumentKind,
   type DocumentKindCoverage,
 } from "../platform/index.js";
-import { directoriesForGraph, instanceDirectoryForGraph, instanceRootsIn, isBuiltAtPublish, overlayPath, readDeclaration, repoRootFor } from "../platform/index.js";
+import { directoriesForGraph, instanceDirectoryForGraph, layerRootsIn, isBuiltAtPublish, overlayPath, readDeclaration, repoRootFor } from "../platform/index.js";
 import { DAK_CARDS } from "./gen-dak-components-figure.ts";
 import { kgClasses } from "./kg-classes.ts";
 
@@ -203,7 +203,7 @@ interface IngestedIg {
 /** Every layer holding a fhir-artifact-index. */
 function ingestedIgs(repoRoot: string): IngestedIg[] {
   const out: IngestedIg[] = [];
-  for (const root of instanceRootsIn(repoRoot)) {
+  for (const root of layerRootsIn(repoRoot)) {
     const subject = readDeclaration(root)?.name;
     if (!subject) continue;
     for (const dir of directoriesForGraph(root, "fhir-artifact-index")) {
