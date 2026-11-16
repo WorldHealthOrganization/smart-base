@@ -26,7 +26,7 @@ import { describe, expect, it } from "bun:test";
 import { existsSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
-import { igSiteData } from "../platform/index.js";
+import { igSiteData, overlayPath } from "../platform/index.js";
 
 const ROOT = resolve(import.meta.dir, "..", "..");
 
@@ -37,7 +37,10 @@ const ROOT = resolve(import.meta.dir, "..", "..");
  * banner's status class comes from here and nowhere else.
  */
 function indexStatus(instance: string): string | undefined {
-  const f = join(ROOT, instance, "fhir-artifact-index", "index.json");
+  // The index is written at publish (fhir-harness `ig-index:build`) into the
+  // layer-output overlay, not committed, so it is read where the build put it,
+  // as `igSiteData` reads it.
+  const f = overlayPath(join(ROOT, instance, "fhir-artifact-index", "index.json"));
   if (!existsSync(f)) return undefined;
   const s = (JSON.parse(readFileSync(f, "utf8")) as { status?: unknown }).status;
   return typeof s === "string" && s ? s : undefined;
@@ -140,8 +143,11 @@ describe("site.data.fhir from smart-base's committed artifact index", () => {
     expect(JSON.stringify(r.data)).not.toContain('""');
   });
 
-  it("smartBaseStatesNoStatus", () => {
-    expect(r.data.ig.status).toBeUndefined();
+  // The status is the IG's own: its artefact index carries it (from
+  // sushi-config.yaml, since fhir-harness#426), and site.data.fhir states what
+  // the index states, or nothing when it states nothing.
+  it("smartBaseStatesItsIndexStatus", () => {
+    expect(r.data.ig.status).toBe(indexStatus("smart-base"));
     expect(r.refused).toEqual([]);
   });
 });

@@ -39,7 +39,7 @@ Feature: The committed WHO IG pages and data
     Then the undetermined fields include "ig.id", "ig.name" and "ig.publisher"
     And the data contains no empty string
 
-  @test:smart-base/scripts/ig-pages-committed.test.ts::site.data.fhir_from_smart-base's_committed_artifact_index::smartBaseStatesNoStatus
+  @test:smart-base/scripts/ig-pages-committed.test.ts::site.data.fhir_from_smart-base's_committed_artifact_index::smartBaseStatesItsIndexStatus
   Scenario: states no status: smart-base's committed index records none, and the template's chrome states none
     Given site.data.fhir built from smart-base
     Then it has no IG status and nothing refused
