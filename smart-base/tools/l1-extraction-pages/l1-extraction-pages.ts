@@ -8,7 +8,7 @@ export default toolFactory((t) =>
     description:
       "For every visualiser an instance declares with `renderedBy: l1-extraction-pages`, write the hub at `<locale>/<harness>/<id>/` and, with `subgraphs: \"instance\"`, one page per instance that declares an `l1-extraction` directory. Each page shows, from what the files declare: the L1 statements (graph nodes with a `statement`, and an authored L1 source's `recommendations`); the candidate work list's counts, coverage and decisions; each graph document's nodes by type and edges by predicate (L2 scenario candidates included); counts of curation, mapping, vocabulary, exclusions and run context; and a link from every file to its published copy (cat-harness's `library:viz`), when the site has it, and to its source at the pinned commit. A declared directory not on disk is reported UNKNOWN, never zero.",
     install: { none: true },
-    invoke: { shell: "bun run smart-base/scripts/gen-l1-extraction-pages.ts" },
+    invoke: { shell: "bun run cat smart-base:l1-extraction:pages" },
     // What this Tool CAN draw. A layer declares that it DOES, in its own
     // `visualisers`, and `check:visualiser-routes` checks the kind is listed here.
     renders: ["l1-extraction"],

@@ -63,9 +63,7 @@ import {
   declaredVisualisers,
   entryGraphSitePath,
   pageParts,
-  siteArg,
   siteOwnerDir,
-  sitePageAt,
   siteRootFrom,
   visualiserPageDir,
   visualiserRoute,
@@ -73,6 +71,11 @@ import {
   resolveSource,
   type DeclaredVisualiser,
 } from "../platform/index.js";
+// `--site` is read from cat-harness-tools' one reader directly, as fhir-harness's
+// page writers do, not through `platform/index.ts`: visualiser-writers.test.ts
+// checks that every `bun run cat` writer whose Tool declares a `site` input
+// imports `lib/site-target`, and it reads this file, not the re-export.
+import { siteArg, sitePageAt } from "../../cat-harness-tools/scripts/lib/site-target.ts";
 import { firstPage, isL1Source, libraryIdOfL1, parseLocation } from "./l1-statement-lists.ts";
 
 /** The Tool that draws these pages — the `renderedBy` a harness declares. */
