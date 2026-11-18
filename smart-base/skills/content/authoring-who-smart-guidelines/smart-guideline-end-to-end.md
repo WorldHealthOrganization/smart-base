@@ -123,6 +123,69 @@ Every adjudication calls cat-harness's generic review, `Process_Review`
 change and accepts or sends back; disagreement goes to
 `Process_Adjudication`.
 
+### A Digital Transformation Handbook joins at stage 4
+
+A DTH ([`dth-authoring`](https://github.com/litlfred/smart-base/blob/main/smart-base/L2/skills/smart-l2/dth-authoring.md),
+[`dth-l1-to-l2-ingest`](https://github.com/litlfred/smart-base/blob/main/smart-base/L2/skills/smart-l2/dth-l1-to-l2-ingest.md))
+is a programme area's guideline at L1 and its DAK content at L2: personas,
+user scenarios, business processes, decision tables, data elements,
+indicators and requirements, with its glossary and ArchiMate links to
+smart-ra. Those L2 assets are this process's stage-4 output, and the DTH
+goes on through it:
+
+- **Stages 1 and 2** are the DTH's own library and L1 extraction
+  (`l1-document-ingestion`, `l1-coverage`); `dak-l1-library` adds any other
+  guideline the programme area adopts.
+- **Stage 4** is the DTH's L2 authoring. Each L2 asset is reviewed on its own
+  through `l2-component-edit-review`, by the role
+  [Per-asset review](#per-asset-review) names, not only in the handbook's
+  architect-group review.
+- **Stages 5 and 6** give the DTH its L3: the DAK content as a FHIR IG on
+  smart-base. Each persona becomes an ActorDefinition (SGActor), each
+  business process its PlanDefinition and ActivityDefinitions, each decision
+  table a PlanDefinition with its CQL Library, each data element a logical
+  model element with its ValueSets and the Questionnaire of its form, each
+  indicator a Measure, and each requirement a Requirements resource
+  (`dak-l3-ig.bpmn`). The order rule holds: no L3 asset before the L2 asset
+  it implements has its review requested.
+
+### Figures and tables become computable in steps
+
+A guideline's processes, decision logic and data often exist only as a
+figure (a flowchart, a swimlane, a schedule poster) or a table (a decision
+table, an indicator sheet, a dosing schedule). They become computable in
+steps, each kept and reviewed in turn, so every computable asset can be read
+back to the printed original:
+
+1. **Stage 2, transcribe.** The figure or table is cut from the source with
+   its page (`l1-document-ingestion`; `figure-rebuild` for a figure), and
+   transcribed into L1 verbatim: a table stays a table, cell by cell; a
+   figure's boxes, arrows and labels are listed as printed
+   (`transcription-verbatim` for a source with no text layer). The clinical
+   SME checks the transcription against the picture.
+2. **Stage 4, model.** The transcription becomes an L2 asset: a flowchart a
+   BPMN process, a decision table or algorithm a DMN table, a form or list
+   of fields data elements, an indicator sheet indicators. Each asset names
+   the transcription in `wasDerivedFrom`. Nothing the figure does not show
+   is added; a gap the model needs filled is a finding for the SME, not a
+   guess.
+3. **Stage 6, implement.** The L2 asset becomes its L3 resources as above.
+
+The review at each step is the SME's, on the rendered form: the picture
+beside the transcription, then the diagram or table beside the picture,
+then the dummy clients run through it.
+
+### The gap report: every stage says what is missing
+
+After every stage the agent writes the guideline's gap report
+([`guideline-gap-report`](guideline-gap-report.md)): which L1
+recommendations have no L2 asset, which L2 assets have no L3 asset, which
+figures and tables are not yet computable, which assets have no review
+requested, and which reviews are pending or sent back. It is a QA report,
+not a gate: it is staged with the stage's output and linked from every
+review request, so each reviewer sees where their asset sits in the chain
+and what is still missing around it.
+
 ### Staging: every review looks at a staged preview
 
 Each stage commits to the guideline's feature branch, which
@@ -148,21 +211,64 @@ reused unchanged gets none. The review item shows the asset on the staged
 preview the way its reviewer reads it, not as source. At L2 it is a run of
 [`l2-component-edit-review.bpmn`](https://github.com/litlfred/smart-base/blob/main/smart-base/L2/collab/processes/l2-component-edit-review.bpmn),
 whose [skill](https://github.com/litlfred/smart-base/blob/main/smart-base/L2/skills/smart-l2/l2-component-edit-review.md) gives each row's checker,
-renderer and reviewer:
+renderer and reviewer.
 
-| level | asset | review shows |
-|---|---|---|
-| L1 | recommendation / remark / practice | the node beside the printed sentence and page |
-| L2 | persona, user scenario | the card: role, goal, setting |
-| L2 | business process (BPMN) | the rendered diagram (`render:bpmn` / `dak-swimlanes`) |
-| L2 | decision table (DMN) | the table (`dmn2html`), with the L1 recommendation each rule cites, and its test cases |
-| L2 | core data elements | data-dictionary rows (`dak-data-dictionary`) and their term diff (`dak-data-dictionary-diff`), and the **chosen wireframe** of each form that captures them (see [Forms are designed as wireframes](#forms-are-designed-as-wireframes-at-l2)) |
-| L2 | indicators, requirements | the indicator definition / requirement list, each with the persona and process it serves |
-| L3 | Questionnaire | the L2 wireframe it was derived from, beside the Questionnaire's field ↔ item correspondence; this checks fidelity to the design, not the design again |
-| L3 | profile, logical model | the IG Publisher's differential view |
-| L3 | CQL / PlanDefinition | the logic beside the DMN rule it implements, and its test cases passing or failing |
-| L3 | terminology | the expansion, and the mapping to ICD-11 / SNOMED CT / LOINC |
-| app | screen / flow | the chosen wireframe beside the running screen, walked through the L2 scenario it serves |
+### Review by expertise: each reviewer sees what they can judge
+
+A review is put to the person whose expertise the question needs, and
+shown in the form that person reads. Most reviewers of a SMART Guideline are
+programme or clinical subject-matter experts: technical experts in their
+health programme, not software developers. They judge whether a workflow,
+a decision or a form is right for the programme. They are never asked to
+read FSH, FHIR JSON, CQL, a PlanDefinition or a Questionnaire resource, and
+a review item that shows them one is a finding against the review item, not
+against the reviewer.
+
+1. **Every review item names one question and one role.** The question is
+   the one the role can answer ("does this rule say what recommendation
+   4.2 says?"), not "review this file". An asset that needs two kinds of
+   judgement gets two review items, one per role: the clinical SME on
+   meaning, the FHIR modeller or terminologist on conformance and codes.
+2. **Subject-matter experts review behaviour, on dummy data.** Logic is
+   shown running, not as source: a handful of named, made-up clients (test
+   scenarios, DAK component 9) walked through the business process and the
+   decision tables, with each client's inputs and the outcome the logic
+   gives in plain words ("Amina, 32 weeks, Hb 9.5: refer, give iron"), and
+   the L1 recommendation each outcome rests on. The SME says whether each
+   outcome is right. A wrong one is a finding against the L2 rule or its L3
+   implementation, whichever the trace points at. The dummy clients are the
+   same ones the asset's test cases run, so the SME's verdict and the
+   automated tests check one thing.
+3. **The same walk-through is the SME's view of the L3 asset.** At L3 the
+   clinical SME re-runs the stage-4 dummy clients through the built
+   PlanDefinition / CQL, and the filled-in Questionnaire, and confirms the
+   outcomes did not change. The resource itself is the FHIR modeller's to
+   review, in the IG Publisher's views and `ig-ast-delta`.
+4. **Technical reviews are technical.** The FHIR modeller, terminologist
+   and business analyst review conformance, codes and structure in their
+   own tools. Their verdict is not a stand-in for the SME's, nor the
+   reverse.
+
+| level | asset | reviewing role | review shows | never shown to that role |
+|---|---|---|---|---|
+| L1 | recommendation / remark / practice | Clinical SME; `l1-extraction-reviewer` for coverage | the node beside the printed sentence and page | the L1 JSON |
+| L1 | figure or table made computable (see [Figures and tables](#figures-and-tables-become-computable-in-steps)) | Clinical SME | the source figure or table beside its transcription, cell by cell | the extraction's intermediate files |
+| L2 | persona, user scenario | Clinical SME | the card: role, goal, setting, and the scenario as a story | the FSH `Instance:` or ActorDefinition |
+| L2 | business process (BPMN) | Clinical SME (programme SME for programme processes) | the rendered diagram (`render:bpmn` / `dak-swimlanes`), and the dummy clients walked along it lane by lane | the `.bpmn` XML |
+| L2 | decision table (DMN) | Clinical SME | the table (`dmn2html`) with the L1 recommendation each rule cites, and the dummy clients run through it with their outcomes | FEEL or the `.dmn` XML |
+| L2 | core data elements | Clinical SME (meaning); Terminologist (codes) | data-dictionary rows (`dak-data-dictionary`) and their term diff (`dak-data-dictionary-diff`), and the **chosen wireframe** of each form that captures them (see [Forms are designed as wireframes](#forms-are-designed-as-wireframes-at-l2)), filled in with a dummy client | the logical model |
+| L2 | indicators, requirements | Business analyst + programme manager | the indicator definition / requirement list, each with the persona and process it serves; an indicator computed over the dummy clients | the Measure or Requirements resource |
+| L3 | Questionnaire | Clinical SME (the form); FHIR modeller (the resource) | SME: the form rendered and filled with the dummy clients. Modeller: the L2 wireframe beside the field ↔ item correspondence; this checks fidelity to the design, not the design again | SME: the Questionnaire JSON |
+| L3 | profile, logical model | FHIR modeller | the IG Publisher's differential view | — |
+| L3 | CQL / PlanDefinition | Clinical SME (outcomes); FHIR modeller (the logic) | SME: the stage-4 dummy clients re-run through the built logic, outcome beside outcome. Modeller: the logic beside the DMN rule it implements, and its test cases passing or failing | SME: CQL and the PlanDefinition |
+| L3 | ActorDefinition, Measure, Requirements | FHIR modeller | the resource beside the L2 persona, indicator or requirement it expresses | — |
+| L3 | terminology | Terminologist | the expansion, and the mapping to ICD-11 / SNOMED CT / LOINC | — |
+| app | screen / flow | Clinical SME + business analyst | the chosen wireframe beside the running screen, walked through the L2 scenario it serves with the dummy clients | the application's code |
+
+The dummy clients live with the DAK's test scenarios (component 9), as
+Gherkin features and their FHIR test data, so they are written once at L2,
+re-used at L3 and L4, and versioned with the assets they test. They are
+made up: no real person's data is used for a review.
 
 ### Forms are designed as wireframes at L2
 

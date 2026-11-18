@@ -72,12 +72,13 @@ rendering stops and what was refused.
 
 <!-- skills:index:begin -->
 
-_35 skills in 5 directories, generated from each skill's front matter. `bun run cat readme:sync` rewrites this list and `readme:sync:check` fails when it is stale. Skills this repository inherits are listed by the repositories that publish them._
+_36 skills in 5 directories, generated from each skill's front matter. `bun run cat readme:sync` rewrites this list and `readme:sync:check` fails when it is stale. Skills this repository inherits are listed by the repositories that publish them._
 
-**`skills/content/authoring-who-smart-guidelines/`** (6)
+**`skills/content/authoring-who-smart-guidelines/`** (7)
 
 | Skill | What it is for |
 |---|---|
+| [`guideline-gap-report`](skills/content/authoring-who-smart-guidelines/guideline-gap-report.md) | The QA report smart-guideline-end-to-end writes after every stage: where a guideline's chain from L1 recommendation to L2 asset to L3 resource is broken, which source figures and tables are not yet… |
 | [`guideline-use-case`](skills/content/authoring-who-smart-guidelines/guideline-use-case.md) | Stage 0 of smart-guideline-end-to-end: turn a request for a SMART Guideline into a use case — population, setting, jurisdiction and interventions in scope, new or an adaptation — in the requester's… |
 | [`smart-base-tools`](skills/content/authoring-who-smart-guidelines/smart-base-tools.md) | smart-base Toolchain |
 | [`smart-guideline-create`](skills/content/authoring-who-smart-guidelines/smart-guideline-create.md) | Somebody asked for a new WHO SMART Guideline (an IG built on smart-base, or a DAK that will feed one). |

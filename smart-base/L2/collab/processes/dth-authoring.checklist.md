@@ -221,7 +221,7 @@ Produces a WHO Digital Transformation Handbook (DTH) from its sources to publica
 
 ### Do all of — `GW_ReviewFork`
 
-- Work every branch; none is optional. Branches: → `Task_Validate` (Validate the draft), → `Task_ArchReview` (Architect group and handbook owners review)
+- Work every branch; none is optional. Branches: → `Task_Validate` (Validate the draft), → `Task_ArchReview` (Architect group and handbook owners review), → `Call_DakL3` (The DAK content as a FHIR IG)
 - The engine passes through this gateway itself; there is nothing to record here.
 
 ### 25. Validate the draft (`Task_Validate`)
@@ -240,12 +240,24 @@ Produces a WHO Digital Transformation Handbook (DTH) from its sources to publica
 - Record it: `workflow_complete` with `node: "Task_ArchReview"`.
 - next: → `GW_ReviewJoin`
 
+### 27. The DAK content as a FHIR IG (`Call_DakL3`)
+
+- Who: the `Business analyst` lane (role `business-analyst`).
+- Skill: `smart-guideline-end-to-end`, `guideline-gap-report`.
+- What: Stages 5 and 6 of smart-guideline-end-to-end for the handbook: its DAK-kind assets become a FHIR IG on smart-base (personas as ActorDefinitions, processes and decision tables as PlanDefinitions with CQL Libraries, data elements as logical models, ValueSets and Questionnaires, indicators as Measures,
+- A subprocess (`Process_DakL3Ig`): `workflow_next` reports its own steps; complete those — this call activity itself is not completable.
+- next: → `End_L3Built` (IG built)
+
 ### Wait for all — `GW_ReviewJoin`
 
 - Continue only when every one of the 2 incoming branches is done; the engine passes through itself.
 - next: → `M3` (Record milestone M3 · Zero draft)
 
-### 27. Record milestone M3 · Zero draft (`M3`)
+## Done — IG built (`End_L3Built`)
+
+- The instance completes here. `workflow_next` then reports nothing enabled — that, not this line, is the record of completion.
+
+### 28. Record milestone M3 · Zero draft (`M3`)
 
 - Who: the `Business analyst` lane (role `business-analyst`).
 - Skill: `todo-manager`.
@@ -253,7 +265,7 @@ Produces a WHO Digital Transformation Handbook (DTH) from its sources to publica
 - Record it: `workflow_complete` with `node: "M3"`.
 - next: → `Task_Comments` (4 · Comment via contributor log sheet or GitHub pc:)
 
-### 28. 4 · Comment via contributor log sheet or GitHub pc: (`Task_Comments`)
+### 29. 4 · Comment via contributor log sheet or GitHub pc: (`Task_Comments`)
 
 - Who: the `TWG and contributors` lane (role `feedback-provider`).
 - Skill: `content-feedback`.
@@ -261,7 +273,7 @@ Produces a WHO Digital Transformation Handbook (DTH) from its sources to publica
 - Record it: `workflow_complete` with `node: "Task_Comments"`.
 - next: → `Task_Import` (Import into review/wg-comment and form change sets)
 
-### 29. Import into review/wg-comment and form change sets (`Task_Import`)
+### 30. Import into review/wg-comment and form change sets (`Task_Import`)
 
 - Who: the `Editor` lane (role `editor`).
 - Skill: `public-comment`.
@@ -275,7 +287,7 @@ Produces a WHO Digital Transformation Handbook (DTH) from its sources to publica
   - «yes» → `M4` (Record milestone M4 · Working-group draft)
   - «no: revise» → `GW_DraftMerge`
 
-### 30. Record milestone M4 · Working-group draft (`M4`)
+### 31. Record milestone M4 · Working-group draft (`M4`)
 
 - Who: the `Editor` lane (role `editor`).
 - Skill: `todo-manager`.
@@ -283,7 +295,7 @@ Produces a WHO Digital Transformation Handbook (DTH) from its sources to publica
 - Record it: `workflow_complete` with `node: "M4"`.
 - next: → `Task_OpenPublic` (5 · Open public comment)
 
-### 31. 5 · Open public comment (`Task_OpenPublic`)
+### 32. 5 · Open public comment (`Task_OpenPublic`)
 
 - Who: the `Editor` lane (role `editor`).
 - Skill: `public-comment`.
@@ -291,7 +303,7 @@ Produces a WHO Digital Transformation Handbook (DTH) from its sources to publica
 - Record it: `workflow_complete` with `node: "Task_OpenPublic"`.
 - next: → `M5` (Record milestone M5 · Public draft released)
 
-### 32. Record milestone M5 · Public draft released (`M5`)
+### 33. Record milestone M5 · Public draft released (`M5`)
 
 - Who: the `Editor` lane (role `editor`).
 - Skill: `todo-manager`.
@@ -299,14 +311,14 @@ Produces a WHO Digital Transformation Handbook (DTH) from its sources to publica
 - Record it: `workflow_complete` with `node: "M5"`.
 - next: → `Task_PublicComments` (Public comments)
 
-### 33. Public comments (`Task_PublicComments`)
+### 34. Public comments (`Task_PublicComments`)
 
 - Who: the `TWG and contributors` lane (role `feedback-provider`).
 - Skill: `content-feedback`.
 - Record it: `workflow_complete` with `node: "Task_PublicComments"`.
 - next: → `Task_Disposition` (Disposition comments and apply change sets)
 
-### 34. Disposition comments and apply change sets (`Task_Disposition`)
+### 35. Disposition comments and apply change sets (`Task_Disposition`)
 
 - Who: the `Editor` lane (role `editor`).
 - Skill: `public-comment`.
@@ -314,7 +326,7 @@ Produces a WHO Digital Transformation Handbook (DTH) from its sources to publica
 - Record it: `workflow_complete` with `node: "Task_Disposition"`.
 - next: → `M6` (Record milestone M6 · Comments dispositioned)
 
-### 35. Record milestone M6 · Comments dispositioned (`M6`)
+### 36. Record milestone M6 · Comments dispositioned (`M6`)
 
 - Who: the `Editor` lane (role `editor`).
 - Skill: `todo-manager`.
@@ -322,7 +334,7 @@ Produces a WHO Digital Transformation Handbook (DTH) from its sources to publica
 - Record it: `workflow_complete` with `node: "M6"`.
 - next: → `Task_Qa` (6 · Editorial, voice and translation QA)
 
-### 36. 6 · Editorial, voice and translation QA (`Task_Qa`)
+### 37. 6 · Editorial, voice and translation QA (`Task_Qa`)
 
 - Who: the `Editor` lane (role `editor`).
 - Skill: `quality-control`.
@@ -330,7 +342,7 @@ Produces a WHO Digital Transformation Handbook (DTH) from its sources to publica
 - Record it: `workflow_complete` with `node: "Task_Qa"`.
 - next: → `Task_Publish` (Publish the handbook)
 
-### 37. Publish the handbook (`Task_Publish`)
+### 38. Publish the handbook (`Task_Publish`)
 
 - Who: the `Publication manager` lane (role `publication-manager`).
 - Skill: `document-publishing`.

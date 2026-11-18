@@ -29,7 +29,7 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 ### 2. 1 · Identify L1 guidelines and recommendations (`Task_IdentifyL1`)
 
 - Who: the `Authoring agent` lane (role `authoring-agent`).
-- Skill: `dak-l1-library`.
+- Skill: `dak-l1-library`, `guideline-gap-report`.
 - What: Component 1 sources of any DAK already in scope first, then WHO IRIS and the jurisdiction's own guidelines.
 - Record it: `workflow_complete` with `node: "Task_IdentifyL1"`.
 - next: → `Fork_L1`
@@ -41,7 +41,7 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 
 ### 3. Adjudicate the L1 source list (`Task_AdjL1`)
 
-- Who: the `Human adjudicators` lane (role `reviewer`).
+- Who: the `Human adjudicators` lane (role `adjudicator`).
 - Skill: `content-review`.
 - What: Clinical SME: each source with why it was included or left out.
 - A subprocess (`Process_Review`): `workflow_next` reports its own steps; complete those — this call activity itself is not completable.
@@ -60,7 +60,7 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 ### 4. 2 · Ingest into the L1 KG (`Task_IngestKg`)
 
 - Who: the `Authoring agent` lane (role `authoring-agent`).
-- Skill: `recommendation-extraction`, `dak-l1-library`.
+- Skill: `recommendation-extraction`, `dak-l1-library`, `figure-rebuild`, `transcription-verbatim`, `guideline-gap-report`.
 - What: Per source not yet extracted: cat ingest into library/, the generic-document layer (l1-library), then the L1 layer (recommendations, remarks, practices, scenario candidates) into library/<bib>/l1-extraction/.
 - Record it: `workflow_complete` with `node: "Task_IngestKg"`.
 - next: → `Fork_Kg`
@@ -78,14 +78,14 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 ### 5. 3 · Choose L2 dependencies (WHO / jurisdiction DAKs) (`Task_DepsL2`)
 
 - Who: the `Authoring agent` lane (role `authoring-agent`).
-- Skill: `l2-dependency-choice`, `smart-base-tools`, `decision-comparison`.
+- Skill: `l2-dependency-choice`, `smart-base-tools`, `decision-comparison`, `guideline-gap-report`.
 - What: From the L1 KG: which existing DAKs to reuse, adapt, extend or reject, each with evidence and reason.
 - Record it: `workflow_complete` with `node: "Task_DepsL2"`.
 - next: → `Fork_DepsL2`
 
 ### 6. Adjudicate the L1 KG (`Task_AdjKg`)
 
-- Who: the `Human adjudicators` lane (role `reviewer`).
+- Who: the `Human adjudicators` lane (role `adjudicator`).
 - Skill: `content-review`, `recommendation-extraction`.
 - What: l1-extraction-reviewer signs exclusions and coverage; Clinical SME reviews recommendations beside the printed page.
 - A subprocess (`Process_Review`): `workflow_next` reports its own steps; complete those — this call activity itself is not completable.
@@ -102,7 +102,7 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 
 ### 7. Adjudicate L2 dependencies (`Task_AdjDepsL2`)
 
-- Who: the `Human adjudicators` lane (role `reviewer`).
+- Who: the `Human adjudicators` lane (role `adjudicator`).
 - Skill: `content-review`, `decision-audit`.
 - What: Programme manager and business analyst: one row per candidate DAK, rejected ones included.
 - A subprocess (`Process_Review`): `workflow_next` reports its own steps; complete those — this call activity itself is not completable.
@@ -111,7 +111,7 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 ### 8. 4 · Create / adapt L2 DAK assets (`Task_L2`)
 
 - Who: the `Authoring agent` lane (role `authoring-agent`).
-- Skill: `l2-dak-authoring`, `smart-base-tools`, `dak-preprocessing`, `dak-postprocessing`, `wireframe-design-review`, `feature-staging`.
+- Skill: `l2-dak-authoring`, `smart-base-tools`, `dak-preprocessing`, `dak-postprocessing`, `wireframe-design-review`, `feature-staging`, `guideline-gap-report`.
 - What: The authoring steps of l2-dak-authoring.bpmn (personas and scenarios, BPMN, DMN, data dictionary, indicators and requirements, terminology), plus the design of each data-entry form as wireframe candidates (wireframe-design-review, design use) from the persona, the user scenario and the core data ele
 - Record it: `workflow_complete` with `node: "Task_L2"`.
 - next: → `Fork_L2`
@@ -127,7 +127,7 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 
 ### 9. Review each L2 asset (before / after if adapted) (`Task_AdjL2`)
 
-- Who: the `Human adjudicators` lane (role `reviewer`).
+- Who: the `Human adjudicators` lane (role `adjudicator`).
 - Skill: `content-review`, `staging-review`, `visual-diff`, `wireframe-design-review`.
 - What: One review item per created or changed asset, shown as its reviewer reads it (diagram, table, data-dictionary rows); an adapted asset as a diff against its pinned upstream.
 - A subprocess (`Process_Review`): `workflow_next` reports its own steps; complete those — this call activity itself is not completable.
@@ -136,7 +136,7 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 ### 10. 5 · Choose L3 dependencies (WHO / jurisdiction IGs) (`Task_DepsL3`)
 
 - Who: the `Authoring agent` lane (role `authoring-agent`).
-- Skill: `l3-dependency-choice`, `ig-artifact-ingestion`, `smart-base-tools`, `decision-comparison`.
+- Skill: `l3-dependency-choice`, `ig-artifact-ingestion`, `smart-base-tools`, `decision-comparison`, `guideline-gap-report`.
 - What: Index each candidate IG, then match the L1 KG and the L2 assets against it: reuse, adapt, extend or reject per IG, and record per artefact type the candidate's toolchain (CQL refresh, test-case format, example generator), which stage 6 then uses.
 - Record it: `workflow_complete` with `node: "Task_DepsL3"`.
 - next: → `Fork_DepsL3`
@@ -152,7 +152,7 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 
 ### 11. Adjudicate L3 dependencies (`Task_AdjDepsL3`)
 
-- Who: the `Human adjudicators` lane (role `reviewer`).
+- Who: the `Human adjudicators` lane (role `adjudicator`).
 - Skill: `content-review`, `decision-audit`.
 - What: FHIR modeller and terminologist: one row per candidate IG, rejected ones included.
 - A subprocess (`Process_Review`): `workflow_next` reports its own steps; complete those — this call activity itself is not completable.
@@ -180,7 +180,7 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 ### 13. 6 · Produce L3 assets (`Task_L3`)
 
 - Who: the `Authoring agent` lane (role `authoring-agent`).
-- Skill: `l3-fhir-authoring`, `l2-dak-authoring`, `smart-base-tools`, `feature-staging`.
+- Skill: `l3-fhir-authoring`, `l2-dak-authoring`, `smart-base-tools`, `feature-staging`, `guideline-gap-report`.
 - What: The mapping and pipeline of dak-l3-ig.bpmn, up to a clean IG build.
 - Record it: `workflow_complete` with `node: "Task_L3"`.
 - next: → `Fork_L3`
@@ -192,7 +192,7 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 
 ### 14. Review each L3 asset (before / after if adapted) (`Task_AdjL3`)
 
-- Who: the `Human adjudicators` lane (role `reviewer`).
+- Who: the `Human adjudicators` lane (role `adjudicator`).
 - Skill: `content-review`, `staging-review`, `ig-ast-delta`, `wireframe-design-review`, `fhir-questionnaire-wireframe`.
 - What: One review item per created or changed resource: differential, each Questionnaire against the L2 wireframe it was derived from (field to item: fhir-harness fhir-questionnaire-wireframe, whose check is check-wireframe-questionnaire), CQL beside its DMN rule with test results, terminology expansions.
 - A subprocess (`Process_Review`): `workflow_next` reports its own steps; complete those — this call activity itself is not completable.
@@ -221,7 +221,7 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 ### 17. 8b · L4: build the consuming application (`Task_BuildApp`)
 
 - Who: the `Authoring agent` lane (role `authoring-agent`).
-- Skill: `l4-application-build`.
+- Skill: `l4-application-build`, `guideline-gap-report`.
 - What: Against the stage-6 IG build, with conformance tests from the IG's examples and test cases.
 - Record it: `workflow_complete` with `node: "Task_BuildApp"`.
 - next: → `Fork_App`
@@ -233,7 +233,7 @@ From a use case to a consuming application: identify the L1 guidelines, ingest t
 
 ### 18. Adjudicate the L4 wireframes and application (`Task_AdjApp`)
 
-- Who: the `Human adjudicators` lane (role `reviewer`).
+- Who: the `Human adjudicators` lane (role `adjudicator`).
 - Skill: `content-review`, `staging-review`, `wireframe-design-review`.
 - What: Business analyst and clinical SME walk it through each L2 user scenario; FHIR modeller checks L3 conformance.
 - A subprocess (`Process_Review`): `workflow_next` reports its own steps; complete those — this call activity itself is not completable.

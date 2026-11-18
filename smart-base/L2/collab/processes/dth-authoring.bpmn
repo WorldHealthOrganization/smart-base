@@ -68,6 +68,8 @@ Empirical content (figures, statistics, country examples) stays as cited narrati
         <bpmn:flowNodeRef>Task_Scaffold</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_Outline</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Call_PublishStatements</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Call_DakL3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_L3Built</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_Intro</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_Inventory</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>GW_DraftMerge</bpmn:flowNodeRef>
@@ -357,6 +359,7 @@ Empirical content (figures, statistics, country examples) stays as cited narrati
       <bpmn:incoming>F34</bpmn:incoming>
       <bpmn:outgoing>F35</bpmn:outgoing>
       <bpmn:outgoing>F36</bpmn:outgoing>
+      <bpmn:outgoing>F_L3a</bpmn:outgoing>
     </bpmn:parallelGateway>
     <bpmn:task id="Task_Validate" name="Validate the draft&#10;[content-validate]">
       <bpmn:documentation>Every structured block validates against its kind; required dth sections present; no unlinked architecture names; no empirical claims in formal content.</bpmn:documentation>
@@ -374,6 +377,18 @@ Empirical content (figures, statistics, country examples) stays as cited narrati
       <bpmn:incoming>F36</bpmn:incoming>
       <bpmn:outgoing>F38</bpmn:outgoing>
     </bpmn:userTask>
+    <bpmn:callActivity id="Call_DakL3" name="The DAK content as a FHIR IG&#10;[dak-l3-ig]" calledElement="Process_DakL3Ig">
+      <bpmn:documentation>Stages 5 and 6 of smart-guideline-end-to-end for the handbook: its DAK-kind assets become a FHIR IG on smart-base (personas as ActorDefinitions, processes and decision tables as PlanDefinitions with CQL Libraries, data elements as logical models, ValueSets and Questionnaires, indicators as Measures, requirements as Requirements). An asset goes to L3 once its L2 review is requested; its SME review at L3 re-runs the L2 dummy clients through the built logic. Runs beside the drafting reviews and never holds the zero draft. Calls Process_DakL3Ig; the agent writes the gap report (guideline-gap-report) after it.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <bootstrap.processes:skill ref="smart-guideline-end-to-end" />
+        <bootstrap.processes:skill ref="guideline-gap-report" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>F_L3a</bpmn:incoming>
+      <bpmn:outgoing>F_L3b</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="End_L3Built" name="IG built">
+      <bpmn:incoming>F_L3b</bpmn:incoming>
+    </bpmn:endEvent>
     <bpmn:parallelGateway id="GW_ReviewJoin">
       <bpmn:incoming>F37</bpmn:incoming>
       <bpmn:incoming>F38</bpmn:incoming>
@@ -514,6 +529,8 @@ Empirical content (figures, statistics, country examples) stays as cited narrati
     <bpmn:sequenceFlow id="F34" sourceRef="GW_DraftJoin" targetRef="GW_ReviewFork" />
     <bpmn:sequenceFlow id="F35" sourceRef="GW_ReviewFork" targetRef="Task_Validate" />
     <bpmn:sequenceFlow id="F36" sourceRef="GW_ReviewFork" targetRef="Task_ArchReview" />
+    <bpmn:sequenceFlow id="F_L3a" sourceRef="GW_ReviewFork" targetRef="Call_DakL3" />
+    <bpmn:sequenceFlow id="F_L3b" sourceRef="Call_DakL3" targetRef="End_L3Built" />
     <bpmn:sequenceFlow id="F37" sourceRef="Task_Validate" targetRef="GW_ReviewJoin" />
     <bpmn:sequenceFlow id="F38" sourceRef="Task_ArchReview" targetRef="GW_ReviewJoin" />
     <bpmn:sequenceFlow id="F39" sourceRef="GW_ReviewJoin" targetRef="M3" />
@@ -708,6 +725,25 @@ Empirical content (figures, statistics, country examples) stays as cited narrati
           <dc:Bounds x="6607" y="1778.5" width="106" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Call_DakL3_di" bpmnElement="Call_DakL3">
+        <dc:Bounds x="3975" y="560" width="170" height="91" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_L3Built_di" bpmnElement="End_L3Built">
+        <dc:Bounds x="4042" y="690" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4084" y="701" width="60" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="F_L3a_di" bpmnElement="F_L3a">
+        <di:waypoint x="3925" y="765" />
+        <di:waypoint x="3950" y="765" />
+        <di:waypoint x="3950" y="605.5" />
+        <di:waypoint x="3975" y="605.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_L3b_di" bpmnElement="F_L3b">
+        <di:waypoint x="4060" y="651" />
+        <di:waypoint x="4060" y="690" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F01_di" bpmnElement="F01">
         <di:waypoint x="198" y="80" />
         <di:waypoint x="226.5" y="80" />

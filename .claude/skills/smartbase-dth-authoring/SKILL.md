@@ -71,6 +71,33 @@ document kind admits these blocks. Planning kinds that are not DAK kinds
 analysis, form inventory) have no schema until the architect group and the
 handbook owners have reviewed them.
 
+## Each DAK-kind asset is reviewed on its own, by its expert
+
+The architect group and handbook owners review the handbook as a document.
+Each DAK-kind asset it carries (persona, user scenario, business process,
+decision table, data element, requirement, indicator, glossary term,
+ArchiMate link) is also reviewed on its own, through
+[`l2-component-edit-review`](l2-component-edit-review.md), by the role that
+skill names for its kind. Programme and clinical subject-matter experts
+review processes and decision tables as rendered diagrams and tables with
+made-up clients walked through them, never as `.bpmn`, `.dmn` or FHIR
+([`smart-guideline-end-to-end`](../../../skills/content/authoring-who-smart-guidelines/smart-guideline-end-to-end.md)
+§*Review by expertise*). After each track the agent writes the handbook's
+gap report ([`guideline-gap-report`](../../../skills/content/authoring-who-smart-guidelines/guideline-gap-report.md)).
+
+## From L2 to L3: the handbook's DAK content as a FHIR IG
+
+A DTH's DAK-kind assets are its L2. They go on to L3 through stages 5 and 6
+of [`smart-guideline-end-to-end`](../../../skills/content/authoring-who-smart-guidelines/smart-guideline-end-to-end.md)
+(§*A Digital Transformation Handbook joins at stage 4*): the same content as
+a FHIR IG on smart-base, with personas as ActorDefinitions (SGActor),
+business processes as PlanDefinitions and ActivityDefinitions, decision
+tables as PlanDefinitions with their CQL Libraries, data elements as logical
+models, ValueSets and Questionnaires, indicators as Measures and
+requirements as Requirements resources, built in `dak-l3-ig.bpmn`. L3 starts
+for an asset only once its L2 review has been requested, and does not wait
+for publication of the handbook (stage 6).
+
 ## Terms
 
 - Terms come from the source's own glossary first. See folio-assistant-core's

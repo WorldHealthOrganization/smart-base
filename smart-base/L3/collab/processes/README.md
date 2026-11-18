@@ -13,7 +13,7 @@ Part of [SMART Base](../../../README.md) 0.1.0, declared as `l3-collab-processes
 
 | file | what it is | used by |
 |---|---|---|
-| [`dak-l3-ig.bpmn`](dak-l3-ig.bpmn) | a [Process](https://litlfred.github.io/bootstrap/schemas/#process): L2 DAK to L3 FHIR IG |  |
+| [`dak-l3-ig.bpmn`](dak-l3-ig.bpmn) | a [Process](https://litlfred.github.io/bootstrap/schemas/#process): L2 DAK to L3 FHIR IG | "DTH authoring" |
 | [`dak-l3-ig.checklist.md`](dak-l3-ig.checklist.md) | Checklist — L2 DAK to L3 FHIR IG |  |
 | [`dak-l3-ig.svg`](dak-l3-ig.svg) | the picture of `dak-l3-ig.bpmn`, generated from it |  |
 
