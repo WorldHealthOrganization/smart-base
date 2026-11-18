@@ -96,9 +96,9 @@ A–F, after dropping page numbers that the naive parse took for item numbers:
 | E | 6–8 | 6 | 6 |
 | F | 9 | 10 | 9 |
 
-G, H and I have annotations but no BPMN in `smart-dak-immz`. litlfred's
-`smart-immunizations` has them, with ids in the form `IMMZ.G.1`, so the dot
-convention differs between the two repositories.
+G, H and I have annotations but no BPMN in `smart-dak-immz`. The downstream
+immunization DAK repository has them, with ids in the form `IMMZ.G.1`, so the
+dot convention differs between the two repositories.
 
 **Not attached anywhere: 0 tasks out of 283 carry their annotation.** The join
 key is recoverable for about 90% of them. The naive parse also shows the
