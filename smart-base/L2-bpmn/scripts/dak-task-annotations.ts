@@ -46,6 +46,11 @@
  *     --document 9789240099456-eng --l1 who-iris/library/9789240099456-eng/sections/<sec>.md \
  *     --bpmn <dir-or-file>... [--xlsx <workbook>...] [--write | --check]
  *
+ * `--ig-page <page.md>` reads the annotations an IG page writes as an HTML list
+ * (`#### Process A: …`, then an `<ol>` of steps with `<ul>` notes) in place of,
+ * or beside, the L1 text. Such a list prints no step numbers, so its items are
+ * matched to tasks by name only.
+ *
  *   bun run smart-base/L2-bpmn/scripts/dak-task-annotations.ts --report <dir-or-file>... \
  *     [--prefix IMMZ --xlsx <workbook>...]
  *
@@ -84,13 +89,21 @@ export interface AnnotationBlock {
   letter: string;
   heading: string;
   items: AnnotationItem[];
+  /**
+   * False when the source prints no step numbers (an IG page's HTML list): an item's position
+   * is then not its step, so it is matched by name only (CHUD's list skips step 7).
+   */
+  numbered?: boolean;
 }
 
 /** The DAK documents' side-tab labels, printed down every page's edge. */
 const TAB_LABELS = new Set(["personas", "indicators", "workflows", "data", "decisions", "scenarios", "requirements", "recommendations", "components"]);
-const HEADING = /^([A-Z])\.\s+(.+?)\s+BUSINESS PROCESS NOTES AND ANNOTATIONS\s*$/;
+/** The block heading; IMMZ prints the process letter (`B. PLAN SERVICE DELIVERY …`), TB does not (`REGISTRATION …`). */
+const HEADING = /^(?:([A-Z])\.\s+)?(.+?)\s+BUSINESS PROCESS NOTES AND ANNOTATIONS\s*$/;
 /** Where an annotations block ends: the next block, a figure, a table, the next process's objective. */
 const BLOCK_END = /^(?:Fig\.\s*\d|Table\s+\d|Objective:|[A-Z]\.\s+Business process for\b)|NOTES AND ANNOTATIONS\s*$/;
+/** A numbered heading with sub-levels and no trailing dot: an IMMZ sub-step (`2.1 Gather…`) or a document section (`5.1 Simplified list…`). */
+const DOTTED_HEADING = /^(\d+)(?:\.\d+)+\s+[A-Z]/;
 const ITEM_ALONE = /^(\d+(?:\.\d+)*)\.?$/;
 const ITEM_INLINE = /^(\d+(?:\.\d+)*)\.\s+(\S.*)$/;
 
@@ -122,18 +135,50 @@ export function cleanLines(text: string): string[] {
 export function parseAnnotationBlocks(text: string): AnnotationBlock[] {
   const lines = cleanLines(text);
   const blocks: AnnotationBlock[] = [];
+  let ordinal = 0;
+  let lastEnd = -1;
   for (let i = 0; i < lines.length; i++) {
     const h = HEADING.exec(lines[i]!);
     if (!h) continue;
-    const block: AnnotationBlock = { letter: h[1]!, heading: lines[i]!, items: [] };
+    // A heading without a letter takes the next one in document order: the TB DAK's blocks run
+    // A. Registration to G. Aggregate reporting, as its BPMN files do (a-registration … g-…).
+    const letter = h[1] ?? String.fromCharCode(65 + ordinal);
+    ordinal++;
+    const block: AnnotationBlock = { letter, heading: lines[i]!, items: [] };
+    // Where the heading sits in the right-hand column, item 1 is printed just before it. It
+    // starts the block only if a » bullet follows it before the heading: a figure's box labels,
+    // which also precede a heading, carry no bullets.
+    let start = i + 1;
+    for (let k = i - 1; k > lastEnd && k >= i - 40 && !BLOCK_END.test(lines[k]!); k--) {
+      const m = ITEM_ALONE.exec(lines[k]!) ?? ITEM_INLINE.exec(lines[k]!);
+      if (m?.[1] === "1" && lines.slice(k + 1, i).some((l) => l.startsWith("»"))) {
+        start = k;
+        break;
+      }
+    }
     let cur: AnnotationItem | undefined;
     let mode: "name" | "bullet" = "name";
-    let j = i + 1;
-    for (; j < lines.length && !BLOCK_END.test(lines[j]!); j++) {
+    let j = start;
+    for (; j < lines.length && (j === i || !BLOCK_END.test(lines[j]!)); j++) {
+      if (j === i) continue;
       const l = lines[j]!;
       const alone = ITEM_ALONE.exec(l);
       const inline = alone ? null : ITEM_INLINE.exec(l);
       const no = alone?.[1] ?? inline?.[1];
+      // A number that goes BACK (or repeats) at the top level starts another list: the next
+      // figure's box labels ("9. Is referral needed?" after item 9 of the TB screening block).
+      // ...unless it repeats an item that has nothing yet: "10." then "10. Receive the client" is
+      // one item whose number the layout printed twice.
+      if (no && cur && no === cur.item && !cur.name && !cur.bullets.length) {
+        cur.name = inline ? inline[2]!.split("»")[0]!.trim() : "";
+        continue;
+      }
+      if (no && cur && !followsInSequence(cur.item, no) && !no.includes(".") && Number(no) <= Number(cur.item.split(".")[0])) break;
+      // A dotted heading whose first number goes back below the current item is the document's
+      // next section (`5.1 Simplified list…` after item 11); one under the current item (`2.1 …`
+      // under item 2) is a sub-step and stays in the item's text.
+      const dotted = DOTTED_HEADING.exec(l);
+      if (dotted && cur && Number(dotted[1]) < Number(cur.item.split(".")[0])) break;
       if (no && followsInSequence(cur?.item, no)) {
         cur = { item: no, name: inline ? inline[2]!.split("»")[0]!.trim() : "", bullets: [] };
         block.items.push(cur);
@@ -155,6 +200,58 @@ export function parseAnnotationBlocks(text: string): AnnotationBlock[] {
     }
     blocks.push(block);
     i = j - 1;
+    lastEnd = i;
+  }
+  return blocks;
+}
+
+/**
+ * HTML as plain text: tags dropped from the raw HTML until none is left (so a nested
+ * `<scr<script>ipt>` cannot reassemble one), then entities decoded (so escaped text such as
+ * `a &lt; b` keeps its words), then any angle bracket left removed. The result is JSON text,
+ * never rendered, and holds no markup.
+ */
+export const htmlText = (s: string): string => {
+  let t = s.replace(/<br\s*\/?>/gi, " ");
+  for (let prev = ""; prev !== t; ) {
+    prev = t;
+    t = t.replace(/<[^<>]*>/g, "");
+  }
+  return decodeXml(t.replace(/&nbsp;/g, " ")).replace(/[<>]/g, "").replace(/\s+/g, " ").trim();
+};
+
+/**
+ * The annotations an IG page writes as HTML (smart-dak-chud's `business-processes.md`): under
+ * `#### Process A: <title>`, after `Business process notes and annotations`, an `<ol>` whose
+ * items are the steps (the text before the item's `<ul>`) and whose `<ul>` items are the notes.
+ * The list prints no step numbers, so the blocks are `numbered: false`.
+ */
+export function parseIgPageAnnotations(md: string): AnnotationBlock[] {
+  const blocks: AnnotationBlock[] = [];
+  for (const sec of md.split(/^#{2,6}\s+/m).slice(1)) {
+    const head = /^Process\s+([A-Z])\s*[:.]\s*(.+)$/m.exec(sec.split("\n")[0] ?? "");
+    const at = sec.search(/notes and annotations/i);
+    if (!head || at < 0) continue;
+    const list = /<ol\b[^>]*>([\s\S]*)<\/ol>/i.exec(sec.slice(at))?.[1] ?? "";
+    const items: AnnotationItem[] = [];
+    // Top-level <li> of the <ol>: split at depth 0, so a nested list stays inside its item.
+    let depth = 0;
+    let start = -1;
+    for (const m of list.matchAll(/<(\/?)(li|ul|ol)\b[^>]*>/gi)) {
+      const closing = m[1] === "/";
+      const tag = m[2]!.toLowerCase();
+      if (tag === "li" && !closing && depth === 0) start = m.index! + m[0].length;
+      if (tag === "li" && closing && depth === 0 && start >= 0) {
+        const li = list.slice(start, m.index);
+        const cut = li.search(/<ul\b/i);
+        const name = htmlText(cut >= 0 ? li.slice(0, cut) : li);
+        const bullets = [...(cut >= 0 ? li.slice(cut) : "").matchAll(/<li\b[^>]*>([\s\S]*?)(?=<li\b|<\/ul>|$)/gi)].map((b) => htmlText(b[1]!)).filter(Boolean);
+        if (name) items.push({ item: String(items.length + 1), name, bullets });
+        start = -1;
+      }
+      if (tag !== "li") depth += closing ? -1 : 1;
+    }
+    blocks.push({ letter: head[1]!, heading: `Process ${head[1]}: ${head[2]!.trim()} — business process notes and annotations`, items, numbered: false });
   }
   return blocks;
 }
@@ -172,7 +269,7 @@ export interface BpmnNode {
   calledDecisions: string[];
 }
 
-const NODE_KINDS = "task|userTask|serviceTask|businessRuleTask|manualTask|scriptTask|sendTask|receiveTask|callActivity|subProcess|exclusiveGateway|inclusiveGateway|parallelGateway|eventBasedGateway";
+const NODE_KINDS = "task|userTask|serviceTask|businessRuleTask|manualTask|scriptTask|sendTask|receiveTask|callActivity|subProcess|adHocSubProcess|transaction|exclusiveGateway|inclusiveGateway|parallelGateway|eventBasedGateway";
 /** XML attribute text decoded once: `&amp;` last, so `&amp;lt;` stays the literal text `&lt;`. */
 export const decodeXml = (s: string) =>
   s
@@ -211,7 +308,7 @@ export function readBpmnNodes(xml: string): BpmnNode[] {
     for (const [, id] of body!.matchAll(/\sid="([^"]+)"/g)) poolOf.set(id!, pool);
   }
   const parentOf = new Map<string, string>();
-  for (const [block, subTag] of xml.matchAll(/<(?:bpmn2?:)?subProcess\b([^>]*)>[\s\S]*?<\/(?:bpmn2?:)?subProcess>/g)) {
+  for (const [block, , subTag] of xml.matchAll(/<(?:bpmn2?:)?(subProcess|adHocSubProcess|transaction)\b([^>]*)>[\s\S]*?<\/(?:bpmn2?:)?\1>/g)) {
     const sub = attrOf(subTag!, "id");
     for (const [, id] of block.matchAll(/\sid="([^"]+)"/g)) if (sub && id !== sub && !parentOf.has(id!)) parentOf.set(id!, sub);
   }
@@ -338,7 +435,7 @@ export interface MatchInput {
   previous?: DakTaskAnnotations;
 }
 
-const ANNOTATABLE = /Task$|^task$|^callActivity$|^subProcess$|Gateway$/;
+const ANNOTATABLE = /Task$|^task$|^callActivity$|[sS]ubProcess$|^transaction$|Gateway$/;
 
 /** Match one BPMN file's nodes to its process's annotation block; null when no block is for it. */
 export function matchAnnotations(input: MatchInput): DakTaskAnnotations | null {
@@ -364,28 +461,45 @@ export function matchAnnotations(input: MatchInput): DakTaskAnnotations | null {
   const tasks: TaskAnnotation[] = [];
   const unmatched: DakTaskAnnotations["unmatched"] = [];
   const used = new Set<string>();
+  const numbered = block.numbered !== false;
   for (const item of block.items) {
-    const code = `${prefix}.${letter}${item.item}`;
     const kept = adjudicated.get(item.item);
     let node: BpmnNode | undefined;
     let how: MatchMethod | undefined;
+    const printed = `${prefix}.${letter}${item.item}`;
     if (kept) {
       node = nodes.find((n) => n.id === kept.bpmnTask);
       how = "adjudicated";
     }
-    if (!node && byCode.has(code)) [node, how] = [byCode.get(code), "id"];
-    if (!node && byStep.has(item.item)) [node, how] = [byStep.get(item.item), "step-number"];
+    if (!node && numbered && byCode.has(printed)) [node, how] = [byCode.get(printed), "id"];
+    if (!node && numbered && byStep.has(item.item)) [node, how] = [byStep.get(item.item), "step-number"];
     if (!node && byName.get(norm(item.name))) [node, how] = [byName.get(norm(item.name))!, "name"];
     if (!node || used.has(node.id)) {
-      unmatched.push({ item: item.item, name: item.name, reason: node ? `BPMN node ${node.id} is already annotated by another item` : `no BPMN node has id ${code}, label step ${item.item}, or this name` });
+      unmatched.push({
+        item: item.item,
+        name: item.name,
+        reason: node
+          ? `BPMN node ${node.id} is already annotated by another item`
+          : numbered
+            ? `no BPMN node has id ${printed}, label step ${item.item}, or this name`
+            : "the list prints no step numbers, and no BPMN node has this name",
+      });
       continue;
     }
     used.add(node.id);
+    // For a numbered source the activity id is the printed step; otherwise it is the matched
+    // node's: its id when that is an activity id, else its label's step number.
+    const nodeStep = stepNumber(node.name);
+    const code = numbered
+      ? printed
+      : (activityCode(node.id, prefix) ?? (nodeStep ? `${prefix}.${letter}${nodeStep}` : `${prefix}.${letter}:${node.id}`));
     const sorted = (s?: Set<string>) => [...(s ?? [])].sort();
     tasks.push({
       bpmnTask: node.id,
       activityId: code,
-      name: item.name,
+      // An item printed as its number then straight into bullets has no name of its own: use the
+      // task's label, without its step number.
+      name: item.name || node.name.replace(/^\s*\d+(?:\.\d+)*\.?\s*/, "") || code,
       description: item.bullets.map((b) => `- ${b}`).join("\n"),
       personas: node.lane ? [node.lane] : [],
       dataElements: sorted(links.dataElements.get(code)),
@@ -398,7 +512,7 @@ export function matchAnnotations(input: MatchInput): DakTaskAnnotations | null {
   // A task inside an annotated sub-process is described by the sub-process's item (IMMZ.D2 holds
   // one business-rule task per vaccine), so it is not a gap.
   const covered = (n: BpmnNode): boolean => used.has(n.id) || (!!n.parent && covered(nodes.find((p) => p.id === n.parent) ?? { ...n, parent: undefined, id: "" }));
-  const unannotated = nodes.filter((n) => /Task$|^task$|^callActivity$|^subProcess$/.test(n.kind) && !covered(n)).map((n) => n.id).sort();
+  const unannotated = nodes.filter((n) => /Task$|^task$|^callActivity$|[sS]ubProcess$|^transaction$/.test(n.kind) && !covered(n)).map((n) => n.id).sort();
   return DakTaskAnnotationsSchema.parse({
     $schema: DAK_TASK_ANNOTATIONS_SCHEMA,
     bpmn: basename(bpmnPath),
@@ -483,16 +597,20 @@ export function main(argv: string[]): number {
   const prefix = argsOf(argv, "--prefix")[0];
   const document = argsOf(argv, "--document")[0];
   const l1 = argsOf(argv, "--l1");
+  const igPages = argsOf(argv, "--ig-page");
   const bpmn = argsOf(argv, "--bpmn").flatMap(bpmnFiles);
   if (prefix && !PREFIX.test(prefix)) {
     console.error(`--prefix ${JSON.stringify(prefix)} is not a DAK id prefix: capitals, digits and dots only (IMMZ, TB, CHUD)`);
     return 2;
   }
-  if (!prefix || !document || !l1.length || !bpmn.length) {
-    console.error("usage: dak-task-annotations.ts --prefix <IMMZ> --document <l1-id> --l1 <section.md>... --bpmn <dir|file>... [--xlsx <workbook>...] [--write | --check]");
+  if (!prefix || !document || !(l1.length || igPages.length) || !bpmn.length) {
+    console.error("usage: dak-task-annotations.ts --prefix <IMMZ> --document <id> (--l1 <section.md> | --ig-page <page.md>)... --bpmn <dir|file>... [--xlsx <workbook>...] [--write | --check]");
     return 2;
   }
-  const blocks = l1.flatMap((f) => parseAnnotationBlocks(readFileSync(f, "utf8")));
+  const blocks = [
+    ...l1.flatMap((f) => parseAnnotationBlocks(readFileSync(f, "utf8"))),
+    ...igPages.flatMap((f) => parseIgPageAnnotations(readFileSync(f, "utf8"))),
+  ];
   const links = emptyLinks();
   for (const x of argsOf(argv, "--xlsx")) readActivityLinks(readWorkbook(readFileSync(x)), prefix, links);
   const write = argv.includes("--write");

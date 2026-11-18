@@ -260,6 +260,16 @@ export const L2_BPMN: LayerSpec = {
     },
     {
       "predicate": "messageTo",
+      "source": "bpmn-participant",
+      "target": "bpmn-task"
+    },
+    {
+      "predicate": "messageTo",
+      "source": "bpmn-task",
+      "target": "bpmn-participant"
+    },
+    {
+      "predicate": "messageTo",
       "source": "bpmn-task",
       "target": "bpmn-event"
     },

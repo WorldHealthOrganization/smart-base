@@ -46,7 +46,7 @@ test("smartKgCountsCarriedOver", () => {
   // WHO smart-kg 3f5e477: classes/predicates/edges per layer, plus what this migration adds to L2.
   const n = (k: string) => [LAYERS[k]!.classes.length, LAYERS[k]!.predicates.length, LAYERS[k]!.edges.length];
   assert.deepEqual(n("l2"), [14, 12 + 1 + 3, 44 + 3 + 3], "L2 3.0, plus verifiedBy and 3 requirement edges from litlfred/smart-kg main, plus the 3 task-annotation links (usesDataElement, specifiedBy, invokesDecision)");
-  assert.deepEqual(n("l2-bpmn"), [6, 3, 20 + 4], "plus dak-task describes bpmn-gateway, dak-task performedBy persona, and a sub-process containing gateways and events");
+  assert.deepEqual(n("l2-bpmn"), [6, 3, 20 + 4 + 2], "plus dak-task describes bpmn-gateway, dak-task performedBy persona, a sub-process containing gateways and events, and message flows between a pool and a task");
   assert.deepEqual(n("l2-dmn"), [6, 3, 10]);
   assert.deepEqual(n("l3"), [14, 3, 39]);
 });

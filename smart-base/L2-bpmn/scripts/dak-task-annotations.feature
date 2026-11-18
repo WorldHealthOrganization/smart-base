@@ -22,6 +22,37 @@ Feature: dak-task-annotations puts a DAK's BPMN task annotations in the knowledg
     And an out-of-sequence number stays in the bullet text it belongs to
     And an item written on one line with an inline » keeps its name and bullet apart
 
+  @test:smart-base/L2-bpmn/scripts/dak-task-annotations.test.ts::dak-task-annotations_reading_a_TB-style_layout::lettersHeadingsInOrderAndStartsAtAnItem1PrintedBeforeTheHeading
+  Scenario: a heading without a process letter takes the next letter, and an item 1 printed before it starts the block
+    Given the TB DAK's layout, where the heading sits in the right-hand column and carries no letter
+    When the blocks are parsed
+    Then they are lettered A and B in document order
+    And the item 1 printed just before the first heading, followed by its bullets, starts block A
+
+  @test:smart-base/L2-bpmn/scripts/dak-task-annotations.test.ts::dak-task-annotations_reading_a_TB-style_layout::readsANumberPrintedTwiceAsOneItem_andEndsWhereTheNumberingGoesBack
+  Scenario: a number printed twice is one item, and a block ends where the numbering goes back
+    Then "2." followed by "2. Client arrives at facility" is the one item 2
+    And "2. Assess medical history" after item 3, the next figure's box label, ends the block
+    And "2.1 …" under item 2 stays in its text, while "1.2 …" going back below item 2 ends the block
+
+  @test:smart-base/L2-bpmn/scripts/dak-task-annotations.test.ts::dak-task-annotations_reading_an_IG_page's_HTML_list::readsStepsAndNotesFromTheHtmlList_unnumbered
+  Scenario: an IG page's HTML list of annotations is read, step by step, as an unnumbered block
+    Given an IG page with "#### Process A: …" and an ordered list of steps, each with a list of notes
+    When the page is read
+    Then each top-level item is a step named by its text, with its notes as bullets, tags dropped and entities decoded
+    And the blocks are marked unnumbered
+
+  @test:smart-base/L2-bpmn/scripts/dak-task-annotations.test.ts::dak-task-annotations_reading_an_IG_page's_HTML_list::leavesNoMarkupInHtmlText
+  Scenario: text read from HTML holds no markup
+    Then a nested "<scr<script>ipt>" leaves no tag behind
+    And escaped text keeps its words, and the angle brackets it decodes to are removed
+
+  @test:smart-base/L2-bpmn/scripts/dak-task-annotations.test.ts::dak-task-annotations_reading_an_IG_page's_HTML_list::matchesAnUnnumberedListByNameNeverByPosition
+  Scenario: an unnumbered list is matched to tasks by name, never by position
+    Given a list that skips a gateway the BPMN draws as step 7
+    When it is matched
+    Then its second item joins step 8 by name, with the activity id CHUD.A8 from the task's label, not step 2 or the gateway
+
   @test:smart-base/L2-bpmn/scripts/dak-task-annotations.test.ts::dak-task-annotations_matching_to_BPMN::normalisesActivityIds
   Scenario: activity ids are normalised whichever way they are written
     Then "IMMZ.B.1" and "IMMZ.B1" are both IMMZ.B1, and "IMMZ.C4.Create client record" is IMMZ.C4
@@ -76,6 +107,13 @@ Feature: dak-task-annotations puts a DAK's BPMN task annotations in the knowledg
     Then each annotation is a dak-task named by its activity id, which describes its BPMN node
     And IMMZ.B1 is specified by its requirement and performed by its persona
     And a businessRuleTask and a gateway are in the graph, and the sidecar is a source of the document
+
+  @test:smart-base/L2-bpmn/scripts/dak-task-annotations.test.ts::dak-task-annotations_in_the_knowledge_graph::aStepNumberMatchIsInferredWithEvidence_andAnAdHocSubProcessIsATask
+  Scenario: a match by step number is recorded as inferred, with its evidence, and an ad-hoc sub-process is a task
+    Given a TB-style BPMN with Modeler ids and an ad-hoc sub-process holding a task
+    When it is extracted with its sidecar
+    Then each describes edge is inferred and its evidence points at the sidecar
+    And the ad-hoc sub-process is a bpmn-task with isSubProcess, and parents the task inside it
 
   @test:smart-base/L2-bpmn/scripts/dak-task-annotations.test.ts::dak-task-annotations_in_the_knowledge_graph::publishesAJsonSchema
   Scenario: the sidecar format has a JSON Schema

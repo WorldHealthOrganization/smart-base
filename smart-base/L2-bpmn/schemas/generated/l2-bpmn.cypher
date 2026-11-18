@@ -48,6 +48,8 @@ MATCH (s:KGClass {id:'bpmn-gateway'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:
 MATCH (s:KGClass {id:'bpmn-gateway'}), (t:KGClass {id:'bpmn-gateway'}) MERGE (s)-[:FLOWSTO {predicate:'flowsTo'}]->(t);
 MATCH (s:KGClass {id:'bpmn-gateway'}), (t:KGClass {id:'bpmn-event'}) MERGE (s)-[:FLOWSTO {predicate:'flowsTo'}]->(t);
 MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:MESSAGETO {predicate:'messageTo'}]->(t);
+MATCH (s:KGClass {id:'bpmn-participant'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:MESSAGETO {predicate:'messageTo'}]->(t);
+MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-participant'}) MERGE (s)-[:MESSAGETO {predicate:'messageTo'}]->(t);
 MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-event'}) MERGE (s)-[:MESSAGETO {predicate:'messageTo'}]->(t);
 MATCH (s:KGClass {id:'bpmn-event'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:MESSAGETO {predicate:'messageTo'}]->(t);
 MATCH (s:KGClass {id:'bpmn-participant'}), (t:KGClass {id:'persona'}) MERGE (s)-[:PERFORMEDBY {predicate:'performedBy'}]->(t);

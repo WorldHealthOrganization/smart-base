@@ -10,7 +10,9 @@ import {
   cleanLines,
   coverage,
   decodeXml,
+  htmlText,
   main,
+  parseIgPageAnnotations,
   reEscape,
   followsInSequence,
   matchAnnotations,
@@ -100,6 +102,121 @@ describe("dak-task-annotations reading the L1 text", () => {
     expect(block!.items[0]!.bullets).toEqual(["The distribution of vaccines is commonly based on the total target population."]);
     expect(block!.items[2]!.bullets.join(" ")).toContain("checks the stock. 9. Not a step: out of sequence");
     expect(block!.items[3]).toEqual({ item: "4", name: "Order additional stock", bullets: ["Requested from the logistics system."] });
+  });
+});
+
+// The TB DAK's layout: no process letter on the heading, item 1 printed before it (the heading
+// sits in the right-hand column), an item number printed twice, the next figure's box labels and
+// the next document section straight after the last item.
+const tbL1 = [
+  "1. Was the visit initiated by the client or by the provider?",
+  "» Depending on the reasons that triggered the encounter.",
+  "workflows",
+  "REGISTRATION BUSINESS PROCESS NOTES AND ANNOTATIONS",
+  "» Patient-initiated health-care pathway.",
+  "2.",
+  "2. Client arrives at facility",
+  "» The client arrives at the health-care facility.",
+  "3. Arrive at the client's location",
+  "» The health worker arrives.",
+  "2. Assess medical history",
+  "5. Is referral",
+  "Fig. 7 Workflow C: diagnosis business process",
+  "SCREENING BUSINESS PROCESS NOTES AND ANNOTATIONS",
+  "1. Provide pre-screening information",
+  "» Information is given.",
+  "2. Make an informed decision",
+  "» The client decides.",
+  "2.1 Not a section: a sub-step under item 2",
+  "1.2 Principles of TB screening",
+  "5.1 Simplified list of core data elements",
+].join("\n");
+
+describe("dak-task-annotations reading a TB-style layout", () => {
+  test("lettersHeadingsInOrderAndStartsAtAnItem1PrintedBeforeTheHeading", () => {
+    const [a, b] = parseAnnotationBlocks(tbL1);
+    expect([a!.letter, b!.letter]).toEqual(["A", "B"]);
+    expect(a!.items[0]).toEqual({
+      item: "1",
+      name: "Was the visit initiated by the client or by the provider?",
+      bullets: ["Depending on the reasons that triggered the encounter.", "Patient-initiated health-care pathway."],
+    });
+  });
+
+  test("readsANumberPrintedTwiceAsOneItem_andEndsWhereTheNumberingGoesBack", () => {
+    const [a, b] = parseAnnotationBlocks(tbL1);
+    expect(a!.items.map((i) => [i.item, i.name])).toEqual([
+      ["1", "Was the visit initiated by the client or by the provider?"],
+      ["2", "Client arrives at facility"],
+      ["3", "Arrive at the client's location"],
+    ]);
+    // "2. Assess medical history" after item 3 is the next figure's box label: the block ends.
+    expect(a!.items[2]!.bullets).toEqual(["The health worker arrives."]);
+    // A dotted heading under the current item stays in its text; one that goes back ends the block.
+    expect(b!.items.map((i) => i.item)).toEqual(["1", "2"]);
+    expect(b!.items[1]!.bullets).toEqual(["The client decides. 2.1 Not a section: a sub-step under item 2"]);
+  });
+});
+
+// An IG page that writes its annotations as an HTML list (smart-dak-chud's business-processes.md):
+// no step numbers, and the list skips a step the BPMN draws (a gateway).
+const igPage = `### Overview
+#### Process A: Provision of epidemiological data
+**Objective:** Routinely collect epidemiological data.
+**Business process notes and annotations:**
+<ol>
+    <li>
+        Evaluate the patient against clinical case definition
+        <ul>
+            <li>The healthcare worker evaluates the patient's symptoms.</li>
+            <li><strong>Guidelines:</strong> <a href="https://www.who.int/x">DENGUE Guidelines.pdf</a></li>
+        </ul>
+    </li>
+    <li>
+        Correct fixable data quality issues
+        <ul><li>Fixable issues are corrected &amp; resubmitted.</li></ul>
+    </li>
+</ol>
+#### Process B: Provision of meteorological data
+**Business process notes and annotations:**
+<ol><li>Publish data<ul><li>Published on the node.</li></ul></li></ol>`;
+
+const bpmnChud = `<?xml version="1.0"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" id="Definitions_A" targetNamespace="http://smart.who.int/chud">
+  <bpmn:process id="Process_A" name="A. Provision of epidemiological data">
+    <bpmn:task id="Activity_eval" name="2. Evaluate the patient against clinical case definition" />
+    <bpmn:exclusiveGateway id="Gateway_q" name="7. Were data quality issues found?" />
+    <bpmn:task id="Activity_fix" name="8. Correct fixable data quality issues" />
+  </bpmn:process>
+</bpmn:definitions>`;
+
+describe("dak-task-annotations reading an IG page's HTML list", () => {
+  test("readsStepsAndNotesFromTheHtmlList_unnumbered", () => {
+    const [a, b] = parseIgPageAnnotations(igPage);
+    expect(a).toMatchObject({ letter: "A", numbered: false });
+    expect(a!.items).toEqual([
+      { item: "1", name: "Evaluate the patient against clinical case definition", bullets: ["The healthcare worker evaluates the patient's symptoms.", "Guidelines: DENGUE Guidelines.pdf"] },
+      { item: "2", name: "Correct fixable data quality issues", bullets: ["Fixable issues are corrected & resubmitted."] },
+    ]);
+    expect(b!.items.map((i) => i.name)).toEqual(["Publish data"]);
+  });
+
+  test("leavesNoMarkupInHtmlText", () => {
+    expect(htmlText("<scr<script>ipt>alert(1)</script> done")).toBe("alert(1) done");
+    // Escaped text keeps its words; the brackets it decodes to are removed.
+    expect(htmlText("a &lt;b&gt; tag &amp; text")).toBe("a b tag & text");
+    expect(htmlText("x &lt; y and y &gt; z")).toBe("x y and y z");
+    expect(htmlText("&lt;script&gt;alert(1)&lt;/script&gt;")).toBe("scriptalert(1)/script");
+  });
+
+  test("matchesAnUnnumberedListByNameNeverByPosition", () => {
+    const doc = matchAnnotations({ prefix: "CHUD", document: "page", bpmnPath: "CHUD_A.bpmn", xml: bpmnChud, blocks: parseIgPageAnnotations(igPage) })!;
+    // List item 2 is step 8: by position it would have joined step 2, or the step-7 gateway.
+    expect(doc.tasks.map((t) => [t.source.item, t.bpmnTask, t.activityId, t.matchedBy])).toEqual([
+      ["1", "Activity_eval", "CHUD.A2", "name"],
+      ["2", "Activity_fix", "CHUD.A8", "name"],
+    ]);
+    expect(doc.unannotated).toEqual([]);
   });
 });
 
@@ -238,6 +355,28 @@ describe("dak-task-annotations in the knowledge graph", () => {
     expect(doc.nodes.find((n) => n.id.endsWith("#IMMZ.B5"))!.properties.taskType).toBe("businessRuleTask");
     expect(doc.nodes.find((n) => n.id.endsWith("#IMMZ.B3"))!.type).toBe("bpmn-gateway");
     expect(doc.wasDerivedFrom?.map((s) => s.path)).toEqual([path, sidecarPath(path)]);
+  });
+
+  test("aStepNumberMatchIsInferredWithEvidence_andAnAdHocSubProcessIsATask", () => {
+    const dir = mkdtempSync(join(tmpdir(), "dak-task-annotations-tb-"));
+    const xml = bpmnTb.replace(
+      '<bpmn:task id="Activity_0def"',
+      '<bpmn:adHocSubProcess id="Activity_adhoc" name="Clinical evaluation"><bpmn:task id="Activity_in" name="4. Inside" /></bpmn:adHocSubProcess><bpmn:task id="Activity_0def"',
+    );
+    const path = join(dir, "a-registration.bpmn");
+    writeFileSync(path, xml);
+    const blocks = parseAnnotationBlocks("A. REGISTRATION BUSINESS PROCESS NOTES AND ANNOTATIONS\n" + [1, 2, 3, 4, 5].map((n) => `${n}.\nStep ${n}\n»\nText.`).join("\n"));
+    const ann = matchAnnotations({ prefix: "TB", document: "tb", bpmnPath: path, xml, blocks })!;
+    const { doc } = extract(xml, path, new Map(), ann);
+    const describes = doc.edges.filter((e) => e.predicate === "describes");
+    expect(describes.length).toBe(2);
+    for (const e of describes) {
+      expect(e.derivation).toBe("inferred");
+      expect(e.evidence?.location).toBe(sidecarPath(path));
+    }
+    const adhoc = doc.nodes.find((n) => n.id.endsWith("#Activity_adhoc"))!;
+    expect(adhoc.properties).toMatchObject({ taskType: "adHocSubProcess", isSubProcess: true });
+    expect(doc.nodes.find((n) => n.id.endsWith("#Activity_in"))!.properties.parent).toBe(adhoc.id);
   });
 
   test("publishesAJsonSchema", () => {

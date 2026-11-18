@@ -188,6 +188,18 @@ sgkg:messageTo_BPMNTask_BPMNTask a owl:ObjectProperty ;
   rdfs:range sgkg:BPMNTask ;
   rdfs:label "BPMN Task messageTo BPMN Task" .
 
+sgkg:messageTo_BPMNParticipant_BPMNTask a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:messageTo ;
+  rdfs:domain sgkg:BPMNParticipant ;
+  rdfs:range sgkg:BPMNTask ;
+  rdfs:label "BPMN Participant messageTo BPMN Task" .
+
+sgkg:messageTo_BPMNTask_BPMNParticipant a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:messageTo ;
+  rdfs:domain sgkg:BPMNTask ;
+  rdfs:range sgkg:BPMNParticipant ;
+  rdfs:label "BPMN Task messageTo BPMN Participant" .
+
 sgkg:messageTo_BPMNTask_BPMNEvent a owl:ObjectProperty ;
   rdfs:subPropertyOf sgkg:messageTo ;
   rdfs:domain sgkg:BPMNTask ;

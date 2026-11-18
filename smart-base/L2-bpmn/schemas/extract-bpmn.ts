@@ -180,7 +180,7 @@ export function extract(
   }
 
   const parentOf = new Map<string, string>();
-  for (const [block, subTag] of xml.matchAll(/(<bpmn:subProcess\b([^>]*)>[\s\S]*?<\/bpmn:subProcess>)/g)) {
+  for (const [block, , , subTag] of xml.matchAll(/(<bpmn:(subProcess|adHocSubProcess|transaction)\b([^>]*)>[\s\S]*?<\/bpmn:\2>)/g)) {
     const subId = attr(subTag!, "id");
     for (const [, childTag] of block.matchAll(new RegExp(`<bpmn:(?:${TASK_KINDS}|${GATEWAY_KINDS}|${EVENT_KINDS})\\b([^>]*)[/>]`, "g"))) {
       const cid = attr(childTag!, "id");
@@ -222,8 +222,9 @@ export function extract(
         } else taskNames.set(t.name, t.iri);
       }
     }
-    for (const [, tag] of procBody!.matchAll(/<bpmn:subProcess\b([^>]*)>/g)) {
-      const t = emit(tag!, "bpmn-task", { taskType: "subProcess", isSubProcess: true });
+    // An ad-hoc sub-process and a transaction are sub-processes too (TB's diagnosis BPMN draws one).
+    for (const [, kind, tag] of procBody!.matchAll(/<bpmn:(subProcess|adHocSubProcess|transaction)\b([^>]*)>/g)) {
+      const t = emit(tag!, "bpmn-task", { taskType: kind, isSubProcess: true });
       if (t.name && !taskNames.has(t.name)) taskNames.set(t.name, t.iri);
     }
     for (const [, kind, tag] of procBody!.matchAll(new RegExp(`<bpmn:(${GATEWAY_KINDS})\\b([^>]*)[/>]`, "g"))) {
@@ -327,7 +328,9 @@ function emitAnnotations(ann: DakTaskAnnotations, location: string, c: EmitConte
     c.edges.push(
       edge("describes", iri, taskIri, {
         properties: { matchedBy: t.matchedBy },
-        ...(t.matchedBy === "id" ? {} : { derivation: "inferred" as const }),
+        ...(t.matchedBy === "id"
+          ? {}
+          : { derivation: "inferred" as const, evidence: { location, quote: `${t.activityId} (item ${t.source.item}) -> ${t.bpmnTask}` } }),
         note:
           t.matchedBy === "id"
             ? "The BPMN node's @id is the activity id."
