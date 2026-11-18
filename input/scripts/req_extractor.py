@@ -17,6 +17,7 @@ import glob
 import re
 import pandas as pd
 
+import stringer
 from extractor import extractor
 from installer import installer
 
@@ -73,7 +74,7 @@ class req_extractor(extractor):
         functional = self.retrieve_data_frame_by_headers(
             functional_column_maps, sheet_names)
 
-        if (not self.extract_functional_requirements(functional)):
+        if (not self.extract_functional_requirements_to_resources(functional)):
             self.logger.info(
                 "Could not extract functional requirements from: " +
                 self.inputfile_name)
@@ -103,8 +104,10 @@ class req_extractor(extractor):
         return True
 
     def extract_nonfunctional_requirements_to_resources(
-            nonfunctional: pd.DataFrame):
+            self, nonfunctional: pd.DataFrame) -> bool:
         self.logger.info("Reading non-functional requirements")
+        if nonfunctional is None:
+            return False
         nonfunctional.drop(index=0)
 
         categories = {}
@@ -130,13 +133,12 @@ class req_extractor(extractor):
             if (row["reqid"].strip().lower().startswith(
                     "classification of digital health interventions")):
                 classification = row["reqid"].strip()
-                classification_codes = re.findall(r'\d+\.?\d*', classification)
+                classification_codes = re.findall(r'\b\d+(?:\.\d+)*\b', classification)
                 self.logger.info(
                     "\tFound classification text: " +
                     classification)
                 self.logger.info(
-                    "\tFound classification codes: ",
-                    classification_codes)
+                    "\tFound classification codes: " + str(classification_codes))
                 continue
 
             if "category" not in row or not isinstance(row["category"], str):
@@ -156,53 +158,49 @@ class req_extractor(extractor):
             nfreq = row["requirement"].strip()
 
             lm_id = "LM." + reqid
-            lm = "Instance: " + self.escape(lm_id) + '\n'
+            lm = "Instance: " + stringer.escape(lm_id) + '\n'
             lm += 'InstanceOf: NonFunctionalRequirement\n'
-            lm += 'Description: "' + self.escape(nfreq) + '"\n'
+            lm += 'Description: "' + stringer.escape(nfreq) + '"\n'
             lm += 'Usage: #definition\n'
-            lm += '* id = "' + self.escape(lm_id) + '"\n'
-            lm += '* requirement = "' + self.escape(nfreq) + '"\n'
+            lm += '* id = "' + stringer.escape(lm_id) + '"\n'
+            lm += '* requirement = "' + stringer.escape(nfreq) + '"\n'
             if (catid):
                 lm += '* category = ' + \
-                    self.escape(cat_cs) + '#' + self.escape(catid) + '\n'
+                    stringer.escape(cat_cs) + '#' + stringer.escape(catid) + '\n'
             for classification_code in classification_codes:
-                lm += '* classification[+] = ' + self.escape(class_cs) + '#' \
-                    + self.escape(classification_code) + '\n'
+                lm += '* classification[+] = ' + stringer.escape(self.class_cs) + '#' \
+                    + stringer.escape(classification_code) + '\n'
 
             instance = "//non-functional requirment instance generated from row " + \
                 str(index + 1) + "\n"
             instance += "Instance: " + reqid + "\n"
             instance += "InstanceOf: SGRequirements\n"
             instance += "Usage: #definition" + "\n"
-            instance += '* title = "' + self.escape(nfreq) + '"\n'
+            instance += '* title = "' + stringer.escape(nfreq) + '"\n'
             instance += '* status = $pubStatus#active\n'
-            instance += '* name = "' + self.escape(nfreq) + '"\n'
+            instance += '* name = "' + stringer.escape(nfreq) + '"\n'
             instance += '* publisher = "WHO"\n'
             instance += '* experimental = true\n'
-            if (catid):
-                instance += '* extension[classification][+].valueCoding = ' + \
-                    self.escape(cat_cs) + '#' + self.escape(catid) + '\n'
-            for classification_code in classification_codes:
-                instance += '* extension[classification][+].valueCoding = ' + self.escape(
-                    class_cs) + '#' + self.escape(classification_code) + '\n'
             description = '*Category*: ' + \
-                self.escape(cat) + "\n" + self.escape(nfreq)
+                stringer.escape(cat) + "\n" + stringer.escape(nfreq)
             description = '* description = """\n' + description + '\n"""\n\n'
             instance += description + "\n"
             self.installer.add_resource('instances', lm_id, lm)
             self.installer.add_resource('requirements', reqid, instance)
 
         self.logger.info(
-            "Extracted " +
-            str(index) +
-            " functional requirement(s)")
+            "Read " + str(len(nonfunctional)) +
+            " non-functional requirement row(s)")
 
         self.installer.generate_cs_and_vs_from_dict(
             cat_cs, 'Functional Requirement Categories', categories)
         return True
 
-    def extract_functional_requirements_to_resources(functional: pd.DataFrame):
+    def extract_functional_requirements_to_resources(
+            self, functional: pd.DataFrame) -> bool:
         self.logger.info("Reading functional requirements")
+        if functional is None:
+            return False
         businessprocess_code = ""
         businessprocess_name = ""
         businessprocess_codes = {}
@@ -230,13 +228,12 @@ class req_extractor(extractor):
             if (row["reqid"].strip().lower().startswith(
                     "classification of digital health interventions")):
                 classification = row["reqid"].strip()
-                classification_codes = re.findall(r'\d+\.?\d*', classification)
+                classification_codes = re.findall(r'\b\d+(?:\.\d+)*\b', classification)
                 self.logger.info(
                     "\tFound classification text: " +
                     classification)
                 self.logger.info(
-                    "\tFound classification codes: ",
-                    classification_codes)
+                    "\tFound classification codes: " + str(classification_codes))
                 continue
 
             if (row["reqid"].strip().lower().startswith("business process")):
@@ -284,13 +281,13 @@ class req_extractor(extractor):
 
             actor_name = row["as-a"].strip()
             actor_id = stringer.name_to_id(actor_name)
-            actor_instance = "Instance: " + self.escape(actor_id) + "\n"
+            actor_instance = "Instance: " + stringer.escape(actor_id) + "\n"
             actor_instance += "InstanceOf: $SGActor\n"
             actor_instance += "Usage: #definition\n"
-            actor_instance += '* name = "' + self.escape(actor_name) + '"\n'
-            actor_instance += '* title = "' + self.escape(actor_name) + '"\n'
+            actor_instance += '* name = "' + stringer.escape(actor_name) + '"\n'
+            actor_instance += '* title = "' + stringer.escape(actor_name) + '"\n'
             actor_instance += '* description = "Actor ' + \
-                self.escape(actor_name) + ' from Function Requirements"\n'
+                stringer.escape(actor_name) + ' from Function Requirements"\n'
             actor_instance += '* status = $pubStatus#active\n'
             actor_instance += '* experimental = true\n'
             actor_instance += '* publisher = "WHO"\n'
@@ -298,67 +295,60 @@ class req_extractor(extractor):
             self.installer.add_resource(
                 'actors', actor_id, actor_instance)  # ok to overwrite
             actorlink = '<a href="ActorDefinition-' + \
-                self.escape(actor_id) + '.html">' + self.escape(actor_name) + '</a>'
+                stringer.escape(actor_id) + '.html">' + stringer.escape(actor_name) + '</a>'
 
             description = 'Activity: ' + activity_name + ':\n' + "As a " + actorlink + ", I want to:\n>" + \
-                self.escape(row['i-want']) + '\n\nso that\n\n>' + self.escape(row['so-that'])
+                stringer.escape(row['i-want']) + '\n\nso that\n\n>' + stringer.escape(row['so-that'])
             if (businessprocess_name):
                 if (businessprocess_code):
-                    description = "*Business process* (" + self.escape(businessprocess_code) + ") "  \
-                        + self.escape(businessprocess_name) + ":\n" + description
+                    description = "*Business process* (" + stringer.escape(businessprocess_code) + ") "  \
+                        + stringer.escape(businessprocess_name) + ":\n" + description
                 else:
                     description = "*Business process* " + \
-                        self.escape(businessprocess_name) + ":\n\n" + description
+                        stringer.escape(businessprocess_name) + ":\n\n" + description
 
             lm_id = "LM." + reqid
-            lm = "Instance: " + self.escape(lm_id) + '\n'
+            lm = "Instance: " + stringer.escape(lm_id) + '\n'
             lm += 'InstanceOf: FunctionalRequirement\n'
             lm += 'Description: """' + description + '"""\n'
             lm += 'Usage: #definition\n'
-            lm += '* id = "' + self.escape(lm_id) + '"\n'
-            lm += '* activity = "' + self.escape(activity_name) + '"\n'
-            lm += '* actor[+] = Reference(' + self.escape(actor_id) + ')\n'
-            lm += '* capabilityString = "' + self.escape(row['i-want']) + '"\n'
-            lm += '* benefitString = "' + self.escape(row['so-that']) + '"\n'
+            lm += '* id = "' + stringer.escape(lm_id) + '"\n'
+            lm += '* activity = "' + stringer.escape(activity_name) + '"\n'
+            lm += '* actor[+] = Reference(' + stringer.escape(actor_id) + ')\n'
+            lm += '* capabilityMarkdown = "' + stringer.escape(row['i-want']) + '"\n'
+            lm += '* benefitMarkdown = "' + stringer.escape(row['so-that']) + '"\n'
             if (businessprocess_code):
                 lm += '* classification[+] = ' + bpid + '#' + \
-                    self.escape(businessprocess_code) + '\n'
+                    stringer.escape(businessprocess_code) + '\n'
             for classification_code in classification_codes:
-                lm += '* classification[+] = ' + self.escape(class_cs) + '#' \
-                    + self.escape(classification_code) + '\n'
+                lm += '* classification[+] = ' + stringer.escape(self.class_cs) + '#' \
+                    + stringer.escape(classification_code) + '\n'
             self.installer.add_resource('instances', lm_id, lm)
 
             instance = "//functional requirment instance generated from row " + \
                 str(index + 1) + "\n"
-            instance += "Instance: " + self.escape(reqid) + "\n"
+            instance += "Instance: " + stringer.escape(reqid) + "\n"
             instance += "InstanceOf: SGRequirements\n"
             instance += "Usage: #definition" + "\n"
-            instance += '* title = "' + self.escape(activity_name) + '"\n'
+            instance += '* title = "' + stringer.escape(activity_name) + '"\n'
             instance += '* status = $pubStatus#active\n'
-            instance += '* name = "' + self.escape(activity_name) + '"\n'
+            instance += '* name = "' + stringer.escape(activity_name) + '"\n'
             instance += '* publisher = "WHO"\n'
             instance += '* experimental = true\n'
             instance += '* actor[+] = Canonical(' + \
-                self.escape(actor_id) + ')\n'
-            if (businessprocess_code):
-                instance += '* extension[classification][+].valueCoding = ' + \
-                    bpid + '#' + self.escape(businessprocess_code) + '\n'
-            for classification_code in classification_codes:
-                instance += '* extension[classification][+].valueCoding = ' + self.escape(
-                    class_cs) + '#' + self.escape(classification_code) + '\n'
+                stringer.escape(actor_id) + ')\n'
             instance += '* extension[userstory].extension[capability].valueString = "' + \
-                self.escape(row['i-want']) + '"\n'
+                stringer.escape(row['i-want']) + '"\n'
             instance += '* extension[userstory].extension[benefit].valueString = "' + \
-                self.escape(row['so-that']) + '"\n'
+                stringer.escape(row['so-that']) + '"\n'
             description = '* description = """\n' + description + '\n"""\n\n'
             instance += description + "\n"
             self.installer.add_resource('requirements', reqid, instance)
 
         self.logger.info(
-            "Extracted " +
-            str(index) +
-            " functional requirement(s)")
-        self.logger.info("Business Process Codes:\n\t", businessprocess_codes)
+            "Read " + str(len(functional)) +
+            " functional requirement row(s)")
+        self.logger.info("Business Process Codes:\n\t" + str(businessprocess_codes))
         self.installer.generate_cs_and_vs_from_dict(
             bpid, 'Functional Requirements Business Processes', businessprocess_codes)
         return True
