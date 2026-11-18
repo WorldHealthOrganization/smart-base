@@ -68,13 +68,18 @@ Description: "DAK component 4. NOT the BPMN file -- the component that points at
 
 Logical: KGDakTask
 Title: "Knowledge graph L2: Task Entry"
-Description: "One entry of BusinessProcessWorkflow's `task 0..*` backbone: identifier, name, description. A node rather than a property because the same task is also drawn in the BPMN file, and the two lists have to be joinable to be checkable against each other. Class IRI: http://smart.who.int/kg/dak-task."
+Description: "One task of a DAK business process, as the DAK document's \"notes and annotations\" describe it: identifier, name, description, and the personas, data elements, requirements and decision tables it links to. A node rather than a property because the same task is also drawn in the BPMN file, and the two have to be joinable to be checkable against each other (`describes`). Read from a BPMN file's `dak-task-annotations/v1` sidecar (smart-base/L2-bpmn/schemas/task-annotations.ts); BusinessProcessWorkflow's `task 0..*` backbone carries the first three fields of the same thing. Class IRI: http://smart.who.int/kg/dak-task."
 
 * ^status = #active
 * ^publisher = "World Health Organization (WHO)"
 * identifier 0..1 string "Identifier" "The identifier, as declared."
 * name 0..1 string "Name" "The computable name: the CamelCase identifier a Canonical() reference matches on."
 * description 0..1 markdown "Description" "A description, as the source gives it."
+* activityId 0..1 string "Activity id" "The DAK activity id (`IMMZ.B1`, `TB.A5`): the process id and the step number, the key the DAK spreadsheets use."
+* matchedBy 0..1 string "Matched by" "How the annotation was joined to its BPMN task: `id`, `step-number`, `name` or `adjudicated` by a person."
+* sourceDocument 0..1 string "Source document" "The L1 library document the annotation was read from."
+* sourceItem 0..1 string "Source item" "The annotation's item number as printed (`1`, `2.3`)."
+* source 0..1 string "Source" "Where the node was read from: a repository path or URL."
 
 Logical: KGDataElement
 Title: "Knowledge graph L2: Core Data Element"

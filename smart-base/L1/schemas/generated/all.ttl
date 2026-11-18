@@ -856,7 +856,7 @@ sgkg:TaskEntry a owl:Class ;
   rdfs:subClassOf sgkg:Element ;
   rdfs:label "Task Entry" ;
   skos:notation "dak-task" ;
-  rdfs:comment "One entry of BusinessProcessWorkflow's `task 0..*` backbone: identifier, name, description. A node rather than a property because the same task is also drawn in the BPMN file, and the two lists have to be joinable to be checkable against each other." .
+  rdfs:comment "One task of a DAK business process, as the DAK document's \"notes and annotations\" describe it: identifier, name, description, and the personas, data elements, requirements and decision tables it links to. A node rather than a property because the same task is also drawn in the BPMN file, and the two have to be joinable to be checkable against each other (`describes`). Read from a BPMN file's `dak-task-annotations/v1` sidecar (smart-base/L2-bpmn/schemas/task-annotations.ts); BusinessProcessWorkflow's `task 0..*` backbone carries the first three fields of the same thing." .
 
 sgkg:CoreDataElement a owl:Class ;
   rdfs:subClassOf sgkg:Component ;
@@ -993,6 +993,18 @@ sgkg:references a owl:ObjectProperty ;
 sgkg:describes a owl:ObjectProperty ;
   rdfs:label "describes" ;
   rdfs:comment "A DAK-level task entry describes an element of a BPMN file. Declared here and licensed in l2-bpmn, where the target class lives. -- declared but unused by the current model" .
+
+sgkg:usesDataElement a owl:ObjectProperty ;
+  rdfs:label "usesDataElement" ;
+  rdfs:comment "A DAK task captures or reads a core data element. From the data dictionary's `Activity ID` column, which keys each data element to the activity it is recorded in (`IMMZ.D1.Capture or update client history`), joined to the task by its activity id. The target is the element's id as the dictionary declares it, not a FHIR canonical (owner, 2026-11-18)." .
+
+sgkg:specifiedBy a owl:ObjectProperty ;
+  rdfs:label "specifiedBy" ;
+  rdfs:comment "A DAK task is specified by a functional requirement. From the requirements workbook's `Activity ID and name` column (`IMMZ.A1.Obtain vaccination location info`), joined by activity id." .
+
+sgkg:invokesDecision a owl:ObjectProperty ;
+  rdfs:label "invokesDecision" ;
+  rdfs:comment "A DAK task invokes a decision table. From the decision-support workbook's `Trigger` row, which names the activity a decision runs in, and from a BPMN task's calledDecision. Joined by the decision's id (`IMMZ.D2.DT.BCG`), unlike dmn:usingTask, which l2-dmn's invokedBy reads by task name." .
 
 sgkg:implementedBy a owl:ObjectProperty ;
   rdfs:label "implementedBy" ;
@@ -1219,6 +1231,24 @@ sgkg:listsTask_BusinessProcessWorkflow_TaskEntry a owl:ObjectProperty ;
   rdfs:range sgkg:TaskEntry ;
   rdfs:label "Business Process Workflow listsTask Task Entry" .
 
+sgkg:usesDataElement_TaskEntry_CoreDataElement a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:usesDataElement ;
+  rdfs:domain sgkg:TaskEntry ;
+  rdfs:range sgkg:CoreDataElement ;
+  rdfs:label "Task Entry usesDataElement Core Data Element" .
+
+sgkg:specifiedBy_TaskEntry_FunctionalRequirement a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:specifiedBy ;
+  rdfs:domain sgkg:TaskEntry ;
+  rdfs:range sgkg:FunctionalRequirement ;
+  rdfs:label "Task Entry specifiedBy Functional Requirement" .
+
+sgkg:invokesDecision_TaskEntry_DecisionSupportLogic a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:invokesDecision ;
+  rdfs:domain sgkg:TaskEntry ;
+  rdfs:range sgkg:DecisionSupportLogic ;
+  rdfs:label "Task Entry invokesDecision Decision-Support Logic" .
+
 sgkg:references_ProgramIndicator_HealthIntervention a owl:ObjectProperty ;
   rdfs:subPropertyOf sgkg:references ;
   rdfs:domain sgkg:ProgramIndicator ;
@@ -1359,7 +1389,7 @@ sgkg:BPMNEvent a owl:Class ;
   rdfs:subClassOf sgkg:Structure ;
   rdfs:label "BPMN Event" ;
   skos:notation "bpmn-event" ;
-  rdfs:comment "A start or end event. Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all." .
+  rdfs:comment "A start, end or intermediate event (WHO's DAK BPMN draw intermediate throw and catch events inside sub-processes). Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all." .
 
 ### Value sets
 # Closed code lists bound to class properties. validate.ts rejects any other value.
@@ -1386,7 +1416,7 @@ sgkg:messageTo a owl:ObjectProperty ;
 
 sgkg:performedBy a owl:ObjectProperty ;
   rdfs:label "performedBy" ;
-  rdfs:comment "A participant pool is performed by a persona. STRING EQUALITY between the pool's @name and an ActorDefinition's title, across two file formats with no shared identifier. Compare l2:fulfilledBy, where a requirement names a persona by Canonical() and resolves without guessing -- the mechanism exists; BPMN does not use it. Every instance carries a resolutionStatus." .
+  rdfs:comment "A participant pool, or a DAK task (from its lane, else its pool, as the task-annotations sidecar records it), is performed by a persona. For a pool: STRING EQUALITY between the pool's @name and an ActorDefinition's title, across two file formats with no shared identifier. Compare l2:fulfilledBy, where a requirement names a persona by Canonical() and resolves without guessing -- the mechanism exists; BPMN does not use it. Every instance carries a resolutionStatus." .
 
 ### Licensed edges, as qualified sub-properties
 # One per (source class, predicate, target class) triple the layer licenses.
@@ -1429,6 +1459,18 @@ sgkg:contains_BPMNTask_BPMNTask a owl:ObjectProperty ;
   rdfs:domain sgkg:BPMNTask ;
   rdfs:range sgkg:BPMNTask ;
   rdfs:label "BPMN Task contains BPMN Task" .
+
+sgkg:contains_BPMNTask_BPMNGateway a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:contains ;
+  rdfs:domain sgkg:BPMNTask ;
+  rdfs:range sgkg:BPMNGateway ;
+  rdfs:label "BPMN Task contains BPMN Gateway" .
+
+sgkg:contains_BPMNTask_BPMNEvent a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:contains ;
+  rdfs:domain sgkg:BPMNTask ;
+  rdfs:range sgkg:BPMNEvent ;
+  rdfs:label "BPMN Task contains BPMN Event" .
 
 sgkg:flowsTo_BPMNEvent_BPMNTask a owl:ObjectProperty ;
   rdfs:subPropertyOf sgkg:flowsTo ;
@@ -1507,6 +1549,18 @@ sgkg:describes_TaskEntry_BPMNTask a owl:ObjectProperty ;
   rdfs:domain sgkg:TaskEntry ;
   rdfs:range sgkg:BPMNTask ;
   rdfs:label "Task Entry describes BPMN Task" .
+
+sgkg:describes_TaskEntry_BPMNGateway a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:describes ;
+  rdfs:domain sgkg:TaskEntry ;
+  rdfs:range sgkg:BPMNGateway ;
+  rdfs:label "Task Entry describes BPMN Gateway" .
+
+sgkg:performedBy_TaskEntry_GenericPersona a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:performedBy ;
+  rdfs:domain sgkg:TaskEntry ;
+  rdfs:range sgkg:GenericPersona ;
+  rdfs:label "Task Entry performedBy Generic Persona" .
 
 sgkg:sourcedFrom_BusinessProcessWorkflow_BPMNFile a owl:ObjectProperty ;
   rdfs:subPropertyOf sgkg:sourcedFrom ;

@@ -45,7 +45,7 @@ sgkg:TaskEntry a owl:Class ;
   rdfs:subClassOf sgkg:Element ;
   rdfs:label "Task Entry" ;
   skos:notation "dak-task" ;
-  rdfs:comment "One entry of BusinessProcessWorkflow's `task 0..*` backbone: identifier, name, description. A node rather than a property because the same task is also drawn in the BPMN file, and the two lists have to be joinable to be checkable against each other." .
+  rdfs:comment "One task of a DAK business process, as the DAK document's \"notes and annotations\" describe it: identifier, name, description, and the personas, data elements, requirements and decision tables it links to. A node rather than a property because the same task is also drawn in the BPMN file, and the two have to be joinable to be checkable against each other (`describes`). Read from a BPMN file's `dak-task-annotations/v1` sidecar (smart-base/L2-bpmn/schemas/task-annotations.ts); BusinessProcessWorkflow's `task 0..*` backbone carries the first three fields of the same thing." .
 
 sgkg:CoreDataElement a owl:Class ;
   rdfs:subClassOf sgkg:Component ;
@@ -182,6 +182,18 @@ sgkg:references a owl:ObjectProperty ;
 sgkg:describes a owl:ObjectProperty ;
   rdfs:label "describes" ;
   rdfs:comment "A DAK-level task entry describes an element of a BPMN file. Declared here and licensed in l2-bpmn, where the target class lives. -- declared but unused by the current model" .
+
+sgkg:usesDataElement a owl:ObjectProperty ;
+  rdfs:label "usesDataElement" ;
+  rdfs:comment "A DAK task captures or reads a core data element. From the data dictionary's `Activity ID` column, which keys each data element to the activity it is recorded in (`IMMZ.D1.Capture or update client history`), joined to the task by its activity id. The target is the element's id as the dictionary declares it, not a FHIR canonical (owner, 2026-11-18)." .
+
+sgkg:specifiedBy a owl:ObjectProperty ;
+  rdfs:label "specifiedBy" ;
+  rdfs:comment "A DAK task is specified by a functional requirement. From the requirements workbook's `Activity ID and name` column (`IMMZ.A1.Obtain vaccination location info`), joined by activity id." .
+
+sgkg:invokesDecision a owl:ObjectProperty ;
+  rdfs:label "invokesDecision" ;
+  rdfs:comment "A DAK task invokes a decision table. From the decision-support workbook's `Trigger` row, which names the activity a decision runs in, and from a BPMN task's calledDecision. Joined by the decision's id (`IMMZ.D2.DT.BCG`), unlike dmn:usingTask, which l2-dmn's invokedBy reads by task name." .
 
 sgkg:implementedBy a owl:ObjectProperty ;
   rdfs:label "implementedBy" ;
@@ -407,6 +419,24 @@ sgkg:listsTask_BusinessProcessWorkflow_TaskEntry a owl:ObjectProperty ;
   rdfs:domain sgkg:BusinessProcessWorkflow ;
   rdfs:range sgkg:TaskEntry ;
   rdfs:label "Business Process Workflow listsTask Task Entry" .
+
+sgkg:usesDataElement_TaskEntry_CoreDataElement a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:usesDataElement ;
+  rdfs:domain sgkg:TaskEntry ;
+  rdfs:range sgkg:CoreDataElement ;
+  rdfs:label "Task Entry usesDataElement Core Data Element" .
+
+sgkg:specifiedBy_TaskEntry_FunctionalRequirement a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:specifiedBy ;
+  rdfs:domain sgkg:TaskEntry ;
+  rdfs:range sgkg:FunctionalRequirement ;
+  rdfs:label "Task Entry specifiedBy Functional Requirement" .
+
+sgkg:invokesDecision_TaskEntry_DecisionSupportLogic a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:invokesDecision ;
+  rdfs:domain sgkg:TaskEntry ;
+  rdfs:range sgkg:DecisionSupportLogic ;
+  rdfs:label "Task Entry invokesDecision Decision-Support Logic" .
 
 sgkg:references_ProgramIndicator_HealthIntervention a owl:ObjectProperty ;
   rdfs:subPropertyOf sgkg:references ;

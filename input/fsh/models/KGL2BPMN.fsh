@@ -55,13 +55,15 @@ Description: "A branch or merge. Included for connectivity rather than for a cro
 * gatewayType 0..1 string "Gateway type" "The BPMN gateway element type (exclusiveGateway, parallelGateway, …)."
 * direction 0..1 code "Direction" "The gateway's gatewayDirection."
 * direction from KGGatewayDirectionVS (required)
+* parent 0..1 string "Parent" "The id of the sub-process that contains it, when nested."
 
 Logical: KGBpmnEvent
 Title: "Knowledge graph L2-BPMN: BPMN Event"
-Description: "A start or end event. Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all. Class IRI: http://smart.who.int/kg/bpmn-event."
+Description: "A start, end or intermediate event (WHO's DAK BPMN draw intermediate throw and catch events inside sub-processes). Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all. Class IRI: http://smart.who.int/kg/bpmn-event."
 
 * ^status = #active
 * ^publisher = "World Health Organization (WHO)"
 * id 0..1 string "Id" "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
 * name 0..1 string "Name" "The computable name: the CamelCase identifier a Canonical() reference matches on."
 * eventType 0..1 string "Event type" "The BPMN event element type (startEvent, endEvent, intermediateCatchEvent, …)."
+* parent 0..1 string "Parent" "The id of the sub-process that contains it, when nested."

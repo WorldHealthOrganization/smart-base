@@ -51,7 +51,7 @@ sgkg:BPMNEvent a owl:Class ;
   rdfs:subClassOf sgkg:Structure ;
   rdfs:label "BPMN Event" ;
   skos:notation "bpmn-event" ;
-  rdfs:comment "A start or end event. Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all." .
+  rdfs:comment "A start, end or intermediate event (WHO's DAK BPMN draw intermediate throw and catch events inside sub-processes). Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all." .
 
 ### Value sets
 # Closed code lists bound to class properties. validate.ts rejects any other value.
@@ -78,7 +78,7 @@ sgkg:messageTo a owl:ObjectProperty ;
 
 sgkg:performedBy a owl:ObjectProperty ;
   rdfs:label "performedBy" ;
-  rdfs:comment "A participant pool is performed by a persona. STRING EQUALITY between the pool's @name and an ActorDefinition's title, across two file formats with no shared identifier. Compare l2:fulfilledBy, where a requirement names a persona by Canonical() and resolves without guessing -- the mechanism exists; BPMN does not use it. Every instance carries a resolutionStatus." .
+  rdfs:comment "A participant pool, or a DAK task (from its lane, else its pool, as the task-annotations sidecar records it), is performed by a persona. For a pool: STRING EQUALITY between the pool's @name and an ActorDefinition's title, across two file formats with no shared identifier. Compare l2:fulfilledBy, where a requirement names a persona by Canonical() and resolves without guessing -- the mechanism exists; BPMN does not use it. Every instance carries a resolutionStatus." .
 
 ### Licensed edges, as qualified sub-properties
 # One per (source class, predicate, target class) triple the layer licenses.
@@ -121,6 +121,18 @@ sgkg:contains_BPMNTask_BPMNTask a owl:ObjectProperty ;
   rdfs:domain sgkg:BPMNTask ;
   rdfs:range sgkg:BPMNTask ;
   rdfs:label "BPMN Task contains BPMN Task" .
+
+sgkg:contains_BPMNTask_BPMNGateway a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:contains ;
+  rdfs:domain sgkg:BPMNTask ;
+  rdfs:range sgkg:BPMNGateway ;
+  rdfs:label "BPMN Task contains BPMN Gateway" .
+
+sgkg:contains_BPMNTask_BPMNEvent a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:contains ;
+  rdfs:domain sgkg:BPMNTask ;
+  rdfs:range sgkg:BPMNEvent ;
+  rdfs:label "BPMN Task contains BPMN Event" .
 
 sgkg:flowsTo_BPMNEvent_BPMNTask a owl:ObjectProperty ;
   rdfs:subPropertyOf sgkg:flowsTo ;
@@ -199,6 +211,18 @@ sgkg:describes_TaskEntry_BPMNTask a owl:ObjectProperty ;
   rdfs:domain sgkg:TaskEntry ;
   rdfs:range sgkg:BPMNTask ;
   rdfs:label "Task Entry describes BPMN Task" .
+
+sgkg:describes_TaskEntry_BPMNGateway a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:describes ;
+  rdfs:domain sgkg:TaskEntry ;
+  rdfs:range sgkg:BPMNGateway ;
+  rdfs:label "Task Entry describes BPMN Gateway" .
+
+sgkg:performedBy_TaskEntry_GenericPersona a owl:ObjectProperty ;
+  rdfs:subPropertyOf sgkg:performedBy ;
+  rdfs:domain sgkg:TaskEntry ;
+  rdfs:range sgkg:GenericPersona ;
+  rdfs:label "Task Entry performedBy Generic Persona" .
 
 sgkg:sourcedFrom_BusinessProcessWorkflow_BPMNFile a owl:ObjectProperty ;
   rdfs:subPropertyOf sgkg:sourcedFrom ;

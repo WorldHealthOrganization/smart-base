@@ -37,6 +37,8 @@ MATCH (s:KGClass {id:'bpmn-process'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:
 MATCH (s:KGClass {id:'bpmn-process'}), (t:KGClass {id:'bpmn-gateway'}) MERGE (s)-[:CONTAINS {predicate:'contains'}]->(t);
 MATCH (s:KGClass {id:'bpmn-process'}), (t:KGClass {id:'bpmn-event'}) MERGE (s)-[:CONTAINS {predicate:'contains'}]->(t);
 MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:CONTAINS {predicate:'contains'}]->(t);
+MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-gateway'}) MERGE (s)-[:CONTAINS {predicate:'contains'}]->(t);
+MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-event'}) MERGE (s)-[:CONTAINS {predicate:'contains'}]->(t);
 MATCH (s:KGClass {id:'bpmn-event'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:FLOWSTO {predicate:'flowsTo'}]->(t);
 MATCH (s:KGClass {id:'bpmn-event'}), (t:KGClass {id:'bpmn-gateway'}) MERGE (s)-[:FLOWSTO {predicate:'flowsTo'}]->(t);
 MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:FLOWSTO {predicate:'flowsTo'}]->(t);
@@ -50,6 +52,8 @@ MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-event'}) MERGE (s)-[:ME
 MATCH (s:KGClass {id:'bpmn-event'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:MESSAGETO {predicate:'messageTo'}]->(t);
 MATCH (s:KGClass {id:'bpmn-participant'}), (t:KGClass {id:'persona'}) MERGE (s)-[:PERFORMEDBY {predicate:'performedBy'}]->(t);
 MATCH (s:KGClass {id:'dak-task'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:DESCRIBES {predicate:'describes'}]->(t);
+MATCH (s:KGClass {id:'dak-task'}), (t:KGClass {id:'bpmn-gateway'}) MERGE (s)-[:DESCRIBES {predicate:'describes'}]->(t);
+MATCH (s:KGClass {id:'dak-task'}), (t:KGClass {id:'persona'}) MERGE (s)-[:PERFORMEDBY {predicate:'performedBy'}]->(t);
 MATCH (s:KGClass {id:'business-process'}), (t:KGClass {id:'bpmn-definitions'}) MERGE (s)-[:SOURCEDFROM {predicate:'sourcedFrom'}]->(t);
 
 // Verification. Must return 4 rows -- one per imported class this layer

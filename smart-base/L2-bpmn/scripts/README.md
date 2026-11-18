@@ -13,6 +13,9 @@ Part of [SMART Base](../../README.md) 0.1.0, declared as `l2-bpmn-scripts`, hold
 
 | file | what it is | used by |
 |---|---|---|
+| [`dak-task-annotations.feature`](dak-task-annotations.feature) | a file |  |
+| [`dak-task-annotations.test.ts`](dak-task-annotations.test.ts) | a file |  |
+| [`dak-task-annotations.ts`](dak-task-annotations.ts) | a file |  |
 | [`visio-svg-bpmn.feature`](visio-svg-bpmn.feature) | a file |  |
 | [`visio-svg-bpmn.test.ts`](visio-svg-bpmn.test.ts) | a file |  |
 | [`visio-svg-bpmn.ts`](visio-svg-bpmn.ts) | a file |  |

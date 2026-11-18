@@ -41,7 +41,7 @@
     {
       "code": "bpmn-event",
       "label": "BPMN Event",
-      "definition": "A start or end event. Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all.",
+      "definition": "A start, end or intermediate event (WHO's DAK BPMN draw intermediate throw and catch events inside sub-processes). Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all.",
       "value": "http://smart.who.int/kg/bpmn-event"
     }
   ]

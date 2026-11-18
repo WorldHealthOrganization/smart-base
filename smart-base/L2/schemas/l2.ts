@@ -213,6 +213,21 @@ export const L2: LayerSpec = {
       "note": "A DAK-level task entry describes an element of a BPMN file. Declared here and licensed in l2-bpmn, where the target class lives."
     },
     {
+      "predicate": "usesDataElement",
+      "iri": "http://smart.who.int/kg/usesDataElement",
+      "note": "A DAK task captures or reads a core data element. From the data dictionary's `Activity ID` column, which keys each data element to the activity it is recorded in (`IMMZ.D1.Capture or update client history`), joined to the task by its activity id. The target is the element's id as the dictionary declares it, not a FHIR canonical (owner, 2026-11-18)."
+    },
+    {
+      "predicate": "specifiedBy",
+      "iri": "http://smart.who.int/kg/specifiedBy",
+      "note": "A DAK task is specified by a functional requirement. From the requirements workbook's `Activity ID and name` column (`IMMZ.A1.Obtain vaccination location info`), joined by activity id."
+    },
+    {
+      "predicate": "invokesDecision",
+      "iri": "http://smart.who.int/kg/invokesDecision",
+      "note": "A DAK task invokes a decision table. From the decision-support workbook's `Trigger` row, which names the activity a decision runs in, and from a BPMN task's calledDecision. Joined by the decision's id (`IMMZ.D2.DT.BCG`), unlike dmn:usingTask, which l2-dmn's invokedBy reads by task name."
+    },
+    {
       "predicate": "implementedBy",
       "iri": "http://smart.who.int/kg/implementedBy",
       "note": "Reused from l1, and licensed here for the L1->L2 hop that L1 could not declare itself: l1 cannot name an l2 class without a circular import, but l2 imports l1 and sees both ends. A recommendation is implemented by the DAK component that realises it. Always `inferred`, never `derived` -- deciding that a process realises a recommendation is adaptation, the judgement a DAK exists to record, and it carries a resolutionStatus like every other cross-artefact claim. Note health-intervention has NO implementedBy edge: the published SOP gives Health Interventions an L3 row of `n/a / n/a / n/a` and calls L1 recommendations inputs rather than outputs, so the trace runs through processes, decisions and indicators instead."
@@ -326,11 +341,16 @@ export const L2: LayerSpec = {
       name: "Task Entry",
       kind: "Element",
       iri: "http://smart.who.int/kg/dak-task",
-      note: "One entry of BusinessProcessWorkflow's `task 0..*` backbone: identifier, name, description. A node rather than a property because the same task is also drawn in the BPMN file, and the two lists have to be joinable to be checkable against each other.",
+      note: "One task of a DAK business process, as the DAK document's \"notes and annotations\" describe it: identifier, name, description, and the personas, data elements, requirements and decision tables it links to. A node rather than a property because the same task is also drawn in the BPMN file, and the two have to be joinable to be checkable against each other (`describes`). Read from a BPMN file's `dak-task-annotations/v1` sidecar (smart-base/L2-bpmn/schemas/task-annotations.ts); BusinessProcessWorkflow's `task 0..*` backbone carries the first three fields of the same thing.",
       properties: {
         identifier: p.string("Identifier", "The identifier, as declared."),
         name: p.string("Name", "The computable name: the CamelCase identifier a Canonical() reference matches on."),
         description: p.markdown("Description", "A description, as the source gives it."),
+        activityId: p.string("Activity id", "The DAK activity id (`IMMZ.B1`, `TB.A5`): the process id and the step number, the key the DAK spreadsheets use."),
+        matchedBy: p.string("Matched by", "How the annotation was joined to its BPMN task: `id`, `step-number`, `name` or `adjudicated` by a person."),
+        sourceDocument: p.string("Source document", "The L1 library document the annotation was read from."),
+        sourceItem: p.string("Source item", "The annotation's item number as printed (`1`, `2.3`)."),
+        source: p.string("Source", "Where the node was read from: a repository path or URL."),
       },
     },
     {
@@ -685,6 +705,21 @@ export const L2: LayerSpec = {
       "predicate": "listsTask",
       "source": "business-process",
       "target": "dak-task"
+    },
+    {
+      "predicate": "usesDataElement",
+      "source": "dak-task",
+      "target": "data-element"
+    },
+    {
+      "predicate": "specifiedBy",
+      "source": "dak-task",
+      "target": "functional-requirement"
+    },
+    {
+      "predicate": "invokesDecision",
+      "source": "dak-task",
+      "target": "decision-support-logic"
     },
     {
       "predicate": "references",

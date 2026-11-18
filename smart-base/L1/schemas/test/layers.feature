@@ -22,8 +22,8 @@ Feature: The knowledge-graph layers above L1
 
   @test:smart-base/L1/schemas/test/layers.test.ts::smartKgCountsCarriedOver
   Scenario: the smart-kg class, predicate and edge counts are carried over
-    Then L2 has 14 classes, 13 predicates and 47 edges (smart-kg 3.0 plus verifiedBy and three requirement edges)
-    And L2-BPMN has 6, 3 and 20
+    Then L2 has 14 classes, 16 predicates and 50 edges (smart-kg 3.0 plus verifiedBy and three requirement edges, plus the three task-annotation links)
+    And L2-BPMN has 6, 3 and 24 (plus describes to a gateway, a task performed by a persona, and a sub-process containing gateways and events)
     And L2-DMN has 6, 3 and 10
     And L3 has 14, 3 and 39
 

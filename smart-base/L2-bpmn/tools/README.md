@@ -16,6 +16,7 @@ Part of [SMART Base](../../README.md) 0.1.0, declared as `l2-bpmn-tools`, holdin
 | [`bpmn-graphviz-layout/`](bpmn-graphviz-layout/) | _nothing declares what this holds_ | |
 | [`bpmn-to-fsh/`](bpmn-to-fsh/) | _nothing declares what this holds_ | |
 | [`bpmn-validate/`](bpmn-validate/) | _nothing declares what this holds_ | |
+| [`dak-task-annotations/`](dak-task-annotations/) | _nothing declares what this holds_ | |
 | [`kg-extract-bpmn/`](kg-extract-bpmn/) | _nothing declares what this holds_ | |
 
 <!-- kg:subgraph:end -->

@@ -16,6 +16,7 @@ Part of [SMART Base](../../README.md) 0.1.0, declared as `l2-bpmn-schemas`, hold
 | [`extract-bpmn.ts`](extract-bpmn.ts) | a file |  |
 | [`index.ts`](index.ts) | a file |  |
 | [`l2-bpmn.ts`](l2-bpmn.ts) | a file |  |
+| [`task-annotations.ts`](task-annotations.ts) | a file |  |
 | [`generated/`](generated/) | _nothing declares what this holds_ | |
 
 <!-- kg:subgraph:end -->

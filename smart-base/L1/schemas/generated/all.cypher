@@ -180,6 +180,9 @@ MATCH (s:KGClass {id:'functional-requirement'}), (t:KGClass {id:'persona'}) MERG
 MATCH (s:KGClass {id:'functional-requirement'}), (t:KGClass {id:'requirement-statement'}) MERGE (s)-[:HASSTATEMENT {predicate:'hasStatement'}]->(t);
 MATCH (s:KGClass {id:'non-functional-requirement'}), (t:KGClass {id:'requirement-statement'}) MERGE (s)-[:HASSTATEMENT {predicate:'hasStatement'}]->(t);
 MATCH (s:KGClass {id:'business-process'}), (t:KGClass {id:'dak-task'}) MERGE (s)-[:LISTSTASK {predicate:'listsTask'}]->(t);
+MATCH (s:KGClass {id:'dak-task'}), (t:KGClass {id:'data-element'}) MERGE (s)-[:USESDATAELEMENT {predicate:'usesDataElement'}]->(t);
+MATCH (s:KGClass {id:'dak-task'}), (t:KGClass {id:'functional-requirement'}) MERGE (s)-[:SPECIFIEDBY {predicate:'specifiedBy'}]->(t);
+MATCH (s:KGClass {id:'dak-task'}), (t:KGClass {id:'decision-support-logic'}) MERGE (s)-[:INVOKESDECISION {predicate:'invokesDecision'}]->(t);
 MATCH (s:KGClass {id:'program-indicator'}), (t:KGClass {id:'health-intervention'}) MERGE (s)-[:REFERENCES {predicate:'references'}]->(t);
 MATCH (s:KGClass {id:'program-indicator'}), (t:KGClass {id:'indicator'}) MERGE (s)-[:DERIVEDFROM {predicate:'derivedFrom'}]->(t);
 MATCH (s:KGClass {id:'persona'}), (t:KGClass {id:'terminology-code'}) MERGE (s)-[:CROSSREFERENCES {predicate:'crossReferences'}]->(t);
@@ -236,6 +239,8 @@ MATCH (s:KGClass {id:'bpmn-process'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:
 MATCH (s:KGClass {id:'bpmn-process'}), (t:KGClass {id:'bpmn-gateway'}) MERGE (s)-[:CONTAINS {predicate:'contains'}]->(t);
 MATCH (s:KGClass {id:'bpmn-process'}), (t:KGClass {id:'bpmn-event'}) MERGE (s)-[:CONTAINS {predicate:'contains'}]->(t);
 MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:CONTAINS {predicate:'contains'}]->(t);
+MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-gateway'}) MERGE (s)-[:CONTAINS {predicate:'contains'}]->(t);
+MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-event'}) MERGE (s)-[:CONTAINS {predicate:'contains'}]->(t);
 MATCH (s:KGClass {id:'bpmn-event'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:FLOWSTO {predicate:'flowsTo'}]->(t);
 MATCH (s:KGClass {id:'bpmn-event'}), (t:KGClass {id:'bpmn-gateway'}) MERGE (s)-[:FLOWSTO {predicate:'flowsTo'}]->(t);
 MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:FLOWSTO {predicate:'flowsTo'}]->(t);
@@ -249,6 +254,8 @@ MATCH (s:KGClass {id:'bpmn-task'}), (t:KGClass {id:'bpmn-event'}) MERGE (s)-[:ME
 MATCH (s:KGClass {id:'bpmn-event'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:MESSAGETO {predicate:'messageTo'}]->(t);
 MATCH (s:KGClass {id:'bpmn-participant'}), (t:KGClass {id:'persona'}) MERGE (s)-[:PERFORMEDBY {predicate:'performedBy'}]->(t);
 MATCH (s:KGClass {id:'dak-task'}), (t:KGClass {id:'bpmn-task'}) MERGE (s)-[:DESCRIBES {predicate:'describes'}]->(t);
+MATCH (s:KGClass {id:'dak-task'}), (t:KGClass {id:'bpmn-gateway'}) MERGE (s)-[:DESCRIBES {predicate:'describes'}]->(t);
+MATCH (s:KGClass {id:'dak-task'}), (t:KGClass {id:'persona'}) MERGE (s)-[:PERFORMEDBY {predicate:'performedBy'}]->(t);
 MATCH (s:KGClass {id:'business-process'}), (t:KGClass {id:'bpmn-definitions'}) MERGE (s)-[:SOURCEDFROM {predicate:'sourcedFrom'}]->(t);
 
 // Verification. Must return 4 rows -- one per imported class this layer

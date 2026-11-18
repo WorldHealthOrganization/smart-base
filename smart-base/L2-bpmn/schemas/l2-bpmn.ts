@@ -59,7 +59,7 @@ export const L2_BPMN: LayerSpec = {
     {
       "what": "The DAK-level task list that duplicates part of it",
       "where": "smart-base input/fsh/models/BusinessProcessWorkflow.fsh",
-      "detail": "`task 0..*` with identifier, name and description -- the same tasks the BPMN draws, listed again in FSH. `describes` joins the two so they can be checked against each other; today nothing does."
+      "detail": "`task 0..*` with identifier, name and description -- the same tasks the BPMN draws, listed again in FSH. `describes` joins the two so they can be checked against each other. extract-bpmn.ts emits it from a BPMN file's `dak-task-annotations/v1` sidecar (task-annotations.ts), which carries each task's annotation from the DAK document; the FSH backbone is not read."
     },
     {
       "what": "Personas referenced by display name",
@@ -83,7 +83,7 @@ export const L2_BPMN: LayerSpec = {
     {
       "predicate": "performedBy",
       "iri": "http://smart.who.int/kg/performedBy",
-      "note": "A participant pool is performed by a persona. STRING EQUALITY between the pool's @name and an ActorDefinition's title, across two file formats with no shared identifier. Compare l2:fulfilledBy, where a requirement names a persona by Canonical() and resolves without guessing -- the mechanism exists; BPMN does not use it. Every instance carries a resolutionStatus."
+      "note": "A participant pool, or a DAK task (from its lane, else its pool, as the task-annotations sidecar records it), is performed by a persona. For a pool: STRING EQUALITY between the pool's @name and an ActorDefinition's title, across two file formats with no shared identifier. Compare l2:fulfilledBy, where a requirement names a persona by Canonical() and resolves without guessing -- the mechanism exists; BPMN does not use it. Every instance carries a resolutionStatus."
     }
   ],
   classes: [
@@ -152,6 +152,7 @@ export const L2_BPMN: LayerSpec = {
         name: p.string("Name", "The computable name: the CamelCase identifier a Canonical() reference matches on."),
         gatewayType: p.string("Gateway type", "The BPMN gateway element type (exclusiveGateway, parallelGateway, …)."),
         direction: p.code(VS["gateway-direction"], "error", "Direction", "The gateway's gatewayDirection."),
+        parent: p.string("Parent", "The id of the sub-process that contains it, when nested."),
       },
       valueSets: {
         "direction": "gateway-direction"
@@ -162,11 +163,12 @@ export const L2_BPMN: LayerSpec = {
       name: "BPMN Event",
       kind: "Structure",
       iri: "http://smart.who.int/kg/bpmn-event",
-      note: "A start or end event. Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all.",
+      note: "A start, end or intermediate event (WHO's DAK BPMN draw intermediate throw and catch events inside sub-processes). Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all.",
       properties: {
         id: p.string("Id", "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."),
         name: p.string("Name", "The computable name: the CamelCase identifier a Canonical() reference matches on."),
         eventType: p.string("Event type", "The BPMN event element type (startEvent, endEvent, intermediateCatchEvent, …)."),
+        parent: p.string("Parent", "The id of the sub-process that contains it, when nested."),
       },
     }
   ],
@@ -200,6 +202,16 @@ export const L2_BPMN: LayerSpec = {
       "predicate": "contains",
       "source": "bpmn-task",
       "target": "bpmn-task"
+    },
+    {
+      "predicate": "contains",
+      "source": "bpmn-task",
+      "target": "bpmn-gateway"
+    },
+    {
+      "predicate": "contains",
+      "source": "bpmn-task",
+      "target": "bpmn-event"
     },
     {
       "predicate": "flowsTo",
@@ -265,6 +277,16 @@ export const L2_BPMN: LayerSpec = {
       "predicate": "describes",
       "source": "dak-task",
       "target": "bpmn-task"
+    },
+    {
+      "predicate": "describes",
+      "source": "dak-task",
+      "target": "bpmn-gateway"
+    },
+    {
+      "predicate": "performedBy",
+      "source": "dak-task",
+      "target": "persona"
     },
     {
       "predicate": "sourcedFrom",
