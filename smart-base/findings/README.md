@@ -13,7 +13,9 @@ Part of [SMART Base](../README.md) 0.1.0, declared as `smart-base-findings`, hol
 
 | file | what it is | used by |
 |---|---|---|
+| [`bpmn-task-annotations-2026-11-18.md`](bpmn-task-annotations-2026-11-18.md) | "Findings for the owner (2026-11-18): the per-task 'notes and annotations' of WHO DAK business processes are ingested only as flattened prose; nothing links… |  |
 | [`dth-candidates-2026-10-02.json`](dth-candidates-2026-10-02.json) | data |  |
+| [`dth-planning-schemas-proposal-2026-10-31.md`](dth-planning-schemas-proposal-2026-10-31.md) | "A DRAFT proposal of five DTH governance and planning schemas, held for review by the architect group and the handbook owners. |  |
 | [`dth-term-alternatives.json`](dth-term-alternatives.json) | DTH terms: alternatives, one phase figure, and what "actor" means |  |
 | [`dth-terms.md`](dth-terms.md) | "Where the WHO Digital Transformation Handbooks and the draft DPI-H [Reference](https://litlfred.github.io/bootstrap/schemas/#reference) Architecture define a term differently, each definition recorded as an alternat… |  |
 | [`ra-actor-comment.md`](ra-actor-comment.md) | "A DRAFT comment on WHO's [Reference](https://litlfred.github.io/bootstrap/schemas/#reference) Architecture and Guidance for DPI-H, DRAFT V1.0, for the owner to send. |  |
