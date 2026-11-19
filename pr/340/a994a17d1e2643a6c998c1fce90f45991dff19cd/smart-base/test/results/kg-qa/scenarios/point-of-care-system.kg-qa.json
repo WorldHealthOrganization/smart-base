@@ -1,0 +1,54 @@
+{
+  "$schema": "kg-qa/v1",
+  "subject": {
+    "kind": "role",
+    "id": "point-of-care-system",
+    "path": "scenarios/roles.json"
+  },
+  "source_hash": "sha256:a70331721037eace92def8ef52f1e198d52140834768ccfc853dde2ff64c74a1",
+  "criteria": {
+    "role-skills-resolve": {
+      "result": "pass",
+      "findings": []
+    },
+    "role-inherits-resolves": {
+      "result": "n/a",
+      "findings": []
+    },
+    "role-binds-a-lane": {
+      "result": "pass",
+      "findings": []
+    },
+    "mechanical-role-untested": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "point-of-care-system",
+          "detail": "role \"point-of-care-system\" is played only by system actors, and none of its 3 skill(s) (activate-accepted-guidance, apply-decision-support, extract-questionnaire-response) names a test in `tested-by:`."
+        }
+      ]
+    },
+    "role-has-persona": {
+      "result": "n/a",
+      "findings": []
+    },
+    "role-has-story": {
+      "result": "n/a",
+      "findings": []
+    },
+    "role-has-actor": {
+      "result": "pass",
+      "findings": []
+    },
+    "actor-kind-fits-role": {
+      "result": "pass",
+      "findings": []
+    }
+  },
+  "totals": {
+    "pass": 4,
+    "fail": 1,
+    "n/a": 3,
+    "unknown": 0
+  }
+}
