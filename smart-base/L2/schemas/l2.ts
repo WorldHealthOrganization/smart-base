@@ -13,6 +13,8 @@
  *
  * smart-kg is deprecated (owner, 2026-10-16): this file is the source of truth.
  * `npm run build` in smart-base/L1/schemas/ regenerates `generated/` and the FSH.
+ *
+ * @graphNode schema
  */
 import type { LayerSpec, ValueSet } from "../../L1/schemas/ontology.ts";
 import { p } from "../../L1/schemas/props.ts";

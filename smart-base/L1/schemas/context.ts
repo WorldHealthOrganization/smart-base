@@ -33,6 +33,8 @@
  *
  * The base stays smart-kg's, unchanged: an `l1` document means what smart-kg
  * says it means. The three are proposed upstream rather than patched in.
+ *
+ * @graphNode none — generates JSON-LD contexts from the layer schemas; defines none itself
  */
 import type { ClassSpec, LayerSpec, PropertySpec } from "./ontology.ts";
 

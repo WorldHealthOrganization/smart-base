@@ -22,6 +22,8 @@
  * judgement. An extractor that resolved silently would be manufacturing provenance.
  *
  *   npx tsx L2-dmn/schemas/extract-citations.ts <file.dmn> [--out /tmp/citations.json]
+ *
+ * @graphNode none — extracts L1 citations from DMN; an extractor
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { basename } from "node:path";

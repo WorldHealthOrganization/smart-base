@@ -21,6 +21,8 @@
  * or written into the BPMN for this, and nothing FHIR-specific is involved.
  *
  *   npx tsx L2-bpmn/schemas/extract-bpmn.ts <file.bpmn> [--personas <dir>] [--annotations <file.tasks.json>] [--out <path>]
+ *
+ * @graphNode none — the L2-BPMN extractor
  */
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";

@@ -9,6 +9,8 @@
  * table and the L2-DMN extractor emits a `dmn-definitions` node for the same
  * file; both call {@link artifactId} and get the same IRI, so loading the two
  * documents into one store yields one node described at two layers.
+ *
+ * @graphNode none — DAK-namespace identity functions
  */
 import { slug } from "../../L1/schemas/kgid.ts";
 

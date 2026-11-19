@@ -14,6 +14,8 @@
  * `definitionCanonical`, `relatedArtifact` — it is preferred and is `derived`.
  *
  *   npx tsx L3/schemas/extract-l3.ts --ig <path-to-IG> [--out <path>]
+ *
+ * @graphNode none — the L3 extractor
  */
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { basename, join, relative } from "node:path";

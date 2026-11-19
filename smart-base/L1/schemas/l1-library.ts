@@ -43,6 +43,8 @@
  * to be proposed to smart-kg; smart-kg is deprecated, owner 2026-10-16.) A document that uses it names
  * `l1-library.context.jsonld`; smart-kg's `validate.mjs` cannot check such a
  * document until the layer is upstream, and `validate.ts` here can.
+ *
+ * @graphNode schema
  */
 import type { LayerSpec } from "./ontology.ts";
 import { p } from "./props.ts";

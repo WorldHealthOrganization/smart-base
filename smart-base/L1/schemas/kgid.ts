@@ -7,6 +7,8 @@
  * L1 IRIs live under one WHO-wide namespace and are built from what WHO prints
  * — the ISBN, the published number — so that two extractions of one guideline
  * yield the same nodes.
+ *
+ * @graphNode none — identity and content-hashing functions
  */
 import { createHash } from "node:crypto";
 

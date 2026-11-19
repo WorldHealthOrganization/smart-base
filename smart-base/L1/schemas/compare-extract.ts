@@ -9,6 +9,8 @@
  * than the fixture continuing to describe a file that no longer exists in that form.
  *
  *   npx tsx L1/schemas/compare-extract.ts <committed.json> <fresh.json>
+ *
+ * @graphNode none — a tool comparing two extractor outputs, not a schema
  */
 import { readFileSync } from "node:fs";
 

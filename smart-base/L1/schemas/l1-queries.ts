@@ -13,6 +13,8 @@
  *
  * A graph is several documents read as one: L1 holds WHO content, and every
  * higher layer points down into it, so no single document answers any of these.
+ *
+ * @graphNode none — query functions over an L1 graph
  */
 
 export interface QueryNode {

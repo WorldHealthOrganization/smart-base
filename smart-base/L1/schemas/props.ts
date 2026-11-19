@@ -2,6 +2,8 @@
  * Constructors for {@link PropertySpec}. One per FHIR type, so a property's
  * Zod schema and its FHIR element type cannot be chosen independently and
  * disagree.
+ *
+ * @graphNode none — constructor functions for PropertySpec, used by the layer schemas
  */
 import { z } from "zod";
 

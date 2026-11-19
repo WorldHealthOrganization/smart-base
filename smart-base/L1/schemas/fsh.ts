@@ -25,6 +25,8 @@
  * with `@`, so the document's `@context` is the element `context`. The JSON
  * Schema emitted from Zod keeps `@context`, and is the one a JSON document is
  * validated against.
+ *
+ * @graphNode none — generates FSH from the layer schemas; defines none itself
  */
 import { bindingOf, type ClassSpec, type LayerSpec, type PropertySpec } from "./ontology.ts";
 import { codeListOf, DERIVATION, pascal, type CodeList } from "./vocab.ts";

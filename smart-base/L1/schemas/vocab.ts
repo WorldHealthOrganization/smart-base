@@ -12,6 +12,8 @@
  * `certainty` and `recommendation-direction` — strong/conditional,
  * high/moderate/low/very-low, for/against — so there is one vocabulary, not
  * two; the 3.0 definitions, sourced to the WHO handbook, are the ones emitted.
+ *
+ * @graphNode schema
  */
 import { z } from "zod";
 

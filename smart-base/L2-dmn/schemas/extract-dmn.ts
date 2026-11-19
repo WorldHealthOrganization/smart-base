@@ -13,6 +13,8 @@
  * L1 recommendation graph meet without either knowing the other.
  *
  *   npx tsx L2-dmn/schemas/extract-dmn.ts <file.dmn> [--bpmn <f.bpmn>] [--out <path>]
+ *
+ * @graphNode none — the L2-DMN extractor
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { basename } from "node:path";

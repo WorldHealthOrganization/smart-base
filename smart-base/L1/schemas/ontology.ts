@@ -14,6 +14,8 @@
  * field for field, so tools written against smart-kg — `validate.mjs`,
  * `build-exports.mjs` — read it unchanged. It is no longer held equal to WHO's
  * `ontology/l1/l1.json`: smart-kg is deprecated (owner, 2026-10-16).
+ *
+ * @graphNode schema
  */
 import { z } from "zod";
 

@@ -14,49 +14,49 @@ Plans a DAK: scope, team, method, sources, roadmap and consultations, then start
 
 ### 1. Define DAK scope, purpose, and target audience (`Task_Scoping`)
 
-- Who: the `Programme Manager` lane (role `programme-manager`).
+- Who: the `Programme Manager` lane (role `SGAuthoring.Persona.ProgrammeManager`).
 - Skill: `content-plan`.
 - Record it: `workflow_complete` with `node: "Task_Scoping"`.
 - next: → `Task_FormTeam` (Form DAK development team and define RASCI matrix)
 
 ### 2. Form DAK development team and define RASCI matrix (`Task_FormTeam`)
 
-- Who: the `Programme Manager` lane (role `programme-manager`).
+- Who: the `Programme Manager` lane (role `SGAuthoring.Persona.ProgrammeManager`).
 - Skill: `raci`.
 - Record it: `workflow_complete` with `node: "Task_FormTeam"`.
 - next: → `Task_EstablishProcess` (Establish development process (Agile/Scrum) and tooling)
 
 ### 3. Establish development process (Agile/Scrum) and tooling (`Task_EstablishProcess`)
 
-- Who: the `Programme Manager` lane (role `programme-manager`).
+- Who: the `Programme Manager` lane (role `SGAuthoring.Persona.ProgrammeManager`).
 - Skill: `methodology-adoption`.
 - Record it: `workflow_complete` with `node: "Task_EstablishProcess"`.
 - next: → `Task_GatherDocs` (Gather source documents (guidelines, registers, policies))
 
 ### 4. Gather source documents (guidelines, registers, policies) (`Task_GatherDocs`)
 
-- Who: the `Programme Manager` lane (role `programme-manager`).
+- Who: the `Programme Manager` lane (role `SGAuthoring.Persona.ProgrammeManager`).
 - Skill: `dak-l1-library`.
 - Record it: `workflow_complete` with `node: "Task_GatherDocs"`.
 - next: → `Task_PlanTimeline` (Draft project roadmap, backlog, and sprint cadence)
 
 ### 5. Draft project roadmap, backlog, and sprint cadence (`Task_PlanTimeline`)
 
-- Who: the `Programme Manager` lane (role `programme-manager`).
+- Who: the `Programme Manager` lane (role `SGAuthoring.Persona.ProgrammeManager`).
 - Skill: `release-epic-planning`.
 - Record it: `workflow_complete` with `node: "Task_PlanTimeline"`.
 - next: → `Task_PlanConsultations` (Plan SME consultation schedule and format)
 
 ### 6. Plan SME consultation schedule and format (`Task_PlanConsultations`)
 
-- Who: the `Programme Manager` lane (role `programme-manager`).
+- Who: the `Programme Manager` lane (role `SGAuthoring.Persona.ProgrammeManager`).
 - Skill: `content-plan`.
 - Record it: `workflow_complete` with `node: "Task_PlanConsultations"`.
 - next: → `Task_AssignWork` (Assign work and begin sprint cycle)
 
 ### 7. Assign work and begin sprint cycle (`Task_AssignWork`)
 
-- Who: the `Programme Manager` lane (role `programme-manager`).
+- Who: the `Programme Manager` lane (role `SGAuthoring.Persona.ProgrammeManager`).
 - Skill: `todo-manager`.
 - Record it: `workflow_complete` with `node: "Task_AssignWork"`.
 - next: → `End_Planning` (Planning Complete)

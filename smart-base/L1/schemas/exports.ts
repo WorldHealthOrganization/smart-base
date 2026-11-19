@@ -7,6 +7,8 @@
  * open the model in the tool they use — Turtle in Protégé, Cypher in Neo4j —
  * without this toolchain. `emit.ts` writes them and `--check` keeps them
  * current. They carry no DAK data: a DAK's own graph is its IG build's.
+ *
+ * @graphNode none — Turtle and Cypher views generated from the layer schemas
  */
 import { bindingOf, type ClassSpec, type LayerSpec } from "./ontology.ts";
 

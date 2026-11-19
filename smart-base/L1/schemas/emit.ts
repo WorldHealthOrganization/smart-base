@@ -17,6 +17,8 @@
  *
  *   npx tsx emit.ts               write
  *   npx tsx emit.ts     --check   exit 1 and name each stale or orphaned file
+ *
+ * @graphNode none — the generator that writes artefacts from the Zod source
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";

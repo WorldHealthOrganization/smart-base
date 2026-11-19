@@ -15,6 +15,10 @@ import {
   validateL2DthFolio,
   type ArchimateModelIndex,
 } from "./check-l2-dth.ts";
+import { stagingSite } from "../../../schemas/site-roots.ts";
+
+/** smart-ra's staging site under the building owner, as the checker derives it. */
+const SMART_RA = stagingSite("smart-ra");
 
 function makeFixtureFolio(mutate?: (root: string) => void): string {
   const root = mkdtempSync(join(tmpdir(), "l2-dth-test-"));
@@ -344,13 +348,13 @@ describe("ArchiMate-link QA checks", () => {
       {
         elements: [
           {
-            iri: "https://litlfred.github.io/smart-ra/archimate/0.2.0/elements/id-prod-reg.jsonld",
+            iri: `${SMART_RA}archimate/0.2.0/elements/id-prod-reg.jsonld`,
             name: "Product Registry",
           },
         ],
         views: [
           {
-            iri: "https://litlfred.github.io/smart-ra/archimate/0.2.0/views/id-view-dhsc.jsonld",
+            iri: `${SMART_RA}archimate/0.2.0/views/id-view-dhsc.jsonld`,
             name: "DHSC View",
           },
         ],
@@ -367,7 +371,7 @@ describe("ArchiMate-link QA checks", () => {
       {
         elements: [
           {
-            iri: "https://litlfred.github.io/smart-ra/archimate/0.2.0/elements/id-missing.jsonld",
+            iri: `${SMART_RA}archimate/0.2.0/elements/id-missing.jsonld`,
             name: "Missing Element",
           },
         ],

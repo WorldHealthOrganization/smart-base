@@ -9,6 +9,8 @@
  *
  *   import jsonld from "jsonld";
  *   await jsonld.toRDF(doc, { format: "application/n-quads", documentLoader });
+ *
+ * @graphNode none — an offline JSON-LD document loader
  */
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";

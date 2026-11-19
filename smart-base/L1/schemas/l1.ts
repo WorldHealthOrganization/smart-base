@@ -27,6 +27,8 @@
  * derives from FHIR `Coding`; indicator and health-intervention say on
  * `correspondsTo` which smart-base model they match and why they do not
  * derive from it.
+ *
+ * @graphNode schema
  */
 import type { LayerSpec, ValueSet } from "./ontology.ts";
 import { p } from "./props.ts";

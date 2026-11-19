@@ -9,6 +9,8 @@
  * L1 never names a layer above it: an import points only down the layering
  * (L3 -> L2 -> L1), and a new layer is added by declaring it, not by editing
  * the engine.
+ *
+ * @graphNode none — finds the declared layers; a registry, not a schema
  */
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";

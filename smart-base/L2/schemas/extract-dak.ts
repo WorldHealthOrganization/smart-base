@@ -13,6 +13,8 @@
  * resolves against a persona's instance id without guessing.
  *
  *   npx tsx L2/schemas/extract-dak.ts --dak <dak.json> --fsh <input/fsh> [--bpmn-dir d] [--dmn-dir d] [--out p]
+ *
+ * @graphNode none — the L2 DAK extractor
  */
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";

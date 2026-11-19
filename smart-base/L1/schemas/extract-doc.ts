@@ -10,6 +10,8 @@
  * `ontology/l1/l1.json` on disk (`ontology.mjs` `ontologyVersion()`).
  *
  * Nothing here names a layer above L1: an extractor passes its own spec in.
+ *
+ * @graphNode none — node and edge builders shared by the extractors
  */
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";

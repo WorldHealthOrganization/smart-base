@@ -14,6 +14,8 @@
  * new ones from the ported ones.
  *
  *   npx tsx validate.ts path/to/graph.json [more.json ...]
+ *
+ * @graphNode none — a validator over graph documents
  */
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";

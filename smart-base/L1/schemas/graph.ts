@@ -12,6 +12,8 @@
  * values are tier 2, in `validate.ts`, against `l1.ts`. The reason is the one
  * the original shape gave — the predicate set belongs to the ontology and
  * changes with it, so a copy here would drift.
+ *
+ * @graphNode schema
  */
 import { z } from "zod";
 
