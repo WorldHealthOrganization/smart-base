@@ -1,0 +1,1273 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>DAK API Documentation Hub - SMART Base v0.3.0</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link rel="stylesheet" href="fhir.css"/>
+    <link rel="stylesheet" href="assets/css/fa-all.css" type="text/css"/>
+      <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap-fhir.css"/>
+
+      <!-- Project extras -->
+    <link rel="stylesheet" href="assets/css/project.css"/>
+    <link rel="stylesheet" href="assets/css/pygments-manni.css"/>
+    <link rel="stylesheet" href="assets/css/jquery-ui.css"/>
+  	<link rel="stylesheet" href="assets/css/prism.css"/>
+      <!-- Placeholder for child template CSS declarations -->
+    <link rel="stylesheet" href="assets/css/who.css"/>
+    <link rel="stylesheet" href="assets/css/lforms.min.css"/>
+
+
+    <script src="fhir-table-scripts.js" type="text/javascript"> </script>
+
+      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!-- [if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif] -->
+
+      <!-- Favicons -->
+    <link sizes="144x144" rel="fhir-logo" href="assets/ico/icon-fhir-144.png"/>
+    <link sizes="114x114" rel="fhir-logo" href="assets/ico/icon-fhir-114.png"/>
+    <link sizes="72x72" rel="fhir-logo" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">    <!-- /segment-content -->
+
+<script src="assets/js/jquery.js" type="text/javascript"> </script>       <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+<script src="assets/js/jquery-ui.min.js" type="text/javascript"> </script>
+
+<script src="assets/js/window-hash.js" type="text/javascript"> </script>
+<a name="bottom"> </a>
+<div igtool="footer" id="segment-footer" class="segment">    <!-- segment-footer -->
+<div class="container">    <!-- container -->
+
+<div class="inner-wrapper">
+  <p>
+    IG &copy; 2023+ <a style="color:var(--footer-hyperlink-text-color)" href="http://who.int">WHO</a>.  Package smart.who.int.base#0.3.0 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>. Generated <span title="Thu, Nov 19, 2026 20:24+0000">2026-11-19</span>
+    <br/>
+    <span style="color: var(--footer-highlight-text-color)">
+                Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="qa.html">QA Report</a>
+                 
+                
+| <a style="color: #81BEF7" href="history.html" target="_blank">Version History</a> | <a rel="license" style="color: #81BEF7" href="license.html">License</a>
+    </span>
+  </p>
+</div>    <!-- /inner-wrapper -->
+</div>    <!-- /container -->
+</div>    <!-- /segment-footer -->
+
+<div id="segment-post-footer" class="segment hidden">    <!-- segment-post-footer -->
+<div class="container">    <!-- container -->
+</div>    <!-- /container -->
+</div>    <!-- /segment-post-footer -->
+
+  <!-- JS and analytics only. -->
+  <!-- Bootstrap core JavaScript
+================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+<script src="assets/js/bootstrap.min.js" type="text/javascript"> </script>
+<script src="assets/js/respond.min.js" type="text/javascript"> </script>
+<script src="assets/js/anchor.min.js" type="text/javascript"> </script>
+<script src="assets/js/clipboard.min.js" type="text/javascript"> </script>
+<script src="assets/js/clipboard-btn.js" type="text/javascript"> </script>
+<script src="assets/js/anchor-hover.js" type="text/javascript"> </script>
+  <!-- Analytics Below
+================================================== -->
+
+
+
+
+</body>
+
+	  <script src="assets/js/prism.js"></script>
+
+    <style type="text/css">h2{--heading-prefix:"8"}
+    h3,h4,h5,h6{--heading-prefix:"8"}</style>
+    <div id="segment-header" class="segment">    <!-- segment-header -->
+
+      <div id="segment-navbar" class="segment">    <!-- segment-navbar -->
+        <div id="stripe"> </div>
+        <div class="container">    <!-- container -->
+            <!-- HEADER CONTENT -->
+  
+          <nav class="navbar navbar-inverse">
+              <!-- status-bar -->
+            <div class="container">
+              <button data-target=".navbar-inverse-collapse" data-toggle="collapse" type="button" class="navbar-toggle">
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+              </button>
+              <a href="http://hl7.org/fhir/R4/index.html" class="navbar-brand hidden">FHIR</a>
+              <div class="nav-collapse collapse navbar-inverse-collapse">
+                  <!-- menu.xml -->
+
+<ul class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="index.html" class="dropdown-toggle">Authoring
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="authoring-process.html">Process</a>
+      </li>
+      <li>
+        <a href="authoring-personas.html">Personas</a>
+      </li>
+      <li>
+        <a href="authoring-skills.html">Skills</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="index.html" class="dropdown-toggle">Indices
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="artifacts.html">Artifact Index</a>
+      </li>
+      <li>
+        <a href="dak-api.html">DAK API</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+              </div>    <!-- /.nav-collapse -->
+
+              <div data-placeholder-label="Language Selector and Search" style="display: flex; justify-content: flex-end; align-items: center;" class="sf_colsIn col-md-8  navbar-right-container" data-sf-element="LanguageSelectorSearch">
+                  <!-- This div will be pushed to the right -->
+                <div style="margin-left: auto; background-color: #00477d; color: white;" class="language-selector">
+                  <i class="fa fa-language fa-lg"></i>
+                  <label for="language-selector"> </label>
+                  <select onChange="openLink(value)" name="language-selector" id="language-selector">
+                    <option>Select language</option>
+                    <option value="en" class="selected">English</option>
+                  </select>
+                  <i class="fas fa-angle-down"></i>
+                </div>
+                  <!-- Search Content -->
+              </div>
+            </div>    <!-- /.container -->
+          </nav>    <!-- /.navbar -->
+          <!-- /HEADER CONTENT -->
+        </div>    <!-- /container -->
+      </div>    <!-- /segment-navbar -->
+      
+
+      <div style=" justify-content: space-between; align-items: left;" class="container">
+
+          <!-- Placeholder for child template header declarations -->
+<div id="project-nav">
+    <a no-external="true" id="who-logo" href="index.html">
+        
+    </a>
+</div>
+
+ <div id="family-nav">
+  <a no-external="true" id="fhir-logo" href="http://hl7.org/fhir">  </a>
+</div> 
+
+
+        <div id="ig-status" class="ig-status-draft">
+          <p><span style="font-size:12pt;font-weight:bold">SMART Base</span>
+            <br/>
+            <span style="display:inline-block;">0.3.0 - ci-build
+
+
+            </span>
+          </p>
+        </div>
+      </div>   <!-- /container -->
+    </div>    <!-- /segment-header -->
+
+
+      <!-- status-bar -->
+
+    <div id="segment-breadcrumb" class="segment">    <!-- segment-breadcrumb -->
+      <div class="container">    <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href="toc.html"><b>Table of Contents</b></a></li><li><b>DAK API Documentation Hub</b></li>
+
+        </ul>
+      </div>    <!-- /container -->
+    </div>    <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">    <!-- segment-content -->
+      <div class="container"></div>    <!-- container -->
+        <div class="row"></div>
+          <div class="inner-wrapper"></div>
+
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12"></div>
+    <!-- ReleaseHeader --><p id="publish-box">SMART Base, published by WHO. This guide is not an authorized publication; it is the continuous build for version 0.3.0  built by the FHIR (HL7&reg; FHIR&reg; Standard) CI Build. This version is based on the current content of <a href="https://github.com/WorldHealthOrganization/smart-base/tree/main">https://github.com/WorldHealthOrganization/smart-base/tree/main</a> and changes regularly. See the <a href="history.html">Directory of published versions</a><br/><span data-smart-ci-extra="1" style="font-size:.85em;">Built from commit <a href="https://github.com/WorldHealthOrganization/smart-base/commit/e715ff593748d9fe17670364177ed0bc31588865"><code>e715ff59</code></a>. &nbsp; Branch: <a href="https://github.com/WorldHealthOrganization/smart-base/tree/claude/reconcile-litlfred-2026-11-19"><code>claude/reconcile-litlfred-2026-11-19</code></a>.</span></p>  <!-- EndReleaseHeader -->
+  <h2>DAK API Documentation Hub</h2>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+    <p>  <!-- white space is critical inside of capture --></p>
+<div>
+  <!-- do not remove - needed to prevent Jekyll from adding a p tag to any non block level element in the markdown. -->
+</div>
+
+<h3 id="dak-api-documentation-hub">DAK API Documentation Hub</h3>
+
+<p>This page provides access to Data Access Kit (DAK) API documentation and schemas.</p>
+
+<h4 id="table-of-contents" class="no_toc no_toc text-delta">Table of Contents</h4>
+
+<ol id="markdown-toc">
+  <li><a href="#dak-api-documentation-hub" id="markdown-toc-dak-api-documentation-hub">DAK API Documentation Hub</a></li>
+</ol>
+
+<!-- DAK_API_HUB_START -->
+<div class="dak-api-hub">
+    <p>This page provides access to all available DAK (Data Access Kit) API endpoints and schemas.
+    The DAK API provides structured access to ValueSet enumerations and Logical Model definitions used throughout this implementation guide.</p>
+
+    <h2>OpenAPI Documentation</h2>
+
+    <p>Interactive Swagger UI documentation for all generated schemas and external API specifications is available in the OpenAPI documentation hub:
+    <a href="openapi/index.html">View OpenAPI Documentation</a></p>
+
+    <h2>Using the DAK API</h2>
+    
+    <div class="usage-info">
+        <h3>Schema Validation</h3>
+        <p>Each JSON Schema can be used to validate data structures in your applications. 
+        The schemas follow the JSON Schema Draft 2020-12 specification and include:</p>
+        <ul>
+            <li>Type definitions and constraints</li>
+            <li>Property descriptions and examples</li>
+            <li>Required field specifications</li>
+            <li>Enumeration values with links to definitions</li>
+        </ul>
+        
+        <h3>JSON-LD Semantic Integration</h3>
+        <p>The JSON-LD vocabularies provide semantic web integration for ValueSet enumerations. Each vocabulary includes:</p>
+        <ul>
+            <li>Enumeration class definitions with schema.org compatibility</li>
+            <li>Individual code instances with canonical IRIs</li>
+            <li>Property definitions with range constraints</li>
+            <li>FHIR metadata integration (system URIs, ValueSet references)</li>
+        </ul>
+        
+        <h3>Integration with FHIR</h3>
+        <p>All schemas are derived from the FHIR definitions in this implementation guide. 
+        Each schema page includes links to the corresponding FHIR resource definitions for complete context.</p>
+        
+        <h3>API Endpoints</h3>
+        <p>The enumeration endpoints provide machine-readable lists of all available schemas, 
+        making it easy to discover and integrate with the available data structures programmatically.</p>
+    </div>
+
+    <h2>Logical Models</h2>
+    
+    <p>The following logical models define the structure for computable representations of WHO DAK content:</p>
+    
+    <div class="schema-grid">
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGDmnDefinitions.html">Knowledge graph L2-DMN: DMN File</a></h4>
+            <p>One DMN file as a unit -- the `dmn:definitions` root. Shares its IRI with the l1:external-artifact for the same file, so the l2:decision-support-logic component that points at it and this subgraph name one resource. Class IRI: http://smart.who.int/kg/dmn-definitions.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGDmnDefinitions.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGDmnDefinitions.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGDmnDefinitions.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGValueSet.html">Knowledge graph L3: Value Set</a></h4>
+            <p>A FHIR ValueSet. 192 in the immunizations IG -- the most numerous artefact of all. Indexed by canonical; its expansion, its compose rules and the codes it contains are terminology, which docs/SCOPE.md keeps at arm&#x27;s length as firmly here as at L1. Class IRI: http://smart.who.int/kg/value-set.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGValueSet.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGValueSet.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGValueSet.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGCqlLibrary.html">Knowledge graph L3: CQL File</a></h4>
+            <p>A .cql file on disk, as opposed to the FHIR Library resource that wraps it. A node so that the mapping table&#x27;s four CQL rows -- CQL Concepts and CQL Data Elements under Elements, CQL under Decision Tables, CQL IndicatorLogic under Indicators -- do not dead-end. It carries a name, a path and a hash and NOTHING about the logic: no expressions, no comment tags, no data requirements. 279 in the immunizations IG. The l3-cql subgraph is where that content belongs, and it is not built yet. No canonical, because a .cql file is not a FHIR resource and has no canonical URL. It is reached through the Library that wraps it. Class IRI: http://smart.who.int/kg/cql-library.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGCqlLibrary.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGCqlLibrary.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGCqlLibrary.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-RequirementsSource.html">Requirements Source</a></h4>
+            <p>Source reference for Requirements - exactly one of the following must be provided:
+- url (url data type): URL to retrieve Requirements definition from input/ or external source
+- canonical (canonical data type): Canonical URI pointing to the Requirements definition
+- instance: Inline Requirements instance data</p>
+            <div class="schema-links"><a href="StructureDefinition-RequirementsSource.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-RequirementsSource.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-RequirementsSource.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGNonFunctionalRequirement.html">Knowledge graph L2: Non-Functional Requirement</a></h4>
+            <p>DAK component 8, second half. `requirement 1..1 markdown`, an optional category and classification codings. Kept separate from the functional half because the fields genuinely differ -- a non-functional requirement has no actor and no benefit. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/non-functional-requirement.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGNonFunctionalRequirement.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGNonFunctionalRequirement.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGNonFunctionalRequirement.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGBpmnParticipant.html">Knowledge graph L2-BPMN: BPMN Participant</a></h4>
+            <p>A pool: a role that owns part of the collaboration. The lifecycle BPMN has 8 and declares no laneSet at all, so the pool is the only unit of role assignment present and its @name is the sole link to a persona. Class IRI: http://smart.who.int/kg/bpmn-participant.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGBpmnParticipant.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGBpmnParticipant.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGBpmnParticipant.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGProfile.html">Knowledge graph L3: Profile</a></h4>
+            <p>A StructureDefinition constraining a FHIR resource. Separate from structure-definition for the reason above. 5 in the immunizations IG. Its internals -- differentials, element definitions, bindings -- are the clearest case of what this layer refuses to re-represent. Class IRI: http://smart.who.int/kg/profile.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGProfile.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGProfile.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGProfile.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGExternalArtifact.html">Knowledge graph L2: External artefact</a></h4>
+            <p>A DAK file addressed by canonical URL: a BPMN process, a DMN decision table, a FHIR resource, a workbook. Deliberately opaque: it carries an IRI and a kind, and nothing about its interior. The L2-BPMN, L2-DMN and L3 classes that describe a file&#x27;s interior elaborate this class at the same IRI. Moved here from L1 in 3.0 unchanged: a DAK file is the DAK&#x27;s material, not WHO content. Class IRI: http://smart.who.int/kg/external-artifact.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGExternalArtifact.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGExternalArtifact.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGExternalArtifact.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-UserScenarioSource.html">User Scenario Source</a></h4>
+            <p>Source reference for User Scenario - exactly one of the following must be provided:
+- url (url data type): URL to retrieve UserScenario definition from input/ or external source
+- canonical (canonical data type): Canonical URI pointing to the UserScenario definition
+- instance: Inline UserScenario instance data</p>
+            <div class="schema-links"><a href="StructureDefinition-UserScenarioSource.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-UserScenarioSource.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-UserScenarioSource.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-BusinessProcessWorkflowSource.html">Business Process Workflow Source</a></h4>
+            <p>Source reference for Business Process Workflow - exactly one of the following must be provided:
+- url (url data type): URL to retrieve BusinessProcessWorkflow definition from input/ or external source
+- canonical (canonical data type): Canonical URI pointing to the BusinessProcessWorkflow definition
+- instance: Inline BusinessProcessWorkflow instance data</p>
+            <div class="schema-links"><a href="StructureDefinition-BusinessProcessWorkflowSource.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-BusinessProcessWorkflowSource.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-BusinessProcessWorkflowSource.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGPublicationSection.html">Knowledge graph L1: Publication section</a></h4>
+            <p>A chapter, annex or numbered section, at any depth. Class IRI: http://smart.who.int/kg/publication-section.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGPublicationSection.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGPublicationSection.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGPublicationSection.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-FHIRSchemaBase.html">FHIR Schema Base (SMART Guidelines)</a></h4>
+            <p>Base logical model providing the common schema metadata interface inherited by all SMART Guidelines logical models. Every SMART Guidelines logical model schema derives from this base, which documents the shared FHIR and JSON-LD metadata properties used by the JSON Schema generation pipeline.</p>
+            <div class="schema-links"><a href="StructureDefinition-FHIRSchemaBase.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-FHIRSchemaBase.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-FHIRSchemaBase.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-BusinessProcessWorkflow.html">Business Process Workflow (DAK)</a></h4>
+            <p>Logical Model for representing Generic Business Processes and Workflows from a DAK. A business process is a set of related activities or tasks performed together to achieve the objectives of the health programme area.</p>
+            <div class="schema-links"><a href="StructureDefinition-BusinessProcessWorkflow.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-BusinessProcessWorkflow.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-BusinessProcessWorkflow.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGActorDefinition.html">Knowledge graph L3: Actor Definition</a></h4>
+            <p>A FHIR ActorDefinition -- an L2 persona made a FHIR resource. ZERO in the immunizations IG and 22 in smart-base, which is itself worth a coverage query. The SOP names no profile for it and says one is not currently possible because SUSHI cannot profile an R5 resource in an R4 IG, and it tells authors not to assign an identifier -- so expect a bare resource and do not infer more. Class IRI: http://smart.who.int/kg/actor-definition.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGActorDefinition.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGActorDefinition.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGActorDefinition.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-GenericPersona.html">Generic Persona (DAK)</a></h4>
+            <p>Logical Model for representing Generic Personas from a DAK. Depiction of the human and system actors. Human actors are end users, supervisors and related stakeholders who would be interacting with the digital system or involved in the clinical care, public health or health system pathway.</p>
+            <div class="schema-links"><a href="StructureDefinition-GenericPersona.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-GenericPersona.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-GenericPersona.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGUserScenario.html">Knowledge graph L2: User Scenario</a></h4>
+            <p>DAK component 3. A narrative describing how personas interact. Carries `personas 0..* id`, which is the only structured link between the narrative layer and the personas it names. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/user-scenario.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGUserScenario.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGUserScenario.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGUserScenario.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGEvidenceLocation.html">Knowledge graph: evidence location</a></h4>
+            <p>Where a node or edge came from in its source. Required on anything not mechanically derived.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGEvidenceLocation.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGEvidenceLocation.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGEvidenceLocation.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGReferenceEntry.html">Knowledge graph L1: Reference entry</a></h4>
+            <p>One row of a DAK artefact&#x27;s own reference list: &#x27;(1)&#x27; and the full bibliographic text and URL it stands for. Resolved once; every citation numbered to it shares the result. Class IRI: http://smart.who.int/kg/reference-entry.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGReferenceEntry.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGReferenceEntry.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGReferenceEntry.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGGraphDocument.html">Knowledge graph L1: graph document</a></h4>
+            <p>One L1 knowledge-graph document: typed nodes and reified edges, provenance-pinned to the sources it was extracted from. In JSON the context element is written @context.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGGraphDocument.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGGraphDocument.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGGraphDocument.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-HealthInterventions.html">Health Interventions and Recommendations (DAK)</a></h4>
+            <p>Logical Model for representing Health Interventions and Recommendations from a DAK. Overview of the health interventions and WHO, regional or national recommendations included within the DAK.</p>
+            <div class="schema-links"><a href="StructureDefinition-HealthInterventions.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-HealthInterventions.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-HealthInterventions.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGLibraryNode.html">Knowledge graph L1-LIBRARY: Library node</a></h4>
+            <p>A node in the ingested library L1 is read from: a source document, a section or a block, addressed by the library&#x27;s own IRI. Opaque, as L1 asserts nothing about the library&#x27;s internal model; the library is upstream, so pointing at it keeps the layering rule. Class IRI: http://smart.who.int/kg/library-node.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGLibraryNode.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGLibraryNode.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGLibraryNode.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-TestScenarioSource.html">Test Scenario Source</a></h4>
+            <p>Source reference for Test Scenario - exactly one of the following must be provided:
+- url (url data type): URL to retrieve TestScenario definition from input/ or external source
+- canonical (canonical data type): Canonical URI pointing to the TestScenario definition
+- instance: Inline TestScenario instance data</p>
+            <div class="schema-links"><a href="StructureDefinition-TestScenarioSource.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-TestScenarioSource.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-TestScenarioSource.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-CoreDataElement.html">Core Data Element (DAK)</a></h4>
+            <p>Logical Model for representing Core Data Elements from a DAK. A core data element can be one of: a ValueSet, a CodeSystem, a ConceptMap, or a Logical Model adherent to SGLogicalModel. This is the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs.</p>
+            <div class="schema-links"><a href="StructureDefinition-CoreDataElement.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-CoreDataElement.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-CoreDataElement.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGIndicator.html">Knowledge graph L1: Indicator</a></h4>
+            <p>A WHO indicator, identified by its published reference number. Printed in several places (HIV SI 2022: summary list, Table 2.3, reference sheet) and stored once. variants is a list of {population, definition, numerator, denominator} for population-specific or level-specific forms (PRV.17, PRV.3). Corresponds to ProgramIndicator: definition, numerator, denominator and disaggregation are ProgramIndicator&#x27;s elements and types (markdown); not a Parent because ProgramIndicator makes them 1..1 and an L1 indicator is recorded with what its source prints. Class IRI: http://smart.who.int/kg/indicator.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGIndicator.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGIndicator.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGIndicator.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGStructureDefinition.html">Knowledge graph L3: Logical Model</a></h4>
+            <p>A StructureDefinition with kind `logical` -- one data dictionary tab as a data structure. Distinct from `profile`, which constrains a FHIR resource: WHO&#x27;s ArchiMate model has Logical Model realising Data Object while Profile realises Data Element, and the two are not interchangeable. 15 in the immunizations IG. Class IRI: http://smart.who.int/kg/structure-definition.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGStructureDefinition.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGStructureDefinition.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGStructureDefinition.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGDmnInputClause.html">Knowledge graph L2-DMN: DMN Input Clause</a></h4>
+            <p>An input column. Its expression text is where data element names are embedded, which is the only reason this is a node rather than a property of the table. Class IRI: http://smart.who.int/kg/dmn-input-clause.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGDmnInputClause.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGDmnInputClause.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGDmnInputClause.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGHealthIntervention.html">Knowledge graph L1: Health intervention</a></h4>
+            <p>An intervention identified in a WHO catalogue or classification (UHC Compendium, ICHI, CDHI), digital interventions included. A peer of recommendation, not a recommendation. A DAK may draw on both. Corresponds to HealthInterventions: identifier and description correspond to HealthInterventions.id and description[x]; not a Parent because HealthInterventions requires reference 1..* DublinCore, which here is an edge (definedIn) rather than a field. Class IRI: http://smart.who.int/kg/health-intervention.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGHealthIntervention.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGHealthIntervention.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGHealthIntervention.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGDmnRule.html">Knowledge graph L2-DMN: DMN Rule</a></h4>
+            <p>One row. Its input and output cells are carried as properties, not nodes: 250 of them in the BCG table alone, none the target of a cross-model edge. What the rule needs a node for is its citation edge into L1. conditions and outputs are arrays of {clause, description, text}. DMN puts the formal expression in description and the human-readable gloss in text, and both are worth keeping -- the gloss is what a reviewer reads and the expression is what an implementer builds. Class IRI: http://smart.who.int/kg/dmn-rule.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGDmnRule.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGDmnRule.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGDmnRule.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGCitation.html">Knowledge graph L1: Citation</a></h4>
+            <p>One citation string exactly as written in a DAK artefact. A cell holding several citations yields several nodes. Content-addressed in the DAK&#x27;s namespace, so one string is one node across artefacts. Where a citation was found is recorded by appearsIn (L2) and by each use edge (L2-DMN, L3 citesSource), not on the node. Class IRI: http://smart.who.int/kg/citation.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGCitation.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGCitation.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGCitation.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGKeyQuestion.html">Knowledge graph L1: Key question</a></h4>
+            <p>A question in PICO format, framed before the evidence search (handbook §7.1–7.4). P and C are verbatim text with codes through crossReferences; I is also joined to a catalogued intervention; O is the outcome node. Class IRI: http://smart.who.int/kg/key-question.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGKeyQuestion.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGKeyQuestion.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGKeyQuestion.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGProvenanceSource.html">Knowledge graph: provenance source</a></h4>
+            <p>A source a graph document was extracted from, pinned by hash.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGProvenanceSource.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGProvenanceSource.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGProvenanceSource.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-NonFunctionalRequirement.html">Non-Functional Requirement (DAK)</a></h4>
+            <p>Logical Model for representing non-functional requirement from a DAK</p>
+            <div class="schema-links"><a href="StructureDefinition-NonFunctionalRequirement.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-NonFunctionalRequirement.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-NonFunctionalRequirement.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGDakTask.html">Knowledge graph L2: Task Entry</a></h4>
+            <p>One task of a DAK business process, as the DAK document&#x27;s &quot;notes and annotations&quot; describe it: identifier, name, description, and the personas, data elements, requirements and decision tables it links to. A node rather than a property because the same task is also drawn in the BPMN file, and the two have to be joinable to be checkable against each other (`describes`). Read from a BPMN file&#x27;s `dak-task-annotations/v1` sidecar (smart-base/L2-bpmn/schemas/task-annotations.ts); BusinessProcessWorkflow&#x27;s `task 0..*` backbone carries the first three fields of the same thing. Class IRI: http://smart.who.int/kg/dak-task.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGDakTask.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGDakTask.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGDakTask.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGPublicationElement.html">Knowledge graph L1: Publication element</a></h4>
+            <p>One printed block: a table, a table row, a footnote, a figure, a chart, an image, a flowchart, a box or a list. It records where something is printed and exactly what is printed that no content node holds. It carries no meaning of its own; meaning lives in content nodes, joined by presentedIn. columns is the header text, verbatim. columnMap names, per column, the content field that fills it when the table is re-rendered (e.g. &#x27;Recommendation&#x27; -&gt; statement). cells holds only text no content node holds; a cell filled through columnMap is null. text is for unmodelled printed text such as a footnote that is not a remark. sha256 is for images. Class IRI: http://smart.who.int/kg/publication-element.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGPublicationElement.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGPublicationElement.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGPublicationElement.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGOutcome.html">Knowledge graph L1: Outcome</a></h4>
+            <p>An outcome a guideline group chose to judge a key question by, with its importance in this guideline (handbook §7.6). A node because evidence attaches to it and one list is shared by several questions (ANC Web annex 1). Flat: one node per specific outcome. name as first printed; aliases are the other printed forms (e.g. &#x27;EGWG&#x27;); category is the printed group heading (e.g. &#x27;Fetal/newborn morbidity&#x27;). Class IRI: http://smart.who.int/kg/outcome.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGOutcome.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGOutcome.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGOutcome.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGRequirementStatement.html">Knowledge graph L2: Requirement Statement</a></h4>
+            <p>One numbered, labelled statement inside a requirement, with a conformance verb. A node rather than a property because conformance is queried across a whole DAK -- &#x27;every SHALL in this kit, and what fulfils it&#x27; is the question requirements exist to answer. It also carries its own success criteria, so &#x27;what would show this SHALL is met&#x27; is answerable per statement rather than per requirement. conformance is the FHIR ConformanceExpectation verb: SHALL, SHOULD, MAY or SHOULD-NOT. Across the 41 committed instances it is 155 SHALL and 15 SHOULD. successCriteria is a LIST of objects, each {key, criterion, verification}: `key` is unique within the statement (e.g. SC-1), `criterion` is a checkable sentence, and `verification` is one of test | inspection | review | analysis -- the same field name and enum as folio-assistant&#x27;s requirement.ts `successCriteria`, so the two map 1:1. smart-base types it, so the shape is enforced by the schema; a statement with no successCriteria is still valid (the 170 statements committed in smart-base carry none). Class IRI: http://smart.who.int/kg/requirement-statement.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGRequirementStatement.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGRequirementStatement.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGRequirementStatement.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-DecisionSupportLogic.html">Decision-Support Logic (DAK)</a></h4>
+            <p>Logical Model for representing Decision-Support Logic from a DAK. Decision-support logic and algorithms to support appropriate service delivery in accordance with WHO clinical, public health and data use guidelines.</p>
+            <div class="schema-links"><a href="StructureDefinition-DecisionSupportLogic.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-DecisionSupportLogic.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-DecisionSupportLogic.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGLibrary.html">Knowledge graph L3: Library</a></h4>
+            <p>A FHIR Library -- the resource that carries CQL. Indexed by canonical and status only. Its CONTENTS are deliberately out of scope: a future l3-cql subgraph will elaborate this same IRI, exactly as l2-bpmn elaborates a BPMN file. 279 in the immunizations IG, joined to their PlanDefinition by the `{id}Logic` suffix. Class IRI: http://smart.who.int/kg/library.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGLibrary.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGLibrary.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGLibrary.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGCodeSystem.html">Knowledge graph L3: Code System</a></h4>
+            <p>A FHIR CodeSystem. The SOP says each guideline defines one guideline-level code system holding a concept for every data dictionary element -- which is what makes `code[WHO] = IMMZ.DE9` on a logical model element resolvable. 6 in the immunizations IG. The codes themselves are not copied here. Class IRI: http://smart.who.int/kg/code-system.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGCodeSystem.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGCodeSystem.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGCodeSystem.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-ProgramIndicator.html">Program Indicator (DAK)</a></h4>
+            <p>Logical Model for representing Program Indicators from a DAK. Core set of indicators that need to be aggregated for decision-making, performance metrics and subnational and national reporting.</p>
+            <div class="schema-links"><a href="StructureDefinition-ProgramIndicator.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-ProgramIndicator.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-ProgramIndicator.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGStructureMap.html">Knowledge graph L3: Structure Map</a></h4>
+            <p>A FHIR StructureMap. The SOP requires them in threes -- QuestionnaireResponse to logical model, logical model to resource, and a grouping map -- so a count that is not a multiple of three is worth a look. 16 .fml files in the immunizations IG. Class IRI: http://smart.who.int/kg/structure-map.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGStructureMap.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGStructureMap.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGStructureMap.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-TestScenario.html">Test Scenario (DAK)</a></h4>
+            <p>Logical Model for representing Test Scenarios from a DAK. A set of test scenarios to validate an implementation of the DAK.</p>
+            <div class="schema-links"><a href="StructureDefinition-TestScenario.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-TestScenario.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-TestScenario.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGRecommendation.html">Knowledge graph L1: Recommendation</a></h4>
+            <p>A normative statement from a WHO guideline. Kinds other than a graded recommendation (context-specific, research-only, good practice statement, no-recommendation) are the same node with a different kind. statement is verbatim and is the only stored copy. intervention, population, setting, provider and timing are verbatim slots taken from the statement, its remarks, or the enclosing caption or heading. setting absorbs the former conditionality. identifier is the published number (e.g. A.1.1), used in the IRI; sub-recommendations append their letter. Class IRI: http://smart.who.int/kg/recommendation.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGRecommendation.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGRecommendation.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGRecommendation.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGRemark.html">Knowledge graph L1: Remark</a></h4>
+            <p>A remark attached to a recommendation (handbook §10.6). May also be printed as a table footnote. Class IRI: http://smart.who.int/kg/remark.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGRemark.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGRemark.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGRemark.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGEvidence.html">Knowledge graph L1: Evidence</a></h4>
+            <p>One row of an evidence profile: the evidence for one outcome of one key question, with its certainty (handbook §9.2). Class IRI: http://smart.who.int/kg/evidence.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGEvidence.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGEvidence.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGEvidence.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGImplementationPractice.html">Knowledge graph L1-LIBRARY: Implementation practice</a></h4>
+            <p>A statement of how to put guidance into practice, printed in a publication whose publicationType is implementation-guidance or methodology: the handbook&#x27;s &quot;products that are not guidelines&quot; (§1.9), a &quot;how to&quot; document that makes no recommendations of its own. Not a recommendation, and not a good practice statement — both are made by a guideline and approved by the GRC; this is neither. It carries no kind, direction, strength or certainty, because nothing graded it. A handbook&#x27;s own &quot;Best practices&quot; lists are the typical source. Owner ruling 1b, 2026-10-12: model these as their own class, not as recommendation nodes of a new kind. statement is verbatim and is the only stored copy, as recommendation&#x27;s is. identifier is used in the IRI. There is no remark: L1 3.0&#x27;s remark is minted under a recommendation (its iriPattern) and hasRemark starts at one, so a remark of a practice needs L1 itself to change — proposed upstream, not patched here. Class IRI: http://smart.who.int/kg/implementation-practice.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGImplementationPractice.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGImplementationPractice.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGImplementationPractice.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-UserScenario.html">User Scenario (DAK)</a></h4>
+            <p>Logical Model for representing User Scenarios from a DAK. Narratives that describe how the different personas may interact with each other.</p>
+            <div class="schema-links"><a href="StructureDefinition-UserScenario.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-UserScenario.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-UserScenario.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGEdge.html">Knowledge graph: edge</a></h4>
+            <p>One reified statement: a predicate from a source node to a target node, with its derivation and evidence.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGEdge.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGEdge.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGEdge.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-Persona.html">Persona (DAK)</a></h4>
+            <p>Logical Model for representing Personas from a DAK</p>
+            <div class="schema-links"><a href="StructureDefinition-Persona.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-Persona.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-Persona.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGDmnOutputClause.html">Knowledge graph L2-DMN: DMN Output Clause</a></h4>
+            <p>An output column. The BCG table&#x27;s four are Care Plan, Guidance displayed to health worker, Annotations and Reference(s). These are column DEFINITIONS in a decision table, not clinical records: no edge from this class reaches an execution artefact, and none may. serialisedAs is outputEntry or annotationEntry -- DMN splits the columns across two element types and the split is positional, so recording it is what lets a rule&#x27;s cells be matched back to their columns. isReferenceColumn marks the L1 column, found by its description rather than its index. Class IRI: http://smart.who.int/kg/dmn-output-clause.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGDmnOutputClause.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGDmnOutputClause.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGDmnOutputClause.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGDak.html">Knowledge graph L2: Digital Adaptation Kit</a></h4>
+            <p>The kit itself. Properties are exactly the metadata fields DAK.fsh declares and dak.json carries -- no more, so that a dak node can be produced from a real file without anything being invented. canonicalUrl equals publicationUrl on a release branch and previewUrl on a development branch, per DAK.fsh. Both are kept because which one canonicalUrl currently equals is what says whether a graph describes a release or a build. Class IRI: http://smart.who.int/kg/dak.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGDak.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGDak.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGDak.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGProgramIndicator.html">Knowledge graph L2: Program Indicator</a></h4>
+            <p>DAK component 7. Named program-indicator and not `indicator` because L1 already declares an `indicator` -- one normatively defined in a publication. They are different things: this is the DAK&#x27;s operational measure, and `derivedFrom` is how it points at the normative one. Collapsing them would silently merge a WHO definition with a country&#x27;s implementation of it. numerator, denominator and disaggregation are all `1..1 markdown` -- prose, not a computable expression. Nothing here should be read as a calculable measure; the L3 FHIR Measure is where that would live. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/program-indicator.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGProgramIndicator.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGProgramIndicator.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGProgramIndicator.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGDmnDecision.html">Knowledge graph L2-DMN: DMN Decision</a></h4>
+            <p>A `dmn:decision` -- the question being answered, and the node that carries the link back to the BPMN task invoking it. A file may hold several; the BCG file holds one. Class IRI: http://smart.who.int/kg/dmn-decision.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGDmnDecision.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGDmnDecision.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGDmnDecision.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGQuestionnaire.html">Knowledge graph L3: Questionnaire</a></h4>
+            <p>A FHIR Questionnaire -- a data-collection form over a logical model. 10 in the immunizations IG. Its `sdc-questionnaire-targetStructureMap` extension names the StructureMap that extracts it, which is a real canonical reference. The SOP states no linkId convention and none exists in the estate, so no edge is licensed on linkId. Class IRI: http://smart.who.int/kg/questionnaire.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGQuestionnaire.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGQuestionnaire.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGQuestionnaire.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-CoreDataElementSource.html">Core Data Element Source</a></h4>
+            <p>Source reference for Core Data Element - exactly one of the following must be provided:
+- url (url data type): URL to retrieve CoreDataElement definition from input/ or external source
+- canonical (canonical data type): Canonical URI pointing to the CoreDataElement definition
+- instance: Inline CoreDataElement instance data</p>
+            <div class="schema-links"><a href="StructureDefinition-CoreDataElementSource.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-CoreDataElementSource.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-CoreDataElementSource.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGSchedulingLogic.html">Knowledge graph L2: Scheduling Logic</a></h4>
+            <p>When an intervention is due, as a DAK component. NOT declared by DAK.fsh -- it is added here because the published SOP lists Scheduling Logic as an active L2 input (spreadsheets under input/scheduling-logic), WHO&#x27;s ArchiMate model declares it a BusinessObject realised by PlanDefinition, and L1&#x27;s schedules needed an L2 component to reach (since L1 3.0, a recommendation&#x27;s timing slot). Note that the SOP&#x27;s own L3 row for scheduling is present but HTML-commented-out and there is no l3_schedulinglogic.md page, so WHO has drafted the mapping and not activated it; the L3 edge is licensed here as a deliberate departure, recorded rather than hidden. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/scheduling-logic.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGSchedulingLogic.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGSchedulingLogic.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGSchedulingLogic.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-FunctionalRequirement.html">Functional Requirement (DAK)</a></h4>
+            <p>Logical Model for representing functional requirement from a DAK</p>
+            <div class="schema-links"><a href="StructureDefinition-FunctionalRequirement.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-FunctionalRequirement.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-FunctionalRequirement.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-GenericPersonaSource.html">Generic Persona Source</a></h4>
+            <p>Source reference for Generic Persona - exactly one of the following must be provided:
+- url (url data type): URL to retrieve GenericPersona definition from input/ or external source
+- canonical (canonical data type): Canonical URI pointing to the GenericPersona definition
+- instance: Inline GenericPersona instance data</p>
+            <div class="schema-links"><a href="StructureDefinition-GenericPersonaSource.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-GenericPersonaSource.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-GenericPersonaSource.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-ProgramIndicatorSource.html">Program Indicator Source</a></h4>
+            <p>Source reference for Program Indicator - exactly one of the following must be provided:
+- url (url data type): URL to retrieve ProgramIndicator definition from input/ or external source
+- canonical (canonical data type): Canonical URI pointing to the ProgramIndicator definition
+- instance: Inline ProgramIndicator instance data</p>
+            <div class="schema-links"><a href="StructureDefinition-ProgramIndicatorSource.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-ProgramIndicatorSource.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-ProgramIndicatorSource.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-DublinCore.html">Dublin Core Metadata Element Set</a></h4>
+            <p>Logical Model representing Dublin Core metadata elements as defined at https://www.dublincore.org/specifications/dublin-core/dcmi-terms/</p>
+            <div class="schema-links"><a href="StructureDefinition-DublinCore.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-DublinCore.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-DublinCore.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGTerminologyCode.html">Knowledge graph L1: Terminology code</a></h4>
+            <p>A code in an external terminology — ICD-10, ICD-11, SNOMED CT, ATC, or a WHO classification such as CDHI. CROSS-REFERENCE ONLY. It records system, code and display, and asserts NOTHING about the terminology: no hierarchy, no subsumption, no synonyms, no post-coordination. The terminology has its own authority, its own release cycle and its own tooling, and a partial copy here would be wrong within one release. Resolve meaning against the terminology server, not against this graph. Derives from Coding (FHIR R4 core datatype); system, code, display, version are its elements. Class IRI: http://smart.who.int/kg/terminology-code.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGTerminologyCode.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGTerminologyCode.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGTerminologyCode.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGMeasure.html">Knowledge graph L3: Measure</a></h4>
+            <p>A FHIR Measure -- an indicator made computable. 41 in the immunizations IG, all declaring proportion-measure-cqfm; the SOP makes the profile depend on scoring type, which is why the profile is read rather than assumed. Joined to its L2 indicator by id convention (IMMZ.IND.08 -&gt; IMMZIND08). Class IRI: http://smart.who.int/kg/measure.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGMeasure.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGMeasure.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGMeasure.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-DAK.html">Digital Adaptation Kit (DAK)</a></h4>
+            <p>Logical Model for representing a complete Digital Adaptation Kit (DAK) with metadata and all 9 DAK components</p>
+            <div class="schema-links"><a href="StructureDefinition-DAK.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-DAK.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-DAK.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGBpmnEvent.html">Knowledge graph L2-BPMN: BPMN Event</a></h4>
+            <p>A start, end or intermediate event (WHO&#x27;s DAK BPMN draw intermediate throw and catch events inside sub-processes). Same connectivity argument as gateway, plus one of its own: entry and exit points are what make &#x27;is this task reachable&#x27; and &#x27;does this path terminate&#x27; answerable at all. Class IRI: http://smart.who.int/kg/bpmn-event.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGBpmnEvent.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGBpmnEvent.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGBpmnEvent.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGTestScenario.html">Knowledge graph L2: Test Scenario</a></h4>
+            <p>DAK component 9. `feature 1..1 uri` to a Gherkin feature file, plus an optional description. The feature file&#x27;s interior is not modelled: no DAK in this estate ships one yet, so a subgraph for it would have no instance to check it against. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/test-scenario.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGTestScenario.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGTestScenario.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGTestScenario.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGRequirements.html">Knowledge graph L3: Requirements</a></h4>
+            <p>A FHIR Requirements resource. The ONE place the published SOP names an SG profile -- SGRequirements -- and the grain is one resource per business process holding many statements, not one per requirement. ZERO in the immunizations IG and 41 in smart-base. Class IRI: http://smart.who.int/kg/requirements.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGRequirements.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGRequirements.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGRequirements.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-Requirements.html">Functional and Non-Functional Requirements (DAK)</a></h4>
+            <p>Logical Model for representing Functional and Non-Functional Requirements from a DAK. A high-level list of core functions and capabilities that the system must have to meet the end users&#x27; needs.</p>
+            <div class="schema-links"><a href="StructureDefinition-Requirements.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-Requirements.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-Requirements.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGBpmnGateway.html">Knowledge graph L2-BPMN: BPMN Gateway</a></h4>
+            <p>A branch or merge. Included for connectivity rather than for a cross-model edge: a flow through a gateway with no node would point at nothing, and every reachability question over the process would break at the first decision point. Class IRI: http://smart.who.int/kg/bpmn-gateway.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGBpmnGateway.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGBpmnGateway.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGBpmnGateway.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGBpmnTask.html">Knowledge graph L2-BPMN: BPMN Task</a></h4>
+            <p>A task or sub-process. It is what a DMN usingTask href points at, what sequence flows connect, and what a DAK-level task entry describes. Sub-processes carry isSubProcess rather than getting a class of their own -- the lifecycle BPMN has exactly one. Class IRI: http://smart.who.int/kg/bpmn-task.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGBpmnTask.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGBpmnTask.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGBpmnTask.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGDmnDecisionTable.html">Knowledge graph L2-DMN: DMN Decision Table</a></h4>
+            <p>The table realising a decision. Separate from dmn-decision because DMN permits other expression kinds -- a literal expression, an invocation -- and collapsing the two would make the graph unable to say which was used. hitPolicy is optional and recorded as null when absent, which it is in the BCG table. DMN&#x27;s default is UNIQUE, but asserting it here would put words in the author&#x27;s mouth. Class IRI: http://smart.who.int/kg/dmn-decision-table.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGDmnDecisionTable.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGDmnDecisionTable.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGDmnDecisionTable.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGBpmnProcess.html">Knowledge graph L2-BPMN: BPMN Process</a></h4>
+            <p>One `bpmn:process`. Present as a node because a participant references it by processRef, and without it the pool-to-element attribution has nothing to travel through. Class IRI: http://smart.who.int/kg/bpmn-process.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGBpmnProcess.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGBpmnProcess.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGBpmnProcess.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-HealthInterventionsSource.html">Health Interventions Source</a></h4>
+            <p>Source reference for Health Interventions - exactly one of the following must be provided:
+- url (url data type): URL to retrieve HealthInterventions definition from input/ or external source
+- canonical (canonical data type): Canonical URI pointing to the HealthInterventions definition
+- instance: Inline HealthInterventions instance data</p>
+            <div class="schema-links"><a href="StructureDefinition-HealthInterventionsSource.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-HealthInterventionsSource.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-HealthInterventionsSource.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGDataElement.html">Knowledge graph L2: Core Data Element</a></h4>
+            <p>DAK component 5. CoreDataElement.fsh calls itself &quot;the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs&quot;: `type` is one of valueset | codesystem | conceptmap | logicalmodel and `canonical 1..1 uri` points at it. The canonical is recorded; nothing inside it is copied, because FHIR is its own query layer. `name`, `resolutionStatus` and `extractionRule` are for elements recovered from DMN input expressions rather than declared in a dictionary. A recovered element is a name that was REFERENCED, not a definition that was found, and only a resolved one may carry a canonical. Class IRI: http://smart.who.int/kg/data-element.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGDataElement.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGDataElement.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGDataElement.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGPublication.html">Knowledge graph L1: Publication</a></h4>
+            <p>A WHO publication: a guideline of any of the handbook&#x27;s types, a position paper, a summary table, a classification, implementation guidance, or a supplement. Metadata follows Dublin Core. identifiers is a list of {type, value}; type is from identifier-type, and the first of isbn, iris-handle, doi, issn, url builds the IRI, so an edition change is a new publication. issued and modified are Dublin Core. reviewBy is the handbook&#x27;s review-by date (§12.5.1). sha256 pins the PDF. Derives from DublinCore (smart-base input/fsh/models/DublinCore.fsh); title, creator, publisher, language, rights are its elements. Class IRI: http://smart.who.int/kg/publication.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGPublication.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGPublication.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGPublication.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGDecisionSupportLogic.html">Knowledge graph L2: Decision-Support Logic</a></h4>
+            <p>DAK component 6. The whole model is an id, an optional description and `source 1..1 uri` to a DMN file. Nothing about the decision itself -- which is the gap the l2-dmn subgraph fills. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/decision-support-logic.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGDecisionSupportLogic.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGDecisionSupportLogic.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGDecisionSupportLogic.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGPlanDefinition.html">Knowledge graph L3: Plan Definition</a></h4>
+            <p>A FHIR PlanDefinition. The published mapping gives it two sources -- Processes and Decision Tables -- so a PlanDefinition alone does not say which it came from; the implementedBy edge does. 138 in the immunizations IG, all declaring cpg-recommendationdefinition, all decision tables. Shares its IRI with the l1:external-artifact for the same canonical. Class IRI: http://smart.who.int/kg/plan-definition.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGPlanDefinition.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGPlanDefinition.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGPlanDefinition.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGBusinessProcess.html">Knowledge graph L2: Business Process Workflow</a></h4>
+            <p>DAK component 4. NOT the BPMN file -- the component that points at one. `source 1..1 uri` is that pointer, and the BPMN&#x27;s interior is the l2-bpmn subgraph, reached through the external-artifact this sourcedFrom targets. `objectives 1..1 markdown` is required by BusinessProcessWorkflow.fsh and has no counterpart anywhere in BPMN XML, so it can only ever come from the FSH instance. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/business-process.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGBusinessProcess.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGBusinessProcess.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGBusinessProcess.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGConceptMap.html">Knowledge graph L3: Concept Map</a></h4>
+            <p>A FHIR ConceptMap -- one per target code system in the dictionary&#x27;s terminology mappings. 8 in the immunizations IG. Records that a mapping exists; the mappings themselves belong to terminology. Class IRI: http://smart.who.int/kg/concept-map.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGConceptMap.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGConceptMap.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGConceptMap.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGNode.html">Knowledge graph: node</a></h4>
+            <p>One typed node of a knowledge-graph document. Its instance fields are an instance of the logical model of its class (see definedBy), e.g. KGPublication for a publication.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGNode.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGNode.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGNode.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-SushiConfigLogicalModel.html">SUSHI Configuration Logical Model</a></h4>
+            <p>Logical model defining the structure of sushi-config.yaml files used for FHIR Implementation Guide configuration. This model captures the essential metadata and configuration parameters needed for IG publishing.</p>
+            <div class="schema-links"><a href="StructureDefinition-SushiConfigLogicalModel.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-SushiConfigLogicalModel.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-SushiConfigLogicalModel.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGFunctionalRequirement.html">Knowledge graph L2: Functional Requirement</a></h4>
+            <p>DAK component 8, first half. The as-a/I-want/so-that shape: `activity`, `capability[x]`, `benefit[x]`, and `actor 0..* Reference(SGActor)`. The 41 committed instances use the R5 SGRequirements profile rather than this logical model, so a real instance carries `statement` entries and a userstory extension; both shapes are accommodated and `profile` records which was read. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/functional-requirement.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGFunctionalRequirement.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGFunctionalRequirement.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGFunctionalRequirement.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGBpmnDefinitions.html">Knowledge graph L2-BPMN: BPMN File</a></h4>
+            <p>One BPMN file as a unit -- the `bpmn:definitions` root. Shares its IRI with the l1:external-artifact for the same file, so the component that points at it and the subgraph that opens it name one resource. Class IRI: http://smart.who.int/kg/bpmn-definitions.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGBpmnDefinitions.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGBpmnDefinitions.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGBpmnDefinitions.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-DecisionSupportLogicSource.html">Decision Support Logic Source</a></h4>
+            <p>Source reference for Decision Support Logic - exactly one of the following must be provided:
+- url (url data type): URL to retrieve DecisionSupportLogic definition from input/ or external source
+- canonical (canonical data type): Canonical URI pointing to the DecisionSupportLogic definition
+- instance: Inline DecisionSupportLogic instance data</p>
+            <div class="schema-links"><a href="StructureDefinition-DecisionSupportLogicSource.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-DecisionSupportLogicSource.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-DecisionSupportLogicSource.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGPersona.html">Knowledge graph L2: Generic Persona</a></h4>
+            <p>DAK component 2. Grounded in GenericPersona.fsh -- title, id, description, otherNames, iscoCode bound to ISCO08ValueSet -- and in the 22 committed ActorDefinition instances that carry name, title, type and description. The two disagree about where ISCO lives, which the properties record rather than smooth over. `title` is the human-readable label a BPMN pool matches on; `name` is the CamelCase identifier a Canonical() reference matches on. They are different strings for the same persona and conflating them is precisely how the pool join breaks. GenericPersona.fsh declares `iscoCode 0..* code`, but the committed ActorDefinitions record ISCO in prose inside description, so iscoCode is usually empty and is not authoritative. Class IRI: http://smart.who.int/kg/persona.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGPersona.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGPersona.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGPersona.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+        <div class="schema-card">
+            <h4><a href="StructureDefinition-KGActivityDefinition.html">Knowledge graph L3: Activity Definition</a></h4>
+            <p>A FHIR ActivityDefinition -- the concrete act a plan&#x27;s action invokes. Reached from a PlanDefinition action&#x27;s `definitionCanonical`, which is a real reference rather than a convention. 3 in the immunizations IG: two cpg-immunizationactivity, one cpg-communicationactivity. Class IRI: http://smart.who.int/kg/activity-definition.</p>
+            <div class="schema-links"><a href="StructureDefinition-KGActivityDefinition.html" class="schema-link fhir-link">FHIR Definition</a><a href="StructureDefinition-KGActivityDefinition.schema.json" class="schema-link">JSON Schema</a><a href="StructureDefinition-KGActivityDefinition.openapi.json" class="schema-link">OpenAPI</a></div>
+        </div>
+
+    </div>
+
+    <h2>API Endpoints</h2>
+    
+    <p>These endpoints provide lists of all available schemas and vocabularies of each type:</p>
+    
+    <div class="enumeration-endpoints">
+
+        <div class="endpoint-card">
+            <h4><a href="ValueSets.schema.json">ValueSets.schema.json</a></h4>
+            <p>Enumeration of all available ValueSet schemas</p>
+            <div class="endpoint-list">
+                <h5>Available Endpoints:</h5>
+                <ul>
+                    <li><a href="ValueSet-KGChangeStatusVS.schema.json">ValueSet-KGChangeStatusVS.schema.json</a> - JSON Schema for Knowledge graph L1: change status Schema</li>
+                    <li><a href="ValueSet-KGChangeStatusVS.jsonld">ValueSet-KGChangeStatusVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: change status Schema</li>
+                    <li><a href="ValueSet-KGL2BPMNClassesVS.schema.json">ValueSet-KGL2BPMNClassesVS.schema.json</a> - JSON Schema for Knowledge graph L2BPMN: classes Schema</li>
+                    <li><a href="ValueSet-KGL2BPMNClassesVS.jsonld">ValueSet-KGL2BPMNClassesVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L2BPMN: classes Schema</li>
+                    <li><a href="ValueSet-CDSCv2.schema.json">ValueSet-CDSCv2.schema.json</a> - JSON Schema for Services and Application Types Schema</li>
+                    <li><a href="ValueSet-CDSCv2.jsonld">ValueSet-CDSCv2.jsonld</a> - JSON-LD vocabulary for Services and Application Types Schema</li>
+                    <li><a href="ValueSet-KGRowTypeVS.schema.json">ValueSet-KGRowTypeVS.schema.json</a> - JSON Schema for Knowledge graph L1: row type Schema</li>
+                    <li><a href="ValueSet-KGRowTypeVS.jsonld">ValueSet-KGRowTypeVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: row type Schema</li>
+                    <li><a href="ValueSet-KGRemarkTypeVS.schema.json">ValueSet-KGRemarkTypeVS.schema.json</a> - JSON Schema for Knowledge graph L1: remark type Schema</li>
+                    <li><a href="ValueSet-KGRemarkTypeVS.jsonld">ValueSet-KGRemarkTypeVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: remark type Schema</li>
+                    <li><a href="ValueSet-KGRecommendationStatusVS.schema.json">ValueSet-KGRecommendationStatusVS.schema.json</a> - JSON Schema for Knowledge graph L1: recommendation status Schema</li>
+                    <li><a href="ValueSet-KGRecommendationStatusVS.jsonld">ValueSet-KGRecommendationStatusVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: recommendation status Schema</li>
+                    <li><a href="ValueSet-KGL1ClassesVS.schema.json">ValueSet-KGL1ClassesVS.schema.json</a> - JSON Schema for Knowledge graph L1: classes Schema</li>
+                    <li><a href="ValueSet-KGL1ClassesVS.jsonld">ValueSet-KGL1ClassesVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: classes Schema</li>
+                    <li><a href="ValueSet-CDSCv1.schema.json">ValueSet-CDSCv1.schema.json</a> - JSON Schema for Health System Challenges Schema</li>
+                    <li><a href="ValueSet-CDSCv1.jsonld">ValueSet-CDSCv1.jsonld</a> - JSON-LD vocabulary for Health System Challenges Schema</li>
+                    <li><a href="ValueSet-KGDerivationVS.schema.json">ValueSet-KGDerivationVS.schema.json</a> - JSON Schema for Knowledge graph: derivation Schema</li>
+                    <li><a href="ValueSet-KGDerivationVS.jsonld">ValueSet-KGDerivationVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph: derivation Schema</li>
+                    <li><a href="ValueSet-CDHIv1.2.schema.json">ValueSet-CDHIv1.2.schema.json</a> - JSON Schema for Digital Health Interventions for Health Workers Schema</li>
+                    <li><a href="ValueSet-CDHIv1.2.jsonld">ValueSet-CDHIv1.2.jsonld</a> - JSON-LD vocabulary for Digital Health Interventions for Health Workers Schema</li>
+                    <li><a href="ValueSet-KGL2PredicatesVS.schema.json">ValueSet-KGL2PredicatesVS.schema.json</a> - JSON Schema for Knowledge graph L2: predicates Schema</li>
+                    <li><a href="ValueSet-KGL2PredicatesVS.jsonld">ValueSet-KGL2PredicatesVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L2: predicates Schema</li>
+                    <li><a href="ValueSet-CDHIv1.4.schema.json">ValueSet-CDHIv1.4.schema.json</a> - JSON Schema for Digital Health Interventions: Data Services Schema</li>
+                    <li><a href="ValueSet-CDHIv1.4.jsonld">ValueSet-CDHIv1.4.jsonld</a> - JSON-LD vocabulary for Digital Health Interventions: Data Services Schema</li>
+                    <li><a href="ValueSet-KGL3ClassesVS.schema.json">ValueSet-KGL3ClassesVS.schema.json</a> - JSON Schema for Knowledge graph L3: classes Schema</li>
+                    <li><a href="ValueSet-KGL3ClassesVS.jsonld">ValueSet-KGL3ClassesVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L3: classes Schema</li>
+                    <li><a href="ValueSet-KGL2DMNClassesVS.schema.json">ValueSet-KGL2DMNClassesVS.schema.json</a> - JSON Schema for Knowledge graph L2DMN: classes Schema</li>
+                    <li><a href="ValueSet-KGL2DMNClassesVS.jsonld">ValueSet-KGL2DMNClassesVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L2DMN: classes Schema</li>
+                    <li><a href="ValueSet-CoreDataElementTypeVS.schema.json">ValueSet-CoreDataElementTypeVS.schema.json</a> - JSON Schema for Core Data Element Type Value Set Schema</li>
+                    <li><a href="ValueSet-CoreDataElementTypeVS.jsonld">ValueSet-CoreDataElementTypeVS.jsonld</a> - JSON-LD vocabulary for Core Data Element Type Value Set Schema</li>
+                    <li><a href="ValueSet-KGCitationKindVS.schema.json">ValueSet-KGCitationKindVS.schema.json</a> - JSON Schema for Knowledge graph L1: citation kind Schema</li>
+                    <li><a href="ValueSet-KGCitationKindVS.jsonld">ValueSet-KGCitationKindVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: citation kind Schema</li>
+                    <li><a href="ValueSet-CDHIv1.1.schema.json">ValueSet-CDHIv1.1.schema.json</a> - JSON Schema for Digital Health Interventions for Clients Schema</li>
+                    <li><a href="ValueSet-CDHIv1.1.jsonld">ValueSet-CDHIv1.1.jsonld</a> - JSON-LD vocabulary for Digital Health Interventions for Clients Schema</li>
+                    <li><a href="ValueSet-KGVerificationMethodVS.schema.json">ValueSet-KGVerificationMethodVS.schema.json</a> - JSON Schema for Knowledge graph L2: verification method Schema</li>
+                    <li><a href="ValueSet-KGVerificationMethodVS.jsonld">ValueSet-KGVerificationMethodVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L2: verification method Schema</li>
+                    <li><a href="ValueSet-KGRecommendationKindVS.schema.json">ValueSet-KGRecommendationKindVS.schema.json</a> - JSON Schema for Knowledge graph L1: recommendation kind Schema</li>
+                    <li><a href="ValueSet-KGRecommendationKindVS.jsonld">ValueSet-KGRecommendationKindVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: recommendation kind Schema</li>
+                    <li><a href="ValueSet-KGL1LibraryClassesVS.schema.json">ValueSet-KGL1LibraryClassesVS.schema.json</a> - JSON Schema for Knowledge graph L1Library: classes Schema</li>
+                    <li><a href="ValueSet-KGL1LibraryClassesVS.jsonld">ValueSet-KGL1LibraryClassesVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1Library: classes Schema</li>
+                    <li><a href="ValueSet-CDHIv2.schema.json">ValueSet-CDHIv2.schema.json</a> - JSON Schema for Classification of Digital Health Interventions v2 Schema</li>
+                    <li><a href="ValueSet-CDHIv2.jsonld">ValueSet-CDHIv2.jsonld</a> - JSON-LD vocabulary for Classification of Digital Health Interventions v2 Schema</li>
+                    <li><a href="ValueSet-KGL1LibraryPredicatesVS.schema.json">ValueSet-KGL1LibraryPredicatesVS.schema.json</a> - JSON Schema for Knowledge graph L1Library: predicates Schema</li>
+                    <li><a href="ValueSet-KGL1LibraryPredicatesVS.jsonld">ValueSet-KGL1LibraryPredicatesVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1Library: predicates Schema</li>
+                    <li><a href="ValueSet-KGResolutionStatusVS.schema.json">ValueSet-KGResolutionStatusVS.schema.json</a> - JSON Schema for Knowledge graph L1: resolution status Schema</li>
+                    <li><a href="ValueSet-KGResolutionStatusVS.jsonld">ValueSet-KGResolutionStatusVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: resolution status Schema</li>
+                    <li><a href="ValueSet-KGPublicationStatusVS.schema.json">ValueSet-KGPublicationStatusVS.schema.json</a> - JSON Schema for Knowledge graph L2: publication status Schema</li>
+                    <li><a href="ValueSet-KGPublicationStatusVS.jsonld">ValueSet-KGPublicationStatusVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L2: publication status Schema</li>
+                    <li><a href="ValueSet-KGEvidenceTypeVS.schema.json">ValueSet-KGEvidenceTypeVS.schema.json</a> - JSON Schema for Knowledge graph L1: evidence type Schema</li>
+                    <li><a href="ValueSet-KGEvidenceTypeVS.jsonld">ValueSet-KGEvidenceTypeVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: evidence type Schema</li>
+                    <li><a href="ValueSet-KGStructureDefinitionKindVS.schema.json">ValueSet-KGStructureDefinitionKindVS.schema.json</a> - JSON Schema for Knowledge graph L3: structure definition kind Schema</li>
+                    <li><a href="ValueSet-KGStructureDefinitionKindVS.jsonld">ValueSet-KGStructureDefinitionKindVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L3: structure definition kind Schema</li>
+                    <li><a href="ValueSet-KGL2DMNPredicatesVS.schema.json">ValueSet-KGL2DMNPredicatesVS.schema.json</a> - JSON Schema for Knowledge graph L2DMN: predicates Schema</li>
+                    <li><a href="ValueSet-KGL2DMNPredicatesVS.jsonld">ValueSet-KGL2DMNPredicatesVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L2DMN: predicates Schema</li>
+                    <li><a href="ValueSet-SGAuthoringPersonaTypesVS.schema.json">ValueSet-SGAuthoringPersonaTypesVS.schema.json</a> - JSON Schema for SMART Guidelines Authoring Persona Types ValueSet Schema</li>
+                    <li><a href="ValueSet-SGAuthoringPersonaTypesVS.jsonld">ValueSet-SGAuthoringPersonaTypesVS.jsonld</a> - JSON-LD vocabulary for SMART Guidelines Authoring Persona Types ValueSet Schema</li>
+                    <li><a href="ValueSet-CDHIv2.2.schema.json">ValueSet-CDHIv2.2.schema.json</a> - JSON Schema for Digital Health Interventions for Healthcare Providers Schema</li>
+                    <li><a href="ValueSet-CDHIv2.2.jsonld">ValueSet-CDHIv2.2.jsonld</a> - JSON-LD vocabulary for Digital Health Interventions for Healthcare Providers Schema</li>
+                    <li><a href="ValueSet-KGOutcomeImportanceVS.schema.json">ValueSet-KGOutcomeImportanceVS.schema.json</a> - JSON Schema for Knowledge graph L1: outcome importance Schema</li>
+                    <li><a href="ValueSet-KGOutcomeImportanceVS.jsonld">ValueSet-KGOutcomeImportanceVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: outcome importance Schema</li>
+                    <li><a href="ValueSet-ISCO08ValueSet.schema.json">ValueSet-ISCO08ValueSet.schema.json</a> - JSON Schema for ISCO-08 Value Set Schema</li>
+                    <li><a href="ValueSet-ISCO08ValueSet.jsonld">ValueSet-ISCO08ValueSet.jsonld</a> - JSON-LD vocabulary for ISCO-08 Value Set Schema</li>
+                    <li><a href="ValueSet-CDSCv2.C.schema.json">ValueSet-CDSCv2.C.schema.json</a> - JSON Schema for Services and Application Types: Registries and Directories Schema</li>
+                    <li><a href="ValueSet-CDSCv2.C.jsonld">ValueSet-CDSCv2.C.jsonld</a> - JSON-LD vocabulary for Services and Application Types: Registries and Directories Schema</li>
+                    <li><a href="ValueSet-CDSCv2.E.schema.json">ValueSet-CDSCv2.E.schema.json</a> - JSON Schema for Services and Application Types: Surveillance and Response Schema</li>
+                    <li><a href="ValueSet-CDSCv2.E.jsonld">ValueSet-CDSCv2.E.jsonld</a> - JSON-LD vocabulary for Services and Application Types: Surveillance and Response Schema</li>
+                    <li><a href="ValueSet-KGInterventionTypeVS.schema.json">ValueSet-KGInterventionTypeVS.schema.json</a> - JSON Schema for Knowledge graph L1: intervention type Schema</li>
+                    <li><a href="ValueSet-KGInterventionTypeVS.jsonld">ValueSet-KGInterventionTypeVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: intervention type Schema</li>
+                    <li><a href="ValueSet-CDHIv2.3.schema.json">ValueSet-CDHIv2.3.schema.json</a> - JSON Schema for Digital Health Interventions for Health Management and Support Personnel Schema</li>
+                    <li><a href="ValueSet-CDHIv2.3.jsonld">ValueSet-CDHIv2.3.jsonld</a> - JSON-LD vocabulary for Digital Health Interventions for Health Management and Support Personnel Schema</li>
+                    <li><a href="ValueSet-DecisionTableActions.schema.json">ValueSet-DecisionTableActions.schema.json</a> - JSON Schema for Smart Guidelines Decision Table Actions Schema</li>
+                    <li><a href="ValueSet-DecisionTableActions.jsonld">ValueSet-DecisionTableActions.jsonld</a> - JSON-LD vocabulary for Smart Guidelines Decision Table Actions Schema</li>
+                    <li><a href="ValueSet-KGGatewayDirectionVS.schema.json">ValueSet-KGGatewayDirectionVS.schema.json</a> - JSON Schema for Knowledge graph L2-BPMN: gateway direction Schema</li>
+                    <li><a href="ValueSet-KGGatewayDirectionVS.jsonld">ValueSet-KGGatewayDirectionVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L2-BPMN: gateway direction Schema</li>
+                    <li><a href="ValueSet-CDHIv2.4.schema.json">ValueSet-CDHIv2.4.schema.json</a> - JSON Schema for Digital Health Interventions: Data Services Schema</li>
+                    <li><a href="ValueSet-CDHIv2.4.jsonld">ValueSet-CDHIv2.4.jsonld</a> - JSON-LD vocabulary for Digital Health Interventions: Data Services Schema</li>
+                    <li><a href="ValueSet-CDHIv1.3.schema.json">ValueSet-CDHIv1.3.schema.json</a> - JSON Schema for Digital Health Interventions for Health System Managers Schema</li>
+                    <li><a href="ValueSet-CDHIv1.3.jsonld">ValueSet-CDHIv1.3.jsonld</a> - JSON-LD vocabulary for Digital Health Interventions for Health System Managers Schema</li>
+                    <li><a href="ValueSet-KGDmnEntryKindVS.schema.json">ValueSet-KGDmnEntryKindVS.schema.json</a> - JSON Schema for Knowledge graph L2-DMN: dmn entry kind Schema</li>
+                    <li><a href="ValueSet-KGDmnEntryKindVS.jsonld">ValueSet-KGDmnEntryKindVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L2-DMN: dmn entry kind Schema</li>
+                    <li><a href="ValueSet-KGL2BPMNPredicatesVS.schema.json">ValueSet-KGL2BPMNPredicatesVS.schema.json</a> - JSON Schema for Knowledge graph L2BPMN: predicates Schema</li>
+                    <li><a href="ValueSet-KGL2BPMNPredicatesVS.jsonld">ValueSet-KGL2BPMNPredicatesVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L2BPMN: predicates Schema</li>
+                    <li><a href="ValueSet-CDSCv2.D.schema.json">ValueSet-CDSCv2.D.schema.json</a> - JSON Schema for Services and Application Types: Data Management Services Schema</li>
+                    <li><a href="ValueSet-CDSCv2.D.jsonld">ValueSet-CDSCv2.D.jsonld</a> - JSON-LD vocabulary for Services and Application Types: Data Management Services Schema</li>
+                    <li><a href="ValueSet-CDHIv1.schema.json">ValueSet-CDHIv1.schema.json</a> - JSON Schema for Classification of Digital Health Interventions v1 Schema</li>
+                    <li><a href="ValueSet-CDHIv1.jsonld">ValueSet-CDHIv1.jsonld</a> - JSON-LD vocabulary for Classification of Digital Health Interventions v1 Schema</li>
+                    <li><a href="ValueSet-CDHIv2.1.schema.json">ValueSet-CDHIv2.1.schema.json</a> - JSON Schema for Digital Health Interventions for Persons Schema</li>
+                    <li><a href="ValueSet-CDHIv2.1.jsonld">ValueSet-CDHIv2.1.jsonld</a> - JSON-LD vocabulary for Digital Health Interventions for Persons Schema</li>
+                    <li><a href="ValueSet-SGPersonaTypesVS.schema.json">ValueSet-SGPersonaTypesVS.schema.json</a> - JSON Schema for Smart Guidelines Persona Types Value Set Schema</li>
+                    <li><a href="ValueSet-SGPersonaTypesVS.jsonld">ValueSet-SGPersonaTypesVS.jsonld</a> - JSON-LD vocabulary for Smart Guidelines Persona Types Value Set Schema</li>
+                    <li><a href="ValueSet-KGL3PredicatesVS.schema.json">ValueSet-KGL3PredicatesVS.schema.json</a> - JSON Schema for Knowledge graph L3: predicates Schema</li>
+                    <li><a href="ValueSet-KGL3PredicatesVS.jsonld">ValueSet-KGL3PredicatesVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L3: predicates Schema</li>
+                    <li><a href="ValueSet-KGL1PredicatesVS.schema.json">ValueSet-KGL1PredicatesVS.schema.json</a> - JSON Schema for Knowledge graph L1: predicates Schema</li>
+                    <li><a href="ValueSet-KGL1PredicatesVS.jsonld">ValueSet-KGL1PredicatesVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: predicates Schema</li>
+                    <li><a href="ValueSet-KGCertaintyVS.schema.json">ValueSet-KGCertaintyVS.schema.json</a> - JSON Schema for Knowledge graph L1: certainty Schema</li>
+                    <li><a href="ValueSet-KGCertaintyVS.jsonld">ValueSet-KGCertaintyVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: certainty Schema</li>
+                    <li><a href="ValueSet-KGTerminologySystemVS.schema.json">ValueSet-KGTerminologySystemVS.schema.json</a> - JSON Schema for Knowledge graph L1: terminology system Schema</li>
+                    <li><a href="ValueSet-KGTerminologySystemVS.jsonld">ValueSet-KGTerminologySystemVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: terminology system Schema</li>
+                    <li><a href="ValueSet-KGPublicationTypeVS.schema.json">ValueSet-KGPublicationTypeVS.schema.json</a> - JSON Schema for Knowledge graph L1: publication type Schema</li>
+                    <li><a href="ValueSet-KGPublicationTypeVS.jsonld">ValueSet-KGPublicationTypeVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: publication type Schema</li>
+                    <li><a href="ValueSet-KGConformanceExpectationVS.schema.json">ValueSet-KGConformanceExpectationVS.schema.json</a> - JSON Schema for Knowledge graph L2: conformance expectation Schema</li>
+                    <li><a href="ValueSet-KGConformanceExpectationVS.jsonld">ValueSet-KGConformanceExpectationVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L2: conformance expectation Schema</li>
+                    <li><a href="ValueSet-KGGrcStatusVS.schema.json">ValueSet-KGGrcStatusVS.schema.json</a> - JSON Schema for Knowledge graph L1: grc status Schema</li>
+                    <li><a href="ValueSet-KGGrcStatusVS.jsonld">ValueSet-KGGrcStatusVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: grc status Schema</li>
+                    <li><a href="ValueSet-KGRecommendationStrengthVS.schema.json">ValueSet-KGRecommendationStrengthVS.schema.json</a> - JSON Schema for Knowledge graph L1: recommendation strength Schema</li>
+                    <li><a href="ValueSet-KGRecommendationStrengthVS.jsonld">ValueSet-KGRecommendationStrengthVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: recommendation strength Schema</li>
+                    <li><a href="ValueSet-CDSCv2.A.schema.json">ValueSet-CDSCv2.A.schema.json</a> - JSON Schema for Services and Application Types: Point of Service Schema</li>
+                    <li><a href="ValueSet-CDSCv2.A.jsonld">ValueSet-CDSCv2.A.jsonld</a> - JSON-LD vocabulary for Services and Application Types: Point of Service Schema</li>
+                    <li><a href="ValueSet-SGAuthoringSkillsVS.schema.json">ValueSet-SGAuthoringSkillsVS.schema.json</a> - JSON Schema for SMART Guidelines Authoring Skills ValueSet Schema</li>
+                    <li><a href="ValueSet-SGAuthoringSkillsVS.jsonld">ValueSet-SGAuthoringSkillsVS.jsonld</a> - JSON-LD vocabulary for SMART Guidelines Authoring Skills ValueSet Schema</li>
+                    <li><a href="ValueSet-CDSCv2.B.schema.json">ValueSet-CDSCv2.B.schema.json</a> - JSON Schema for Services and Application Types: Health System/Provider Administration Schema</li>
+                    <li><a href="ValueSet-CDSCv2.B.jsonld">ValueSet-CDSCv2.B.jsonld</a> - JSON-LD vocabulary for Services and Application Types: Health System/Provider Administration Schema</li>
+                    <li><a href="ValueSet-KGIdentifierTypeVS.schema.json">ValueSet-KGIdentifierTypeVS.schema.json</a> - JSON Schema for Knowledge graph L1: identifier type Schema</li>
+                    <li><a href="ValueSet-KGIdentifierTypeVS.jsonld">ValueSet-KGIdentifierTypeVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: identifier type Schema</li>
+                    <li><a href="ValueSet-KGL2ClassesVS.schema.json">ValueSet-KGL2ClassesVS.schema.json</a> - JSON Schema for Knowledge graph L2: classes Schema</li>
+                    <li><a href="ValueSet-KGL2ClassesVS.jsonld">ValueSet-KGL2ClassesVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L2: classes Schema</li>
+                    <li><a href="ValueSet-KGArtifactKindVS.schema.json">ValueSet-KGArtifactKindVS.schema.json</a> - JSON Schema for Knowledge graph L2: artifact kind Schema</li>
+                    <li><a href="ValueSet-KGArtifactKindVS.jsonld">ValueSet-KGArtifactKindVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L2: artifact kind Schema</li>
+                    <li><a href="ValueSet-KGElementTypeVS.schema.json">ValueSet-KGElementTypeVS.schema.json</a> - JSON Schema for Knowledge graph L1: element type Schema</li>
+                    <li><a href="ValueSet-KGElementTypeVS.jsonld">ValueSet-KGElementTypeVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: element type Schema</li>
+                    <li><a href="ValueSet-KGRecommendationDirectionVS.schema.json">ValueSet-KGRecommendationDirectionVS.schema.json</a> - JSON Schema for Knowledge graph L1: recommendation direction Schema</li>
+                    <li><a href="ValueSet-KGRecommendationDirectionVS.jsonld">ValueSet-KGRecommendationDirectionVS.jsonld</a> - JSON-LD vocabulary for Knowledge graph L1: recommendation direction Schema</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="endpoint-card">
+            <h4><a href="LogicalModels.schema.json">LogicalModels.schema.json</a></h4>
+            <p>Enumeration of all available Logical Model schemas</p>
+            <div class="endpoint-list">
+                <h5>Available Endpoints:</h5>
+                <ul>
+                    <li><a href="StructureDefinition-KGDmnDefinitions.schema.json">StructureDefinition-KGDmnDefinitions.schema.json</a> - JSON Schema for Knowledge graph L2-DMN: DMN File</li>
+                    <li><a href="StructureDefinition-KGValueSet.schema.json">StructureDefinition-KGValueSet.schema.json</a> - JSON Schema for Knowledge graph L3: Value Set</li>
+                    <li><a href="StructureDefinition-KGCqlLibrary.schema.json">StructureDefinition-KGCqlLibrary.schema.json</a> - JSON Schema for Knowledge graph L3: CQL File</li>
+                    <li><a href="StructureDefinition-RequirementsSource.schema.json">StructureDefinition-RequirementsSource.schema.json</a> - JSON Schema for Requirements Source</li>
+                    <li><a href="StructureDefinition-KGNonFunctionalRequirement.schema.json">StructureDefinition-KGNonFunctionalRequirement.schema.json</a> - JSON Schema for Knowledge graph L2: Non-Functional Requirement</li>
+                    <li><a href="StructureDefinition-KGBpmnParticipant.schema.json">StructureDefinition-KGBpmnParticipant.schema.json</a> - JSON Schema for Knowledge graph L2-BPMN: BPMN Participant</li>
+                    <li><a href="StructureDefinition-KGProfile.schema.json">StructureDefinition-KGProfile.schema.json</a> - JSON Schema for Knowledge graph L3: Profile</li>
+                    <li><a href="StructureDefinition-KGExternalArtifact.schema.json">StructureDefinition-KGExternalArtifact.schema.json</a> - JSON Schema for Knowledge graph L2: External artefact</li>
+                    <li><a href="StructureDefinition-UserScenarioSource.schema.json">StructureDefinition-UserScenarioSource.schema.json</a> - JSON Schema for User Scenario Source</li>
+                    <li><a href="StructureDefinition-BusinessProcessWorkflowSource.schema.json">StructureDefinition-BusinessProcessWorkflowSource.schema.json</a> - JSON Schema for Business Process Workflow Source</li>
+                    <li><a href="StructureDefinition-KGPublicationSection.schema.json">StructureDefinition-KGPublicationSection.schema.json</a> - JSON Schema for Knowledge graph L1: Publication section</li>
+                    <li><a href="StructureDefinition-FHIRSchemaBase.schema.json">StructureDefinition-FHIRSchemaBase.schema.json</a> - JSON Schema for FHIR Schema Base (SMART Guidelines)</li>
+                    <li><a href="StructureDefinition-BusinessProcessWorkflow.schema.json">StructureDefinition-BusinessProcessWorkflow.schema.json</a> - JSON Schema for Business Process Workflow (DAK)</li>
+                    <li><a href="StructureDefinition-KGActorDefinition.schema.json">StructureDefinition-KGActorDefinition.schema.json</a> - JSON Schema for Knowledge graph L3: Actor Definition</li>
+                    <li><a href="StructureDefinition-GenericPersona.schema.json">StructureDefinition-GenericPersona.schema.json</a> - JSON Schema for Generic Persona (DAK)</li>
+                    <li><a href="StructureDefinition-KGUserScenario.schema.json">StructureDefinition-KGUserScenario.schema.json</a> - JSON Schema for Knowledge graph L2: User Scenario</li>
+                    <li><a href="StructureDefinition-KGEvidenceLocation.schema.json">StructureDefinition-KGEvidenceLocation.schema.json</a> - JSON Schema for Knowledge graph: evidence location</li>
+                    <li><a href="StructureDefinition-KGReferenceEntry.schema.json">StructureDefinition-KGReferenceEntry.schema.json</a> - JSON Schema for Knowledge graph L1: Reference entry</li>
+                    <li><a href="StructureDefinition-KGGraphDocument.schema.json">StructureDefinition-KGGraphDocument.schema.json</a> - JSON Schema for Knowledge graph L1: graph document</li>
+                    <li><a href="StructureDefinition-HealthInterventions.schema.json">StructureDefinition-HealthInterventions.schema.json</a> - JSON Schema for Health Interventions and Recommendations (DAK)</li>
+                    <li><a href="StructureDefinition-KGLibraryNode.schema.json">StructureDefinition-KGLibraryNode.schema.json</a> - JSON Schema for Knowledge graph L1-LIBRARY: Library node</li>
+                    <li><a href="StructureDefinition-TestScenarioSource.schema.json">StructureDefinition-TestScenarioSource.schema.json</a> - JSON Schema for Test Scenario Source</li>
+                    <li><a href="StructureDefinition-CoreDataElement.schema.json">StructureDefinition-CoreDataElement.schema.json</a> - JSON Schema for Core Data Element (DAK)</li>
+                    <li><a href="StructureDefinition-KGIndicator.schema.json">StructureDefinition-KGIndicator.schema.json</a> - JSON Schema for Knowledge graph L1: Indicator</li>
+                    <li><a href="StructureDefinition-KGStructureDefinition.schema.json">StructureDefinition-KGStructureDefinition.schema.json</a> - JSON Schema for Knowledge graph L3: Logical Model</li>
+                    <li><a href="StructureDefinition-KGDmnInputClause.schema.json">StructureDefinition-KGDmnInputClause.schema.json</a> - JSON Schema for Knowledge graph L2-DMN: DMN Input Clause</li>
+                    <li><a href="StructureDefinition-KGHealthIntervention.schema.json">StructureDefinition-KGHealthIntervention.schema.json</a> - JSON Schema for Knowledge graph L1: Health intervention</li>
+                    <li><a href="StructureDefinition-KGDmnRule.schema.json">StructureDefinition-KGDmnRule.schema.json</a> - JSON Schema for Knowledge graph L2-DMN: DMN Rule</li>
+                    <li><a href="StructureDefinition-KGCitation.schema.json">StructureDefinition-KGCitation.schema.json</a> - JSON Schema for Knowledge graph L1: Citation</li>
+                    <li><a href="StructureDefinition-KGKeyQuestion.schema.json">StructureDefinition-KGKeyQuestion.schema.json</a> - JSON Schema for Knowledge graph L1: Key question</li>
+                    <li><a href="StructureDefinition-KGProvenanceSource.schema.json">StructureDefinition-KGProvenanceSource.schema.json</a> - JSON Schema for Knowledge graph: provenance source</li>
+                    <li><a href="StructureDefinition-NonFunctionalRequirement.schema.json">StructureDefinition-NonFunctionalRequirement.schema.json</a> - JSON Schema for Non-Functional Requirement (DAK)</li>
+                    <li><a href="StructureDefinition-KGDakTask.schema.json">StructureDefinition-KGDakTask.schema.json</a> - JSON Schema for Knowledge graph L2: Task Entry</li>
+                    <li><a href="StructureDefinition-KGPublicationElement.schema.json">StructureDefinition-KGPublicationElement.schema.json</a> - JSON Schema for Knowledge graph L1: Publication element</li>
+                    <li><a href="StructureDefinition-KGOutcome.schema.json">StructureDefinition-KGOutcome.schema.json</a> - JSON Schema for Knowledge graph L1: Outcome</li>
+                    <li><a href="StructureDefinition-KGRequirementStatement.schema.json">StructureDefinition-KGRequirementStatement.schema.json</a> - JSON Schema for Knowledge graph L2: Requirement Statement</li>
+                    <li><a href="StructureDefinition-DecisionSupportLogic.schema.json">StructureDefinition-DecisionSupportLogic.schema.json</a> - JSON Schema for Decision-Support Logic (DAK)</li>
+                    <li><a href="StructureDefinition-KGLibrary.schema.json">StructureDefinition-KGLibrary.schema.json</a> - JSON Schema for Knowledge graph L3: Library</li>
+                    <li><a href="StructureDefinition-KGCodeSystem.schema.json">StructureDefinition-KGCodeSystem.schema.json</a> - JSON Schema for Knowledge graph L3: Code System</li>
+                    <li><a href="StructureDefinition-ProgramIndicator.schema.json">StructureDefinition-ProgramIndicator.schema.json</a> - JSON Schema for Program Indicator (DAK)</li>
+                    <li><a href="StructureDefinition-KGStructureMap.schema.json">StructureDefinition-KGStructureMap.schema.json</a> - JSON Schema for Knowledge graph L3: Structure Map</li>
+                    <li><a href="StructureDefinition-TestScenario.schema.json">StructureDefinition-TestScenario.schema.json</a> - JSON Schema for Test Scenario (DAK)</li>
+                    <li><a href="StructureDefinition-KGRecommendation.schema.json">StructureDefinition-KGRecommendation.schema.json</a> - JSON Schema for Knowledge graph L1: Recommendation</li>
+                    <li><a href="StructureDefinition-KGRemark.schema.json">StructureDefinition-KGRemark.schema.json</a> - JSON Schema for Knowledge graph L1: Remark</li>
+                    <li><a href="StructureDefinition-KGEvidence.schema.json">StructureDefinition-KGEvidence.schema.json</a> - JSON Schema for Knowledge graph L1: Evidence</li>
+                    <li><a href="StructureDefinition-KGImplementationPractice.schema.json">StructureDefinition-KGImplementationPractice.schema.json</a> - JSON Schema for Knowledge graph L1-LIBRARY: Implementation practice</li>
+                    <li><a href="StructureDefinition-UserScenario.schema.json">StructureDefinition-UserScenario.schema.json</a> - JSON Schema for User Scenario (DAK)</li>
+                    <li><a href="StructureDefinition-KGEdge.schema.json">StructureDefinition-KGEdge.schema.json</a> - JSON Schema for Knowledge graph: edge</li>
+                    <li><a href="StructureDefinition-Persona.schema.json">StructureDefinition-Persona.schema.json</a> - JSON Schema for Persona (DAK)</li>
+                    <li><a href="StructureDefinition-KGDmnOutputClause.schema.json">StructureDefinition-KGDmnOutputClause.schema.json</a> - JSON Schema for Knowledge graph L2-DMN: DMN Output Clause</li>
+                    <li><a href="StructureDefinition-KGDak.schema.json">StructureDefinition-KGDak.schema.json</a> - JSON Schema for Knowledge graph L2: Digital Adaptation Kit</li>
+                    <li><a href="StructureDefinition-KGProgramIndicator.schema.json">StructureDefinition-KGProgramIndicator.schema.json</a> - JSON Schema for Knowledge graph L2: Program Indicator</li>
+                    <li><a href="StructureDefinition-KGDmnDecision.schema.json">StructureDefinition-KGDmnDecision.schema.json</a> - JSON Schema for Knowledge graph L2-DMN: DMN Decision</li>
+                    <li><a href="StructureDefinition-KGQuestionnaire.schema.json">StructureDefinition-KGQuestionnaire.schema.json</a> - JSON Schema for Knowledge graph L3: Questionnaire</li>
+                    <li><a href="StructureDefinition-CoreDataElementSource.schema.json">StructureDefinition-CoreDataElementSource.schema.json</a> - JSON Schema for Core Data Element Source</li>
+                    <li><a href="StructureDefinition-KGSchedulingLogic.schema.json">StructureDefinition-KGSchedulingLogic.schema.json</a> - JSON Schema for Knowledge graph L2: Scheduling Logic</li>
+                    <li><a href="StructureDefinition-FunctionalRequirement.schema.json">StructureDefinition-FunctionalRequirement.schema.json</a> - JSON Schema for Functional Requirement (DAK)</li>
+                    <li><a href="StructureDefinition-GenericPersonaSource.schema.json">StructureDefinition-GenericPersonaSource.schema.json</a> - JSON Schema for Generic Persona Source</li>
+                    <li><a href="StructureDefinition-ProgramIndicatorSource.schema.json">StructureDefinition-ProgramIndicatorSource.schema.json</a> - JSON Schema for Program Indicator Source</li>
+                    <li><a href="StructureDefinition-DublinCore.schema.json">StructureDefinition-DublinCore.schema.json</a> - JSON Schema for Dublin Core Metadata Element Set</li>
+                    <li><a href="StructureDefinition-KGTerminologyCode.schema.json">StructureDefinition-KGTerminologyCode.schema.json</a> - JSON Schema for Knowledge graph L1: Terminology code</li>
+                    <li><a href="StructureDefinition-KGMeasure.schema.json">StructureDefinition-KGMeasure.schema.json</a> - JSON Schema for Knowledge graph L3: Measure</li>
+                    <li><a href="StructureDefinition-DAK.schema.json">StructureDefinition-DAK.schema.json</a> - JSON Schema for Digital Adaptation Kit (DAK)</li>
+                    <li><a href="StructureDefinition-KGBpmnEvent.schema.json">StructureDefinition-KGBpmnEvent.schema.json</a> - JSON Schema for Knowledge graph L2-BPMN: BPMN Event</li>
+                    <li><a href="StructureDefinition-KGTestScenario.schema.json">StructureDefinition-KGTestScenario.schema.json</a> - JSON Schema for Knowledge graph L2: Test Scenario</li>
+                    <li><a href="StructureDefinition-KGRequirements.schema.json">StructureDefinition-KGRequirements.schema.json</a> - JSON Schema for Knowledge graph L3: Requirements</li>
+                    <li><a href="StructureDefinition-Requirements.schema.json">StructureDefinition-Requirements.schema.json</a> - JSON Schema for Functional and Non-Functional Requirements (DAK)</li>
+                    <li><a href="StructureDefinition-KGBpmnGateway.schema.json">StructureDefinition-KGBpmnGateway.schema.json</a> - JSON Schema for Knowledge graph L2-BPMN: BPMN Gateway</li>
+                    <li><a href="StructureDefinition-KGBpmnTask.schema.json">StructureDefinition-KGBpmnTask.schema.json</a> - JSON Schema for Knowledge graph L2-BPMN: BPMN Task</li>
+                    <li><a href="StructureDefinition-KGDmnDecisionTable.schema.json">StructureDefinition-KGDmnDecisionTable.schema.json</a> - JSON Schema for Knowledge graph L2-DMN: DMN Decision Table</li>
+                    <li><a href="StructureDefinition-KGBpmnProcess.schema.json">StructureDefinition-KGBpmnProcess.schema.json</a> - JSON Schema for Knowledge graph L2-BPMN: BPMN Process</li>
+                    <li><a href="StructureDefinition-HealthInterventionsSource.schema.json">StructureDefinition-HealthInterventionsSource.schema.json</a> - JSON Schema for Health Interventions Source</li>
+                    <li><a href="StructureDefinition-KGDataElement.schema.json">StructureDefinition-KGDataElement.schema.json</a> - JSON Schema for Knowledge graph L2: Core Data Element</li>
+                    <li><a href="StructureDefinition-KGPublication.schema.json">StructureDefinition-KGPublication.schema.json</a> - JSON Schema for Knowledge graph L1: Publication</li>
+                    <li><a href="StructureDefinition-KGDecisionSupportLogic.schema.json">StructureDefinition-KGDecisionSupportLogic.schema.json</a> - JSON Schema for Knowledge graph L2: Decision-Support Logic</li>
+                    <li><a href="StructureDefinition-KGPlanDefinition.schema.json">StructureDefinition-KGPlanDefinition.schema.json</a> - JSON Schema for Knowledge graph L3: Plan Definition</li>
+                    <li><a href="StructureDefinition-KGBusinessProcess.schema.json">StructureDefinition-KGBusinessProcess.schema.json</a> - JSON Schema for Knowledge graph L2: Business Process Workflow</li>
+                    <li><a href="StructureDefinition-KGConceptMap.schema.json">StructureDefinition-KGConceptMap.schema.json</a> - JSON Schema for Knowledge graph L3: Concept Map</li>
+                    <li><a href="StructureDefinition-KGNode.schema.json">StructureDefinition-KGNode.schema.json</a> - JSON Schema for Knowledge graph: node</li>
+                    <li><a href="StructureDefinition-SushiConfigLogicalModel.schema.json">StructureDefinition-SushiConfigLogicalModel.schema.json</a> - JSON Schema for SUSHI Configuration Logical Model</li>
+                    <li><a href="StructureDefinition-KGFunctionalRequirement.schema.json">StructureDefinition-KGFunctionalRequirement.schema.json</a> - JSON Schema for Knowledge graph L2: Functional Requirement</li>
+                    <li><a href="StructureDefinition-KGBpmnDefinitions.schema.json">StructureDefinition-KGBpmnDefinitions.schema.json</a> - JSON Schema for Knowledge graph L2-BPMN: BPMN File</li>
+                    <li><a href="StructureDefinition-DecisionSupportLogicSource.schema.json">StructureDefinition-DecisionSupportLogicSource.schema.json</a> - JSON Schema for Decision Support Logic Source</li>
+                    <li><a href="StructureDefinition-KGPersona.schema.json">StructureDefinition-KGPersona.schema.json</a> - JSON Schema for Knowledge graph L2: Generic Persona</li>
+                    <li><a href="StructureDefinition-KGActivityDefinition.schema.json">StructureDefinition-KGActivityDefinition.schema.json</a> - JSON Schema for Knowledge graph L3: Activity Definition</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+/* DAK API Hub styling that integrates with IG theme */
+.dak-api-hub {
+    margin: 1rem 0;
+}
+
+.enumeration-endpoints, .schema-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.endpoint-card, .schema-card {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 1rem;
+    background: #f8f9fa;
+    transition: box-shadow 0.2s ease;
+}
+
+.endpoint-card:hover, .schema-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.endpoint-card h4, .schema-card h4 {
+    margin: 0 0 0.5rem 0;
+    color: #00477d;
+}
+
+.endpoint-card h4 a, .schema-card h4 a {
+    color: #00477d;
+    text-decoration: none;
+}
+
+.endpoint-card h4 a:hover, .schema-card h4 a:hover {
+    color: #0070A1;
+    text-decoration: underline;
+}
+
+.endpoint-card p, .schema-card p {
+    margin: 0 0 0.5rem 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.endpoint-list {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.endpoint-list h5 {
+    margin: 0 0 0.5rem 0;
+    color: #00477d;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.endpoint-list ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    list-style-type: disc;
+}
+
+.endpoint-list li {
+    margin: 0.25rem 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.endpoint-list a {
+    color: #17a2b8;
+    text-decoration: none;
+    font-family: monospace;
+    font-weight: 500;
+}
+
+.endpoint-list a:hover {
+    color: #138496;
+    text-decoration: underline;
+}
+
+.schema-links {
+    margin: 0.75rem 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.schema-link {
+    display: inline-block;
+    background-color: #17a2b8;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.schema-link:hover {
+    background-color: #138496;
+    color: white;
+    text-decoration: none;
+}
+
+.schema-link.fhir-link {
+    background-color: #28a745;
+}
+
+.schema-link.fhir-link:hover {
+    background-color: #218838;
+}
+
+.usage-info {
+    background: #e7f3ff;
+    border: 1px solid #b8daff;
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.usage-info h3 {
+    color: #00477d;
+    margin-top: 1rem;
+}
+
+.usage-info h3:first-child {
+    margin-top: 0;
+}
+
+.usage-info ul {
+    margin: 0.5rem 0;
+}
+
+.usage-info li {
+    margin: 0.25rem 0;
+}
+
+/* JSON-LD specific styling */
+.jsonld-list {
+    margin: 0.75rem 0 0 0;
+    padding: 0.75rem;
+    background: #fff;
+    border: 1px solid #e1ecf4;
+    border-radius: 4px;
+}
+
+.jsonld-item {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-left: 3px solid #17a2b8;
+    background: #f8f9fa;
+}
+
+.jsonld-item:last-child {
+    margin-bottom: 0;
+}
+
+.jsonld-link {
+    font-weight: 600;
+    color: #17a2b8;
+    text-decoration: none;
+    margin-bottom: 0.25rem;
+}
+
+.jsonld-link:hover {
+    color: #138496;
+    text-decoration: underline;
+}
+
+.jsonld-description {
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-style: italic;
+}
+</style>
+
+<hr>
+
+<p><em>This documentation hub is automatically generated from the available schema and API definitions.</em></p>
+<!-- DAK_API_HUB_END -->
+
+
+</div>
+
+
+
+
+    <!-- /inner-wrapper -->
+    <!-- /row -->
+    <!-- /container -->
+</html>

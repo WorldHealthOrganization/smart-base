@@ -1,0 +1,46 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/ValueSet/KGRecommendationDirectionVS> a fhir:ValueSet ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "KGRecommendationDirectionVS"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ValueSet KGRecommendationDirectionVS</b></p><a name=\"KGRecommendationDirectionVS\"> </a><a name=\"hcKGRecommendationDirectionVS\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-KGRecommendationDirection.html\"><code>http://smart.who.int/base/CodeSystem/KGRecommendationDirection</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version ?0.3.0</span></li></ul></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : EnsembleValeurs KGRecommendationDirectionVS</b></p><a name=\"fr-KGRecommendationDirectionVS\"> </a><a name=\"fr-hcKGRecommendationDirectionVS\"> </a><ul><li>Include tous les codes définis dans <a href=\"CodeSystem-KGRecommendationDirection.html\"><code>http://smart.who.int/base/CodeSystem/KGRecommendationDirection</code></a><span title=\"La version n'est pas explicitement indiquée, ce qui signifie quelle est fixée à la version fournie dans cette spécification\"> version ?0.3.0</span></li></ul></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: ValueSet KGRecommendationDirectionVS</b></p><a name=\"ar-KGRecommendationDirectionVS\"> </a><a name=\"ar-hcKGRecommendationDirectionVS\"> </a><ul><li>Include جميع الرموز المحددة في <a href=\"CodeSystem-KGRecommendationDirection.html\"><code>http://smart.who.int/base/CodeSystem/KGRecommendationDirection</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> الإصدار ?0.3.0</span></li></ul></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 取值集合 KGRecommendationDirectionVS</b></p><a name=\"zh-KGRecommendationDirectionVS\"> </a><a name=\"zh-hcKGRecommendationDirectionVS\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-KGRecommendationDirection.html\"><code>http://smart.who.int/base/CodeSystem/KGRecommendationDirection</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version ?0.3.0</span></li></ul></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: ValueSet KGRecommendationDirectionVS</b></p><a name=\"ru-KGRecommendationDirectionVS\"> </a><a name=\"ru-hcKGRecommendationDirectionVS\"> </a><ul><li>Include все коды, определенные в <a href=\"CodeSystem-KGRecommendationDirection.html\"><code>http://smart.who.int/base/CodeSystem/KGRecommendationDirection</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> версия ?0.3.0</span></li></ul></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ConjuntoValores / ConjuntoDeValores KGRecommendationDirectionVS</b></p><a name=\"es-KGRecommendationDirectionVS\"> </a><a name=\"es-hcKGRecommendationDirectionVS\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-KGRecommendationDirection.html\"><code>http://smart.who.int/base/CodeSystem/KGRecommendationDirection</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> versión ?0.3.0</span></li></ul></div></div>"
+  ] ;
+  fhir:ValueSet.url [ fhir:value "http://smart.who.int/base/ValueSet/KGRecommendationDirectionVS"] ;
+  fhir:ValueSet.version [ fhir:value "0.3.0"] ;
+  fhir:ValueSet.name [ fhir:value "KGRecommendationDirectionVS"] ;
+  fhir:ValueSet.title [ fhir:value "Knowledge graph L1: recommendation direction"] ;
+  fhir:ValueSet.status [ fhir:value "active"] ;
+  fhir:ValueSet.experimental [ fhir:value "false"^^xsd:boolean] ;
+  fhir:ValueSet.date [ fhir:value "2026-11-19T20:24:57+00:00"^^xsd:dateTime] ;
+  fhir:ValueSet.publisher [ fhir:value "WHO"] ;
+  fhir:ValueSet.contact [
+     fhir:index 0 ;
+     fhir:ContactDetail.name [ fhir:value "WHO" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index 0 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://who.int" ]
+     ]
+  ] ;
+  fhir:ValueSet.description [ fhir:value "All codes of KGRecommendationDirection."] ;
+  fhir:ValueSet.compose [
+     fhir:ValueSet.compose.include [
+       fhir:index 0 ;
+       fhir:ValueSet.compose.include.system [ fhir:value "http://smart.who.int/base/CodeSystem/KGRecommendationDirection" ]
+     ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://smart.who.int/base/ValueSet/KGRecommendationDirectionVS.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl .
+
+# -------------------------------------------------------------------------------------
+

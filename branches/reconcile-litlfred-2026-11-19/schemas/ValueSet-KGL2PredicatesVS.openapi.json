@@ -1,0 +1,62 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Knowledge graph L2: predicates Schema API",
+    "description": "JSON Schema for Knowledge graph L2: predicates ValueSet codes. Generated from FHIR expansions using IRI format.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSet-KGL2PredicatesVS.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the enumeration ValueSet-KGL2PredicatesVS",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSet-KGL2PredicatesVS.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for ValueSet-KGL2PredicatesVS",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./ValueSet-KGL2PredicatesVS.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValueSet-KGL2PredicatesVS": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/ValueSet-KGL2PredicatesVS.schema.json",
+        "title": "Knowledge graph L2: predicates Schema",
+        "description": "JSON Schema for Knowledge graph L2: predicates ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "type": "string",
+        "enum": [
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#hasComponent",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#sourcedFrom",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#realises",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#involves",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#fulfilledBy",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#hasStatement",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#listsTask",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#references",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#describes",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#usesDataElement",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#specifiedBy",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#invokesDecision",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#implementedBy",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#derivedFrom",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#appearsIn",
+          "http://smart.who.int/base/CodeSystem/KGL2Predicates#verifiedBy"
+        ],
+        "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L2: predicates ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGL2PredicatesVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+        "fhir:displays": "http://smart.who.int/base/ValueSet-KGL2PredicatesVS.displays.json",
+        "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGL2PredicatesVS",
+        "fhir:version": "0.3.0",
+        "fhir:expansionTimestamp": "2026-11-19T20:28:14.071316"
+      }
+    }
+  }
+}

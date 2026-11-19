@@ -1,0 +1,11 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGBpmnEvent","KGBpmnEvent","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L2-BPMN: BPMN Event","A start, end or intermediate event (WHO's DAK BPMN draw intermediate throw and catch events inside sub-processes). Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all. Class IRI: http://smart.who.int/kg/bpmn-event.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGBpmnEvent.id","KGBpmnEvent.id","","","",0,1,"","","","string {[]} {[]}
+","Id","The identifier the source declares (an FSH instance id, a BPMN or DMN element id).","","","","","","","","","",,,,,"",,,,"KGBpmnEvent.id",0,1,"",""
+"KGBpmnEvent.name","KGBpmnEvent.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The computable name: the CamelCase identifier a Canonical() reference matches on.","","","","","","","","","",,,,,"",,,,"KGBpmnEvent.name",0,1,"",""
+"KGBpmnEvent.eventType","KGBpmnEvent.eventType","","","",0,1,"","","","string {[]} {[]}
+","Event type","The BPMN event element type (startEvent, endEvent, intermediateCatchEvent, …).","","","","","","","","","",,,,,"",,,,"KGBpmnEvent.eventType",0,1,"",""
+"KGBpmnEvent.parent","KGBpmnEvent.parent","","","",0,1,"","","","string {[]} {[]}
+","Parent","The id of the sub-process that contains it, when nested.","","","","","","","","","",,,,,"",,,,"KGBpmnEvent.parent",0,1,"",""

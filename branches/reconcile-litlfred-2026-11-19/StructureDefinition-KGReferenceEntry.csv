@@ -1,0 +1,11 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGReferenceEntry","KGReferenceEntry","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L1: Reference entry","One row of a DAK artefact's own reference list: '(1)' and the full bibliographic text and URL it stands for. Resolved once; every citation numbered to it shares the result. Class IRI: http://smart.who.int/kg/reference-entry.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGReferenceEntry.number","KGReferenceEntry.number","","","",0,1,"","","","string {[]} {[]}
+","Number","The entry's number in the reference list.","","","","","","","","","",,,,,"",,,,"KGReferenceEntry.number",0,1,"",""
+"KGReferenceEntry.text","KGReferenceEntry.text","","","",0,1,"","","","markdown {[]} {[]}
+","Text","The full bibliographic text, verbatim.","","","","","","","","","",,,,,"",,,,"KGReferenceEntry.text",0,1,"",""
+"KGReferenceEntry.url","KGReferenceEntry.url","","","",0,1,"","","","uri {[]} {[]}
+","URL","The URL the entry prints.","","","","","","","","","",,,,,"",,,,"KGReferenceEntry.url",0,1,"",""
+"KGReferenceEntry.resolutionStatus","KGReferenceEntry.resolutionStatus","","","",0,1,"","","","code {[]} {[]}
+","Resolution status","Whether a citation string has been matched to what it cites.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGResolutionStatusVS","",,,,"KGReferenceEntry.resolutionStatus",0,1,"",""

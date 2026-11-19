@@ -1,0 +1,9 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGBpmnParticipant","KGBpmnParticipant","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L2-BPMN: BPMN Participant","A pool: a role that owns part of the collaboration. The lifecycle BPMN has 8 and declares no laneSet at all, so the pool is the only unit of role assignment present and its @name is the sole link to a persona. Class IRI: http://smart.who.int/kg/bpmn-participant.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGBpmnParticipant.id","KGBpmnParticipant.id","","","",0,1,"","","","string {[]} {[]}
+","Id","The identifier the source declares (an FSH instance id, a BPMN or DMN element id).","","","","","","","","","",,,,,"",,,,"KGBpmnParticipant.id",0,1,"",""
+"KGBpmnParticipant.name","KGBpmnParticipant.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The computable name: the CamelCase identifier a Canonical() reference matches on.","","","","","","","","","",,,,,"",,,,"KGBpmnParticipant.name",0,1,"",""
+"KGBpmnParticipant.processRef","KGBpmnParticipant.processRef","","","",0,1,"","","","string {[]} {[]}
+","Process ref","The id of the process the participant's pool holds.","","","","","","","","","",,,,,"",,,,"KGBpmnParticipant.processRef",0,1,"",""

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-KGBpmnEvent.schema.json",
+  "title": "Knowledge graph L2-BPMN: BPMN Event",
+  "description": "A start, end or intermediate event (WHO's DAK BPMN draw intermediate throw and catch events inside sub-processes). Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all. Class IRI: http://smart.who.int/kg/bpmn-event.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "KGBpmnEvent",
+      "description": "Resource type identifier for KGBpmnEvent logical model"
+    },
+    "id": {
+      "type": "string",
+      "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+    },
+    "name": {
+      "type": "string",
+      "description": "The computable name: the CamelCase identifier a Canonical() reference matches on."
+    },
+    "eventType": {
+      "type": "string",
+      "description": "The BPMN event element type (startEvent, endEvent, intermediateCatchEvent, …)."
+    },
+    "parent": {
+      "type": "string",
+      "description": "The id of the sub-process that contains it, when nested."
+    }
+  },
+  "required": [
+    "resourceType"
+  ],
+  "resourceDefinition": "http://smart.who.int/base/StructureDefinition/KGBpmnEvent",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}

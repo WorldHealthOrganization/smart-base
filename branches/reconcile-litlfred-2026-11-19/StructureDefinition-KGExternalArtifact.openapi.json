@@ -1,0 +1,148 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Knowledge graph L2: External artefact API",
+    "description": "A DAK file addressed by canonical URL: a BPMN process, a DMN decision table, a FHIR resource, a workbook. Deliberately opaque: it carries an IRI and a kind, and nothing about its interior. The L2-BPMN, L2-DMN and L3 classes that describe a file's interior elaborate this class at the same IRI. Moved here from L1 in 3.0 unchanged: a DAK file is the DAK's material, not WHO content. Class IRI: http://smart.who.int/kg/external-artifact.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-KGExternalArtifact.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-KGExternalArtifact",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-KGExternalArtifact.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-KGExternalArtifact",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-KGExternalArtifact.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-KGExternalArtifact": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-KGExternalArtifact.schema.json",
+        "title": "Knowledge graph L2: External artefact",
+        "description": "A DAK file addressed by canonical URL: a BPMN process, a DMN decision table, a FHIR resource, a workbook. Deliberately opaque: it carries an IRI and a kind, and nothing about its interior. The L2-BPMN, L2-DMN and L3 classes that describe a file's interior elaborate this class at the same IRI. Moved here from L1 in 3.0 unchanged: a DAK file is the DAK's material, not WHO content. Class IRI: http://smart.who.int/kg/external-artifact.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "KGExternalArtifact",
+            "description": "Resource type identifier for KGExternalArtifact logical model"
+          },
+          "@context": {
+            "description": "JSON-LD context for this logical model with ValueSet vocabularies",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri",
+                "description": "URI reference to external JSON-LD context"
+              },
+              {
+                "type": "object",
+                "description": "Inline JSON-LD context",
+                "properties": {
+                  "@version": {
+                    "type": "number",
+                    "const": 1.1
+                  },
+                  "fhir": {
+                    "type": "string",
+                    "const": "http://hl7.org/fhir/"
+                  }
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              {
+                "type": "array",
+                "description": "Array of JSON-LD context objects/URIs",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "@type": {
+            "type": "string",
+            "description": "JSON-LD type identifier for KGExternalArtifact logical model",
+            "examples": [
+              "LogicalModel-KGExternalArtifact"
+            ]
+          },
+          "iri": {
+            "type": "string",
+            "format": "uri",
+            "description": "The canonical IRI the file is addressed by."
+          },
+          "targetKind": {
+            "$ref": "./ValueSet-KGArtifactKindVS.schema.json",
+            "description": "What kind of file the artefact is."
+          },
+          "version": {
+            "type": "string",
+            "description": "The business version, as declared."
+          }
+        },
+        "required": [
+          "resourceType"
+        ],
+        "allOf": [
+          {
+            "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "resourceDefinition": {
+                "type": "string",
+                "format": "uri",
+                "const": "http://smart.who.int/base/StructureDefinition/KGExternalArtifact"
+              },
+              "fhir:parent": {
+                "type": "string",
+                "const": "http://hl7.org/fhir/StructureDefinition/Base"
+              },
+              "jsonld:valuesets": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "const": [
+                  "KGArtifactKindVS"
+                ]
+              },
+              "jsonld:contextTemplate": {
+                "type": "object",
+                "const": {
+                  "@version": 1.1,
+                  "fhir": "http://hl7.org/fhir/",
+                  "KGArtifactKindVS": "http://smart.who.int/base/ValueSet-KGArtifactKindVS.jsonld"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Knowledge graph L2-DMN: DMN Output Clause API",
+    "description": "An output column. The BCG table's four are Care Plan, Guidance displayed to health worker, Annotations and Reference(s). These are column DEFINITIONS in a decision table, not clinical records: no edge from this class reaches an execution artefact, and none may. serialisedAs is outputEntry or annotationEntry -- DMN splits the columns across two element types and the split is positional, so recording it is what lets a rule's cells be matched back to their columns. isReferenceColumn marks the L1 column, found by its description rather than its index. Class IRI: http://smart.who.int/kg/dmn-output-clause.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-KGDmnOutputClause.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-KGDmnOutputClause",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-KGDmnOutputClause.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-KGDmnOutputClause",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-KGDmnOutputClause.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-KGDmnOutputClause": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-KGDmnOutputClause.schema.json",
+        "title": "Knowledge graph L2-DMN: DMN Output Clause",
+        "description": "An output column. The BCG table's four are Care Plan, Guidance displayed to health worker, Annotations and Reference(s). These are column DEFINITIONS in a decision table, not clinical records: no edge from this class reaches an execution artefact, and none may. serialisedAs is outputEntry or annotationEntry -- DMN splits the columns across two element types and the split is positional, so recording it is what lets a rule's cells be matched back to their columns. isReferenceColumn marks the L1 column, found by its description rather than its index. Class IRI: http://smart.who.int/kg/dmn-output-clause.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "KGDmnOutputClause",
+            "description": "Resource type identifier for KGDmnOutputClause logical model"
+          },
+          "@context": {
+            "description": "JSON-LD context for this logical model with ValueSet vocabularies",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri",
+                "description": "URI reference to external JSON-LD context"
+              },
+              {
+                "type": "object",
+                "description": "Inline JSON-LD context",
+                "properties": {
+                  "@version": {
+                    "type": "number",
+                    "const": 1.1
+                  },
+                  "fhir": {
+                    "type": "string",
+                    "const": "http://hl7.org/fhir/"
+                  }
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              {
+                "type": "array",
+                "description": "Array of JSON-LD context objects/URIs",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "@type": {
+            "type": "string",
+            "description": "JSON-LD type identifier for KGDmnOutputClause logical model",
+            "examples": [
+              "LogicalModel-KGDmnOutputClause"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+          },
+          "label": {
+            "type": "string",
+            "description": "The label, as declared."
+          },
+          "description": {
+            "type": "string",
+            "description": "A description, as the source gives it."
+          },
+          "ordinal": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Position, counted from 0, in the order the source lists it."
+          },
+          "serialisedAs": {
+            "$ref": "./ValueSet-KGDmnEntryKindVS.schema.json",
+            "description": "Which DMN element type the column's cells are: outputEntry or annotationEntry. The split is positional, so this is what matches a rule's cells back to their columns."
+          },
+          "isReferenceColumn": {
+            "type": "boolean",
+            "description": "Marks the L1 reference column, found by its description rather than its index."
+          }
+        },
+        "required": [
+          "resourceType"
+        ],
+        "allOf": [
+          {
+            "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "resourceDefinition": {
+                "type": "string",
+                "format": "uri",
+                "const": "http://smart.who.int/base/StructureDefinition/KGDmnOutputClause"
+              },
+              "fhir:parent": {
+                "type": "string",
+                "const": "http://hl7.org/fhir/StructureDefinition/Base"
+              },
+              "jsonld:valuesets": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "const": [
+                  "KGDmnEntryKindVS"
+                ]
+              },
+              "jsonld:contextTemplate": {
+                "type": "object",
+                "const": {
+                  "@version": 1.1,
+                  "fhir": "http://hl7.org/fhir/",
+                  "KGDmnEntryKindVS": "http://smart.who.int/base/ValueSet-KGDmnEntryKindVS.jsonld"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

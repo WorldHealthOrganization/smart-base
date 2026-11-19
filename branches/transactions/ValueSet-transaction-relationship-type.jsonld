@@ -1,0 +1,41 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-transaction-relationship-type.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-09-07T06:15:33.345702Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-transaction-relationship-type.jsonld#setup",
+      "name": "Setup",
+      "fhir:code": "setup",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transaction-relationship-type"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-transaction-relationship-type.jsonld#follows",
+      "name": "Follows",
+      "fhir:code": "follows",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transaction-relationship-type"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-transaction-relationship-type.jsonld#triggers",
+      "name": "Triggers",
+      "fhir:code": "triggers",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transaction-relationship-type"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-transaction-relationship-type.jsonld#alternative",
+      "name": "Alternative",
+      "fhir:code": "alternative",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-transaction-relationship-type"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGVerificationMethod> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "KGVerificationMethod"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem KGVerificationMethod</b></p><a name=\"KGVerificationMethod\"> </a><a name=\"hcKGVerificationMethod\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGVerificationMethod</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">test<a name=\"KGVerificationMethod-test\"> </a></td><td>Test</td><td>Verified by executing a test.</td></tr><tr><td style=\"white-space:nowrap\">inspection<a name=\"KGVerificationMethod-inspection\"> </a></td><td>Inspection</td><td>Verified by examining the artefact.</td></tr><tr><td style=\"white-space:nowrap\">review<a name=\"KGVerificationMethod-review\"> </a></td><td>Review</td><td>Verified by a person's review.</td></tr><tr><td style=\"white-space:nowrap\">analysis<a name=\"KGVerificationMethod-analysis\"> </a></td><td>Analysis</td><td>Verified by analysis or calculation.</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem KGVerificationMethod</b></p><a name=\"fr-KGVerificationMethod\"> </a><a name=\"fr-hcKGVerificationMethod\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGVerificationMethod</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style=\"white-space:nowrap\">test<a name=\"fr-KGVerificationMethod-test\"> </a></td><td>Test</td><td>Verified by executing a test.</td></tr><tr><td style=\"white-space:nowrap\">inspection<a name=\"fr-KGVerificationMethod-inspection\"> </a></td><td>Inspection</td><td>Verified by examining the artefact.</td></tr><tr><td style=\"white-space:nowrap\">review<a name=\"fr-KGVerificationMethod-review\"> </a></td><td>Review</td><td>Verified by a person's review.</td></tr><tr><td style=\"white-space:nowrap\">analysis<a name=\"fr-KGVerificationMethod-analysis\"> </a></td><td>Analysis</td><td>Verified by analysis or calculation.</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem KGVerificationMethod</b></p><a name=\"ar-KGVerificationMethod\"> </a><a name=\"ar-hcKGVerificationMethod\"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/KGVerificationMethod</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style=\"white-space:nowrap\">test<a name=\"ar-KGVerificationMethod-test\"> </a></td><td>Test</td><td>Verified by executing a test.</td></tr><tr><td style=\"white-space:nowrap\">inspection<a name=\"ar-KGVerificationMethod-inspection\"> </a></td><td>Inspection</td><td>Verified by examining the artefact.</td></tr><tr><td style=\"white-space:nowrap\">review<a name=\"ar-KGVerificationMethod-review\"> </a></td><td>Review</td><td>Verified by a person's review.</td></tr><tr><td style=\"white-space:nowrap\">analysis<a name=\"ar-KGVerificationMethod-analysis\"> </a></td><td>Analysis</td><td>Verified by analysis or calculation.</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 KGVerificationMethod</b></p><a name=\"zh-KGVerificationMethod\"> </a><a name=\"zh-hcKGVerificationMethod\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGVerificationMethod</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">test<a name=\"zh-KGVerificationMethod-test\"> </a></td><td>Test</td><td>Verified by executing a test.</td></tr><tr><td style=\"white-space:nowrap\">inspection<a name=\"zh-KGVerificationMethod-inspection\"> </a></td><td>Inspection</td><td>Verified by examining the artefact.</td></tr><tr><td style=\"white-space:nowrap\">review<a name=\"zh-KGVerificationMethod-review\"> </a></td><td>Review</td><td>Verified by a person's review.</td></tr><tr><td style=\"white-space:nowrap\">analysis<a name=\"zh-KGVerificationMethod-analysis\"> </a></td><td>Analysis</td><td>Verified by analysis or calculation.</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem KGVerificationMethod</b></p><a name=\"ru-KGVerificationMethod\"> </a><a name=\"ru-hcKGVerificationMethod\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/KGVerificationMethod</code> case-sensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style=\"white-space:nowrap\">test<a name=\"ru-KGVerificationMethod-test\"> </a></td><td>Test</td><td>Verified by executing a test.</td></tr><tr><td style=\"white-space:nowrap\">inspection<a name=\"ru-KGVerificationMethod-inspection\"> </a></td><td>Inspection</td><td>Verified by examining the artefact.</td></tr><tr><td style=\"white-space:nowrap\">review<a name=\"ru-KGVerificationMethod-review\"> </a></td><td>Review</td><td>Verified by a person's review.</td></tr><tr><td style=\"white-space:nowrap\">analysis<a name=\"ru-KGVerificationMethod-analysis\"> </a></td><td>Analysis</td><td>Verified by analysis or calculation.</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos KGVerificationMethod</b></p><a name=\"es-KGVerificationMethod\"> </a><a name=\"es-hcKGVerificationMethod\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGVerificationMethod</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">test<a name=\"es-KGVerificationMethod-test\"> </a></td><td>Test</td><td>Verified by executing a test.</td></tr><tr><td style=\"white-space:nowrap\">inspection<a name=\"es-KGVerificationMethod-inspection\"> </a></td><td>Inspection</td><td>Verified by examining the artefact.</td></tr><tr><td style=\"white-space:nowrap\">review<a name=\"es-KGVerificationMethod-review\"> </a></td><td>Review</td><td>Verified by a person's review.</td></tr><tr><td style=\"white-space:nowrap\">analysis<a name=\"es-KGVerificationMethod-analysis\"> </a></td><td>Analysis</td><td>Verified by analysis or calculation.</td></tr></table></div></div>"
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://smart.who.int/base/CodeSystem/KGVerificationMethod"] ;
+  fhir:CodeSystem.version [ fhir:value "0.3.0"] ;
+  fhir:CodeSystem.name [ fhir:value "KGVerificationMethod"] ;
+  fhir:CodeSystem.title [ fhir:value "Knowledge graph L2: verification method"] ;
+  fhir:CodeSystem.status [ fhir:value "active"] ;
+  fhir:CodeSystem.experimental [ fhir:value "false"^^xsd:boolean] ;
+  fhir:CodeSystem.date [ fhir:value "2026-11-19T20:24:57+00:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "WHO"] ;
+  fhir:CodeSystem.contact [
+     fhir:index 0 ;
+     fhir:ContactDetail.name [ fhir:value "WHO" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index 0 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://who.int" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "How a success criterion is verified: the classic verification methods, the same field name and codes as folio-assistant's requirement.ts `successCriteria`, so the two map 1:1. From litlfred/smart-kg main (folio-assistant#2406). Source: smart-kg ontology/l2/l2.json valueSets \"verification-method\"; folio-assistant-core schemas requirement.ts successCriteria.verification."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "4"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index 0 ;
+     fhir:CodeSystem.concept.code [ fhir:value "test" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Test" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Verified by executing a test." ]
+  ], [
+     fhir:index 1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "inspection" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Inspection" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Verified by examining the artefact." ]
+  ], [
+     fhir:index 2 ;
+     fhir:CodeSystem.concept.code [ fhir:value "review" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Review" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Verified by a person's review." ]
+  ], [
+     fhir:index 3 ;
+     fhir:CodeSystem.concept.code [ fhir:value "analysis" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Analysis" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Verified by analysis or calculation." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGVerificationMethod.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl .
+
+# -------------------------------------------------------------------------------------
+

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-KGRecommendationKindVS.schema.json",
+  "title": "Knowledge graph L1: recommendation kind Schema",
+  "description": "JSON Schema for Knowledge graph L1: recommendation kind ValueSet codes. Generated from FHIR expansions using IRI format.",
+  "type": "string",
+  "enum": [
+    "http://smart.who.int/base/CodeSystem/KGRecommendationKind#recommendation",
+    "http://smart.who.int/base/CodeSystem/KGRecommendationKind#context-specific",
+    "http://smart.who.int/base/CodeSystem/KGRecommendationKind#research-context",
+    "http://smart.who.int/base/CodeSystem/KGRecommendationKind#good-practice-statement",
+    "http://smart.who.int/base/CodeSystem/KGRecommendationKind#no-recommendation"
+  ],
+  "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L1: recommendation kind ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGRecommendationKindVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+  "fhir:displays": "http://smart.who.int/base/ValueSet-KGRecommendationKindVS.displays.json",
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGRecommendationKindVS",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-11-19T20:28:14.070649"
+}

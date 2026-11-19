@@ -1,0 +1,87 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@base": "http://smart.who.int/base/ValueSet-KGL2PredicatesVS.jsonld",
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "fhir:CodeSystem": {
+      "@type": "@id"
+    },
+    "cs": "http://smart.who.int/base/CodeSystem-KGL2Predicates"
+  },
+  "@id": "http://smart.who.int/base/ValueSet-KGL2PredicatesVS.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-11-19T20:29:03.377255Z",
+  "@graph": [
+    {
+      "id": "#hasComponent",
+      "name": "hasComponent"
+    },
+    {
+      "id": "#sourcedFrom",
+      "name": "sourcedFrom"
+    },
+    {
+      "id": "#realises",
+      "name": "realises"
+    },
+    {
+      "id": "#involves",
+      "name": "involves"
+    },
+    {
+      "id": "#fulfilledBy",
+      "name": "fulfilledBy"
+    },
+    {
+      "id": "#hasStatement",
+      "name": "hasStatement"
+    },
+    {
+      "id": "#listsTask",
+      "name": "listsTask"
+    },
+    {
+      "id": "#references",
+      "name": "references"
+    },
+    {
+      "id": "#describes",
+      "name": "describes"
+    },
+    {
+      "id": "#usesDataElement",
+      "name": "usesDataElement"
+    },
+    {
+      "id": "#specifiedBy",
+      "name": "specifiedBy"
+    },
+    {
+      "id": "#invokesDecision",
+      "name": "invokesDecision"
+    },
+    {
+      "id": "#implementedBy",
+      "name": "implementedBy"
+    },
+    {
+      "id": "#derivedFrom",
+      "name": "derivedFrom"
+    },
+    {
+      "id": "#appearsIn",
+      "name": "appearsIn"
+    },
+    {
+      "id": "#verifiedBy",
+      "name": "verifiedBy"
+    }
+  ],
+  "fhir:CodeSystem": "cs"
+}

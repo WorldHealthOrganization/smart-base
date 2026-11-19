@@ -1,0 +1,1191 @@
+<!-- get modelType -->
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>Knowledge graph L2: Core Data Element - SMART Base v0.3.0</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+    <link href="assets/css/fa-all.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/project.css" rel="stylesheet"/>
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+    <link href="assets/css/who.css" rel="stylesheet"/>
+    <link href="assets/css/lforms.min.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script src="assets/js/prism.js"></script>
+
+    <style type="text/css">h2{--heading-prefix:"9.121"}
+    h3,h4,h5,h6{--heading-prefix:"9.121"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+
+      <div id="segment-navbar" class="segment">  <!-- segment-navbar -->
+        <div id="stripe"> </div>
+        <div class="container">  <!-- container -->
+          <!-- HEADER CONTENT -->
+  
+          <nav class="navbar navbar-inverse">
+            <!--status-bar-->
+            <div class="container">
+              <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+              </button>
+              <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+              <div class="nav-collapse collapse navbar-inverse-collapse">
+                <!-- menu.xml  -->
+
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="index.html" class="dropdown-toggle">Authoring
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="authoring-process.html">Process</a>
+      </li>
+      <li>
+        <a href="authoring-personas.html">Personas</a>
+      </li>
+      <li>
+        <a href="authoring-skills.html">Skills</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="index.html" class="dropdown-toggle">Indices
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="artifacts.html">Artifact Index</a>
+      </li>
+      <li>
+        <a href="dak-api.html">DAK API</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+              </div>  <!-- /.nav-collapse -->
+
+              <div class="sf_colsIn col-md-8  navbar-right-container" data-sf-element="LanguageSelectorSearch" data-placeholder-label="Language Selector and Search" style="display: flex; justify-content: flex-end; align-items: center;">
+                <!-- This div will be pushed to the right -->
+                <div class="language-selector" style="margin-left: auto; background-color: #00477d; color: white;">
+                  <i class="fa fa-language fa-lg"></i>
+                  <label for="language-selector"> </label>
+                  <select onChange="openLink(value)" id="language-selector" name="language-selector">
+                    <option disabled selected>Select language</option>
+                    <option value="en" class="selected">English</option>
+                  </select>
+                  <i class="fas fa-angle-down"></i>
+                </div>
+                <!-- Search Content -->
+              </div>
+            </div>  <!-- /.container -->
+          </nav>  <!-- /.navbar -->
+        <!-- /HEADER CONTENT -->
+        </div>  <!-- /container -->
+      </div>  <!-- /segment-navbar -->
+      
+
+      <div class="container" style=" justify-content: space-between; align-items: left;">
+
+        <!-- Placeholder for child template header declarations -->
+<div id="project-nav">
+    <a id="who-logo" no-external="true" href="index.html">
+        
+    </a>
+</div>
+
+ <div id="family-nav">
+  <a id="fhir-logo" no-external="true" href="http://hl7.org/fhir">  </a>
+</div> 
+
+
+        <div id="ig-status" class="ig-status-draft">
+          <p><span style="font-size:12pt;font-weight:bold">SMART Base</span>
+            <br/>
+            <span style="display:inline-block;">0.3.0 - ci-build
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><a href='artifacts.html'><b>Artifacts Summary</b></a></li><li><b>Knowledge graph L2: Core Data Element</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">SMART Base, published by WHO. This guide is not an authorized publication; it is the continuous build for version 0.3.0  built by the FHIR (HL7&reg; FHIR&reg; Standard) CI Build. This version is based on the current content of <a href='https://github.com/WorldHealthOrganization/smart-base/tree/main'>https://github.com/WorldHealthOrganization/smart-base/tree/main</a> and changes regularly. See the <a href='history.html'>Directory of published versions</a><br/><span data-smart-ci-extra="1" style="font-size:.85em;">Built from commit <a href="https://github.com/WorldHealthOrganization/smart-base/commit/e715ff593748d9fe17670364177ed0bc31588865"><code>e715ff59</code></a>. &nbsp; Branch: <a href="https://github.com/WorldHealthOrganization/smart-base/tree/claude/reconcile-litlfred-2026-11-19"><code>claude/reconcile-litlfred-2026-11-19</code></a>.</span></p><!--EndReleaseHeader-->
+  
+
+
+
+
+
+
+
+
+
+
+
+<ul class="nav nav-tabs">
+
+  <li class="active">
+    <a href="#">Content</a>
+  </li>
+
+
+
+  <li>
+    <a href="StructureDefinition-KGDataElement-definitions.html">Detailed Descriptions</a>
+  </li>
+
+
+
+  
+    <li>
+      <a href="StructureDefinition-KGDataElement-mappings.html">Mappings</a>
+    </li>
+  
+
+
+
+
+
+
+
+  
+    <li>
+      <a href="StructureDefinition-KGDataElement.profile.xml.html">XML</a>
+    </li>
+  
+
+
+  
+    <li>
+      <a href="StructureDefinition-KGDataElement.profile.json.html">JSON</a>
+    </li>
+  
+
+
+  
+    <li>
+      <a href="StructureDefinition-KGDataElement.profile.ttl.html">TTL</a>
+    </li>
+  
+
+
+
+<li role="presentation"><a href="StructureDefinition-KGDataElement.schema.json.html">JSON Schema</a></li>
+</ul>
+
+
+  <a name="root"> </a>
+  <h2 id="root">Logical Model:
+
+    Knowledge graph L2: Core Data Element
+
+
+
+
+
+  </h2>
+
+  <table class="colsi">
+
+    <tr>
+      <td colspan="4"><i>Official URL</i>: <span class="copy-text">http://smart.who.int/base/StructureDefinition/KGDataElement<button title="Click to copy URL" class="btn-copy" data-clipboard-text="http://smart.who.int/base/StructureDefinition/KGDataElement"/></span>
+      </td>
+      <td><i>Version</i>:
+      <span class="copy-text">0.3.0<button title="Click to copy versioned URL" class="btn-copy" data-clipboard-text="http://smart.who.int/base/StructureDefinition/KGDataElement|0.3.0"/></span>
+      </td>
+    </tr>
+
+    <tr>
+
+
+
+
+
+
+
+      <td colspan="4">
+        
+          Active
+          
+            as of 2026-11-19
+          
+        
+      </td>
+
+
+
+      <td><i>Computable Name</i>: <span style="font-family: monospace;">KGDataElement</span></td>
+    </tr>
+
+
+
+
+  </table>
+
+<p>
+<table>
+  <tbody>
+    <tr>
+      <td>DAK component 5. CoreDataElement.fsh calls itself "the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs": <code class="language-plaintext highlighter-rouge">type</code> is one of valueset</td>
+      <td>codesystem</td>
+      <td>conceptmap</td>
+      <td>logicalmodel and <code class="language-plaintext highlighter-rouge">canonical 1..1 uri</code> points at it. The canonical is recorded; nothing inside it is copied, because FHIR is its own query layer. <code class="language-plaintext highlighter-rouge">name</code>, <code class="language-plaintext highlighter-rouge">resolutionStatus</code> and <code class="language-plaintext highlighter-rouge">extractionRule</code> are for elements recovered from DMN input expressions rather than declared in a dictionary. A recovered element is a name that was REFERENCED, not a definition that was found, and only a resolved one may carry a canonical. Class IRI: http://smart.who.int/kg/data-element.</td>
+    </tr>
+  </tbody>
+</table>
+
+</p>
+
+
+
+<!-- insert intro if present -->
+
+
+
+
+<p><b>Usages:</b></p>
+<ul>
+ <li>This Logical Model is not used by any profiles in this Specification</li>
+</ul>
+<p>You can also check for <a href="https://packages2.fhir.org/xig/resource/smart.who.int.base|current/StructureDefinition/StructureDefinition-KGDataElement.json">usages in the FHIR IG Statistics</a></p>
+
+  <!-- no uri -->
+  <a name="profile"> </a>
+  <h3 id="profile">Formal Views of Profile Content</h3>
+  <p>
+    <a href="http://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#structure-definitions">Description of Profiles, Differentials, Snapshots and how the different presentations work</a>.
+  </p>
+  <div id="tabs">
+    <ul>
+      <li>
+        <a href="#tabs-key">Key Elements Table</a>
+      </li>
+      <li>
+        <a href="#tabs-diff">Differential Table</a>
+      </li>
+      <li>
+        <a href="#tabs-snap">Snapshot Table</a>
+      </li>
+
+<!--      <li>
+        <a href="#tabs-xml">Pseudo-XML</a>
+      </li>-->
+
+
+<!--      <li>
+        <a href="#tabs-json">Pseudo-JSON</a>
+      </li>-->
+
+
+      <!--<li>
+        <a href="#tabs-ttl">Pseudo-TTL</a>
+      </li>-->
+
+      <li>
+        <a href="#tabs-summ">Statistics/References</a>
+      </li>
+      <li>
+        <a href="#tabs-all">All</a>
+      </li>
+    </ul>
+    <a name="tabs-key"> </a>
+    <div id="tabs-key">
+      <div id="tbl-key">
+        <div id="tbl-key-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGDataElementK" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGDataElementK'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGDataElementK'), document.getElementById('ppKGDataElementK'))" aria-controls="ppKGDataElementK" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGDataElementK"><label>Bindings <input onClick="filterDesc(document.getElementById('KGDataElementK'), 'binding',event.target.checked, document.getElementById('ppKGDataElementK'))" size="1" name="binding" checked="true" id="cbKGDataElementK-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGDataElementK'), 'constraint',event.target.checked, document.getElementById('ppKGDataElementK'))" size="1" name="constraint" checked="true" id="cbKGDataElementK-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGDataElementK'), 'obligation',event.target.checked, document.getElementById('ppKGDataElementK'))" size="1" name="obligation" checked="true" id="cbKGDataElementK-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="k-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement" title="DAK component 5. CoreDataElement.fsh calls itself &quot;the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs&quot;: `type` is one of valueset | codesystem | conceptmap | logicalmodel and `canonical 1..1 uri` points at it. The canonical is recorded; nothing inside it is copied, because FHIR is its own query layer. `name`, `resolutionStatus` and `extractionRule` are for elements recovered from DMN input expressions rather than declared in a dictionary. A recovered element is a name that was REFERENCED, not a definition that was found, and only a resolved one may carry a canonical. Class IRI: http://smart.who.int/kg/data-element." data-no-external="true">KGDataElement</a><a name="k-KGDataElement"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..*</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Core Data Element<br/></td></tr>
+<tr fhir="generated-heirarchy" id="k-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="k-KGDataElement.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="k-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.name" title="The name a DMN input expression referenced, for a recovered element." data-no-external="true">name</a><a name="k-KGDataElement.name"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Name</td></tr>
+<tr fhir="generated-heirarchy" id="k-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.type" title="The data type, as the data dictionary declares it." data-no-external="true">type</a><a name="k-KGDataElement.type"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Type</td></tr>
+<tr fhir="generated-heirarchy" id="k-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.canonical" title="The canonical URL. Only a resolved component carries one." data-no-external="true">canonical</a><a name="k-KGDataElement.canonical"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#uri">uri</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Canonical</td></tr>
+<tr fhir="generated-heirarchy" id="k-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="k-KGDataElement.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="k-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="k-KGDataElement.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="k-ag" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="k-KGDataElement.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="k-ah" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="k-KGDataElement.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" id="k-ai" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.extractionRule" title="How a data element recovered from a DMN input expression was found." data-no-external="true">extractionRule</a><a name="k-KGDataElement.extractionRule"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Extraction rule</td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGDataElementK-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGDataElementK'), 'binding', document.getElementById('cbKGDataElementK-binding').checked, document.getElementById('ppKGDataElementK'));
+document.getElementById('cbKGDataElementK-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGDataElementK'), 'constraint', document.getElementById('cbKGDataElementK-constraint').checked, document.getElementById('ppKGDataElementK'));
+document.getElementById('cbKGDataElementK-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGDataElementK'), 'obligation', document.getElementById('cbKGDataElementK-obligation').checked, document.getElementById('ppKGDataElementK'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGDataElement.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+
+    </div>
+    <a name="tabs-diff"> </a>
+    <div id="tabs-diff">
+      <div id="tbl-diff">
+        <p>This structure is derived from <a href="http://build.fhir.org/types.html#Base">Base</a>
+        </p>
+        <div id="tbl-diff-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGDataElementD" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGDataElementD'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGDataElementD'), document.getElementById('ppKGDataElementD'))" aria-controls="ppKGDataElementD" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGDataElementD"><label>Bindings <input onClick="filterDesc(document.getElementById('KGDataElementD'), 'binding',event.target.checked, document.getElementById('ppKGDataElementD'))" size="1" name="binding" checked="true" id="cbKGDataElementD-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGDataElementD'), 'constraint',event.target.checked, document.getElementById('ppKGDataElementD'))" size="1" name="constraint" checked="true" id="cbKGDataElementD-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGDataElementD'), 'obligation',event.target.checked, document.getElementById('ppKGDataElementD'))" size="1" name="obligation" checked="true" id="cbKGDataElementD-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement" title="DAK component 5. CoreDataElement.fsh calls itself &quot;the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs&quot;: `type` is one of valueset | codesystem | conceptmap | logicalmodel and `canonical 1..1 uri` points at it. The canonical is recorded; nothing inside it is copied, because FHIR is its own query layer. `name`, `resolutionStatus` and `extractionRule` are for elements recovered from DMN input expressions rather than declared in a dictionary. A recovered element is a name that was REFERENCED, not a definition that was found, and only a resolved one may carry a canonical. Class IRI: http://smart.who.int/kg/data-element." data-no-external="true">KGDataElement</a><a name="KGDataElement"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0"><span class="xhtPieceDeEmphasized">0</span><span class="xhtPieceDeEmphasized">..</span><span class="xhtPieceDeEmphasized">*</span></td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Core Data Element</td></tr>
+<tr fhir="generated-heirarchy" id="aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="KGDataElement.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.name" title="The name a DMN input expression referenced, for a recovered element." data-no-external="true">name</a><a name="KGDataElement.name"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Name</td></tr>
+<tr fhir="generated-heirarchy" id="ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.type" title="The data type, as the data dictionary declares it." data-no-external="true">type</a><a name="KGDataElement.type"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Type</td></tr>
+<tr fhir="generated-heirarchy" id="ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.canonical" title="The canonical URL. Only a resolved component carries one." data-no-external="true">canonical</a><a name="KGDataElement.canonical"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#uri">uri</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Canonical</td></tr>
+<tr fhir="generated-heirarchy" id="ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="KGDataElement.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="KGDataElement.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="ag" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="KGDataElement.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="ah" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="KGDataElement.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" id="ai" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.extractionRule" title="How a data element recovered from a DMN input expression was found." data-no-external="true">extractionRule</a><a name="KGDataElement.extractionRule"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Extraction rule</td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGDataElementD-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGDataElementD'), 'binding', document.getElementById('cbKGDataElementD-binding').checked, document.getElementById('ppKGDataElementD'));
+document.getElementById('cbKGDataElementD-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGDataElementD'), 'constraint', document.getElementById('cbKGDataElementD-constraint').checked, document.getElementById('ppKGDataElementD'));
+document.getElementById('cbKGDataElementD-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGDataElementD'), 'obligation', document.getElementById('cbKGDataElementD-obligation').checked, document.getElementById('ppKGDataElementD'));
+</script></table>
+          <a name="tx"> </a>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings (Differential)</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGDataElement.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+    </div>
+    <a name="tabs-snap"> </a>
+    <div id="tabs-snap">
+      <div id="tbl-snap">
+        <div id="tbl-snap-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGDataElementS" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGDataElementS'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGDataElementS'), document.getElementById('ppKGDataElementS'))" aria-controls="ppKGDataElementS" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGDataElementS"><label>Bindings <input onClick="filterDesc(document.getElementById('KGDataElementS'), 'binding',event.target.checked, document.getElementById('ppKGDataElementS'))" size="1" name="binding" checked="true" id="cbKGDataElementS-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGDataElementS'), 'constraint',event.target.checked, document.getElementById('ppKGDataElementS'))" size="1" name="constraint" checked="true" id="cbKGDataElementS-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGDataElementS'), 'obligation',event.target.checked, document.getElementById('ppKGDataElementS'))" size="1" name="obligation" checked="true" id="cbKGDataElementS-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="s-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement" title="DAK component 5. CoreDataElement.fsh calls itself &quot;the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs&quot;: `type` is one of valueset | codesystem | conceptmap | logicalmodel and `canonical 1..1 uri` points at it. The canonical is recorded; nothing inside it is copied, because FHIR is its own query layer. `name`, `resolutionStatus` and `extractionRule` are for elements recovered from DMN input expressions rather than declared in a dictionary. A recovered element is a name that was REFERENCED, not a definition that was found, and only a resolved one may carry a canonical. Class IRI: http://smart.who.int/kg/data-element." data-no-external="true">KGDataElement</a><a name="s-KGDataElement"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..*</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Core Data Element<br/></td></tr>
+<tr fhir="generated-heirarchy" id="s-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="s-KGDataElement.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="s-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.name" title="The name a DMN input expression referenced, for a recovered element." data-no-external="true">name</a><a name="s-KGDataElement.name"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Name</td></tr>
+<tr fhir="generated-heirarchy" id="s-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.type" title="The data type, as the data dictionary declares it." data-no-external="true">type</a><a name="s-KGDataElement.type"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Type</td></tr>
+<tr fhir="generated-heirarchy" id="s-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.canonical" title="The canonical URL. Only a resolved component carries one." data-no-external="true">canonical</a><a name="s-KGDataElement.canonical"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#uri">uri</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Canonical</td></tr>
+<tr fhir="generated-heirarchy" id="s-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="s-KGDataElement.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="s-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="s-KGDataElement.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="s-ag" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="s-KGDataElement.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="s-ah" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="s-KGDataElement.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" id="s-ai" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.extractionRule" title="How a data element recovered from a DMN input expression was found." data-no-external="true">extractionRule</a><a name="s-KGDataElement.extractionRule"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Extraction rule</td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGDataElementS-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGDataElementS'), 'binding', document.getElementById('cbKGDataElementS-binding').checked, document.getElementById('ppKGDataElementS'));
+document.getElementById('cbKGDataElementS-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGDataElementS'), 'constraint', document.getElementById('cbKGDataElementS-constraint').checked, document.getElementById('ppKGDataElementS'));
+document.getElementById('cbKGDataElementS-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGDataElementS'), 'obligation', document.getElementById('cbKGDataElementS-obligation').checked, document.getElementById('ppKGDataElementS'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGDataElement.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+    </div>
+
+<!--    <a name="tabs-xml"> </a>
+    <div id="tabs-xml">
+      <div id="xml">
+        <div id="xml-inner">
+          <p><span style="color: maroon; font-weight: bold">yet to be done: Xml template</span></p>
+
+        </div>
+      </div>
+    </div>-->
+
+
+<!--    <a name="tabs-json"> </a>
+    <div id="tabs-json">
+      <div id="json">
+        <div id="json-inner">
+           // <span style="color: navy; opacity: 0.8">Knowledge graph L2: Core Data Element</span>
+ {
+// from Element: <a href="http://hl7.org/fhir/R4/extensibility.html">extension</a>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)" class="dict"><span style="text-decoration: underline">id</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Id</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.name" title="The name a DMN input expression referenced, for a recovered element" class="dict"><span style="text-decoration: underline">name</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Name</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.type" title="The data type, as the data dictionary declares it" class="dict"><span style="text-decoration: underline">type</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Type</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.canonical" title="The canonical URL. Only a resolved component carries one" class="dict"><span style="text-decoration: underline">canonical</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#uri">uri</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Canonical</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.description" title="A description, as the source gives it" class="dict"><span style="text-decoration: underline">description</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Description</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)" class="dict"><span style="text-decoration: underline">sourceKind</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Source kind</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.source" title="Where the node was read from: a repository path or URL" class="dict"><span style="text-decoration: underline">source</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Source</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable" class="dict"><span style="text-decoration: underline">resolutionStatus</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8"><a href="http://hl7.org/fhir/R4/null.html" style="color: navy">Resolution status</a></span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.extractionRule" title="How a data element recovered from a DMN input expression was found" class="dict"><span style="text-decoration: underline">extractionRule</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;" <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Extraction rule</span>
+  }
+
+        </div>
+      </div>
+    </div>-->
+
+
+    <!--<a name="tabs-ttl"> </a>
+    <div id="tabs-ttl">
+      <div id="ttl">
+        <div id="ttl-inner">
+          <p><span style="color: maroon; font-weight: bold">yet to be done: Turtle template</span></p>
+
+        </div>
+      </div>
+    </div>-->
+
+    <a name="tabs-summ"> </a>
+    <div id="tabs-summ">
+      <div id="tbl-summ">
+        <p>This structure is derived from <a href="http://build.fhir.org/types.html#Base">Base</a>
+        </p>
+        <div id="tbl-summ-inner">
+          <a name="summary"> </a>
+          <div data-fhir="generated"><a name="s-summary"> </a>
+<p><b>
+Summary
+</b></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <a name="tabs-all"> </a>
+    <div id="tabs-all">
+      <div id="all-tbl-key">
+        <p>
+          <b>Key Elements View</b>
+        </p>
+        <div id="all-tbl-key-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGDataElementKA" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGDataElementKA'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGDataElementKA'), document.getElementById('ppKGDataElementKA'))" aria-controls="ppKGDataElementKA" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGDataElementKA"><label>Bindings <input onClick="filterDesc(document.getElementById('KGDataElementKA'), 'binding',event.target.checked, document.getElementById('ppKGDataElementKA'))" size="1" name="binding" checked="true" id="cbKGDataElementKA-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGDataElementKA'), 'constraint',event.target.checked, document.getElementById('ppKGDataElementKA'))" size="1" name="constraint" checked="true" id="cbKGDataElementKA-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGDataElementKA'), 'obligation',event.target.checked, document.getElementById('ppKGDataElementKA'))" size="1" name="obligation" checked="true" id="cbKGDataElementKA-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="ka-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement" title="DAK component 5. CoreDataElement.fsh calls itself &quot;the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs&quot;: `type` is one of valueset | codesystem | conceptmap | logicalmodel and `canonical 1..1 uri` points at it. The canonical is recorded; nothing inside it is copied, because FHIR is its own query layer. `name`, `resolutionStatus` and `extractionRule` are for elements recovered from DMN input expressions rather than declared in a dictionary. A recovered element is a name that was REFERENCED, not a definition that was found, and only a resolved one may carry a canonical. Class IRI: http://smart.who.int/kg/data-element." data-no-external="true">KGDataElement</a><a name="ka-KGDataElement"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..*</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Core Data Element<br/></td></tr>
+<tr fhir="generated-heirarchy" id="ka-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="ka-KGDataElement.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.name" title="The name a DMN input expression referenced, for a recovered element." data-no-external="true">name</a><a name="ka-KGDataElement.name"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Name</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.type" title="The data type, as the data dictionary declares it." data-no-external="true">type</a><a name="ka-KGDataElement.type"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Type</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.canonical" title="The canonical URL. Only a resolved component carries one." data-no-external="true">canonical</a><a name="ka-KGDataElement.canonical"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#uri">uri</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Canonical</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="ka-KGDataElement.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="ka-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="ka-KGDataElement.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ag" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="ka-KGDataElement.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ah" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="ka-KGDataElement.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" id="ka-ai" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.extractionRule" title="How a data element recovered from a DMN input expression was found." data-no-external="true">extractionRule</a><a name="ka-KGDataElement.extractionRule"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Extraction rule</td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGDataElementKA-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGDataElementKA'), 'binding', document.getElementById('cbKGDataElementKA-binding').checked, document.getElementById('ppKGDataElementKA'));
+document.getElementById('cbKGDataElementKA-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGDataElementKA'), 'constraint', document.getElementById('cbKGDataElementKA-constraint').checked, document.getElementById('ppKGDataElementKA'));
+document.getElementById('cbKGDataElementKA-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGDataElementKA'), 'obligation', document.getElementById('cbKGDataElementKA-obligation').checked, document.getElementById('ppKGDataElementKA'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGDataElement.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+      <div id="all-tbl-diff">
+        <p>
+          <b>Differential View</b>
+        </p>
+        <p>This structure is derived from <a href="http://build.fhir.org/types.html#Base">Base</a>
+        </p>
+        <div id="all-tbl-diff-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGDataElementDA" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGDataElementDA'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGDataElementDA'), document.getElementById('ppKGDataElementDA'))" aria-controls="ppKGDataElementDA" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGDataElementDA"><label>Bindings <input onClick="filterDesc(document.getElementById('KGDataElementDA'), 'binding',event.target.checked, document.getElementById('ppKGDataElementDA'))" size="1" name="binding" checked="true" id="cbKGDataElementDA-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGDataElementDA'), 'constraint',event.target.checked, document.getElementById('ppKGDataElementDA'))" size="1" name="constraint" checked="true" id="cbKGDataElementDA-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGDataElementDA'), 'obligation',event.target.checked, document.getElementById('ppKGDataElementDA'))" size="1" name="obligation" checked="true" id="cbKGDataElementDA-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="a-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement" title="DAK component 5. CoreDataElement.fsh calls itself &quot;the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs&quot;: `type` is one of valueset | codesystem | conceptmap | logicalmodel and `canonical 1..1 uri` points at it. The canonical is recorded; nothing inside it is copied, because FHIR is its own query layer. `name`, `resolutionStatus` and `extractionRule` are for elements recovered from DMN input expressions rather than declared in a dictionary. A recovered element is a name that was REFERENCED, not a definition that was found, and only a resolved one may carry a canonical. Class IRI: http://smart.who.int/kg/data-element." data-no-external="true">KGDataElement</a><a name="a-KGDataElement"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0"><span class="xhtPieceDeEmphasized">0</span><span class="xhtPieceDeEmphasized">..</span><span class="xhtPieceDeEmphasized">*</span></td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Core Data Element</td></tr>
+<tr fhir="generated-heirarchy" id="a-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="a-KGDataElement.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="a-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.name" title="The name a DMN input expression referenced, for a recovered element." data-no-external="true">name</a><a name="a-KGDataElement.name"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Name</td></tr>
+<tr fhir="generated-heirarchy" id="a-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.type" title="The data type, as the data dictionary declares it." data-no-external="true">type</a><a name="a-KGDataElement.type"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Type</td></tr>
+<tr fhir="generated-heirarchy" id="a-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.canonical" title="The canonical URL. Only a resolved component carries one." data-no-external="true">canonical</a><a name="a-KGDataElement.canonical"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#uri">uri</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Canonical</td></tr>
+<tr fhir="generated-heirarchy" id="a-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="a-KGDataElement.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="a-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="a-KGDataElement.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="a-ag" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="a-KGDataElement.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="a-ah" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="a-KGDataElement.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" id="a-ai" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.extractionRule" title="How a data element recovered from a DMN input expression was found." data-no-external="true">extractionRule</a><a name="a-KGDataElement.extractionRule"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Extraction rule</td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGDataElementDA-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGDataElementDA'), 'binding', document.getElementById('cbKGDataElementDA-binding').checked, document.getElementById('ppKGDataElementDA'));
+document.getElementById('cbKGDataElementDA-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGDataElementDA'), 'constraint', document.getElementById('cbKGDataElementDA-constraint').checked, document.getElementById('ppKGDataElementDA'));
+document.getElementById('cbKGDataElementDA-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGDataElementDA'), 'obligation', document.getElementById('cbKGDataElementDA-obligation').checked, document.getElementById('ppKGDataElementDA'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings (Differential)</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGDataElement.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+      <div id="all-tbl-snap">
+        <p>
+          <b>Snapshot View</b>
+        </p>
+        <div id="all-tbl-snap-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGDataElementSA" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGDataElementSA'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGDataElementSA'), document.getElementById('ppKGDataElementSA'))" aria-controls="ppKGDataElementSA" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGDataElementSA"><label>Bindings <input onClick="filterDesc(document.getElementById('KGDataElementSA'), 'binding',event.target.checked, document.getElementById('ppKGDataElementSA'))" size="1" name="binding" checked="true" id="cbKGDataElementSA-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGDataElementSA'), 'constraint',event.target.checked, document.getElementById('ppKGDataElementSA'))" size="1" name="constraint" checked="true" id="cbKGDataElementSA-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGDataElementSA'), 'obligation',event.target.checked, document.getElementById('ppKGDataElementSA'))" size="1" name="obligation" checked="true" id="cbKGDataElementSA-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="sa-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement" title="DAK component 5. CoreDataElement.fsh calls itself &quot;the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs&quot;: `type` is one of valueset | codesystem | conceptmap | logicalmodel and `canonical 1..1 uri` points at it. The canonical is recorded; nothing inside it is copied, because FHIR is its own query layer. `name`, `resolutionStatus` and `extractionRule` are for elements recovered from DMN input expressions rather than declared in a dictionary. A recovered element is a name that was REFERENCED, not a definition that was found, and only a resolved one may carry a canonical. Class IRI: http://smart.who.int/kg/data-element." data-no-external="true">KGDataElement</a><a name="sa-KGDataElement"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..*</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Core Data Element<br/></td></tr>
+<tr fhir="generated-heirarchy" id="sa-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="sa-KGDataElement.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.name" title="The name a DMN input expression referenced, for a recovered element." data-no-external="true">name</a><a name="sa-KGDataElement.name"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Name</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.type" title="The data type, as the data dictionary declares it." data-no-external="true">type</a><a name="sa-KGDataElement.type"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Type</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.canonical" title="The canonical URL. Only a resolved component carries one." data-no-external="true">canonical</a><a name="sa-KGDataElement.canonical"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#uri">uri</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Canonical</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="sa-KGDataElement.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="sa-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="sa-KGDataElement.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ag" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="sa-KGDataElement.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ah" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="sa-KGDataElement.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" id="sa-ai" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDataElement.</span><a no-external="true" href="StructureDefinition-KGDataElement-definitions.html#KGDataElement.extractionRule" title="How a data element recovered from a DMN input expression was found." data-no-external="true">extractionRule</a><a name="sa-KGDataElement.extractionRule"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Extraction rule</td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGDataElementSA-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGDataElementSA'), 'binding', document.getElementById('cbKGDataElementSA-binding').checked, document.getElementById('ppKGDataElementSA'));
+document.getElementById('cbKGDataElementSA-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGDataElementSA'), 'constraint', document.getElementById('cbKGDataElementSA-constraint').checked, document.getElementById('ppKGDataElementSA'));
+document.getElementById('cbKGDataElementSA-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGDataElementSA'), 'obligation', document.getElementById('cbKGDataElementSA-obligation').checked, document.getElementById('ppKGDataElementSA'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGDataElement.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+
+      <!--<div id="all-xml">
+        <p>
+          <b>XML Template</b>
+        </p>
+        <div id="all-xml-inner">
+          <p><span style="color: maroon; font-weight: bold">yet to be done: Xml template</span></p>
+
+        </div>
+      </div>-->
+
+
+      <!--<div id="all-json">
+        <p>
+          <b>JSON Template</b>
+        </p>
+        <div id="all-json-inner">
+           // <span style="color: navy; opacity: 0.8">Knowledge graph L2: Core Data Element</span>
+ {
+// from Element: <a href="http://hl7.org/fhir/R4/extensibility.html">extension</a>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)" class="dict"><span style="text-decoration: underline">id</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Id</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.name" title="The name a DMN input expression referenced, for a recovered element" class="dict"><span style="text-decoration: underline">name</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Name</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.type" title="The data type, as the data dictionary declares it" class="dict"><span style="text-decoration: underline">type</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Type</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.canonical" title="The canonical URL. Only a resolved component carries one" class="dict"><span style="text-decoration: underline">canonical</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#uri">uri</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Canonical</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.description" title="A description, as the source gives it" class="dict"><span style="text-decoration: underline">description</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Description</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)" class="dict"><span style="text-decoration: underline">sourceKind</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Source kind</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.source" title="Where the node was read from: a repository path or URL" class="dict"><span style="text-decoration: underline">source</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Source</span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable" class="dict"><span style="text-decoration: underline">resolutionStatus</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8"><a href="http://hl7.org/fhir/R4/null.html" style="color: navy">Resolution status</a></span>
+    "<a href="StructureDefinition-KGDataElement.html#KGDataElement.extractionRule" title="How a data element recovered from a DMN input expression was found" class="dict"><span style="text-decoration: underline">extractionRule</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;" <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Extraction rule</span>
+  }
+
+        </div>
+      </div>-->
+
+
+      <!--<div id="all-ttl">
+        <p>
+          <b>TTL Template</b>
+        </p>
+        <div id="all-ttl-inner">
+          <p><span style="color: maroon; font-weight: bold">yet to be done: Turtle template</span></p>
+
+        </div>
+      </div>-->
+
+      <div id="all-summ">
+        <p>This structure is derived from <a href="http://build.fhir.org/types.html#Base">Base</a>
+        </p>
+        <div id="all-summ-inner">
+          <div data-fhir="generated"><a name="a-summary"> </a>
+<p><b>
+Summary
+</b></p>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>&#160;</p>
+  <p>Other representations of profile: <a href="StructureDefinition-KGDataElement.csv">CSV</a>, <a href="StructureDefinition-KGDataElement.xlsx">Excel</a> 
+  </p>
+
+  
+
+<!-- insert notes if present -->
+
+
+
+
+</div>
+
+</div>  <!-- /inner-wrapper -->
+</div>  <!-- /row -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-content -->
+
+<script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+<script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+
+<script type="text/javascript" src="assets/js/tabs.js"> </script>
+
+<script type="text/javascript" src="assets/js/window-hash.js"> </script>
+<a name="bottom"> </a>
+<div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+<div class="container">  <!-- container -->
+
+<div class="inner-wrapper">
+  <p>
+    IG &#169; 2023+ <a style="color:var(--footer-hyperlink-text-color)" href="http://who.int">WHO</a>.  Package smart.who.int.base#0.3.0 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>. Generated <span title="Thu, Nov 19, 2026 20:24+0000">2026-11-19</span>
+    <br/>
+    <span style="color: var(--footer-highlight-text-color)">
+                Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="qa.html">QA Report</a>
+                 
+                
+| <a style="color: #81BEF7" target="_blank" href="history.html">Version History</a> | <a style="color: #81BEF7" rel="license" href="license.html">License</a>
+    </span>
+  </p>
+</div>  <!-- /inner-wrapper -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-footer -->
+
+<div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+<div class="container">  <!-- container -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-post-footer -->
+
+<!-- JS and analytics only. -->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+<script type="text/javascript" src="assets/js/respond.min.js"> </script>
+<script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+<script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+<script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+<script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+<!-- Analytics Below
+================================================== -->
+
+
+
+

@@ -1,0 +1,951 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ConceptMap xmlns="http://hl7.org/fhir">
+  <id value="CDHIv1toCDHIv2"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: ConceptMap CDHIv1toCDHIv2</b></p><a name="CDHIv1toCDHIv2"> </a><a name="hcCDHIv1toCDHIv2"> </a><p>Mapping from <a href="ValueSet-CDHIv1.html">Classification of Digital Health Interventions v1</a> to <a href="ValueSet-CDHIv2.html">Classification of Digital Health Interventions v2</a></p><br/><p><b>Group 1 </b>Mapping from <a href="ValueSet-CDHIv1.html">Classification of Digital Health Interventions v1</a> to <a href="ValueSet-CDHIv2.html">Classification of Digital Health Interventions v2</a></p><table class="grid"><tr><td><b>Source Code</b></td><td><b>Relationship</b></td><td><b>Target Code</b></td><td><b>Comment</b></td></tr><tr><td>1.0</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1</td><td>Renamed: 'Clients' → 'Persons'</td></tr><tr><td>2.0</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2</td><td>Renamed: 'Health workers' → 'Healthcare providers'</td></tr><tr><td>3.0</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3</td><td>Renamed: 'Health system managers' → 'Health management and support personnel'</td></tr><tr><td>4.0</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4</td><td/></tr><tr><td>1.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.1</td><td>Renamed: 'Targeted client communication' → 'Targeted communication to Persons'</td></tr><tr><td>1.1.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.1.1</td><td/></tr><tr><td>1.1.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.1.2</td><td>Renamed: 'client[s]' → 'person[s]'</td></tr><tr><td>1.1.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.1.3</td><td/></tr><tr><td>1.1.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.1.4</td><td/></tr><tr><td>1.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.2</td><td>Renamed: 'Untargeted client communication' → 'Untargeted communication to Persons'</td></tr><tr><td>1.2.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.2.1</td><td/></tr><tr><td>1.2.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.2.2</td><td/></tr><tr><td>1.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.3</td><td>Renamed: 'Client to client communication' → 'Person to Person communication'</td></tr><tr><td>1.3.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.3.1</td><td>Renamed: 'Peer group for clients' → 'Peer group for individuals'</td></tr><tr><td>1.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.4</td><td>Renamed: 'Personal health tracking' [unchanged]</td></tr><tr><td>1.4.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.4.1</td><td>Renamed: 'Access by client' → 'Access by the individual'</td></tr><tr><td>1.4.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.4.2</td><td>Renamed: 'Self monitoring of health... by client' → '...by the individual'</td></tr><tr><td>1.4.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.4.3</td><td>Renamed: 'Active data capture/documentation by client' → '...by an individual'</td></tr><tr><td>1.5</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.5</td><td>Renamed: 'Citizen-based reporting' → 'Person based reporting'</td></tr><tr><td>1.5.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.5.1</td><td>Renamed: 'by clients' → 'by persons'</td></tr><tr><td>1.5.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.5.2</td><td/></tr><tr><td>1.6</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.6</td><td>Renamed: 'On-demand information services to clients' → 'On demand communication with persons'</td></tr><tr><td>1.6.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.6.1</td><td>Renamed: 'Client look-up of health information' → 'Look-up of information on health and health services by individuals'</td></tr><tr><td>1.7</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.7</td><td>Renamed: 'Client financial transactions' → 'Person-centred financial transactions'</td></tr><tr><td>1.7.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.7.1</td><td>Renamed: 'by client[s]' → 'by individuals'</td></tr><tr><td>1.7.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.7.2</td><td>Renamed: 'to client[s]' → 'to individuals'</td></tr><tr><td>1.7.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>1.7.3</td><td>Renamed: 'to client[s]' → 'to individuals'</td></tr><tr><td>2.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.1</td><td>Renamed: 'Client identification and registration' → 'Identification and registration of persons'</td></tr><tr><td>2.1.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.1.1</td><td>Renamed: 'Verify client unique identity' → 'Verify a person's unique identity'</td></tr><tr><td>2.1.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.1.2</td><td>Renamed: 'client' → 'person[s]'</td></tr><tr><td>2.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.2</td><td>Renamed: 'Client health records' → 'Person-centred health records'</td></tr><tr><td>2.2.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.2.1</td><td>Renamed: 'clients' → 'person's'</td></tr><tr><td>2.2.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.2.2</td><td>Renamed: 'client's' → 'person-centred'</td></tr><tr><td>2.2.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.2.3</td><td>Renamed: 'client's' → 'person-centred'; now explicitly includes examples [notes; images; documents]</td></tr><tr><td>2.2.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.2.4</td><td/></tr><tr><td>2.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.3</td><td>Renamed: 'Health worker decision support' → 'Healthcare provider decision support'</td></tr><tr><td>2.3.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.3.1</td><td/></tr><tr><td>2.3.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.3.2</td><td/></tr><tr><td>2.3.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.3.3</td><td>Renamed: 'clients' → 'persons'</td></tr><tr><td>2.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.4</td><td/></tr><tr><td>2.4.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.4.1</td><td>Renamed: 'client' → 'person'</td></tr><tr><td>2.4.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.4.2</td><td>Renamed: 'client' → 'person's'</td></tr><tr><td>2.4.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.4.3</td><td>Expanded: now explicitly lists examples [images; notes; videos]</td></tr><tr><td>2.4.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.4.4</td><td>Renamed: 'health worker[s]' → 'healthcare providers'</td></tr><tr><td>2.5</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.5</td><td>Renamed: 'Health worker communication' → 'Healthcare provider communication'</td></tr><tr><td>2.5.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.5.1</td><td>Renamed: 'health worker[s]' → 'healthcare provider'</td></tr><tr><td>2.5.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.5.2</td><td>Renamed: 'health worker[s]' → 'healthcare provider[s]'</td></tr><tr><td>2.5.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.5.3</td><td>Renamed: 'health worker[s]' → 'healthcare provider[s]'</td></tr><tr><td>2.5.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.5.4</td><td>Renamed: 'health worker[s]' → 'healthcare provider[s]'</td></tr><tr><td>2.5.5</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.5.5</td><td>Renamed: 'Peer group for health workers' → 'Peer group for healthcare providers'</td></tr><tr><td>2.6</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.6</td><td/></tr><tr><td>2.6.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.6.1</td><td/></tr><tr><td>2.6.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.6.2</td><td/></tr><tr><td>2.6.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#wider" title="wider">maps to wider concept</a></td><td>2.6.3</td><td>Scope expanded: v2 explicitly includes social services; police; justice; economic support schemes</td></tr><tr><td>2.7</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.7</td><td>Renamed: 'Health worker activity planning' → 'Scheduling and activity planning for healthcare providers'</td></tr><tr><td>2.7.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.7.1</td><td>Renamed: 'client[s]' → 'persons'</td></tr><tr><td>2.7.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.7.2</td><td>Renamed: 'health worker's' → 'healthcare provider's'</td></tr><tr><td>2.8</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.8</td><td>Renamed: 'Health worker training' → 'Healthcare provider training'</td></tr><tr><td>2.8.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.8.1</td><td>Renamed: 'health worker[s]' → 'healthcare provider[s]'</td></tr><tr><td>2.8.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.8.2</td><td>Renamed: 'health worker[s]' → 'healthcare provider[s]'</td></tr><tr><td>2.9</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.9</td><td/></tr><tr><td>2.9.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.9.1</td><td/></tr><tr><td>2.9.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.9.2</td><td>Renamed: 'client's' → 'individual's'</td></tr><tr><td>2.9.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.9.3</td><td>Renamed: 'adverse drug events' → 'adverse drug effects'</td></tr><tr><td>2.10</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.10</td><td>Renamed: 'health worker' → 'healthcare provider'</td></tr><tr><td>2.10.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.10.1</td><td>Renamed: 'Transmit diagnostic result to health worker' → 'Transmit person's diagnostic result to healthcare provider'</td></tr><tr><td>2.10.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.10.2</td><td/></tr><tr><td>2.10.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.10.3</td><td/></tr><tr><td>2.10.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>2.10.4</td><td/></tr><tr><td>3.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.1</td><td/></tr><tr><td>3.1.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.1.1</td><td/></tr><tr><td>3.1.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.1.2</td><td>Renamed: 'health worker[s]' → 'healthcare provider[s]'</td></tr><tr><td>3.1.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.1.3</td><td>Renamed: 'health worker[s]' → 'healthcare provider[s]'</td></tr><tr><td>3.1.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.1.4</td><td>Renamed: 'health worker[s]' → 'healthcare provider[s]'</td></tr><tr><td>3.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.2</td><td/></tr><tr><td>3.2.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.2.1</td><td/></tr><tr><td>3.2.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.2.2</td><td/></tr><tr><td>3.2.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.2.3</td><td/></tr><tr><td>3.2.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.2.4</td><td/></tr><tr><td>3.2.5</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.2.5</td><td/></tr><tr><td>3.2.6</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.2.6</td><td>Renamed: 'by clients' → 'by persons'</td></tr><tr><td>3.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.3</td><td/></tr><tr><td>3.3.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.3.1</td><td/></tr><tr><td>3.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.4</td><td>Renamed: 'Civil Registration and Vital Statistics' [same concept]</td></tr><tr><td>3.4.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#wider" title="wider">maps to wider concept</a></td><td>3.4.1</td><td>Consolidated: v1 'Notify birth event' merged with v1 3.4.2 [register] and 3.4.3 [certify] into v2 3.4.1 'Notify; register and certify birth event'</td></tr><tr><td>3.4.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#wider" title="wider">maps to wider concept</a></td><td>3.4.1</td><td>Consolidated: v1 'Register birth event' merged into v2 3.4.1 'Notify; register and certify birth event'</td></tr><tr><td>3.4.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#wider" title="wider">maps to wider concept</a></td><td>3.4.1</td><td>Consolidated: v1 'Certify birth event' merged into v2 3.4.1 'Notify; register and certify birth event'</td></tr><tr><td>3.4.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#wider" title="wider">maps to wider concept</a></td><td>3.4.2</td><td>Consolidated: v1 'Notify death event' merged with v1 3.4.5 [register] and 3.4.6 [certify] into v2 3.4.2 'Notify; register and certify death event'</td></tr><tr><td>3.4.5</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#wider" title="wider">maps to wider concept</a></td><td>3.4.2</td><td>Consolidated: v1 'Register death event' merged into v2 3.4.2 'Notify; register and certify death event'</td></tr><tr><td>3.4.6</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#wider" title="wider">maps to wider concept</a></td><td>3.4.2</td><td>Consolidated: v1 'Certify death event' merged into v2 3.4.2 'Notify; register and certify death event'</td></tr><tr><td>3.5</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.5</td><td>Renamed: 'Health financing' → 'Health system financial management'</td></tr><tr><td>3.5.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.5.1</td><td>Updated wording: now covers all coverage schemes; not only insurance</td></tr><tr><td>3.5.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.5.2</td><td>Updated wording: 'Track insurance billing and claims submission' → 'Track and manage insurance billing and claims processes'</td></tr><tr><td>3.5.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.5.4</td><td>Renumbered from v1 3.5.4; health worker → healthcare provider</td></tr><tr><td>3.5.5</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.5.5</td><td>Renumbered from v1 3.5.5; health worker → healthcare provider</td></tr><tr><td>3.5.6</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.5.6</td><td>Renumbered from v1 3.5.6; reworded to include revenue and expenditures</td></tr><tr><td>3.6</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.6</td><td/></tr><tr><td>3.6.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.6.1</td><td>Expanded: 'Monitor status' → 'Monitor status and maintenance'</td></tr><tr><td>3.6.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.6.2</td><td/></tr><tr><td>3.7</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.7</td><td/></tr><tr><td>3.7.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.7.1</td><td/></tr><tr><td>3.7.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>3.7.2</td><td/></tr><tr><td>4.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.1</td><td>Renamed: 'Data collection; management; and use' → 'Data Management'</td></tr><tr><td>4.1.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#inexact" title="inexact">maps loosely to</a></td><td>4.1.1</td><td>v1: 'Non-routine data collection and management'; v2: 'Form creation for data acquisition' — overlapping but distinct scope</td></tr><tr><td>4.1.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.1.2</td><td/></tr><tr><td>4.1.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.1.3</td><td>Renamed: 'visualisation' → 'visualizations'</td></tr><tr><td>4.1.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.1.4</td><td>Scope extended to explicitly include AI and machine learning</td></tr><tr><td>4.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.2</td><td/></tr><tr><td>4.2.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.2.1</td><td/></tr><tr><td>4.2.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.2.2</td><td/></tr><tr><td>4.2.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.2.3</td><td/></tr><tr><td>4.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.3</td><td>Renamed: 'Location mapping' → 'Geo spatial information management'; expanded from 4 to 5 sub-codes</td></tr><tr><td>4.3.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.3.1</td><td>Expanded: 'Map location of health facilities/structures' → '...and households'</td></tr><tr><td>4.3.2</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.3.2</td><td>Renamed: 'Map location of health events' → 'Map location of health event'</td></tr><tr><td>4.3.3</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.3.3</td><td>Renamed: 'clients and households' → 'persons and settlements'</td></tr><tr><td>4.3.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.3.4</td><td>Renamed: 'health worker' → 'healthcare provider[s]'</td></tr><tr><td>4.4</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#equivalent" title="equivalent">is equivalent to</a></td><td>4.4</td><td>Renamed: 'Data exchange and interoperability'; split from 1 leaf code into 3 in v2</td></tr><tr><td>4.4.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#wider" title="wider">maps to wider concept</a></td><td>4.4.1</td><td>v1 'Data exchange across systems' is broader; v2 4.4.1 covers only point-to-point integration. See also v2 4.4.2 [standards-compliant] and 4.4.3 [message routing].</td></tr><tr><td>4.4.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#wider" title="wider">maps to wider concept</a></td><td>4.4.2</td><td>v2 4.4.2 'Standards-compliant interoperability' partially covers the broader v1 4.4.1 concept</td></tr><tr><td>4.4.1</td><td><a href="http://hl7.org/fhir/R5/codesystem-concept-map-relationship.html#wider" title="wider">maps to wider concept</a></td><td>4.4.3</td><td>v2 4.4.3 'Message routing' partially covers the broader v1 4.4.1 concept</td></tr></table></div>
+  </text>
+  <url value="http://smart.who.int/base/ConceptMap/CDHIv1toCDHIv2"/>
+  <version value="0.2.0"/>
+  <name value="CDHIv1toCDHIv2"/>
+  <title value="Mapping from CDHI v1 to CDISAH v2"/>
+  <status value="draft"/>
+  <experimental value="true"/>
+  <date value="2026-03-06T03:01:34+00:00"/>
+  <publisher value="WHO"/>
+  <contact>
+    <name value="WHO"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://who.int"/>
+    </telecom>
+  </contact>
+  <description value="Mapping from the Classification of Digital Health Interventions v1 (CDHI v1, 2018)&#xA;to the Classification of Digital Interventions, Services and Applications in Health v2&#xA;(CDISAH v2, 2023).&#xA;&#xA;Key structural changes reflected in this map:&#xA;- User group labels updated throughout (e.g. 'Clients' → 'Persons',&#xA;  'Health workers' → 'Healthcare providers', 'Health system managers' →&#xA;  'Health management and support personnel').&#xA;- Civil Registration and Vital Statistics (CRVS) consolidated: six v1 codes&#xA;  (3.4.1–3.4.6) merged into two v2 codes (3.4.1, 3.4.2).&#xA;- Health financing section restructured: v1 3.5.1 (insurance membership) and&#xA;  3.5.2 (billing) updated; v1 3.5.3–3.5.6 shifted by one (now 3.5.4–3.5.6 + new 3.5.3).&#xA;- Data services (group 4) substantially revised: 4.1.1 changed scope,&#xA;  4.3 expanded from 4 to 5 codes, 4.4 split from 1 to 3 codes, 4.5 is entirely new.&#xA;- New v2 categories with no v1 equivalent are listed as 'unmatched' targets."/>
+  <sourceCanonical value="http://smart.who.int/base/ValueSet/CDHIv1"/>
+  <targetCanonical value="http://smart.who.int/base/ValueSet/CDHIv2"/>
+  <group>
+    <source value="http://smart.who.int/base/ValueSet/CDHIv1"/>
+    <target value="http://smart.who.int/base/ValueSet/CDHIv2"/>
+    <element>
+      <code value="1.0"/>
+      <target>
+        <code value="1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Clients' → 'Persons'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.0"/>
+      <target>
+        <code value="2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Health workers' → 'Healthcare providers'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.0"/>
+      <target>
+        <code value="3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Health system managers' → 'Health management and support personnel'"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.0"/>
+      <target>
+        <code value="4"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.1"/>
+      <target>
+        <code value="1.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Targeted client communication' → 'Targeted communication to Persons'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.1.1"/>
+      <target>
+        <code value="1.1.1"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.1.2"/>
+      <target>
+        <code value="1.1.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'client[s]' → 'person[s]'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.1.3"/>
+      <target>
+        <code value="1.1.3"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.1.4"/>
+      <target>
+        <code value="1.1.4"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.2"/>
+      <target>
+        <code value="1.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Untargeted client communication' → 'Untargeted communication to Persons'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.2.1"/>
+      <target>
+        <code value="1.2.1"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.2.2"/>
+      <target>
+        <code value="1.2.2"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.3"/>
+      <target>
+        <code value="1.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Client to client communication' → 'Person to Person communication'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.3.1"/>
+      <target>
+        <code value="1.3.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Peer group for clients' → 'Peer group for individuals'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.4"/>
+      <target>
+        <code value="1.4"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Personal health tracking' [unchanged]"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.4.1"/>
+      <target>
+        <code value="1.4.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Access by client' → 'Access by the individual'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.4.2"/>
+      <target>
+        <code value="1.4.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Self monitoring of health... by client' → '...by the individual'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.4.3"/>
+      <target>
+        <code value="1.4.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Active data capture/documentation by client' → '...by an individual'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.5"/>
+      <target>
+        <code value="1.5"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Citizen-based reporting' → 'Person based reporting'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.5.1"/>
+      <target>
+        <code value="1.5.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'by clients' → 'by persons'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.5.2"/>
+      <target>
+        <code value="1.5.2"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.6"/>
+      <target>
+        <code value="1.6"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'On-demand information services to clients' → 'On demand communication with persons'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.6.1"/>
+      <target>
+        <code value="1.6.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Client look-up of health information' → 'Look-up of information on health and health services by individuals'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.7"/>
+      <target>
+        <code value="1.7"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Client financial transactions' → 'Person-centred financial transactions'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.7.1"/>
+      <target>
+        <code value="1.7.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'by client[s]' → 'by individuals'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.7.2"/>
+      <target>
+        <code value="1.7.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'to client[s]' → 'to individuals'"/>
+      </target>
+    </element>
+    <element>
+      <code value="1.7.3"/>
+      <target>
+        <code value="1.7.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'to client[s]' → 'to individuals'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.1"/>
+      <target>
+        <code value="2.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Client identification and registration' → 'Identification and registration of persons'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.1.1"/>
+      <target>
+        <code value="2.1.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Verify client unique identity' → 'Verify a person's unique identity'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.1.2"/>
+      <target>
+        <code value="2.1.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'client' → 'person[s]'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.2"/>
+      <target>
+        <code value="2.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Client health records' → 'Person-centred health records'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.2.1"/>
+      <target>
+        <code value="2.2.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'clients' → 'person's'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.2.2"/>
+      <target>
+        <code value="2.2.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'client's' → 'person-centred'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.2.3"/>
+      <target>
+        <code value="2.2.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'client's' → 'person-centred'; now explicitly includes examples [notes; images; documents]"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.2.4"/>
+      <target>
+        <code value="2.2.4"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.3"/>
+      <target>
+        <code value="2.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Health worker decision support' → 'Healthcare provider decision support'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.3.1"/>
+      <target>
+        <code value="2.3.1"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.3.2"/>
+      <target>
+        <code value="2.3.2"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.3.3"/>
+      <target>
+        <code value="2.3.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'clients' → 'persons'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.4"/>
+      <target>
+        <code value="2.4"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.4.1"/>
+      <target>
+        <code value="2.4.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'client' → 'person'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.4.2"/>
+      <target>
+        <code value="2.4.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'client' → 'person's'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.4.3"/>
+      <target>
+        <code value="2.4.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Expanded: now explicitly lists examples [images; notes; videos]"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.4.4"/>
+      <target>
+        <code value="2.4.4"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker[s]' → 'healthcare providers'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.5"/>
+      <target>
+        <code value="2.5"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Health worker communication' → 'Healthcare provider communication'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.5.1"/>
+      <target>
+        <code value="2.5.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker[s]' → 'healthcare provider'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.5.2"/>
+      <target>
+        <code value="2.5.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker[s]' → 'healthcare provider[s]'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.5.3"/>
+      <target>
+        <code value="2.5.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker[s]' → 'healthcare provider[s]'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.5.4"/>
+      <target>
+        <code value="2.5.4"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker[s]' → 'healthcare provider[s]'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.5.5"/>
+      <target>
+        <code value="2.5.5"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Peer group for health workers' → 'Peer group for healthcare providers'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.6"/>
+      <target>
+        <code value="2.6"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.6.1"/>
+      <target>
+        <code value="2.6.1"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.6.2"/>
+      <target>
+        <code value="2.6.2"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.6.3"/>
+      <target>
+        <code value="2.6.3"/>
+        <equivalence value="wider"/>
+        <comment value="Scope expanded: v2 explicitly includes social services; police; justice; economic support schemes"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.7"/>
+      <target>
+        <code value="2.7"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Health worker activity planning' → 'Scheduling and activity planning for healthcare providers'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.7.1"/>
+      <target>
+        <code value="2.7.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'client[s]' → 'persons'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.7.2"/>
+      <target>
+        <code value="2.7.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker's' → 'healthcare provider's'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.8"/>
+      <target>
+        <code value="2.8"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Health worker training' → 'Healthcare provider training'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.8.1"/>
+      <target>
+        <code value="2.8.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker[s]' → 'healthcare provider[s]'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.8.2"/>
+      <target>
+        <code value="2.8.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker[s]' → 'healthcare provider[s]'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.9"/>
+      <target>
+        <code value="2.9"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.9.1"/>
+      <target>
+        <code value="2.9.1"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.9.2"/>
+      <target>
+        <code value="2.9.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'client's' → 'individual's'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.9.3"/>
+      <target>
+        <code value="2.9.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'adverse drug events' → 'adverse drug effects'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.10"/>
+      <target>
+        <code value="2.10"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker' → 'healthcare provider'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.10.1"/>
+      <target>
+        <code value="2.10.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Transmit diagnostic result to health worker' → 'Transmit person's diagnostic result to healthcare provider'"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.10.2"/>
+      <target>
+        <code value="2.10.2"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.10.3"/>
+      <target>
+        <code value="2.10.3"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="2.10.4"/>
+      <target>
+        <code value="2.10.4"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.1"/>
+      <target>
+        <code value="3.1"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.1.1"/>
+      <target>
+        <code value="3.1.1"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.1.2"/>
+      <target>
+        <code value="3.1.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker[s]' → 'healthcare provider[s]'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.1.3"/>
+      <target>
+        <code value="3.1.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker[s]' → 'healthcare provider[s]'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.1.4"/>
+      <target>
+        <code value="3.1.4"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker[s]' → 'healthcare provider[s]'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.2"/>
+      <target>
+        <code value="3.2"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.2.1"/>
+      <target>
+        <code value="3.2.1"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.2.2"/>
+      <target>
+        <code value="3.2.2"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.2.3"/>
+      <target>
+        <code value="3.2.3"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.2.4"/>
+      <target>
+        <code value="3.2.4"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.2.5"/>
+      <target>
+        <code value="3.2.5"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.2.6"/>
+      <target>
+        <code value="3.2.6"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'by clients' → 'by persons'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.3"/>
+      <target>
+        <code value="3.3"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.3.1"/>
+      <target>
+        <code value="3.3.1"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.4"/>
+      <target>
+        <code value="3.4"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Civil Registration and Vital Statistics' [same concept]"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.4.1"/>
+      <target>
+        <code value="3.4.1"/>
+        <equivalence value="wider"/>
+        <comment value="Consolidated: v1 'Notify birth event' merged with v1 3.4.2 [register] and 3.4.3 [certify] into v2 3.4.1 'Notify; register and certify birth event'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.4.2"/>
+      <target>
+        <code value="3.4.1"/>
+        <equivalence value="wider"/>
+        <comment value="Consolidated: v1 'Register birth event' merged into v2 3.4.1 'Notify; register and certify birth event'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.4.3"/>
+      <target>
+        <code value="3.4.1"/>
+        <equivalence value="wider"/>
+        <comment value="Consolidated: v1 'Certify birth event' merged into v2 3.4.1 'Notify; register and certify birth event'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.4.4"/>
+      <target>
+        <code value="3.4.2"/>
+        <equivalence value="wider"/>
+        <comment value="Consolidated: v1 'Notify death event' merged with v1 3.4.5 [register] and 3.4.6 [certify] into v2 3.4.2 'Notify; register and certify death event'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.4.5"/>
+      <target>
+        <code value="3.4.2"/>
+        <equivalence value="wider"/>
+        <comment value="Consolidated: v1 'Register death event' merged into v2 3.4.2 'Notify; register and certify death event'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.4.6"/>
+      <target>
+        <code value="3.4.2"/>
+        <equivalence value="wider"/>
+        <comment value="Consolidated: v1 'Certify death event' merged into v2 3.4.2 'Notify; register and certify death event'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.5"/>
+      <target>
+        <code value="3.5"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Health financing' → 'Health system financial management'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.5.1"/>
+      <target>
+        <code value="3.5.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Updated wording: now covers all coverage schemes; not only insurance"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.5.2"/>
+      <target>
+        <code value="3.5.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Updated wording: 'Track insurance billing and claims submission' → 'Track and manage insurance billing and claims processes'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.5.4"/>
+      <target>
+        <code value="3.5.4"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renumbered from v1 3.5.4; health worker → healthcare provider"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.5.5"/>
+      <target>
+        <code value="3.5.5"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renumbered from v1 3.5.5; health worker → healthcare provider"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.5.6"/>
+      <target>
+        <code value="3.5.6"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renumbered from v1 3.5.6; reworded to include revenue and expenditures"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.6"/>
+      <target>
+        <code value="3.6"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.6.1"/>
+      <target>
+        <code value="3.6.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Expanded: 'Monitor status' → 'Monitor status and maintenance'"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.6.2"/>
+      <target>
+        <code value="3.6.2"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.7"/>
+      <target>
+        <code value="3.7"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.7.1"/>
+      <target>
+        <code value="3.7.1"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="3.7.2"/>
+      <target>
+        <code value="3.7.2"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.1"/>
+      <target>
+        <code value="4.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Data collection; management; and use' → 'Data Management'"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.1.1"/>
+      <target>
+        <code value="4.1.1"/>
+        <equivalence value="inexact"/>
+        <comment value="v1: 'Non-routine data collection and management'; v2: 'Form creation for data acquisition' — overlapping but distinct scope"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.1.2"/>
+      <target>
+        <code value="4.1.2"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.1.3"/>
+      <target>
+        <code value="4.1.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'visualisation' → 'visualizations'"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.1.4"/>
+      <target>
+        <code value="4.1.4"/>
+        <equivalence value="equivalent"/>
+        <comment value="Scope extended to explicitly include AI and machine learning"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.2"/>
+      <target>
+        <code value="4.2"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.2.1"/>
+      <target>
+        <code value="4.2.1"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.2.2"/>
+      <target>
+        <code value="4.2.2"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.2.3"/>
+      <target>
+        <code value="4.2.3"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.3"/>
+      <target>
+        <code value="4.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Location mapping' → 'Geo spatial information management'; expanded from 4 to 5 sub-codes"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.3.1"/>
+      <target>
+        <code value="4.3.1"/>
+        <equivalence value="equivalent"/>
+        <comment value="Expanded: 'Map location of health facilities/structures' → '...and households'"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.3.2"/>
+      <target>
+        <code value="4.3.2"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Map location of health events' → 'Map location of health event'"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.3.3"/>
+      <target>
+        <code value="4.3.3"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'clients and households' → 'persons and settlements'"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.3.4"/>
+      <target>
+        <code value="4.3.4"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'health worker' → 'healthcare provider[s]'"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.4"/>
+      <target>
+        <code value="4.4"/>
+        <equivalence value="equivalent"/>
+        <comment value="Renamed: 'Data exchange and interoperability'; split from 1 leaf code into 3 in v2"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.4.1"/>
+      <target>
+        <code value="4.4.1"/>
+        <equivalence value="wider"/>
+        <comment value="v1 'Data exchange across systems' is broader; v2 4.4.1 covers only point-to-point integration. See also v2 4.4.2 [standards-compliant] and 4.4.3 [message routing]."/>
+      </target>
+    </element>
+    <element>
+      <code value="4.4.1"/>
+      <target>
+        <code value="4.4.2"/>
+        <equivalence value="wider"/>
+        <comment value="v2 4.4.2 'Standards-compliant interoperability' partially covers the broader v1 4.4.1 concept"/>
+      </target>
+    </element>
+    <element>
+      <code value="4.4.1"/>
+      <target>
+        <code value="4.4.3"/>
+        <equivalence value="wider"/>
+        <comment value="v2 4.4.3 'Message routing' partially covers the broader v1 4.4.1 concept"/>
+      </target>
+    </element>
+  </group>
+</ConceptMap>

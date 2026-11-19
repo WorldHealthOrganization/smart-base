@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-KGBpmnParticipant.schema.json",
+  "title": "Knowledge graph L2-BPMN: BPMN Participant",
+  "description": "A pool: a role that owns part of the collaboration. The lifecycle BPMN has 8 and declares no laneSet at all, so the pool is the only unit of role assignment present and its @name is the sole link to a persona. Class IRI: http://smart.who.int/kg/bpmn-participant.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "KGBpmnParticipant",
+      "description": "Resource type identifier for KGBpmnParticipant logical model"
+    },
+    "id": {
+      "type": "string",
+      "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+    },
+    "name": {
+      "type": "string",
+      "description": "The computable name: the CamelCase identifier a Canonical() reference matches on."
+    },
+    "processRef": {
+      "type": "string",
+      "description": "The id of the process the participant's pool holds."
+    }
+  },
+  "required": [
+    "resourceType"
+  ],
+  "allOf": [
+    {
+      "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "resourceDefinition": {
+          "type": "string",
+          "format": "uri",
+          "const": "http://smart.who.int/base/StructureDefinition/KGBpmnParticipant"
+        },
+        "fhir:parent": {
+          "type": "string",
+          "const": "http://hl7.org/fhir/StructureDefinition/Base"
+        }
+      }
+    }
+  ]
+}

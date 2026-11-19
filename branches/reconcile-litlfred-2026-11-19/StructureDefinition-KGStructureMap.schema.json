@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-KGStructureMap.schema.json",
+  "title": "Knowledge graph L3: Structure Map",
+  "description": "A FHIR StructureMap. The SOP requires them in threes -- QuestionnaireResponse to logical model, logical model to resource, and a grouping map -- so a count that is not a multiple of three is worth a look. 16 .fml files in the immunizations IG. Class IRI: http://smart.who.int/kg/structure-map.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "description": "The FHIR resource type."
+    },
+    "@context": {
+      "description": "JSON-LD context for this logical model with ValueSet vocabularies",
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uri",
+          "description": "URI reference to external JSON-LD context"
+        },
+        {
+          "type": "object",
+          "description": "Inline JSON-LD context",
+          "properties": {
+            "@version": {
+              "type": "number",
+              "const": 1.1
+            },
+            "fhir": {
+              "type": "string",
+              "const": "http://hl7.org/fhir/"
+            }
+          },
+          "additionalProperties": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        {
+          "type": "array",
+          "description": "Array of JSON-LD context objects/URIs",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "@type": {
+      "type": "string",
+      "description": "JSON-LD type identifier for KGStructureMap logical model",
+      "examples": [
+        "LogicalModel-KGStructureMap"
+      ]
+    },
+    "canonical": {
+      "type": "string",
+      "format": "uri",
+      "description": "The canonical URL. Only a resolved component carries one."
+    },
+    "profile": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "A profile canonical the artefact declares (meta.profile or the requirement's profile)."
+    },
+    "status": {
+      "$ref": "./ValueSet-KGPublicationStatusVS.schema.json",
+      "description": "The resource's status (FHIR PublicationStatus)."
+    },
+    "version": {
+      "type": "string",
+      "description": "The business version, as declared."
+    },
+    "title": {
+      "type": "string",
+      "description": "The human-readable title."
+    },
+    "name": {
+      "type": "string",
+      "description": "The computable name: the CamelCase identifier a Canonical() reference matches on."
+    },
+    "publisher": {
+      "type": "string",
+      "description": "The publisher, as declared."
+    },
+    "experimental": {
+      "type": "boolean",
+      "description": "The resource's experimental flag."
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the node was read from: a repository path or URL."
+    },
+    "sha256": {
+      "type": "string",
+      "description": "Hash of the file the node was read from; pins the source."
+    }
+  },
+  "required": [
+    "resourceType"
+  ],
+  "allOf": [
+    {
+      "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "resourceDefinition": {
+          "type": "string",
+          "format": "uri",
+          "const": "http://smart.who.int/base/StructureDefinition/KGStructureMap"
+        },
+        "fhir:parent": {
+          "type": "string",
+          "const": "http://hl7.org/fhir/StructureDefinition/Base"
+        },
+        "jsonld:valuesets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "const": [
+            "KGPublicationStatusVS"
+          ]
+        },
+        "jsonld:contextTemplate": {
+          "type": "object",
+          "const": {
+            "@version": 1.1,
+            "fhir": "http://hl7.org/fhir/",
+            "KGPublicationStatusVS": "http://smart.who.int/base/ValueSet-KGPublicationStatusVS.jsonld"
+          }
+        }
+      }
+    }
+  ]
+}

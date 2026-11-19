@@ -1,0 +1,11 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)","Mapping: JSON Schema Property Names"
+"FHIRSchemaBase","FHIRSchemaBase","","","",0,*,"","","","null {[]} {[]}
+","FHIR Schema Base (SMART Guidelines)","Base logical model providing the common schema metadata interface inherited by all SMART Guidelines logical models. Every SMART Guidelines logical model schema derives from this base, which documents the shared FHIR and JSON-LD metadata properties used by the JSON Schema generation pipeline.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"FHIRSchemaBase.resourceType","FHIRSchemaBase.resourceType","","","",0,1,"","","","string {[]} {[]}
+","Resource Type","The FHIR resource type identifying this logical model resource","","","","","","","","","",,,,,"",,,,"FHIRSchemaBase.resourceType",0,1,"",""
+"FHIRSchemaBase.resourceDefinition","FHIRSchemaBase.resourceDefinition","","","",0,1,"","","","uri {[]} {[]}
+","Resource Definition","Canonical URI of the FHIR StructureDefinition that defines this logical model","","","","","","","","","",,,,,"",,,,"FHIRSchemaBase.resourceDefinition",0,1,"",""
+"FHIRSchemaBase.fhirParent","FHIRSchemaBase.fhirParent","","","",0,1,"","","","string {[]} {[]}
+","FHIR Parent (JSON: fhir:parent)","The FHIR parent base type from which this logical model is derived","","","","","","","","","",,,,,"",,,,"FHIRSchemaBase.fhirParent",0,1,"","","fhir:parent"
+"FHIRSchemaBase.jsonldContext","FHIRSchemaBase.jsonldContext","","","",0,1,"","","","string {[]} {[]}
+","JSON-LD Context (JSON: jsonld:context)","JSON-LD context object for this logical model","","","","","","","","","",,,,,"",,,,"FHIRSchemaBase.jsonldContext",0,1,"","","jsonld:context"

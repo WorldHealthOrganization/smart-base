@@ -1,0 +1,64 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGPublicationStatus> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "KGPublicationStatus"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem KGPublicationStatus</b></p><a name=\"KGPublicationStatus\"> </a><a name=\"hcKGPublicationStatus\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGPublicationStatus</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">draft<a name=\"KGPublicationStatus-draft\"> </a></td><td>Draft</td><td>This resource is still under development and is not yet considered to be ready for normal use.</td></tr><tr><td style=\"white-space:nowrap\">active<a name=\"KGPublicationStatus-active\"> </a></td><td>Active</td><td>This resource is ready for normal use.</td></tr><tr><td style=\"white-space:nowrap\">retired<a name=\"KGPublicationStatus-retired\"> </a></td><td>Retired</td><td>This resource has been withdrawn or superseded and should no longer be used.</td></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"KGPublicationStatus-unknown\"> </a></td><td>Unknown</td><td>The authoring system does not know which of the status values currently applies for this resource.</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem KGPublicationStatus</b></p><a name=\"fr-KGPublicationStatus\"> </a><a name=\"fr-hcKGPublicationStatus\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGPublicationStatus</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style=\"white-space:nowrap\">draft<a name=\"fr-KGPublicationStatus-draft\"> </a></td><td>Draft</td><td>This resource is still under development and is not yet considered to be ready for normal use.</td></tr><tr><td style=\"white-space:nowrap\">active<a name=\"fr-KGPublicationStatus-active\"> </a></td><td>Active</td><td>This resource is ready for normal use.</td></tr><tr><td style=\"white-space:nowrap\">retired<a name=\"fr-KGPublicationStatus-retired\"> </a></td><td>Retired</td><td>This resource has been withdrawn or superseded and should no longer be used.</td></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"fr-KGPublicationStatus-unknown\"> </a></td><td>Unknown</td><td>The authoring system does not know which of the status values currently applies for this resource.</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem KGPublicationStatus</b></p><a name=\"ar-KGPublicationStatus\"> </a><a name=\"ar-hcKGPublicationStatus\"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/KGPublicationStatus</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style=\"white-space:nowrap\">draft<a name=\"ar-KGPublicationStatus-draft\"> </a></td><td>Draft</td><td>This resource is still under development and is not yet considered to be ready for normal use.</td></tr><tr><td style=\"white-space:nowrap\">active<a name=\"ar-KGPublicationStatus-active\"> </a></td><td>Active</td><td>This resource is ready for normal use.</td></tr><tr><td style=\"white-space:nowrap\">retired<a name=\"ar-KGPublicationStatus-retired\"> </a></td><td>Retired</td><td>This resource has been withdrawn or superseded and should no longer be used.</td></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"ar-KGPublicationStatus-unknown\"> </a></td><td>Unknown</td><td>The authoring system does not know which of the status values currently applies for this resource.</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 KGPublicationStatus</b></p><a name=\"zh-KGPublicationStatus\"> </a><a name=\"zh-hcKGPublicationStatus\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGPublicationStatus</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">draft<a name=\"zh-KGPublicationStatus-draft\"> </a></td><td>Draft</td><td>This resource is still under development and is not yet considered to be ready for normal use.</td></tr><tr><td style=\"white-space:nowrap\">active<a name=\"zh-KGPublicationStatus-active\"> </a></td><td>Active</td><td>This resource is ready for normal use.</td></tr><tr><td style=\"white-space:nowrap\">retired<a name=\"zh-KGPublicationStatus-retired\"> </a></td><td>Retired</td><td>This resource has been withdrawn or superseded and should no longer be used.</td></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"zh-KGPublicationStatus-unknown\"> </a></td><td>Unknown</td><td>The authoring system does not know which of the status values currently applies for this resource.</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem KGPublicationStatus</b></p><a name=\"ru-KGPublicationStatus\"> </a><a name=\"ru-hcKGPublicationStatus\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/KGPublicationStatus</code> case-sensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style=\"white-space:nowrap\">draft<a name=\"ru-KGPublicationStatus-draft\"> </a></td><td>Draft</td><td>This resource is still under development and is not yet considered to be ready for normal use.</td></tr><tr><td style=\"white-space:nowrap\">active<a name=\"ru-KGPublicationStatus-active\"> </a></td><td>Active</td><td>This resource is ready for normal use.</td></tr><tr><td style=\"white-space:nowrap\">retired<a name=\"ru-KGPublicationStatus-retired\"> </a></td><td>Retired</td><td>This resource has been withdrawn or superseded and should no longer be used.</td></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"ru-KGPublicationStatus-unknown\"> </a></td><td>Unknown</td><td>The authoring system does not know which of the status values currently applies for this resource.</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos KGPublicationStatus</b></p><a name=\"es-KGPublicationStatus\"> </a><a name=\"es-hcKGPublicationStatus\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGPublicationStatus</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">draft<a name=\"es-KGPublicationStatus-draft\"> </a></td><td>Draft</td><td>This resource is still under development and is not yet considered to be ready for normal use.</td></tr><tr><td style=\"white-space:nowrap\">active<a name=\"es-KGPublicationStatus-active\"> </a></td><td>Active</td><td>This resource is ready for normal use.</td></tr><tr><td style=\"white-space:nowrap\">retired<a name=\"es-KGPublicationStatus-retired\"> </a></td><td>Retired</td><td>This resource has been withdrawn or superseded and should no longer be used.</td></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"es-KGPublicationStatus-unknown\"> </a></td><td>Unknown</td><td>The authoring system does not know which of the status values currently applies for this resource.</td></tr></table></div></div>"
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://smart.who.int/base/CodeSystem/KGPublicationStatus"] ;
+  fhir:CodeSystem.version [ fhir:value "0.3.0"] ;
+  fhir:CodeSystem.name [ fhir:value "KGPublicationStatus"] ;
+  fhir:CodeSystem.title [ fhir:value "Knowledge graph L2: publication status"] ;
+  fhir:CodeSystem.status [ fhir:value "active"] ;
+  fhir:CodeSystem.experimental [ fhir:value "false"^^xsd:boolean] ;
+  fhir:CodeSystem.date [ fhir:value "2026-11-19T20:24:57+00:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "WHO"] ;
+  fhir:CodeSystem.contact [
+     fhir:index 0 ;
+     fhir:ContactDetail.name [ fhir:value "WHO" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index 0 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://who.int" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "FHIR PublicationStatus, which DAK.fsh's status and every L3 resource's status take. Added by the smart-base migration: smart-kg named these properties without binding them. Source: smart-kg ontology/l2/l2.json valueSets \"publication-status\"; http://hl7.org/fhir/ValueSet/publication-status."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "4"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index 0 ;
+     fhir:CodeSystem.concept.code [ fhir:value "draft" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Draft" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "This resource is still under development and is not yet considered to be ready for normal use." ]
+  ], [
+     fhir:index 1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "active" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Active" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "This resource is ready for normal use." ]
+  ], [
+     fhir:index 2 ;
+     fhir:CodeSystem.concept.code [ fhir:value "retired" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Retired" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "This resource has been withdrawn or superseded and should no longer be used." ]
+  ], [
+     fhir:index 3 ;
+     fhir:CodeSystem.concept.code [ fhir:value "unknown" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Unknown" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "The authoring system does not know which of the status values currently applies for this resource." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGPublicationStatus.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl .
+
+# -------------------------------------------------------------------------------------
+

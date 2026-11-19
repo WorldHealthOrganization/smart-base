@@ -1,0 +1,23 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGNode","KGNode","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph: node","One typed node of a knowledge-graph document. Its instance fields are an instance of the logical model of its class (see definedBy), e.g. KGPublication for a publication.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGNode.id","KGNode.id","","","",1,1,"","","","string {[]} {[]}
+","ID","IRI, unique within the document.","","","","","","","","","",,,,,"",,,,"KGNode.id",1,1,"",""
+"KGNode.type","KGNode.type","","","",1,1,"","","","code {[]} {[]}
+","Type","The node's class.","","","","","","","","","",,"extensible","","http://smart.who.int/base/ValueSet/KGL1ClassesVS","",,,,"KGNode.type",1,1,"",""
+"KGNode.label","KGNode.label","","","",1,1,"","","","string {[]} {[]}
+","Label","Human-readable name. Required so a retrieved node reads without resolving it.","","","","","","","","","",,,,,"",,,,"KGNode.label",1,1,"",""
+"KGNode.definedBy","KGNode.definedBy","","","",0,1,"","","","uri {[]} {[]}
+","Defined by","Canonical URL of the logical model giving this node's instance shape.","","","","","","","","","",,,,,"",,,,"KGNode.definedBy",0,1,"",""
+"KGNode.properties","KGNode.properties","","","",0,1,"","","","BackboneElement {[]} {[]}
+","Properties","Instance fields, as declared by the class's logical model.","","","","","","","","","",,,,,"",,,,"KGNode.properties",0,1,"",""
+"KGNode.derivation","KGNode.derivation","","","",1,1,"","","","code {[]} {[]}
+","Derivation","derived | inferred | decided.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGDerivationVS","",,,,"KGNode.derivation",1,1,"",""
+"KGNode.note","KGNode.note","","","",0,1,"","","","string {[]} {[]}
+","Note","Why it is what it is. Required unless derived.","","","","","","","","","",,,,,"",,,,"KGNode.note",0,1,"",""
+"KGNode.evidence","KGNode.evidence","","","",0,1,"","","","http://smart.who.int/base/StructureDefinition/KGEvidenceLocation {[]} {[]}
+","Evidence","Where it came from. Required unless derived.","","","","","","","","","",,,,,"",,,,"KGNode.evidence",0,1,"",""
+"KGNode.flagRef","KGNode.flagRef","","","",0,1,"","","","string {[]} {[]}
+","Flag","Id of a flag raised while extracting this node.","","","","","","","","","",,,,,"",,,,"KGNode.flagRef",0,1,"",""
+"KGNode.skill","KGNode.skill","","","",0,1,"","","","string {[]} {[]}
+","Skill","Skill id that produced this node.","","","","","","","","","",,,,,"",,,,"KGNode.skill",0,1,"",""

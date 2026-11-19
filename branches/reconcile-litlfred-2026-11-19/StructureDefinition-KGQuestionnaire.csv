@@ -1,0 +1,25 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGQuestionnaire","KGQuestionnaire","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L3: Questionnaire","A FHIR Questionnaire -- a data-collection form over a logical model. 10 in the immunizations IG. Its `sdc-questionnaire-targetStructureMap` extension names the StructureMap that extracts it, which is a real canonical reference. The SOP states no linkId convention and none exists in the estate, so no edge is licensed on linkId. Class IRI: http://smart.who.int/kg/questionnaire.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGQuestionnaire.canonical","KGQuestionnaire.canonical","","","",0,1,"","","","uri {[]} {[]}
+","Canonical","The canonical URL. Only a resolved component carries one.","","","","","","","","","",,,,,"",,,,"KGQuestionnaire.canonical",0,1,"",""
+"KGQuestionnaire.resourceType","KGQuestionnaire.resourceType","","","",0,1,"","","","string {[]} {[]}
+","Resource type","The FHIR resource type.","","","","","","","","","",,,,,"",,,,"KGQuestionnaire.resourceType",0,1,"",""
+"KGQuestionnaire.profile","KGQuestionnaire.profile","","","",0,*,"","","","uri {[]} {[]}
+","Profile","A profile canonical the artefact declares (meta.profile or the requirement's profile).","","","","","","","","","",,,,,"",,,,"KGQuestionnaire.profile",0,*,"",""
+"KGQuestionnaire.status","KGQuestionnaire.status","","","",0,1,"","","","code {[]} {[]}
+","Status","The resource's status (FHIR PublicationStatus).","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGPublicationStatusVS","",,,,"KGQuestionnaire.status",0,1,"",""
+"KGQuestionnaire.version","KGQuestionnaire.version","","","",0,1,"","","","string {[]} {[]}
+","Version","The business version, as declared.","","","","","","","","","",,,,,"",,,,"KGQuestionnaire.version",0,1,"",""
+"KGQuestionnaire.title","KGQuestionnaire.title","","","",0,1,"","","","string {[]} {[]}
+","Title","The human-readable title.","","","","","","","","","",,,,,"",,,,"KGQuestionnaire.title",0,1,"",""
+"KGQuestionnaire.name","KGQuestionnaire.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The computable name: the CamelCase identifier a Canonical() reference matches on.","","","","","","","","","",,,,,"",,,,"KGQuestionnaire.name",0,1,"",""
+"KGQuestionnaire.publisher","KGQuestionnaire.publisher","","","",0,1,"","","","string {[]} {[]}
+","Publisher","The publisher, as declared.","","","","","","","","","",,,,,"",,,,"KGQuestionnaire.publisher",0,1,"",""
+"KGQuestionnaire.experimental","KGQuestionnaire.experimental","","","",0,1,"","","","boolean {[]} {[]}
+","Experimental","The resource's experimental flag.","","","","","","","","","",,,,,"",,,,"KGQuestionnaire.experimental",0,1,"",""
+"KGQuestionnaire.source","KGQuestionnaire.source","","","",0,1,"","","","string {[]} {[]}
+","Source","Where the node was read from: a repository path or URL.","","","","","","","","","",,,,,"",,,,"KGQuestionnaire.source",0,1,"",""
+"KGQuestionnaire.sha256","KGQuestionnaire.sha256","","","",0,1,"","","","string {[]} {[]}
+","SHA-256","Hash of the file the node was read from; pins the source.","","","","","","","","","",,,,,"",,,,"KGQuestionnaire.sha256",0,1,"",""

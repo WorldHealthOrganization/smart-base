@@ -1,0 +1,60 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Knowledge graph L1: publication type Schema API",
+    "description": "JSON Schema for Knowledge graph L1: publication type ValueSet codes. Generated from FHIR expansions using IRI format.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSet-KGPublicationTypeVS.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the enumeration ValueSet-KGPublicationTypeVS",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSet-KGPublicationTypeVS.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for ValueSet-KGPublicationTypeVS",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./ValueSet-KGPublicationTypeVS.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValueSet-KGPublicationTypeVS": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.schema.json",
+        "title": "Knowledge graph L1: publication type Schema",
+        "description": "JSON Schema for Knowledge graph L1: publication type ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "type": "string",
+        "enum": [
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#standard-guideline",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#consolidated-guideline",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#interim-guideline",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#rapid-advice-guideline",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#emergency-guideline",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#collaborative-guideline",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#external-guideline",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#adapted-guideline",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#position-paper",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#summary-table",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#classification",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#implementation-guidance",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#methodology",
+          "http://smart.who.int/base/CodeSystem/KGPublicationType#supplement"
+        ],
+        "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L1: publication type ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGPublicationTypeVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+        "fhir:displays": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.displays.json",
+        "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGPublicationTypeVS",
+        "fhir:version": "0.3.0",
+        "fhir:expansionTimestamp": "2026-11-19T20:28:14.073761"
+      }
+    }
+  }
+}

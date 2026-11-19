@@ -1,0 +1,189 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ValueSets Enumeration API",
+    "description": "API endpoint providing an enumeration of all available ValueSet schemas",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSets.schema.json": {
+      "get": {
+        "summary": "Get enumeration of all valueset schemas",
+        "description": "Returns a list of all available valueset schemas with metadata",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved valueset enumeration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnumerationResponse"
+                },
+                "example": {
+                  "type": "valueset",
+                  "count": 5,
+                  "schemas": [
+                    {
+                      "filename": "ValueSet-CDHIv1.schema.json",
+                      "id": "http://smart.who.int/base/ValueSet-CDHIv1.schema.json",
+                      "title": "Classification of Digital Health Interventions v1 Schema",
+                      "description": "JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions using IRI format.",
+                      "url": "./ValueSet-CDHIv1.schema.json",
+                      "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv1",
+                      "codeCount": 119
+                    },
+                    {
+                      "filename": "ValueSet-CoreDataElementTypeVS.schema.json",
+                      "id": "http://smart.who.int/base/ValueSet-CoreDataElementTypeVS.schema.json",
+                      "title": "Core Data Element Type Value Set Schema",
+                      "description": "JSON Schema for Core Data Element Type Value Set ValueSet codes. Generated from FHIR expansions using IRI format.",
+                      "url": "./ValueSet-CoreDataElementTypeVS.schema.json",
+                      "valueSetUrl": "http://smart.who.int/base/ValueSet/CoreDataElementTypeVS",
+                      "codeCount": 4
+                    },
+                    {
+                      "filename": "ValueSet-DecisionTableActions.schema.json",
+                      "id": "http://smart.who.int/base/ValueSet-DecisionTableActions.schema.json",
+                      "title": "Smart Guidelines Decision Table Actions Schema",
+                      "description": "JSON Schema for Smart Guidelines Decision Table Actions ValueSet codes. Generated from FHIR expansions using IRI format.",
+                      "url": "./ValueSet-DecisionTableActions.schema.json",
+                      "valueSetUrl": "http://smart.who.int/base/ValueSet/DecisionTableActions",
+                      "codeCount": 3
+                    },
+                    {
+                      "filename": "ValueSet-SGPersonaTypesVS.schema.json",
+                      "id": "http://smart.who.int/base/ValueSet-SGPersonaTypesVS.schema.json",
+                      "title": "Smart Guidelines Persona Types Value Set Schema",
+                      "description": "JSON Schema for Smart Guidelines Persona Types Value Set ValueSet codes. Generated from FHIR expansions using IRI format.",
+                      "url": "./ValueSet-SGPersonaTypesVS.schema.json",
+                      "valueSetUrl": "http://smart.who.int/base/ValueSet/SGPersonaTypesVS",
+                      "codeCount": 4
+                    },
+                    {
+                      "filename": "ValueSet-CDSCv1.schema.json",
+                      "id": "http://smart.who.int/base/ValueSet-CDSCv1.schema.json",
+                      "title": "Classification of Digital Health System Categories v1 Schema",
+                      "description": "JSON Schema for Classification of Digital Health System Categories v1 ValueSet codes. Generated from FHIR expansions using IRI format.",
+                      "url": "./ValueSet-CDSCv1.schema.json",
+                      "valueSetUrl": "http://smart.who.int/base/ValueSet/CDSCv1",
+                      "codeCount": 25
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EnumerationResponse": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "#/ValueSets.schema.json",
+        "title": "ValueSet Enumeration Schema",
+        "description": "JSON Schema defining the structure of the ValueSet enumeration endpoint response",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "valueset"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "schemas": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "filename": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "valueSetUrl": {
+                  "type": "string"
+                },
+                "codeCount": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "filename",
+                "title",
+                "url"
+              ]
+            }
+          }
+        },
+        "required": [
+          "type",
+          "count",
+          "schemas"
+        ],
+        "example": {
+          "type": "valueset",
+          "count": 5,
+          "schemas": [
+            {
+              "filename": "ValueSet-CDHIv1.schema.json",
+              "id": "http://smart.who.int/base/ValueSet-CDHIv1.schema.json",
+              "title": "Classification of Digital Health Interventions v1 Schema",
+              "description": "JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions using IRI format.",
+              "url": "./ValueSet-CDHIv1.schema.json",
+              "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv1",
+              "codeCount": 119
+            },
+            {
+              "filename": "ValueSet-CoreDataElementTypeVS.schema.json",
+              "id": "http://smart.who.int/base/ValueSet-CoreDataElementTypeVS.schema.json",
+              "title": "Core Data Element Type Value Set Schema",
+              "description": "JSON Schema for Core Data Element Type Value Set ValueSet codes. Generated from FHIR expansions using IRI format.",
+              "url": "./ValueSet-CoreDataElementTypeVS.schema.json",
+              "valueSetUrl": "http://smart.who.int/base/ValueSet/CoreDataElementTypeVS",
+              "codeCount": 4
+            },
+            {
+              "filename": "ValueSet-DecisionTableActions.schema.json",
+              "id": "http://smart.who.int/base/ValueSet-DecisionTableActions.schema.json",
+              "title": "Smart Guidelines Decision Table Actions Schema",
+              "description": "JSON Schema for Smart Guidelines Decision Table Actions ValueSet codes. Generated from FHIR expansions using IRI format.",
+              "url": "./ValueSet-DecisionTableActions.schema.json",
+              "valueSetUrl": "http://smart.who.int/base/ValueSet/DecisionTableActions",
+              "codeCount": 3
+            },
+            {
+              "filename": "ValueSet-SGPersonaTypesVS.schema.json",
+              "id": "http://smart.who.int/base/ValueSet-SGPersonaTypesVS.schema.json",
+              "title": "Smart Guidelines Persona Types Value Set Schema",
+              "description": "JSON Schema for Smart Guidelines Persona Types Value Set ValueSet codes. Generated from FHIR expansions using IRI format.",
+              "url": "./ValueSet-SGPersonaTypesVS.schema.json",
+              "valueSetUrl": "http://smart.who.int/base/ValueSet/SGPersonaTypesVS",
+              "codeCount": 4
+            },
+            {
+              "filename": "ValueSet-CDSCv1.schema.json",
+              "id": "http://smart.who.int/base/ValueSet-CDSCv1.schema.json",
+              "title": "Classification of Digital Health System Categories v1 Schema",
+              "description": "JSON Schema for Classification of Digital Health System Categories v1 ValueSet codes. Generated from FHIR expansions using IRI format.",
+              "url": "./ValueSet-CDSCv1.schema.json",
+              "valueSetUrl": "http://smart.who.int/base/ValueSet/CDSCv1",
+              "codeCount": 25
+            }
+          ]
+        }
+      }
+    }
+  }
+}

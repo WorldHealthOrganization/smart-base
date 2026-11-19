@@ -1,0 +1,1988 @@
+{
+  "phase": "postprocessing",
+  "timestamp": "2026-03-05T14:28:31.699313",
+  "status": "completed",
+  "summary": {
+    "total_successes": 145,
+    "total_warnings": 24,
+    "total_errors": 0,
+    "files_processed_count": 114,
+    "files_expected_count": 1,
+    "files_missing_count": 1,
+    "completion_timestamp": "2026-03-05T14:28:32.856860"
+  },
+  "details": {
+    "successes": [
+      {
+        "message": "Starting generate_dak_api_hub.py post-processing",
+        "timestamp": "2026-03-05T14:28:31.699323"
+      },
+      {
+        "message": "Configured directories - Output: output, OpenAPI: input/openapi",
+        "timestamp": "2026-03-05T14:28:31.699327"
+      },
+      {
+        "message": "Loaded existing FHIR IG publisher QA file for merging",
+        "timestamp": "2026-03-05T14:28:31.699417"
+      },
+      {
+        "message": "[preprocessing] Starting update_sushi_config.py preprocessing",
+        "timestamp": "2026-03-05T14:28:31.699665"
+      },
+      {
+        "message": "[preprocessing] Successfully loaded sushi-config.yaml",
+        "timestamp": "2026-03-05T14:28:31.699670"
+      },
+      {
+        "message": "[preprocessing] Detected smart-base repository (id: smart.who.int.base)",
+        "timestamp": "2026-03-05T14:28:31.699672"
+      },
+      {
+        "message": "[preprocessing] dak-api.md already exists with proper content marker",
+        "timestamp": "2026-03-05T14:28:31.699673"
+      },
+      {
+        "message": "[preprocessing] Found directory: input/resources",
+        "timestamp": "2026-03-05T14:28:31.699675"
+      },
+      {
+        "message": "[preprocessing] Found 7 JSON files in input/resources",
+        "timestamp": "2026-03-05T14:28:31.699677"
+      },
+      {
+        "message": "[preprocessing] Found directory: input/fsh/models",
+        "timestamp": "2026-03-05T14:28:31.699679"
+      },
+      {
+        "message": "[preprocessing] Found 17 FSH files in input/fsh/models",
+        "timestamp": "2026-03-05T14:28:31.699682"
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: ProgramIndicator",
+        "timestamp": "2026-03-05T14:28:31.699684",
+        "details": {
+          "source_file": "input/fsh/models/ProgramIndicator.fsh",
+          "title": "Program Indicator (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: DecisionSupportLogic",
+        "timestamp": "2026-03-05T14:28:31.699685",
+        "details": {
+          "source_file": "input/fsh/models/DecisionSupportLogic.fsh",
+          "title": "Decision-Support Logic (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: NonFunctionalRequirement",
+        "timestamp": "2026-03-05T14:28:31.699686",
+        "details": {
+          "source_file": "input/fsh/models/NonFunctionalRequirement.fsh",
+          "title": "Non-Functional Requirement (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: UserScenario",
+        "timestamp": "2026-03-05T14:28:31.699690",
+        "details": {
+          "source_file": "input/fsh/models/UserScenario.fsh",
+          "title": "User Scenario (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: DublinCore",
+        "timestamp": "2026-03-05T14:28:31.699691",
+        "details": {
+          "source_file": "input/fsh/models/DublinCore.fsh",
+          "title": "Dublin Core Metadata Element Set"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: FunctionalRequirement",
+        "timestamp": "2026-03-05T14:28:31.699692",
+        "details": {
+          "source_file": "input/fsh/models/FunctionalRequirement.fsh",
+          "title": "Functional Requirement (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: Requirements",
+        "timestamp": "2026-03-05T14:28:31.699694",
+        "details": {
+          "source_file": "input/fsh/models/Requirements.fsh",
+          "title": "Functional and Non-Functional Requirements (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: BusinessProcessWorkflow",
+        "timestamp": "2026-03-05T14:28:31.699695",
+        "details": {
+          "source_file": "input/fsh/models/BusinessProcessWorkflow.fsh",
+          "title": "Business Process Workflow (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: TestScenario",
+        "timestamp": "2026-03-05T14:28:31.699696",
+        "details": {
+          "source_file": "input/fsh/models/TestScenario.fsh",
+          "title": "Test Scenario (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: Persona",
+        "timestamp": "2026-03-05T14:28:31.699697",
+        "details": {
+          "source_file": "input/fsh/models/Persona.fsh",
+          "title": "Persona (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: SushiConfigLogicalModel",
+        "timestamp": "2026-03-05T14:28:31.699698",
+        "details": {
+          "source_file": "input/fsh/models/SushiConfigLogicalModel.fsh",
+          "title": "SUSHI Configuration Logical Model"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: CoreDataElement",
+        "timestamp": "2026-03-05T14:28:31.699702",
+        "details": {
+          "source_file": "input/fsh/models/CoreDataElement.fsh",
+          "title": "Core Data Element (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: HealthInterventions",
+        "timestamp": "2026-03-05T14:28:31.699703",
+        "details": {
+          "source_file": "input/fsh/models/HealthInterventions.fsh",
+          "title": "Health Interventions and Recommendations (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: HealthInterventionsSource",
+        "timestamp": "2026-03-05T14:28:31.699704",
+        "details": {
+          "source_file": "input/fsh/models/DAKComponentSources.fsh",
+          "title": "Health Interventions Source"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: FHIRSchemaBase",
+        "timestamp": "2026-03-05T14:28:31.699705",
+        "details": {
+          "source_file": "input/fsh/models/FHIRSchemaBase.fsh",
+          "title": "FHIR Schema Base (SMART Guidelines)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: GenericPersona",
+        "timestamp": "2026-03-05T14:28:31.699706",
+        "details": {
+          "source_file": "input/fsh/models/GenericPersona.fsh",
+          "title": "Generic Persona (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: DAK",
+        "timestamp": "2026-03-05T14:28:31.699707",
+        "details": {
+          "source_file": "input/fsh/models/DAK.fsh",
+          "title": "Digital Adaptation Kit (DAK)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found directory: input/fsh/valuesets",
+        "timestamp": "2026-03-05T14:28:31.699709"
+      },
+      {
+        "message": "[preprocessing] Found 7 FSH files in input/fsh/valuesets",
+        "timestamp": "2026-03-05T14:28:31.699710"
+      },
+      {
+        "message": "[preprocessing] Found ValueSet from FSH: DecisionTableActions",
+        "timestamp": "2026-03-05T14:28:31.699711",
+        "details": {
+          "source_file": "input/fsh/valuesets/DecisionTableActions.fsh",
+          "title": "Smart Guidelines Decision Table Actions"
+        }
+      },
+      {
+        "message": "[preprocessing] Found ValueSet from FSH: CoreDataElementTypeVS",
+        "timestamp": "2026-03-05T14:28:31.699712",
+        "details": {
+          "source_file": "input/fsh/valuesets/CoreDataElementTypeVS.fsh",
+          "title": "Core Data Element Type Value Set"
+        }
+      },
+      {
+        "message": "[preprocessing] Found ValueSet from FSH: SGPersonaTypesVS",
+        "timestamp": "2026-03-05T14:28:31.699713",
+        "details": {
+          "source_file": "input/fsh/valuesets/SGPersonaTypes.fsh",
+          "title": "Smart Guidelines Persona Types Value Set"
+        }
+      },
+      {
+        "message": "[preprocessing] Found ValueSet from FSH: CDHIv1",
+        "timestamp": "2026-03-05T14:28:31.699714",
+        "details": {
+          "source_file": "input/fsh/valuesets/CDHIv1.fsh",
+          "title": "Classification of Digital Health Interventions v1"
+        }
+      },
+      {
+        "message": "[preprocessing] Found ValueSet from FSH: ISCO08ValueSet",
+        "timestamp": "2026-03-05T14:28:31.699716",
+        "details": {
+          "source_file": "input/fsh/valuesets/ISCO08ValueSet.fsh",
+          "title": "ISCO-08 Value Set"
+        }
+      },
+      {
+        "message": "[preprocessing] Found ValueSet from FSH: DocumentationSection",
+        "timestamp": "2026-03-05T14:28:31.699717",
+        "details": {
+          "source_file": "input/fsh/valuesets/DocumentationSections.fsh",
+          "title": "Smart Guidelines Documentation Section"
+        }
+      },
+      {
+        "message": "[preprocessing] Found ValueSet from FSH: CDSCv1",
+        "timestamp": "2026-03-05T14:28:31.699718",
+        "details": {
+          "source_file": "input/fsh/valuesets/CDSCv1.fsh",
+          "title": "Classification of Digital Health System Categories v1"
+        }
+      },
+      {
+        "message": "[preprocessing] Found directory: input/models",
+        "timestamp": "2026-03-05T14:28:31.699719"
+      },
+      {
+        "message": "[preprocessing] Found 0 JSON files in input/models",
+        "timestamp": "2026-03-05T14:28:31.699720"
+      },
+      {
+        "message": "[preprocessing] Found directory: input/vocabulary",
+        "timestamp": "2026-03-05T14:28:31.699721"
+      },
+      {
+        "message": "[preprocessing] Found 0 JSON files in input/vocabulary",
+        "timestamp": "2026-03-05T14:28:31.699722"
+      },
+      {
+        "message": "[preprocessing] Ensured directory exists: input/pagecontent",
+        "timestamp": "2026-03-05T14:28:31.699723"
+      },
+      {
+        "message": "[preprocessing] Created placeholder: ValueSet-CoreDataElementTypeVS.md",
+        "timestamp": "2026-03-05T14:28:31.699724"
+      },
+      {
+        "message": "[preprocessing] Created placeholder: StructureDefinition-FHIRSchemaBase.md",
+        "timestamp": "2026-03-05T14:28:31.699725"
+      },
+      {
+        "message": "[preprocessing] Placeholder generation completed",
+        "timestamp": "2026-03-05T14:28:31.699727",
+        "details": {
+          "valuesets_found": 7,
+          "logical_models_found": 17,
+          "placeholder_files_created": 2
+        }
+      },
+      {
+        "message": "[preprocessing] dak-api.md already exists in pages section",
+        "timestamp": "2026-03-05T14:28:31.699728"
+      },
+      {
+        "message": "[preprocessing] DAK API already exists in menu Indices section",
+        "timestamp": "2026-03-05T14:28:31.699729"
+      },
+      {
+        "message": "[preprocessing] sushi-config.yaml already contains required DAK API entries",
+        "timestamp": "2026-03-05T14:28:31.700305"
+      },
+      {
+        "message": "Merged preprocessing QA report from input/temp/",
+        "timestamp": "2026-03-05T14:28:31.700408"
+      },
+      {
+        "message": "[valueset_schemas] Starting ValueSet schema generation",
+        "timestamp": "2026-03-05T14:28:31.700545"
+      },
+      {
+        "message": "[valueset_schemas] Configured paths - Expansions: output/expansions.json, Output: output",
+        "timestamp": "2026-03-05T14:28:31.700550"
+      },
+      {
+        "message": "[valueset_schemas] Used fallback method: loaded ValueSet/CodeSystem files directly",
+        "timestamp": "2026-03-05T14:28:31.700552"
+      },
+      {
+        "message": "[valueset_schemas] Successfully generated 5 ValueSet schemas",
+        "timestamp": "2026-03-05T14:28:31.700554"
+      },
+      {
+        "message": "Merged ValueSet schema generation QA report from input/temp/qa_valueset_schemas.json",
+        "timestamp": "2026-03-05T14:28:31.700559"
+      },
+      {
+        "message": "[logical_model_schemas] Script started",
+        "timestamp": "2026-03-05T14:28:31.700908",
+        "details": {
+          "input_directory": "output",
+          "output_directory": "output"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Input directory found",
+        "timestamp": "2026-03-05T14:28:31.700914",
+        "details": {
+          "directory": "output"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Found 56 StructureDefinition files",
+        "timestamp": "2026-03-05T14:28:31.700916",
+        "details": {
+          "directory": "output",
+          "file_count": 56
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Found 25 logical models",
+        "timestamp": "2026-03-05T14:28:31.700919",
+        "details": {
+          "models_found": 25,
+          "model_names": [
+            "UserScenarioSource",
+            "DecisionSupportLogicSource",
+            "TestScenario",
+            "GenericPersonaSource",
+            "ProgramIndicatorSource",
+            "CoreDataElementSource",
+            "HealthInterventions",
+            "DecisionSupportLogic",
+            "UserScenario",
+            "RequirementsSource",
+            "Requirements",
+            "Persona",
+            "ProgramIndicator",
+            "CoreDataElement",
+            "FHIRSchemaBase",
+            "TestScenarioSource",
+            "FunctionalRequirement",
+            "SushiConfigLogicalModel",
+            "DublinCore",
+            "DAK",
+            "HealthInterventionsSource",
+            "BusinessProcessWorkflow",
+            "GenericPersona",
+            "BusinessProcessWorkflowSource",
+            "NonFunctionalRequirement"
+          ]
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model UserScenarioSource",
+        "timestamp": "2026-03-05T14:28:31.700921"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model DecisionSupportLogicSource",
+        "timestamp": "2026-03-05T14:28:31.700924"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model TestScenario",
+        "timestamp": "2026-03-05T14:28:31.700926"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model GenericPersonaSource",
+        "timestamp": "2026-03-05T14:28:31.700928"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model ProgramIndicatorSource",
+        "timestamp": "2026-03-05T14:28:31.700930"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model CoreDataElementSource",
+        "timestamp": "2026-03-05T14:28:31.700932"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model HealthInterventions",
+        "timestamp": "2026-03-05T14:28:31.700935"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model DecisionSupportLogic",
+        "timestamp": "2026-03-05T14:28:31.700937"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model UserScenario",
+        "timestamp": "2026-03-05T14:28:31.700940"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model RequirementsSource",
+        "timestamp": "2026-03-05T14:28:31.700942"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model Requirements",
+        "timestamp": "2026-03-05T14:28:31.700944"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model Persona",
+        "timestamp": "2026-03-05T14:28:31.700946"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model ProgramIndicator",
+        "timestamp": "2026-03-05T14:28:31.700948"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model CoreDataElement",
+        "timestamp": "2026-03-05T14:28:31.700951"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model FHIRSchemaBase",
+        "timestamp": "2026-03-05T14:28:31.700956"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model TestScenarioSource",
+        "timestamp": "2026-03-05T14:28:31.700958"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model FunctionalRequirement",
+        "timestamp": "2026-03-05T14:28:31.700961"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model SushiConfigLogicalModel",
+        "timestamp": "2026-03-05T14:28:31.700963"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model DublinCore",
+        "timestamp": "2026-03-05T14:28:31.700965"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model DAK",
+        "timestamp": "2026-03-05T14:28:31.700969"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model HealthInterventionsSource",
+        "timestamp": "2026-03-05T14:28:31.700971"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model BusinessProcessWorkflow",
+        "timestamp": "2026-03-05T14:28:31.700973"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model GenericPersona",
+        "timestamp": "2026-03-05T14:28:31.700976"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model BusinessProcessWorkflowSource",
+        "timestamp": "2026-03-05T14:28:31.700978"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model NonFunctionalRequirement",
+        "timestamp": "2026-03-05T14:28:31.700981"
+      },
+      {
+        "message": "[logical_model_schemas] Generated 25 Logical Model schemas",
+        "timestamp": "2026-03-05T14:28:31.700986",
+        "details": {
+          "schemas_generated": 25,
+          "schema_files": [
+            "output/schemas/StructureDefinition-UserScenarioSource.schema.json",
+            "output/schemas/StructureDefinition-DecisionSupportLogicSource.schema.json",
+            "output/schemas/StructureDefinition-TestScenario.schema.json",
+            "output/schemas/StructureDefinition-GenericPersonaSource.schema.json",
+            "output/schemas/StructureDefinition-ProgramIndicatorSource.schema.json",
+            "output/schemas/StructureDefinition-CoreDataElementSource.schema.json",
+            "output/schemas/StructureDefinition-HealthInterventions.schema.json",
+            "output/schemas/StructureDefinition-DecisionSupportLogic.schema.json",
+            "output/schemas/StructureDefinition-UserScenario.schema.json",
+            "output/schemas/StructureDefinition-RequirementsSource.schema.json",
+            "output/schemas/StructureDefinition-Requirements.schema.json",
+            "output/schemas/StructureDefinition-Persona.schema.json",
+            "output/schemas/StructureDefinition-ProgramIndicator.schema.json",
+            "output/schemas/StructureDefinition-CoreDataElement.schema.json",
+            "output/schemas/StructureDefinition-FHIRSchemaBase.schema.json",
+            "output/schemas/StructureDefinition-TestScenarioSource.schema.json",
+            "output/schemas/StructureDefinition-FunctionalRequirement.schema.json",
+            "output/schemas/StructureDefinition-SushiConfigLogicalModel.schema.json",
+            "output/schemas/StructureDefinition-DublinCore.schema.json",
+            "output/schemas/StructureDefinition-DAK.schema.json",
+            "output/schemas/StructureDefinition-HealthInterventionsSource.schema.json",
+            "output/schemas/StructureDefinition-BusinessProcessWorkflow.schema.json",
+            "output/schemas/StructureDefinition-GenericPersona.schema.json",
+            "output/schemas/StructureDefinition-BusinessProcessWorkflowSource.schema.json",
+            "output/schemas/StructureDefinition-NonFunctionalRequirement.schema.json"
+          ]
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Successfully generated 25 logical model schemas",
+        "timestamp": "2026-03-05T14:28:31.700989",
+        "details": {
+          "schemas_generated": 25
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701036",
+        "details": {
+          "model_name": "UserScenarioSource",
+          "schema_file": "output/schemas/StructureDefinition-UserScenarioSource.schema.json",
+          "properties_count": 4,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-03-05T14:27:35.014774",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701038",
+        "details": {
+          "model_name": "DecisionSupportLogicSource",
+          "schema_file": "output/schemas/StructureDefinition-DecisionSupportLogicSource.schema.json",
+          "properties_count": 4,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-03-05T14:27:35.015033",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701041",
+        "details": {
+          "model_name": "TestScenario",
+          "schema_file": "output/schemas/StructureDefinition-TestScenario.schema.json",
+          "properties_count": 3,
+          "required_fields": [
+            "resourceType",
+            "feature"
+          ],
+          "timestamp": "2026-03-05T14:27:35.015253",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701042",
+        "details": {
+          "model_name": "GenericPersonaSource",
+          "schema_file": "output/schemas/StructureDefinition-GenericPersonaSource.schema.json",
+          "properties_count": 4,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-03-05T14:27:35.015458",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701044",
+        "details": {
+          "model_name": "ProgramIndicatorSource",
+          "schema_file": "output/schemas/StructureDefinition-ProgramIndicatorSource.schema.json",
+          "properties_count": 4,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-03-05T14:27:35.015659",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701045",
+        "details": {
+          "model_name": "CoreDataElementSource",
+          "schema_file": "output/schemas/StructureDefinition-CoreDataElementSource.schema.json",
+          "properties_count": 4,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-03-05T14:27:35.015879",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701046",
+        "details": {
+          "model_name": "HealthInterventions",
+          "schema_file": "output/schemas/StructureDefinition-HealthInterventions.schema.json",
+          "properties_count": 4,
+          "required_fields": [
+            "resourceType",
+            "id",
+            "reference"
+          ],
+          "timestamp": "2026-03-05T14:27:35.016097",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701047",
+        "details": {
+          "model_name": "DecisionSupportLogic",
+          "schema_file": "output/schemas/StructureDefinition-DecisionSupportLogic.schema.json",
+          "properties_count": 4,
+          "required_fields": [
+            "resourceType",
+            "id",
+            "source"
+          ],
+          "timestamp": "2026-03-05T14:27:35.016315",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701049",
+        "details": {
+          "model_name": "UserScenario",
+          "schema_file": "output/schemas/StructureDefinition-UserScenario.schema.json",
+          "properties_count": 5,
+          "required_fields": [
+            "resourceType",
+            "title",
+            "id",
+            "description[x]"
+          ],
+          "timestamp": "2026-03-05T14:27:35.016529",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701050",
+        "details": {
+          "model_name": "RequirementsSource",
+          "schema_file": "output/schemas/StructureDefinition-RequirementsSource.schema.json",
+          "properties_count": 4,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-03-05T14:27:35.016722",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701052",
+        "details": {
+          "model_name": "Requirements",
+          "schema_file": "output/schemas/StructureDefinition-Requirements.schema.json",
+          "properties_count": 8,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-03-05T14:27:35.016991",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701053",
+        "details": {
+          "model_name": "Persona",
+          "schema_file": "output/schemas/StructureDefinition-Persona.schema.json",
+          "properties_count": 8,
+          "required_fields": [
+            "resourceType",
+            "id",
+            "name",
+            "description",
+            "type"
+          ],
+          "timestamp": "2026-03-05T14:27:35.017320",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701054",
+        "details": {
+          "model_name": "ProgramIndicator",
+          "schema_file": "output/schemas/StructureDefinition-ProgramIndicator.schema.json",
+          "properties_count": 9,
+          "required_fields": [
+            "resourceType",
+            "id",
+            "name",
+            "definition",
+            "numerator",
+            "denominator",
+            "disaggregation"
+          ],
+          "timestamp": "2026-03-05T14:27:35.017557",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701057",
+        "details": {
+          "model_name": "CoreDataElement",
+          "schema_file": "output/schemas/StructureDefinition-CoreDataElement.schema.json",
+          "properties_count": 7,
+          "required_fields": [
+            "resourceType",
+            "type",
+            "canonical"
+          ],
+          "timestamp": "2026-03-05T14:27:35.017897",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701059",
+        "details": {
+          "model_name": "FHIRSchemaBase",
+          "schema_file": "output/schemas/StructureDefinition-FHIRSchemaBase.schema.json",
+          "properties_count": 5,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-03-05T14:27:35.018109",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701060",
+        "details": {
+          "model_name": "TestScenarioSource",
+          "schema_file": "output/schemas/StructureDefinition-TestScenarioSource.schema.json",
+          "properties_count": 4,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-03-05T14:27:35.018304",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701061",
+        "details": {
+          "model_name": "FunctionalRequirement",
+          "schema_file": "output/schemas/StructureDefinition-FunctionalRequirement.schema.json",
+          "properties_count": 7,
+          "required_fields": [
+            "resourceType",
+            "id",
+            "activity"
+          ],
+          "timestamp": "2026-03-05T14:27:35.018589",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701063",
+        "details": {
+          "model_name": "SushiConfigLogicalModel",
+          "schema_file": "output/schemas/StructureDefinition-SushiConfigLogicalModel.schema.json",
+          "properties_count": 43,
+          "required_fields": [
+            "resourceType",
+            "id",
+            "canonical",
+            "name",
+            "title",
+            "description",
+            "version",
+            "status",
+            "license",
+            "publisher",
+            "name",
+            "fhirVersion",
+            "id",
+            "version",
+            "filename",
+            "title",
+            "title",
+            "url",
+            "title",
+            "url",
+            "reference",
+            "id",
+            "name",
+            "description",
+            "type",
+            "profile"
+          ],
+          "timestamp": "2026-03-05T14:27:35.019258",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701064",
+        "details": {
+          "model_name": "DublinCore",
+          "schema_file": "output/schemas/StructureDefinition-DublinCore.schema.json",
+          "properties_count": 16,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-03-05T14:27:35.019532",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701065",
+        "details": {
+          "model_name": "DAK",
+          "schema_file": "output/schemas/StructureDefinition-DAK.schema.json",
+          "properties_count": 24,
+          "required_fields": [
+            "resourceType",
+            "id",
+            "name",
+            "title",
+            "description[x]",
+            "version",
+            "status",
+            "publicationUrl",
+            "previewUrl",
+            "canonicalUrl",
+            "license",
+            "copyrightYear",
+            "publisher",
+            "name"
+          ],
+          "timestamp": "2026-03-05T14:27:35.019919",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701066",
+        "details": {
+          "model_name": "HealthInterventionsSource",
+          "schema_file": "output/schemas/StructureDefinition-HealthInterventionsSource.schema.json",
+          "properties_count": 4,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-03-05T14:27:35.020129",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701068",
+        "details": {
+          "model_name": "BusinessProcessWorkflow",
+          "schema_file": "output/schemas/StructureDefinition-BusinessProcessWorkflow.schema.json",
+          "properties_count": 11,
+          "required_fields": [
+            "resourceType",
+            "id",
+            "source",
+            "objectives",
+            "identifier",
+            "name",
+            "description"
+          ],
+          "timestamp": "2026-03-05T14:27:35.020391",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701071",
+        "details": {
+          "model_name": "GenericPersona",
+          "schema_file": "output/schemas/StructureDefinition-GenericPersona.schema.json",
+          "properties_count": 8,
+          "required_fields": [
+            "resourceType",
+            "title",
+            "id",
+            "description[x]"
+          ],
+          "timestamp": "2026-03-05T14:27:35.020730",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701072",
+        "details": {
+          "model_name": "BusinessProcessWorkflowSource",
+          "schema_file": "output/schemas/StructureDefinition-BusinessProcessWorkflowSource.schema.json",
+          "properties_count": 4,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-03-05T14:27:35.020944",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-03-05T14:28:31.701076",
+        "details": {
+          "model_name": "NonFunctionalRequirement",
+          "schema_file": "output/schemas/StructureDefinition-NonFunctionalRequirement.schema.json",
+          "properties_count": 5,
+          "required_fields": [
+            "resourceType",
+            "id",
+            "requirement"
+          ],
+          "timestamp": "2026-03-05T14:27:35.021140",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "Merged Logical Model schema generation QA report from input/temp/qa_logical_model_schemas.json",
+        "timestamp": "2026-03-05T14:28:31.701078"
+      },
+      {
+        "message": "[jsonld_vocabularies] Script started",
+        "timestamp": "2026-03-05T14:28:31.701263",
+        "details": {
+          "expansions_path": "output/expansions.json",
+          "output_directory": "output"
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Used fallback method: loaded ValueSet/CodeSystem files directly",
+        "timestamp": "2026-03-05T14:28:31.701267"
+      },
+      {
+        "message": "[jsonld_vocabularies] Found FHIR Bundle",
+        "timestamp": "2026-03-05T14:28:31.701269",
+        "details": {
+          "resourceType": "Bundle"
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Found 5 entries in Bundle",
+        "timestamp": "2026-03-05T14:28:31.701270",
+        "details": {
+          "entry_count": 5
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Processing ValueSet DecisionTableActions",
+        "timestamp": "2026-03-05T14:28:31.701271",
+        "details": {
+          "valueset_id": "DecisionTableActions",
+          "entry_index": 0
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Extracted 3 codes for ValueSet DecisionTableActions",
+        "timestamp": "2026-03-05T14:28:31.701275",
+        "details": {
+          "valueset_id": "DecisionTableActions",
+          "codes_count": 3
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Generated JSON-LD vocabulary for ValueSet DecisionTableActions",
+        "timestamp": "2026-03-05T14:28:31.701276"
+      },
+      {
+        "message": "[jsonld_vocabularies] Processing ValueSet CoreDataElementTypeVS",
+        "timestamp": "2026-03-05T14:28:31.701277",
+        "details": {
+          "valueset_id": "CoreDataElementTypeVS",
+          "entry_index": 1
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Extracted 4 codes for ValueSet CoreDataElementTypeVS",
+        "timestamp": "2026-03-05T14:28:31.701279",
+        "details": {
+          "valueset_id": "CoreDataElementTypeVS",
+          "codes_count": 4
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Generated JSON-LD vocabulary for ValueSet CoreDataElementTypeVS",
+        "timestamp": "2026-03-05T14:28:31.701280"
+      },
+      {
+        "message": "[jsonld_vocabularies] Processing ValueSet CDHIv1",
+        "timestamp": "2026-03-05T14:28:31.701281",
+        "details": {
+          "valueset_id": "CDHIv1",
+          "entry_index": 2
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Extracted 119 codes for ValueSet CDHIv1",
+        "timestamp": "2026-03-05T14:28:31.701282",
+        "details": {
+          "valueset_id": "CDHIv1",
+          "codes_count": 119
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Generated JSON-LD vocabulary for ValueSet CDHIv1",
+        "timestamp": "2026-03-05T14:28:31.701283"
+      },
+      {
+        "message": "[jsonld_vocabularies] Processing ValueSet SGPersonaTypesVS",
+        "timestamp": "2026-03-05T14:28:31.701284",
+        "details": {
+          "valueset_id": "SGPersonaTypesVS",
+          "entry_index": 3
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Extracted 4 codes for ValueSet SGPersonaTypesVS",
+        "timestamp": "2026-03-05T14:28:31.701286",
+        "details": {
+          "valueset_id": "SGPersonaTypesVS",
+          "codes_count": 4
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Generated JSON-LD vocabulary for ValueSet SGPersonaTypesVS",
+        "timestamp": "2026-03-05T14:28:31.701287"
+      },
+      {
+        "message": "[jsonld_vocabularies] Processing ValueSet CDSCv1",
+        "timestamp": "2026-03-05T14:28:31.701288",
+        "details": {
+          "valueset_id": "CDSCv1",
+          "entry_index": 4
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Extracted 25 codes for ValueSet CDSCv1",
+        "timestamp": "2026-03-05T14:28:31.701290",
+        "details": {
+          "valueset_id": "CDSCv1",
+          "codes_count": 25
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Generated JSON-LD vocabulary for ValueSet CDSCv1",
+        "timestamp": "2026-03-05T14:28:31.701291"
+      },
+      {
+        "message": "[jsonld_vocabularies] Generated 5 JSON-LD vocabularies",
+        "timestamp": "2026-03-05T14:28:31.701293",
+        "details": {
+          "vocabularies_generated": 5
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Successfully generated 5 JSON-LD vocabularies in output",
+        "timestamp": "2026-03-05T14:28:31.701294",
+        "details": {
+          "vocabularies_count": 5,
+          "output_directory": "output",
+          "used_fallback": true
+        }
+      },
+      {
+        "message": "Merged JSON-LD vocabulary generation QA report from input/temp/qa_jsonld_vocabularies.json",
+        "timestamp": "2026-03-05T14:28:31.701303"
+      },
+      {
+        "message": "Output directory exists with 1759 items",
+        "timestamp": "2026-03-05T14:28:31.703558"
+      },
+      {
+        "message": "Output directory contents sampled",
+        "timestamp": "2026-03-05T14:28:31.704667",
+        "details": {
+          "sample_files": [
+            "tbl_bck0512.png",
+            "StructureDefinition-SGTask.profile.history.html",
+            "StructureDefinition-ProgramIndicator.ttl",
+            "CodeSystem-DecisionTableActions.json",
+            "CodeSystem-SGPersonaTypes.change.history.html",
+            "StructureDefinition-SGCodeSystem.profile.history.html",
+            "StructureDefinition-CoreDataElement.ttl",
+            "ValueSet-CDSCv1-testing.html",
+            "llms.txt",
+            "tbl_bck0000111010.png"
+          ]
+        }
+      },
+      {
+        "message": "Initializing DAK API components",
+        "timestamp": "2026-03-05T14:28:31.704719"
+      },
+      {
+        "message": "All components initialized successfully",
+        "timestamp": "2026-03-05T14:28:31.704764"
+      },
+      {
+        "message": "Starting schema file detection phase",
+        "timestamp": "2026-03-05T14:28:31.704816"
+      },
+      {
+        "message": "Schema detection completed",
+        "timestamp": "2026-03-05T14:28:31.709206",
+        "details": {
+          "valueset_schemas": 7,
+          "logical_model_schemas": 26,
+          "other_schemas": 0
+        }
+      },
+      {
+        "message": "Documentation summary completed",
+        "timestamp": "2026-03-05T14:28:31.970230",
+        "details": {
+          "valueset_schema_docs": 7,
+          "logical_model_schema_docs": 26,
+          "enumeration_endpoints": 2,
+          "jsonld_vocabularies": 6,
+          "openapi_docs": 35
+        }
+      },
+      {
+        "message": "Total content items to include in hub: 76",
+        "timestamp": "2026-03-05T14:28:31.970289"
+      },
+      {
+        "message": "Dynamic source loading applied to 222 HTML files",
+        "timestamp": "2026-03-05T14:28:32.851458"
+      },
+      {
+        "message": "Starting DAK API hub post-processing phase",
+        "timestamp": "2026-03-05T14:28:32.851539"
+      },
+      {
+        "message": "DAK API hub post-processing completed successfully",
+        "timestamp": "2026-03-05T14:28:32.853789",
+        "details": {
+          "total_documentation_pages": 76,
+          "valueset_pages": 7,
+          "logical_model_pages": 26,
+          "enumeration_pages": 2,
+          "jsonld_references": 6,
+          "openapi_pages": 35
+        }
+      },
+      {
+        "message": "Generated OpenAPI index: output/openapi/index.html",
+        "timestamp": "2026-03-05T14:28:32.856850"
+      }
+    ],
+    "warnings": [
+      {
+        "message": "[preprocessing] Directory not found: fsh-generated/resources",
+        "timestamp": "2026-03-05T14:28:31.700310"
+      },
+      {
+        "message": "[preprocessing] Skipping ValueSet-DecisionTableActions.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700312"
+      },
+      {
+        "message": "[preprocessing] Skipping ValueSet-SGPersonaTypesVS.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700313"
+      },
+      {
+        "message": "[preprocessing] Skipping ValueSet-CDHIv1.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700314"
+      },
+      {
+        "message": "[preprocessing] Skipping ValueSet-ISCO08ValueSet.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700316"
+      },
+      {
+        "message": "[preprocessing] Skipping ValueSet-DocumentationSection.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700317"
+      },
+      {
+        "message": "[preprocessing] Skipping ValueSet-CDSCv1.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700318"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-ProgramIndicator.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700320"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-DecisionSupportLogic.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700322"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-NonFunctionalRequirement.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700323"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-UserScenario.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700324"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-DublinCore.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700325"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-FunctionalRequirement.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700326"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-Requirements.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700327"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-BusinessProcessWorkflow.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700329"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-TestScenario.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700330"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-Persona.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700331"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-SushiConfigLogicalModel.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700332"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-CoreDataElement.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700333"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-HealthInterventions.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700334"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-HealthInterventionsSource.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700335"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-GenericPersona.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700336"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-DAK.md - already exists with content",
+        "timestamp": "2026-03-05T14:28:31.700337"
+      },
+      {
+        "message": "[preprocessing] update_sushi_config completed but no changes were made",
+        "timestamp": "2026-03-05T14:28:31.700338"
+      }
+    ],
+    "errors": [],
+    "files_processed": [
+      {
+        "file": "[preprocessing] sushi-config.yaml",
+        "status": "loaded",
+        "timestamp": "2026-03-05T14:28:31.700341"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/dak-api.md",
+        "status": "exists_valid",
+        "timestamp": "2026-03-05T14:28:31.700342"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/ProgramIndicator.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700344"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/DecisionSupportLogic.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700345"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/NonFunctionalRequirement.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700346"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/UserScenario.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700348"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/DublinCore.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700349"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/FunctionalRequirement.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700350"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/Requirements.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700352"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/BusinessProcessWorkflow.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700353"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/TestScenario.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700355"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/Persona.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700356"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/SushiConfigLogicalModel.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700357"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/CoreDataElement.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700358"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/HealthInterventions.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700359"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/DAKComponentSources.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700360"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/FHIRSchemaBase.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700361"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/GenericPersona.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700363"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/DAK.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-03-05T14:28:31.700364"
+      },
+      {
+        "file": "[preprocessing] input/fsh/valuesets/DecisionTableActions.fsh",
+        "status": "valueset_detected",
+        "timestamp": "2026-03-05T14:28:31.700365"
+      },
+      {
+        "file": "[preprocessing] input/fsh/valuesets/CoreDataElementTypeVS.fsh",
+        "status": "valueset_detected",
+        "timestamp": "2026-03-05T14:28:31.700366"
+      },
+      {
+        "file": "[preprocessing] input/fsh/valuesets/SGPersonaTypes.fsh",
+        "status": "valueset_detected",
+        "timestamp": "2026-03-05T14:28:31.700367"
+      },
+      {
+        "file": "[preprocessing] input/fsh/valuesets/CDHIv1.fsh",
+        "status": "valueset_detected",
+        "timestamp": "2026-03-05T14:28:31.700368"
+      },
+      {
+        "file": "[preprocessing] input/fsh/valuesets/ISCO08ValueSet.fsh",
+        "status": "valueset_detected",
+        "timestamp": "2026-03-05T14:28:31.700370"
+      },
+      {
+        "file": "[preprocessing] input/fsh/valuesets/DocumentationSections.fsh",
+        "status": "valueset_detected",
+        "timestamp": "2026-03-05T14:28:31.700371"
+      },
+      {
+        "file": "[preprocessing] input/fsh/valuesets/CDSCv1.fsh",
+        "status": "valueset_detected",
+        "timestamp": "2026-03-05T14:28:31.700372"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/ValueSet-DecisionTableActions.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700373"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/ValueSet-CoreDataElementTypeVS.md",
+        "status": "created",
+        "timestamp": "2026-03-05T14:28:31.700374"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/ValueSet-SGPersonaTypesVS.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700375"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/ValueSet-CDHIv1.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700377"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/ValueSet-ISCO08ValueSet.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700378"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/ValueSet-DocumentationSection.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700379"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/ValueSet-CDSCv1.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700380"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-ProgramIndicator.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700381"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-DecisionSupportLogic.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700382"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-NonFunctionalRequirement.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700384"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-UserScenario.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700388"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-DublinCore.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700390"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-FunctionalRequirement.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700391"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-Requirements.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700392"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-BusinessProcessWorkflow.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700393"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-TestScenario.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700394"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-Persona.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700395"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-SushiConfigLogicalModel.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700396"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-CoreDataElement.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700398"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-HealthInterventions.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700399"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-HealthInterventionsSource.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700400"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-FHIRSchemaBase.md",
+        "status": "created",
+        "timestamp": "2026-03-05T14:28:31.700401"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-GenericPersona.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700402"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-DAK.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-03-05T14:28:31.700403"
+      },
+      {
+        "file": "[preprocessing] sushi-config.yaml",
+        "status": "no_changes_needed",
+        "timestamp": "2026-03-05T14:28:31.700404"
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-UserScenarioSource.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.700993",
+        "details": {
+          "model_name": "UserScenarioSource",
+          "schema_size": 1280
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-DecisionSupportLogicSource.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.700997",
+        "details": {
+          "model_name": "DecisionSupportLogicSource",
+          "schema_size": 1386
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-TestScenario.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701000",
+        "details": {
+          "model_name": "TestScenario",
+          "schema_size": 1025
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-GenericPersonaSource.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701002",
+        "details": {
+          "model_name": "GenericPersonaSource",
+          "schema_size": 1306
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-ProgramIndicatorSource.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701004",
+        "details": {
+          "model_name": "ProgramIndicatorSource",
+          "schema_size": 1332
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-CoreDataElementSource.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701005",
+        "details": {
+          "model_name": "CoreDataElementSource",
+          "schema_size": 1321
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-HealthInterventions.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701007",
+        "details": {
+          "model_name": "HealthInterventions",
+          "schema_size": 1335
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-DecisionSupportLogic.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701010",
+        "details": {
+          "model_name": "DecisionSupportLogic",
+          "schema_size": 1321
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-UserScenario.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701012",
+        "details": {
+          "model_name": "UserScenario",
+          "schema_size": 1271
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-RequirementsSource.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701015",
+        "details": {
+          "model_name": "RequirementsSource",
+          "schema_size": 1278
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-Requirements.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701016",
+        "details": {
+          "model_name": "Requirements",
+          "schema_size": 2878
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-Persona.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701017",
+        "details": {
+          "model_name": "Persona",
+          "schema_size": 2469
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-ProgramIndicator.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701018",
+        "details": {
+          "model_name": "ProgramIndicator",
+          "schema_size": 1753
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-CoreDataElement.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701020",
+        "details": {
+          "model_name": "CoreDataElement",
+          "schema_size": 2969
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-FHIRSchemaBase.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701021",
+        "details": {
+          "model_name": "FHIRSchemaBase",
+          "schema_size": 1527
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-TestScenarioSource.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701022",
+        "details": {
+          "model_name": "TestScenarioSource",
+          "schema_size": 1280
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-FunctionalRequirement.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701024",
+        "details": {
+          "model_name": "FunctionalRequirement",
+          "schema_size": 1416
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-SushiConfigLogicalModel.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701025",
+        "details": {
+          "model_name": "SushiConfigLogicalModel",
+          "schema_size": 8983
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-DublinCore.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701026",
+        "details": {
+          "model_name": "DublinCore",
+          "schema_size": 2310
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-DAK.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701027",
+        "details": {
+          "model_name": "DAK",
+          "schema_size": 5431
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-HealthInterventionsSource.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701028",
+        "details": {
+          "model_name": "HealthInterventionsSource",
+          "schema_size": 1371
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-BusinessProcessWorkflow.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701030",
+        "details": {
+          "model_name": "BusinessProcessWorkflow",
+          "schema_size": 3044
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-GenericPersona.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701031",
+        "details": {
+          "model_name": "GenericPersona",
+          "schema_size": 3071
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-BusinessProcessWorkflowSource.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701032",
+        "details": {
+          "model_name": "BusinessProcessWorkflowSource",
+          "schema_size": 1425
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/schemas/StructureDefinition-NonFunctionalRequirement.schema.json",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701033",
+        "details": {
+          "model_name": "NonFunctionalRequirement",
+          "schema_size": 1080
+        }
+      },
+      {
+        "file": "[jsonld_vocabularies] output/vocabulary/ValueSet-DecisionTableActions.jsonld",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701296",
+        "details": {
+          "valueset_id": "DecisionTableActions",
+          "codes_count": 3,
+          "vocab_size": 1077
+        }
+      },
+      {
+        "file": "[jsonld_vocabularies] output/vocabulary/ValueSet-CoreDataElementTypeVS.jsonld",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701298",
+        "details": {
+          "valueset_id": "CoreDataElementTypeVS",
+          "codes_count": 4,
+          "vocab_size": 1311
+        }
+      },
+      {
+        "file": "[jsonld_vocabularies] output/vocabulary/ValueSet-CDHIv1.jsonld",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701299",
+        "details": {
+          "valueset_id": "CDHIv1",
+          "codes_count": 119,
+          "vocab_size": 24883
+        }
+      },
+      {
+        "file": "[jsonld_vocabularies] output/vocabulary/ValueSet-SGPersonaTypesVS.jsonld",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701300",
+        "details": {
+          "valueset_id": "SGPersonaTypesVS",
+          "codes_count": 4,
+          "vocab_size": 1240
+        }
+      },
+      {
+        "file": "[jsonld_vocabularies] output/vocabulary/ValueSet-CDSCv1.jsonld",
+        "status": "success",
+        "timestamp": "2026-03-05T14:28:31.701301",
+        "details": {
+          "valueset_id": "CDSCv1",
+          "codes_count": 25,
+          "vocab_size": 5203
+        }
+      },
+      {
+        "file": "output/ValueSet-CDHIv1.schema.json",
+        "status": "valueset_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709211"
+      },
+      {
+        "file": "output/ValueSet-CoreDataElementTypeVS.schema.json",
+        "status": "valueset_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709214"
+      },
+      {
+        "file": "output/ValueSets.schema.json",
+        "status": "valueset_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709216"
+      },
+      {
+        "file": "output/ValueSet-DecisionTableActions.schema.json",
+        "status": "valueset_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709218"
+      },
+      {
+        "file": "output/ValueSet-ISCO08ValueSet.schema.json",
+        "status": "valueset_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709247"
+      },
+      {
+        "file": "output/ValueSet-SGPersonaTypesVS.schema.json",
+        "status": "valueset_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709249"
+      },
+      {
+        "file": "output/ValueSet-CDSCv1.schema.json",
+        "status": "valueset_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709251"
+      },
+      {
+        "file": "output/StructureDefinition-DecisionSupportLogicSource.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709253"
+      },
+      {
+        "file": "output/StructureDefinition-DublinCore.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709255"
+      },
+      {
+        "file": "output/StructureDefinition-DAK.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709257"
+      },
+      {
+        "file": "output/StructureDefinition-NonFunctionalRequirement.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709259"
+      },
+      {
+        "file": "output/StructureDefinition-CoreDataElementSource.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709260"
+      },
+      {
+        "file": "output/StructureDefinition-ProgramIndicator.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709263"
+      },
+      {
+        "file": "output/StructureDefinition-HealthInterventions.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709264"
+      },
+      {
+        "file": "output/StructureDefinition-DecisionSupportLogic.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709266"
+      },
+      {
+        "file": "output/StructureDefinition-UserScenarioSource.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709269"
+      },
+      {
+        "file": "output/StructureDefinition-HealthInterventionsSource.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709271"
+      },
+      {
+        "file": "output/StructureDefinition-UserScenario.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709273"
+      },
+      {
+        "file": "output/StructureDefinition-ProgramIndicatorSource.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709274"
+      },
+      {
+        "file": "output/StructureDefinition-FHIRSchemaBase.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709276"
+      },
+      {
+        "file": "output/StructureDefinition-GenericPersona.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709278"
+      },
+      {
+        "file": "output/StructureDefinition-FunctionalRequirement.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709280"
+      },
+      {
+        "file": "output/StructureDefinition-TestScenarioSource.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709282"
+      },
+      {
+        "file": "output/StructureDefinition-TestScenario.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709283"
+      },
+      {
+        "file": "output/StructureDefinition-Persona.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709285"
+      },
+      {
+        "file": "output/LogicalModels.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709287"
+      },
+      {
+        "file": "output/StructureDefinition-BusinessProcessWorkflow.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709289"
+      },
+      {
+        "file": "output/StructureDefinition-GenericPersonaSource.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709291"
+      },
+      {
+        "file": "output/StructureDefinition-Requirements.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709293"
+      },
+      {
+        "file": "output/StructureDefinition-SushiConfigLogicalModel.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709295"
+      },
+      {
+        "file": "output/StructureDefinition-CoreDataElement.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709297"
+      },
+      {
+        "file": "output/StructureDefinition-RequirementsSource.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709299"
+      },
+      {
+        "file": "output/StructureDefinition-BusinessProcessWorkflowSource.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-03-05T14:28:31.709300"
+      }
+    ],
+    "files_expected": [
+      "output"
+    ],
+    "files_missing": [
+      "output"
+    ]
+  }
+}

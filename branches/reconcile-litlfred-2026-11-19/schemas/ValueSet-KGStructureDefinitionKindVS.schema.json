@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-KGStructureDefinitionKindVS.schema.json",
+  "title": "Knowledge graph L3: structure definition kind Schema",
+  "description": "JSON Schema for Knowledge graph L3: structure definition kind ValueSet codes. Generated from FHIR expansions using IRI format.",
+  "type": "string",
+  "enum": [
+    "http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind#primitive-type",
+    "http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind#complex-type",
+    "http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind#resource",
+    "http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind#logical"
+  ],
+  "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L3: structure definition kind ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGStructureDefinitionKindVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+  "fhir:displays": "http://smart.who.int/base/ValueSet-KGStructureDefinitionKindVS.displays.json",
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGStructureDefinitionKindVS",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-11-19T20:28:14.059243"
+}

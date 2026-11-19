@@ -1,0 +1,28 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "transaction-direction",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ValueSet transaction-direction</b></p><a name=\"transaction-direction\"> </a><a name=\"hctransaction-direction\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-transaction-direction.html\"><code>http://smart.who.int/base/CodeSystem/transaction-direction</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : EnsembleValeurs transaction-direction</b></p><a name=\"fr-transaction-direction\"> </a><a name=\"fr-hctransaction-direction\"> </a><ul><li>Include tous les codes définis dans <a href=\"CodeSystem-transaction-direction.html\"><code>http://smart.who.int/base/CodeSystem/transaction-direction</code></a><span title=\"La version n'est pas explicitement indiquée, ce qui signifie quelle est fixée à la version fournie dans cette spécification\"> version &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: ValueSet transaction-direction</b></p><a name=\"ar-transaction-direction\"> </a><a name=\"ar-hctransaction-direction\"> </a><ul><li>Include جميع الرموز المحددة في <a href=\"CodeSystem-transaction-direction.html\"><code>http://smart.who.int/base/CodeSystem/transaction-direction</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> الإصدار &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 取值集合 transaction-direction</b></p><a name=\"zh-transaction-direction\"> </a><a name=\"zh-hctransaction-direction\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-transaction-direction.html\"><code>http://smart.who.int/base/CodeSystem/transaction-direction</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: ValueSet transaction-direction</b></p><a name=\"ru-transaction-direction\"> </a><a name=\"ru-hctransaction-direction\"> </a><ul><li>Include все коды, определенные в <a href=\"CodeSystem-transaction-direction.html\"><code>http://smart.who.int/base/CodeSystem/transaction-direction</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> версия &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ConjuntoValores / ConjuntoDeValores transaction-direction</b></p><a name=\"es-transaction-direction\"> </a><a name=\"es-hctransaction-direction\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-transaction-direction.html\"><code>http://smart.who.int/base/CodeSystem/transaction-direction</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version &#x1F4E6;0.3.0</span></li></ul></div></div>"
+  },
+  "url" : "http://smart.who.int/base/ValueSet/transaction-direction",
+  "version" : "0.3.0",
+  "name" : "TransactionDirectionVS",
+  "title" : "Transaction Direction",
+  "status" : "draft",
+  "date" : "2026-09-07T06:11:01+00:00",
+  "publisher" : "WHO",
+  "contact" : [{
+    "name" : "WHO",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://who.int"
+    }]
+  }],
+  "description" : "Whether the data consumer or data source initiates the data flow.",
+  "compose" : {
+    "include" : [{
+      "system" : "http://smart.who.int/base/CodeSystem/transaction-direction"
+    }]
+  }
+}

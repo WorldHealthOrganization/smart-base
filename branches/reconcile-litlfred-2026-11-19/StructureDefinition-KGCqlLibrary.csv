@@ -1,0 +1,13 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGCqlLibrary","KGCqlLibrary","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L3: CQL File","A .cql file on disk, as opposed to the FHIR Library resource that wraps it. A node so that the mapping table's four CQL rows -- CQL Concepts and CQL Data Elements under Elements, CQL under Decision Tables, CQL IndicatorLogic under Indicators -- do not dead-end. It carries a name, a path and a hash and NOTHING about the logic: no expressions, no comment tags, no data requirements. 279 in the immunizations IG. The l3-cql subgraph is where that content belongs, and it is not built yet. No canonical, because a .cql file is not a FHIR resource and has no canonical URL. It is reached through the Library that wraps it. Class IRI: http://smart.who.int/kg/cql-library.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGCqlLibrary.name","KGCqlLibrary.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The computable name: the CamelCase identifier a Canonical() reference matches on.","","","","","","","","","",,,,,"",,,,"KGCqlLibrary.name",0,1,"",""
+"KGCqlLibrary.path","KGCqlLibrary.path","","","",0,1,"","","","string {[]} {[]}
+","Path","The repository path of the .cql file.","","","","","","","","","",,,,,"",,,,"KGCqlLibrary.path",0,1,"",""
+"KGCqlLibrary.libraryType","KGCqlLibrary.libraryType","","","",0,1,"","","","string {[]} {[]}
+","Library type","The Library's type (logic-library, model-definition, …).","","","","","","","","","",,,,,"",,,,"KGCqlLibrary.libraryType",0,1,"",""
+"KGCqlLibrary.source","KGCqlLibrary.source","","","",0,1,"","","","string {[]} {[]}
+","Source","Where the node was read from: a repository path or URL.","","","","","","","","","",,,,,"",,,,"KGCqlLibrary.source",0,1,"",""
+"KGCqlLibrary.sha256","KGCqlLibrary.sha256","","","",0,1,"","","","string {[]} {[]}
+","SHA-256","Hash of the file the node was read from; pins the source.","","","","","","","","","",,,,,"",,,,"KGCqlLibrary.sha256",0,1,"",""

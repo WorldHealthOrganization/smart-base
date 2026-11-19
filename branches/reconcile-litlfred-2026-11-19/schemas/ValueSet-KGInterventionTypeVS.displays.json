@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-KGInterventionTypeVS.displays.json",
+  "title": "Knowledge graph L1: intervention type Display Values",
+  "description": "Display values for Knowledge graph L1: intervention type ValueSet codes. Generated from FHIR expansions.",
+  "type": "object",
+  "properties": {
+    "fhir:displays": {
+      "type": "object",
+      "description": "Multilingual display values for ValueSet codes using IRI format to match JSON schema enum values",
+      "patternProperties": {
+        "^https?://.*": {
+          "type": "object",
+          "description": "Display values for a specific IRI-formatted code by language",
+          "properties": {
+            "en": {
+              "type": "string",
+              "description": "English display value"
+            }
+          },
+          "patternProperties": {
+            "^[a-z]{2}(-[A-Z]{2})?$": {
+              "type": "string",
+              "description": "Display value in the specified language (ISO 639-1 code)"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "fhir:displays"
+  ],
+  "additionalProperties": true,
+  "fhir:displays": {
+    "http://smart.who.int/base/CodeSystem/KGInterventionType#medicine": {
+      "en": "Medicine"
+    },
+    "http://smart.who.int/base/CodeSystem/KGInterventionType#vaccine": {
+      "en": "Vaccine"
+    },
+    "http://smart.who.int/base/CodeSystem/KGInterventionType#diagnostic": {
+      "en": "Diagnostic"
+    },
+    "http://smart.who.int/base/CodeSystem/KGInterventionType#procedure": {
+      "en": "Procedure"
+    },
+    "http://smart.who.int/base/CodeSystem/KGInterventionType#device-product": {
+      "en": "Device product"
+    },
+    "http://smart.who.int/base/CodeSystem/KGInterventionType#behavioural": {
+      "en": "Behavioural"
+    },
+    "http://smart.who.int/base/CodeSystem/KGInterventionType#public-health": {
+      "en": "Public health"
+    },
+    "http://smart.who.int/base/CodeSystem/KGInterventionType#health-system": {
+      "en": "Health system"
+    },
+    "http://smart.who.int/base/CodeSystem/KGInterventionType#health-information": {
+      "en": "Health information"
+    },
+    "http://smart.who.int/base/CodeSystem/KGInterventionType#digital": {
+      "en": "Digital"
+    }
+  },
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGInterventionTypeVS",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-11-19T20:28:14.074387"
+}

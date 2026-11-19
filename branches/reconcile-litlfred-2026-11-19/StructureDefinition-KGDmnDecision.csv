@@ -1,0 +1,11 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGDmnDecision","KGDmnDecision","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L2-DMN: DMN Decision","A `dmn:decision` -- the question being answered, and the node that carries the link back to the BPMN task invoking it. A file may hold several; the BCG file holds one. Class IRI: http://smart.who.int/kg/dmn-decision.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGDmnDecision.id","KGDmnDecision.id","","","",0,1,"","","","string {[]} {[]}
+","Id","The identifier the source declares (an FSH instance id, a BPMN or DMN element id).","","","","","","","","","",,,,,"",,,,"KGDmnDecision.id",0,1,"",""
+"KGDmnDecision.label","KGDmnDecision.label","","","",0,1,"","","","string {[]} {[]}
+","Label","The label, as declared.","","","","","","","","","",,,,,"",,,,"KGDmnDecision.label",0,1,"",""
+"KGDmnDecision.question","KGDmnDecision.question","","","",0,1,"","","","markdown {[]} {[]}
+","Question","The decision's question, as the DMN states it.","","","","","","","","","",,,,,"",,,,"KGDmnDecision.question",0,1,"",""
+"KGDmnDecision.allowedAnswers","KGDmnDecision.allowedAnswers","","","",0,1,"","","","markdown {[]} {[]}
+","Allowed answers","The decision's allowed answers, as the DMN states them.","","","","","","","","","",,,,,"",,,,"KGDmnDecision.allowedAnswers",0,1,"",""

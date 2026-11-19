@@ -1,0 +1,68 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/security-mechanism-type> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "security-mechanism-type"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem security-mechanism-type</b></p><a name=\"security-mechanism-type\"> </a><a name=\"hcsecurity-mechanism-type\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/security-mechanism-type</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">transport<a name=\"security-mechanism-type-transport\"> </a></td><td>Transport Security</td><td>Security at the transport layer (e.g., TLS, mTLS).</td></tr><tr><td style=\"white-space:nowrap\">authentication<a name=\"security-mechanism-type-authentication\"> </a></td><td>Authentication</td><td>Verification of actor identity.</td></tr><tr><td style=\"white-space:nowrap\">authorization<a name=\"security-mechanism-type-authorization\"> </a></td><td>Authorization</td><td>Access control and scope enforcement.</td></tr><tr><td style=\"white-space:nowrap\">audit<a name=\"security-mechanism-type-audit\"> </a></td><td>Audit</td><td>Logging and audit trail requirements.</td></tr><tr><td style=\"white-space:nowrap\">consent<a name=\"security-mechanism-type-consent\"> </a></td><td>Consent</td><td>Patient or user consent enforcement.</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem security-mechanism-type</b></p><a name=\"fr-security-mechanism-type\"> </a><a name=\"fr-hcsecurity-mechanism-type\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/security-mechanism-type</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style=\"white-space:nowrap\">transport<a name=\"fr-security-mechanism-type-transport\"> </a></td><td>Transport Security</td><td>Security at the transport layer (e.g., TLS, mTLS).</td></tr><tr><td style=\"white-space:nowrap\">authentication<a name=\"fr-security-mechanism-type-authentication\"> </a></td><td>Authentication</td><td>Verification of actor identity.</td></tr><tr><td style=\"white-space:nowrap\">authorization<a name=\"fr-security-mechanism-type-authorization\"> </a></td><td>Authorization</td><td>Access control and scope enforcement.</td></tr><tr><td style=\"white-space:nowrap\">audit<a name=\"fr-security-mechanism-type-audit\"> </a></td><td>Audit</td><td>Logging and audit trail requirements.</td></tr><tr><td style=\"white-space:nowrap\">consent<a name=\"fr-security-mechanism-type-consent\"> </a></td><td>Consent</td><td>Patient or user consent enforcement.</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem security-mechanism-type</b></p><a name=\"ar-security-mechanism-type\"> </a><a name=\"ar-hcsecurity-mechanism-type\"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/security-mechanism-type</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style=\"white-space:nowrap\">transport<a name=\"ar-security-mechanism-type-transport\"> </a></td><td>Transport Security</td><td>Security at the transport layer (e.g., TLS, mTLS).</td></tr><tr><td style=\"white-space:nowrap\">authentication<a name=\"ar-security-mechanism-type-authentication\"> </a></td><td>Authentication</td><td>Verification of actor identity.</td></tr><tr><td style=\"white-space:nowrap\">authorization<a name=\"ar-security-mechanism-type-authorization\"> </a></td><td>Authorization</td><td>Access control and scope enforcement.</td></tr><tr><td style=\"white-space:nowrap\">audit<a name=\"ar-security-mechanism-type-audit\"> </a></td><td>Audit</td><td>Logging and audit trail requirements.</td></tr><tr><td style=\"white-space:nowrap\">consent<a name=\"ar-security-mechanism-type-consent\"> </a></td><td>Consent</td><td>Patient or user consent enforcement.</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 security-mechanism-type</b></p><a name=\"zh-security-mechanism-type\"> </a><a name=\"zh-hcsecurity-mechanism-type\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/security-mechanism-type</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">transport<a name=\"zh-security-mechanism-type-transport\"> </a></td><td>Transport Security</td><td>Security at the transport layer (e.g., TLS, mTLS).</td></tr><tr><td style=\"white-space:nowrap\">authentication<a name=\"zh-security-mechanism-type-authentication\"> </a></td><td>Authentication</td><td>Verification of actor identity.</td></tr><tr><td style=\"white-space:nowrap\">authorization<a name=\"zh-security-mechanism-type-authorization\"> </a></td><td>Authorization</td><td>Access control and scope enforcement.</td></tr><tr><td style=\"white-space:nowrap\">audit<a name=\"zh-security-mechanism-type-audit\"> </a></td><td>Audit</td><td>Logging and audit trail requirements.</td></tr><tr><td style=\"white-space:nowrap\">consent<a name=\"zh-security-mechanism-type-consent\"> </a></td><td>Consent</td><td>Patient or user consent enforcement.</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem security-mechanism-type</b></p><a name=\"ru-security-mechanism-type\"> </a><a name=\"ru-hcsecurity-mechanism-type\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/security-mechanism-type</code> case-sensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style=\"white-space:nowrap\">transport<a name=\"ru-security-mechanism-type-transport\"> </a></td><td>Transport Security</td><td>Security at the transport layer (e.g., TLS, mTLS).</td></tr><tr><td style=\"white-space:nowrap\">authentication<a name=\"ru-security-mechanism-type-authentication\"> </a></td><td>Authentication</td><td>Verification of actor identity.</td></tr><tr><td style=\"white-space:nowrap\">authorization<a name=\"ru-security-mechanism-type-authorization\"> </a></td><td>Authorization</td><td>Access control and scope enforcement.</td></tr><tr><td style=\"white-space:nowrap\">audit<a name=\"ru-security-mechanism-type-audit\"> </a></td><td>Audit</td><td>Logging and audit trail requirements.</td></tr><tr><td style=\"white-space:nowrap\">consent<a name=\"ru-security-mechanism-type-consent\"> </a></td><td>Consent</td><td>Patient or user consent enforcement.</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos security-mechanism-type</b></p><a name=\"es-security-mechanism-type\"> </a><a name=\"es-hcsecurity-mechanism-type\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/security-mechanism-type</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">transport<a name=\"es-security-mechanism-type-transport\"> </a></td><td>Transport Security</td><td>Security at the transport layer (e.g., TLS, mTLS).</td></tr><tr><td style=\"white-space:nowrap\">authentication<a name=\"es-security-mechanism-type-authentication\"> </a></td><td>Authentication</td><td>Verification of actor identity.</td></tr><tr><td style=\"white-space:nowrap\">authorization<a name=\"es-security-mechanism-type-authorization\"> </a></td><td>Authorization</td><td>Access control and scope enforcement.</td></tr><tr><td style=\"white-space:nowrap\">audit<a name=\"es-security-mechanism-type-audit\"> </a></td><td>Audit</td><td>Logging and audit trail requirements.</td></tr><tr><td style=\"white-space:nowrap\">consent<a name=\"es-security-mechanism-type-consent\"> </a></td><td>Consent</td><td>Patient or user consent enforcement.</td></tr></table></div></div>"
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://smart.who.int/base/CodeSystem/security-mechanism-type"] ;
+  fhir:CodeSystem.version [ fhir:value "0.3.0"] ;
+  fhir:CodeSystem.name [ fhir:value "SecurityMechanismTypeCS"] ;
+  fhir:CodeSystem.title [ fhir:value "Security Mechanism Type"] ;
+  fhir:CodeSystem.status [ fhir:value "draft"] ;
+  fhir:CodeSystem.date [ fhir:value "2026-09-07T06:11:01+00:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "WHO"] ;
+  fhir:CodeSystem.contact [
+     fhir:index 0 ;
+     fhir:ContactDetail.name [ fhir:value "WHO" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index 0 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://who.int" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "The category of security mechanism required for a transaction."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "5"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index 0 ;
+     fhir:CodeSystem.concept.code [ fhir:value "transport" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Transport Security" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Security at the transport layer (e.g., TLS, mTLS)." ]
+  ], [
+     fhir:index 1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "authentication" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Authentication" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Verification of actor identity." ]
+  ], [
+     fhir:index 2 ;
+     fhir:CodeSystem.concept.code [ fhir:value "authorization" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Authorization" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Access control and scope enforcement." ]
+  ], [
+     fhir:index 3 ;
+     fhir:CodeSystem.concept.code [ fhir:value "audit" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Audit" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Logging and audit trail requirements." ]
+  ], [
+     fhir:index 4 ;
+     fhir:CodeSystem.concept.code [ fhir:value "consent" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Consent" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Patient or user consent enforcement." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/security-mechanism-type.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl .
+
+# -------------------------------------------------------------------------------------
+

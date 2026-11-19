@@ -1,0 +1,79 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@base": "http://smart.who.int/base/ValueSet-KGL3ClassesVS.jsonld",
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "fhir:CodeSystem": {
+      "@type": "@id"
+    },
+    "cs": "http://smart.who.int/base/CodeSystem-KGL3Classes"
+  },
+  "@id": "http://smart.who.int/base/ValueSet-KGL3ClassesVS.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-11-19T20:29:03.377851Z",
+  "@graph": [
+    {
+      "id": "#plan-definition",
+      "name": "Plan Definition"
+    },
+    {
+      "id": "#activity-definition",
+      "name": "Activity Definition"
+    },
+    {
+      "id": "#library",
+      "name": "Library"
+    },
+    {
+      "id": "#cql-library",
+      "name": "CQL File"
+    },
+    {
+      "id": "#measure",
+      "name": "Measure"
+    },
+    {
+      "id": "#questionnaire",
+      "name": "Questionnaire"
+    },
+    {
+      "id": "#structure-map",
+      "name": "Structure Map"
+    },
+    {
+      "id": "#structure-definition",
+      "name": "Logical Model"
+    },
+    {
+      "id": "#profile",
+      "name": "Profile"
+    },
+    {
+      "id": "#value-set",
+      "name": "Value Set"
+    },
+    {
+      "id": "#code-system",
+      "name": "Code System"
+    },
+    {
+      "id": "#concept-map",
+      "name": "Concept Map"
+    },
+    {
+      "id": "#actor-definition",
+      "name": "Actor Definition"
+    },
+    {
+      "id": "#requirements",
+      "name": "Requirements"
+    }
+  ],
+  "fhir:CodeSystem": "cs"
+}

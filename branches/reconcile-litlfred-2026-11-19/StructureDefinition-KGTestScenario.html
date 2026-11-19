@@ -1,0 +1,1086 @@
+<!-- get modelType -->
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>Knowledge graph L2: Test Scenario - SMART Base v0.3.0</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+    <link href="assets/css/fa-all.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/project.css" rel="stylesheet"/>
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+    <link href="assets/css/who.css" rel="stylesheet"/>
+    <link href="assets/css/lforms.min.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script src="assets/js/prism.js"></script>
+
+    <style type="text/css">h2{--heading-prefix:"9.132"}
+    h3,h4,h5,h6{--heading-prefix:"9.132"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+
+      <div id="segment-navbar" class="segment">  <!-- segment-navbar -->
+        <div id="stripe"> </div>
+        <div class="container">  <!-- container -->
+          <!-- HEADER CONTENT -->
+  
+          <nav class="navbar navbar-inverse">
+            <!--status-bar-->
+            <div class="container">
+              <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+              </button>
+              <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+              <div class="nav-collapse collapse navbar-inverse-collapse">
+                <!-- menu.xml  -->
+
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="index.html" class="dropdown-toggle">Authoring
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="authoring-process.html">Process</a>
+      </li>
+      <li>
+        <a href="authoring-personas.html">Personas</a>
+      </li>
+      <li>
+        <a href="authoring-skills.html">Skills</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="index.html" class="dropdown-toggle">Indices
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="artifacts.html">Artifact Index</a>
+      </li>
+      <li>
+        <a href="dak-api.html">DAK API</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+              </div>  <!-- /.nav-collapse -->
+
+              <div class="sf_colsIn col-md-8  navbar-right-container" data-sf-element="LanguageSelectorSearch" data-placeholder-label="Language Selector and Search" style="display: flex; justify-content: flex-end; align-items: center;">
+                <!-- This div will be pushed to the right -->
+                <div class="language-selector" style="margin-left: auto; background-color: #00477d; color: white;">
+                  <i class="fa fa-language fa-lg"></i>
+                  <label for="language-selector"> </label>
+                  <select onChange="openLink(value)" id="language-selector" name="language-selector">
+                    <option disabled selected>Select language</option>
+                    <option value="en" class="selected">English</option>
+                  </select>
+                  <i class="fas fa-angle-down"></i>
+                </div>
+                <!-- Search Content -->
+              </div>
+            </div>  <!-- /.container -->
+          </nav>  <!-- /.navbar -->
+        <!-- /HEADER CONTENT -->
+        </div>  <!-- /container -->
+      </div>  <!-- /segment-navbar -->
+      
+
+      <div class="container" style=" justify-content: space-between; align-items: left;">
+
+        <!-- Placeholder for child template header declarations -->
+<div id="project-nav">
+    <a id="who-logo" no-external="true" href="index.html">
+        
+    </a>
+</div>
+
+ <div id="family-nav">
+  <a id="fhir-logo" no-external="true" href="http://hl7.org/fhir">  </a>
+</div> 
+
+
+        <div id="ig-status" class="ig-status-draft">
+          <p><span style="font-size:12pt;font-weight:bold">SMART Base</span>
+            <br/>
+            <span style="display:inline-block;">0.3.0 - ci-build
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><a href='artifacts.html'><b>Artifacts Summary</b></a></li><li><b>Knowledge graph L2: Test Scenario</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">SMART Base, published by WHO. This guide is not an authorized publication; it is the continuous build for version 0.3.0  built by the FHIR (HL7&reg; FHIR&reg; Standard) CI Build. This version is based on the current content of <a href='https://github.com/WorldHealthOrganization/smart-base/tree/main'>https://github.com/WorldHealthOrganization/smart-base/tree/main</a> and changes regularly. See the <a href='history.html'>Directory of published versions</a><br/><span data-smart-ci-extra="1" style="font-size:.85em;">Built from commit <a href="https://github.com/WorldHealthOrganization/smart-base/commit/e715ff593748d9fe17670364177ed0bc31588865"><code>e715ff59</code></a>. &nbsp; Branch: <a href="https://github.com/WorldHealthOrganization/smart-base/tree/claude/reconcile-litlfred-2026-11-19"><code>claude/reconcile-litlfred-2026-11-19</code></a>.</span></p><!--EndReleaseHeader-->
+  
+
+
+
+
+
+
+
+
+
+
+
+<ul class="nav nav-tabs">
+
+  <li class="active">
+    <a href="#">Content</a>
+  </li>
+
+
+
+  <li>
+    <a href="StructureDefinition-KGTestScenario-definitions.html">Detailed Descriptions</a>
+  </li>
+
+
+
+  
+    <li>
+      <a href="StructureDefinition-KGTestScenario-mappings.html">Mappings</a>
+    </li>
+  
+
+
+
+
+
+
+
+  
+    <li>
+      <a href="StructureDefinition-KGTestScenario.profile.xml.html">XML</a>
+    </li>
+  
+
+
+  
+    <li>
+      <a href="StructureDefinition-KGTestScenario.profile.json.html">JSON</a>
+    </li>
+  
+
+
+  
+    <li>
+      <a href="StructureDefinition-KGTestScenario.profile.ttl.html">TTL</a>
+    </li>
+  
+
+
+
+<li role="presentation"><a href="StructureDefinition-KGTestScenario.schema.json.html">JSON Schema</a></li>
+</ul>
+
+
+  <a name="root"> </a>
+  <h2 id="root">Logical Model:
+
+    Knowledge graph L2: Test Scenario
+
+
+
+
+
+  </h2>
+
+  <table class="colsi">
+
+    <tr>
+      <td colspan="4"><i>Official URL</i>: <span class="copy-text">http://smart.who.int/base/StructureDefinition/KGTestScenario<button title="Click to copy URL" class="btn-copy" data-clipboard-text="http://smart.who.int/base/StructureDefinition/KGTestScenario"/></span>
+      </td>
+      <td><i>Version</i>:
+      <span class="copy-text">0.3.0<button title="Click to copy versioned URL" class="btn-copy" data-clipboard-text="http://smart.who.int/base/StructureDefinition/KGTestScenario|0.3.0"/></span>
+      </td>
+    </tr>
+
+    <tr>
+
+
+
+
+
+
+
+      <td colspan="4">
+        
+          Active
+          
+            as of 2026-11-19
+          
+        
+      </td>
+
+
+
+      <td><i>Computable Name</i>: <span style="font-family: monospace;">KGTestScenario</span></td>
+    </tr>
+
+
+
+
+  </table>
+
+<p>
+<p>DAK component 9. <code class="language-plaintext highlighter-rouge">feature 1..1 uri</code> to a Gherkin feature file, plus an optional description. The feature file's interior is not modelled: no DAK in this estate ships one yet, so a subgraph for it would have no instance to check it against. resolutionStatus is <code class="language-plaintext highlighter-rouge">unresolved</code> on a component that something else names but no DAK declares – an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/test-scenario.</p>
+
+</p>
+
+
+
+<!-- insert intro if present -->
+
+
+
+
+<p><b>Usages:</b></p>
+<ul>
+ <li>This Logical Model is not used by any profiles in this Specification</li>
+</ul>
+<p>You can also check for <a href="https://packages2.fhir.org/xig/resource/smart.who.int.base|current/StructureDefinition/StructureDefinition-KGTestScenario.json">usages in the FHIR IG Statistics</a></p>
+
+  <!-- no uri -->
+  <a name="profile"> </a>
+  <h3 id="profile">Formal Views of Profile Content</h3>
+  <p>
+    <a href="http://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#structure-definitions">Description of Profiles, Differentials, Snapshots and how the different presentations work</a>.
+  </p>
+  <div id="tabs">
+    <ul>
+      <li>
+        <a href="#tabs-key">Key Elements Table</a>
+      </li>
+      <li>
+        <a href="#tabs-diff">Differential Table</a>
+      </li>
+      <li>
+        <a href="#tabs-snap">Snapshot Table</a>
+      </li>
+
+<!--      <li>
+        <a href="#tabs-xml">Pseudo-XML</a>
+      </li>-->
+
+
+<!--      <li>
+        <a href="#tabs-json">Pseudo-JSON</a>
+      </li>-->
+
+
+      <!--<li>
+        <a href="#tabs-ttl">Pseudo-TTL</a>
+      </li>-->
+
+      <li>
+        <a href="#tabs-summ">Statistics/References</a>
+      </li>
+      <li>
+        <a href="#tabs-all">All</a>
+      </li>
+    </ul>
+    <a name="tabs-key"> </a>
+    <div id="tabs-key">
+      <div id="tbl-key">
+        <div id="tbl-key-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGTestScenarioK" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGTestScenarioK'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGTestScenarioK'), document.getElementById('ppKGTestScenarioK'))" aria-controls="ppKGTestScenarioK" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGTestScenarioK"><label>Bindings <input onClick="filterDesc(document.getElementById('KGTestScenarioK'), 'binding',event.target.checked, document.getElementById('ppKGTestScenarioK'))" size="1" name="binding" checked="true" id="cbKGTestScenarioK-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGTestScenarioK'), 'constraint',event.target.checked, document.getElementById('ppKGTestScenarioK'))" size="1" name="constraint" checked="true" id="cbKGTestScenarioK-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGTestScenarioK'), 'obligation',event.target.checked, document.getElementById('ppKGTestScenarioK'))" size="1" name="obligation" checked="true" id="cbKGTestScenarioK-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="k-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario" title="DAK component 9. `feature 1..1 uri` to a Gherkin feature file, plus an optional description. The feature file's interior is not modelled: no DAK in this estate ships one yet, so a subgraph for it would have no instance to check it against. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/test-scenario." data-no-external="true">KGTestScenario</a><a name="k-KGTestScenario"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..*</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Test Scenario<br/></td></tr>
+<tr fhir="generated-heirarchy" id="k-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="k-KGTestScenario.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="k-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.feature" title="The Gherkin feature file the scenario is in." data-no-external="true">feature</a><a name="k-KGTestScenario.feature"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Feature</td></tr>
+<tr fhir="generated-heirarchy" id="k-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="k-KGTestScenario.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="k-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="k-KGTestScenario.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="k-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="k-KGTestScenario.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="k-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="k-KGTestScenario.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGTestScenarioK-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGTestScenarioK'), 'binding', document.getElementById('cbKGTestScenarioK-binding').checked, document.getElementById('ppKGTestScenarioK'));
+document.getElementById('cbKGTestScenarioK-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGTestScenarioK'), 'constraint', document.getElementById('cbKGTestScenarioK-constraint').checked, document.getElementById('ppKGTestScenarioK'));
+document.getElementById('cbKGTestScenarioK-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGTestScenarioK'), 'obligation', document.getElementById('cbKGTestScenarioK-obligation').checked, document.getElementById('ppKGTestScenarioK'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGTestScenario.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+
+    </div>
+    <a name="tabs-diff"> </a>
+    <div id="tabs-diff">
+      <div id="tbl-diff">
+        <p>This structure is derived from <a href="http://build.fhir.org/types.html#Base">Base</a>
+        </p>
+        <div id="tbl-diff-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGTestScenarioD" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGTestScenarioD'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGTestScenarioD'), document.getElementById('ppKGTestScenarioD'))" aria-controls="ppKGTestScenarioD" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGTestScenarioD"><label>Bindings <input onClick="filterDesc(document.getElementById('KGTestScenarioD'), 'binding',event.target.checked, document.getElementById('ppKGTestScenarioD'))" size="1" name="binding" checked="true" id="cbKGTestScenarioD-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGTestScenarioD'), 'constraint',event.target.checked, document.getElementById('ppKGTestScenarioD'))" size="1" name="constraint" checked="true" id="cbKGTestScenarioD-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGTestScenarioD'), 'obligation',event.target.checked, document.getElementById('ppKGTestScenarioD'))" size="1" name="obligation" checked="true" id="cbKGTestScenarioD-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario" title="DAK component 9. `feature 1..1 uri` to a Gherkin feature file, plus an optional description. The feature file's interior is not modelled: no DAK in this estate ships one yet, so a subgraph for it would have no instance to check it against. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/test-scenario." data-no-external="true">KGTestScenario</a><a name="KGTestScenario"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0"><span class="xhtPieceDeEmphasized">0</span><span class="xhtPieceDeEmphasized">..</span><span class="xhtPieceDeEmphasized">*</span></td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Test Scenario</td></tr>
+<tr fhir="generated-heirarchy" id="aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="KGTestScenario.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.feature" title="The Gherkin feature file the scenario is in." data-no-external="true">feature</a><a name="KGTestScenario.feature"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Feature</td></tr>
+<tr fhir="generated-heirarchy" id="ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="KGTestScenario.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="KGTestScenario.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="KGTestScenario.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="KGTestScenario.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGTestScenarioD-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGTestScenarioD'), 'binding', document.getElementById('cbKGTestScenarioD-binding').checked, document.getElementById('ppKGTestScenarioD'));
+document.getElementById('cbKGTestScenarioD-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGTestScenarioD'), 'constraint', document.getElementById('cbKGTestScenarioD-constraint').checked, document.getElementById('ppKGTestScenarioD'));
+document.getElementById('cbKGTestScenarioD-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGTestScenarioD'), 'obligation', document.getElementById('cbKGTestScenarioD-obligation').checked, document.getElementById('ppKGTestScenarioD'));
+</script></table>
+          <a name="tx"> </a>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings (Differential)</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGTestScenario.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+    </div>
+    <a name="tabs-snap"> </a>
+    <div id="tabs-snap">
+      <div id="tbl-snap">
+        <div id="tbl-snap-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGTestScenarioS" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGTestScenarioS'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGTestScenarioS'), document.getElementById('ppKGTestScenarioS'))" aria-controls="ppKGTestScenarioS" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGTestScenarioS"><label>Bindings <input onClick="filterDesc(document.getElementById('KGTestScenarioS'), 'binding',event.target.checked, document.getElementById('ppKGTestScenarioS'))" size="1" name="binding" checked="true" id="cbKGTestScenarioS-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGTestScenarioS'), 'constraint',event.target.checked, document.getElementById('ppKGTestScenarioS'))" size="1" name="constraint" checked="true" id="cbKGTestScenarioS-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGTestScenarioS'), 'obligation',event.target.checked, document.getElementById('ppKGTestScenarioS'))" size="1" name="obligation" checked="true" id="cbKGTestScenarioS-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="s-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario" title="DAK component 9. `feature 1..1 uri` to a Gherkin feature file, plus an optional description. The feature file's interior is not modelled: no DAK in this estate ships one yet, so a subgraph for it would have no instance to check it against. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/test-scenario." data-no-external="true">KGTestScenario</a><a name="s-KGTestScenario"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..*</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Test Scenario<br/></td></tr>
+<tr fhir="generated-heirarchy" id="s-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="s-KGTestScenario.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="s-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.feature" title="The Gherkin feature file the scenario is in." data-no-external="true">feature</a><a name="s-KGTestScenario.feature"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Feature</td></tr>
+<tr fhir="generated-heirarchy" id="s-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="s-KGTestScenario.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="s-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="s-KGTestScenario.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="s-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="s-KGTestScenario.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="s-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="s-KGTestScenario.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGTestScenarioS-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGTestScenarioS'), 'binding', document.getElementById('cbKGTestScenarioS-binding').checked, document.getElementById('ppKGTestScenarioS'));
+document.getElementById('cbKGTestScenarioS-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGTestScenarioS'), 'constraint', document.getElementById('cbKGTestScenarioS-constraint').checked, document.getElementById('ppKGTestScenarioS'));
+document.getElementById('cbKGTestScenarioS-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGTestScenarioS'), 'obligation', document.getElementById('cbKGTestScenarioS-obligation').checked, document.getElementById('ppKGTestScenarioS'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGTestScenario.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+    </div>
+
+<!--    <a name="tabs-xml"> </a>
+    <div id="tabs-xml">
+      <div id="xml">
+        <div id="xml-inner">
+          <p><span style="color: maroon; font-weight: bold">yet to be done: Xml template</span></p>
+
+        </div>
+      </div>
+    </div>-->
+
+
+<!--    <a name="tabs-json"> </a>
+    <div id="tabs-json">
+      <div id="json">
+        <div id="json-inner">
+           // <span style="color: navy; opacity: 0.8">Knowledge graph L2: Test Scenario</span>
+ {
+// from Element: <a href="http://hl7.org/fhir/R4/extensibility.html">extension</a>
+    "<a href="StructureDefinition-KGTestScenario.html#KGTestScenario.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)" class="dict"><span style="text-decoration: underline">id</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Id</span>
+    "<a href="StructureDefinition-KGTestScenario.html#KGTestScenario.feature" title="The Gherkin feature file the scenario is in" class="dict"><span style="text-decoration: underline">feature</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Feature</span>
+    "<a href="StructureDefinition-KGTestScenario.html#KGTestScenario.description" title="A description, as the source gives it" class="dict"><span style="text-decoration: underline">description</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Description</span>
+    "<a href="StructureDefinition-KGTestScenario.html#KGTestScenario.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)" class="dict"><span style="text-decoration: underline">sourceKind</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Source kind</span>
+    "<a href="StructureDefinition-KGTestScenario.html#KGTestScenario.source" title="Where the node was read from: a repository path or URL" class="dict"><span style="text-decoration: underline">source</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Source</span>
+    "<a href="StructureDefinition-KGTestScenario.html#KGTestScenario.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable" class="dict"><span style="text-decoration: underline">resolutionStatus</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></span>&gt;" <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8"><a href="http://hl7.org/fhir/R4/null.html" style="color: navy">Resolution status</a></span>
+  }
+
+        </div>
+      </div>
+    </div>-->
+
+
+    <!--<a name="tabs-ttl"> </a>
+    <div id="tabs-ttl">
+      <div id="ttl">
+        <div id="ttl-inner">
+          <p><span style="color: maroon; font-weight: bold">yet to be done: Turtle template</span></p>
+
+        </div>
+      </div>
+    </div>-->
+
+    <a name="tabs-summ"> </a>
+    <div id="tabs-summ">
+      <div id="tbl-summ">
+        <p>This structure is derived from <a href="http://build.fhir.org/types.html#Base">Base</a>
+        </p>
+        <div id="tbl-summ-inner">
+          <a name="summary"> </a>
+          <div data-fhir="generated"><a name="s-summary"> </a>
+<p><b>
+Summary
+</b></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <a name="tabs-all"> </a>
+    <div id="tabs-all">
+      <div id="all-tbl-key">
+        <p>
+          <b>Key Elements View</b>
+        </p>
+        <div id="all-tbl-key-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGTestScenarioKA" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGTestScenarioKA'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGTestScenarioKA'), document.getElementById('ppKGTestScenarioKA'))" aria-controls="ppKGTestScenarioKA" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGTestScenarioKA"><label>Bindings <input onClick="filterDesc(document.getElementById('KGTestScenarioKA'), 'binding',event.target.checked, document.getElementById('ppKGTestScenarioKA'))" size="1" name="binding" checked="true" id="cbKGTestScenarioKA-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGTestScenarioKA'), 'constraint',event.target.checked, document.getElementById('ppKGTestScenarioKA'))" size="1" name="constraint" checked="true" id="cbKGTestScenarioKA-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGTestScenarioKA'), 'obligation',event.target.checked, document.getElementById('ppKGTestScenarioKA'))" size="1" name="obligation" checked="true" id="cbKGTestScenarioKA-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="ka-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario" title="DAK component 9. `feature 1..1 uri` to a Gherkin feature file, plus an optional description. The feature file's interior is not modelled: no DAK in this estate ships one yet, so a subgraph for it would have no instance to check it against. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/test-scenario." data-no-external="true">KGTestScenario</a><a name="ka-KGTestScenario"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..*</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Test Scenario<br/></td></tr>
+<tr fhir="generated-heirarchy" id="ka-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="ka-KGTestScenario.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.feature" title="The Gherkin feature file the scenario is in." data-no-external="true">feature</a><a name="ka-KGTestScenario.feature"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Feature</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="ka-KGTestScenario.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="ka-KGTestScenario.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="ka-KGTestScenario.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="ka-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="ka-KGTestScenario.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGTestScenarioKA-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGTestScenarioKA'), 'binding', document.getElementById('cbKGTestScenarioKA-binding').checked, document.getElementById('ppKGTestScenarioKA'));
+document.getElementById('cbKGTestScenarioKA-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGTestScenarioKA'), 'constraint', document.getElementById('cbKGTestScenarioKA-constraint').checked, document.getElementById('ppKGTestScenarioKA'));
+document.getElementById('cbKGTestScenarioKA-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGTestScenarioKA'), 'obligation', document.getElementById('cbKGTestScenarioKA-obligation').checked, document.getElementById('ppKGTestScenarioKA'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGTestScenario.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+      <div id="all-tbl-diff">
+        <p>
+          <b>Differential View</b>
+        </p>
+        <p>This structure is derived from <a href="http://build.fhir.org/types.html#Base">Base</a>
+        </p>
+        <div id="all-tbl-diff-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGTestScenarioDA" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGTestScenarioDA'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGTestScenarioDA'), document.getElementById('ppKGTestScenarioDA'))" aria-controls="ppKGTestScenarioDA" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGTestScenarioDA"><label>Bindings <input onClick="filterDesc(document.getElementById('KGTestScenarioDA'), 'binding',event.target.checked, document.getElementById('ppKGTestScenarioDA'))" size="1" name="binding" checked="true" id="cbKGTestScenarioDA-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGTestScenarioDA'), 'constraint',event.target.checked, document.getElementById('ppKGTestScenarioDA'))" size="1" name="constraint" checked="true" id="cbKGTestScenarioDA-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGTestScenarioDA'), 'obligation',event.target.checked, document.getElementById('ppKGTestScenarioDA'))" size="1" name="obligation" checked="true" id="cbKGTestScenarioDA-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="a-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario" title="DAK component 9. `feature 1..1 uri` to a Gherkin feature file, plus an optional description. The feature file's interior is not modelled: no DAK in this estate ships one yet, so a subgraph for it would have no instance to check it against. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/test-scenario." data-no-external="true">KGTestScenario</a><a name="a-KGTestScenario"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0"><span class="xhtPieceDeEmphasized">0</span><span class="xhtPieceDeEmphasized">..</span><span class="xhtPieceDeEmphasized">*</span></td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Test Scenario</td></tr>
+<tr fhir="generated-heirarchy" id="a-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="a-KGTestScenario.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="a-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.feature" title="The Gherkin feature file the scenario is in." data-no-external="true">feature</a><a name="a-KGTestScenario.feature"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Feature</td></tr>
+<tr fhir="generated-heirarchy" id="a-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="a-KGTestScenario.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="a-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="a-KGTestScenario.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="a-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="a-KGTestScenario.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="a-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="a-KGTestScenario.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGTestScenarioDA-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGTestScenarioDA'), 'binding', document.getElementById('cbKGTestScenarioDA-binding').checked, document.getElementById('ppKGTestScenarioDA'));
+document.getElementById('cbKGTestScenarioDA-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGTestScenarioDA'), 'constraint', document.getElementById('cbKGTestScenarioDA-constraint').checked, document.getElementById('ppKGTestScenarioDA'));
+document.getElementById('cbKGTestScenarioDA-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGTestScenarioDA'), 'obligation', document.getElementById('cbKGTestScenarioDA-obligation').checked, document.getElementById('ppKGTestScenarioDA'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings (Differential)</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGTestScenario.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+      <div id="all-tbl-snap">
+        <p>
+          <b>Snapshot View</b>
+        </p>
+        <div id="all-tbl-snap-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGTestScenarioSA" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGTestScenarioSA'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGTestScenarioSA'), document.getElementById('ppKGTestScenarioSA'))" aria-controls="ppKGTestScenarioSA" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGTestScenarioSA"><label>Bindings <input onClick="filterDesc(document.getElementById('KGTestScenarioSA'), 'binding',event.target.checked, document.getElementById('ppKGTestScenarioSA'))" size="1" name="binding" checked="true" id="cbKGTestScenarioSA-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGTestScenarioSA'), 'constraint',event.target.checked, document.getElementById('ppKGTestScenarioSA'))" size="1" name="constraint" checked="true" id="cbKGTestScenarioSA-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGTestScenarioSA'), 'obligation',event.target.checked, document.getElementById('ppKGTestScenarioSA'))" size="1" name="obligation" checked="true" id="cbKGTestScenarioSA-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="sa-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario" title="DAK component 9. `feature 1..1 uri` to a Gherkin feature file, plus an optional description. The feature file's interior is not modelled: no DAK in this estate ships one yet, so a subgraph for it would have no instance to check it against. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/test-scenario." data-no-external="true">KGTestScenario</a><a name="sa-KGTestScenario"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..*</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Test Scenario<br/></td></tr>
+<tr fhir="generated-heirarchy" id="sa-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="sa-KGTestScenario.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.feature" title="The Gherkin feature file the scenario is in." data-no-external="true">feature</a><a name="sa-KGTestScenario.feature"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Feature</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="sa-KGTestScenario.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="sa-KGTestScenario.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="sa-KGTestScenario.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="sa-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGTestScenario.</span><a no-external="true" href="StructureDefinition-KGTestScenario-definitions.html#KGTestScenario.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="sa-KGTestScenario.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGTestScenarioSA-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGTestScenarioSA'), 'binding', document.getElementById('cbKGTestScenarioSA-binding').checked, document.getElementById('ppKGTestScenarioSA'));
+document.getElementById('cbKGTestScenarioSA-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGTestScenarioSA'), 'constraint', document.getElementById('cbKGTestScenarioSA-constraint').checked, document.getElementById('ppKGTestScenarioSA'));
+document.getElementById('cbKGTestScenarioSA-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGTestScenarioSA'), 'obligation', document.getElementById('cbKGTestScenarioSA-obligation').checked, document.getElementById('ppKGTestScenarioSA'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGTestScenario.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+
+      <!--<div id="all-xml">
+        <p>
+          <b>XML Template</b>
+        </p>
+        <div id="all-xml-inner">
+          <p><span style="color: maroon; font-weight: bold">yet to be done: Xml template</span></p>
+
+        </div>
+      </div>-->
+
+
+      <!--<div id="all-json">
+        <p>
+          <b>JSON Template</b>
+        </p>
+        <div id="all-json-inner">
+           // <span style="color: navy; opacity: 0.8">Knowledge graph L2: Test Scenario</span>
+ {
+// from Element: <a href="http://hl7.org/fhir/R4/extensibility.html">extension</a>
+    "<a href="StructureDefinition-KGTestScenario.html#KGTestScenario.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)" class="dict"><span style="text-decoration: underline">id</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Id</span>
+    "<a href="StructureDefinition-KGTestScenario.html#KGTestScenario.feature" title="The Gherkin feature file the scenario is in" class="dict"><span style="text-decoration: underline">feature</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Feature</span>
+    "<a href="StructureDefinition-KGTestScenario.html#KGTestScenario.description" title="A description, as the source gives it" class="dict"><span style="text-decoration: underline">description</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Description</span>
+    "<a href="StructureDefinition-KGTestScenario.html#KGTestScenario.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)" class="dict"><span style="text-decoration: underline">sourceKind</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Source kind</span>
+    "<a href="StructureDefinition-KGTestScenario.html#KGTestScenario.source" title="Where the node was read from: a repository path or URL" class="dict"><span style="text-decoration: underline">source</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Source</span>
+    "<a href="StructureDefinition-KGTestScenario.html#KGTestScenario.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable" class="dict"><span style="text-decoration: underline">resolutionStatus</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></span>&gt;" <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8"><a href="http://hl7.org/fhir/R4/null.html" style="color: navy">Resolution status</a></span>
+  }
+
+        </div>
+      </div>-->
+
+
+      <!--<div id="all-ttl">
+        <p>
+          <b>TTL Template</b>
+        </p>
+        <div id="all-ttl-inner">
+          <p><span style="color: maroon; font-weight: bold">yet to be done: Turtle template</span></p>
+
+        </div>
+      </div>-->
+
+      <div id="all-summ">
+        <p>This structure is derived from <a href="http://build.fhir.org/types.html#Base">Base</a>
+        </p>
+        <div id="all-summ-inner">
+          <div data-fhir="generated"><a name="a-summary"> </a>
+<p><b>
+Summary
+</b></p>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>&#160;</p>
+  <p>Other representations of profile: <a href="StructureDefinition-KGTestScenario.csv">CSV</a>, <a href="StructureDefinition-KGTestScenario.xlsx">Excel</a> 
+  </p>
+
+  
+
+<!-- insert notes if present -->
+
+
+
+
+</div>
+
+</div>  <!-- /inner-wrapper -->
+</div>  <!-- /row -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-content -->
+
+<script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+<script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+
+<script type="text/javascript" src="assets/js/tabs.js"> </script>
+
+<script type="text/javascript" src="assets/js/window-hash.js"> </script>
+<a name="bottom"> </a>
+<div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+<div class="container">  <!-- container -->
+
+<div class="inner-wrapper">
+  <p>
+    IG &#169; 2023+ <a style="color:var(--footer-hyperlink-text-color)" href="http://who.int">WHO</a>.  Package smart.who.int.base#0.3.0 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>. Generated <span title="Thu, Nov 19, 2026 20:24+0000">2026-11-19</span>
+    <br/>
+    <span style="color: var(--footer-highlight-text-color)">
+                Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="qa.html">QA Report</a>
+                 
+                
+| <a style="color: #81BEF7" target="_blank" href="history.html">Version History</a> | <a style="color: #81BEF7" rel="license" href="license.html">License</a>
+    </span>
+  </p>
+</div>  <!-- /inner-wrapper -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-footer -->
+
+<div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+<div class="container">  <!-- container -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-post-footer -->
+
+<!-- JS and analytics only. -->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+<script type="text/javascript" src="assets/js/respond.min.js"> </script>
+<script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+<script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+<script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+<script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+<!-- Analytics Below
+================================================== -->
+
+
+
+

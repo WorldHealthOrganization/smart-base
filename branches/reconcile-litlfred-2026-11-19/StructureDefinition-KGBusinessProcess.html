@@ -1,0 +1,1086 @@
+<!-- get modelType -->
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>Knowledge graph L2: Business Process Workflow - SMART Base v0.3.0</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+    <link href="assets/css/fa-all.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/project.css" rel="stylesheet"/>
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+    <link href="assets/css/who.css" rel="stylesheet"/>
+    <link href="assets/css/lforms.min.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script src="assets/js/prism.js"></script>
+
+    <style type="text/css">h2{--heading-prefix:"9.120"}
+    h3,h4,h5,h6{--heading-prefix:"9.120"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+
+      <div id="segment-navbar" class="segment">  <!-- segment-navbar -->
+        <div id="stripe"> </div>
+        <div class="container">  <!-- container -->
+          <!-- HEADER CONTENT -->
+  
+          <nav class="navbar navbar-inverse">
+            <!--status-bar-->
+            <div class="container">
+              <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+              </button>
+              <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+              <div class="nav-collapse collapse navbar-inverse-collapse">
+                <!-- menu.xml  -->
+
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="index.html" class="dropdown-toggle">Authoring
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="authoring-process.html">Process</a>
+      </li>
+      <li>
+        <a href="authoring-personas.html">Personas</a>
+      </li>
+      <li>
+        <a href="authoring-skills.html">Skills</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="index.html" class="dropdown-toggle">Indices
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="artifacts.html">Artifact Index</a>
+      </li>
+      <li>
+        <a href="dak-api.html">DAK API</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+              </div>  <!-- /.nav-collapse -->
+
+              <div class="sf_colsIn col-md-8  navbar-right-container" data-sf-element="LanguageSelectorSearch" data-placeholder-label="Language Selector and Search" style="display: flex; justify-content: flex-end; align-items: center;">
+                <!-- This div will be pushed to the right -->
+                <div class="language-selector" style="margin-left: auto; background-color: #00477d; color: white;">
+                  <i class="fa fa-language fa-lg"></i>
+                  <label for="language-selector"> </label>
+                  <select onChange="openLink(value)" id="language-selector" name="language-selector">
+                    <option disabled selected>Select language</option>
+                    <option value="en" class="selected">English</option>
+                  </select>
+                  <i class="fas fa-angle-down"></i>
+                </div>
+                <!-- Search Content -->
+              </div>
+            </div>  <!-- /.container -->
+          </nav>  <!-- /.navbar -->
+        <!-- /HEADER CONTENT -->
+        </div>  <!-- /container -->
+      </div>  <!-- /segment-navbar -->
+      
+
+      <div class="container" style=" justify-content: space-between; align-items: left;">
+
+        <!-- Placeholder for child template header declarations -->
+<div id="project-nav">
+    <a id="who-logo" no-external="true" href="index.html">
+        
+    </a>
+</div>
+
+ <div id="family-nav">
+  <a id="fhir-logo" no-external="true" href="http://hl7.org/fhir">  </a>
+</div> 
+
+
+        <div id="ig-status" class="ig-status-draft">
+          <p><span style="font-size:12pt;font-weight:bold">SMART Base</span>
+            <br/>
+            <span style="display:inline-block;">0.3.0 - ci-build
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><a href='artifacts.html'><b>Artifacts Summary</b></a></li><li><b>Knowledge graph L2: Business Process Workflow</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">SMART Base, published by WHO. This guide is not an authorized publication; it is the continuous build for version 0.3.0  built by the FHIR (HL7&reg; FHIR&reg; Standard) CI Build. This version is based on the current content of <a href='https://github.com/WorldHealthOrganization/smart-base/tree/main'>https://github.com/WorldHealthOrganization/smart-base/tree/main</a> and changes regularly. See the <a href='history.html'>Directory of published versions</a><br/><span data-smart-ci-extra="1" style="font-size:.85em;">Built from commit <a href="https://github.com/WorldHealthOrganization/smart-base/commit/e715ff593748d9fe17670364177ed0bc31588865"><code>e715ff59</code></a>. &nbsp; Branch: <a href="https://github.com/WorldHealthOrganization/smart-base/tree/claude/reconcile-litlfred-2026-11-19"><code>claude/reconcile-litlfred-2026-11-19</code></a>.</span></p><!--EndReleaseHeader-->
+  
+
+
+
+
+
+
+
+
+
+
+
+<ul class="nav nav-tabs">
+
+  <li class="active">
+    <a href="#">Content</a>
+  </li>
+
+
+
+  <li>
+    <a href="StructureDefinition-KGBusinessProcess-definitions.html">Detailed Descriptions</a>
+  </li>
+
+
+
+  
+    <li>
+      <a href="StructureDefinition-KGBusinessProcess-mappings.html">Mappings</a>
+    </li>
+  
+
+
+
+
+
+
+
+  
+    <li>
+      <a href="StructureDefinition-KGBusinessProcess.profile.xml.html">XML</a>
+    </li>
+  
+
+
+  
+    <li>
+      <a href="StructureDefinition-KGBusinessProcess.profile.json.html">JSON</a>
+    </li>
+  
+
+
+  
+    <li>
+      <a href="StructureDefinition-KGBusinessProcess.profile.ttl.html">TTL</a>
+    </li>
+  
+
+
+
+<li role="presentation"><a href="StructureDefinition-KGBusinessProcess.schema.json.html">JSON Schema</a></li>
+</ul>
+
+
+  <a name="root"> </a>
+  <h2 id="root">Logical Model:
+
+    Knowledge graph L2: Business Process Workflow
+
+
+
+
+
+  </h2>
+
+  <table class="colsi">
+
+    <tr>
+      <td colspan="4"><i>Official URL</i>: <span class="copy-text">http://smart.who.int/base/StructureDefinition/KGBusinessProcess<button title="Click to copy URL" class="btn-copy" data-clipboard-text="http://smart.who.int/base/StructureDefinition/KGBusinessProcess"/></span>
+      </td>
+      <td><i>Version</i>:
+      <span class="copy-text">0.3.0<button title="Click to copy versioned URL" class="btn-copy" data-clipboard-text="http://smart.who.int/base/StructureDefinition/KGBusinessProcess|0.3.0"/></span>
+      </td>
+    </tr>
+
+    <tr>
+
+
+
+
+
+
+
+      <td colspan="4">
+        
+          Active
+          
+            as of 2026-11-19
+          
+        
+      </td>
+
+
+
+      <td><i>Computable Name</i>: <span style="font-family: monospace;">KGBusinessProcess</span></td>
+    </tr>
+
+
+
+
+  </table>
+
+<p>
+<p>DAK component 4. NOT the BPMN file – the component that points at one. <code class="language-plaintext highlighter-rouge">source 1..1 uri</code> is that pointer, and the BPMN's interior is the l2-bpmn subgraph, reached through the external-artifact this sourcedFrom targets. <code class="language-plaintext highlighter-rouge">objectives 1..1 markdown</code> is required by BusinessProcessWorkflow.fsh and has no counterpart anywhere in BPMN XML, so it can only ever come from the FSH instance. resolutionStatus is <code class="language-plaintext highlighter-rouge">unresolved</code> on a component that something else names but no DAK declares – an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/business-process.</p>
+
+</p>
+
+
+
+<!-- insert intro if present -->
+
+
+
+
+<p><b>Usages:</b></p>
+<ul>
+ <li>This Logical Model is not used by any profiles in this Specification</li>
+</ul>
+<p>You can also check for <a href="https://packages2.fhir.org/xig/resource/smart.who.int.base|current/StructureDefinition/StructureDefinition-KGBusinessProcess.json">usages in the FHIR IG Statistics</a></p>
+
+  <!-- no uri -->
+  <a name="profile"> </a>
+  <h3 id="profile">Formal Views of Profile Content</h3>
+  <p>
+    <a href="http://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#structure-definitions">Description of Profiles, Differentials, Snapshots and how the different presentations work</a>.
+  </p>
+  <div id="tabs">
+    <ul>
+      <li>
+        <a href="#tabs-key">Key Elements Table</a>
+      </li>
+      <li>
+        <a href="#tabs-diff">Differential Table</a>
+      </li>
+      <li>
+        <a href="#tabs-snap">Snapshot Table</a>
+      </li>
+
+<!--      <li>
+        <a href="#tabs-xml">Pseudo-XML</a>
+      </li>-->
+
+
+<!--      <li>
+        <a href="#tabs-json">Pseudo-JSON</a>
+      </li>-->
+
+
+      <!--<li>
+        <a href="#tabs-ttl">Pseudo-TTL</a>
+      </li>-->
+
+      <li>
+        <a href="#tabs-summ">Statistics/References</a>
+      </li>
+      <li>
+        <a href="#tabs-all">All</a>
+      </li>
+    </ul>
+    <a name="tabs-key"> </a>
+    <div id="tabs-key">
+      <div id="tbl-key">
+        <div id="tbl-key-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGBusinessProcessK" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGBusinessProcessK'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGBusinessProcessK'), document.getElementById('ppKGBusinessProcessK'))" aria-controls="ppKGBusinessProcessK" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGBusinessProcessK"><label>Bindings <input onClick="filterDesc(document.getElementById('KGBusinessProcessK'), 'binding',event.target.checked, document.getElementById('ppKGBusinessProcessK'))" size="1" name="binding" checked="true" id="cbKGBusinessProcessK-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGBusinessProcessK'), 'constraint',event.target.checked, document.getElementById('ppKGBusinessProcessK'))" size="1" name="constraint" checked="true" id="cbKGBusinessProcessK-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGBusinessProcessK'), 'obligation',event.target.checked, document.getElementById('ppKGBusinessProcessK'))" size="1" name="obligation" checked="true" id="cbKGBusinessProcessK-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="k-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess" title="DAK component 4. NOT the BPMN file -- the component that points at one. `source 1..1 uri` is that pointer, and the BPMN's interior is the l2-bpmn subgraph, reached through the external-artifact this sourcedFrom targets. `objectives 1..1 markdown` is required by BusinessProcessWorkflow.fsh and has no counterpart anywhere in BPMN XML, so it can only ever come from the FSH instance. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/business-process." data-no-external="true">KGBusinessProcess</a><a name="k-KGBusinessProcess"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..*</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Business Process Workflow<br/></td></tr>
+<tr fhir="generated-heirarchy" id="k-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="k-KGBusinessProcess.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="k-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="k-KGBusinessProcess.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="k-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.objectives" title="The process objectives (BusinessProcessWorkflow.fsh `objectives 1..1 markdown`); only ever from the FSH instance." data-no-external="true">objectives</a><a name="k-KGBusinessProcess.objectives"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Objectives</td></tr>
+<tr fhir="generated-heirarchy" id="k-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="k-KGBusinessProcess.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="k-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="k-KGBusinessProcess.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="k-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="k-KGBusinessProcess.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGBusinessProcessK-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGBusinessProcessK'), 'binding', document.getElementById('cbKGBusinessProcessK-binding').checked, document.getElementById('ppKGBusinessProcessK'));
+document.getElementById('cbKGBusinessProcessK-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGBusinessProcessK'), 'constraint', document.getElementById('cbKGBusinessProcessK-constraint').checked, document.getElementById('ppKGBusinessProcessK'));
+document.getElementById('cbKGBusinessProcessK-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGBusinessProcessK'), 'obligation', document.getElementById('cbKGBusinessProcessK-obligation').checked, document.getElementById('ppKGBusinessProcessK'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGBusinessProcess.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+
+    </div>
+    <a name="tabs-diff"> </a>
+    <div id="tabs-diff">
+      <div id="tbl-diff">
+        <p>This structure is derived from <a href="http://build.fhir.org/types.html#Base">Base</a>
+        </p>
+        <div id="tbl-diff-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGBusinessProcessD" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGBusinessProcessD'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGBusinessProcessD'), document.getElementById('ppKGBusinessProcessD'))" aria-controls="ppKGBusinessProcessD" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGBusinessProcessD"><label>Bindings <input onClick="filterDesc(document.getElementById('KGBusinessProcessD'), 'binding',event.target.checked, document.getElementById('ppKGBusinessProcessD'))" size="1" name="binding" checked="true" id="cbKGBusinessProcessD-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGBusinessProcessD'), 'constraint',event.target.checked, document.getElementById('ppKGBusinessProcessD'))" size="1" name="constraint" checked="true" id="cbKGBusinessProcessD-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGBusinessProcessD'), 'obligation',event.target.checked, document.getElementById('ppKGBusinessProcessD'))" size="1" name="obligation" checked="true" id="cbKGBusinessProcessD-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess" title="DAK component 4. NOT the BPMN file -- the component that points at one. `source 1..1 uri` is that pointer, and the BPMN's interior is the l2-bpmn subgraph, reached through the external-artifact this sourcedFrom targets. `objectives 1..1 markdown` is required by BusinessProcessWorkflow.fsh and has no counterpart anywhere in BPMN XML, so it can only ever come from the FSH instance. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/business-process." data-no-external="true">KGBusinessProcess</a><a name="KGBusinessProcess"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0"><span class="xhtPieceDeEmphasized">0</span><span class="xhtPieceDeEmphasized">..</span><span class="xhtPieceDeEmphasized">*</span></td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Business Process Workflow</td></tr>
+<tr fhir="generated-heirarchy" id="aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="KGBusinessProcess.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="KGBusinessProcess.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.objectives" title="The process objectives (BusinessProcessWorkflow.fsh `objectives 1..1 markdown`); only ever from the FSH instance." data-no-external="true">objectives</a><a name="KGBusinessProcess.objectives"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Objectives</td></tr>
+<tr fhir="generated-heirarchy" id="ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="KGBusinessProcess.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="KGBusinessProcess.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="KGBusinessProcess.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGBusinessProcessD-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGBusinessProcessD'), 'binding', document.getElementById('cbKGBusinessProcessD-binding').checked, document.getElementById('ppKGBusinessProcessD'));
+document.getElementById('cbKGBusinessProcessD-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGBusinessProcessD'), 'constraint', document.getElementById('cbKGBusinessProcessD-constraint').checked, document.getElementById('ppKGBusinessProcessD'));
+document.getElementById('cbKGBusinessProcessD-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGBusinessProcessD'), 'obligation', document.getElementById('cbKGBusinessProcessD-obligation').checked, document.getElementById('ppKGBusinessProcessD'));
+</script></table>
+          <a name="tx"> </a>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings (Differential)</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGBusinessProcess.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+    </div>
+    <a name="tabs-snap"> </a>
+    <div id="tabs-snap">
+      <div id="tbl-snap">
+        <div id="tbl-snap-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGBusinessProcessS" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGBusinessProcessS'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGBusinessProcessS'), document.getElementById('ppKGBusinessProcessS'))" aria-controls="ppKGBusinessProcessS" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGBusinessProcessS"><label>Bindings <input onClick="filterDesc(document.getElementById('KGBusinessProcessS'), 'binding',event.target.checked, document.getElementById('ppKGBusinessProcessS'))" size="1" name="binding" checked="true" id="cbKGBusinessProcessS-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGBusinessProcessS'), 'constraint',event.target.checked, document.getElementById('ppKGBusinessProcessS'))" size="1" name="constraint" checked="true" id="cbKGBusinessProcessS-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGBusinessProcessS'), 'obligation',event.target.checked, document.getElementById('ppKGBusinessProcessS'))" size="1" name="obligation" checked="true" id="cbKGBusinessProcessS-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="s-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess" title="DAK component 4. NOT the BPMN file -- the component that points at one. `source 1..1 uri` is that pointer, and the BPMN's interior is the l2-bpmn subgraph, reached through the external-artifact this sourcedFrom targets. `objectives 1..1 markdown` is required by BusinessProcessWorkflow.fsh and has no counterpart anywhere in BPMN XML, so it can only ever come from the FSH instance. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/business-process." data-no-external="true">KGBusinessProcess</a><a name="s-KGBusinessProcess"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..*</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Business Process Workflow<br/></td></tr>
+<tr fhir="generated-heirarchy" id="s-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="s-KGBusinessProcess.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="s-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="s-KGBusinessProcess.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="s-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.objectives" title="The process objectives (BusinessProcessWorkflow.fsh `objectives 1..1 markdown`); only ever from the FSH instance." data-no-external="true">objectives</a><a name="s-KGBusinessProcess.objectives"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Objectives</td></tr>
+<tr fhir="generated-heirarchy" id="s-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="s-KGBusinessProcess.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="s-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="s-KGBusinessProcess.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="s-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="s-KGBusinessProcess.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGBusinessProcessS-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGBusinessProcessS'), 'binding', document.getElementById('cbKGBusinessProcessS-binding').checked, document.getElementById('ppKGBusinessProcessS'));
+document.getElementById('cbKGBusinessProcessS-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGBusinessProcessS'), 'constraint', document.getElementById('cbKGBusinessProcessS-constraint').checked, document.getElementById('ppKGBusinessProcessS'));
+document.getElementById('cbKGBusinessProcessS-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGBusinessProcessS'), 'obligation', document.getElementById('cbKGBusinessProcessS-obligation').checked, document.getElementById('ppKGBusinessProcessS'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGBusinessProcess.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+    </div>
+
+<!--    <a name="tabs-xml"> </a>
+    <div id="tabs-xml">
+      <div id="xml">
+        <div id="xml-inner">
+          <p><span style="color: maroon; font-weight: bold">yet to be done: Xml template</span></p>
+
+        </div>
+      </div>
+    </div>-->
+
+
+<!--    <a name="tabs-json"> </a>
+    <div id="tabs-json">
+      <div id="json">
+        <div id="json-inner">
+           // <span style="color: navy; opacity: 0.8">Knowledge graph L2: Business Process Workflow</span>
+ {
+// from Element: <a href="http://hl7.org/fhir/R4/extensibility.html">extension</a>
+    "<a href="StructureDefinition-KGBusinessProcess.html#KGBusinessProcess.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)" class="dict"><span style="text-decoration: underline">id</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Id</span>
+    "<a href="StructureDefinition-KGBusinessProcess.html#KGBusinessProcess.description" title="A description, as the source gives it" class="dict"><span style="text-decoration: underline">description</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Description</span>
+    "<a href="StructureDefinition-KGBusinessProcess.html#KGBusinessProcess.objectives" title="The process objectives (BusinessProcessWorkflow.fsh `objectives 1..1 markdown`); only ever from the FSH instance" class="dict"><span style="text-decoration: underline">objectives</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Objectives</span>
+    "<a href="StructureDefinition-KGBusinessProcess.html#KGBusinessProcess.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)" class="dict"><span style="text-decoration: underline">sourceKind</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Source kind</span>
+    "<a href="StructureDefinition-KGBusinessProcess.html#KGBusinessProcess.source" title="Where the node was read from: a repository path or URL" class="dict"><span style="text-decoration: underline">source</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Source</span>
+    "<a href="StructureDefinition-KGBusinessProcess.html#KGBusinessProcess.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable" class="dict"><span style="text-decoration: underline">resolutionStatus</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></span>&gt;" <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8"><a href="http://hl7.org/fhir/R4/null.html" style="color: navy">Resolution status</a></span>
+  }
+
+        </div>
+      </div>
+    </div>-->
+
+
+    <!--<a name="tabs-ttl"> </a>
+    <div id="tabs-ttl">
+      <div id="ttl">
+        <div id="ttl-inner">
+          <p><span style="color: maroon; font-weight: bold">yet to be done: Turtle template</span></p>
+
+        </div>
+      </div>
+    </div>-->
+
+    <a name="tabs-summ"> </a>
+    <div id="tabs-summ">
+      <div id="tbl-summ">
+        <p>This structure is derived from <a href="http://build.fhir.org/types.html#Base">Base</a>
+        </p>
+        <div id="tbl-summ-inner">
+          <a name="summary"> </a>
+          <div data-fhir="generated"><a name="s-summary"> </a>
+<p><b>
+Summary
+</b></p>
+</div>
+        </div>
+      </div>
+    </div>
+    <a name="tabs-all"> </a>
+    <div id="tabs-all">
+      <div id="all-tbl-key">
+        <p>
+          <b>Key Elements View</b>
+        </p>
+        <div id="all-tbl-key-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGBusinessProcessKA" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGBusinessProcessKA'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGBusinessProcessKA'), document.getElementById('ppKGBusinessProcessKA'))" aria-controls="ppKGBusinessProcessKA" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGBusinessProcessKA"><label>Bindings <input onClick="filterDesc(document.getElementById('KGBusinessProcessKA'), 'binding',event.target.checked, document.getElementById('ppKGBusinessProcessKA'))" size="1" name="binding" checked="true" id="cbKGBusinessProcessKA-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGBusinessProcessKA'), 'constraint',event.target.checked, document.getElementById('ppKGBusinessProcessKA'))" size="1" name="constraint" checked="true" id="cbKGBusinessProcessKA-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGBusinessProcessKA'), 'obligation',event.target.checked, document.getElementById('ppKGBusinessProcessKA'))" size="1" name="obligation" checked="true" id="cbKGBusinessProcessKA-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="ka-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess" title="DAK component 4. NOT the BPMN file -- the component that points at one. `source 1..1 uri` is that pointer, and the BPMN's interior is the l2-bpmn subgraph, reached through the external-artifact this sourcedFrom targets. `objectives 1..1 markdown` is required by BusinessProcessWorkflow.fsh and has no counterpart anywhere in BPMN XML, so it can only ever come from the FSH instance. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/business-process." data-no-external="true">KGBusinessProcess</a><a name="ka-KGBusinessProcess"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..*</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Business Process Workflow<br/></td></tr>
+<tr fhir="generated-heirarchy" id="ka-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="ka-KGBusinessProcess.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="ka-KGBusinessProcess.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.objectives" title="The process objectives (BusinessProcessWorkflow.fsh `objectives 1..1 markdown`); only ever from the FSH instance." data-no-external="true">objectives</a><a name="ka-KGBusinessProcess.objectives"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Objectives</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="ka-KGBusinessProcess.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="ka-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="ka-KGBusinessProcess.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="ka-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="ka-KGBusinessProcess.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGBusinessProcessKA-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGBusinessProcessKA'), 'binding', document.getElementById('cbKGBusinessProcessKA-binding').checked, document.getElementById('ppKGBusinessProcessKA'));
+document.getElementById('cbKGBusinessProcessKA-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGBusinessProcessKA'), 'constraint', document.getElementById('cbKGBusinessProcessKA-constraint').checked, document.getElementById('ppKGBusinessProcessKA'));
+document.getElementById('cbKGBusinessProcessKA-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGBusinessProcessKA'), 'obligation', document.getElementById('cbKGBusinessProcessKA-obligation').checked, document.getElementById('ppKGBusinessProcessKA'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGBusinessProcess.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+      <div id="all-tbl-diff">
+        <p>
+          <b>Differential View</b>
+        </p>
+        <p>This structure is derived from <a href="http://build.fhir.org/types.html#Base">Base</a>
+        </p>
+        <div id="all-tbl-diff-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGBusinessProcessDA" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGBusinessProcessDA'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGBusinessProcessDA'), document.getElementById('ppKGBusinessProcessDA'))" aria-controls="ppKGBusinessProcessDA" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGBusinessProcessDA"><label>Bindings <input onClick="filterDesc(document.getElementById('KGBusinessProcessDA'), 'binding',event.target.checked, document.getElementById('ppKGBusinessProcessDA'))" size="1" name="binding" checked="true" id="cbKGBusinessProcessDA-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGBusinessProcessDA'), 'constraint',event.target.checked, document.getElementById('ppKGBusinessProcessDA'))" size="1" name="constraint" checked="true" id="cbKGBusinessProcessDA-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGBusinessProcessDA'), 'obligation',event.target.checked, document.getElementById('ppKGBusinessProcessDA'))" size="1" name="obligation" checked="true" id="cbKGBusinessProcessDA-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="a-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess" title="DAK component 4. NOT the BPMN file -- the component that points at one. `source 1..1 uri` is that pointer, and the BPMN's interior is the l2-bpmn subgraph, reached through the external-artifact this sourcedFrom targets. `objectives 1..1 markdown` is required by BusinessProcessWorkflow.fsh and has no counterpart anywhere in BPMN XML, so it can only ever come from the FSH instance. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/business-process." data-no-external="true">KGBusinessProcess</a><a name="a-KGBusinessProcess"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0"><span class="xhtPieceDeEmphasized">0</span><span class="xhtPieceDeEmphasized">..</span><span class="xhtPieceDeEmphasized">*</span></td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Business Process Workflow</td></tr>
+<tr fhir="generated-heirarchy" id="a-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="a-KGBusinessProcess.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="a-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="a-KGBusinessProcess.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="a-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.objectives" title="The process objectives (BusinessProcessWorkflow.fsh `objectives 1..1 markdown`); only ever from the FSH instance." data-no-external="true">objectives</a><a name="a-KGBusinessProcess.objectives"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Objectives</td></tr>
+<tr fhir="generated-heirarchy" id="a-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="a-KGBusinessProcess.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="a-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="a-KGBusinessProcess.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="a-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="a-KGBusinessProcess.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGBusinessProcessDA-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGBusinessProcessDA'), 'binding', document.getElementById('cbKGBusinessProcessDA-binding').checked, document.getElementById('ppKGBusinessProcessDA'));
+document.getElementById('cbKGBusinessProcessDA-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGBusinessProcessDA'), 'constraint', document.getElementById('cbKGBusinessProcessDA-constraint').checked, document.getElementById('ppKGBusinessProcessDA'));
+document.getElementById('cbKGBusinessProcessDA-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGBusinessProcessDA'), 'obligation', document.getElementById('cbKGBusinessProcessDA-obligation').checked, document.getElementById('ppKGBusinessProcessDA'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings (Differential)</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGBusinessProcess.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+      <div id="all-tbl-snap">
+        <p>
+          <b>Snapshot View</b>
+        </p>
+        <div id="all-tbl-snap-inner">
+          <table border="0" fhir="generated-heirarchy" cellpadding="0" cellspacing="0" id="KGBusinessProcessSA" class="xhtTableBorder0" data-fhir="generated-heirarchy"><tr fhir="generated-heirarchy" class="xhtRowBorder1" data-fhir="generated-heirarchy"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element" data-no-external="true">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element" data-no-external="true">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance" data-no-external="true">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element" data-no-external="true">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element" data-no-external="true">Description &amp; Constraints</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: normal">Filter: <input size="10" name="filter" style="border: 1px #F0F0F0 solid; background-color: rgb(254, 254, 231);" onInput="filterTree(document.getElementById('KGBusinessProcessSA'), event.target.value)" type="text" aria-label="Filter"/> <button onClick="showPanel(this, document.getElementById('KGBusinessProcessSA'), document.getElementById('ppKGBusinessProcessSA'))" aria-controls="ppKGBusinessProcessSA" style="background: none; border: 0; padding: 0; margin: 0; cursor: pointer" type="button" title="Filters" aria-label="Filters"><img src="tree-filter.png" alt=""/></button><div style="display: none; position: fixed; opacity : 1.0; background-color: rgb(254, 254, 231); border: 1px solid #ccc; padding: 10px; boxShadow: 0 2px 5px rgba(0,0,0,0.2); zIndex: 1000; borderRadius: 4px" id="ppKGBusinessProcessSA"><label>Bindings <input onClick="filterDesc(document.getElementById('KGBusinessProcessSA'), 'binding',event.target.checked, document.getElementById('ppKGBusinessProcessSA'))" size="1" name="binding" checked="true" id="cbKGBusinessProcessSA-binding" type="checkbox" aria-label="binding"/></label><br/><label>Constraints <input onClick="filterDesc(document.getElementById('KGBusinessProcessSA'), 'constraint',event.target.checked, document.getElementById('ppKGBusinessProcessSA'))" size="1" name="constraint" checked="true" id="cbKGBusinessProcessSA-constraint" type="checkbox" aria-label="constraint"/></label><br/><label>Obligations <input onClick="filterDesc(document.getElementById('KGBusinessProcessSA'), 'obligation',event.target.checked, document.getElementById('ppKGBusinessProcessSA'))" size="1" name="obligation" checked="true" id="cbKGBusinessProcessSA-obligation" type="checkbox" aria-label="obligation"/></label><br/></div></span><span style="float: right"><a no-external="true" href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format" data-no-external="true"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" onLoad="fhirTableInit(this)" style="background-color: inherit"/></a></span></th></tr>
+<tr fhir="generated-heirarchy" id="sa-a" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess" title="DAK component 4. NOT the BPMN file -- the component that points at one. `source 1..1 uri` is that pointer, and the BPMN's interior is the l2-bpmn subgraph, reached through the external-artifact this sourcedFrom targets. `objectives 1..1 markdown` is required by BusinessProcessWorkflow.fsh and has no counterpart anywhere in BPMN XML, so it can only ever come from the FSH instance. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/business-process." data-no-external="true">KGBusinessProcess</a><a name="sa-KGBusinessProcess"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..*</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2: Business Process Workflow<br/></td></tr>
+<tr fhir="generated-heirarchy" id="sa-aa" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)." data-no-external="true">id</a><a name="sa-KGBusinessProcess.id"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ab" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.description" title="A description, as the source gives it." data-no-external="true">description</a><a name="sa-KGBusinessProcess.description"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ac" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.objectives" title="The process objectives (BusinessProcessWorkflow.fsh `objectives 1..1 markdown`); only ever from the FSH instance." data-no-external="true">objectives</a><a name="sa-KGBusinessProcess.objectives"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Objectives</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ad" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)." data-no-external="true">sourceKind</a><a name="sa-KGBusinessProcess.sourceKind"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source kind</td></tr>
+<tr fhir="generated-heirarchy" id="sa-ae" class="xhtRowBorder0 xhtRowOdd" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.source" title="Where the node was read from: a repository path or URL." data-no-external="true">source</a><a name="sa-KGBusinessProcess.source"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Source</td></tr>
+<tr fhir="generated-heirarchy" id="sa-af" class="xhtRowBorder0 xhtRowEven" data-fhir="generated-heirarchy"><td role="rowheader" style="background-image: url(tbl_bck00.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGBusinessProcess.</span><a no-external="true" href="StructureDefinition-KGBusinessProcess-definitions.html#KGBusinessProcess.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable." data-no-external="true">resolutionStatus</a><a name="sa-KGBusinessProcess.resolutionStatus"> </a></td>
+<td style="" class="hierarchy xhtCellBorder0"></td>
+<td style="" class="hierarchy xhtCellBorder0">0..1</td>
+<td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></td>
+<td style="" class="hierarchy xhtCellBorder0">Resolution status<br class="binding"/><span class="xhtPieceBold binding">Binding: </span><a href="ValueSet-KGResolutionStatusVS.html" title="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" class="binding">Knowledge graph L1: resolution status</a><span class="binding"> (</span><a href="http://hl7.org/fhir/R4/terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set." class="binding">required</a><span class="binding">)</span></td></tr>
+<tr fhir="generated-heirarchy" data-fhir="generated-heirarchy"><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="https://hl7.org/fhir/R4/help16.png" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr><script type="text/javascript">  // d7faaf59-0388-44ad-9086-10482f1fe511
+document.getElementById('cbKGBusinessProcessSA-binding').checked = 'false' != localStorage.getItem('ht-table-states-binding');
+filterDesc(document.getElementById('KGBusinessProcessSA'), 'binding', document.getElementById('cbKGBusinessProcessSA-binding').checked, document.getElementById('ppKGBusinessProcessSA'));
+document.getElementById('cbKGBusinessProcessSA-constraint').checked = 'false' != localStorage.getItem('ht-table-states-constraint');
+filterDesc(document.getElementById('KGBusinessProcessSA'), 'constraint', document.getElementById('cbKGBusinessProcessSA-constraint').checked, document.getElementById('ppKGBusinessProcessSA'));
+document.getElementById('cbKGBusinessProcessSA-obligation').checked = 'false' != localStorage.getItem('ht-table-states-obligation');
+filterDesc(document.getElementById('KGBusinessProcessSA'), 'obligation', document.getElementById('cbKGBusinessProcessSA-obligation').checked, document.getElementById('ppKGBusinessProcessSA'));
+</script></table>
+          <!--Terminology Bindings heading in the fragment -->
+          <h4>Terminology Bindings</h4>
+<table class="list" data-fhir="generated-heirarchy">
+  <tr>
+    <td>
+      <b>Path</b>
+    </td>
+    <td>
+      <b>Status</b>
+    </td>
+    <td>
+      <b>Usage</b>
+    </td>
+    <td>
+      <b>ValueSet</b>
+    </td>
+    <td>
+      <b>Version</b>
+    </td>
+    <td>
+      <b>Source</b>
+    </td>
+  </tr>
+  <tr>
+    <td>KGBusinessProcess.resolutionStatus</td>
+    <td>Base</td>
+    <td>
+      <a href="http://hl7.org/fhir/R4/terminologies.html#Enumeration[required]">required</a>
+    </td>
+    <td>
+      <a href="ValueSet-KGResolutionStatusVS.html">Knowledge graph L1: resolution status</a>
+      <button data-clipboard-text="http://smart.who.int/base/ValueSet/KGResolutionStatusVS" title="Click to copy URL" class="btn-copy" aria-label="copy"></button>
+    </td>
+    <td title="Version is not explicitly stated, which means it is fixed to the version provided in this specification">&#x1F4E6;0.3.0</td>
+    <td>This IG</td>
+  </tr>
+</table>
+
+        
+          
+          <!-- 218 is size of empty table -->
+          
+        </div>
+      </div>
+
+      <!--<div id="all-xml">
+        <p>
+          <b>XML Template</b>
+        </p>
+        <div id="all-xml-inner">
+          <p><span style="color: maroon; font-weight: bold">yet to be done: Xml template</span></p>
+
+        </div>
+      </div>-->
+
+
+      <!--<div id="all-json">
+        <p>
+          <b>JSON Template</b>
+        </p>
+        <div id="all-json-inner">
+           // <span style="color: navy; opacity: 0.8">Knowledge graph L2: Business Process Workflow</span>
+ {
+// from Element: <a href="http://hl7.org/fhir/R4/extensibility.html">extension</a>
+    "<a href="StructureDefinition-KGBusinessProcess.html#KGBusinessProcess.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)" class="dict"><span style="text-decoration: underline">id</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Id</span>
+    "<a href="StructureDefinition-KGBusinessProcess.html#KGBusinessProcess.description" title="A description, as the source gives it" class="dict"><span style="text-decoration: underline">description</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Description</span>
+    "<a href="StructureDefinition-KGBusinessProcess.html#KGBusinessProcess.objectives" title="The process objectives (BusinessProcessWorkflow.fsh `objectives 1..1 markdown`); only ever from the FSH instance" class="dict"><span style="text-decoration: underline">objectives</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#markdown">markdown</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Objectives</span>
+    "<a href="StructureDefinition-KGBusinessProcess.html#KGBusinessProcess.sourceKind" title="What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)" class="dict"><span style="text-decoration: underline">sourceKind</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Source kind</span>
+    "<a href="StructureDefinition-KGBusinessProcess.html#KGBusinessProcess.source" title="Where the node was read from: a repository path or URL" class="dict"><span style="text-decoration: underline">source</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></span>&gt;", <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8">Source</span>
+    "<a href="StructureDefinition-KGBusinessProcess.html#KGBusinessProcess.resolutionStatus" title="Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable" class="dict"><span style="text-decoration: underline">resolutionStatus</span></a>" : "&lt;<span style="color: darkgreen"><a href="http://hl7.org/fhir/R4/datatypes.html#code">code</a></span>&gt;" <span style="color: Gray">//</span> <span style="color: navy; opacity: 0.8"><a href="http://hl7.org/fhir/R4/null.html" style="color: navy">Resolution status</a></span>
+  }
+
+        </div>
+      </div>-->
+
+
+      <!--<div id="all-ttl">
+        <p>
+          <b>TTL Template</b>
+        </p>
+        <div id="all-ttl-inner">
+          <p><span style="color: maroon; font-weight: bold">yet to be done: Turtle template</span></p>
+
+        </div>
+      </div>-->
+
+      <div id="all-summ">
+        <p>This structure is derived from <a href="http://build.fhir.org/types.html#Base">Base</a>
+        </p>
+        <div id="all-summ-inner">
+          <div data-fhir="generated"><a name="a-summary"> </a>
+<p><b>
+Summary
+</b></p>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>&#160;</p>
+  <p>Other representations of profile: <a href="StructureDefinition-KGBusinessProcess.csv">CSV</a>, <a href="StructureDefinition-KGBusinessProcess.xlsx">Excel</a> 
+  </p>
+
+  
+
+<!-- insert notes if present -->
+
+
+
+
+</div>
+
+</div>  <!-- /inner-wrapper -->
+</div>  <!-- /row -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-content -->
+
+<script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+<script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+
+<script type="text/javascript" src="assets/js/tabs.js"> </script>
+
+<script type="text/javascript" src="assets/js/window-hash.js"> </script>
+<a name="bottom"> </a>
+<div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+<div class="container">  <!-- container -->
+
+<div class="inner-wrapper">
+  <p>
+    IG &#169; 2023+ <a style="color:var(--footer-hyperlink-text-color)" href="http://who.int">WHO</a>.  Package smart.who.int.base#0.3.0 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>. Generated <span title="Thu, Nov 19, 2026 20:24+0000">2026-11-19</span>
+    <br/>
+    <span style="color: var(--footer-highlight-text-color)">
+                Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="qa.html">QA Report</a>
+                 
+                
+| <a style="color: #81BEF7" target="_blank" href="history.html">Version History</a> | <a style="color: #81BEF7" rel="license" href="license.html">License</a>
+    </span>
+  </p>
+</div>  <!-- /inner-wrapper -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-footer -->
+
+<div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+<div class="container">  <!-- container -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-post-footer -->
+
+<!-- JS and analytics only. -->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+<script type="text/javascript" src="assets/js/respond.min.js"> </script>
+<script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+<script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+<script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+<script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+<!-- Analytics Below
+================================================== -->
+
+
+
+

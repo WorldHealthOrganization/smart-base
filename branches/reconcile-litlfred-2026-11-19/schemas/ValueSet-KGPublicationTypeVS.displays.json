@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.displays.json",
+  "title": "Knowledge graph L1: publication type Display Values",
+  "description": "Display values for Knowledge graph L1: publication type ValueSet codes. Generated from FHIR expansions.",
+  "type": "object",
+  "properties": {
+    "fhir:displays": {
+      "type": "object",
+      "description": "Multilingual display values for ValueSet codes using IRI format to match JSON schema enum values",
+      "patternProperties": {
+        "^https?://.*": {
+          "type": "object",
+          "description": "Display values for a specific IRI-formatted code by language",
+          "properties": {
+            "en": {
+              "type": "string",
+              "description": "English display value"
+            }
+          },
+          "patternProperties": {
+            "^[a-z]{2}(-[A-Z]{2})?$": {
+              "type": "string",
+              "description": "Display value in the specified language (ISO 639-1 code)"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "fhir:displays"
+  ],
+  "additionalProperties": true,
+  "fhir:displays": {
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#standard-guideline": {
+      "en": "Standard guideline"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#consolidated-guideline": {
+      "en": "Consolidated guideline"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#interim-guideline": {
+      "en": "Interim guideline"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#rapid-advice-guideline": {
+      "en": "Rapid advice guideline"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#emergency-guideline": {
+      "en": "Emergency guideline"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#collaborative-guideline": {
+      "en": "Collaborative guideline"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#external-guideline": {
+      "en": "External guideline"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#adapted-guideline": {
+      "en": "Adapted guideline"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#position-paper": {
+      "en": "Position paper"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#summary-table": {
+      "en": "Summary table"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#classification": {
+      "en": "Classification"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#implementation-guidance": {
+      "en": "Implementation guidance"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#methodology": {
+      "en": "Methodology"
+    },
+    "http://smart.who.int/base/CodeSystem/KGPublicationType#supplement": {
+      "en": "Supplement"
+    }
+  },
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGPublicationTypeVS",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-11-19T20:28:14.073761"
+}

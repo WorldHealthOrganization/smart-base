@@ -1,0 +1,25 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGValueSet","KGValueSet","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L3: Value Set","A FHIR ValueSet. 192 in the immunizations IG -- the most numerous artefact of all. Indexed by canonical; its expansion, its compose rules and the codes it contains are terminology, which docs/SCOPE.md keeps at arm's length as firmly here as at L1. Class IRI: http://smart.who.int/kg/value-set.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGValueSet.canonical","KGValueSet.canonical","","","",0,1,"","","","uri {[]} {[]}
+","Canonical","The canonical URL. Only a resolved component carries one.","","","","","","","","","",,,,,"",,,,"KGValueSet.canonical",0,1,"",""
+"KGValueSet.resourceType","KGValueSet.resourceType","","","",0,1,"","","","string {[]} {[]}
+","Resource type","The FHIR resource type.","","","","","","","","","",,,,,"",,,,"KGValueSet.resourceType",0,1,"",""
+"KGValueSet.profile","KGValueSet.profile","","","",0,*,"","","","uri {[]} {[]}
+","Profile","A profile canonical the artefact declares (meta.profile or the requirement's profile).","","","","","","","","","",,,,,"",,,,"KGValueSet.profile",0,*,"",""
+"KGValueSet.status","KGValueSet.status","","","",0,1,"","","","code {[]} {[]}
+","Status","The resource's status (FHIR PublicationStatus).","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGPublicationStatusVS","",,,,"KGValueSet.status",0,1,"",""
+"KGValueSet.version","KGValueSet.version","","","",0,1,"","","","string {[]} {[]}
+","Version","The business version, as declared.","","","","","","","","","",,,,,"",,,,"KGValueSet.version",0,1,"",""
+"KGValueSet.title","KGValueSet.title","","","",0,1,"","","","string {[]} {[]}
+","Title","The human-readable title.","","","","","","","","","",,,,,"",,,,"KGValueSet.title",0,1,"",""
+"KGValueSet.name","KGValueSet.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The computable name: the CamelCase identifier a Canonical() reference matches on.","","","","","","","","","",,,,,"",,,,"KGValueSet.name",0,1,"",""
+"KGValueSet.publisher","KGValueSet.publisher","","","",0,1,"","","","string {[]} {[]}
+","Publisher","The publisher, as declared.","","","","","","","","","",,,,,"",,,,"KGValueSet.publisher",0,1,"",""
+"KGValueSet.experimental","KGValueSet.experimental","","","",0,1,"","","","boolean {[]} {[]}
+","Experimental","The resource's experimental flag.","","","","","","","","","",,,,,"",,,,"KGValueSet.experimental",0,1,"",""
+"KGValueSet.source","KGValueSet.source","","","",0,1,"","","","string {[]} {[]}
+","Source","Where the node was read from: a repository path or URL.","","","","","","","","","",,,,,"",,,,"KGValueSet.source",0,1,"",""
+"KGValueSet.sha256","KGValueSet.sha256","","","",0,1,"","","","string {[]} {[]}
+","SHA-256","Hash of the file the node was read from; pins the source.","","","","","","","","","",,,,,"",,,,"KGValueSet.sha256",0,1,"",""

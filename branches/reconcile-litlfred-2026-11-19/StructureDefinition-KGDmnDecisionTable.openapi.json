@@ -1,0 +1,80 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Knowledge graph L2-DMN: DMN Decision Table API",
+    "description": "The table realising a decision. Separate from dmn-decision because DMN permits other expression kinds -- a literal expression, an invocation -- and collapsing the two would make the graph unable to say which was used. hitPolicy is optional and recorded as null when absent, which it is in the BCG table. DMN's default is UNIQUE, but asserting it here would put words in the author's mouth. Class IRI: http://smart.who.int/kg/dmn-decision-table.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-KGDmnDecisionTable.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-KGDmnDecisionTable",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-KGDmnDecisionTable.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-KGDmnDecisionTable",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-KGDmnDecisionTable.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-KGDmnDecisionTable": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-KGDmnDecisionTable.schema.json",
+        "title": "Knowledge graph L2-DMN: DMN Decision Table",
+        "description": "The table realising a decision. Separate from dmn-decision because DMN permits other expression kinds -- a literal expression, an invocation -- and collapsing the two would make the graph unable to say which was used. hitPolicy is optional and recorded as null when absent, which it is in the BCG table. DMN's default is UNIQUE, but asserting it here would put words in the author's mouth. Class IRI: http://smart.who.int/kg/dmn-decision-table.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "KGDmnDecisionTable",
+            "description": "Resource type identifier for KGDmnDecisionTable logical model"
+          },
+          "id": {
+            "type": "string",
+            "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+          },
+          "hitPolicy": {
+            "type": "string",
+            "description": "The decision table's hitPolicy. Absent when the DMN gives none: DMN's default UNIQUE is not asserted."
+          },
+          "aggregation": {
+            "type": "string",
+            "description": "The decision table's aggregation, for a COLLECT hit policy."
+          }
+        },
+        "required": [
+          "resourceType"
+        ],
+        "allOf": [
+          {
+            "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "resourceDefinition": {
+                "type": "string",
+                "format": "uri",
+                "const": "http://smart.who.int/base/StructureDefinition/KGDmnDecisionTable"
+              },
+              "fhir:parent": {
+                "type": "string",
+                "const": "http://hl7.org/fhir/StructureDefinition/Base"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

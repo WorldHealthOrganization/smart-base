@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<StructureDefinition xmlns="http://hl7.org/fhir">
+  <id value="KGDmnRule"/>
+  <text>
+    <status value="extensions"/><div xmlns="http://www.w3.org/1999/xhtml"><div xml:lang="en" lang="en"><hr/><p><b>English</b></p><hr/><p class="res-header-id"><b>Generated Narrative: StructureDefinition KGDmnRule</b></p><table border="0" cellpadding="0" cellspacing="0" class="xhtTableBorder0"><tr class="xhtRowBorder1"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element">Description &amp; Constraints</a><span style="float: right"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC" alt="doco" style="background-color: inherit"/></a></span></th></tr><tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule" title="One row. Its input and output cells are carried as properties, not nodes: 250 of them in the BCG table alone, none the target of a cross-model edge. What the rule needs a node for is its citation edge into L1. conditions and outputs are arrays of {clause, description, text}. DMN puts the formal expression in description and the human-readable gloss in text, and both are worth keeping -- the gloss is what a reviewer reads and the expression is what an implementer builds. Class IRI: http://smart.who.int/kg/dmn-rule.">KGDmnRule</a><a name="KGDmnRule"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0"><span class="xhtPieceDeEmphasized">0</span><span class="xhtPieceDeEmphasized">..</span><span class="xhtPieceDeEmphasized">*</span></td><td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td><td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2-DMN: DMN Rule</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id).">id</a><a name="KGDmnRule.id"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.ordinal" title="Position, counted from 0, in the order the source lists it.">ordinal</a><a name="KGDmnRule.ordinal"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#unsignedInt">unsignedInt</a></td><td style="" class="hierarchy xhtCellBorder0">Ordinal</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck11.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions" title="The rule's input entries, by clause.">conditions</a><a name="KGDmnRule.conditions"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Conditions<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="KGDmnRule.conditions.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.description" title="The cell's formal expression.">description</a><a name="KGDmnRule.conditions.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck100.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.text" title="The cell's human-readable gloss.">text</a><a name="KGDmnRule.conditions.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck11.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs" title="The rule's output entries, by clause.">outputs</a><a name="KGDmnRule.outputs"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Outputs<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="KGDmnRule.outputs.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.description" title="The cell's formal expression.">description</a><a name="KGDmnRule.outputs.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck100.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.text" title="The cell's human-readable gloss.">text</a><a name="KGDmnRule.outputs.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck01.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations" title="The rule's annotation entries, by clause.">annotations</a><a name="KGDmnRule.annotations"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Annotations<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck010.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="KGDmnRule.annotations.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck010.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.description" title="The cell's formal expression.">description</a><a name="KGDmnRule.annotations.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck000.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.text" title="The cell's human-readable gloss.">text</a><a name="KGDmnRule.annotations.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr></table></div><div xml:lang="fr" lang="fr"><hr/><p><b>French</b></p><hr/><p class="res-header-id"><b>Narratif généré : DéfinitionStructure KGDmnRule</b></p><table border="0" cellpadding="0" cellspacing="0" class="xhtTableBorder0"><tr class="xhtRowBorder1"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Le nom logique de l'élément">Nom</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Informations sur l'utilisation de l'élément">Drapeaux</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Nombre minimum et maximum de fois que l'élément peut apparaître dans l'instance">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Référence au type de l'élément">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Informations supplémentaires sur l'élément">Description et contraintes</a><span style="float: right"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC" alt="doco" style="background-color: inherit"/></a></span></th></tr><tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule" title="One row. Its input and output cells are carried as properties, not nodes: 250 of them in the BCG table alone, none the target of a cross-model edge. What the rule needs a node for is its citation edge into L1. conditions and outputs are arrays of {clause, description, text}. DMN puts the formal expression in description and the human-readable gloss in text, and both are worth keeping -- the gloss is what a reviewer reads and the expression is what an implementer builds. Class IRI: http://smart.who.int/kg/dmn-rule.">KGDmnRule</a><a name="fr-KGDmnRule"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0"><span class="xhtPieceDeEmphasized">0</span><span class="xhtPieceDeEmphasized">..</span><span class="xhtPieceDeEmphasized">*</span></td><td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td><td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2-DMN: DMN Rule</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Type de donnée primitif" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id).">id</a><a name="fr-KGDmnRule.id"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Type de donnée primitif" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.ordinal" title="Position, counted from 0, in the order the source lists it.">ordinal</a><a name="fr-KGDmnRule.ordinal"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#unsignedInt">unsignedInt</a></td><td style="" class="hierarchy xhtCellBorder0">Ordinal</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck11.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Type de donnée" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions" title="The rule's input entries, by clause.">conditions</a><a name="fr-KGDmnRule.conditions"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Conditions<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Type de donnée primitif" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="fr-KGDmnRule.conditions.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Type de donnée primitif" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.description" title="The cell's formal expression.">description</a><a name="fr-KGDmnRule.conditions.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck100.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Type de donnée primitif" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.text" title="The cell's human-readable gloss.">text</a><a name="fr-KGDmnRule.conditions.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck11.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Type de donnée" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs" title="The rule's output entries, by clause.">outputs</a><a name="fr-KGDmnRule.outputs"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Outputs<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Type de donnée primitif" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="fr-KGDmnRule.outputs.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Type de donnée primitif" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.description" title="The cell's formal expression.">description</a><a name="fr-KGDmnRule.outputs.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck100.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Type de donnée primitif" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.text" title="The cell's human-readable gloss.">text</a><a name="fr-KGDmnRule.outputs.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck01.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Type de donnée" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations" title="The rule's annotation entries, by clause.">annotations</a><a name="fr-KGDmnRule.annotations"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Annotations<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck010.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Type de donnée primitif" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="fr-KGDmnRule.annotations.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck010.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Type de donnée primitif" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.description" title="The cell's formal expression.">description</a><a name="fr-KGDmnRule.annotations.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck000.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Type de donnée primitif" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.text" title="The cell's human-readable gloss.">text</a><a name="fr-KGDmnRule.annotations.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Légende pour ce format"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC" alt="doco" style="background-color: inherit"/> Documentation pour ce format</a></td></tr></table></div><div xml:lang="ar" lang="ar"><hr/><p><b>Arabic</b></p><hr/><p class="res-header-id"><b>السرد المُنشأ: StructureDefinition KGDmnRule</b></p><table border="0" cellpadding="0" cellspacing="0" class="xhtTableBorder0"><tr class="xhtRowBorder1"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="الاسم المنطقي للعنصر">الاسم</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="معلومات حول استخدام العنصر">الأعلام</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="الحد الأدنى والحد الأقصى لعدد المرات التي يمكن أن يظهر فيها العنصر في المثيل">البطاقة.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="الإشارة إلى نوع العنصر">النوع</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="معلومات إضافية حول العنصر">الوصف والقيود</a><span style="float: right"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC" alt="doco" style="background-color: inherit"/></a></span></th></tr><tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="العنصر" class="hierarchy"/> <a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule" title="One row. Its input and output cells are carried as properties, not nodes: 250 of them in the BCG table alone, none the target of a cross-model edge. What the rule needs a node for is its citation edge into L1. conditions and outputs are arrays of {clause, description, text}. DMN puts the formal expression in description and the human-readable gloss in text, and both are worth keeping -- the gloss is what a reviewer reads and the expression is what an implementer builds. Class IRI: http://smart.who.int/kg/dmn-rule.">KGDmnRule</a><a name="ar-KGDmnRule"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0"><span class="xhtPieceDeEmphasized">0</span><span class="xhtPieceDeEmphasized">..</span><span class="xhtPieceDeEmphasized">*</span></td><td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td><td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2-DMN: DMN Rule</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="نوع البيانات البدائية" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id).">id</a><a name="ar-KGDmnRule.id"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="نوع البيانات البدائية" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.ordinal" title="Position, counted from 0, in the order the source lists it.">ordinal</a><a name="ar-KGDmnRule.ordinal"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#unsignedInt">unsignedInt</a></td><td style="" class="hierarchy xhtCellBorder0">Ordinal</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck11.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="نوع البيانات" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions" title="The rule's input entries, by clause.">conditions</a><a name="ar-KGDmnRule.conditions"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Conditions<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="نوع البيانات البدائية" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="ar-KGDmnRule.conditions.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="نوع البيانات البدائية" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.description" title="The cell's formal expression.">description</a><a name="ar-KGDmnRule.conditions.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck100.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="نوع البيانات البدائية" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.text" title="The cell's human-readable gloss.">text</a><a name="ar-KGDmnRule.conditions.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck11.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="نوع البيانات" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs" title="The rule's output entries, by clause.">outputs</a><a name="ar-KGDmnRule.outputs"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Outputs<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="نوع البيانات البدائية" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="ar-KGDmnRule.outputs.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="نوع البيانات البدائية" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.description" title="The cell's formal expression.">description</a><a name="ar-KGDmnRule.outputs.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck100.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="نوع البيانات البدائية" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.text" title="The cell's human-readable gloss.">text</a><a name="ar-KGDmnRule.outputs.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck01.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="نوع البيانات" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations" title="The rule's annotation entries, by clause.">annotations</a><a name="ar-KGDmnRule.annotations"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Annotations<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck010.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="نوع البيانات البدائية" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="ar-KGDmnRule.annotations.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck010.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="نوع البيانات البدائية" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.description" title="The cell's formal expression.">description</a><a name="ar-KGDmnRule.annotations.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck000.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="نوع البيانات البدائية" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.text" title="The cell's human-readable gloss.">text</a><a name="ar-KGDmnRule.annotations.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="أسطورة لهذا التنسيق"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC" alt="doco" style="background-color: inherit"/> الوثائق الخاصة بهذا التنسيق</a></td></tr></table></div><div xml:lang="zh" lang="zh"><hr/><p><b>Chinese</b></p><hr/><p class="res-header-id"><b>Generated Narrative: 结构定义 KGDmnRule</b></p><table border="0" cellpadding="0" cellspacing="0" class="xhtTableBorder0"><tr class="xhtRowBorder1"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element">Name</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element">Description &amp; Constraints</a><span style="float: right"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC" alt="doco" style="background-color: inherit"/></a></span></th></tr><tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule" title="One row. Its input and output cells are carried as properties, not nodes: 250 of them in the BCG table alone, none the target of a cross-model edge. What the rule needs a node for is its citation edge into L1. conditions and outputs are arrays of {clause, description, text}. DMN puts the formal expression in description and the human-readable gloss in text, and both are worth keeping -- the gloss is what a reviewer reads and the expression is what an implementer builds. Class IRI: http://smart.who.int/kg/dmn-rule.">KGDmnRule</a><a name="zh-KGDmnRule"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0"><span class="xhtPieceDeEmphasized">0</span><span class="xhtPieceDeEmphasized">..</span><span class="xhtPieceDeEmphasized">*</span></td><td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td><td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2-DMN: DMN Rule</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id).">id</a><a name="zh-KGDmnRule.id"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.ordinal" title="Position, counted from 0, in the order the source lists it.">ordinal</a><a name="zh-KGDmnRule.ordinal"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#unsignedInt">unsignedInt</a></td><td style="" class="hierarchy xhtCellBorder0">Ordinal</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck11.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions" title="The rule's input entries, by clause.">conditions</a><a name="zh-KGDmnRule.conditions"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Conditions<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="zh-KGDmnRule.conditions.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.description" title="The cell's formal expression.">description</a><a name="zh-KGDmnRule.conditions.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck100.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.text" title="The cell's human-readable gloss.">text</a><a name="zh-KGDmnRule.conditions.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck11.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs" title="The rule's output entries, by clause.">outputs</a><a name="zh-KGDmnRule.outputs"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Outputs<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="zh-KGDmnRule.outputs.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.description" title="The cell's formal expression.">description</a><a name="zh-KGDmnRule.outputs.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck100.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.text" title="The cell's human-readable gloss.">text</a><a name="zh-KGDmnRule.outputs.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck01.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations" title="The rule's annotation entries, by clause.">annotations</a><a name="zh-KGDmnRule.annotations"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Annotations<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck010.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="zh-KGDmnRule.annotations.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck010.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.description" title="The cell's formal expression.">description</a><a name="zh-KGDmnRule.annotations.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck000.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.text" title="The cell's human-readable gloss.">text</a><a name="zh-KGDmnRule.annotations.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr></table></div><div xml:lang="ru" lang="ru"><hr/><p><b>Russian</b></p><hr/><p class="res-header-id"><b>Сгенерированный нарратив: StructureDefinition KGDmnRule</b></p><table border="0" cellpadding="0" cellspacing="0" class="xhtTableBorder0"><tr class="xhtRowBorder1"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Логическое имя элемента">Наименование</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Информация об использовании элемента">Флаги</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Минимальное и максимальное кол-во раз, которое может отображаться элемент в экземпляре">Карта.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Ссылка на тип элемента">Тип</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Дополнительная информация о элементе">Описание и ограничения</a><span style="float: right"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC" alt="doco" style="background-color: inherit"/></a></span></th></tr><tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Элемент" class="hierarchy"/> <a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule" title="One row. Its input and output cells are carried as properties, not nodes: 250 of them in the BCG table alone, none the target of a cross-model edge. What the rule needs a node for is its citation edge into L1. conditions and outputs are arrays of {clause, description, text}. DMN puts the formal expression in description and the human-readable gloss in text, and both are worth keeping -- the gloss is what a reviewer reads and the expression is what an implementer builds. Class IRI: http://smart.who.int/kg/dmn-rule.">KGDmnRule</a><a name="ru-KGDmnRule"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0"><span class="xhtPieceDeEmphasized">0</span><span class="xhtPieceDeEmphasized">..</span><span class="xhtPieceDeEmphasized">*</span></td><td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td><td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2-DMN: DMN Rule</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Примитивный тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id).">id</a><a name="ru-KGDmnRule.id"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Примитивный тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.ordinal" title="Position, counted from 0, in the order the source lists it.">ordinal</a><a name="ru-KGDmnRule.ordinal"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#unsignedInt">unsignedInt</a></td><td style="" class="hierarchy xhtCellBorder0">Ordinal</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck11.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions" title="The rule's input entries, by clause.">conditions</a><a name="ru-KGDmnRule.conditions"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Conditions<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Примитивный тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="ru-KGDmnRule.conditions.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Примитивный тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.description" title="The cell's formal expression.">description</a><a name="ru-KGDmnRule.conditions.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck100.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Примитивный тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.text" title="The cell's human-readable gloss.">text</a><a name="ru-KGDmnRule.conditions.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck11.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs" title="The rule's output entries, by clause.">outputs</a><a name="ru-KGDmnRule.outputs"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Outputs<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Примитивный тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="ru-KGDmnRule.outputs.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Примитивный тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.description" title="The cell's formal expression.">description</a><a name="ru-KGDmnRule.outputs.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck100.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Примитивный тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.text" title="The cell's human-readable gloss.">text</a><a name="ru-KGDmnRule.outputs.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck01.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations" title="The rule's annotation entries, by clause.">annotations</a><a name="ru-KGDmnRule.annotations"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Annotations<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck010.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Примитивный тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="ru-KGDmnRule.annotations.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck010.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Примитивный тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.description" title="The cell's formal expression.">description</a><a name="ru-KGDmnRule.annotations.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck000.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Примитивный тип данных" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.text" title="The cell's human-readable gloss.">text</a><a name="ru-KGDmnRule.annotations.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Легенда для этого формата"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC" alt="doco" style="background-color: inherit"/> Документация для этого формата</a></td></tr></table></div><div xml:lang="es" lang="es"><hr/><p><b>Spanish</b></p><hr/><p class="res-header-id"><b>Generated Narrative: DefinicionDeEstructura KGDmnRule</b></p><table border="0" cellpadding="0" cellspacing="0" class="xhtTableBorder0"><tr class="xhtRowBorder1"><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="The logical name of the element">Nombre</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Information about the use of the element">Flags</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Minimum and Maximum # of times the element can appear in the instance">Card.</a></th><th scope="col" style="; width: 100px" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Reference to the type of the element">Type</a></th><th scope="col" style="" class="hierarchy xhtCellBorder0"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Additional information about the element">Description &amp; Constraints</a><span style="float: right"><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC" alt="doco" style="background-color: inherit"/></a></span></th></tr><tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck1.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_element.gif" alt="" style="background-color: white; background-color: inherit" title="Element" class="hierarchy"/> <a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule" title="One row. Its input and output cells are carried as properties, not nodes: 250 of them in the BCG table alone, none the target of a cross-model edge. What the rule needs a node for is its citation edge into L1. conditions and outputs are arrays of {clause, description, text}. DMN puts the formal expression in description and the human-readable gloss in text, and both are worth keeping -- the gloss is what a reviewer reads and the expression is what an implementer builds. Class IRI: http://smart.who.int/kg/dmn-rule.">KGDmnRule</a><a name="es-KGDmnRule"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0"><span class="xhtPieceDeEmphasized">0</span><span class="xhtPieceDeEmphasized">..</span><span class="xhtPieceDeEmphasized">*</span></td><td style="" class="hierarchy xhtCellBorder0"><a href="http://build.fhir.org/types.html#Base">Base</a></td><td style="" class="hierarchy xhtCellBorder0">Knowledge graph L2-DMN: DMN Rule</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.id" title="The identifier the source declares (an FSH instance id, a BPMN or DMN element id).">id</a><a name="es-KGDmnRule.id"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Id</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck10.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.ordinal" title="Position, counted from 0, in the order the source lists it.">ordinal</a><a name="es-KGDmnRule.ordinal"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#unsignedInt">unsignedInt</a></td><td style="" class="hierarchy xhtCellBorder0">Ordinal</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck11.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions" title="The rule's input entries, by clause.">conditions</a><a name="es-KGDmnRule.conditions"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Conditions<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="es-KGDmnRule.conditions.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.description" title="The cell's formal expression.">description</a><a name="es-KGDmnRule.conditions.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck100.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.conditions.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.conditions.text" title="The cell's human-readable gloss.">text</a><a name="es-KGDmnRule.conditions.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck11.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs" title="The rule's output entries, by clause.">outputs</a><a name="es-KGDmnRule.outputs"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Outputs<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="es-KGDmnRule.outputs.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck110.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.description" title="The cell's formal expression.">description</a><a name="es-KGDmnRule.outputs.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck100.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vline.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.outputs.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.outputs.text" title="The cell's human-readable gloss.">text</a><a name="es-KGDmnRule.outputs.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck01.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_datatype.gif" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations" title="The rule's annotation entries, by clause.">annotations</a><a name="es-KGDmnRule.annotations"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..*</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#BackboneElement">BackboneElement</a></td><td style="" class="hierarchy xhtCellBorder0">Annotations<br/></td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck010.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.clause" title="The id of the clause (column) the cell belongs to.">clause</a><a name="es-KGDmnRule.annotations.clause"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Clause</td></tr>
+<tr class="xhtRowBorder0 xhtRowOdd"><td style="background-image: url(tbl_bck010.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: #F7F7F7; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.description" title="The cell's formal expression.">description</a><a name="es-KGDmnRule.annotations.description"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Description</td></tr>
+<tr class="xhtRowBorder0 xhtRowEven"><td style="background-image: url(tbl_bck000.png)" class="hierarchy xhtCellBorder0 xhtCellNoWrap"><img src="tbl_spacer.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_blank.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="tbl_vjoin_end.png" alt="" style="background-color: inherit" class="hierarchy"/><img src="icon_primitive.png" alt="" style="background-color: white; background-color: inherit" title="Primitive Data Type" class="hierarchy"/> <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0" class="sr-only">KGDmnRule.annotations.</span><a href="StructureDefinition-KGDmnRule-definitions.html#KGDmnRule.annotations.text" title="The cell's human-readable gloss.">text</a><a name="es-KGDmnRule.annotations.text"> </a></td><td style="" class="hierarchy xhtCellBorder0"/><td style="" class="hierarchy xhtCellBorder0">0..1</td><td style="" class="hierarchy xhtCellBorder0"><a href="http://hl7.org/fhir/R4/datatypes.html#string">string</a></td><td style="" class="hierarchy xhtCellBorder0">Text</td></tr>
+<tr><td colspan="5" class="hierarchy"><br/><a href="https://build.fhir.org/ig/FHIR/ig-guidance/readingIgs.html#table-views" title="Legend for this format"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goXBCwdPqAP0wAAAldJREFUOMuNk0tIlFEYhp9z/vE2jHkhxXA0zJCMitrUQlq4lnSltEqCFhFG2MJFhIvIFpkEWaTQqjaWZRkp0g26URZkTpbaaOJkDqk10szoODP//7XIMUe0elcfnPd9zsfLOYplGrpRwZaqTtw3K7PtGem7Q6FoidbGgqHVy/HRb669R+56zx7eRV1L31JGxYbBtjKK93cxeqfyQHbehkZbUkK20goELEuIzEd+dHS+qz/Y8PTSif0FnGkbiwcAjHaU1+QWOptFiyCLp/LnKptpqIuXHx6rbR26kJcBX3yLgBfnd7CxwJmflpP2wUg0HIAoUUpZBmKzELGWcN8nAr6Gpu7tLU/CkwAaoKTWRSQyt89Q8w6J+oVQkKnBoblH7V0PPvUOvDYXfopE/SJmALsxnVm6LbkotrUtNowMeIrVrBcBpaMmdS0j9df7abpSuy7HWehwJdt1lhVwi/J58U5beXGAF6c3UXLycw1wdFklArBn87xdh0ZsZtArghBdAA3+OEDVubG4UEzP6x1FOWneHh2VDAHBAt80IbdXDcesNoCvs3E5AFyNSU5nbrDPZpcUEQQTFZiEVx+51fxMhhyJEAgvlriadIJZZksRuwBYMOPBbO3hePVVqgEJhFeUuFLhIPkRP6BQLIBrmMenujm/3g4zc398awIe90Zb5A1vREALqneMcYgP/xVQWlG+Ncu5vgwwlaUNx+3799rfe96u9K0JSDXcOzOTJg4B6IgmXfsygc7/Bvg9g9E58/cDVmGIBOP/zT8Bz1zqWqpbXIsd0O9hajXfL6u4BaOS6SeWAAAAAElFTkSuQmCC" alt="doco" style="background-color: inherit"/> Documentation for this format</a></td></tr></table></div></div>
+  </text>
+  <url value="http://smart.who.int/base/StructureDefinition/KGDmnRule"/>
+  <version value="0.3.0"/>
+  <name value="KGDmnRule"/>
+  <title value="Knowledge graph L2-DMN: DMN Rule"/>
+  <status value="active"/>
+  <date value="2026-11-19T20:24:57+00:00"/>
+  <publisher value="WHO"/>
+  <contact>
+    <name value="WHO"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://who.int"/>
+    </telecom>
+  </contact>
+  <description value="One row. Its input and output cells are carried as properties, not nodes: 250 of them in the BCG table alone, none the target of a cross-model edge. What the rule needs a node for is its citation edge into L1. conditions and outputs are arrays of {clause, description, text}. DMN puts the formal expression in description and the human-readable gloss in text, and both are worth keeping -- the gloss is what a reviewer reads and the expression is what an implementer builds. Class IRI: http://smart.who.int/kg/dmn-rule."/>
+  <fhirVersion value="4.0.1"/>
+  <kind value="logical"/>
+  <abstract value="false"/>
+  <type value="http://smart.who.int/base/StructureDefinition/KGDmnRule"/>
+  <baseDefinition value="http://hl7.org/fhir/StructureDefinition/Base"/>
+  <derivation value="specialization"/>
+  <snapshot>
+    <extension url="http://hl7.org/fhir/tools/StructureDefinition/snapshot-base-version">
+      <valueString value="4.0.1"/>
+    </extension>
+    <element id="KGDmnRule">
+      <path value="KGDmnRule"/>
+      <short value="Knowledge graph L2-DMN: DMN Rule"/>
+      <definition value="One row. Its input and output cells are carried as properties, not nodes: 250 of them in the BCG table alone, none the target of a cross-model edge. What the rule needs a node for is its citation edge into L1. conditions and outputs are arrays of {clause, description, text}. DMN puts the formal expression in description and the human-readable gloss in text, and both are worth keeping -- the gloss is what a reviewer reads and the expression is what an implementer builds. Class IRI: http://smart.who.int/kg/dmn-rule."/>
+      <min value="0"/>
+      <max value="*"/>
+      <base>
+        <path value="Base"/>
+        <min value="0"/>
+        <max value="*"/>
+      </base>
+      <isModifier value="false"/>
+    </element>
+    <element id="KGDmnRule.id">
+      <path value="KGDmnRule.id"/>
+      <short value="Id"/>
+      <definition value="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="KGDmnRule.id"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.ordinal">
+      <path value="KGDmnRule.ordinal"/>
+      <short value="Ordinal"/>
+      <definition value="Position, counted from 0, in the order the source lists it."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="KGDmnRule.ordinal"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <code value="unsignedInt"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.conditions">
+      <path value="KGDmnRule.conditions"/>
+      <short value="Conditions"/>
+      <definition value="The rule's input entries, by clause."/>
+      <min value="0"/>
+      <max value="*"/>
+      <base>
+        <path value="KGDmnRule.conditions"/>
+        <min value="0"/>
+        <max value="*"/>
+      </base>
+      <type>
+        <code value="BackboneElement"/>
+      </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+    </element>
+    <element id="KGDmnRule.conditions.id">
+      <path value="KGDmnRule.conditions.id"/>
+      <representation value="xmlAttr"/>
+      <short value="Unique id for inter-element referencing"/>
+      <definition value="Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="Element.id"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
+          <valueUrl value="string"/>
+        </extension>
+        <code value="http://hl7.org/fhirpath/System.String"/>
+      </type>
+      <isModifier value="false"/>
+      <isSummary value="false"/>
+      <mapping>
+        <identity value="rim"/>
+        <map value="n/a"/>
+      </mapping>
+    </element>
+    <element id="KGDmnRule.conditions.extension">
+      <path value="KGDmnRule.conditions.extension"/>
+      <slicing>
+        <discriminator>
+          <type value="value"/>
+          <path value="url"/>
+        </discriminator>
+        <description value="Extensions are always sliced by (at least) url"/>
+        <rules value="open"/>
+      </slicing>
+      <short value="Additional content defined by implementations"/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension."/>
+      <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
+      <alias value="extensions"/>
+      <alias value="user content"/>
+      <min value="0"/>
+      <max value="*"/>
+      <base>
+        <path value="Element.extension"/>
+        <min value="0"/>
+        <max value="*"/>
+      </base>
+      <type>
+        <code value="Extension"/>
+      </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+      <constraint>
+        <key value="ext-1"/>
+        <severity value="error"/>
+        <human value="Must have either extensions or value[x], not both"/>
+        <expression value="extension.exists() != value.exists()"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
+      </constraint>
+      <isModifier value="false"/>
+      <isSummary value="false"/>
+      <mapping>
+        <identity value="rim"/>
+        <map value="n/a"/>
+      </mapping>
+    </element>
+    <element id="KGDmnRule.conditions.modifierExtension">
+      <path value="KGDmnRule.conditions.modifierExtension"/>
+      <short value="Extensions that cannot be ignored even if unrecognized"/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
+      <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/R4/extensibility.html#modifierExtension)."/>
+      <alias value="extensions"/>
+      <alias value="user content"/>
+      <alias value="modifiers"/>
+      <min value="0"/>
+      <max value="*"/>
+      <base>
+        <path value="BackboneElement.modifierExtension"/>
+        <min value="0"/>
+        <max value="*"/>
+      </base>
+      <type>
+        <code value="Extension"/>
+      </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+      <constraint>
+        <key value="ext-1"/>
+        <severity value="error"/>
+        <human value="Must have either extensions or value[x], not both"/>
+        <expression value="extension.exists() != value.exists()"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
+      </constraint>
+      <isModifier value="true"/>
+      <isModifierReason value="Modifier extensions are expected to modify the meaning or interpretation of the element that contains them"/>
+      <isSummary value="true"/>
+      <mapping>
+        <identity value="rim"/>
+        <map value="N/A"/>
+      </mapping>
+    </element>
+    <element id="KGDmnRule.conditions.clause">
+      <path value="KGDmnRule.conditions.clause"/>
+      <short value="Clause"/>
+      <definition value="The id of the clause (column) the cell belongs to."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="KGDmnRule.conditions.clause"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.conditions.description">
+      <path value="KGDmnRule.conditions.description"/>
+      <short value="Description"/>
+      <definition value="The cell's formal expression."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="KGDmnRule.conditions.description"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.conditions.text">
+      <path value="KGDmnRule.conditions.text"/>
+      <short value="Text"/>
+      <definition value="The cell's human-readable gloss."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="KGDmnRule.conditions.text"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.outputs">
+      <path value="KGDmnRule.outputs"/>
+      <short value="Outputs"/>
+      <definition value="The rule's output entries, by clause."/>
+      <min value="0"/>
+      <max value="*"/>
+      <base>
+        <path value="KGDmnRule.outputs"/>
+        <min value="0"/>
+        <max value="*"/>
+      </base>
+      <type>
+        <code value="BackboneElement"/>
+      </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+    </element>
+    <element id="KGDmnRule.outputs.id">
+      <path value="KGDmnRule.outputs.id"/>
+      <representation value="xmlAttr"/>
+      <short value="Unique id for inter-element referencing"/>
+      <definition value="Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="Element.id"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
+          <valueUrl value="string"/>
+        </extension>
+        <code value="http://hl7.org/fhirpath/System.String"/>
+      </type>
+      <isModifier value="false"/>
+      <isSummary value="false"/>
+      <mapping>
+        <identity value="rim"/>
+        <map value="n/a"/>
+      </mapping>
+    </element>
+    <element id="KGDmnRule.outputs.extension">
+      <path value="KGDmnRule.outputs.extension"/>
+      <slicing>
+        <discriminator>
+          <type value="value"/>
+          <path value="url"/>
+        </discriminator>
+        <description value="Extensions are always sliced by (at least) url"/>
+        <rules value="open"/>
+      </slicing>
+      <short value="Additional content defined by implementations"/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension."/>
+      <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
+      <alias value="extensions"/>
+      <alias value="user content"/>
+      <min value="0"/>
+      <max value="*"/>
+      <base>
+        <path value="Element.extension"/>
+        <min value="0"/>
+        <max value="*"/>
+      </base>
+      <type>
+        <code value="Extension"/>
+      </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+      <constraint>
+        <key value="ext-1"/>
+        <severity value="error"/>
+        <human value="Must have either extensions or value[x], not both"/>
+        <expression value="extension.exists() != value.exists()"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
+      </constraint>
+      <isModifier value="false"/>
+      <isSummary value="false"/>
+      <mapping>
+        <identity value="rim"/>
+        <map value="n/a"/>
+      </mapping>
+    </element>
+    <element id="KGDmnRule.outputs.modifierExtension">
+      <path value="KGDmnRule.outputs.modifierExtension"/>
+      <short value="Extensions that cannot be ignored even if unrecognized"/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
+      <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/R4/extensibility.html#modifierExtension)."/>
+      <alias value="extensions"/>
+      <alias value="user content"/>
+      <alias value="modifiers"/>
+      <min value="0"/>
+      <max value="*"/>
+      <base>
+        <path value="BackboneElement.modifierExtension"/>
+        <min value="0"/>
+        <max value="*"/>
+      </base>
+      <type>
+        <code value="Extension"/>
+      </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+      <constraint>
+        <key value="ext-1"/>
+        <severity value="error"/>
+        <human value="Must have either extensions or value[x], not both"/>
+        <expression value="extension.exists() != value.exists()"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
+      </constraint>
+      <isModifier value="true"/>
+      <isModifierReason value="Modifier extensions are expected to modify the meaning or interpretation of the element that contains them"/>
+      <isSummary value="true"/>
+      <mapping>
+        <identity value="rim"/>
+        <map value="N/A"/>
+      </mapping>
+    </element>
+    <element id="KGDmnRule.outputs.clause">
+      <path value="KGDmnRule.outputs.clause"/>
+      <short value="Clause"/>
+      <definition value="The id of the clause (column) the cell belongs to."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="KGDmnRule.outputs.clause"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.outputs.description">
+      <path value="KGDmnRule.outputs.description"/>
+      <short value="Description"/>
+      <definition value="The cell's formal expression."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="KGDmnRule.outputs.description"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.outputs.text">
+      <path value="KGDmnRule.outputs.text"/>
+      <short value="Text"/>
+      <definition value="The cell's human-readable gloss."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="KGDmnRule.outputs.text"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.annotations">
+      <path value="KGDmnRule.annotations"/>
+      <short value="Annotations"/>
+      <definition value="The rule's annotation entries, by clause."/>
+      <min value="0"/>
+      <max value="*"/>
+      <base>
+        <path value="KGDmnRule.annotations"/>
+        <min value="0"/>
+        <max value="*"/>
+      </base>
+      <type>
+        <code value="BackboneElement"/>
+      </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+    </element>
+    <element id="KGDmnRule.annotations.id">
+      <path value="KGDmnRule.annotations.id"/>
+      <representation value="xmlAttr"/>
+      <short value="Unique id for inter-element referencing"/>
+      <definition value="Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="Element.id"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
+          <valueUrl value="string"/>
+        </extension>
+        <code value="http://hl7.org/fhirpath/System.String"/>
+      </type>
+      <isModifier value="false"/>
+      <isSummary value="false"/>
+      <mapping>
+        <identity value="rim"/>
+        <map value="n/a"/>
+      </mapping>
+    </element>
+    <element id="KGDmnRule.annotations.extension">
+      <path value="KGDmnRule.annotations.extension"/>
+      <slicing>
+        <discriminator>
+          <type value="value"/>
+          <path value="url"/>
+        </discriminator>
+        <description value="Extensions are always sliced by (at least) url"/>
+        <rules value="open"/>
+      </slicing>
+      <short value="Additional content defined by implementations"/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension."/>
+      <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
+      <alias value="extensions"/>
+      <alias value="user content"/>
+      <min value="0"/>
+      <max value="*"/>
+      <base>
+        <path value="Element.extension"/>
+        <min value="0"/>
+        <max value="*"/>
+      </base>
+      <type>
+        <code value="Extension"/>
+      </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+      <constraint>
+        <key value="ext-1"/>
+        <severity value="error"/>
+        <human value="Must have either extensions or value[x], not both"/>
+        <expression value="extension.exists() != value.exists()"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
+      </constraint>
+      <isModifier value="false"/>
+      <isSummary value="false"/>
+      <mapping>
+        <identity value="rim"/>
+        <map value="n/a"/>
+      </mapping>
+    </element>
+    <element id="KGDmnRule.annotations.modifierExtension">
+      <path value="KGDmnRule.annotations.modifierExtension"/>
+      <short value="Extensions that cannot be ignored even if unrecognized"/>
+      <definition value="May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.&#xA;&#xA;Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."/>
+      <comment value="There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone."/>
+      <requirements value="Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/R4/extensibility.html#modifierExtension)."/>
+      <alias value="extensions"/>
+      <alias value="user content"/>
+      <alias value="modifiers"/>
+      <min value="0"/>
+      <max value="*"/>
+      <base>
+        <path value="BackboneElement.modifierExtension"/>
+        <min value="0"/>
+        <max value="*"/>
+      </base>
+      <type>
+        <code value="Extension"/>
+      </type>
+      <constraint>
+        <key value="ele-1"/>
+        <severity value="error"/>
+        <human value="All FHIR elements must have a @value or children"/>
+        <expression value="hasValue() or (children().count() &gt; id.count())"/>
+        <xpath value="@value|f:*|h:div"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
+      </constraint>
+      <constraint>
+        <key value="ext-1"/>
+        <severity value="error"/>
+        <human value="Must have either extensions or value[x], not both"/>
+        <expression value="extension.exists() != value.exists()"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &quot;value&quot;)])"/>
+        <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
+      </constraint>
+      <isModifier value="true"/>
+      <isModifierReason value="Modifier extensions are expected to modify the meaning or interpretation of the element that contains them"/>
+      <isSummary value="true"/>
+      <mapping>
+        <identity value="rim"/>
+        <map value="N/A"/>
+      </mapping>
+    </element>
+    <element id="KGDmnRule.annotations.clause">
+      <path value="KGDmnRule.annotations.clause"/>
+      <short value="Clause"/>
+      <definition value="The id of the clause (column) the cell belongs to."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="KGDmnRule.annotations.clause"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.annotations.description">
+      <path value="KGDmnRule.annotations.description"/>
+      <short value="Description"/>
+      <definition value="The cell's formal expression."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="KGDmnRule.annotations.description"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.annotations.text">
+      <path value="KGDmnRule.annotations.text"/>
+      <short value="Text"/>
+      <definition value="The cell's human-readable gloss."/>
+      <min value="0"/>
+      <max value="1"/>
+      <base>
+        <path value="KGDmnRule.annotations.text"/>
+        <min value="0"/>
+        <max value="1"/>
+      </base>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+  </snapshot>
+  <differential>
+    <element id="KGDmnRule">
+      <path value="KGDmnRule"/>
+      <short value="Knowledge graph L2-DMN: DMN Rule"/>
+      <definition value="One row. Its input and output cells are carried as properties, not nodes: 250 of them in the BCG table alone, none the target of a cross-model edge. What the rule needs a node for is its citation edge into L1. conditions and outputs are arrays of {clause, description, text}. DMN puts the formal expression in description and the human-readable gloss in text, and both are worth keeping -- the gloss is what a reviewer reads and the expression is what an implementer builds. Class IRI: http://smart.who.int/kg/dmn-rule."/>
+    </element>
+    <element id="KGDmnRule.id">
+      <path value="KGDmnRule.id"/>
+      <short value="Id"/>
+      <definition value="The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."/>
+      <min value="0"/>
+      <max value="1"/>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.ordinal">
+      <path value="KGDmnRule.ordinal"/>
+      <short value="Ordinal"/>
+      <definition value="Position, counted from 0, in the order the source lists it."/>
+      <min value="0"/>
+      <max value="1"/>
+      <type>
+        <code value="unsignedInt"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.conditions">
+      <path value="KGDmnRule.conditions"/>
+      <short value="Conditions"/>
+      <definition value="The rule's input entries, by clause."/>
+      <min value="0"/>
+      <max value="*"/>
+      <type>
+        <code value="BackboneElement"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.conditions.clause">
+      <path value="KGDmnRule.conditions.clause"/>
+      <short value="Clause"/>
+      <definition value="The id of the clause (column) the cell belongs to."/>
+      <min value="0"/>
+      <max value="1"/>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.conditions.description">
+      <path value="KGDmnRule.conditions.description"/>
+      <short value="Description"/>
+      <definition value="The cell's formal expression."/>
+      <min value="0"/>
+      <max value="1"/>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.conditions.text">
+      <path value="KGDmnRule.conditions.text"/>
+      <short value="Text"/>
+      <definition value="The cell's human-readable gloss."/>
+      <min value="0"/>
+      <max value="1"/>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.outputs">
+      <path value="KGDmnRule.outputs"/>
+      <short value="Outputs"/>
+      <definition value="The rule's output entries, by clause."/>
+      <min value="0"/>
+      <max value="*"/>
+      <type>
+        <code value="BackboneElement"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.outputs.clause">
+      <path value="KGDmnRule.outputs.clause"/>
+      <short value="Clause"/>
+      <definition value="The id of the clause (column) the cell belongs to."/>
+      <min value="0"/>
+      <max value="1"/>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.outputs.description">
+      <path value="KGDmnRule.outputs.description"/>
+      <short value="Description"/>
+      <definition value="The cell's formal expression."/>
+      <min value="0"/>
+      <max value="1"/>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.outputs.text">
+      <path value="KGDmnRule.outputs.text"/>
+      <short value="Text"/>
+      <definition value="The cell's human-readable gloss."/>
+      <min value="0"/>
+      <max value="1"/>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.annotations">
+      <path value="KGDmnRule.annotations"/>
+      <short value="Annotations"/>
+      <definition value="The rule's annotation entries, by clause."/>
+      <min value="0"/>
+      <max value="*"/>
+      <type>
+        <code value="BackboneElement"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.annotations.clause">
+      <path value="KGDmnRule.annotations.clause"/>
+      <short value="Clause"/>
+      <definition value="The id of the clause (column) the cell belongs to."/>
+      <min value="0"/>
+      <max value="1"/>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.annotations.description">
+      <path value="KGDmnRule.annotations.description"/>
+      <short value="Description"/>
+      <definition value="The cell's formal expression."/>
+      <min value="0"/>
+      <max value="1"/>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+    <element id="KGDmnRule.annotations.text">
+      <path value="KGDmnRule.annotations.text"/>
+      <short value="Text"/>
+      <definition value="The cell's human-readable gloss."/>
+      <min value="0"/>
+      <max value="1"/>
+      <type>
+        <code value="string"/>
+      </type>
+    </element>
+  </differential>
+</StructureDefinition>

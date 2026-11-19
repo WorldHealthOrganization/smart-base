@@ -1,0 +1,25 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGActivityDefinition","KGActivityDefinition","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L3: Activity Definition","A FHIR ActivityDefinition -- the concrete act a plan's action invokes. Reached from a PlanDefinition action's `definitionCanonical`, which is a real reference rather than a convention. 3 in the immunizations IG: two cpg-immunizationactivity, one cpg-communicationactivity. Class IRI: http://smart.who.int/kg/activity-definition.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGActivityDefinition.canonical","KGActivityDefinition.canonical","","","",0,1,"","","","uri {[]} {[]}
+","Canonical","The canonical URL. Only a resolved component carries one.","","","","","","","","","",,,,,"",,,,"KGActivityDefinition.canonical",0,1,"",""
+"KGActivityDefinition.resourceType","KGActivityDefinition.resourceType","","","",0,1,"","","","string {[]} {[]}
+","Resource type","The FHIR resource type.","","","","","","","","","",,,,,"",,,,"KGActivityDefinition.resourceType",0,1,"",""
+"KGActivityDefinition.profile","KGActivityDefinition.profile","","","",0,*,"","","","uri {[]} {[]}
+","Profile","A profile canonical the artefact declares (meta.profile or the requirement's profile).","","","","","","","","","",,,,,"",,,,"KGActivityDefinition.profile",0,*,"",""
+"KGActivityDefinition.status","KGActivityDefinition.status","","","",0,1,"","","","code {[]} {[]}
+","Status","The resource's status (FHIR PublicationStatus).","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGPublicationStatusVS","",,,,"KGActivityDefinition.status",0,1,"",""
+"KGActivityDefinition.version","KGActivityDefinition.version","","","",0,1,"","","","string {[]} {[]}
+","Version","The business version, as declared.","","","","","","","","","",,,,,"",,,,"KGActivityDefinition.version",0,1,"",""
+"KGActivityDefinition.title","KGActivityDefinition.title","","","",0,1,"","","","string {[]} {[]}
+","Title","The human-readable title.","","","","","","","","","",,,,,"",,,,"KGActivityDefinition.title",0,1,"",""
+"KGActivityDefinition.name","KGActivityDefinition.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The computable name: the CamelCase identifier a Canonical() reference matches on.","","","","","","","","","",,,,,"",,,,"KGActivityDefinition.name",0,1,"",""
+"KGActivityDefinition.publisher","KGActivityDefinition.publisher","","","",0,1,"","","","string {[]} {[]}
+","Publisher","The publisher, as declared.","","","","","","","","","",,,,,"",,,,"KGActivityDefinition.publisher",0,1,"",""
+"KGActivityDefinition.experimental","KGActivityDefinition.experimental","","","",0,1,"","","","boolean {[]} {[]}
+","Experimental","The resource's experimental flag.","","","","","","","","","",,,,,"",,,,"KGActivityDefinition.experimental",0,1,"",""
+"KGActivityDefinition.source","KGActivityDefinition.source","","","",0,1,"","","","string {[]} {[]}
+","Source","Where the node was read from: a repository path or URL.","","","","","","","","","",,,,,"",,,,"KGActivityDefinition.source",0,1,"",""
+"KGActivityDefinition.sha256","KGActivityDefinition.sha256","","","",0,1,"","","","string {[]} {[]}
+","SHA-256","Hash of the file the node was read from; pins the source.","","","","","","","","","",,,,,"",,,,"KGActivityDefinition.sha256",0,1,"",""

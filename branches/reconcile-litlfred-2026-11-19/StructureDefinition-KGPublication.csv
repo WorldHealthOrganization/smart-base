@@ -1,0 +1,69 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGPublication","KGPublication","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L1: Publication","A WHO publication: a guideline of any of the handbook's types, a position paper, a summary table, a classification, implementation guidance, or a supplement. Metadata follows Dublin Core. identifiers is a list of {type, value}; type is from identifier-type, and the first of isbn, iris-handle, doi, issn, url builds the IRI, so an edition change is a new publication. issued and modified are Dublin Core. reviewBy is the handbook's review-by date (§12.5.1). sha256 pins the PDF. Derives from DublinCore (smart-base input/fsh/models/DublinCore.fsh); title, creator, publisher, language, rights are its elements. Class IRI: http://smart.who.int/kg/publication.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGPublication.title","KGPublication.title","","","",0,1,"","","","string {[]} {[]}
+","Title","A name given to the resource","","","","","","","","","",,,,,"",,,,"DublinCore.title",0,1,"",""
+"KGPublication.creator","KGPublication.creator","","","",0,*,"","","","string {[]} {[]}
+","Creator","An entity responsible for making the resource","","","","","","","","","",,,,,"",,,,"DublinCore.creator",0,*,"",""
+"KGPublication.subject","KGPublication.subject","","","",0,*,"","","","string {[]} {[]}
+","Subject","The topic of the resource","","","","","","","","","",,,,,"",,,,"DublinCore.subject",0,*,"",""
+"KGPublication.description","KGPublication.description","","","",0,1,"","","","markdown {[]} {[]}
+","Description","An account of the resource","","","","","","","","","",,,,,"",,,,"DublinCore.description",0,1,"",""
+"KGPublication.publisher","KGPublication.publisher","","","",0,1,"","","","string {[]} {[]}
+","Publisher","An entity responsible for making the resource available","","","","","","","","","",,,,,"",,,,"DublinCore.publisher",0,1,"",""
+"KGPublication.contributor","KGPublication.contributor","","","",0,*,"","","","string {[]} {[]}
+","Contributor","An entity responsible for making contributions to the resource","","","","","","","","","",,,,,"",,,,"DublinCore.contributor",0,*,"",""
+"KGPublication.date","KGPublication.date","","","",0,1,"","","","date {[]} {[]}
+","Date","A point or period of time associated with an event in the lifecycle of the resource","","","","","","","","","",,,,,"",,,,"DublinCore.date",0,1,"",""
+"KGPublication.type","KGPublication.type","","","",0,*,"","","","string {[]} {[]}
+","Type","The nature or genre of the resource","","","","","","","","","",,,,,"",,,,"DublinCore.type",0,*,"",""
+"KGPublication.format","KGPublication.format","","","",0,1,"","","","string {[]} {[]}
+","Format","The file format, physical medium, or dimensions of the resource","","","","","","","","","",,,,,"",,,,"DublinCore.format",0,1,"",""
+"KGPublication.identifier","KGPublication.identifier","","","",0,*,"","","","string {[]} {[]}
+","Identifier","An unambiguous reference to the resource within a given context","","","","","","","","","",,,,,"",,,,"DublinCore.identifier",0,*,"",""
+"KGPublication.source","KGPublication.source","","","",0,1,"","","","string {[]} {[]}
+","Source","A related resource from which the described resource is derived","","","","","","","","","",,,,,"",,,,"DublinCore.source",0,1,"",""
+"KGPublication.language","KGPublication.language","","","",0,1,"","","","string {[]} {[]}
+","Language","A language of the resource","","","","","","","","","",,,,,"",,,,"DublinCore.language",0,1,"",""
+"KGPublication.relation","KGPublication.relation","","","",0,*,"","","","string {[]} {[]}
+","Relation","A related resource","","","","","","","","","",,,,,"",,,,"DublinCore.relation",0,*,"",""
+"KGPublication.coverage","KGPublication.coverage","","","",0,1,"","","","string {[]} {[]}
+","Coverage","The spatial or temporal topic of the resource","","","","","","","","","",,,,,"",,,,"DublinCore.coverage",0,1,"",""
+"KGPublication.rights","KGPublication.rights","","","",0,1,"","","","string {[]} {[]}
+","Rights","Information about rights held in and over the resource","","","","","","","","","",,,,,"",,,,"DublinCore.rights",0,1,"",""
+"KGPublication.issued","KGPublication.issued","","","",0,1,"","","","date {[]} {[]}
+","Issued","Dublin Core dcterms:issued — date of formal issuance (YYYY, YYYY-MM or YYYY-MM-DD).","","","","","","","","","",,,,,"",,,,"KGPublication.issued",0,1,"",""
+"KGPublication.modified","KGPublication.modified","","","",0,1,"","","","date {[]} {[]}
+","Modified","Dublin Core dcterms:modified — date the publication was changed.","","","","","","","","","",,,,,"",,,,"KGPublication.modified",0,1,"",""
+"KGPublication.version","KGPublication.version","","","",0,1,"","","","string {[]} {[]}
+","Version","Edition or version, as printed.","","","","","","","","","",,,,,"",,,,"KGPublication.version",0,1,"",""
+"KGPublication.identifiers","KGPublication.identifiers","","","",0,*,"","","","BackboneElement {[]} {[]}
+","Identifiers","Typed identifiers; the first of isbn, iris-handle, doi, issn, url builds the IRI.","","","","","","","","","",,,,,"",,,,"KGPublication.identifiers",0,*,"","ele-1:All FHIR elements must have a @value or children {hasValue() or (children().count() > id.count())}
+"
+"KGPublication.identifiers.id","KGPublication.identifiers.id","","","",0,1,"","","","string {[]} {[]}
+","Unique id for inter-element referencing","Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.","","","","","","","","","",,,,,"",,,,"Element.id",0,1,"",""
+"KGPublication.identifiers.extension","KGPublication.identifiers.extension","","extensions
+user content","",0,*,"","","","Extension {[]} {[]}
+","Additional content defined by implementations","May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.","There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.","","","","","","","","",,,,,"","value:url}
+","Extensions are always sliced by (at least) url",,"open","Element.extension",0,*,"","ele-1:All FHIR elements must have a @value or children {hasValue() or (children().count() > id.count())}
+ext-1:Must have either extensions or value[x], not both {extension.exists() != value.exists()}"
+"KGPublication.identifiers.modifierExtension","KGPublication.identifiers.modifierExtension","","extensions
+user contentmodifiers","",0,*,"","Y","Y","Extension {[]} {[]}
+","Extensions that cannot be ignored even if unrecognized","May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.
+
+Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).","There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.","Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/R4/extensibility.html#modifierExtension).","","","","","","","",,,,,"",,,,"BackboneElement.modifierExtension",0,*,"","ele-1:All FHIR elements must have a @value or children {hasValue() or (children().count() > id.count())}
+ext-1:Must have either extensions or value[x], not both {extension.exists() != value.exists()}"
+"KGPublication.identifiers.type","KGPublication.identifiers.type","","","",0,1,"","","","code {[]} {[]}
+","Type","The identifier's kind.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGIdentifierTypeVS","",,,,"KGPublication.identifiers.type",0,1,"",""
+"KGPublication.identifiers.value","KGPublication.identifiers.value","","","",0,1,"","","","string {[]} {[]}
+","Value","The identifier, as printed.","","","","","","","","","",,,,,"",,,,"KGPublication.identifiers.value",0,1,"",""
+"KGPublication.url","KGPublication.url","","","",0,1,"","","","uri {[]} {[]}
+","URL","Where the publication is published.","","","","","","","","","",,,,,"",,,,"KGPublication.url",0,1,"",""
+"KGPublication.sha256","KGPublication.sha256","","","",0,1,"","","","string {[]} {[]}
+","SHA-256","Hash of the PDF; pins the source.","","","","","","","","","",,,,,"",,,,"KGPublication.sha256",0,1,"",""
+"KGPublication.publicationType","KGPublication.publicationType","","","",0,1,"","","","code {[]} {[]}
+","Publication type","What kind of publication this is.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGPublicationTypeVS","",,,,"KGPublication.publicationType",0,1,"",""
+"KGPublication.grcStatus","KGPublication.grcStatus","","","",0,1,"","","","code {[]} {[]}
+","Grc status","Whether the Guideline Review Committee approved the publication.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGGrcStatusVS","",,,,"KGPublication.grcStatus",0,1,"",""
+"KGPublication.reviewBy","KGPublication.reviewBy","","","",0,1,"","","","date {[]} {[]}
+","Review by","The handbook's review-by date (§12.5.1).","","","","","","","","","",,,,,"",,,,"KGPublication.reviewBy",0,1,"",""

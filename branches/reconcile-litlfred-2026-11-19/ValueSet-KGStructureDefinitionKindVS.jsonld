@@ -1,0 +1,39 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@base": "http://smart.who.int/base/ValueSet-KGStructureDefinitionKindVS.jsonld",
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "fhir:CodeSystem": {
+      "@type": "@id"
+    },
+    "cs": "http://smart.who.int/base/CodeSystem-KGStructureDefinitionKind"
+  },
+  "@id": "http://smart.who.int/base/ValueSet-KGStructureDefinitionKindVS.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-11-19T20:29:03.384346Z",
+  "@graph": [
+    {
+      "id": "#primitive-type",
+      "name": "Primitive type"
+    },
+    {
+      "id": "#complex-type",
+      "name": "Complex type"
+    },
+    {
+      "id": "#resource",
+      "name": "Resource"
+    },
+    {
+      "id": "#logical",
+      "name": "Logical"
+    }
+  ],
+  "fhir:CodeSystem": "cs"
+}

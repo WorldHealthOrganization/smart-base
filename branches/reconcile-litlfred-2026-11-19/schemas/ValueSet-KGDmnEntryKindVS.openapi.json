@@ -1,0 +1,48 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Knowledge graph L2-DMN: dmn entry kind Schema API",
+    "description": "JSON Schema for Knowledge graph L2-DMN: dmn entry kind ValueSet codes. Generated from FHIR expansions using IRI format.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSet-KGDmnEntryKindVS.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the enumeration ValueSet-KGDmnEntryKindVS",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSet-KGDmnEntryKindVS.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for ValueSet-KGDmnEntryKindVS",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./ValueSet-KGDmnEntryKindVS.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValueSet-KGDmnEntryKindVS": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/ValueSet-KGDmnEntryKindVS.schema.json",
+        "title": "Knowledge graph L2-DMN: dmn entry kind Schema",
+        "description": "JSON Schema for Knowledge graph L2-DMN: dmn entry kind ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "type": "string",
+        "enum": [
+          "http://smart.who.int/base/CodeSystem/KGDmnEntryKind#outputEntry",
+          "http://smart.who.int/base/CodeSystem/KGDmnEntryKind#annotationEntry"
+        ],
+        "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L2-DMN: dmn entry kind ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGDmnEntryKindVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+        "fhir:displays": "http://smart.who.int/base/ValueSet-KGDmnEntryKindVS.displays.json",
+        "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGDmnEntryKindVS",
+        "fhir:version": "0.3.0",
+        "fhir:expansionTimestamp": "2026-11-19T20:28:14.059803"
+      }
+    }
+  }
+}

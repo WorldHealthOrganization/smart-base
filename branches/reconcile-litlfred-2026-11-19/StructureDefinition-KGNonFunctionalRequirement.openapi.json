@@ -1,0 +1,179 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Knowledge graph L2: Non-Functional Requirement API",
+    "description": "DAK component 8, second half. `requirement 1..1 markdown`, an optional category and classification codings. Kept separate from the functional half because the fields genuinely differ -- a non-functional requirement has no actor and no benefit. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/non-functional-requirement.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-KGNonFunctionalRequirement.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-KGNonFunctionalRequirement",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-KGNonFunctionalRequirement.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-KGNonFunctionalRequirement",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-KGNonFunctionalRequirement.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-KGNonFunctionalRequirement": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-KGNonFunctionalRequirement.schema.json",
+        "title": "Knowledge graph L2: Non-Functional Requirement",
+        "description": "DAK component 8, second half. `requirement 1..1 markdown`, an optional category and classification codings. Kept separate from the functional half because the fields genuinely differ -- a non-functional requirement has no actor and no benefit. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/non-functional-requirement.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "KGNonFunctionalRequirement",
+            "description": "Resource type identifier for KGNonFunctionalRequirement logical model"
+          },
+          "@context": {
+            "description": "JSON-LD context for this logical model with ValueSet vocabularies",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri",
+                "description": "URI reference to external JSON-LD context"
+              },
+              {
+                "type": "object",
+                "description": "Inline JSON-LD context",
+                "properties": {
+                  "@version": {
+                    "type": "number",
+                    "const": 1.1
+                  },
+                  "fhir": {
+                    "type": "string",
+                    "const": "http://hl7.org/fhir/"
+                  }
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              {
+                "type": "array",
+                "description": "Array of JSON-LD context objects/URIs",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "@type": {
+            "type": "string",
+            "description": "JSON-LD type identifier for KGNonFunctionalRequirement logical model",
+            "examples": [
+              "LogicalModel-KGNonFunctionalRequirement"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+          },
+          "requirement": {
+            "type": "string",
+            "description": "The requirement text."
+          },
+          "category": {
+            "type": "string",
+            "description": "The category, as declared."
+          },
+          "classification": {
+            "type": "string",
+            "description": "The classification, as declared."
+          },
+          "title": {
+            "type": "string",
+            "description": "The human-readable title."
+          },
+          "description": {
+            "type": "string",
+            "description": "A description, as the source gives it."
+          },
+          "profile": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "A profile canonical the artefact declares (meta.profile or the requirement's profile)."
+          },
+          "sourceKind": {
+            "type": "string",
+            "description": "What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)."
+          },
+          "source": {
+            "type": "string",
+            "description": "Where the node was read from: a repository path or URL."
+          },
+          "resolutionStatus": {
+            "$ref": "./ValueSet-KGResolutionStatusVS.schema.json",
+            "description": "Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable."
+          }
+        },
+        "required": [
+          "resourceType"
+        ],
+        "allOf": [
+          {
+            "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "resourceDefinition": {
+                "type": "string",
+                "format": "uri",
+                "const": "http://smart.who.int/base/StructureDefinition/KGNonFunctionalRequirement"
+              },
+              "fhir:parent": {
+                "type": "string",
+                "const": "http://hl7.org/fhir/StructureDefinition/Base"
+              },
+              "jsonld:valuesets": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "const": [
+                  "KGResolutionStatusVS"
+                ]
+              },
+              "jsonld:contextTemplate": {
+                "type": "object",
+                "const": {
+                  "@version": 1.1,
+                  "fhir": "http://hl7.org/fhir/",
+                  "KGResolutionStatusVS": "http://smart.who.int/base/ValueSet-KGResolutionStatusVS.jsonld"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

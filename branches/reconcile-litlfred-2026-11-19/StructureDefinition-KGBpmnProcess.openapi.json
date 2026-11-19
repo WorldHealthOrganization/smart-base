@@ -1,0 +1,80 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Knowledge graph L2-BPMN: BPMN Process API",
+    "description": "One `bpmn:process`. Present as a node because a participant references it by processRef, and without it the pool-to-element attribution has nothing to travel through. Class IRI: http://smart.who.int/kg/bpmn-process.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-KGBpmnProcess.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-KGBpmnProcess",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-KGBpmnProcess.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-KGBpmnProcess",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-KGBpmnProcess.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-KGBpmnProcess": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-KGBpmnProcess.schema.json",
+        "title": "Knowledge graph L2-BPMN: BPMN Process",
+        "description": "One `bpmn:process`. Present as a node because a participant references it by processRef, and without it the pool-to-element attribution has nothing to travel through. Class IRI: http://smart.who.int/kg/bpmn-process.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "KGBpmnProcess",
+            "description": "Resource type identifier for KGBpmnProcess logical model"
+          },
+          "id": {
+            "type": "string",
+            "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+          },
+          "name": {
+            "type": "string",
+            "description": "The computable name: the CamelCase identifier a Canonical() reference matches on."
+          },
+          "isExecutable": {
+            "type": "boolean",
+            "description": "The process's isExecutable attribute."
+          }
+        },
+        "required": [
+          "resourceType"
+        ],
+        "allOf": [
+          {
+            "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "resourceDefinition": {
+                "type": "string",
+                "format": "uri",
+                "const": "http://smart.who.int/base/StructureDefinition/KGBpmnProcess"
+              },
+              "fhir:parent": {
+                "type": "string",
+                "const": "http://hl7.org/fhir/StructureDefinition/Base"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

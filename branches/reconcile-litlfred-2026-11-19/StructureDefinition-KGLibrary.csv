@@ -1,0 +1,27 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGLibrary","KGLibrary","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L3: Library","A FHIR Library -- the resource that carries CQL. Indexed by canonical and status only. Its CONTENTS are deliberately out of scope: a future l3-cql subgraph will elaborate this same IRI, exactly as l2-bpmn elaborates a BPMN file. 279 in the immunizations IG, joined to their PlanDefinition by the `{id}Logic` suffix. Class IRI: http://smart.who.int/kg/library.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGLibrary.canonical","KGLibrary.canonical","","","",0,1,"","","","uri {[]} {[]}
+","Canonical","The canonical URL. Only a resolved component carries one.","","","","","","","","","",,,,,"",,,,"KGLibrary.canonical",0,1,"",""
+"KGLibrary.resourceType","KGLibrary.resourceType","","","",0,1,"","","","string {[]} {[]}
+","Resource type","The FHIR resource type.","","","","","","","","","",,,,,"",,,,"KGLibrary.resourceType",0,1,"",""
+"KGLibrary.profile","KGLibrary.profile","","","",0,*,"","","","uri {[]} {[]}
+","Profile","A profile canonical the artefact declares (meta.profile or the requirement's profile).","","","","","","","","","",,,,,"",,,,"KGLibrary.profile",0,*,"",""
+"KGLibrary.status","KGLibrary.status","","","",0,1,"","","","code {[]} {[]}
+","Status","The resource's status (FHIR PublicationStatus).","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGPublicationStatusVS","",,,,"KGLibrary.status",0,1,"",""
+"KGLibrary.version","KGLibrary.version","","","",0,1,"","","","string {[]} {[]}
+","Version","The business version, as declared.","","","","","","","","","",,,,,"",,,,"KGLibrary.version",0,1,"",""
+"KGLibrary.title","KGLibrary.title","","","",0,1,"","","","string {[]} {[]}
+","Title","The human-readable title.","","","","","","","","","",,,,,"",,,,"KGLibrary.title",0,1,"",""
+"KGLibrary.name","KGLibrary.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The computable name: the CamelCase identifier a Canonical() reference matches on.","","","","","","","","","",,,,,"",,,,"KGLibrary.name",0,1,"",""
+"KGLibrary.publisher","KGLibrary.publisher","","","",0,1,"","","","string {[]} {[]}
+","Publisher","The publisher, as declared.","","","","","","","","","",,,,,"",,,,"KGLibrary.publisher",0,1,"",""
+"KGLibrary.experimental","KGLibrary.experimental","","","",0,1,"","","","boolean {[]} {[]}
+","Experimental","The resource's experimental flag.","","","","","","","","","",,,,,"",,,,"KGLibrary.experimental",0,1,"",""
+"KGLibrary.libraryType","KGLibrary.libraryType","","","",0,1,"","","","string {[]} {[]}
+","Library type","The Library's type (logic-library, model-definition, …).","","","","","","","","","",,,,,"",,,,"KGLibrary.libraryType",0,1,"",""
+"KGLibrary.source","KGLibrary.source","","","",0,1,"","","","string {[]} {[]}
+","Source","Where the node was read from: a repository path or URL.","","","","","","","","","",,,,,"",,,,"KGLibrary.source",0,1,"",""
+"KGLibrary.sha256","KGLibrary.sha256","","","",0,1,"","","","string {[]} {[]}
+","SHA-256","Hash of the file the node was read from; pins the source.","","","","","","","","","",,,,,"",,,,"KGLibrary.sha256",0,1,"",""

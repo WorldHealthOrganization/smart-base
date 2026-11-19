@@ -1,0 +1,15 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGDmnOutputClause","KGDmnOutputClause","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L2-DMN: DMN Output Clause","An output column. The BCG table's four are Care Plan, Guidance displayed to health worker, Annotations and Reference(s). These are column DEFINITIONS in a decision table, not clinical records: no edge from this class reaches an execution artefact, and none may. serialisedAs is outputEntry or annotationEntry -- DMN splits the columns across two element types and the split is positional, so recording it is what lets a rule's cells be matched back to their columns. isReferenceColumn marks the L1 column, found by its description rather than its index. Class IRI: http://smart.who.int/kg/dmn-output-clause.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGDmnOutputClause.id","KGDmnOutputClause.id","","","",0,1,"","","","string {[]} {[]}
+","Id","The identifier the source declares (an FSH instance id, a BPMN or DMN element id).","","","","","","","","","",,,,,"",,,,"KGDmnOutputClause.id",0,1,"",""
+"KGDmnOutputClause.label","KGDmnOutputClause.label","","","",0,1,"","","","string {[]} {[]}
+","Label","The label, as declared.","","","","","","","","","",,,,,"",,,,"KGDmnOutputClause.label",0,1,"",""
+"KGDmnOutputClause.description","KGDmnOutputClause.description","","","",0,1,"","","","markdown {[]} {[]}
+","Description","A description, as the source gives it.","","","","","","","","","",,,,,"",,,,"KGDmnOutputClause.description",0,1,"",""
+"KGDmnOutputClause.ordinal","KGDmnOutputClause.ordinal","","","",0,1,"","","","unsignedInt {[]} {[]}
+","Ordinal","Position, counted from 0, in the order the source lists it.","","","","","","","","","",,,,,"",,,,"KGDmnOutputClause.ordinal",0,1,"",""
+"KGDmnOutputClause.serialisedAs","KGDmnOutputClause.serialisedAs","","","",0,1,"","","","code {[]} {[]}
+","Serialised as","Which DMN element type the column's cells are: outputEntry or annotationEntry. The split is positional, so this is what matches a rule's cells back to their columns.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGDmnEntryKindVS","",,,,"KGDmnOutputClause.serialisedAs",0,1,"",""
+"KGDmnOutputClause.isReferenceColumn","KGDmnOutputClause.isReferenceColumn","","","",0,1,"","","","boolean {[]} {[]}
+","Is reference column","Marks the L1 reference column, found by its description rather than its index.","","","","","","","","","",,,,,"",,,,"KGDmnOutputClause.isReferenceColumn",0,1,"",""

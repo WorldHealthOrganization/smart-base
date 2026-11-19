@@ -1,0 +1,13 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGEvidenceLocation","KGEvidenceLocation","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph: evidence location","Where a node or edge came from in its source. Required on anything not mechanically derived.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGEvidenceLocation.location","KGEvidenceLocation.location","","","",1,1,"","","","string {[]} {[]}
+","Location","file:line, a spreadsheet sheet and cell, or a BPMN element id.","","","","","","","","","",,,,,"",,,,"KGEvidenceLocation.location",1,1,"",""
+"KGEvidenceLocation.quote","KGEvidenceLocation.quote","","","",0,1,"","","","string {[]} {[]}
+","Quote","Verbatim text from the source.","","","","","","","","","",,,,,"",,,,"KGEvidenceLocation.quote",0,1,"",""
+"KGEvidenceLocation.artifact","KGEvidenceLocation.artifact","","","",0,1,"","","","string {[]} {[]}
+","Artifact","The generated artifact affected, where one exists.","","","","","","","","","",,,,,"",,,,"KGEvidenceLocation.artifact",0,1,"",""
+"KGEvidenceLocation.by","KGEvidenceLocation.by","","","",0,1,"","","","string {[]} {[]}
+","By","Who made the judgement; required when derivation is decided.","","","","","","","","","",,,,,"",,,,"KGEvidenceLocation.by",0,1,"",""
+"KGEvidenceLocation.at","KGEvidenceLocation.at","","","",0,1,"","","","date {[]} {[]}
+","At","When the judgement was made; required when derivation is decided.","","","","","","","","","",,,,,"",,,,"KGEvidenceLocation.at",0,1,"",""

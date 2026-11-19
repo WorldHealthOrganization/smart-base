@@ -1,0 +1,83 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Knowledge graph L2: Task Entry API",
+    "description": "One task of a DAK business process, as the DAK document's \"notes and annotations\" describe it: identifier, name, description, and the personas, data elements, requirements and decision tables it links to. A node rather than a property because the same task is also drawn in the BPMN file, and the two have to be joinable to be checkable against each other (`describes`). Read from a BPMN file's `dak-task-annotations/v1` sidecar (smart-base/L2-bpmn/schemas/task-annotations.ts); BusinessProcessWorkflow's `task 0..*` backbone carries the first three fields of the same thing. Class IRI: http://smart.who.int/kg/dak-task.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-KGDakTask.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-KGDakTask",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-KGDakTask.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-KGDakTask",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-KGDakTask.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-KGDakTask": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-KGDakTask.schema.json",
+        "title": "Knowledge graph L2: Task Entry",
+        "description": "One task of a DAK business process, as the DAK document's \"notes and annotations\" describe it: identifier, name, description, and the personas, data elements, requirements and decision tables it links to. A node rather than a property because the same task is also drawn in the BPMN file, and the two have to be joinable to be checkable against each other (`describes`). Read from a BPMN file's `dak-task-annotations/v1` sidecar (smart-base/L2-bpmn/schemas/task-annotations.ts); BusinessProcessWorkflow's `task 0..*` backbone carries the first three fields of the same thing. Class IRI: http://smart.who.int/kg/dak-task.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "KGDakTask",
+            "description": "Resource type identifier for KGDakTask logical model"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The identifier, as declared."
+          },
+          "name": {
+            "type": "string",
+            "description": "The computable name: the CamelCase identifier a Canonical() reference matches on."
+          },
+          "description": {
+            "type": "string",
+            "description": "A description, as the source gives it."
+          },
+          "activityId": {
+            "type": "string",
+            "description": "The DAK activity id (`IMMZ.B1`, `TB.A5`): the process id and the step number, the key the DAK spreadsheets use."
+          },
+          "matchedBy": {
+            "type": "string",
+            "description": "How the annotation was joined to its BPMN task: `id`, `step-number`, `name` or `adjudicated` by a person."
+          },
+          "sourceDocument": {
+            "type": "string",
+            "description": "The L1 library document the annotation was read from."
+          },
+          "sourceItem": {
+            "type": "string",
+            "description": "The annotation's item number as printed (`1`, `2.3`)."
+          },
+          "source": {
+            "type": "string",
+            "description": "Where the node was read from: a repository path or URL."
+          }
+        },
+        "required": [
+          "resourceType"
+        ],
+        "resourceDefinition": "http://smart.who.int/base/StructureDefinition/KGDakTask",
+        "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+      }
+    }
+  }
+}

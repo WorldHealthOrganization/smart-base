@@ -1,0 +1,50 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Knowledge graph L2: verification method Schema API",
+    "description": "JSON Schema for Knowledge graph L2: verification method ValueSet codes. Generated from FHIR expansions using IRI format.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSet-KGVerificationMethodVS.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the enumeration ValueSet-KGVerificationMethodVS",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSet-KGVerificationMethodVS.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for ValueSet-KGVerificationMethodVS",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./ValueSet-KGVerificationMethodVS.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValueSet-KGVerificationMethodVS": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/ValueSet-KGVerificationMethodVS.schema.json",
+        "title": "Knowledge graph L2: verification method Schema",
+        "description": "JSON Schema for Knowledge graph L2: verification method ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "type": "string",
+        "enum": [
+          "http://smart.who.int/base/CodeSystem/KGVerificationMethod#test",
+          "http://smart.who.int/base/CodeSystem/KGVerificationMethod#inspection",
+          "http://smart.who.int/base/CodeSystem/KGVerificationMethod#review",
+          "http://smart.who.int/base/CodeSystem/KGVerificationMethod#analysis"
+        ],
+        "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L2: verification method ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGVerificationMethodVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+        "fhir:displays": "http://smart.who.int/base/ValueSet-KGVerificationMethodVS.displays.json",
+        "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGVerificationMethodVS",
+        "fhir:version": "0.3.0",
+        "fhir:expansionTimestamp": "2026-11-19T20:28:14.063624"
+      }
+    }
+  }
+}

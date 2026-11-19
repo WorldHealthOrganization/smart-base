@@ -1,0 +1,45 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/ValueSet/ISCO08ValueSet> a fhir:ValueSet ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "ISCO08ValueSet"] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ValueSet ISCO08ValueSet</b></p><a name=\"ISCO08ValueSet\"> </a><a name=\"hcISCO08ValueSet\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-ISCO08.html\"><code>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version ?0.2.0</span></li></ul></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : EnsembleValeurs ISCO08ValueSet</b></p><a name=\"fr-ISCO08ValueSet\"> </a><a name=\"fr-hcISCO08ValueSet\"> </a><ul><li>Include tous les codes définis dans <a href=\"CodeSystem-ISCO08.html\"><code>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</code></a><span title=\"La version n'est pas explicitement indiquée, ce qui signifie quelle est fixée à la version fournie dans cette spécification\"> version ?0.2.0</span></li></ul></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: ValueSet ISCO08ValueSet</b></p><a name=\"ar-ISCO08ValueSet\"> </a><a name=\"ar-hcISCO08ValueSet\"> </a><ul><li>Include جميع الرموز المحددة في <a href=\"CodeSystem-ISCO08.html\"><code>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> الإصدار ?0.2.0</span></li></ul></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 取值集合 ISCO08ValueSet</b></p><a name=\"zh-ISCO08ValueSet\"> </a><a name=\"zh-hcISCO08ValueSet\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-ISCO08.html\"><code>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version ?0.2.0</span></li></ul></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: ValueSet ISCO08ValueSet</b></p><a name=\"ru-ISCO08ValueSet\"> </a><a name=\"ru-hcISCO08ValueSet\"> </a><ul><li>Include все коды, определенные в <a href=\"CodeSystem-ISCO08.html\"><code>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> версия ?0.2.0</span></li></ul></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ConjuntoValores / ConjuntoDeValores ISCO08ValueSet</b></p><a name=\"es-ISCO08ValueSet\"> </a><a name=\"es-hcISCO08ValueSet\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-ISCO08.html\"><code>http://www.ilo.org/public/english/bureau/stat/isco/isco08/</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version ?0.2.0</span></li></ul></div></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:url [
+     fhir:v "http://smart.who.int/base/ValueSet/ISCO08ValueSet"^^xsd:anyURI ;
+     fhir:l <http://smart.who.int/base/ValueSet/ISCO08ValueSet>
+  ] ; # 
+  fhir:version [ fhir:v "0.2.0"] ; # 
+  fhir:name [ fhir:v "ISCO08ValueSet"] ; # 
+  fhir:title [ fhir:v "ISCO-08 Value Set"] ; # 
+  fhir:status [ fhir:v "active"] ; # 
+  fhir:experimental [ fhir:v false] ; # 
+  fhir:date [ fhir:v "2026-03-11T11:03:26+00:00"^^xsd:dateTime] ; # 
+  fhir:publisher [ fhir:v "WHO"] ; # 
+  fhir:contact ( [
+     fhir:name [ fhir:v "WHO" ] ;
+     fhir:telecom ( [
+       fhir:system [ fhir:v "url" ] ;
+       fhir:value [ fhir:v "http://who.int" ]
+     ] )
+  ] ) ; # 
+  fhir:description [ fhir:v "Extensible value set of ISCO-08 codes for persona classification"] ; # 
+  fhir:compose [
+     fhir:include ( [
+       fhir:system [
+         fhir:v "http://www.ilo.org/public/english/bureau/stat/isco/isco08/"^^xsd:anyURI ;
+         fhir:l <http://www.ilo.org/public/english/bureau/stat/isco/isco08/>
+       ]
+     ] )
+  ] . # 
+
+# -------------------------------------------------------------------------------------
+

@@ -1,0 +1,64 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGEvidenceType> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "KGEvidenceType"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem KGEvidenceType</b></p><a name=\"KGEvidenceType\"> </a><a name=\"hcKGEvidenceType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGEvidenceType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">effect<a name=\"KGEvidenceType-effect\"> </a></td><td>Effect</td><td>Quantitative effect estimate; certainty is GRADE.</td></tr><tr><td style=\"white-space:nowrap\">qualitative<a name=\"KGEvidenceType-qualitative\"> </a></td><td>Qualitative</td><td>Qualitative finding; certainty is GRADE-CERQual confidence.</td></tr><tr><td style=\"white-space:nowrap\">resource-use<a name=\"KGEvidenceType-resource-use\"> </a></td><td>Resource use</td><td>Costs or resource requirements.</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"KGEvidenceType-other\"> </a></td><td>Other</td><td>Any other kind.</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem KGEvidenceType</b></p><a name=\"fr-KGEvidenceType\"> </a><a name=\"fr-hcKGEvidenceType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGEvidenceType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style=\"white-space:nowrap\">effect<a name=\"fr-KGEvidenceType-effect\"> </a></td><td>Effect</td><td>Quantitative effect estimate; certainty is GRADE.</td></tr><tr><td style=\"white-space:nowrap\">qualitative<a name=\"fr-KGEvidenceType-qualitative\"> </a></td><td>Qualitative</td><td>Qualitative finding; certainty is GRADE-CERQual confidence.</td></tr><tr><td style=\"white-space:nowrap\">resource-use<a name=\"fr-KGEvidenceType-resource-use\"> </a></td><td>Resource use</td><td>Costs or resource requirements.</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"fr-KGEvidenceType-other\"> </a></td><td>Other</td><td>Any other kind.</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem KGEvidenceType</b></p><a name=\"ar-KGEvidenceType\"> </a><a name=\"ar-hcKGEvidenceType\"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/KGEvidenceType</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style=\"white-space:nowrap\">effect<a name=\"ar-KGEvidenceType-effect\"> </a></td><td>Effect</td><td>Quantitative effect estimate; certainty is GRADE.</td></tr><tr><td style=\"white-space:nowrap\">qualitative<a name=\"ar-KGEvidenceType-qualitative\"> </a></td><td>Qualitative</td><td>Qualitative finding; certainty is GRADE-CERQual confidence.</td></tr><tr><td style=\"white-space:nowrap\">resource-use<a name=\"ar-KGEvidenceType-resource-use\"> </a></td><td>Resource use</td><td>Costs or resource requirements.</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"ar-KGEvidenceType-other\"> </a></td><td>Other</td><td>Any other kind.</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 KGEvidenceType</b></p><a name=\"zh-KGEvidenceType\"> </a><a name=\"zh-hcKGEvidenceType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGEvidenceType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">effect<a name=\"zh-KGEvidenceType-effect\"> </a></td><td>Effect</td><td>Quantitative effect estimate; certainty is GRADE.</td></tr><tr><td style=\"white-space:nowrap\">qualitative<a name=\"zh-KGEvidenceType-qualitative\"> </a></td><td>Qualitative</td><td>Qualitative finding; certainty is GRADE-CERQual confidence.</td></tr><tr><td style=\"white-space:nowrap\">resource-use<a name=\"zh-KGEvidenceType-resource-use\"> </a></td><td>Resource use</td><td>Costs or resource requirements.</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"zh-KGEvidenceType-other\"> </a></td><td>Other</td><td>Any other kind.</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem KGEvidenceType</b></p><a name=\"ru-KGEvidenceType\"> </a><a name=\"ru-hcKGEvidenceType\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/KGEvidenceType</code> case-sensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style=\"white-space:nowrap\">effect<a name=\"ru-KGEvidenceType-effect\"> </a></td><td>Effect</td><td>Quantitative effect estimate; certainty is GRADE.</td></tr><tr><td style=\"white-space:nowrap\">qualitative<a name=\"ru-KGEvidenceType-qualitative\"> </a></td><td>Qualitative</td><td>Qualitative finding; certainty is GRADE-CERQual confidence.</td></tr><tr><td style=\"white-space:nowrap\">resource-use<a name=\"ru-KGEvidenceType-resource-use\"> </a></td><td>Resource use</td><td>Costs or resource requirements.</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"ru-KGEvidenceType-other\"> </a></td><td>Other</td><td>Any other kind.</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos KGEvidenceType</b></p><a name=\"es-KGEvidenceType\"> </a><a name=\"es-hcKGEvidenceType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGEvidenceType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">effect<a name=\"es-KGEvidenceType-effect\"> </a></td><td>Effect</td><td>Quantitative effect estimate; certainty is GRADE.</td></tr><tr><td style=\"white-space:nowrap\">qualitative<a name=\"es-KGEvidenceType-qualitative\"> </a></td><td>Qualitative</td><td>Qualitative finding; certainty is GRADE-CERQual confidence.</td></tr><tr><td style=\"white-space:nowrap\">resource-use<a name=\"es-KGEvidenceType-resource-use\"> </a></td><td>Resource use</td><td>Costs or resource requirements.</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"es-KGEvidenceType-other\"> </a></td><td>Other</td><td>Any other kind.</td></tr></table></div></div>"
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://smart.who.int/base/CodeSystem/KGEvidenceType"] ;
+  fhir:CodeSystem.version [ fhir:value "0.3.0"] ;
+  fhir:CodeSystem.name [ fhir:value "KGEvidenceType"] ;
+  fhir:CodeSystem.title [ fhir:value "Knowledge graph L1: evidence type"] ;
+  fhir:CodeSystem.status [ fhir:value "active"] ;
+  fhir:CodeSystem.experimental [ fhir:value "false"^^xsd:boolean] ;
+  fhir:CodeSystem.date [ fhir:value "2026-11-19T20:24:57+00:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "WHO"] ;
+  fhir:CodeSystem.contact [
+     fhir:index 0 ;
+     fhir:ContactDetail.name [ fhir:value "WHO" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index 0 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://who.int" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "Which kind of evidence a row is, and so which scale its certainty is on: GRADE for effects, GRADE-CERQual for qualitative findings. Source: smart-kg ontology/l1/l1.json valueSets \"evidence-type\"; ANC guideline (2016) methods (GRADE and GRADE-CERQual)."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "4"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index 0 ;
+     fhir:CodeSystem.concept.code [ fhir:value "effect" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Effect" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Quantitative effect estimate; certainty is GRADE." ]
+  ], [
+     fhir:index 1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "qualitative" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Qualitative" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Qualitative finding; certainty is GRADE-CERQual confidence." ]
+  ], [
+     fhir:index 2 ;
+     fhir:CodeSystem.concept.code [ fhir:value "resource-use" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Resource use" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Costs or resource requirements." ]
+  ], [
+     fhir:index 3 ;
+     fhir:CodeSystem.concept.code [ fhir:value "other" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Other" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Any other kind." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGEvidenceType.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl .
+
+# -------------------------------------------------------------------------------------
+
