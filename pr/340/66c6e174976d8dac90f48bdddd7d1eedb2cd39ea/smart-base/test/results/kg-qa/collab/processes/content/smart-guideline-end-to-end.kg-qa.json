@@ -1,0 +1,393 @@
+{
+  "$schema": "kg-qa/v1",
+  "subject": {
+    "kind": "process",
+    "id": "Process_SgEndToEnd",
+    "path": "collab/processes/content/smart-guideline-end-to-end.bpmn"
+  },
+  "source_hash": "sha256:0d59b374a4c71965be3701d808a56e5508b139cf2fc56540e6f747bafec9ee61",
+  "criteria": {
+    "raci-role-resolves": {
+      "result": "n/a",
+      "findings": []
+    },
+    "raci-single-accountable": {
+      "result": "n/a",
+      "findings": []
+    },
+    "raci-accountable-not-consulted": {
+      "result": "n/a",
+      "findings": []
+    },
+    "convention-ref-resolves": {
+      "result": "n/a",
+      "findings": []
+    },
+    "skill-ref-resolves": {
+      "result": "pass",
+      "findings": []
+    },
+    "skill-servable": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-skill-has-tool": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "Task_DescribeUseCase",
+          "detail": "names skill \"guideline-use-case\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_IdentifyL1",
+          "detail": "names skill \"dak-l1-library\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_IdentifyL1",
+          "detail": "names skill \"guideline-gap-report\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_AdjL1",
+          "detail": "names skill \"content-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_IngestKg",
+          "detail": "names skill \"recommendation-extraction\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_IngestKg",
+          "detail": "names skill \"dak-l1-library\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_IngestKg",
+          "detail": "names skill \"guideline-gap-report\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_AdjKg",
+          "detail": "names skill \"content-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_AdjKg",
+          "detail": "names skill \"recommendation-extraction\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_DepsL2",
+          "detail": "names skill \"l2-dependency-choice\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_DepsL2",
+          "detail": "names skill \"decision-comparison\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_DepsL2",
+          "detail": "names skill \"guideline-gap-report\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_AdjDepsL2",
+          "detail": "names skill \"content-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_L2",
+          "detail": "names skill \"l2-dak-authoring\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_L2",
+          "detail": "names skill \"wireframe-design-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_L2",
+          "detail": "names skill \"guideline-gap-report\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_AdjL2",
+          "detail": "names skill \"content-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_AdjL2",
+          "detail": "names skill \"wireframe-design-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_DepsL3",
+          "detail": "names skill \"l3-dependency-choice\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_DepsL3",
+          "detail": "names skill \"decision-comparison\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_DepsL3",
+          "detail": "names skill \"guideline-gap-report\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_AdjDepsL3",
+          "detail": "names skill \"content-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_L3Ready",
+          "detail": "names skill \"l3-readiness\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_L3",
+          "detail": "names skill \"l3-fhir-authoring\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_L3",
+          "detail": "names skill \"l2-dak-authoring\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_L3",
+          "detail": "names skill \"guideline-gap-report\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_AdjL3",
+          "detail": "names skill \"content-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_AdjL3",
+          "detail": "names skill \"wireframe-design-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_DescribeApp",
+          "detail": "names skill \"l4-application-brief\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_WireframeApp",
+          "detail": "names skill \"wireframe-design-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_BuildApp",
+          "detail": "names skill \"l4-application-build\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_BuildApp",
+          "detail": "names skill \"guideline-gap-report\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_AdjApp",
+          "detail": "names skill \"content-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_AdjApp",
+          "detail": "names skill \"wireframe-design-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        }
+      ]
+    },
+    "decision-ref-resolves": {
+      "result": "n/a",
+      "findings": []
+    },
+    "role-ref-resolves": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-in-lane": {
+      "result": "pass",
+      "findings": []
+    },
+    "lane-binds-role": {
+      "result": "pass",
+      "findings": []
+    },
+    "variable-performer-declared-alone": {
+      "result": "n/a",
+      "findings": []
+    },
+    "role-carries-activity-skill": {
+      "result": "pass",
+      "findings": []
+    },
+    "lane-role-legacy-binding": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "Lane_Adjudicators",
+          "detail": "lane \"Lane_Adjudicators\" names role \"adjudicator\" by partitionElementRef and \"reviewer\" by the deprecated <bootstrap.processes:role ref>; partitionElementRef wins. Remove the extension element."
+        }
+      ]
+    },
+    "task-skill-outside-lane-role": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-names-skill": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-fulfilment-kind": {
+      "result": "n/a",
+      "findings": []
+    },
+    "call-activity-resolves": {
+      "result": "pass",
+      "findings": [
+        {
+          "where": "Task_AdjL1",
+          "detail": "calls \"Process_Review\", hosted by instance \"cat-harness\"."
+        },
+        {
+          "where": "Task_AdjKg",
+          "detail": "calls \"Process_Review\", hosted by instance \"cat-harness\"."
+        },
+        {
+          "where": "Task_AdjDepsL2",
+          "detail": "calls \"Process_Review\", hosted by instance \"cat-harness\"."
+        },
+        {
+          "where": "Task_AdjL2",
+          "detail": "calls \"Process_Review\", hosted by instance \"cat-harness\"."
+        },
+        {
+          "where": "Task_AdjDepsL3",
+          "detail": "calls \"Process_Review\", hosted by instance \"cat-harness\"."
+        },
+        {
+          "where": "Task_AdjL3",
+          "detail": "calls \"Process_Review\", hosted by instance \"cat-harness\"."
+        },
+        {
+          "where": "Task_AdjApp",
+          "detail": "calls \"Process_Review\", hosted by instance \"cat-harness\"."
+        }
+      ]
+    },
+    "process-diagram-published": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "Process_SgEndToEnd",
+          "detail": "no rendered diagram at smart-guideline-end-to-end.svg — run `bun run cat render:bpmn`."
+        }
+      ]
+    },
+    "activity-documented": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-calls-skill-process": {
+      "result": "pass",
+      "findings": []
+    },
+    "gateway-documented": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "Gateway_InKg",
+          "detail": "\"All sources in an L1 KG?\" carries no <bpmn:documentation>, so its page shows the question and not what answers it — who decides, from what evidence, and what each branch commits the process to."
+        }
+      ]
+    },
+    "gateway-branches-named": {
+      "result": "pass",
+      "findings": []
+    },
+    "node-reachable": {
+      "result": "pass",
+      "findings": []
+    },
+    "node-has-exit": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-implicit-split": {
+      "result": "pass",
+      "findings": []
+    },
+    "gateway-mixed": {
+      "result": "pass",
+      "findings": []
+    },
+    "process-size": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "Process_SgEndToEnd",
+          "detail": "37 flow nodes, past the 20 at which bpmn-authoring asks for a split by phase into call activities."
+        }
+      ]
+    },
+    "process-decompose": {
+      "result": "pass",
+      "findings": []
+    },
+    "process-single-start": {
+      "result": "pass",
+      "findings": []
+    },
+    "decision-label-question": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-label-verb-first": {
+      "result": "pass",
+      "findings": []
+    },
+    "edge-rectilinear": {
+      "result": "pass",
+      "findings": []
+    },
+    "edge-crossing": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "E07×E09",
+          "detail": "flows E07 and E09 cross."
+        }
+      ]
+    },
+    "edge-through-node": {
+      "result": "pass",
+      "findings": []
+    },
+    "diagram-too-wide": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "diagram",
+          "detail": "3810 wide, budget 1400: text shows at 5.0px in a 1200px band. Close the gaps between columns, stack steps of different lanes in one column, or split by phase."
+        }
+      ]
+    },
+    "diagram-too-tall": {
+      "result": "pass",
+      "findings": []
+    },
+    "label-overlap": {
+      "result": "pass",
+      "findings": []
+    },
+    "label-on-edge": {
+      "result": "pass",
+      "findings": []
+    },
+    "label-on-shape": {
+      "result": "pass",
+      "findings": []
+    },
+    "label-on-lane-line": {
+      "result": "pass",
+      "findings": []
+    },
+    "shape-overlap": {
+      "result": "pass",
+      "findings": []
+    },
+    "lane-order": {
+      "result": "pass",
+      "findings": []
+    },
+    "prose-reviewed-since-code-changed": {
+      "result": "n/a",
+      "findings": []
+    },
+    "prose-claims-resolve": {
+      "result": "n/a",
+      "findings": []
+    }
+  },
+  "totals": {
+    "pass": 29,
+    "fail": 7,
+    "n/a": 9,
+    "unknown": 0
+  }
+}
