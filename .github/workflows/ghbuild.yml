@@ -515,13 +515,41 @@ jobs:
             -e "IG_REF=${GITHUB_REF_NAME}" \
             -e "TX_URL=${INPUT_TX:-}" \
             ig-run sh -c '
+              # Bounded retry for TRANSIENT upstream failures only.
+              # The #current templates (who.template.root, smart.who.int.base)
+              # are fetched from build.fhir.org and terminology from
+              # tx.fhir.org; both occasionally fail (missing build-server
+              # entry, DNS). A failure is retried (max 3 attempts, backoff
+              # 30s then 90s) ONLY if the publisher exited non-zero AND its
+              # log matches TRANSIENT_RE. Every other failure fails at once.
+              TRANSIENT_RE="has no entry on the current build server|UnknownHostException: (tx|packages|packages2|build)\.fhir\.org"
+              LOG=/tmp/publisher-attempt.log
+              attempt=1
               set -e
-              java -Xmx6g -jar ./input-cache/publisher.jar publisher \
-                -ig . \
-                -auto-ig-build \
-                -repo "https://github.com/${IG_REPO}/tree/${IG_REF}" \
-                -package-cache-folder ./fhir-package-cache \
-                ${TX_URL:+-tx} ${TX_URL:+"$TX_URL"}
+              while :; do
+                echo "── IG Publisher attempt ${attempt}/3 ──"
+                # Stream output live; capture the java exit code past tee.
+                { rc=0; java -Xmx6g -jar ./input-cache/publisher.jar publisher \
+                    -ig . \
+                    -auto-ig-build \
+                    -repo "https://github.com/${IG_REPO}/tree/${IG_REF}" \
+                    -package-cache-folder ./fhir-package-cache \
+                    ${TX_URL:+-tx} ${TX_URL:+"$TX_URL"} || rc=$?
+                  echo "$rc" > "$LOG.rc"; } 2>&1 | tee "$LOG"
+                rc=$(cat "$LOG.rc")
+                [ "$rc" -eq 0 ] && break
+                if [ "$attempt" -ge 3 ] || ! grep -qE "$TRANSIENT_RE" "$LOG"; then
+                  echo "IG Publisher failed (exit $rc) on attempt ${attempt}; not retrying."
+                  exit "$rc"
+                fi
+                case "$attempt" in 1) wait_s=30 ;; *) wait_s=90 ;; esac
+                echo "::warning::IG Publisher hit a transient upstream error (exit $rc):"
+                grep -E "$TRANSIENT_RE" "$LOG" | head -n 3
+                echo "Retrying in ${wait_s}s..."
+                sleep "$wait_s"
+                attempt=$((attempt + 1))
+              done
+              rm -f "$LOG" "$LOG.rc"
             '
 
           echo "TS_IG_BUILD=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
