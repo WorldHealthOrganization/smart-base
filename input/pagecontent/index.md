@@ -42,7 +42,7 @@ See the [SMART IG Starter Kit](https://smart.who.int/ig-starter-kit/) for more i
 
 ### DAK (Digital Adaptation Kit) URL Handling
 
-For repositories that contain a `dak.json` file in the root directory, this implementation guide provides enhanced URL handling for publication and preview scenarios:
+For repositories whose root `index.config.json` declares a DAK (a `dak` section under `contentTypes`; formerly a `dak.json` file), this implementation guide provides enhanced URL handling for publication and preview scenarios:
 
 #### Publication URLs
 - **WHO Repositories**: For repositories owned by `WorldHealthOrganization`, the publication URL follows the pattern `https://smart.who.int/{stub}` where `{stub}` is the repository name with any `smart-` prefix removed.

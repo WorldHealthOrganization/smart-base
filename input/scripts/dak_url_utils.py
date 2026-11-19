@@ -13,19 +13,13 @@ from pathlib import Path
 from typing import Dict, Any, Optional, Tuple
 
 
-def load_dak_config(dak_path: Path = None) -> Optional[Dict[str, Any]]:
-    """Load dak.json configuration if it exists."""
-    if dak_path is None:
-        dak_path = Path("dak.json")
-    
-    if not dak_path.exists():
-        return None
-    
-    try:
-        with open(dak_path, 'r', encoding='utf-8') as file:
-            return json.load(file)
-    except (json.JSONDecodeError, IOError):
-        return None
+def load_dak_config(repo_root: Path = None) -> Optional[Dict[str, Any]]:
+    """Load the DAK section of ``index.config.json`` if it exists.
+
+    ``repo_root`` is the repository root (default: the current directory).
+    """
+    from dak_index import read_dak_section
+    return read_dak_section(repo_root if repo_root is not None else Path("."))
 
 
 def generate_dak_publication_url(repo_name: str, canonical_url: str = "") -> str:

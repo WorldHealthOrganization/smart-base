@@ -1,0 +1,56 @@
+# Refresh smart-base's FHIR AST cache (`cat/fhir-harness/fhir-ast/<package id>`).
+#
+# fhir-harness's template (`templates/ig-repo-site/ig-ast-refresh.yml`) plus
+# one line: the DAK pre-processing as the `pre-export` overlay. The steps are
+# fhir-harness's, not this repository's (owner, 2026-10-14: "that should be in
+# fhir-harness then smart-* all use that"; "i want AST to be used. it should
+# be in cache branch"). Its reusable workflow restores and judges the cache
+# and, when the cache is not valid for `ref` (or `force`), runs
+# `smart-base/scripts/dak-pre-export.sh`, then the Publisher AST exporter. It
+# records the AST against the clean commit and seeds the cache from a commit
+# on main. The WHO part stays here: fhir-harness only runs the command it is
+# given (skill `dak-preprocessing`, §"In the AST lifecycle").
+#
+# Needs: index.lock.json mounting a fhir-harness that has the `pre-export`
+# hook (fhir-harness #55/#56).
+#
+# Triggers: by hand, and on every push to main that changes an IG input.
+# The owner ruled on 2026-10-14 that the cache refreshes automatically when
+# the IG source changes. A push that changes no input never reaches here.
+# Neither does a merge whose inputs equal the cache's: the run reads
+# `valid` and builds nothing.
+name: IG AST refresh
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "The ref to build (only a commit on the default branch with its inputs seeds the cache)"
+        type: string
+        default: main
+      force:
+        description: "Rebuild even when the cache is valid for the ref"
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths:
+      - sushi-config.yaml
+      - ig.ini
+      - "input/**"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    uses: litlfred/fhir-harness/.github/workflows/ig-ast-refresh.yml@1529a1914ad4215856f15203fb19be02e3bfb3cb # index.lock.json
+    with:
+      # A push builds exactly the commit pushed; a dispatch, the ref it names.
+      ref: ${{ inputs.ref || github.sha }}
+      force: ${{ inputs.force == true }}
+      # The overlay: WHO's DAK pre-processing, from this checkout.
+      pre-export: bash smart-base/scripts/dak-pre-export.sh
+      # build.fhir.org lost who.template.root#current (404, 2026-11-01), so the
+      # template is seeded from its own repository at HEAD.
+      template-repos: who.template.root=WorldHealthOrganization/smart-ig-template

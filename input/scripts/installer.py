@@ -16,6 +16,7 @@ The installer serves as the central orchestrator for:
 Author: SMART Guidelines Team
 """
 import lxml.etree as ET
+from safe_xml import safe_xml_parser
 from typing import Union, List, Dict, Optional
 import glob
 import re
@@ -107,7 +108,7 @@ class installer(object):
         xsd_path = Path(script_directory + "/" + self.multifile_xsd)
         try:
             with open(xsd_path, "rb") as xsd_file:
-                schema_doc = ET.parse(xsd_file)
+                schema_doc = ET.parse(xsd_file, parser=safe_xml_parser())
                 self.multifile_schema = ET.XMLSchema(schema_doc)
                 self.logger.info(
                     f"Loaded multifile.xsd schema from {xsd_path}")
@@ -133,7 +134,7 @@ class installer(object):
             for prefix, namespace in namespaces.items():
                 ET.register_namespace(prefix, namespace)
             with open(Path(xsl_file), "rb") as f:
-                self.xslts[key] = ET.XSLT(ET.parse(f))
+                self.xslts[key] = ET.XSLT(ET.parse(f, parser=safe_xml_parser()))
 
         except BaseException as e:
             self.logger.info("WARNING: Could not find XSLT at " + xsl_file)
@@ -313,7 +314,7 @@ class installer(object):
             # Parse input if it's a string
             if isinstance(multifile_xml, str):
                 try:
-                    root = ET.fromstring(multifile_xml)
+                    root = ET.fromstring(multifile_xml, parser=safe_xml_parser())
                 except Exception as e:
                     self.logger.info(
                         f"ERROR: Could not parse multifile_xml string: {e}")
@@ -389,7 +390,7 @@ class installer(object):
         elif isinstance(xml, str):
             xml = re.sub(r'<\?xml[^>]+\?>', '', xml)
             try:
-                xml_tree = ET.XML(xml)
+                xml_tree = ET.XML(xml, parser=safe_xml_parser())
                 ET.indent(xml_tree)
             except BaseException as e:
                 self.logger.info(
@@ -436,7 +437,7 @@ class installer(object):
 
     def install_dmn(self, id, dmn: str):
         try:
-            dmn_tree = ET.XML(dmn)
+            dmn_tree = ET.XML(dmn, parser=safe_xml_parser())
             ET.indent(dmn_tree)
         except BaseException as e:
             self.logger.info(

@@ -823,7 +823,7 @@ def _run_extract_translations(ig_root: str) -> None:
     Failures are logged as warnings rather than errors — missing diagram sources
     should not block the commit of whatever ``.pot`` files are already present.
 
-    When a ``previewUrl`` is defined in ``dak.json`` the preview URL is passed
+    When a ``previewUrl`` is defined in the DAK section of ``index.config.json`` the preview URL is passed
     to ``extract_translations.py`` via ``--preview-url`` so that every POT entry
     contains context links for both the release and draft deployments.
 
@@ -840,7 +840,7 @@ def _run_extract_translations(ig_root: str) -> None:
 
     # Derive canonical URL from sushi-config.yaml if present
     canonical = _read_canonical_from_sushi(ig_root)
-    # Derive preview URL from dak.json if present
+    # Derive preview URL from the DAK section if present
     preview_url = _read_preview_url_from_dak(ig_root)
 
     cmd: List[str] = [
@@ -893,7 +893,7 @@ def _read_canonical_from_sushi(ig_root: str) -> Optional[str]:
 
 
 def _read_preview_url_from_dak(ig_root: str) -> Optional[str]:
-    """Read the ``previewUrl`` field from ``dak.json``.
+    """Read the ``previewUrl`` field from the index's DAK section.
 
     The preview URL is used by :func:`_run_extract_translations` so that
     extracted .pot files contain context links for both the release
@@ -903,18 +903,17 @@ def _read_preview_url_from_dak(ig_root: str) -> Optional[str]:
         ig_root: Repository root directory.
 
     Returns:
-        The preview URL string, or ``None`` if ``dak.json`` is absent or
+        The preview URL string, or ``None`` if there is no DAK section or
         the field cannot be read.
     """
-    dak_path = os.path.join(ig_root, "dak.json")
-    if not os.path.exists(dak_path):
-        return None
     try:
-        with open(dak_path, "r", encoding="utf-8") as fh:
-            data = json.load(fh)
+        from dak_index import read_dak_section
+        data = read_dak_section(ig_root)
+        if data is None:
+            return None
         return data.get("previewUrl") or None
     except Exception as exc:
-        logger.debug(f"Could not read previewUrl from dak.json: {exc}")
+        logger.debug(f"Could not read previewUrl from the DAK section: {exc}")
     return None
 
 

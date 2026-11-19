@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
 register_all_dak_projects.py — Discover all repos in a GitHub org that contain
-a dak.json file, then register each with all enabled translation services.
+a DAK section (contentTypes.dak in index.config.json, or a legacy dak.json), then register each with all enabled translation services.
 
-Uses the GitHub Code Search API to find repos containing dak.json.
+Uses the GitHub Code Search API to find repos whose index.config.json carries a DAK section.
 
 Usage:
     python register_all_dak_projects.py [--dry-run] [--org WorldHealthOrganization]
@@ -37,6 +37,7 @@ except ImportError:
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from dak_index import adopt_legacy_dak_json
 from translation_security import (
     DEFAULT_TIMEOUT_SECONDS,
     assert_no_secret_in_env,
@@ -48,7 +49,7 @@ logger = logging.getLogger(__name__)
 
 def discover_dak_repos(org: str, github_token: str) -> List[str]:
     """
-    Use GitHub Code Search API to find all repos in the org that have a dak.json.
+    Use GitHub Code Search API to find all repos in the org whose index.config.json has a DAK section.
 
     Returns a sorted list of repository names (not full names).
     """
@@ -59,26 +60,29 @@ def discover_dak_repos(org: str, github_token: str) -> List[str]:
         "User-Agent": "SMART-Base-CI/1.0",
     })
 
-    query = f"filename:dak.json org:{org}"
+    # The index section, and the legacy dak.json of IGs not yet migrated
+    # (it moved into the index on 2026-10-24, bean folio-assistant-cz17).
+    queries = [
+        f'filename:index.config.json "contentTypes" "dak" org:{org}',
+        f"filename:dak.json org:{org}",
+    ]
     url = "https://api.github.com/search/code"
-    params = {"q": query, "per_page": 100}
-
-    try:
-        resp = session.get(url, params=params, timeout=DEFAULT_TIMEOUT_SECONDS)
-    except requests.exceptions.RequestException as exc:
-        logger.error("GitHub API error: %s", exc)
-        return []
-
-    if resp.status_code != 200:
-        logger.error("GitHub search failed: HTTP %d", resp.status_code)
-        return []
-
-    data = resp.json()
     repos = set()
-    for item in data.get("items", []):
-        repo_name = item.get("repository", {}).get("name", "")
-        if repo_name:
-            repos.add(repo_name)
+    for query in queries:
+        try:
+            resp = session.get(url, params={"q": query, "per_page": 100}, timeout=DEFAULT_TIMEOUT_SECONDS)
+        except requests.exceptions.RequestException as exc:
+            logger.error("GitHub API error: %s", exc)
+            return []
+
+        if resp.status_code != 200:
+            logger.error("GitHub search failed: HTTP %d", resp.status_code)
+            return []
+
+        for item in resp.json().get("items", []):
+            repo_name = item.get("repository", {}).get("name", "")
+            if repo_name:
+                repos.add(repo_name)
 
     return sorted(repos)
 
@@ -104,6 +108,10 @@ def register_single_repo(
         if result.returncode != 0:
             logger.error("Clone failed for %s: %s", repo_name, result.stderr[:500])
             return False
+
+        # An IG still on dak.json is read as if migrated, in this clone only.
+        if adopt_legacy_dak_json(tmpdir):
+            logger.warning("%s still carries dak.json; read into index.config.json for this run", repo_name)
 
         # Call register_translation_project.py
         script = Path(__file__).resolve().parent / "register_translation_project.py"

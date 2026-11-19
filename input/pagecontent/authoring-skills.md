@@ -7,11 +7,13 @@ Skills are organized by domain and assigned to [authoring personas](authoring-pe
 #### Skill Inventory
 
 ##### Content Review Skills
+
 | Skill | Description | Personas |
 |-------|-------------|----------|
 | [Can review and approve content](Requirements-SGAuthoring.Skills.ReviewAndApproveContent.html) | Review and formally approve content at decision gates | Content Reviewer |
 
 ##### Project Management Skills
+
 | Skill | Description | Personas |
 |-------|-------------|----------|
 | [Can scope DAK](Requirements-SGAuthoring.Skills.ScopeDAK.html) | Define DAK scope, source documents, and development process | Programme Manager |
@@ -19,12 +21,14 @@ Skills are organized by domain and assigned to [authoring personas](authoring-pe
 | [Can plan iterations](Requirements-SGAuthoring.Skills.PlanIterations.html) | Plan sprints, maintain backlog, facilitate retrospectives | Programme Manager |
 
 ##### L1 Review Skills
+
 | Skill | Description | Personas |
 |-------|-------------|----------|
 | [Can review L1 guidelines](Requirements-SGAuthoring.Skills.ReviewL1Guidelines.html) | Review WHO L1 guidelines for accuracy and completeness | Technical Officer, Clinical SME, Business Analyst, QC Reviewer |
 | [Can interpret clinical recommendations](Requirements-SGAuthoring.Skills.InterpretClinicalRecommendations.html) | Interpret clinical recommendations with domain expertise | Clinical SME, Technical Officer |
 
 ##### L2 DAK Authoring Skills
+
 | Skill | Description | Personas |
 |-------|-------------|----------|
 | [Can author personas](Requirements-SGAuthoring.Skills.AuthorPersonas.html) | Define generic personas from guidelines and ground-truthing | Business Analyst, Clinical SME |
@@ -38,6 +42,7 @@ Skills are organized by domain and assigned to [authoring personas](authoring-pe
 | [Can validate DAK content](Requirements-SGAuthoring.Skills.ValidateDAKContent.html) | Review DAK for L1 accuracy and cross-component consistency | Technical Officer, Clinical SME, Business Analyst, QC Reviewer |
 
 ##### L3 FHIR Authoring Skills
+
 | Skill | Description | Personas |
 |-------|-------------|----------|
 | [Can author logical models](Requirements-SGAuthoring.Skills.AuthorLogicalModels.html) | Create FHIR logical models from L2 data dictionaries | FHIR Modeller |
@@ -53,6 +58,7 @@ Skills are organized by domain and assigned to [authoring personas](authoring-pe
 | [Can author test cases](Requirements-SGAuthoring.Skills.AuthorTestCases.html) | Create TestPlan, TestScript, and example instances | FHIR Modeller |
 
 ##### Terminology Skills
+
 | Skill | Description | Personas |
 |-------|-------------|----------|
 | [Can review terminology](Requirements-SGAuthoring.Skills.ReviewTerminology.html) | Review terminology bindings, code systems, and value sets | Terminologist, QC Reviewer |
@@ -62,6 +68,7 @@ Skills are organized by domain and assigned to [authoring personas](authoring-pe
 | [Can author concept maps](Requirements-SGAuthoring.Skills.AuthorConceptMaps.html) | Create FHIR ConceptMap resources | Terminologist, FHIR Modeller |
 
 ##### Quality Control Skills
+
 | Skill | Description | Personas |
 |-------|-------------|----------|
 | [Can run QA checks](Requirements-SGAuthoring.Skills.RunQAChecks.html) | Run and interpret IG Publisher QA reports | QC Reviewer, FHIR Modeller, Publication Manager, Terminologist |
@@ -70,6 +77,7 @@ Skills are organized by domain and assigned to [authoring personas](authoring-pe
 | [Can validate L3 functionality](Requirements-SGAuthoring.Skills.ValidateL3Functionality.html) | Test StructureMaps, CQL, and Measures | QC Reviewer |
 
 ##### Publication Skills
+
 | Skill | Description | Personas |
 |-------|-------------|----------|
 | [Can configure IG](Requirements-SGAuthoring.Skills.ConfigureIG.html) | Set up IG repository and sushi-config | Publication Manager, FHIR Modeller |
@@ -78,6 +86,7 @@ Skills are organized by domain and assigned to [authoring personas](authoring-pe
 | [Can manage governance](Requirements-SGAuthoring.Skills.ManageGovernance.html) | Manage cross-IG shared artifacts and governance | Publication Manager, Terminologist |
 
 ##### Translation Skills
+
 | Skill | Description | Personas |
 |-------|-------------|----------|
 | [Can translate content](Requirements-SGAuthoring.Skills.TranslateContent.html) | Translate IG content across UN languages | Translator |
@@ -102,9 +111,9 @@ Each persona has a defined package of skills. The full set of skills for each pe
 
 #### BPMN Swimlane Validation
 
-As part of the BPMN authoring and review process, every innermost swimlane in a BPMN diagram **SHALL** correspond to an ActorDefinition resource. The [`bpmn_layout` skill](.github/skills/bpmn_layout/skills.yaml) includes a `validate-swimlanes` command that checks this automatically.
+As part of the BPMN authoring and review process, every innermost swimlane in a BPMN diagram **SHALL** correspond to an ActorDefinition resource. A lane names its ActorDefinition by id: its `partitionElementRef` (a top-level `<bpmn:resource>` whose `id` is the ActorDefinition's FSH `Instance:` id), or else its own `id`. A lane is never matched by its display name or by a file name. The [`bpmn-validate`](https://litlfred.github.io/folio-assistant/smart-base/L2-bpmn/tools/) tool in the smart-base knowledge graph checks this, together with the diagram's structure and the absence of Camunda or Zeebe extensions, on every pull request that changes a `.bpmn`.
 
 When a swimlane has no matching ActorDefinition, the author must resolve by:
 1. **Referencing** an ActorDefinition from a dependency IG
 2. **Creating** a new ActorDefinition in this IG
-3. **Correcting** a typo in the swimlane name
+3. **Correcting** the lane's binding (its `partitionElementRef` or id)

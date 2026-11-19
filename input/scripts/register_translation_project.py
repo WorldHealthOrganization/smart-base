@@ -9,7 +9,7 @@ Usage:
 
     Repo name and org are derived from the GITHUB_REPOSITORY environment variable
     (format ``org/repo-name``).  When GITHUB_REPOSITORY is not set (local dev),
-    the ``id`` field from dak.json is used as a fallback.
+    the ``id`` field from contentTypes.dak is used as a fallback.
 
 Environment variables:
     GITHUB_REPOSITORY      Set automatically in GitHub Actions (org/repo-name)
@@ -18,7 +18,7 @@ Environment variables:
     LAUNCHPAD_API_TOKEN    Launchpad API token (if Launchpad enabled)
 
 Exit codes:
-    0  Registration completed (or dak.json not found — warning + skip)
+    0  Registration completed (or contentTypes.dak not found — warning + skip)
     1  Registration error
     2  Invalid --service value
 
@@ -436,8 +436,8 @@ def _derive_repo_info(repo_root: Path) -> tuple[str, str]:
     """
     Return ``(org, repo_name)`` derived from the GITHUB_REPOSITORY env var.
 
-    Falls back to the ``id`` field of dak.json when GITHUB_REPOSITORY is not
-    set (e.g. during local development).  The dak.json ``id`` is expected to
+    Falls back to the ``id`` field of the DAK section when GITHUB_REPOSITORY
+    is not set (e.g. during local development).  That ``id`` is expected to
     carry the repo name only (not ``org/name``); the org defaults to
     ``worldhealthorganization`` in that case.
     """
@@ -447,24 +447,24 @@ def _derive_repo_info(repo_root: Path) -> tuple[str, str]:
         if len(parts) == 2:
             return parts[0], parts[1]
 
-    # Fallback: read repo name from dak.json id field
-    dak_json = repo_root / "dak.json"
-    if dak_json.is_file():
-        try:
-            data = json.loads(dak_json.read_text(encoding="utf-8"))
-            repo_name = data.get("id", "")
-            if repo_name:
-                logger.warning(
-                    "GITHUB_REPOSITORY not set — using dak.json id '%s' as repo name",
-                    repo_name,
-                )
-                return "worldhealthorganization", repo_name
-        except (OSError, json.JSONDecodeError) as exc:
-            logger.warning("Could not read dak.json id: %s", exc)
+    # Fallback: read repo name from the DAK section's id field
+    from dak_index import load_dak_section_strict
+    try:
+        data = load_dak_section_strict(repo_root)
+    except (OSError, ValueError) as exc:
+        data = None
+        logger.warning("Could not read the DAK section id: %s", exc)
+    repo_name = (data or {}).get("id", "")
+    if repo_name:
+        logger.warning(
+            "GITHUB_REPOSITORY not set — using the DAK section id '%s' as repo name",
+            repo_name,
+        )
+        return "worldhealthorganization", repo_name
 
     raise RuntimeError(
-        "Cannot determine repo name: GITHUB_REPOSITORY is not set and dak.json id is missing. "
-        "Set the GITHUB_REPOSITORY environment variable or ensure dak.json contains a valid id field."
+        "Cannot determine repo name: GITHUB_REPOSITORY is not set and the DAK section id is missing. "
+        "Set the GITHUB_REPOSITORY environment variable or give contentTypes.dak in index.config.json a valid id."
     )
 
 
@@ -477,7 +477,7 @@ def register_project(
 
     ``service_filter`` is ``all`` or one of ``weblate``/``launchpad``/``crowdin``.
     When a specific service is given, only that service is registered (provided
-    it is also enabled in dak.json).
+    it is also enabled in contentTypes.dak).
 
     Returns 0 on success, 1 on error.
     """
@@ -485,8 +485,8 @@ def register_project(
     try:
         config = load_dak_config(repo_root)
     except DakConfigError:
-        logger.warning("dak.json not found or invalid at %s — skipping", repo_root)
-        return 0  # REG-002: missing dak.json → warning + exit 0
+        logger.warning("contentTypes.dak not found or invalid at %s — skipping", repo_root)
+        return 0  # REG-002: missing contentTypes.dak → warning + exit 0
 
     # Derive repo identity
     try:
@@ -521,7 +521,7 @@ def register_project(
             k: v for k, v in enabled_services.items() if k == service_filter
         }
         if not enabled_services:
-            logger.info("Service '%s' is not enabled in dak.json — nothing to do", service_filter)
+            logger.info("Service '%s' is not enabled in contentTypes.dak — nothing to do", service_filter)
             return 0
 
     errors = False
