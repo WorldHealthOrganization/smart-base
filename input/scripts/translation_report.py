@@ -119,7 +119,7 @@ def generate_report(
     try:
         config = load_dak_config(repo_root)
     except DakConfigError:
-        logger.warning("dak.json not found — generating minimal report")
+        logger.warning("contentTypes.dak not found — generating minimal report")
         config = None
 
     components = discover_components(repo_root)

@@ -527,14 +527,14 @@ def main() -> int:
     ig_root = Path(sys.argv[2]) if len(sys.argv) > 2 else Path(".")
 
     # -----------------------------------------------------------------------
-    # DAK IG check – skip entirely if dak.json is absent
+    # DAK IG check – skip entirely if the index has no DAK section
     # -----------------------------------------------------------------------
-    dak_json_path = ig_root / "dak.json"
-    if not dak_json_path.exists():
-        print("ℹ️  dak.json not found – this is not a DAK IG. Skipping smart.liquid generation.")
+    from dak_index import dak_index_path, has_dak_section
+    if not has_dak_section(ig_root):
+        print("ℹ️  no contentTypes.dak in index.config.json – this is not a DAK IG. Skipping smart.liquid generation.")
         return 0
 
-    print(f"✅ DAK IG detected (dak.json found at {dak_json_path})")
+    print(f"✅ DAK IG detected (contentTypes.dak in {dak_index_path(ig_root)})")
     print(f"📂 Scanning IG Publisher output: {output_dir.resolve()}")
 
     # -----------------------------------------------------------------------

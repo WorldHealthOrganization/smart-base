@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Optional
 
 import lxml.etree as ET
+from safe_xml import safe_xml_parser
 
 
 def setup_logging() -> logging.Logger:
@@ -52,7 +53,7 @@ def load_xslt_transformer(xslt_path: Path, logger: logging.Logger) -> Optional[E
         
         logger.info(f"Loading XSLT transformer from {xslt_path}")
         with open(xslt_path, "rb") as f:
-            xslt_doc = ET.parse(f)
+            xslt_doc = ET.parse(f, parser=safe_xml_parser())
             return ET.XSLT(xslt_doc)
     except Exception as e:
         logger.error(f"Failed to load XSLT transformer from {xslt_path}: {e}")
@@ -77,7 +78,7 @@ def transform_dmn_file(dmn_path: Path, output_path: Path, transformer: ET.XSLT, 
         
         # Parse the DMN XML file
         with open(dmn_path, "rb") as f:
-            dmn_doc = ET.parse(f)
+            dmn_doc = ET.parse(f, parser=safe_xml_parser())
         
         # Apply XSLT transformation
         result = transformer(dmn_doc)

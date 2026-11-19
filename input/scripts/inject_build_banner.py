@@ -52,7 +52,7 @@ def _short_sha(sha: str) -> str:
 
 
 def _read_version(root: Path) -> str:
-    """Read IG version from sushi-config.yaml or dak.json."""
+    """Read IG version from sushi-config.yaml or the index's DAK section."""
     sushi = root / "sushi-config.yaml"
     if sushi.exists():
         try:
@@ -62,12 +62,10 @@ def _read_version(root: Path) -> str:
         except Exception:
             pass
     try:
-        import json
-        dak = root / "dak.json"
-        if dak.exists():
-            d = json.loads(dak.read_text(encoding="utf-8"))
-            if d.get("version"):
-                return str(d["version"])
+        from dak_index import read_dak_section
+        d = read_dak_section(root) or {}
+        if d.get("version"):
+            return str(d["version"])
     except Exception:
         pass
     return ""

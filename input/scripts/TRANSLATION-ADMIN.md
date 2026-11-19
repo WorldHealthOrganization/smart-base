@@ -28,7 +28,7 @@ workflow. Each piece has a single responsibility:
 
 ```
 sushi-config.yaml          ← primary translation config (authoritative)
-dak.json                   ← IG identity + fallback translation config
+index.config.json          ← contentTypes.dak: IG identity + fallback translation config
          │
          ▼
 translation_config.py      ← single config reader used by all scripts
@@ -50,10 +50,10 @@ translation_config.py      ← single config reader used by all scripts
 
 | Module | Purpose |
 |--------|---------|
-| `translation_config.py` | Single authoritative reader for `sushi-config.yaml#translations` (with `dak.json#translations` fallback). Provides language list, enabled services, project slug derivation, and `.pot` component discovery. |
+| `translation_config.py` | Single authoritative reader for `sushi-config.yaml#translations` (with `index.config.json#contentTypes.dak.translations` fallback). Provides language list, enabled services, project slug derivation, and `.pot` component discovery. |
 | `translation_security.py` | Input sanitization (`sanitize_slug`, `sanitize_url`, `sanitize_lang_code`), secret redaction, HTTP safety constants, and guard against secrets leaking through workflow inputs. |
 | `register_translation_project.py` | Idempotently creates or verifies a translation project and all its components on every enabled service, for one IG repo. |
-| `register_all_dak_projects.py` | Uses the GitHub Code Search API to discover every repo in the org containing `dak.json`, then calls `register_translation_project.py` for each. |
+| `register_all_dak_projects.py` | Uses the GitHub Code Search API to discover every repo in the org whose `index.config.json` has `contentTypes.dak` (or that still carries a legacy `dak.json`), then calls `register_translation_project.py` for each. |
 | `pull_translations.py` | Orchestrator that calls the correct service adapter for each enabled service. Never contains service-specific logic. |
 | `pull_weblate_translations.py` | Downloads `.po` files from the Weblate REST API and writes them to the correct `translations/` directories. |
 | `pull_launchpad_translations.py` | Launchpad adapter (stub — structure in place, API calls not yet implemented). |
@@ -71,7 +71,7 @@ translation_config.py      ← single config reader used by all scripts
 ## 2. Configuration Parameters Reference
 
 Translation configuration lives in `sushi-config.yaml` under a top-level
-`translations` key. If that key is absent, `dak.json#translations` is used as
+`translations` key. If that key is absent, `index.config.json#contentTypes.dak.translations` is used as
 a backward-compatible fallback. **`sushi-config.yaml` takes priority.**
 
 ### Example (`sushi-config.yaml`)
@@ -156,9 +156,9 @@ Components are discovered automatically by scanning the repo for all
 ### Config Priority
 
 `sushi-config.yaml#translations` is read first. If that key is absent or the
-file does not exist, `dak.json#translations` is tried. This preserves
+file does not exist, `index.config.json#contentTypes.dak.translations` is tried. This preserves
 backward compatibility for repos that store translations config only in
-`dak.json`.
+`contentTypes.dak` (in `index.config.json`).
 
 ---
 
@@ -173,7 +173,7 @@ backward compatibility for repos that store translations config only in
 | `WEBLATE_API_TOKEN` | GitHub Actions secret | Weblate registration + pull | Project-admin scope for registration; read scope for pull |
 | `CROWDIN_API_TOKEN` | GitHub Actions secret | Crowdin (if enabled) | Project-admin for registration; read for pull |
 | `LAUNCHPAD_API_TOKEN` | GitHub Actions secret | Launchpad (if enabled) | OAuth 1.0 token |
-| `GITHUB_TOKEN` | Auto-provided by Actions | Bulk registration (`mode=all`) | Used for GitHub Code Search API (`/search/code?q=filename:dak.json org:{org}`) |
+| `GITHUB_TOKEN` | Auto-provided by Actions | Bulk registration (`mode=all`) | Used for GitHub Code Search API (`/search/code`, for `index.config.json` with `contentTypes` `dak`, and for legacy `dak.json`) |
 | `SMARTBASE_DISPATCH_TOKEN` | GitHub Actions secret (in **each downstream IG repo**) | `notify_smart_base.yml` | PAT with `repo` scope on smart-base; used to fire `repository_dispatch` |
 | `GITHUB_REPOSITORY` | Auto-provided by Actions | `pull_translations.py` | Format: `{org}/{repo}` — used to derive the project slug |
 
@@ -224,7 +224,7 @@ translations:
       url: https://hosted.weblate.org
 ```
 
-> **Tip:** Use `dak.json#translations` only as a fallback. Prefer
+> **Tip:** Use `index.config.json#contentTypes.dak.translations` only as a fallback. Prefer
 > `sushi-config.yaml` for all new configurations.
 
 #### Step 4 — Seed `.pot` source files
@@ -255,7 +255,7 @@ Actions (in smart-base) → Register Translation Project
   → Run workflow
 ```
 
-**Automated (push `dak.json` or `sushi-config.yaml`):**
+**Automated (push `index.config.json` or `sushi-config.yaml`):**
 
 The downstream IG's `notify_smart_base.yml` fires a `repository_dispatch`
 event of type `dak-ig-registered` to smart-base, which triggers registration
@@ -346,7 +346,7 @@ Or nightly scheduled (see `pull_translations.yml`).
 | Trigger | When |
 |---------|------|
 | `workflow_dispatch` | Manual run from the Actions UI |
-| `repository_dispatch` type=`dak-ig-registered` | Automatic — fired by downstream IGs when `dak.json` or `sushi-config.yaml` is pushed |
+| `repository_dispatch` type=`dak-ig-registered` | Automatic — fired by downstream IGs when `index.config.json` or `sushi-config.yaml` is pushed |
 
 #### `workflow_dispatch` Inputs
 
@@ -379,7 +379,7 @@ Or nightly scheduled (see `pull_translations.yml`).
 ### Register a new IG repo (single)
 
 ```
-1. Ensure dak.json and sushi-config.yaml#translations are committed in the IG repo.
+1. Ensure index.config.json contentTypes.dak and sushi-config.yaml#translations are committed in the IG repo.
 2. Ensure .pot files are committed (run commit-pot.yml if needed).
 3. Navigate to: smart-base → Actions → Register Translation Project
 4. Click "Run workflow"
@@ -514,7 +514,7 @@ python input/scripts/translation_config.py --repo-root .
 | Symptom | Cause | Fix |
 |---------|-------|-----|
 | `WEBLATE_API_TOKEN not set` | Secret missing or mis-named | Add secret with exact name `WEBLATE_API_TOKEN` (case-sensitive) |
-| `dak.json not found` | Wrong `--repo-root` or file missing | Ensure `dak.json` exists at the repo root; check `--repo-root` argument |
+| `contentTypes.dak not found` | Wrong `--repo-root` or file missing | Ensure the root `index.config.json` has a `contentTypes.dak` section; check `--repo-root` argument |
 | `Invalid repo_name: contains disallowed characters` | Repo name has special characters | Only `[A-Za-z0-9_-]` are allowed in `repo_name` |
 | Component not appearing in Weblate | No `.pot` file committed yet | Run `commit-pot.yml` (or `extract_translations.py`) to seed `.pot` files first |
 | HTTP 403 on Weblate project create | Token lacks project-admin scope | Regenerate token with project-admin permission at `/accounts/profile/#api` |

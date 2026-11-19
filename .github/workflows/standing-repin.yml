@@ -1,0 +1,27 @@
+# Standing re-pin (folio-assistant bean um0y; owner, 2026-11-12: a re-pin
+# writes no consent in the owner's name). The reusable workflow moves only the
+# pins whose layer declares `trust.standing` in index.config.json, writes that
+# pin's consent under the owner's standing rule, re-mounts, and opens ONE
+# pins-only PR (repin/standing-<date>). While no layer declares a standing
+# rule, a run moves nothing. Auto-merge is off in this repository, so the PR
+# waits to be merged by hand. No schedule: dispatch it, or an upstream pokes it
+# with `gh api repos/litlfred/smart-base/dispatches -f event_type=upstream-merged`.
+name: Standing repin
+on:
+  repository_dispatch:
+    types: [upstream-merged]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        type: boolean
+        default: false
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  repin:
+    uses: litlfred/cat-harness-tools/.github/workflows/standing-repin.yml@97bfe4e098f01cdabe52db822a4ef818e9d19d58 # index.lock.json
+    with:
+      dry-run: ${{ inputs.dry_run == true }}
+    secrets:
+      repin-token: ${{ secrets.REPIN_TOKEN }}

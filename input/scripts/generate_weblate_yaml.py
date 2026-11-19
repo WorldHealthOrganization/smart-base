@@ -90,7 +90,7 @@ def _check_flags_for_component(comp: TranslationComponent) -> Optional[str]:
 # ---------------------------------------------------------------------------
 
 def _derive_repo_url(config: DakConfig) -> str:
-    """Derive the GitHub repo URL from dak.json fields."""
+    """Derive the GitHub repo URL from contentTypes.dak fields."""
     preview = config.raw.get("previewUrl", "")
     # previewUrl is usually https://WorldHealthOrganization.github.io/smart-base
     if not preview:
@@ -112,7 +112,7 @@ def _derive_repo_url(config: DakConfig) -> str:
 
 
 def _derive_publication_url(config: DakConfig) -> str:
-    """Derive the publication URL from dak.json fields."""
+    """Derive the publication URL from contentTypes.dak fields."""
     return config.raw.get("publicationUrl", "")
 
 
@@ -124,7 +124,7 @@ def generate_weblate_yaml(
     """
     Generate the complete weblate.yaml content as a string.
 
-    All values are derived from dak.json and the discovered .pot components.
+    All values are derived from contentTypes.dak and the discovered .pot components.
     """
     lines: List[str] = []
     repo_url = _derive_repo_url(config)
@@ -232,7 +232,7 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     repo_root = Path(args.repo_root).resolve()
 
-    # Load config (translations from sushi-config.yaml, identity from dak.json)
+    # Load config (translations from sushi-config.yaml, identity from contentTypes.dak)
     try:
         config = load_dak_config(repo_root)
     except DakConfigError as exc:
@@ -240,7 +240,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 1
 
     if not config.translations:
-        logger.error("No translations block in sushi-config.yaml or dak.json — nothing to generate")
+        logger.error("No translations block in sushi-config.yaml or contentTypes.dak — nothing to generate")
         return 1
 
     # Check that Weblate is enabled

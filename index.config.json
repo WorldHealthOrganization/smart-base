@@ -1,0 +1,316 @@
+{
+  "$schema": "folio-index-config/v1",
+  "layers": [
+    {
+      "name": "smart-base",
+      "_comment": "This repository INSTANTIATES the smart-base harness, as litlfred/smart-trust's and litlfred/smart-immunizations' seeds do (folio-assistant beans rbz3 and n3ni). The owner's rule (litlfred/folio-assistant#1767, 2026-10-01): 'every repo gets same <stub=smart-base>.config.json and smart-base/ dir ... where all the dirs live'. Here the instance IS the harness: smart-base/ holds its declaration (smart-base/smart-base.json), schemas, skills, scripts, tools, processes, kinds, themes, translations, the artefact index and the library of WHO source publications, with their history carried from folio-assistant's smart-base/ (n3ni stage E; owner, 2026-10-06). The generated docs/ pages are not copied: they are rebuilt. The IG source stays where the IG Publisher expects it (input/, sushi-config.yaml). The site is agent-run (`site`, below) and published by the IG route every smart-* IG uses: `bun run cat-harness-tools/scripts/stage-local.ts --repo .` builds the folio site from the IG's cached AST with smart-base's own chrome (`site.landing`) and the mounted layers' ig-site steps (owner, 2026-10-15: 'Yes + retire old workflow'). The retired `.github/workflows/folio-site.yml` composed the IG inside the just-the-docs shell from the folio-assistant submodule; it is gone, and `ghbuild.yml` no longer deploys over a folio root.",
+      "source": {
+        "local": {
+          "at": "smart-base"
+        }
+      },
+      "contentType": "document",
+      "_contentType_comment": "`document`. The IG's pages and artefact index are structured prose and data; there is no Lean and no TeX.",
+      "site": {
+        "build": {
+          "keep": [
+            "v0",
+            "ns",
+            "0.1.0",
+            "sitepreview"
+          ]
+        }
+      },
+      "_site_comment": "`site.build.keep`: root entries of gh-pages that the harness site's root publish (stage-local.ts, the IG folio route) keeps besides branches/, _render-log/ and the IG's branches/: `v0`, `ns` and `0.1.0`, the JSON-LD vocabulary and context layer-publish-context.yml writes (`v0/ns/` since 2026-11-04), and `sitepreview`. No steps are declared: the IG route supplies them."
+    },
+    {
+      "name": "fhir-harness",
+      "source": {
+        "remote": {
+          "repository": "litlfred/fhir-harness",
+          "ref": "1529a1914ad4215856f15203fb19be02e3bfb3cb",
+          "overrides": {
+            "fhir-harness": {
+              "whole": true
+            }
+          },
+          "trust": {
+            "consent": {
+              "by": "litlfred",
+              "on": "2026-11-16",
+              "ref": "1529a1914ad4215856f15203fb19be02e3bfb3cb",
+              "evidence": "litlfred 2026-11-16: merge-and-repin window to 19:01Z (owner card 06:36Z); re-pin cascade wave 3"
+            },
+            "standing": {
+              "follows": "main",
+              "consentBy": "litlfred",
+              "consentAt": "2026-11-12",
+              "require": "green",
+              "evidence": "litlfred, 2026-11-12: Q-BIBNAV-2 B (standing re-pin so platform fixes reach the site by themselves) and Q-CONSENT-1 A; owner chose 'Keep, add standing now' for smart-base#354. Written by the coordinator session https://claude.ai/code/session_01EucfRpkvK7d4FJyuqypQzm."
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "who-iris",
+      "source": {
+        "remote": {
+          "repository": "litlfred/who-iris",
+          "ref": "f7290776b30cf851a3174384917b1dcc3890991b",
+          "overrides": {
+            "who-iris": {
+              "whole": true
+            },
+            "folio-assistant-core": {
+              "skip": true
+            },
+            "cat-harness": {
+              "skip": true
+            },
+            "cat-harness-tools": {
+              "skip": true
+            },
+            "bootstrap": {
+              "skip": true
+            },
+            "bootstrap-tools": {
+              "skip": true
+            }
+          },
+          "trust": {
+            "consent": {
+              "by": "litlfred",
+              "on": "2026-11-15",
+              "ref": "f7290776b30cf851a3174384917b1dcc3890991b",
+              "evidence": "litlfred 2026-11-15T19:01:19Z, card in thread cmsg_017WNUkNK8kdDziPK58Pv6G9HtujCofFVVPVPppfDRTSNR (decision cmsg_017WNUkNK8kdDziPK58Pv6G9L7BityLCAN5rXMwLd53Kkn): \"Yes, +12 hours\" — extend the repin and merge window so the stable point can finish (every pin to its main), to 2026-11-16T07:01Z"
+            },
+            "standing": {
+              "follows": "main",
+              "consentBy": "litlfred",
+              "consentAt": "2026-11-12",
+              "require": "green",
+              "evidence": "litlfred, 2026-11-12: Q-BIBNAV-2 B (standing re-pin so platform fixes reach the site by themselves) and Q-CONSENT-1 A; owner chose 'Keep, add standing now' for smart-base#354. Written by the coordinator session https://claude.ai/code/session_01EucfRpkvK7d4FJyuqypQzm."
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "folio-assistant-core",
+      "source": {
+        "remote": {
+          "repository": "litlfred/folio-assistant-core",
+          "ref": "60666b1c6a159e5e3ffd066189dd17483da99422",
+          "overrides": {
+            "folio-assistant-core": {
+              "whole": true
+            },
+            "cat-harness": {
+              "skip": true
+            },
+            "cat-harness-tools": {
+              "skip": true
+            }
+          },
+          "trust": {
+            "consent": {
+              "by": "litlfred",
+              "on": "2026-11-16",
+              "ref": "60666b1c6a159e5e3ffd066189dd17483da99422",
+              "evidence": "litlfred 2026-11-16: merge-and-repin window to 19:01Z (owner card 06:36Z); re-pin cascade wave 3"
+            },
+            "standing": {
+              "follows": "main",
+              "consentBy": "litlfred",
+              "consentAt": "2026-11-12",
+              "require": "green",
+              "evidence": "litlfred, 2026-11-12: Q-BIBNAV-2 B (standing re-pin so platform fixes reach the site by themselves) and Q-CONSENT-1 A; owner chose 'Keep, add standing now' for smart-base#354. Written by the coordinator session https://claude.ai/code/session_01EucfRpkvK7d4FJyuqypQzm."
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "cat-harness",
+      "source": {
+        "remote": {
+          "repository": "litlfred/cat-harness",
+          "ref": "dcd503fa1dffd4bf5982602f44305ec4ec9003b2",
+          "overrides": {
+            "cat-harness": {
+              "whole": true
+            },
+            "bootstrap": {
+              "skip": true
+            },
+            "bootstrap-tools": {
+              "skip": true
+            }
+          },
+          "trust": {
+            "consent": {
+              "by": "litlfred",
+              "on": "2026-11-16",
+              "ref": "dcd503fa1dffd4bf5982602f44305ec4ec9003b2",
+              "evidence": "litlfred 2026-11-16: merge-and-repin window to 19:01Z (owner card 06:36Z); re-pin cascade wave 3"
+            },
+            "standing": {
+              "follows": "main",
+              "consentBy": "litlfred",
+              "consentAt": "2026-11-12",
+              "require": "green",
+              "evidence": "litlfred, 2026-11-12: Q-BIBNAV-2 B (standing re-pin so platform fixes reach the site by themselves) and Q-CONSENT-1 A; owner chose 'Keep, add standing now' for smart-base#354. Written by the coordinator session https://claude.ai/code/session_01EucfRpkvK7d4FJyuqypQzm."
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "cat-harness-tools",
+      "source": {
+        "remote": {
+          "repository": "litlfred/cat-harness-tools",
+          "ref": "97bfe4e098f01cdabe52db822a4ef818e9d19d58",
+          "overrides": {
+            "cat-harness-tools": {
+              "whole": true
+            },
+            "cat-harness": {
+              "skip": true
+            }
+          },
+          "trust": {
+            "consent": {
+              "by": "litlfred",
+              "on": "2026-11-19",
+              "ref": "97bfe4e098f01cdabe52db822a4ef818e9d19d58",
+              "evidence": "litlfred 2026-11-19, in-session card in session_01EucfRp5JLjCSHxQSJ7AK1R: 'Yes, re-pin to 97bfe4e0' (cat-harness-tools#2470, merged; judges WHO smart-base#340 on its own head when main has no smart-base/)."
+            },
+            "standing": {
+              "follows": "main",
+              "consentBy": "litlfred",
+              "consentAt": "2026-11-12",
+              "require": "green",
+              "evidence": "litlfred, 2026-11-12: Q-BIBNAV-2 B (standing re-pin so platform fixes reach the site by themselves) and Q-CONSENT-1 A; owner chose 'Keep, add standing now' for smart-base#354. Written by the coordinator session https://claude.ai/code/session_01EucfRpkvK7d4FJyuqypQzm."
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "bootstrap",
+      "source": {
+        "remote": {
+          "repository": "litlfred/bootstrap",
+          "ref": "7db8457701ebb9b99284d639128f3c82ad4fc6ea",
+          "overrides": {
+            "bootstrap": {
+              "whole": true
+            }
+          },
+          "trust": {
+            "consent": {
+              "by": "litlfred",
+              "on": "2026-11-15",
+              "ref": "7db8457701ebb9b99284d639128f3c82ad4fc6ea",
+              "evidence": "owner litlfred, 2026-11-14 ~19:40Z and ~21:1xZ, in Claude Code session https://claude.ai/code/session_01VQDpPffYARDQ8juksAZScf: '+12 hrs merge+repin winfow'; 'merge all your and siblings as they turn green' — smart-base#411 needs who-iris >= 94a15b9, and lock freshness needs every mount at main"
+            },
+            "standing": {
+              "follows": "main",
+              "consentBy": "litlfred",
+              "consentAt": "2026-11-12",
+              "require": "green",
+              "evidence": "litlfred, 2026-11-12: Q-BIBNAV-2 B (standing re-pin so platform fixes reach the site by themselves) and Q-CONSENT-1 A; owner chose 'Keep, add standing now' for smart-base#354. Written by the coordinator session https://claude.ai/code/session_01EucfRpkvK7d4FJyuqypQzm."
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "bootstrap-tools",
+      "source": {
+        "remote": {
+          "repository": "litlfred/bootstrap-tools",
+          "ref": "174a567db34db10b007a45b13f960f218a6b04f5",
+          "overrides": {
+            "bootstrap-tools": {
+              "whole": true
+            },
+            "bootstrap": {
+              "skip": true
+            }
+          },
+          "trust": {
+            "consent": {
+              "by": "litlfred",
+              "on": "2026-11-15",
+              "ref": "174a567db34db10b007a45b13f960f218a6b04f5",
+              "evidence": "owner litlfred, 2026-11-14 ~19:40Z and ~21:1xZ, in Claude Code session https://claude.ai/code/session_01VQDpPffYARDQ8juksAZScf: '+12 hrs merge+repin winfow'; 'merge all your and siblings as they turn green' — smart-base#411 needs who-iris >= 94a15b9, and lock freshness needs every mount at main"
+            },
+            "standing": {
+              "follows": "main",
+              "consentBy": "litlfred",
+              "consentAt": "2026-11-12",
+              "require": "green",
+              "evidence": "litlfred, 2026-11-12: Q-BIBNAV-2 B (standing re-pin so platform fixes reach the site by themselves) and Q-CONSENT-1 A; owner chose 'Keep, add standing now' for smart-base#354. Written by the coordinator session https://claude.ai/code/session_01EucfRpkvK7d4FJyuqypQzm."
+            }
+          }
+        }
+      }
+    }
+  ],
+  "harnesses": [
+    {
+      "name": "smart-base"
+    }
+  ],
+  "site": {
+    "landing": "smart-base",
+    "agentRun": true,
+    "publishAfter": [
+      "ig-ast-refresh.yml"
+    ]
+  },
+  "contentTypes": {
+    "dak": {
+      "resourceType": "DAK",
+      "resourceDefinition": "http://smart.who.int/base/StructureDefinition/DAK",
+      "id": "smart.who.int.base",
+      "name": "Base",
+      "title": "SMART Base",
+      "description": "Base SMART Guidelines implementation guide to be used as the base dependency for all SMART Guidelines IGs",
+      "version": "0.2.0",
+      "status": "draft",
+      "publicationUrl": "https://smart.who.int/base",
+      "previewUrl": "https://WorldHealthOrganization.github.io/smart-base",
+      "canonicalUrl": "https://smart.who.int/base",
+      "license": "CC-BY-SA-3.0-IGO",
+      "copyrightYear": "2023+",
+      "publisher": {
+        "name": "WHO",
+        "url": "http://who.int"
+      }
+    },
+    "ig": {
+      "_comment": "This repository is the source of a FHIR IG (fhir-harness's `ig` content type; owner, 2026-10-30, bean cz17 item 3). `include` is what the harness reads in this repository, and nothing else is read (owner, 2026-10-30: \"harness desclares what it it pays attention to in the repo\"). sushi-config.yaml stays SUSHI's file.",
+      "include": [
+        "sushi-config.yaml",
+        "ig.ini",
+        "input/fsh/",
+        "input/cql/",
+        "input/pagecontent/",
+        "input/includes/",
+        "input/images/",
+        "input/images-source/",
+        "input/data/",
+        "input/diagrams/",
+        "input/archimate/",
+        "input/dmn/",
+        "input/ignoreWarnings.txt",
+        "fsh-generated/",
+        "qa/ig-content-qa.json"
+      ]
+    }
+  }
+}

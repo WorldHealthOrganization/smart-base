@@ -1,0 +1,49 @@
+# The smart-base Tool `bpmn-validate` (smart-base/L2-bpmn/tools/bpmn-validate/,
+# bean folio-assistant-tgaj) on every pull request that changes a `.bpmn`:
+# structure, no Camunda/Zeebe namespace, and each lane bound to an
+# ActorDefinition (by its FSH Instance id) or a harness role.
+#
+# Only the CHANGED `.bpmn` files under the declared process directories are
+# judged (`--changed`), never the whole tree: several of the repository's own
+# harness processes have lanes that bind nothing yet (21 findings when this
+# was added), and those are information for their authors, not a reason to
+# fail an unrelated pull request. No push trigger, so main is never judged here.
+#
+# Why its own workflow: harness-pr-checks.yml runs the platform's
+# layer-pr-checks, whose gates run in the folio-assistant index with this
+# repository swapped in without its .git, so no gate there can see which
+# files a pull request changed (run-gates.py: GATE_DIFF_BASE is unset in
+# layer mode).
+name: BPMN validate
+on:
+  pull_request:
+    paths:
+      - '**/*.bpmn'
+      - 'smart-base/L2-bpmn/tools/bpmn-validate/**'
+      - '.github/workflows/bpmn-validate.yml'
+permissions:
+  contents: read
+jobs:
+  bpmn-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+      # The mounted layers' scenarios/roles.json declare the roles a harness
+      # process's lanes bind (cat-harness's role-model).
+      - name: Mount the platform layers
+        run: bash .github/mount-from-lock.sh
+      # The tool's one dependency, cat-harness-tools' BPMN parser, without
+      # installing every workspace.
+      - name: Install bpmn-moddle
+        run: |
+          npm install --no-save --no-package-lock --prefix "$RUNNER_TEMP/bpmn" bpmn-moddle@10.3.1
+          ln -sfn "$RUNNER_TEMP/bpmn/node_modules" node_modules
+      - name: The tool's own tests
+        run: bun test smart-base/L2-bpmn/tools/bpmn-validate/validate.test.ts
+      - name: Validate the changed BPMN
+        env:
+          BASE: ${{ github.base_ref }}
+        run: bun run smart-base/L2-bpmn/tools/bpmn-validate/validate.ts --changed "origin/$BASE"

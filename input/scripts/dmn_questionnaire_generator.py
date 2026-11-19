@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Dict, List, Set, Optional
 
 import lxml.etree as ET
+from safe_xml import safe_xml_parser
 
 
 class DMNQuestionnaireGenerator:
@@ -42,7 +43,7 @@ class DMNQuestionnaireGenerator:
             self.logger.info(f"Parsing DMN file: {dmn_path}")
             
             with open(dmn_path, "rb") as f:
-                dmn_doc = ET.parse(f)
+                dmn_doc = ET.parse(f, parser=safe_xml_parser())
             
             root = dmn_doc.getroot()
             

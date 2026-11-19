@@ -132,7 +132,7 @@ def pull_translations(
     try:
         config = load_dak_config(repo_root)
     except DakConfigError:
-        logger.warning("dak.json not found or invalid — skipping")
+        logger.warning("contentTypes.dak not found or invalid — skipping")
         return 0
 
     languages = get_language_codes(config)

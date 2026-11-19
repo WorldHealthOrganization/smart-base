@@ -84,13 +84,9 @@ def _fetch_deployed_branches(repo: str, token: str) -> "list[str]":
 
 
 def _load_dak_json(root: Path) -> dict:
-    dak_path = root / "dak.json"
-    if dak_path.exists():
-        try:
-            return json.loads(dak_path.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, IOError):
-            pass
-    return {}
+    """The DAK section of the root index.config.json, or {} when absent."""
+    from dak_index import read_dak_section
+    return read_dak_section(root) or {}
 
 
 # ---------------------------------------------------------------------------

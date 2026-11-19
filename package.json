@@ -1,0 +1,28 @@
+{
+  "_comment": "The root of the checkout, for the layers smart-base mounts (index.lock.json); smart-base's own layer is smart-base/, with its own package.json. Added 2026-11-13: without it, `site-publish.yml` failed on every push since it was added (2026-11-11) with \"Cannot find package '@litlfred/cat-harness-tools' imported from fhir-harness/scripts/stage-local-ig.ts\": the mounted layers import each other by package name, nothing publishes those packages, and the shared mount-layers action installs a root only when it declares workspaces. Same shape as smart-trust's root package.json.",
+  "name": "@litlfred/smart-base-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "cat": "bun .github/cat.ts"
+  },
+  "_scripts_comment": "`cat` is the root bootstrap cat-harness-tools' instantiate-harness writes into every downstream root (templates/root-bootstrap/): `bun run cat <script>` mounts the layers from index.lock.json when they are missing or the lock moved (.github/mount-from-lock.sh), then hands over to cat-harness-tools/scripts/run-script.ts. Added 2026-11-13: without it `bun run cat ...`, which AGENTS.md and the platform's skills tell an agent to run, failed in this checkout with \"cat: No such file or directory\".",
+  "_workspaces_comment": "The mounted code layers that carry a package.json, as workspaces; bootstrap declares no dependencies, so it is not listed. smart-base/ is not a workspace: its scripts reach zod and @litlfred/bootstrap-tools through the ONE root node_modules that bunfig.toml's hoisted linker lays out.",
+  "workspaces": [
+    "bootstrap-tools",
+    "cat-harness",
+    "cat-harness-tools",
+    "folio-assistant-core",
+    "fhir-harness",
+    "who-iris"
+  ],
+  "overrides": {
+    "expo": "57.0.29",
+    "zod": "^4.6.6",
+    "undici": "^6.29.1",
+    "@fastify/busboy": "^3.2.1",
+    "csv-parse": "^7.0.2",
+    "katex": "^0.18.2"
+  },
+  "_overrides_comment": "As smart-trust's: expo is reached only through fhir-harness's fhirclient -> isomorphic-webcrypto -> optional expo-random, and expo's latest asks for an @expo/cli npm does not have, so an install with no lockfile fails to resolve without the pin; the others keep the versions the sibling sites resolve."
+}
