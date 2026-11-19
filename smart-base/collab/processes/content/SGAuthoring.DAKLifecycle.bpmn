@@ -13,6 +13,14 @@
   <!-- COLLABORATION: DAK Authoring and SMART Guideline Publication        -->
   <!-- Based on: WHO SMART IG Starter Kit v1.0.0                           -->
   <!-- =================================================================== -->
+  <bpmn:resource id="SGAuthoring.Persona.ProgrammeManager" name="Programme Manager" />
+  <bpmn:resource id="SGAuthoring.Persona.BusinessAnalyst" name="Business Analyst" />
+  <bpmn:resource id="SGAuthoring.Persona.ClinicalSME" name="Clinical SME" />
+  <bpmn:resource id="SGAuthoring.Persona.FHIRModeller" name="FHIR Modeller" />
+  <bpmn:resource id="SGAuthoring.Persona.Terminologist" name="Terminologist" />
+  <bpmn:resource id="SGAuthoring.Persona.QCReviewer" name="QC Reviewer" />
+  <bpmn:resource id="SGAuthoring.Persona.PublicationManager" name="Publication Manager" />
+  <bpmn:resource id="SGAuthoring.Persona.Translator" name="Translator" />
   <bpmn:collaboration id="Collaboration_DAKLifecycle">
     <bpmn:participant id="Participant_ProgrammeManager" name="Programme Manager" processRef="Process_Planning"/>
     <bpmn:participant id="Participant_BusinessAnalyst" name="Business Analyst" processRef="Process_L2Authoring"/>
@@ -42,7 +50,7 @@
   <bpmn:process id="Process_Planning" name="Phase 1: Planning" isExecutable="false">
     <bpmn:documentation>Plans a DAK: scope, team, method, sources, roadmap and consultations, then starts the sprint cycle.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_Planning">
-      <bpmn:lane id="Lane_Planning" name="Programme Manager">
+      <bpmn:lane id="Lane_Planning" partitionElementRef="SGAuthoring.Persona.ProgrammeManager" name="Programme Manager">
         <bpmn:documentation>Fixes the DAK's scope, team (RACI) and source documents once; its last task starts the sprint cycle the Business Analyst pool picks up. Nothing here is revisited per sprint.</bpmn:documentation>
         <bpmn:extensionElements><bootstrap.processes:role ref="programme-manager"/></bpmn:extensionElements>
         <bpmn:flowNodeRef>Start_Planning</bpmn:flowNodeRef>
@@ -137,7 +145,7 @@
   <bpmn:process id="Process_L2Authoring" name="Phase 2a: L2 DAK Authoring" isExecutable="false">
     <bpmn:documentation>Authors the L2 DAK components sprint by sprint, from the L1 sources to a DAK ready for L3.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_L2Authoring">
-      <bpmn:lane id="Lane_L2Authoring" name="Business Analyst">
+      <bpmn:lane id="Lane_L2Authoring" partitionElementRef="SGAuthoring.Persona.BusinessAnalyst" name="Business Analyst">
         <bpmn:documentation>Also incorporates clinical feedback. Data-entry forms are drawn here as wireframes (wireframe-design-review), so the L3 Questionnaire is derived from a reviewed design.</bpmn:documentation>
         <bpmn:extensionElements><bootstrap.processes:role ref="business-analyst"/></bpmn:extensionElements>
         <bpmn:flowNodeRef>Start_L2</bpmn:flowNodeRef>
@@ -300,7 +308,7 @@
   <bpmn:process id="Process_ClinicalReview" name="Clinical Review" isExecutable="false">
     <bpmn:documentation>Validates the DAK components against the L1 recommendations and field practice, and returns clinical feedback.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_ClinicalReview">
-      <bpmn:lane id="Lane_ClinicalReview" name="Clinical SME">
+      <bpmn:lane id="Lane_ClinicalReview" partitionElementRef="SGAuthoring.Persona.ClinicalSME" name="Clinical SME">
         <bpmn:documentation>Its feedback is QA on the sprint's output, not a gate: authoring continues during review.</bpmn:documentation>
         <bpmn:extensionElements><bootstrap.processes:role ref="clinical-sme"/></bpmn:extensionElements>
         <bpmn:flowNodeRef>Start_ClinReview</bpmn:flowNodeRef>
@@ -354,7 +362,7 @@
   <bpmn:process id="Process_L3Authoring" name="Phase 2b: L3 FHIR Authoring" isExecutable="false">
     <bpmn:documentation>Turns the L2 DAK into L3 FHIR artefacts and builds the IG until its QA issues are resolved.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_L3Authoring">
-      <bpmn:lane id="Lane_L3Authoring" name="FHIR Modeller">
+      <bpmn:lane id="Lane_L3Authoring" partitionElementRef="SGAuthoring.Persona.FHIRModeller" name="FHIR Modeller">
         <bpmn:documentation>Works in the recommended order and also fixes the QA issues the QC reviewer sends back.</bpmn:documentation>
         <bpmn:extensionElements><bootstrap.processes:role ref="fhir-modeller"/></bpmn:extensionElements>
         <bpmn:flowNodeRef>Start_L3</bpmn:flowNodeRef>
@@ -517,7 +525,7 @@
   <bpmn:process id="Process_Terminology" name="Terminology Management" isExecutable="false">
     <bpmn:documentation>Reviews terminology bindings and maps concepts to WHO Commons and to ICD-11, SNOMED CT and LOINC.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_Terminology">
-      <bpmn:lane id="Lane_Terminology" name="Terminologist">
+      <bpmn:lane id="Lane_Terminology" partitionElementRef="SGAuthoring.Persona.Terminologist" name="Terminologist">
         <bpmn:documentation>Works alongside L3 authoring and returns its mappings to the FHIR modeller's pool.</bpmn:documentation>
         <bpmn:extensionElements><bootstrap.processes:role ref="terminologist"/></bpmn:extensionElements>
         <bpmn:flowNodeRef>Start_Term</bpmn:flowNodeRef>
@@ -581,7 +589,7 @@
   <bpmn:process id="Process_QualityControl" name="Phase 3: Quality Control" isExecutable="false">
     <bpmn:documentation>Reviews the built IG against the QA report and the L1-L4 checklist, and approves it for publication or returns issues.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_QualityControl">
-      <bpmn:lane id="Lane_QualityControl" name="QC Reviewer">
+      <bpmn:lane id="Lane_QualityControl" partitionElementRef="SGAuthoring.Persona.QCReviewer" name="QC Reviewer">
         <bpmn:documentation>Returns issues to the FHIR modeller or approves the IG for the publication manager; also reviews the translations.</bpmn:documentation>
         <bpmn:extensionElements><bootstrap.processes:role ref="qc-reviewer"/></bpmn:extensionElements>
         <bpmn:flowNodeRef>Start_QC</bpmn:flowNodeRef>
@@ -695,7 +703,7 @@
   <bpmn:process id="Process_Publication" name="Phase 4: Publication" isExecutable="false">
     <bpmn:documentation>Releases an approved IG: version, publication request, final build, tag, and the hand-over to smart.who.int.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_Publication">
-      <bpmn:lane id="Lane_Publication" name="Publication Manager">
+      <bpmn:lane id="Lane_Publication" partitionElementRef="SGAuthoring.Persona.PublicationManager" name="Publication Manager">
         <bpmn:documentation>Releases an IG the QC reviewer approved, verifies the automated publication, then resets main to draft.</bpmn:documentation>
         <bpmn:extensionElements><bootstrap.processes:role ref="publication-manager"/></bpmn:extensionElements>
         <bpmn:flowNodeRef>Start_Pub</bpmn:flowNodeRef>
@@ -809,7 +817,7 @@
   <bpmn:process id="Process_Translation" name="Translation" isExecutable="false">
     <bpmn:documentation>Translates the IG narrative, resource metadata and examples into the UN languages and submits them for review.</bpmn:documentation>
     <bpmn:laneSet id="LaneSet_Translation">
-      <bpmn:lane id="Lane_Translation" name="Translator">
+      <bpmn:lane id="Lane_Translation" partitionElementRef="SGAuthoring.Persona.Translator" name="Translator">
         <bpmn:documentation>Works alongside quality control and submits translations to the QC reviewer.</bpmn:documentation>
         <bpmn:extensionElements><bootstrap.processes:role ref="translator"/></bpmn:extensionElements>
         <bpmn:flowNodeRef>Start_Trans</bpmn:flowNodeRef>

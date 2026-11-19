@@ -7,6 +7,8 @@
                   xmlns:cat-harness.processes="https://litlfred.github.io/cat-harness/0.1.0/processes/ns/"
                   id="Definitions_Process_DIIG" targetNamespace="https://litlfred.github.io/folio-assistant/workflows"
                   exporter="folio-assistant" exporterVersion="1">
+  <bpmn:resource id="programme-manager" name="Programme manager" />
+  <bpmn:resource id="business-analyst" name="Business analyst" />
   <bpmn:collaboration id="Collaboration_Process_DIIG">
     <bpmn:participant id="Participant_Process_DIIG" name="DIIG — from a health system bottleneck to a costed implementation plan" processRef="Process_DIIG"/>
   </bpmn:collaboration>
@@ -22,7 +24,7 @@ WHAT THIS DIAGRAM DOES NOT DO. DIIG Table 3.3.1 scores bottlenecks on three 1-3 
       <cat-harness.processes:policy enforcement="advisory"/>
     </bpmn:extensionElements>
     <bpmn:laneSet id="LaneSet_Process_DIIG">
-      <bpmn:lane id="Lane_ProgrammeManager" name="Programme manager">
+      <bpmn:lane id="Lane_ProgrammeManager" partitionElementRef="programme-manager" name="Programme manager">
         <bpmn:documentation>DIIG Table 2.1.1 names the key roles and their descriptions. The lane is the ROLE, taken on for its duration — the same actor is a business analyst in the next lane along, and on a small team frequently is.
 
 There is NO stakeholder lane, and the first draft of this diagram had one. A lane is who PERFORMS the task, not who receives its output: Chapter 9's value proposition is made BY the implementing team TO whoever pays, so the activity belongs here and the stakeholder is its audience. `kg:audit` caught it as `role-carries-activity-skill` — the stakeholder role carries no skills at all, which is the shape of a role that acts on nothing.</bpmn:documentation>
@@ -40,7 +42,7 @@ There is NO stakeholder lane, and the first draft of this diagram had one. A lan
         <bpmn:flowNodeRef>End_Process_DIIG</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Call_BeanClose</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="Lane_BusinessAnalyst" name="Business analyst">
+      <bpmn:lane id="Lane_BusinessAnalyst" partitionElementRef="business-analyst" name="Business analyst">
         <bpmn:documentation>DIIG's own description of the role, verbatim from `sections/page-031.md`: "Analyses and documents workflow of the clinical care and health programme processes and recommends digital health interventions relative to the prioritized business requirements." Chapters 3, 4 and 6 are that work.</bpmn:documentation>
         <bpmn:extensionElements><bootstrap.processes:role ref="business-analyst"/></bpmn:extensionElements>
         <bpmn:flowNodeRef>A_MapCurrentState</bpmn:flowNodeRef>

@@ -19,6 +19,8 @@
                   targetNamespace="https://litlfred.github.io/folio-assistant/workflows"
                   exporter="folio-assistant" exporterVersion="1">
 
+  <bpmn:resource id="fhir-modeller" name="FHIR modeller" />
+
   <bpmn:collaboration id="Collaboration_DakL3Ig">
     <bpmn:participant id="Participant_DakL3Ig" name="WHO SMART Guidelines — L2 DAK to published FHIR IG" processRef="Process_DakL3Ig" />
   </bpmn:collaboration>
@@ -28,7 +30,7 @@
       <cat-harness.processes:policy enforcement="advisory" />
     </bpmn:extensionElements>
     <bpmn:laneSet id="Process_DakL3Ig_LaneSet">
-      <bpmn:lane id="Lane_Modeller" name="FHIR modeller">
+      <bpmn:lane id="Lane_Modeller" partitionElementRef="fhir-modeller" name="FHIR modeller">
         <bpmn:documentation>One lane: this process adds one step, the mapping from the DAK's L2 content. Build, QC, work plan and publication belong to Process_L3Fhir, which CallActivity_L3Fhir runs whole.</bpmn:documentation>
         <bpmn:extensionElements><bootstrap.processes:role ref="fhir-modeller"/></bpmn:extensionElements>
         <bpmn:flowNodeRef>StartEvent_L2Ready</bpmn:flowNodeRef>

@@ -16,6 +16,10 @@
                   targetNamespace="https://litlfred.github.io/folio-assistant/workflows"
                   exporter="folio-assistant" exporterVersion="1">
 
+  <bpmn:resource id="authoring-agent" name="Authoring agent" />
+
+  <bpmn:resource id="reviewer" name="Component reviewer" />
+
   <bpmn:collaboration id="Collaboration_L2ComponentEditReview">
     <bpmn:participant id="Participant_L2ComponentEditReview" name="One L2 DAK component — agent edits, a person reviews" processRef="Process_L2ComponentEditReview" />
   </bpmn:collaboration>
@@ -32,7 +36,7 @@ Only the call's inputs differ between components (skill l2-component-edit-review
       <cat-harness.processes:policy enforcement="advisory" />
     </bpmn:extensionElements>
     <bpmn:laneSet id="Process_L2ComponentEditReview_LaneSet">
-      <bpmn:lane id="Lane_Agent" name="Authoring agent">
+      <bpmn:lane id="Lane_Agent" partitionElementRef="authoring-agent" name="Authoring agent">
         <bpmn:documentation>Does everything except judge: edits the component with the authoring skill the call names, runs its checker, renders it and makes the before/after preview on a staged build, hands it on without waiting, and asks for review with staging deep links. Never records the verdict (smart-guideline-end-to-end, rule 4). On request-changes it edits again; on reject it reopens the stage upstream and flags what was derived from it.</bpmn:documentation>
         <bpmn:extensionElements><bootstrap.processes:role ref="authoring-agent"/></bpmn:extensionElements>
         <bpmn:flowNodeRef>Start_ComponentPass</bpmn:flowNodeRef>
@@ -46,7 +50,7 @@ Only the call's inputs differ between components (skill l2-component-edit-review
         <bpmn:flowNodeRef>Task_ReopenUpstream</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>End_Reopened</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="Lane_Reviewer" name="Component reviewer (person)">
+      <bpmn:lane id="Lane_Reviewer" partitionElementRef="reviewer" name="Component reviewer (person)">
         <bpmn:documentation>A person, never the agent, in the role the call names: the clinical SME for business processes, decision logic, personas and scenarios; a terminologist for terminology bindings and the glossary's codes, never the one who chose the code; the business analyst with the programme manager for indicators and requirements. The role takes this generic lane for the call path only (review-task.bpmn), so a DMN reviewer does not carry the terminologist's skills. Reads the staged component, its before/after and its checker's findings.</bpmn:documentation>
         <bpmn:extensionElements><bootstrap.processes:role ref="reviewer"/></bpmn:extensionElements>
         <bpmn:flowNodeRef>Call_Review</bpmn:flowNodeRef>
