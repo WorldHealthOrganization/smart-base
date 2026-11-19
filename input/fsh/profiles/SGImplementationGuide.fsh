@@ -5,7 +5,10 @@ Description: "Defines the minimum expectations for ImplementationGuide resources
 * name 1..1
 * publisher 1..1
 
-* license = #CC-BY-SA-3.0-IGO
+// license: no fixed value. Each IG declares its own licence (owner,
+// 2026-11-18): WHO DAKs are CC-BY-NC-SA-3.0-IGO, smart-base itself is
+// CC-BY-SA-3.0-IGO. Cardinality (0..1) and the required SPDX binding are
+// inherited unchanged from the base resource via CRMI.
 
 * definition.resource
   * ^slicing.discriminator.type = #profile
