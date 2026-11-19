@@ -45,11 +45,14 @@
 
 name: PR Preview Deploy (approval required)
 
-# Disabled in this fork (owner decision, 2026-10-06): no automatic PR preview.
-# Its jobs need a pull_request event, so a manual run does nothing; a preview
-# can still be requested with the /deploy slash comment (pr-deploy-slash.yml).
+# WHO copy (WorldHealthOrganization/smart-base): keeps WHO's automatic triggers.
+# litlfred/smart-base runs this by hand only (its owner decision, 2026-10-06);
+# the WHO repository builds and publishes on these events as before.
 on:
-  workflow_dispatch:
+  pull_request_target:
+    branches-ignore:
+      - 'gh-pages'
+    types: [opened, synchronize, reopened]
 
 # One active preview deployment per PR branch at a time.
 # A new push cancels any pending approval for the previous commit so that

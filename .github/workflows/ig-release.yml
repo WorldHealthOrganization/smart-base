@@ -13,9 +13,10 @@
 # existing tag.
 name: IG release (draft)
 
+# WHO copy (WorldHealthOrganization/smart-base): by hand only. WHO releases go through release.yml
+# (a GitHub release -> smart-html publication request); a tag push here does
+# not also cut a harness draft release.
 on:
-  push:
-    tags: ["v*"]
   workflow_dispatch:
     inputs:
       tag:

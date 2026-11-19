@@ -1,9 +1,11 @@
 name: Publication Request on Release
 
-# Manual trigger only (owner decision, 2026-10-06): GitHub workflows here are
-# defined, not run automatically. Start it from the Actions tab.
-# (workflow_call, if present, is kept so other repositories can call it.)
+# WHO copy (WorldHealthOrganization/smart-base): keeps WHO's automatic triggers.
+# litlfred/smart-base runs this by hand only (its owner decision, 2026-10-06);
+# the WHO repository builds and publishes on these events as before.
 on:
+  release:
+    types: [created]
   workflow_dispatch:
 
 permissions:
@@ -32,6 +34,11 @@ jobs:
   trigger:
     needs: check
     if: needs.check.outputs.file_exists == 'true'
+    # smart-html's release.yml asks for contents and pull-requests write; a
+    # called workflow can only get what its caller grants (WHO publication flow).
+    permissions:
+      contents: write
+      pull-requests: write
     uses: WorldHealthOrganization/smart-html/.github/workflows/release.yml@4191acf30bd22abb4955952c53f51bb475b1c3d7 # main
 #    with:
 #      tag_name: ${{ github.event.release.tag_name }}

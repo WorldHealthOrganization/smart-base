@@ -19,9 +19,12 @@
 # `bun run cat workflow-pins` pins it to the commit index.lock.json names.
 name: Site publish
 
+# WHO copy (WorldHealthOrganization/smart-base): by hand only. WHO's gh-pages root
+# is the IG Publisher's output (ci.yml -> ghbuild.yml on push to main), served
+# at worldhealthorganization.github.io/smart-base and published to
+# smart.who.int/base through smart-html. A push here must not replace it with
+# the folio site, so this runs only when started from the Actions tab.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
     inputs:
       plan:

@@ -2,10 +2,17 @@
 
 name: HL7 FHIR Autobuild Trigger
 run-name: ${{ github.actor }} triggered a GitHub Action
-# Manual trigger only (owner decision, 2026-10-06): no build runs on push or
-# pull request in this fork. Run it from the Actions tab when a build is wanted.
+# WHO copy (WorldHealthOrganization/smart-base): keeps WHO's automatic triggers.
+# litlfred/smart-base runs this by hand only (its owner decision, 2026-10-06);
+# the WHO repository builds and publishes on these events as before.
 on:
   workflow_call: # Reusable by other workflows
+  push:
+    branches-ignore:
+      - 'gh-pages'
+  pull_request:
+    branches-ignore:
+      - 'gh-pages'
   workflow_dispatch:
 
 permissions:

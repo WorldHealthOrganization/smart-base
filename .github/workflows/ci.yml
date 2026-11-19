@@ -26,9 +26,16 @@
 
 name: CI
 
-# Manual trigger only (owner decision, 2026-10-06): no build runs on push or
-# pull request in this fork. Run it from the Actions tab when a build is wanted.
+# WHO copy (WorldHealthOrganization/smart-base): keeps WHO's automatic triggers.
+# litlfred/smart-base runs this by hand only (its owner decision, 2026-10-06);
+# the WHO repository builds and publishes on these events as before.
 on:
+  push:
+    branches-ignore:
+      - 'gh-pages'
+  pull_request_target:
+    branches-ignore:
+      - 'gh-pages'
   workflow_dispatch:
     inputs:
       scripts_ref:

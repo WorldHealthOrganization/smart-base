@@ -13,9 +13,9 @@
 
 name: Register Translation Project
 
-# Manual trigger only (owner decision, 2026-10-06): GitHub workflows here are
-# defined, not run automatically. Start it from the Actions tab.
-# (workflow_call, if present, is kept so other repositories can call it.)
+# WHO copy (WorldHealthOrganization/smart-base): keeps WHO's automatic triggers.
+# litlfred/smart-base runs this by hand only (its owner decision, 2026-10-06);
+# the WHO repository builds and publishes on these events as before.
 on:
   workflow_dispatch:
     inputs:
@@ -29,6 +29,9 @@ on:
           - weblate
           - launchpad
           - crowdin
+
+  repository_dispatch:
+    types: [dak-ig-registered]
 
 concurrency:
   group: register-translation
