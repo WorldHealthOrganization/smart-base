@@ -1,0 +1,396 @@
+{
+  "$schema": "kg-qa/v1",
+  "subject": {
+    "kind": "process",
+    "id": "Process_DthAuthoring",
+    "path": "L2/collab/processes/dth-authoring.bpmn"
+  },
+  "source_hash": "sha256:e91ad173e99f44fb5e2c4e7f6ad84e84ade6ea95ad71a5d51da531ed942dd643",
+  "criteria": {
+    "raci-role-resolves": {
+      "result": "n/a",
+      "findings": []
+    },
+    "raci-single-accountable": {
+      "result": "n/a",
+      "findings": []
+    },
+    "raci-accountable-not-consulted": {
+      "result": "n/a",
+      "findings": []
+    },
+    "convention-ref-resolves": {
+      "result": "n/a",
+      "findings": []
+    },
+    "skill-ref-resolves": {
+      "result": "pass",
+      "findings": []
+    },
+    "skill-servable": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-skill-has-tool": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "Task_Scope",
+          "detail": "names skill \"content-plan\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_Team",
+          "detail": "names skill \"content-plan\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_Scaffold",
+          "detail": "names skill \"document-structure\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_Outline",
+          "detail": "names skill \"document-structure\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_Intro",
+          "detail": "names skill \"document-authoring\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_GlossaryCandidates",
+          "detail": "names skill \"terminology-management\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_Inventory",
+          "detail": "names skill \"content-plan\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_OutlineReview",
+          "detail": "names skill \"content-feedback\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Personas",
+          "detail": "names skill \"l2-dak-authoring\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Personas",
+          "detail": "names skill \"l2-component-edit-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Scenarios",
+          "detail": "names skill \"l2-dak-authoring\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Scenarios",
+          "detail": "names skill \"l2-component-edit-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Bpmn",
+          "detail": "names skill \"bpmn-authoring\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Bpmn",
+          "detail": "names skill \"l2-component-edit-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Dmn",
+          "detail": "names skill \"dmn-authoring\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Dmn",
+          "detail": "names skill \"l2-component-edit-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Data",
+          "detail": "names skill \"l2-dak-authoring\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Data",
+          "detail": "names skill \"indicator-extraction\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Data",
+          "detail": "names skill \"l2-component-edit-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Steps",
+          "detail": "names skill \"document-authoring\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Steps",
+          "detail": "names skill \"l2-component-edit-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Archimate",
+          "detail": "names skill \"l2-component-edit-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Glossary",
+          "detail": "names skill \"terminology-management\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_Glossary",
+          "detail": "names skill \"l2-component-edit-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_ArchReview",
+          "detail": "names skill \"content-review\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_DakL3",
+          "detail": "names skill \"smart-guideline-end-to-end\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Call_DakL3",
+          "detail": "names skill \"guideline-gap-report\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_Comments",
+          "detail": "names skill \"content-feedback\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_PublicComments",
+          "detail": "names skill \"content-feedback\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_Qa",
+          "detail": "names skill \"quality-control\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        },
+        {
+          "where": "Task_Publish",
+          "detail": "names skill \"document-publishing\", which no Tool declares `satisfies` for — the step's mechanism is still prose."
+        }
+      ]
+    },
+    "decision-ref-resolves": {
+      "result": "n/a",
+      "findings": []
+    },
+    "role-ref-resolves": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-in-lane": {
+      "result": "pass",
+      "findings": []
+    },
+    "lane-binds-role": {
+      "result": "pass",
+      "findings": []
+    },
+    "variable-performer-declared-alone": {
+      "result": "n/a",
+      "findings": []
+    },
+    "role-carries-activity-skill": {
+      "result": "pass",
+      "findings": []
+    },
+    "lane-role-legacy-binding": {
+      "result": "pass",
+      "findings": []
+    },
+    "task-skill-outside-lane-role": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-names-skill": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-fulfilment-kind": {
+      "result": "n/a",
+      "findings": []
+    },
+    "call-activity-resolves": {
+      "result": "pass",
+      "findings": [
+        {
+          "where": "Call_PublishStatements",
+          "detail": "calls \"Process_PublishExtractedStatements\", hosted by instance \"folio-assistant-core\"."
+        }
+      ]
+    },
+    "process-diagram-published": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "Process_DthAuthoring",
+          "detail": "no rendered diagram at dth-authoring.svg — run `bun run cat render:bpmn`."
+        }
+      ]
+    },
+    "activity-documented": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "Task_PublicComments",
+          "detail": "\"Public comments\" carries no <bpmn:documentation>, so its page shows a name and nothing more."
+        },
+        {
+          "where": "Task_Publish",
+          "detail": "\"Publish the handbook\" carries no <bpmn:documentation>, so its page shows a name and nothing more."
+        }
+      ]
+    },
+    "activity-calls-skill-process": {
+      "result": "pass",
+      "findings": []
+    },
+    "gateway-documented": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "GW_WgDone",
+          "detail": "\"All working-group comments dispositioned?\" carries no <bpmn:documentation>, so its page shows the question and not what answers it — who decides, from what evidence, and what each branch commits the process to."
+        }
+      ]
+    },
+    "gateway-branches-named": {
+      "result": "pass",
+      "findings": []
+    },
+    "node-reachable": {
+      "result": "pass",
+      "findings": []
+    },
+    "node-has-exit": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-implicit-split": {
+      "result": "pass",
+      "findings": []
+    },
+    "gateway-mixed": {
+      "result": "pass",
+      "findings": []
+    },
+    "process-size": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "Process_DthAuthoring",
+          "detail": "47 flow nodes, past the 20 at which bpmn-authoring asks for a split by phase into call activities."
+        }
+      ]
+    },
+    "process-decompose": {
+      "result": "pass",
+      "findings": []
+    },
+    "process-single-start": {
+      "result": "pass",
+      "findings": []
+    },
+    "decision-label-question": {
+      "result": "pass",
+      "findings": []
+    },
+    "activity-label-verb-first": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "Call_Dmn",
+          "detail": "\"Decision tables · DMN\" starts with \"decision\", which reads as a noun or gerund. Start with an imperative verb, then its object (verb-object)."
+        },
+        {
+          "where": "Call_Steps",
+          "detail": "\"Planning steps per chapter\" starts with \"planning\", which reads as a noun or gerund. Start with an imperative verb, then its object (verb-object)."
+        },
+        {
+          "where": "Task_Disposition",
+          "detail": "\"Disposition comments and apply change sets\" starts with \"disposition\", which reads as a noun or gerund. Start with an imperative verb, then its object (verb-object)."
+        }
+      ]
+    },
+    "edge-rectilinear": {
+      "result": "pass",
+      "findings": []
+    },
+    "edge-crossing": {
+      "result": "pass",
+      "findings": []
+    },
+    "edge-through-node": {
+      "result": "pass",
+      "findings": []
+    },
+    "diagram-too-wide": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "diagram",
+          "detail": "6780 wide, budget 1400: text shows at 2.8px in a 1200px band. Close the gaps between columns, stack steps of different lanes in one column, or split by phase."
+        }
+      ]
+    },
+    "diagram-too-tall": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "diagram",
+          "detail": "1812 tall, budget 900: a reader scrolls to see it whole. Shrink lanes to their content, or split by phase."
+        }
+      ]
+    },
+    "label-overlap": {
+      "result": "pass",
+      "findings": []
+    },
+    "label-on-edge": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "GW_DraftFork/F22",
+          "detail": "label \"3 · Structured drafting\" sits on flow F22. Move the label off the line (`bpmn:detangle --write` does it)."
+        },
+        {
+          "where": "GW_DraftFork/F23",
+          "detail": "label \"3 · Structured drafting\" sits on flow F23. Move the label off the line (`bpmn:detangle --write` does it)."
+        },
+        {
+          "where": "GW_DraftFork/F24",
+          "detail": "label \"3 · Structured drafting\" sits on flow F24. Move the label off the line (`bpmn:detangle --write` does it)."
+        },
+        {
+          "where": "GW_DraftFork/F25",
+          "detail": "label \"3 · Structured drafting\" sits on flow F25. Move the label off the line (`bpmn:detangle --write` does it)."
+        }
+      ]
+    },
+    "label-on-shape": {
+      "result": "pass",
+      "findings": []
+    },
+    "label-on-lane-line": {
+      "result": "fail",
+      "findings": [
+        {
+          "where": "GW_WgDone/Lane_Contributors",
+          "detail": "label \"All working-group comments dispositioned?\" is drawn across the edge of \"TWG and contributors\". Move it inside one lane (`bpmn:detangle --write` does it)."
+        }
+      ]
+    },
+    "shape-overlap": {
+      "result": "pass",
+      "findings": []
+    },
+    "lane-order": {
+      "result": "pass",
+      "findings": []
+    },
+    "prose-reviewed-since-code-changed": {
+      "result": "n/a",
+      "findings": []
+    },
+    "prose-claims-resolve": {
+      "result": "n/a",
+      "findings": []
+    }
+  },
+  "totals": {
+    "pass": 26,
+    "fail": 10,
+    "n/a": 9,
+    "unknown": 0
+  }
+}
