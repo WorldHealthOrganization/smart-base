@@ -1,6 +1,6 @@
 ---
 name: cat-process-translation-review-adjudication
-description: "Walk the \"Translation review and adjudication\" process (cat-harness/library/processes/translation-review-adjudication.bpmn) one step at a time: follow each step's next: line, not the page order, and record each step with the workflow call it names. A person's verdict on a machine translation, carried from the review page to the record."
+description: "Walk the \"Translation review and adjudication\" process (cat-harness/library/processes/translation-review-adjudication.bpmn) one step at a time: follow each step's next: line, not the page order, and record each step with the workflow call it names. A person's word on a translation, carried from the page they read it on to the record."
 ---
 <!-- installed by cat-harness-tools/scripts/install-skills.ts; edit the source, not this copy -->
 <!-- source: ../cat-harness/library/processes/translation-review-adjudication.checklist.md -->
@@ -10,7 +10,7 @@ description: "Walk the \"Translation review and adjudication\" process (cat-harn
 
 > **Generated, and not the authority.** This is `cat-harness/library/processes/translation-review-adjudication.bpmn` (process `Process_TranslationReviewAdjudication`) walked as a state machine. The diagram and the workflow engine decide; this list only reads them. Follow the `next:` line of each step rather than the order on the page, and record each step with the call it names, so the engine's committed state — not this list — says which edge was taken.
 
-A person's verdict on a machine translation, carried from the review page to the record.
+A person's word on a translation, carried from the page they read it on to the record.
 
 ## Begin — A catalogue needs a translation (`Start_TRA`)
 
@@ -50,9 +50,16 @@ A person's verdict on a machine translation, carried from the review page to the
 
 - Who: the `Automated pipeline` lane (role `build-pipeline`).
 - Skill: `translation-adjudication`.
-- What: `translation:status` writes `review.html` beside the status page, with `assets/translation-status/review.json`: every catalogue × locale, its state (`machine`, `flagged`, `reviewed`, `stale`, `official`), the candidates per string, and the hash of the catalogue's bytes.
+- What: `translation:status` writes `review.html` beside the status page.
 - Record it: `workflow_complete` with `node: "Task_TRA_ReviewPage"`.
-- next: → `Task_TRA_Review` (Read the catalogue on the review page)
+- next: → `Gateway_TRA_Entry` (Where does the reader start?)
+
+### Decide — Where does the reader start? (`Gateway_TRA_Entry`)
+
+- Two ways in, one record out.
+- Call `workflow_complete` with `node: "Gateway_TRA_Entry"` and `outcome` set to the label that holds:
+  - «Review page» → `Task_TRA_Review` (Read the catalogue on the review page)
+  - «A block's 🌐» → `Task_TRA_BlockPane` (Open a block's 🌐 translation pane)
 
 ### 4. Read the catalogue on the review page (`Task_TRA_Review`)
 
@@ -60,6 +67,19 @@ A person's verdict on a machine translation, carried from the review page to the
 - Skill: `translation-adjudication`.
 - What: The reviewer opens the review page and reads one catalogue's strings against their source, with the candidates beside each.
 - Record it: `workflow_complete` with `node: "Task_TRA_Review"`.
+- next: → `Gateway_TRA_EntryJoin`
+
+### 5. Open a block's 🌐 translation pane (`Task_TRA_BlockPane`)
+
+- Who: the `Reviewer (adjudicator)` lane (role `translation-adjudicator`).
+- Skill: `translation-adjudication`.
+- What: On every page, source-language pages included, a block's 📣 panel has a 🌐 pane that lists every locale's current translation of the block, its status, and how it came to be (`chosen.how`, `chosen.by`).
+- Record it: `workflow_complete` with `node: "Task_TRA_BlockPane"`.
+- next: → `Gateway_TRA_EntryJoin`
+
+### Merge — `Gateway_TRA_EntryJoin`
+
+- Nothing to do or decide: the paths meet here and the engine passes through.
 - next: → `Gateway_TRA_Verdict` (Acceptable?)
 
 ### Decide — Acceptable? (`Gateway_TRA_Verdict`)
@@ -69,7 +89,7 @@ A person's verdict on a machine translation, carried from the review page to the
   - «Acceptable» → `Task_TRA_FileIssue` (File the adjudication issue)
   - «Mistranslation» → `Task_TRA_Choose` (Pick a candidate or write your own)
 
-### 5. File the adjudication issue (`Task_TRA_FileIssue`)
+### 6. File the adjudication issue (`Task_TRA_FileIssue`)
 
 - Who: the `Reviewer (adjudicator)` lane (role `translation-adjudicator`).
 - Skill: `translation-adjudication`.
@@ -77,11 +97,11 @@ A person's verdict on a machine translation, carried from the review page to the
 - Record it: `workflow_complete` with `node: "Task_TRA_FileIssue"`.
 - next: → `Gateway_TRA_Once` (Already recorded for this issue?)
 
-### 6. Pick a candidate or write your own (`Task_TRA_Choose`)
+### 7. Pick a candidate or write your own (`Task_TRA_Choose`)
 
 - Who: the `Reviewer (adjudicator)` lane (role `translation-adjudicator`).
 - Skill: `translation-adjudication`.
-- What: For each wrong string: pick one of the candidates (its source is recorded with the suggestion) or type the text.
+- What: For each wrong string: pick a ranked candidate, which fills an editable box (its source is recorded with the suggestion while its text is unedited), or type your own.
 - Record it: `workflow_complete` with `node: "Task_TRA_Choose"`.
 - next: → `Task_TRA_FileIssue` (File the adjudication issue)
 
@@ -96,7 +116,7 @@ A person's verdict on a machine translation, carried from the review page to the
 
 - The instance completes here. `workflow_next` then reports nothing enabled — that, not this line, is the record of completion.
 
-### 7. Plan the records (translation:adjudicate) (`Task_TRA_Plan`)
+### 8. Plan the records (translation:adjudicate) (`Task_TRA_Plan`)
 
 - Who: the `Automated pipeline` lane (role `build-pipeline`).
 - Skill: `translation-adjudication`.
@@ -109,20 +129,58 @@ A person's verdict on a machine translation, carried from the review page to the
 - `No` when there is no event file, the event carries no issue with an author, or the layer has no declaration to resolve its translations directory from.
 - Call `workflow_complete` with `node: "Gateway_TRA_Determined"` and `outcome` set to the label that holds:
   - «No» → `End_TRA_CouldNotDetermine` (Could not determine (the run fails))
-  - «Yes» → `Gateway_TRA_Author` (Author an owner, member or collaborator?)
+  - «Yes» → `Task_TRA_Propose` (Append every suggestion as a human candidate)
 
 ## Done — Could not determine (the run fails) (`End_TRA_CouldNotDetermine`)
 
 - The instance completes here. `workflow_next` then reports nothing enabled — that, not this line, is the record of completion.
 
+### 9. Append every suggestion as a human candidate (`Task_TRA_Propose`)
+
+- Who: the `Automated pipeline` lane (role `build-pipeline`).
+- Skill: `translation-adjudication`.
+- What: Every suggestion, whoever filed it, is appended to the catalogue's `translation-candidates/v1` sidecar as `{kind: "human", id: "github:<login>", by, issue}`, with the `msgidHash` of the string it translates and its placeholder QA.
+- Record it: `workflow_complete` with `node: "Task_TRA_Propose"`.
+- next: → `Gateway_TRA_Author` (Author an owner, member or collaborator?)
+
 ### Decide — Author an owner, member or collaborator? (`Gateway_TRA_Author`)
 
 - Read from the event's `author_association`, never from the body.
 - Call `workflow_complete` with `node: "Gateway_TRA_Author"` and `outcome` set to the label that holds:
-  - «No» → `Task_TRA_Refuse` (Comment why nothing was recorded)
-  - «Yes» → `Gateway_TRA_Hash` (Any catalogue unchanged?)
+  - «No: proposals only» → `Task_TRA_AutoPick` (Auto-pick by rank)
+  - «Yes» → `Gateway_TRA_Hash` (Any choice against an unchanged catalogue?)
 
-### 8. Comment why nothing was recorded (`Task_TRA_Refuse`)
+### 10. Auto-pick by rank (`Task_TRA_AutoPick`)
+
+- Who: the `Automated pipeline` lane (role `build-pipeline`).
+- Skill: `translation-adjudication`.
+- What: For each string nobody has adjudicated, its candidates are ranked: official 0, adjudicated 1, a person's proposal 2, a translation platform (Weblate, Crowdin, Transifex) 3, an agent model 4, machine translation 5; a QA failure adds 10; ties go to the newest; a stale candidate, made for another sourc
+- Record it: `workflow_complete` with `node: "Task_TRA_AutoPick"`.
+- next: → `Gateway_TRA_Anything` (Anything to record?)
+
+### Decide — Any choice against an unchanged catalogue? (`Gateway_TRA_Hash`)
+
+- The pins bind adjudication only.
+- Call `workflow_complete` with `node: "Gateway_TRA_Hash"` and `outcome` set to the label that holds:
+  - «No» → `Task_TRA_AutoPick` (Auto-pick by rank)
+  - «Yes» → `Task_TRA_Write` (Write the choices and sign-offs)
+
+### Decide — Anything to record? (`Gateway_TRA_Anything`)
+
+- `Yes` when the issue added a candidate, a choice or a sign-off.
+- Call `workflow_complete` with `node: "Gateway_TRA_Anything"` and `outcome` set to the label that holds:
+  - «No» → `Task_TRA_Refuse` (Comment why nothing was recorded)
+  - «Yes» → `Task_TRA_OpenPR` (Open a ready PR and comment)
+
+### 11. Write the choices and sign-offs (`Task_TRA_Write`)
+
+- Who: the `Automated pipeline` lane (role `build-pipeline`).
+- Skill: `translation-adjudication`.
+- What: A chosen suggestion becomes the string's `msgstr`, not fuzzy, and its sidecar entry's `chosen` records `how: adjudicated`, by whom, when, in which issue, why, and which candidate.
+- Record it: `workflow_complete` with `node: "Task_TRA_Write"`.
+- next: → `Task_TRA_AutoPick` (Auto-pick by rank)
+
+### 12. Comment why nothing was recorded (`Task_TRA_Refuse`)
 
 - Who: the `Automated pipeline` lane (role `build-pipeline`).
 - Skill: `translation-adjudication`.
@@ -130,26 +188,7 @@ A person's verdict on a machine translation, carried from the review page to the
 - Record it: `workflow_complete` with `node: "Task_TRA_Refuse"`.
 - next: → `End_TRA_NotRecorded` (Not recorded)
 
-### Decide — Any catalogue unchanged? (`Gateway_TRA_Hash`)
-
-- Per item: is the catalogue's hash today the one the page showed, does its path stay inside the translations directory, and is every suggestion's `current` text still what the catalogue says?
-- Call `workflow_complete` with `node: "Gateway_TRA_Hash"` and `outcome` set to the label that holds:
-  - «No» → `Task_TRA_Refuse` (Comment why nothing was recorded)
-  - «Yes» → `Task_TRA_Write` (Write the records)
-
-## Done — Not recorded (`End_TRA_NotRecorded`)
-
-- The instance completes here. `workflow_next` then reports nothing enabled — that, not this line, is the record of completion.
-
-### 9. Write the records (`Task_TRA_Write`)
-
-- Who: the `Automated pipeline` lane (role `build-pipeline`).
-- Skill: `translation-adjudication`.
-- What: Acceptable: the catalogue's translation node gets `signedOffBy` / `signedOffAt`.
-- Record it: `workflow_complete` with `node: "Task_TRA_Write"`.
-- next: → `Task_TRA_OpenPR` (Open a ready PR and comment)
-
-### 10. Open a ready PR and comment (`Task_TRA_OpenPR`)
+### 13. Open a ready PR and comment (`Task_TRA_OpenPR`)
 
 - Who: the `Automated pipeline` lane (role `build-pipeline`).
 - Skill: `translation-adjudication`.
@@ -157,7 +196,11 @@ A person's verdict on a machine translation, carried from the review page to the
 - Record it: `workflow_complete` with `node: "Task_TRA_OpenPR"`.
 - next: → `Task_TRA_Merge` (Review the PR; merge or close)
 
-### 11. Review the PR; merge or close (`Task_TRA_Merge`)
+## Done — Not recorded (`End_TRA_NotRecorded`)
+
+- The instance completes here. `workflow_next` then reports nothing enabled — that, not this line, is the record of completion.
+
+### 14. Review the PR; merge or close (`Task_TRA_Merge`)
 
 - Who: the `Maintainer` lane (role `editor`).
 - Skill: `translation-adjudication`.
@@ -178,15 +221,20 @@ A person's verdict on a machine translation, carried from the review page to the
 
 ### Decide — Verdict? (`Gateway_TRA_PerCatalogue`)
 
-- Decided once for each catalogue the merged PR records, by that catalogue's verdict: `Accepted` when it was found acceptable, `Suggestion applied` when its suggestions went in.
+- Decided once for each catalogue the merged PR records, by what it records: `Accepted` when the catalogue was found acceptable, `Chosen` when a collaborator chose a string's translation, `Proposed` when only proposals went in.
 - Call `workflow_complete` with `node: "Gateway_TRA_PerCatalogue"` and `outcome` set to the label that holds:
   - «Accepted» → `End_TRA_Reviewed` (Catalogue reviewed (not official))
-  - «Suggestion applied» → `End_TRA_Flagged` (Catalogue flagged for review)
+  - «Chosen» → `End_TRA_Adjudicated` (String adjudicated (not official))
+  - «Proposed» → `End_TRA_Flagged` (Proposal recorded (fuzzy until chosen))
 
 ## Done — Catalogue reviewed (not official) (`End_TRA_Reviewed`)
 
 - The instance completes here: The review page shows the catalogue `reviewed`, and `stale` once its bytes change. `workflow_next` then reports nothing enabled — that, not this line, is the record of completion.
 
-## Done — Catalogue flagged for review (`End_TRA_Flagged`)
+## Done — String adjudicated (not official) (`End_TRA_Adjudicated`)
 
-- The instance completes here: The suggestions are in the catalogue, fuzzy, so the catalogue needs review again: a person's text is not reviewed by being written. `workflow_next` then reports nothing enabled — that, not this line, is the record of completion.
+- The instance completes here: The chosen text is the string's translation, not fuzzy; the pane shows it `adjudicated`, by whom and why, until the source text changes and it shows `stale`. `workflow_next` then reports nothing enabled — that, not this line, is the record of completion.
+
+## Done — Proposal recorded (fuzzy until chosen) (`End_TRA_Flagged`)
+
+- The instance completes here: The proposals are in the sidecar, beside every other candidate; a string with no translation of its own shows the best-ranked one, fuzzy, so the catalogue still needs review: a person's text is not reviewed by being written. `workflow_next` then reports nothing enabled — that, not this line, is the record of completion.

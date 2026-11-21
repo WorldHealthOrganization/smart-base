@@ -22,6 +22,24 @@ bun run cat gates:list     # see them without running them
 
 Run it **before you push**, not after CI tells you.
 
+**The push itself runs the precheck** (owner, card 2026-11-18): git's
+`pre-push` hook, which the session-start primer installs, runs
+`bun run cat precheck` — only the fast checks whose inputs the push changed,
+15–60 s, and nothing when it changed none of them:
+
+| the push changes | the precheck runs |
+|---|---|
+| `index.lock.json` / `index.config.json` | `lock:coherence:check` (agreement and freshness), `mount:remote:check` |
+| `.github/workflows/` | `check:workflow-pins` |
+| a `.ts` file | the typecheck |
+
+A red one refuses the push; fix it, since CI would fail on it and every red
+run emails the owner. It never runs the full tier, never installs anything,
+and lets the push through with one line when bun, the `cat` runner or
+`node_modules` is missing or a check could not determine. `--dry-run` prints
+the plan; `git push --no-verify` skips it. It is a floor, not this skill:
+`bun run cat gates` is still the sweep.
+
 ---
 
 ## The CI workflow is the list

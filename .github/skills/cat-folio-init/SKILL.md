@@ -53,8 +53,9 @@ content-type adapter.
 ## Write capability requirement and read-only degradation
 
 `folio-init` is a **writing verb**: it creates directories, writes manifests and
-agent stubs, and (when git is available) prints the command that seeds the
-`cat/<instance>/beans` and `cat/<instance>/todos` orphan state branches.
+agent stubs, and (when the repository has an `origin`) creates the
+`cat/<instance>/beans`, `cat/<instance>/todos` and `cat/<instance>/fsh-guts`
+state branches it declares.
 
 Before invoking `folio-init` to write, check that at least one write capability
 is present (`scenarios/capabilities/`):
@@ -94,15 +95,21 @@ Given `title` and one or more `authors` (plus optional `content_type`, `slug`,
    pointing at that link.
 4. **The agent instructions** — `AGENTS.md` and the one-line `CLAUDE.md` and
    `GEMINI.md` stubs pointing to it.
-5. **The work-plan state branches** — declares `beans` and `todos` on the
-   `cat/<slug>/beans` and `cat/<slug>/todos` branches and prints the seed
-   command; once it has been run, `bun run cat state:mount` mounts a working
-   store on the first session start
+5. **The state branches** — declares `beans`, `todos` and `fsh-guts` on
+   `cat/<slug>/<id>` and **creates** each missing one, seeded empty with the
+   standard layout, once `main` is on the remote. Each state graph in the
+   result carries `created` (`created`, `exists`, `denied`, `refused`).
+   Where it could not create one (no `origin`, an empty remote, or a token
+   that cannot push), the note names `bun run cat state:seed --init`, and the
+   first `bun run cat state:mount` creates it. That command then mounts a
+   working store on the first session start
    ([`directory-conventions`](directory-conventions.md) §"Where a NEW
    layer's state lives").
 
 ## What to check afterwards
 
+- `bun run cat state:seed --init --dry-run` — every declared state branch is
+  on the remote (nothing left to create).
 - `bun run cat check:declaration-resolution` — every directory and asset the new
   `<slug>.json` declares resolves on disk.
 - `bun run cat index:render:check` — the generated `AGENTS.md` matches the

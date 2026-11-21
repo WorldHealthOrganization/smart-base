@@ -44,9 +44,24 @@ Tool that runs that engine. Each Tool states its `selection` — when to reach
 for it, where it stops, what it costs — so an agent can choose among them.
 
 The sidecar holds, per string (`msgid`, with `msgctxt` when there is one), a
-list of `{ text, source }`. `source.kind` is one of `agent`, `open-mt`,
-`web-service`, `human`; `source.id` names the model or service
-(`opus-mt-en-fr`, a model id, a GitHub login); `version` and `at` when known.
+list of candidates and, once there is one, the `chosen` translation.
+
+| field | what it says |
+|---|---|
+| `text` (`forms` for a plural) | the translation |
+| `source.kind` | `official`, `agent`, `open-mt`, `web-service` or `human` |
+| `source.id` | the model, service or publication (`opus-mt-en-fr`, a model id, `weblate`); a person as `github:<login>` |
+| `source.version`, `source.at` | when known; `at` breaks ties in the rank, newest first |
+| `source.by`, `source.issue` | who proposed it, and the issue it came from: every proposal filed from the review page or a block's 🌐 pane, by any GitHub author, is appended as a `human` candidate |
+| `msgidHash` | `sha16` of `msgctxt` U+0004 `msgid` U+0000 `msgid_plural` when the candidate was made; when it no longer matches, the candidate is **stale** and never auto-picked |
+| `sourceText` | for an `official` candidate: the English as the publication prints it. Only an exact match with the msgid makes its auto-pick official |
+| `qa` | glossary, placeholder and round-trip results; a failure costs it 10 in the rank |
+| `basedOn` | a person's proposal that repeats another source's candidate names it |
+
+`chosen` is `{ text, how, by, at, issue, reason, candidate }`: `how` is
+`adjudicated` (a collaborator chose it), `auto-official` (an exact-match
+official candidate) or `auto` (the best-ranked candidate, fuzzy). How they
+are ranked is [`translation-adjudication`](translation-adjudication.md).
 
 ## The rules every engine keeps
 
@@ -61,9 +76,12 @@ list of `{ text, source }`. `source.kind` is one of `agent`, `open-mt`,
    engine has written to it.
 4. **Say what you are.** A candidate without a `source` is refused by the
    sidecar's schema; an engine that cannot name its model and version names
-   what it can.
+   what it can. Record the `msgidHash` of the string you translated, so a
+   later change to the source text shows your candidate stale.
 5. **A candidate is never a verdict.** Nothing an engine writes makes a
-   catalogue reviewed or official.
+   catalogue reviewed or official, and no engine writes `chosen` with
+   `how: adjudicated`: only the adjudication workflow does, for an owner,
+   member or collaborator.
 
 ## Adding an engine
 

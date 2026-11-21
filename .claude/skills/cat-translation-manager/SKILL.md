@@ -191,10 +191,14 @@ Translate with the term base open. Options, in order of preference:
 4. **Human translation** — the gold standard.
 
 A candidate is a draft, never a verdict. Candidates reach a person through
-the translation review page (`review.html`, beside the status page). There a
-reviewer picks one candidate per string, accepts the fuzzy default, or types
-their own text. The resulting issue becomes the recorded adjudication, and it
-names the source of the picked candidate. A catalogue whose author wrote
+the translation review page (`review.html`, beside the status page) and
+through a block's 🌐 pane, on every page. There a reader picks one candidate
+per string, accepts the default, or types their own text. Anyone's text is
+recorded as a proposal, a `human` candidate beside the others. An owner,
+member or collaborator who ticks **Choose as the translation** adjudicates
+it, and the issue names the source of the picked candidate. Until someone
+adjudicates, each string shows its best-ranked candidate, fuzzy (the rank is
+in [`translation-adjudication`](translation-adjudication.md)). A catalogue whose author wrote
 `DO NOT MACHINE-FILL` in its header (the viewer's `kg-viewer.po`) still gets
 candidates for a reviewer. Its `.po` is never machine-filled: the tool
 refuses that, and so does an agent.
@@ -304,8 +308,12 @@ mistranslation and picks a candidate or writes their own text, records that
 through the review page, a `translation-adjudication/v1` issue and a PR — the
 loop in [`translation-adjudication`](translation-adjudication.md), drawn as
 [`translation-review-adjudication.bpmn`](../../processes/translation-review-adjudication.bpmn).
-It marks a catalogue **reviewed** (or **flagged**, when a suggestion was
-applied) and never official: the sign-off above stays a separate act.
+Anyone may propose; only an owner, member or collaborator adjudicates, by
+accepting a catalogue or choosing a string's translation with a reason. It
+marks a catalogue **reviewed**, or a string **adjudicated**, and never
+official: the sign-off above stays a separate act. A string nobody has
+adjudicated shows its best-ranked candidate, fuzzy and unofficial, unless an
+official source's English matches the msgid exactly.
 Candidate translations from any engine — an agent model, OPUS-MT,
 LibreTranslate / Argos — are produced through
 [`translation-candidate-source`](translation-candidate-source.md), and **an
@@ -317,6 +325,14 @@ a barrier to having a translation.
 On every content change, the pipeline checks whether any official translation's
 `sourceHash` no longer matches the source `.md`. Stale translations are flagged
 in the viewer and in `translation_status` output.
+
+Per string, the same holds: a candidate records the `msgidHash` of the source
+text it translated, so when the source changes, the candidate and any
+translation chosen for the old text show **stale** in a block's 🌐 pane. A
+stale candidate is never auto-picked, and the string re-enters
+[`translation-adjudication`](translation-adjudication.md). A source change is
+never held back for its translations: the pull request that changes the
+source merges, and the translations catch up.
 
 ## Translating into several locales as a team
 
