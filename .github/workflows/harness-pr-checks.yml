@@ -20,7 +20,7 @@ jobs:
     # A label starts a run only for `release` (full tier) or `preview`
     # (the change's cone; cat-harness-tools#2150); any other label is a no-op.
     if: ${{ github.event.action != 'labeled' || github.event.label.name == 'release' || github.event.label.name == 'preview' }}
-    uses: litlfred/cat-harness-tools/.github/workflows/layer-pr-checks.yml@6d48e106ffd75e4a49bc466068e5f1df1d5d3e2e # index.lock.json
+    uses: litlfred/cat-harness-tools/.github/workflows/layer-pr-checks.yml@6e99c49a5bfe3e9e6d6a11d3607d002e77d27b08 # index.lock.json
     with:
       # On a draft PR: prepare and typecheck only; the full tier runs on ready_for_review.
       draft-fast-tier: true
@@ -37,7 +37,7 @@ jobs:
       contents: read
       issues: write
       actions: read
-    uses: litlfred/cat-harness-tools/.github/workflows/layer-main-qa.yml@6d48e106ffd75e4a49bc466068e5f1df1d5d3e2e # index.lock.json
+    uses: litlfred/cat-harness-tools/.github/workflows/layer-main-qa.yml@6e99c49a5bfe3e9e6d6a11d3607d002e77d27b08 # index.lock.json
     with:
       verdict: ${{ needs.checks.outputs.main-verdict }}
       failures: ${{ needs.checks.outputs.main-failures }}
