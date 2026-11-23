@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """
-Generate dak.json from sushi-config.yaml
+Generate the DAK section of index.config.json from sushi-config.yaml
 
 This script processes an existing FHIR Implementation Guide sushi-config.yaml file
-and generates a corresponding dak.json file that serves as the primary DAK indicator.
+and writes the corresponding `contentTypes.dak` section of index.config.json,
+which is the DAK indicator.
 It uses only the Python standard library and YAML parsing to avoid dependency on SUSHI.
 
 Usage:
-    python generate_dak_from_sushi.py [path_to_sushi_config] [output_path]
+    python generate_dak_from_sushi.py [path_to_sushi_config] [repo_root]
     
 If no paths are provided, it looks for sushi-config.yaml in the current directory
-and outputs dak.json to the current directory.
+and writes it into ./index.config.json (or <root>/index.config.json).
 """
 
 import json
@@ -86,7 +87,7 @@ def is_release_branch() -> bool:
 
 
 def generate_dak_json(sushi_config: Dict[str, Any]) -> Dict[str, Any]:
-    """Generate dak.json structure from sushi-config.yaml."""
+    """Generate the DAK declaration from sushi-config.yaml."""
     
     # Extract repository information
     repo_id = sushi_config.get("id", "")
@@ -161,7 +162,7 @@ def check_smart_base_dependency(sushi_config: Dict[str, Any]) -> bool:
 
 
 def main():
-    """Main function to process command line arguments and generate dak.json."""
+    """Process command line arguments and write the DAK section."""
     
     # Parse command line arguments
     if len(sys.argv) > 1:
@@ -169,21 +170,23 @@ def main():
     else:
         sushi_path = Path("sushi-config.yaml")
     
-    if len(sys.argv) > 2:
-        output_path = Path(sys.argv[2])
-    else:
-        output_path = Path("dak.json")
-    
+    # The DAK declaration is the `dak` section of the root index.config.json
+    # (owner, 2026-10-24; it was dak.json). An optional second argument names
+    # the repository root that holds the index.
+    from dak_index import dak_index_path, read_dak_section, write_dak_section
+    repo_root = Path(sys.argv[2]) if len(sys.argv) > 2 else Path(".")
+    output_path = dak_index_path(repo_root)
+
     # Check if sushi config exists
     if not sushi_path.exists():
         print(f"Error: {sushi_path} does not exist")
         sys.exit(1)
-    
-    # Check if dak.json already exists
-    if output_path.exists():
-        print(f"DAK configuration already exists at {output_path}, skipping generation")
+
+    # Check if the DAK section already exists
+    if read_dak_section(repo_root) is not None:
+        print(f"DAK configuration already exists in {output_path} (contentTypes.dak), skipping generation")
         return
-    
+
     print(f"Reading sushi configuration from: {sushi_path}")
     
     # Load and check dependencies
@@ -198,16 +201,15 @@ def main():
     
     # Write output
     try:
-        with open(output_path, 'w', encoding='utf-8') as file:
-            json.dump(dak_config, file, indent=2, ensure_ascii=False)
-        print(f"Successfully generated DAK configuration: {output_path}")
+        write_dak_section(dak_config, repo_root)
+        print(f"Successfully generated DAK configuration: {output_path} (contentTypes.dak)")
         print(f"DAK ID: {dak_config['id']}")
         print(f"DAK Title: {dak_config['title']}")
         print(f"Publication URL: {dak_config['publicationUrl']}")
         print(f"Preview URL: {dak_config['previewUrl']}")
         print(f"Canonical URL: {dak_config['canonicalUrl']}")
         print(f"Is Release Branch: {is_release_branch()}")
-    except IOError as e:
+    except (IOError, ValueError) as e:
         print(f"Error writing output file: {e}")
         sys.exit(1)
 

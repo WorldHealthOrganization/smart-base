@@ -26,6 +26,9 @@
 
 name: CI
 
+# WHO copy (WorldHealthOrganization/smart-base): keeps WHO's automatic triggers.
+# litlfred/smart-base runs this by hand only (its owner decision, 2026-10-06);
+# the WHO repository builds and publishes on these events as before.
 on:
   push:
     branches-ignore:
@@ -100,6 +103,13 @@ jobs:
     permissions:
       contents: write        # required so the token passed to ghbuild.yml can push gh-pages
       pull-requests: write   # required so ghbuild.yml can post PR build-status comments
+    # Named in full, as downstream IGs name it (smart-hiv, smart-trust), and
+    # at main, as the security model above already requires of the workflow
+    # YAML. The platform's `stage-local.ts` reads the IG build a repository
+    # mirrors from this `uses:` line, and it recognises only
+    # `<owner>/<repo>/.github/workflows/<file>@<ref>`: with `./` it found no
+    # IG caller and refused to publish this repository's site (owner,
+    # 2026-10-15: republish smart-base "via the same IG route as smart-hiv").
     uses: ./.github/workflows/ghbuild.yml
     with:
       # For pull_request_target events, check out the PR head commit so the

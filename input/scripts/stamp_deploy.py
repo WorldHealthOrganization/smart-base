@@ -25,6 +25,7 @@ Arguments
 html_file           Path to the HTML file to stamp (e.g. ``output/index.html``).
 """
 
+import hashlib
 import os
 import re
 import subprocess
@@ -41,10 +42,12 @@ _SAFE_BRANCH_RE = re.compile(r"^[a-zA-Z0-9._/\-]+$")
 _SAFE_REPO_RE = re.compile(r"^[a-zA-Z0-9._\-]+/[a-zA-Z0-9._\-]+$")
 
 _STAMP_SCRIPT = "input/scripts/stamp_deploy_metadata.py"
+_STAMP_COMMIT = "49178a48d460bb53acf6e90d8c0aee3f0146d8f7"
 _STAMP_URL = (
-    "https://raw.githubusercontent.com/WorldHealthOrganization/"
-    "smart-base/main/input/scripts/stamp_deploy_metadata.py"
+    f"https://raw.githubusercontent.com/litlfred/"
+    f"smart-base/{_STAMP_COMMIT}/input/scripts/stamp_deploy_metadata.py"
 )
+_STAMP_SHA256 = "4a82437fb69a894b4539b638cdf4caa08e4f5dca3cedfcee3a80164c2d977022"
 
 # Build phases to stamp, in order.  Each phase has a name and an optional
 # environment variable holding the timestamp.
@@ -93,16 +96,24 @@ def _validate_repo(value: str) -> str:
 # ---------------------------------------------------------------------------
 
 def _ensure_stamp_script() -> bool:
-    """Download stamp_deploy_metadata.py if not present.  Return True on success."""
+    """Download stamp_deploy_metadata.py if not present and verify its sha256."""
     if os.path.isfile(_STAMP_SCRIPT):
         return True
-    print(f"Downloading {_STAMP_SCRIPT} from smart-base...")
+    print(f"Downloading {_STAMP_SCRIPT} from pinned commit {_STAMP_COMMIT}...")
     os.makedirs(os.path.dirname(_STAMP_SCRIPT), exist_ok=True)
     try:
-        urllib.request.urlretrieve(_STAMP_URL, _STAMP_SCRIPT)
+        with urllib.request.urlopen(_STAMP_URL, timeout=30) as resp:
+            data = resp.read()
+        digest = hashlib.sha256(data).hexdigest()
+        if digest != _STAMP_SHA256:
+            raise ValueError(
+                f"SHA-256 mismatch for {_STAMP_SCRIPT}: expected {_STAMP_SHA256}, got {digest}"
+            )
+        with open(_STAMP_SCRIPT, "wb") as f:
+            f.write(data)
         return True
     except Exception as exc:
-        print(f"⚠️  Could not download stamp script: {exc}", file=sys.stderr)
+        print(f"⚠️  Could not download or verify stamp script: {exc}", file=sys.stderr)
         return False
 
 

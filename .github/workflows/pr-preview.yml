@@ -45,6 +45,9 @@
 
 name: PR Preview Deploy (approval required)
 
+# WHO copy (WorldHealthOrganization/smart-base): keeps WHO's automatic triggers.
+# litlfred/smart-base runs this by hand only (its owner decision, 2026-10-06);
+# the WHO repository builds and publishes on these events as before.
 on:
   pull_request_target:
     branches-ignore:
@@ -57,6 +60,10 @@ on:
 concurrency:
   group: pr-preview-${{ github.head_ref }}
   cancel-in-progress: true
+
+# Least privilege by default; deploy-preview grants itself what it needs.
+permissions:
+  contents: read
 
 jobs:
   # Gate job: pauses at the 'pr-preview' environment until a reviewer approves.

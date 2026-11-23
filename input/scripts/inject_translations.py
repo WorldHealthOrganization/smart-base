@@ -43,6 +43,7 @@ from typing import Dict, List, Optional, Tuple
 # ---------------------------------------------------------------------------
 try:
     import lxml.etree as ET
+    from safe_xml import safe_xml_parser
     _HAVE_LXML = True
 except ImportError:  # pragma: no cover
     import xml.etree.ElementTree as ET  # type: ignore
@@ -218,58 +219,153 @@ def _gettext_to_liquid(text: str) -> str:
 # Markdown cleaning helpers (mirrors extract_translations._clean_markdown_text)
 # ---------------------------------------------------------------------------
 #
-# These regexes and the _clean_md_for_lookup function must be kept in sync
-# with the corresponding code in extract_translations.py so that the same
-# msgid keys are produced during both extraction and injection.
+# These regexes and _tokenize_md_for_lookup must be kept in sync with the
+# corresponding code in extract_translations.py so that the same msgid keys are
+# produced during both extraction and injection.  This script is also fetched
+# on its own by downstream IG builds (ghbuild.yml), so it does not import the
+# extractor.
+#
+# Inline code spans are ``{codeN}`` in the msgid and links ``<aN>text</aN>``
+# (inline ``[text](target)`` and reference ``[text][ref]`` alike), numbered
+# left to right.  The tokeniser records each code span and each link's
+# ``(target)`` / ``[ref]`` so that :func:`_restore_md_placeholders` can put
+# them back around the translated text.
 
 _MD_HTML_COMMENT_RE_INJ = re.compile(r"<!--.*?-->", re.DOTALL)
 _MD_IMAGE_RE_INJ = re.compile(r"!\[([^\]]*)\]\([^)]*\)")
-_MD_LINK_RE_INJ = re.compile(r"\[([^\]]+)\]\([^)]*\)")
+_MD_STANDALONE_IMAGE_RE_INJ = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
+_MD_LINK_TOKEN_RE_INJ = re.compile(r"\[([^\]]+)\](\([^)]*\)|\[[^\]]*\])")
 _MD_ANGLE_LINK_RE_INJ = re.compile(r"<https?://[^>]+>")
 _MD_INLINE_CODE_RE_INJ = re.compile(r"`[^`]+`")
 _MD_BOLD_RE_INJ = re.compile(r"\*{2,3}([^*]+)\*{2,3}")
 _MD_ITALIC_RE_INJ = re.compile(r"(?<!\*)\*([^*]+)\*(?!\*)|(?<!_)_([^_]+)_(?!_)")
 _MD_HTML_TAG_RE_INJ = re.compile(r"<[^>]+>")
 _MD_LIQUID_TAG_RE_INJ = re.compile(r"\{%.*?%\}", re.DOTALL)
+_MD_PLACEHOLDER_RE_INJ = re.compile(r"\{code\d+\}|</?a\d+>")
+_MD_LETTER_RE_INJ = re.compile(r"[^\W\d_]")
+_MD_LQD_SENTINEL_RE_INJ = re.compile(r"\x00LQD(\d+)\x00")
+_MD_INJ_MIN_LEN: int = 3
 
 
-def _clean_md_for_lookup(text: str) -> str:
-    """Derive the gettext msgid for a raw Markdown text fragment.
+class _MdTokens:
+    """What :func:`_tokenize_md_for_lookup` took out of a raw segment.
 
-    Mirrors ``extract_translations._clean_markdown_text``: applies the same
-    transformations (including the Liquid tokenisation trick) so that the same
-    msgid key is produced and the translation can be found in the .po dictionary.
+    Attributes:
+        msgid:  the gettext msgid, with ``{codeN}`` and ``<aN>…</aN>``.
+        codes:  the raw backtick span of each ``{codeN}``.
+        links:  the raw ``(target)`` or ``[ref]`` that followed each link text.
+        liquid: the raw ``{{ … }}`` of each Liquid expression, for one that
+                sits inside a code span or a link target.
+        lossy:  the segment holds something the msgid cannot carry back (an
+                angle-bracket auto-link, or an image that is not the whole
+                segment), so a translation would drop it.
     """
+
+    def __init__(self) -> None:
+        self.msgid = ""
+        self.codes: List[str] = []
+        self.links: List[str] = []
+        self.liquid: List[str] = []
+        self.lossy = False
+
+
+def _tokenize_md_for_lookup(text: str) -> _MdTokens:
+    """Derive the gettext msgid for a raw Markdown fragment, keeping what it hides.
+
+    Mirrors ``extract_translations._clean_markdown_text`` step for step.
+    """
+    tok = _MdTokens()
+    whole_image = bool(_MD_STANDALONE_IMAGE_RE_INJ.fullmatch(text.strip()))
     # Remove Liquid/Jekyll control tags ({% ... %}) first.
     text = _MD_LIQUID_TAG_RE_INJ.sub("", text)
     # Tokenise Liquid output expressions before bold/italic processing so that
     # underscores inside variable names are not consumed by the italic regex.
-    _lqd_tokens: List[str] = []
+    lqd_exprs: List[str] = []
 
     def _save_lqd(m: re.Match) -> str:  # type: ignore[type-arg]
-        _lqd_tokens.append(m.group(1).strip())
-        return f"\x00LQD{len(_lqd_tokens) - 1}\x00"
+        lqd_exprs.append(m.group(1).strip())
+        tok.liquid.append(m.group(0))
+        return f"\x00LQD{len(lqd_exprs) - 1}\x00"
 
     text = _LIQUID_OUTPUT_RE.sub(_save_lqd, text)
     # Remove HTML comments.
     text = _MD_HTML_COMMENT_RE_INJ.sub("", text)
+
+    # Tokenise inline code spans first, as the extractor does.
+    def _save_code(m: re.Match) -> str:  # type: ignore[type-arg]
+        tok.codes.append(m.group(0))
+        return f"\x00CODE{len(tok.codes) - 1}\x00"
+
+    text = _MD_INLINE_CODE_RE_INJ.sub(_save_code, text)
     # Replace images with alt text.
-    text = _MD_IMAGE_RE_INJ.sub(r"\1", text)
-    # Replace links with link text.
-    text = _MD_LINK_RE_INJ.sub(r"\1", text)
+    text, n_images = _MD_IMAGE_RE_INJ.subn(r"\1", text)
+    if n_images and not whole_image:
+        tok.lossy = True
+
+    # Tokenise links (inline and reference) as <aN>text</aN>.
+    def _save_link(m: re.Match) -> str:  # type: ignore[type-arg]
+        tok.links.append(m.group(2))
+        i = len(tok.links) - 1
+        return f"\x00AOPEN{i}\x00{m.group(1)}\x00ACLOSE{i}\x00"
+
+    text = _MD_LINK_TOKEN_RE_INJ.sub(_save_link, text)
     # Remove angle-bracket auto-links.
-    text = _MD_ANGLE_LINK_RE_INJ.sub("", text)
-    # Remove inline code spans.
-    text = _MD_INLINE_CODE_RE_INJ.sub("", text)
+    text, n_auto = _MD_ANGLE_LINK_RE_INJ.subn("", text)
+    if n_auto:
+        tok.lossy = True
     # Strip bold/italic markers while keeping content.
     text = _MD_BOLD_RE_INJ.sub(r"\1", text)
     text = _MD_ITALIC_RE_INJ.sub(lambda m: m.group(1) or m.group(2), text)
     # Remove remaining HTML tags.
     text = _MD_HTML_TAG_RE_INJ.sub("", text)
-    # Restore tokenised Liquid expressions as {lqd_expr} gettext variables.
-    for i, expr in enumerate(_lqd_tokens):
+    # Restore links, code spans and Liquid expressions as placeholders.
+    text = re.sub(r"\x00AOPEN(\d+)\x00", r"<a\1>", text)
+    text = re.sub(r"\x00ACLOSE(\d+)\x00", r"</a\1>", text)
+    text = re.sub(r"\x00CODE(\d+)\x00", r"{code\1}", text)
+    for i, expr in enumerate(lqd_exprs):
         text = text.replace(f"\x00LQD{i}\x00", "{" + _LQD_PREFIX + expr + "}")
-    return text.strip()
+    tok.msgid = text.strip()
+    return tok
+
+
+def _clean_md_for_lookup(text: str) -> str:
+    """Derive the gettext msgid for a raw Markdown text fragment."""
+    return _tokenize_md_for_lookup(text).msgid
+
+
+def _is_translatable_md(msgid: str) -> bool:
+    """Mirror of ``extract_translations._is_translatable_md``."""
+    if not _MD_PLACEHOLDER_RE_INJ.search(msgid):
+        return len(msgid) >= _MD_INJ_MIN_LEN
+    rest = _MD_PLACEHOLDER_RE_INJ.sub("", msgid).strip()
+    return len(rest) >= _MD_INJ_MIN_LEN and bool(_MD_LETTER_RE_INJ.search(rest))
+
+
+def _placeholders_match(msgid: str, msgstr: str) -> bool:
+    """True if *msgstr* carries every placeholder of *msgid* exactly once, and no other."""
+    return sorted(_MD_PLACEHOLDER_RE_INJ.findall(msgid)) == sorted(
+        _MD_PLACEHOLDER_RE_INJ.findall(msgstr)
+    )
+
+
+def _restore_md_placeholders(msgstr: str, tok: _MdTokens) -> Optional[str]:
+    """Put the code spans and links of *tok* back into a translated *msgstr*.
+
+    ``<aN>text</aN>`` becomes ``[text](target)`` or ``[text][ref]``, as in the
+    source; ``{codeN}`` becomes the original backtick span; ``{lqd_x}`` becomes
+    ``{{ x }}``.  Returns None if a link tag is left unpaired.
+    """
+
+    def _link(m: re.Match) -> str:  # type: ignore[type-arg]
+        return "[" + m.group(2) + "]" + tok.links[int(m.group(1))]
+
+    s = re.sub(r"<a(\d+)>(.*?)</a\1>", _link, msgstr, flags=re.DOTALL)
+    if re.search(r"</?a\d+>", s):
+        return None
+    s = re.sub(r"\{code(\d+)\}", lambda m: tok.codes[int(m.group(1))], s)
+    s = _gettext_to_liquid(s)
+    # A code span or link target that held a Liquid expression gets it back verbatim.
+    return _MD_LQD_SENTINEL_RE_INJ.sub(lambda m: tok.liquid[int(m.group(1))], s)
 
 
 def inject_plantuml(
@@ -470,7 +566,7 @@ def inject_svg(
 
     try:
         if _HAVE_LXML:
-            parser = ET.XMLParser(recover=True)
+            parser = safe_xml_parser(recover=True)
             tree = ET.parse(source_path, parser)
         else:
             tree = ET.parse(source_path)
@@ -542,7 +638,7 @@ def inject_archimate(
 
     try:
         if _HAVE_LXML:
-            parser = ET.XMLParser(recover=True)
+            parser = safe_xml_parser(recover=True)
             tree = ET.parse(source_path, parser)
         else:
             tree = ET.parse(source_path)
@@ -602,7 +698,8 @@ _MD_INJ_TABLE_SEP_RE = re.compile(r"^\|[-| :]+\|?\s*$")
 _MD_INJ_LIST_ITEM_RE = re.compile(r"^(\s*(?:[-*+]|\d+\.)\s+)(.+)$")
 _MD_INJ_BLOCKQUOTE_RE = re.compile(r"^(>+\s?)(.*)")
 _MD_INJ_KRAMDOWN_ATTR_RE = re.compile(r"^\{[:%][^}]*\}\s*$")
-_MD_INJ_MIN_LEN: int = 3
+# Reference-link definition (``[ref]: target``): markup, never prose.
+_MD_INJ_LINK_REF_DEF_RE = re.compile(r"^\[[^\]]+\]:\s*\S")
 
 
 def inject_markdown(
@@ -648,14 +745,41 @@ def inject_markdown(
     paragraph_buf: List[Tuple[int, str]] = []
 
     def _translate(raw_text: str) -> Optional[str]:
-        """Return the Liquid-restored translation for *raw_text*, or None."""
-        msgid = _clean_md_for_lookup(raw_text)
-        if len(msgid) < _MD_INJ_MIN_LEN:
+        """Return the restored translation for *raw_text*, or None to keep the source.
+
+        A translation that lost or invented a ``{codeN}`` or ``<aN>`` placeholder,
+        or a segment whose auto-link or embedded image a translation would
+        drop, keeps the source text and is logged: a code span or a link is
+        never silently removed.
+        """
+        tok = _tokenize_md_for_lookup(raw_text)
+        msgid = tok.msgid
+        if not _is_translatable_md(msgid):
             return None
         msgstr = translations.get(msgid)
-        if msgstr and msgstr != msgid:
-            return _gettext_to_liquid(msgstr)
-        return None
+        if not msgstr or msgstr == msgid:
+            return None
+        if tok.lossy:
+            logger.warning(
+                f"{source_path}: kept source text, its auto-link or embedded "
+                f"image has no placeholder: {msgid!r}"
+            )
+            return None
+        restored = (
+            _restore_md_placeholders(msgstr, tok)
+            if _placeholders_match(msgid, msgstr)
+            else None
+        )
+        if restored is None:
+            logger.warning(
+                f"{source_path}: kept source text, the translation does not carry "
+                f"the placeholders of {msgid!r}: {msgstr!r}"
+            )
+            return None
+        image_m = _MD_STANDALONE_IMAGE_RE_INJ.fullmatch(raw_text.strip())
+        if image_m:
+            return f"![{restored}]({image_m.group(2)})"
+        return restored
 
     def _flush_paragraph() -> None:
         nonlocal changed
@@ -791,6 +915,11 @@ def inject_markdown(
 
         # --- Kramdown / Jekyll attribute lists (skip) ---
         if _MD_INJ_KRAMDOWN_ATTR_RE.match(stripped):
+            _flush_paragraph()
+            continue
+
+        # --- Reference-link definitions (skip; the links that use them keep [ref]) ---
+        if _MD_INJ_LINK_REF_DEF_RE.match(stripped):
             _flush_paragraph()
             continue
 

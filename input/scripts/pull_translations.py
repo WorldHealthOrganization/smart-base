@@ -2,7 +2,7 @@
 """
 pull_translations.py — Multi-service translation pull orchestrator.
 
-For each enabled service in sushi-config.yaml (or dak.json fallback), calls
+For each enabled service in sushi-config.yaml (or contentTypes.dak fallback), calls
 the appropriate service adapter script, collects updated .po files, and writes
 them to the repo. This is the single entry point called by the
 pull_translations.yml workflow; it never contains service-specific logic.
@@ -17,7 +17,7 @@ Environment variables:
     LAUNCHPAD_API_TOKEN    Launchpad API token (if pulling from Launchpad)
 
 Exit codes:
-    0  Success (or dak.json not found — warning + skip)
+    0  Success (or contentTypes.dak not found — warning + skip)
     1  One or more pull errors occurred
     2  Bad arguments
 

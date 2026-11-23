@@ -2885,35 +2885,6 @@ class DAKApiHubGenerator:
           href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css">
     <style>
       body {{ margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }}
-      /* WHO-styled header bar */
-      .who-header {{
-        background-color: #00477d;
-        color: #ffffff;
-        padding: 0.6rem 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        font-size: 1rem;
-        font-weight: 600;
-        letter-spacing: 0.01em;
-      }}
-      .who-header a.home-link {{
-        color: #ffffff;
-        text-decoration: none;
-        font-size: 0.9rem;
-        font-weight: 600;
-        border: 1px solid rgba(255,255,255,0.6);
-        padding: 0.25rem 0.75rem;
-        border-radius: 3px;
-        transition: background-color 0.2s ease;
-      }}
-      .who-header a.home-link:hover {{
-        background-color: rgba(255,255,255,0.15);
-        text-decoration: none;
-      }}
-      .who-header .header-title {{
-        flex: 1;
-      }}
       /* Definition selector bar below the header */
       #definition-selector-bar {{
         background-color: #0070a1;
@@ -2948,10 +2919,7 @@ class DAKApiHubGenerator:
     </style>
   </head>
   <body>
-  <div class="who-header">
-    <a href="../index.html" class="home-link">&#8962; Home</a>
-    <span class="header-title">SMART Base &mdash; OpenAPI Documentation</span>
-  </div>
+  <!-- No header of its own: the site gives every page the IG's one bar (owner, 2026-10-15, "consolidate behaviours/appearance"). -->
 {existing_section}{swagger_section}
   </body>
 </html>"""

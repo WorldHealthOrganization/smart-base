@@ -58,6 +58,11 @@ on:
         required: false
         type: boolean
         default: true
+      smart_owner:
+        description: 'GitHub owner of the smart-base to fetch scripts from (default: the calling repository''s owner)'
+        required: false
+        type: string
+        default: ''
 
   # Allows you to run this workflow manually from the Actions tab
   # (useful for downstream repos and for ad-hoc smart-base builds).
@@ -81,6 +86,11 @@ on:
         required: false
         type: boolean
         default: true
+      smart_owner:
+        description: 'GitHub owner of the smart-base to fetch scripts from (default: this repository''s owner)'
+        required: false
+        type: string
+        default: ''
 
 # NOTE: No workflow-level concurrency block here.  When this workflow is
 # invoked via workflow_call, github.workflow resolves to the *caller's*
@@ -91,6 +101,14 @@ on:
 # typically needed because they are triggered manually and intentionally.
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+env:
+  # The GitHub owner of the smart-base the scripts come from: the CALLER's
+  # owner, derived, so a fork builds from the fork and WHO from WHO at the same
+  # pinned commit (WHO migration plan T3, smart-base#421). A repository that
+  # stays behind while smart-base moves (smart-immunizations-uganda) passes
+  # `smart_owner: WorldHealthOrganization`.
+  SMART_OWNER: ${{ inputs.smart_owner || github.repository_owner }}
+
 jobs:
   # This workflow contains a single job called "build"
   build:
@@ -106,7 +124,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.ref || github.ref }}
 
@@ -145,54 +163,64 @@ jobs:
             exit 1
           fi
 
-          # Always pin downloads to main — do NOT use scripts_ref here.
-          # This prevents an attacker from supplying a malicious branch
-          # via scripts_ref to get arbitrary code executed in downstream
-          # repos or via workflow_dispatch.
-          SCRIPTS_BASE_URL="https://raw.githubusercontent.com/WorldHealthOrganization/smart-base/main"
+          # Pin downloads to an immutable 40-hex commit SHA in ${SMART_OWNER}/smart-base,
+          # never a moving branch of another organisation (bean folio-assistant-vl71).
+          SCRIPTS_BASE_COMMIT="49178a48d460bb53acf6e90d8c0aee3f0146d8f7"
+          SCRIPTS_BASE_URL="https://raw.githubusercontent.com/${SMART_OWNER}/smart-base/${SCRIPTS_BASE_COMMIT}"
 
           printf 'SCRIPTS_REF=%s\n' "$SCRIPTS_REF"
           printf 'SCRIPTS_REF=%s\n' "$SCRIPTS_REF" >> "$GITHUB_ENV"
+          printf 'SCRIPTS_BASE_COMMIT=%s\n' "$SCRIPTS_BASE_COMMIT" >> "$GITHUB_ENV"
           printf 'SCRIPTS_BASE_URL=%s\n' "$SCRIPTS_BASE_URL"
           printf 'SCRIPTS_BASE_URL=%s\n' "$SCRIPTS_BASE_URL" >> "$GITHUB_ENV"
 
       # ── Overlay smart-base scripts onto content checkout ───────────────
-      # When running inside the smart-base repository, the content checkout
-      # may contain locally-modified copies of scripts.  This step replaces
-      # them with the canonical versions from SCRIPTS_REF so that PR
-      # branches only need to carry content, not build tooling.
-      #
-      # For downstream repos this step is a no-op — those repos don't have
-      # input/scripts/ in their own tree and rely on the curl-based
-      # fallback downloads in subsequent steps.
+      # In smart-base itself, use the checked-out input/scripts/ unless an
+      # explicit 40-hex commit SHA is given in SCRIPTS_REF. In downstream
+      # repositories (where input/scripts/ is absent), fetch input/scripts/
+      # and input/includes/ once from the pinned commit SHA so subsequent
+      # steps execute local scripts rather than curling a moving branch.
       - name: Overlay smart-base scripts
         env:
           GH_REPOSITORY: ${{ github.repository }}
         run: |
-          # Only overlay when running inside the smart-base repository.
-          SMART_BASE_REPO="WorldHealthOrganization/smart-base"
-          if [[ "$GH_REPOSITORY" != "$SMART_BASE_REPO" ]]; then
-            echo "Downstream repository — scripts will be fetched on demand"
+          SMART_BASE_REPO="${SMART_OWNER}/smart-base"
+          if [[ "$GH_REPOSITORY" == "$SMART_BASE_REPO" ]]; then
+            if [[ "$SCRIPTS_REF" == "main" ]]; then
+              echo "Using input/scripts/ from this checkout"
+              exit 0
+            fi
+            if ! [[ "$SCRIPTS_REF" =~ ^[0-9a-f]{40}$ ]]; then
+              echo "::error::scripts_ref override must be a 40-hex commit SHA, got ${SCRIPTS_REF}"
+              exit 1
+            fi
+            git fetch origin "${SCRIPTS_REF}" --depth=1
+            git checkout FETCH_HEAD -- input/scripts/
+            git checkout FETCH_HEAD -- input/includes/dmn2html.xslt input/includes/dmn.css 2>/dev/null || true
+            echo "✅ Scripts overlaid from ${SCRIPTS_REF}"
             exit 0
           fi
 
-          echo "Smart-base repo detected — overlaying scripts from ${SCRIPTS_REF}"
-          git fetch origin "${SCRIPTS_REF}" --depth=1
-          # Overlay input/scripts/ and supporting includes from the scripts ref.
-          # This overwrites any locally-modified copies with the canonical versions.
-          git checkout FETCH_HEAD -- input/scripts/
-          git checkout FETCH_HEAD -- input/includes/dmn2html.xslt input/includes/dmn.css 2>/dev/null || true
-          echo "✅ Scripts overlaid from ${SCRIPTS_REF}"
+          echo "Downstream repository — seeding input/scripts/ from ${SMART_BASE_REPO}@${SCRIPTS_BASE_COMMIT}"
+          SDIR="$(mktemp -d)"
+          git init -q "$SDIR"
+          git -C "$SDIR" fetch -q --depth=1 "https://github.com/${SMART_BASE_REPO}.git" "${SCRIPTS_BASE_COMMIT}"
+          git -C "$SDIR" checkout -q FETCH_HEAD -- input/scripts input/includes/dmn2html.xslt input/includes/dmn.css
+          mkdir -p input/scripts input/includes
+          cp -R "$SDIR/input/scripts/." input/scripts/
+          cp "$SDIR/input/includes/dmn2html.xslt" "$SDIR/input/includes/dmn.css" input/includes/ 2>/dev/null || true
+          rm -rf "$SDIR"
+          echo "✅ Seeded input/scripts/ from ${SMART_BASE_REPO}@${SCRIPTS_BASE_COMMIT}"
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.11'
 
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install "GitPython>=3.1.40" "PyYAML>=6.0" "requests>=2.28.0" lxml
+          pip install --require-hashes -r input/scripts/build-scripts.lock
 
       - name: Find PR number
         id: find_pr
@@ -288,6 +316,18 @@ jobs:
         run: |
           echo "Preparing DAK environment with configuration scripts..."
 
+          # Where the DAK declaration lives: index.config.json contentTypes.dak
+          # (bean folio-assistant-cz17). Every DAK script imports this helper.
+          if [ ! -f "input/scripts/dak_index.py" ]; then
+            mkdir -p input/scripts
+            curl -L -f -o "input/scripts/dak_index.py" "${SCRIPTS_BASE_URL}/input/scripts/dak_index.py" 2>/dev/null || echo "Failed to download dak_index.py"
+          fi
+          # An IG still carrying the old dak.json keeps building: the file is
+          # read into the index for this build only, with a warning.
+          if [ -f "input/scripts/dak_index.py" ]; then
+            python3 input/scripts/dak_index.py --adopt-legacy .
+          fi
+
           # Check if DAK preparation scripts exist locally, download if needed
           if [ ! -f "input/scripts/generate_dak_from_sushi.py" ]; then
             echo "DAK generation script not found locally, downloading from smart-base repository..."
@@ -301,7 +341,7 @@ jobs:
             curl -L -f -o "input/scripts/update_sushi_config.py" "${SCRIPTS_BASE_URL}/input/scripts/update_sushi_config.py" 2>/dev/null || echo "Failed to download update_sushi_config.py"
           fi
 
-          # First, generate DAK configuration from sushi config (only if smart.who.int.base is a dependency and dak.json doesn't exist)
+          # First, generate DAK configuration from sushi config (only if smart.who.int.base is a dependency and the index has no contentTypes.dak)
           if [ -f "input/scripts/generate_dak_from_sushi.py" ]; then
             echo "Running generate_dak_from_sushi.py..."
             python3 input/scripts/generate_dak_from_sushi.py
@@ -310,7 +350,7 @@ jobs:
             echo "⚠️ generate_dak_from_sushi.py not available, skipping DAK generation"
           fi
 
-          # Then, update sushi config with DAK API settings (checks if dak.json is present)
+          # Then, update sushi config with DAK API settings
           if [ -f "input/scripts/update_sushi_config.py" ]; then
             echo "Running update_sushi_config.py..."
             python3 input/scripts/update_sushi_config.py
@@ -329,9 +369,9 @@ jobs:
             echo "Not generating DAK"
             exit 0
           fi
-          echo "DAK processing enabled, checking for dak.json..."
-          if [ -f "dak.json" ]; then
-            echo "✅ Found dak.json - DAK processing will be enabled"
+          echo "DAK processing enabled, checking index.config.json for contentTypes.dak..."
+          if [ -f "input/scripts/dak_index.py" ] && python3 input/scripts/dak_index.py .; then
+            echo "✅ Found contentTypes.dak - DAK processing will be enabled"
             echo "DAK_ENABLED=true" >> "$GITHUB_ENV"
 
             # GITHUB_REPOSITORY and GITHUB_REF_NAME are already set by GitHub Actions.
@@ -339,7 +379,7 @@ jobs:
             # Do NOT overwrite them here — the previous values are validated.
 
           else
-            echo "⚠️ do_dak=true but no dak.json found in repository root"
+            echo "⚠️ do_dak=true but index.config.json has no contentTypes.dak"
             echo "DAK processing will be skipped"
             echo "DAK_ENABLED=false" >> "$GITHUB_ENV"
           fi
@@ -356,13 +396,16 @@ jobs:
             curl -L -f -o "input/scripts/generate_dak_from_sushi.py" "${SCRIPTS_BASE_URL}/input/scripts/generate_dak_from_sushi.py" 2>/dev/null || echo "Failed to download generate_dak_from_sushi.py"
             curl -L -f -o "input/scripts/dak_url_utils.py" "${SCRIPTS_BASE_URL}/input/scripts/dak_url_utils.py" 2>/dev/null || echo "Failed to download dak_url_utils.py"
           fi
+          if [ ! -f "input/scripts/dak_index.py" ]; then
+            curl -L -f -o "input/scripts/dak_index.py" "${SCRIPTS_BASE_URL}/input/scripts/dak_index.py" 2>/dev/null || echo "Failed to download dak_index.py"
+          fi
 
           # Regenerate DAK configuration with current environment context
           if [ -f "input/scripts/generate_dak_from_sushi.py" ]; then
             python3 input/scripts/generate_dak_from_sushi.py
             echo "✅ DAK configuration regenerated with current context"
           else
-            echo "⚠️ DAK generation script not available, using existing dak.json"
+            echo "⚠️ DAK generation script not available, using the existing contentTypes.dak"
           fi
 
       - name: DAK Preprocessing - Generate DMN Questionnaires
@@ -444,21 +487,21 @@ jobs:
           fi
 
       - name: Update the image to the latest publisher
-        uses: docker://hl7fhir/ig-publisher-base:latest
+        uses: docker://hl7fhir/ig-publisher-base@sha256:245d363857d76dfb58145a9a1dcd2f138809d2eccf739e285d55439771bc8baf # latest
         with:
           # Get the latest publisher - don't run the batch script but run the line directly
           args: curl -L https://github.com/HL7/fhir-ig-publisher/releases/latest/download/publisher.jar -o ./input-cache/publisher.jar --create-dirs
 
 
       - name: Create package cache folder
-        uses: docker://hl7fhir/ig-publisher-base:latest
+        uses: docker://hl7fhir/ig-publisher-base@sha256:245d363857d76dfb58145a9a1dcd2f138809d2eccf739e285d55439771bc8baf # latest
         with:
           entrypoint: /bin/sh
           args: -c "mkdir -p ./fhir-package-cache && chown 1001:127 ./fhir-package-cache"
 
 
       - name: Run the IG publisher
-        uses: docker://hl7fhir/ig-publisher-base:latest
+        uses: docker://hl7fhir/ig-publisher-base@sha256:245d363857d76dfb58145a9a1dcd2f138809d2eccf739e285d55439771bc8baf # latest
         with:
           entrypoint: /bin/sh
           args: -c "mkdir -p /var/lib/.fhir && chown $(id -u):$(id -g) /var/lib/.fhir"
@@ -486,7 +529,7 @@ jobs:
           docker run -d --name ig-run \
             -v "${GH_WORKSPACE}":/work \
             -w /work \
-            hl7fhir/ig-publisher-base:latest \
+            hl7fhir/ig-publisher-base@sha256:245d363857d76dfb58145a9a1dcd2f138809d2eccf739e285d55439771bc8baf \
             sleep infinity
 
           # Wait for entrypoint to finish setup
@@ -510,18 +553,52 @@ jobs:
           # single quotes so the host shell does NOT expand any variables;
           # only the container's sh expands them, preventing injection
           # through branch names or tx values.
+          # WHO_IG_OWN_POST_CHECK: the template (who.template.root) skips its
+          # own post-check generators, since this workflow runs the current
+          # ones after the Publisher. Without it, every sidecar is also
+          # published under schemas/ in an older format with the same $id
+          # (litlfred/smart-base#99, WorldHealthOrganization/smart-ig-template#69).
           docker exec -w /work \
+            -e "WHO_IG_OWN_POST_CHECK=1" \
             -e "IG_REPO=${GITHUB_REPOSITORY}" \
             -e "IG_REF=${GITHUB_REF_NAME}" \
             -e "TX_URL=${INPUT_TX:-}" \
             ig-run sh -c '
+              # Bounded retry for TRANSIENT upstream failures only.
+              # The #current templates (who.template.root, smart.who.int.base)
+              # are fetched from build.fhir.org and terminology from
+              # tx.fhir.org; both occasionally fail (missing build-server
+              # entry, DNS). A failure is retried (max 3 attempts, backoff
+              # 30s then 90s) ONLY if the publisher exited non-zero AND its
+              # log matches TRANSIENT_RE. Every other failure fails at once.
+              TRANSIENT_RE="has no entry on the current build server|UnknownHostException: (tx|packages|packages2|build)\.fhir\.org"
+              LOG=/tmp/publisher-attempt.log
+              attempt=1
               set -e
-              java -Xmx6g -jar ./input-cache/publisher.jar publisher \
-                -ig . \
-                -auto-ig-build \
-                -repo "https://github.com/${IG_REPO}/tree/${IG_REF}" \
-                -package-cache-folder ./fhir-package-cache \
-                ${TX_URL:+-tx} ${TX_URL:+"$TX_URL"}
+              while :; do
+                echo "── IG Publisher attempt ${attempt}/3 ──"
+                # Stream output live; capture the java exit code past tee.
+                { rc=0; java -Xmx6g -jar ./input-cache/publisher.jar publisher \
+                    -ig . \
+                    -auto-ig-build \
+                    -repo "https://github.com/${IG_REPO}/tree/${IG_REF}" \
+                    -package-cache-folder ./fhir-package-cache \
+                    ${TX_URL:+-tx} ${TX_URL:+"$TX_URL"} || rc=$?
+                  echo "$rc" > "$LOG.rc"; } 2>&1 | tee "$LOG"
+                rc=$(cat "$LOG.rc")
+                [ "$rc" -eq 0 ] && break
+                if [ "$attempt" -ge 3 ] || ! grep -qE "$TRANSIENT_RE" "$LOG"; then
+                  echo "IG Publisher failed (exit $rc) on attempt ${attempt}; not retrying."
+                  exit "$rc"
+                fi
+                case "$attempt" in 1) wait_s=30 ;; *) wait_s=90 ;; esac
+                echo "::warning::IG Publisher hit a transient upstream error (exit $rc):"
+                grep -E "$TRANSIENT_RE" "$LOG" | head -n 3
+                echo "Retrying in ${wait_s}s..."
+                sleep "$wait_s"
+                attempt=$((attempt + 1))
+              done
+              rm -f "$LOG" "$LOG.rc"
             '
 
           echo "TS_IG_BUILD=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
@@ -529,7 +606,7 @@ jobs:
       # Additional step to upload qa.json as an artifact
       - name: Upload qa.json artifact
         if: success()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: qa-json-artifact
           path: ./output/qa.json  # Adjust the path based on where qa.json is located
@@ -577,7 +654,7 @@ jobs:
       # re-running the publisher.
       - name: Upload POT file artifacts
         if: success()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: pot-files
           path: |
@@ -909,9 +986,58 @@ jobs:
             echo "No files over 100 MB found."
           fi
 
+      # ── Is the gh-pages root a folio site? ─────────────────────────────
+      # A repository whose site is agent-run (`index.config.json` `site`) has
+      # its gh-pages ROOT published by the platform's `stage-local.ts`, the
+      # folio site built from the IG's cached AST, stamped with
+      # `folio-build.json` (or a folio's `_main-site.json`). The IG Publisher's
+      # output must not replace that root, nor squash its history with a
+      # single-commit force-push (owner, 2026-10-15: smart-base republishes
+      # "via the same IG route as smart-hiv", "Yes + retire old workflow").
+      # Then the default branch's Publisher build goes to branches/<branch>/
+      # like any preview, and no deploy here is single-commit. A gh-pages
+      # without either stamp is deployed exactly as before.
+      - name: Is the gh-pages root a folio site?
+        if: inputs.deploy != false
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if git fetch -q --depth=1 --filter=blob:none origin gh-pages 2>/dev/null \
+             && { git cat-file -e FETCH_HEAD:folio-build.json 2>/dev/null || git cat-file -e FETCH_HEAD:_main-site.json 2>/dev/null; }; then
+            echo "FOLIO_ROOT=true" >> "$GITHUB_ENV"
+            echo "::notice::The gh-pages root is a folio site (folio-build.json / _main-site.json): this build deploys to branches/${BRANCH_DIR}/ only, without single-commit; the root is published by site-publish.yml."
+          else
+            echo "FOLIO_ROOT=false" >> "$GITHUB_ENV"
+            echo "The gh-pages root is not a folio site: deploying as before."
+          fi
+
+      # A branch preview carries no Publisher binaries: releases are the only
+      # place they are published, and the IG's KG points at them there (owner
+      # ruling 2026-10-02, bean b8ip: "previews dont get binary, only
+      # releaes"). Measured before this step: 907 MB of these copies across
+      # gh-pages' branch previews. The names are the ones fhir-harness's
+      # `ig-binary-audit.ts` counts (PUBLISHER_BINARIES, validator-*.pack);
+      # keep the two lists together. The default branch's deploy is untouched.
+      - name: Drop Publisher binaries from a branch preview
+        if: (env.IS_DEFAULT_BRANCH == 'false' || env.FOLIO_ROOT == 'true') && inputs.deploy != false
+        run: |
+          dropped=$(find ./output -maxdepth 1 -type f \( \
+            -name full-ig.zip -o -name package.tgz -o -name package.r4.tgz -o -name package.r4b.tgz \
+            -o -name package-combined.tgz -o -name package.db -o -name ai.zip -o -name validator.pack \
+            -o -name 'validator-*.pack' \
+            -o -name definitions.json.zip -o -name definitions.xml.zip -o -name definitions.ttl.zip \
+            -o -name examples.json.zip -o -name examples.xml.zip -o -name examples.ttl.zip \
+            -o -name expansions.json.zip -o -name expansions.xml.zip \
+            -o -name csvs.zip -o -name excels.zip -o -name schematrons.zip -o -name spreadsheets.zip \) -print)
+          if [ -z "$dropped" ]; then
+            echo "No Publisher binaries in ./output."
+          else
+            echo "$dropped" | while read -r f; do echo "  dropped from the preview: $f ($(du -h "$f" | cut -f1))"; rm -f "$f"; done
+            echo "$(echo "$dropped" | wc -l) Publisher binary file(s) left out of branches/${BRANCH_DIR} — they belong to a release."
+          fi
+
       - name: Deploy candidate
         id: deploy_candidate_1
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
         if: env.IS_DEFAULT_BRANCH == 'false' && inputs.deploy != false
         continue-on-error: true
         with:
@@ -919,45 +1045,77 @@ jobs:
           folder: ./output # The folder the action should deploy.
           commit-message: Deploy candidate branch
           target-folder: branches/${{ env.BRANCH_DIR }}
-          single-commit: true
+          single-commit: ${{ env.FOLIO_ROOT != 'true' }}
           clean: false
 
       - name: Deploy candidate (retry after gh-pages ref conflict)
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
         if: env.IS_DEFAULT_BRANCH == 'false' && inputs.deploy != false && steps.deploy_candidate_1.outcome == 'failure'
         with:
           branch: gh-pages
           folder: ./output
           commit-message: Deploy candidate branch (retry)
           target-folder: branches/${{ env.BRANCH_DIR }}
-          single-commit: true
+          single-commit: ${{ env.FOLIO_ROOT != 'true' }}
           clean: false
 
       - name: Deploy main
         id: deploy_main_1
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
-        if: env.IS_DEFAULT_BRANCH == 'true' && inputs.deploy != false
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
+        if: env.IS_DEFAULT_BRANCH == 'true' && env.FOLIO_ROOT != 'true' && inputs.deploy != false
         continue-on-error: true
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: ./output # The folder the action should deploy.
           commit-message: Deploy main branch
           single-commit: true
+          # `ns`: the JSON-LD context publish-context.yml writes (bean folio-assistant-63q4).
+          # `0.1.0`: the versioned vocabulary the same workflow writes. `en`, `branches/`, `_render-log`
+          # and `folio-build.json`: the harness site the agent publishes beside the IG
+          # (stage-local.ts), its previews, its render log and its root stamp.
           clean-exclude: |
             branches
             sitepreview
+            ns
+            0.1.0
+            en
+            STAGING
+            _render-log
+            folio-build.json
 
       - name: Deploy main (retry after gh-pages ref conflict)
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
-        if: env.IS_DEFAULT_BRANCH == 'true' && inputs.deploy != false && steps.deploy_main_1.outcome == 'failure'
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
+        if: env.IS_DEFAULT_BRANCH == 'true' && env.FOLIO_ROOT != 'true' && inputs.deploy != false && steps.deploy_main_1.outcome == 'failure'
         with:
           branch: gh-pages
           folder: ./output
           commit-message: Deploy main branch (retry)
           single-commit: true
+          # `ns`: the JSON-LD context publish-context.yml writes (bean folio-assistant-63q4).
+          # `0.1.0`: the versioned vocabulary the same workflow writes. `en`, `branches/`, `_render-log`
+          # and `folio-build.json`: the harness site the agent publishes beside the IG
+          # (stage-local.ts), its previews, its render log and its root stamp.
           clean-exclude: |
             branches
             sitepreview
+            ns
+            0.1.0
+            en
+            STAGING
+            _render-log
+            folio-build.json
+
+      # The default branch over a folio root: a preview like any branch's,
+      # never the root (see "Is the gh-pages root a folio site?").
+      - name: Deploy main beside the folio root
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
+        if: env.IS_DEFAULT_BRANCH == 'true' && env.FOLIO_ROOT == 'true' && inputs.deploy != false
+        with:
+          branch: gh-pages
+          folder: ./output
+          commit-message: Deploy main branch (preview beside the folio root)
+          target-folder: branches/${{ env.BRANCH_DIR }}
+          clean: false
 
       # ── Commit updated README.md back to the source branch ──────────────
       # Runs only when deploying from the default branch (not on PRs or

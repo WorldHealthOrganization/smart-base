@@ -7,7 +7,7 @@ ensures that '{% include smart.liquid %}' is present at the top of each file
 (after any YAML front-matter block).  The operation is idempotent: if the
 include directive is already present anywhere in the file it is not duplicated.
 
-Only runs when dak.json is present in the IG root (DAK IG detection).
+Only runs when the IG root's index.config.json has a contentTypes.dak section (DAK IG detection).
 
 Usage:
     python inject_smart_liquid.py [ig_root]
@@ -106,12 +106,12 @@ def main() -> int:
     ig_root = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(".")
 
     # DAK IG check
-    dak_json_path = ig_root / "dak.json"
-    if not dak_json_path.exists():
-        print("ℹ️  dak.json not found – this is not a DAK IG. Skipping smart.liquid injection.")
+    from dak_index import dak_index_path, has_dak_section
+    if not has_dak_section(ig_root):
+        print("ℹ️  no contentTypes.dak in index.config.json – this is not a DAK IG. Skipping smart.liquid injection.")
         return 0
 
-    print(f"✅ DAK IG detected (dak.json found at {dak_json_path})")
+    print(f"✅ DAK IG detected (contentTypes.dak in {dak_index_path(ig_root)})")
 
     pagecontent_dir = ig_root / "input" / "pagecontent"
     if not pagecontent_dir.is_dir():
