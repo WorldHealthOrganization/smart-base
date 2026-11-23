@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-KGDak.schema.json",
+  "title": "Knowledge graph L2: Digital Adaptation Kit",
+  "description": "The kit itself. Properties are exactly the metadata fields DAK.fsh declares and dak.json carries -- no more, so that a dak node can be produced from a real file without anything being invented. canonicalUrl equals publicationUrl on a release branch and previewUrl on a development branch, per DAK.fsh. Both are kept because which one canonicalUrl currently equals is what says whether a graph describes a release or a build. Class IRI: http://smart.who.int/kg/dak.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "KGDak",
+      "description": "Resource type identifier for KGDak logical model"
+    },
+    "@context": {
+      "description": "JSON-LD context for this logical model with ValueSet vocabularies",
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uri",
+          "description": "URI reference to external JSON-LD context"
+        },
+        {
+          "type": "object",
+          "description": "Inline JSON-LD context",
+          "properties": {
+            "@version": {
+              "type": "number",
+              "const": 1.1
+            },
+            "fhir": {
+              "type": "string",
+              "const": "http://hl7.org/fhir/"
+            }
+          },
+          "additionalProperties": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        {
+          "type": "array",
+          "description": "Array of JSON-LD context objects/URIs",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "@type": {
+      "type": "string",
+      "description": "JSON-LD type identifier for KGDak logical model",
+      "examples": [
+        "LogicalModel-KGDak"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+    },
+    "name": {
+      "type": "string",
+      "description": "The computable name: the CamelCase identifier a Canonical() reference matches on."
+    },
+    "title": {
+      "type": "string",
+      "description": "The human-readable title."
+    },
+    "description": {
+      "type": "string",
+      "description": "A description, as the source gives it."
+    },
+    "version": {
+      "type": "string",
+      "description": "The business version, as declared."
+    },
+    "status": {
+      "$ref": "./ValueSet-KGPublicationStatusVS.schema.json",
+      "description": "The DAK's publication status (DAK.fsh, FHIR PublicationStatus)."
+    },
+    "publicationUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "Where the DAK is published (DAK.fsh)."
+    },
+    "previewUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "Where the development build is previewed (DAK.fsh)."
+    },
+    "canonicalUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "The canonical base; equals publicationUrl on a release branch and previewUrl on a development branch."
+    },
+    "license": {
+      "type": "string",
+      "description": "The licence, as DAK.fsh declares it (an SPDX code)."
+    },
+    "copyrightYear": {
+      "type": "string",
+      "description": "The copyright year or range, as declared."
+    },
+    "publisherName": {
+      "type": "string",
+      "description": "The publisher's name."
+    },
+    "publisherUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "The publisher's web address."
+    }
+  },
+  "required": [
+    "resourceType"
+  ],
+  "allOf": [
+    {
+      "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "resourceDefinition": {
+          "type": "string",
+          "format": "uri",
+          "const": "http://smart.who.int/base/StructureDefinition/KGDak"
+        },
+        "fhir:parent": {
+          "type": "string",
+          "const": "http://hl7.org/fhir/StructureDefinition/Base"
+        },
+        "jsonld:valuesets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "const": [
+            "KGPublicationStatusVS"
+          ]
+        },
+        "jsonld:contextTemplate": {
+          "type": "object",
+          "const": {
+            "@version": 1.1,
+            "fhir": "http://hl7.org/fhir/",
+            "KGPublicationStatusVS": "http://smart.who.int/base/ValueSet-KGPublicationStatusVS.jsonld"
+          }
+        }
+      }
+    }
+  ]
+}

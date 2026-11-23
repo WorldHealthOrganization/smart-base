@@ -1,0 +1,64 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "KGStructureDefinitionKind"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem KGStructureDefinitionKind</b></p><a name=\"KGStructureDefinitionKind\"> </a><a name=\"hcKGStructureDefinitionKind\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">primitive-type<a name=\"KGStructureDefinitionKind-primitive-type\"> </a></td><td>Primitive type</td><td>A primitive type.</td></tr><tr><td style=\"white-space:nowrap\">complex-type<a name=\"KGStructureDefinitionKind-complex-type\"> </a></td><td>Complex type</td><td>A complex data type.</td></tr><tr><td style=\"white-space:nowrap\">resource<a name=\"KGStructureDefinitionKind-resource\"> </a></td><td>Resource</td><td>A resource.</td></tr><tr><td style=\"white-space:nowrap\">logical<a name=\"KGStructureDefinitionKind-logical\"> </a></td><td>Logical</td><td>A logical model.</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem KGStructureDefinitionKind</b></p><a name=\"fr-KGStructureDefinitionKind\"> </a><a name=\"fr-hcKGStructureDefinitionKind\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style=\"white-space:nowrap\">primitive-type<a name=\"fr-KGStructureDefinitionKind-primitive-type\"> </a></td><td>Primitive type</td><td>A primitive type.</td></tr><tr><td style=\"white-space:nowrap\">complex-type<a name=\"fr-KGStructureDefinitionKind-complex-type\"> </a></td><td>Complex type</td><td>A complex data type.</td></tr><tr><td style=\"white-space:nowrap\">resource<a name=\"fr-KGStructureDefinitionKind-resource\"> </a></td><td>Resource</td><td>A resource.</td></tr><tr><td style=\"white-space:nowrap\">logical<a name=\"fr-KGStructureDefinitionKind-logical\"> </a></td><td>Logical</td><td>A logical model.</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem KGStructureDefinitionKind</b></p><a name=\"ar-KGStructureDefinitionKind\"> </a><a name=\"ar-hcKGStructureDefinitionKind\"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style=\"white-space:nowrap\">primitive-type<a name=\"ar-KGStructureDefinitionKind-primitive-type\"> </a></td><td>Primitive type</td><td>A primitive type.</td></tr><tr><td style=\"white-space:nowrap\">complex-type<a name=\"ar-KGStructureDefinitionKind-complex-type\"> </a></td><td>Complex type</td><td>A complex data type.</td></tr><tr><td style=\"white-space:nowrap\">resource<a name=\"ar-KGStructureDefinitionKind-resource\"> </a></td><td>Resource</td><td>A resource.</td></tr><tr><td style=\"white-space:nowrap\">logical<a name=\"ar-KGStructureDefinitionKind-logical\"> </a></td><td>Logical</td><td>A logical model.</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 KGStructureDefinitionKind</b></p><a name=\"zh-KGStructureDefinitionKind\"> </a><a name=\"zh-hcKGStructureDefinitionKind\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">primitive-type<a name=\"zh-KGStructureDefinitionKind-primitive-type\"> </a></td><td>Primitive type</td><td>A primitive type.</td></tr><tr><td style=\"white-space:nowrap\">complex-type<a name=\"zh-KGStructureDefinitionKind-complex-type\"> </a></td><td>Complex type</td><td>A complex data type.</td></tr><tr><td style=\"white-space:nowrap\">resource<a name=\"zh-KGStructureDefinitionKind-resource\"> </a></td><td>Resource</td><td>A resource.</td></tr><tr><td style=\"white-space:nowrap\">logical<a name=\"zh-KGStructureDefinitionKind-logical\"> </a></td><td>Logical</td><td>A logical model.</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem KGStructureDefinitionKind</b></p><a name=\"ru-KGStructureDefinitionKind\"> </a><a name=\"ru-hcKGStructureDefinitionKind\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind</code> case-sensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style=\"white-space:nowrap\">primitive-type<a name=\"ru-KGStructureDefinitionKind-primitive-type\"> </a></td><td>Primitive type</td><td>A primitive type.</td></tr><tr><td style=\"white-space:nowrap\">complex-type<a name=\"ru-KGStructureDefinitionKind-complex-type\"> </a></td><td>Complex type</td><td>A complex data type.</td></tr><tr><td style=\"white-space:nowrap\">resource<a name=\"ru-KGStructureDefinitionKind-resource\"> </a></td><td>Resource</td><td>A resource.</td></tr><tr><td style=\"white-space:nowrap\">logical<a name=\"ru-KGStructureDefinitionKind-logical\"> </a></td><td>Logical</td><td>A logical model.</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos KGStructureDefinitionKind</b></p><a name=\"es-KGStructureDefinitionKind\"> </a><a name=\"es-hcKGStructureDefinitionKind\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">primitive-type<a name=\"es-KGStructureDefinitionKind-primitive-type\"> </a></td><td>Primitive type</td><td>A primitive type.</td></tr><tr><td style=\"white-space:nowrap\">complex-type<a name=\"es-KGStructureDefinitionKind-complex-type\"> </a></td><td>Complex type</td><td>A complex data type.</td></tr><tr><td style=\"white-space:nowrap\">resource<a name=\"es-KGStructureDefinitionKind-resource\"> </a></td><td>Resource</td><td>A resource.</td></tr><tr><td style=\"white-space:nowrap\">logical<a name=\"es-KGStructureDefinitionKind-logical\"> </a></td><td>Logical</td><td>A logical model.</td></tr></table></div></div>"
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind"] ;
+  fhir:CodeSystem.version [ fhir:value "0.3.0"] ;
+  fhir:CodeSystem.name [ fhir:value "KGStructureDefinitionKind"] ;
+  fhir:CodeSystem.title [ fhir:value "Knowledge graph L3: structure definition kind"] ;
+  fhir:CodeSystem.status [ fhir:value "active"] ;
+  fhir:CodeSystem.experimental [ fhir:value "false"^^xsd:boolean] ;
+  fhir:CodeSystem.date [ fhir:value "2026-11-23T18:43:32+00:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "WHO"] ;
+  fhir:CodeSystem.contact [
+     fhir:index 0 ;
+     fhir:ContactDetail.name [ fhir:value "WHO" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index 0 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://who.int" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "FHIR StructureDefinitionKind. Added by the smart-base migration: smart-kg named the property without binding it. Source: smart-kg ontology/l3/l3.json valueSets \"structure-definition-kind\"; http://hl7.org/fhir/ValueSet/structure-definition-kind."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "4"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index 0 ;
+     fhir:CodeSystem.concept.code [ fhir:value "primitive-type" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Primitive type" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A primitive type." ]
+  ], [
+     fhir:index 1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "complex-type" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Complex type" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A complex data type." ]
+  ], [
+     fhir:index 2 ;
+     fhir:CodeSystem.concept.code [ fhir:value "resource" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Resource" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A resource." ]
+  ], [
+     fhir:index 3 ;
+     fhir:CodeSystem.concept.code [ fhir:value "logical" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Logical" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A logical model." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGStructureDefinitionKind.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl .
+
+# -------------------------------------------------------------------------------------
+

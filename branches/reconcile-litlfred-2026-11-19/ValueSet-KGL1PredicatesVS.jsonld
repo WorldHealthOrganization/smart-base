@@ -1,0 +1,143 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-11-23T18:46:49.268969Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#contains",
+      "name": "contains",
+      "fhir:code": "contains",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#hasSupplement",
+      "name": "hasSupplement",
+      "fhir:code": "hasSupplement",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#supersedes",
+      "name": "supersedes",
+      "fhir:code": "supersedes",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#refines",
+      "name": "refines",
+      "fhir:code": "refines",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#partOf",
+      "name": "partOf",
+      "fhir:code": "partOf",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#definedIn",
+      "name": "definedIn",
+      "fhir:code": "definedIn",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#presentedIn",
+      "name": "presentedIn",
+      "fhir:code": "presentedIn",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#answers",
+      "name": "answers",
+      "fhir:code": "answers",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#addresses",
+      "name": "addresses",
+      "fhir:code": "addresses",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#hasOutcome",
+      "name": "hasOutcome",
+      "fhir:code": "hasOutcome",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#forOutcome",
+      "name": "forOutcome",
+      "fhir:code": "forOutcome",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#aboutIntervention",
+      "name": "aboutIntervention",
+      "fhir:code": "aboutIntervention",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#supportedBy",
+      "name": "supportedBy",
+      "fhir:code": "supportedBy",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#hasRemark",
+      "name": "hasRemark",
+      "fhir:code": "hasRemark",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#recommends",
+      "name": "recommends",
+      "fhir:code": "recommends",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#measures",
+      "name": "measures",
+      "fhir:code": "measures",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#justifiedBy",
+      "name": "justifiedBy",
+      "fhir:code": "justifiedBy",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#crossReferences",
+      "name": "crossReferences",
+      "fhir:code": "crossReferences",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#classifiedAs",
+      "name": "classifiedAs",
+      "fhir:code": "classifiedAs",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#numberedAs",
+      "name": "numberedAs",
+      "fhir:code": "numberedAs",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.jsonld#resolvesTo",
+      "name": "resolvesTo",
+      "fhir:code": "resolvesTo",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Predicates"
+    }
+  ]
+}

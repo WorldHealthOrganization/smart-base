@@ -1,0 +1,53 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-11-23T18:46:49.271454Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.jsonld#dmn-definitions",
+      "name": "DMN File",
+      "fhir:code": "dmn-definitions",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2DMNClasses"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.jsonld#dmn-decision",
+      "name": "DMN Decision",
+      "fhir:code": "dmn-decision",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2DMNClasses"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.jsonld#dmn-decision-table",
+      "name": "DMN Decision Table",
+      "fhir:code": "dmn-decision-table",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2DMNClasses"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.jsonld#dmn-input-clause",
+      "name": "DMN Input Clause",
+      "fhir:code": "dmn-input-clause",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2DMNClasses"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.jsonld#dmn-output-clause",
+      "name": "DMN Output Clause",
+      "fhir:code": "dmn-output-clause",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2DMNClasses"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.jsonld#dmn-rule",
+      "name": "DMN Rule",
+      "fhir:code": "dmn-rule",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2DMNClasses"
+    }
+  ]
+}

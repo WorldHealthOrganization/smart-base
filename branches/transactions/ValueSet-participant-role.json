@@ -1,0 +1,28 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "participant-role",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ValueSet participant-role</b></p><a name=\"participant-role\"> </a><a name=\"hcparticipant-role\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-participant-role.html\"><code>http://smart.who.int/base/CodeSystem/participant-role</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : EnsembleValeurs participant-role</b></p><a name=\"fr-participant-role\"> </a><a name=\"fr-hcparticipant-role\"> </a><ul><li>Include tous les codes définis dans <a href=\"CodeSystem-participant-role.html\"><code>http://smart.who.int/base/CodeSystem/participant-role</code></a><span title=\"La version n'est pas explicitement indiquée, ce qui signifie quelle est fixée à la version fournie dans cette spécification\"> version &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: ValueSet participant-role</b></p><a name=\"ar-participant-role\"> </a><a name=\"ar-hcparticipant-role\"> </a><ul><li>Include جميع الرموز المحددة في <a href=\"CodeSystem-participant-role.html\"><code>http://smart.who.int/base/CodeSystem/participant-role</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> الإصدار &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 取值集合 participant-role</b></p><a name=\"zh-participant-role\"> </a><a name=\"zh-hcparticipant-role\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-participant-role.html\"><code>http://smart.who.int/base/CodeSystem/participant-role</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: ValueSet participant-role</b></p><a name=\"ru-participant-role\"> </a><a name=\"ru-hcparticipant-role\"> </a><ul><li>Include все коды, определенные в <a href=\"CodeSystem-participant-role.html\"><code>http://smart.who.int/base/CodeSystem/participant-role</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> версия &#x1F4E6;0.3.0</span></li></ul></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: ConjuntoValores / ConjuntoDeValores participant-role</b></p><a name=\"es-participant-role\"> </a><a name=\"es-hcparticipant-role\"> </a><ul><li>Include all codes defined in <a href=\"CodeSystem-participant-role.html\"><code>http://smart.who.int/base/CodeSystem/participant-role</code></a><span title=\"Version is not explicitly stated, which means it is fixed to the version provided in this specification\"> version &#x1F4E6;0.3.0</span></li></ul></div></div>"
+  },
+  "url" : "http://smart.who.int/base/ValueSet/participant-role",
+  "version" : "0.3.0",
+  "name" : "ParticipantRoleVS",
+  "title" : "Participant Role",
+  "status" : "draft",
+  "date" : "2026-09-07T06:11:01+00:00",
+  "publisher" : "WHO",
+  "contact" : [{
+    "name" : "WHO",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://who.int"
+    }]
+  }],
+  "description" : "The role of an additional participant in an interaction.",
+  "compose" : {
+    "include" : [{
+      "system" : "http://smart.who.int/base/CodeSystem/participant-role"
+    }]
+  }
+}

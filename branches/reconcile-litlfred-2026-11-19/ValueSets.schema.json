@@ -1,0 +1,601 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/ValueSets.schema.json",
+  "title": "ValueSet Enumeration Schema",
+  "description": "JSON Schema defining the structure of the ValueSet enumeration endpoint response",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "valueset"
+    },
+    "count": {
+      "type": "integer"
+    },
+    "schemas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "valueSetUrl": {
+            "type": "string"
+          },
+          "codeCount": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "filename",
+          "title",
+          "url"
+        ]
+      }
+    }
+  },
+  "required": [
+    "type",
+    "count",
+    "schemas"
+  ],
+  "example": {
+    "type": "valueset",
+    "count": 60,
+    "schemas": [
+      {
+        "filename": "ValueSet-KGArtifactKindVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGArtifactKindVS.schema.json",
+        "title": "Knowledge graph L2: artifact kind Schema",
+        "description": "JSON Schema for Knowledge graph L2: artifact kind ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGArtifactKindVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGArtifactKindVS",
+        "codeCount": 6
+      },
+      {
+        "filename": "ValueSet-CDHIv1.4.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDHIv1.4.schema.json",
+        "title": "Digital Health Interventions: Data Services Schema",
+        "description": "JSON Schema for Digital Health Interventions: Data Services ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDHIv1.4.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv1.4",
+        "codeCount": 136
+      },
+      {
+        "filename": "ValueSet-CDSCv2.A.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDSCv2.A.schema.json",
+        "title": "Services and Application Types: Point of Service Schema",
+        "description": "JSON Schema for Services and Application Types: Point of Service ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDSCv2.A.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDSCv2.A",
+        "codeCount": 53
+      },
+      {
+        "filename": "ValueSet-KGElementTypeVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGElementTypeVS.schema.json",
+        "title": "Knowledge graph L1: element type Schema",
+        "description": "JSON Schema for Knowledge graph L1: element type ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGElementTypeVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGElementTypeVS",
+        "codeCount": 9
+      },
+      {
+        "filename": "ValueSet-KGOutcomeImportanceVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGOutcomeImportanceVS.schema.json",
+        "title": "Knowledge graph L1: outcome importance Schema",
+        "description": "JSON Schema for Knowledge graph L1: outcome importance ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGOutcomeImportanceVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGOutcomeImportanceVS",
+        "codeCount": 2
+      },
+      {
+        "filename": "ValueSet-KGL2DMNClassesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.schema.json",
+        "title": "Knowledge graph L2DMN: classes Schema",
+        "description": "JSON Schema for Knowledge graph L2DMN: classes ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGL2DMNClassesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGL2DMNClassesVS",
+        "codeCount": 6
+      },
+      {
+        "filename": "ValueSet-KGCertaintyVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGCertaintyVS.schema.json",
+        "title": "Knowledge graph L1: certainty Schema",
+        "description": "JSON Schema for Knowledge graph L1: certainty ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGCertaintyVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGCertaintyVS",
+        "codeCount": 4
+      },
+      {
+        "filename": "ValueSet-KGDmnEntryKindVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGDmnEntryKindVS.schema.json",
+        "title": "Knowledge graph L2-DMN: dmn entry kind Schema",
+        "description": "JSON Schema for Knowledge graph L2-DMN: dmn entry kind ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGDmnEntryKindVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGDmnEntryKindVS",
+        "codeCount": 2
+      },
+      {
+        "filename": "ValueSet-CDHIv1.1.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDHIv1.1.schema.json",
+        "title": "Digital Health Interventions for Clients Schema",
+        "description": "JSON Schema for Digital Health Interventions for Clients ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDHIv1.1.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv1.1",
+        "codeCount": 143
+      },
+      {
+        "filename": "ValueSet-SGAuthoringPersonaTypesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-SGAuthoringPersonaTypesVS.schema.json",
+        "title": "SMART Guidelines Authoring Persona Types ValueSet Schema",
+        "description": "JSON Schema for SMART Guidelines Authoring Persona Types ValueSet ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-SGAuthoringPersonaTypesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/SGAuthoringPersonaTypesVS",
+        "codeCount": 10
+      },
+      {
+        "filename": "ValueSet-KGCitationKindVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGCitationKindVS.schema.json",
+        "title": "Knowledge graph L1: citation kind Schema",
+        "description": "JSON Schema for Knowledge graph L1: citation kind ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGCitationKindVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGCitationKindVS",
+        "codeCount": 2
+      },
+      {
+        "filename": "ValueSet-KGL1LibraryClassesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGL1LibraryClassesVS.schema.json",
+        "title": "Knowledge graph L1Library: classes Schema",
+        "description": "JSON Schema for Knowledge graph L1Library: classes ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGL1LibraryClassesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGL1LibraryClassesVS",
+        "codeCount": 2
+      },
+      {
+        "filename": "ValueSet-KGRecommendationDirectionVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGRecommendationDirectionVS.schema.json",
+        "title": "Knowledge graph L1: recommendation direction Schema",
+        "description": "JSON Schema for Knowledge graph L1: recommendation direction ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGRecommendationDirectionVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGRecommendationDirectionVS",
+        "codeCount": 2
+      },
+      {
+        "filename": "ValueSet-CDHIv2.3.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDHIv2.3.schema.json",
+        "title": "Digital Health Interventions for Health Management and Support Personnel Schema",
+        "description": "JSON Schema for Digital Health Interventions for Health Management and Support Personnel ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDHIv2.3.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv2.3",
+        "codeCount": 176
+      },
+      {
+        "filename": "ValueSet-KGL3ClassesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGL3ClassesVS.schema.json",
+        "title": "Knowledge graph L3: classes Schema",
+        "description": "JSON Schema for Knowledge graph L3: classes ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGL3ClassesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGL3ClassesVS",
+        "codeCount": 14
+      },
+      {
+        "filename": "ValueSet-CDSCv2.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDSCv2.schema.json",
+        "title": "Services and Application Types Schema",
+        "description": "JSON Schema for Services and Application Types ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDSCv2.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDSCv2",
+        "codeCount": 43
+      },
+      {
+        "filename": "ValueSet-SGAuthoringSkillsVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-SGAuthoringSkillsVS.schema.json",
+        "title": "SMART Guidelines Authoring Skills ValueSet Schema",
+        "description": "JSON Schema for SMART Guidelines Authoring Skills ValueSet ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-SGAuthoringSkillsVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/SGAuthoringSkillsVS",
+        "codeCount": 42
+      },
+      {
+        "filename": "ValueSet-KGL1ClassesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.schema.json",
+        "title": "Knowledge graph L1: classes Schema",
+        "description": "JSON Schema for Knowledge graph L1: classes ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGL1ClassesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGL1ClassesVS",
+        "codeCount": 13
+      },
+      {
+        "filename": "ValueSet-KGRemarkTypeVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGRemarkTypeVS.schema.json",
+        "title": "Knowledge graph L1: remark type Schema",
+        "description": "JSON Schema for Knowledge graph L1: remark type ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGRemarkTypeVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGRemarkTypeVS",
+        "codeCount": 7
+      },
+      {
+        "filename": "ValueSet-KGRowTypeVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGRowTypeVS.schema.json",
+        "title": "Knowledge graph L1: row type Schema",
+        "description": "JSON Schema for Knowledge graph L1: row type ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGRowTypeVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGRowTypeVS",
+        "codeCount": 4
+      },
+      {
+        "filename": "ValueSet-KGGatewayDirectionVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGGatewayDirectionVS.schema.json",
+        "title": "Knowledge graph L2-BPMN: gateway direction Schema",
+        "description": "JSON Schema for Knowledge graph L2-BPMN: gateway direction ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGGatewayDirectionVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGGatewayDirectionVS",
+        "codeCount": 4
+      },
+      {
+        "filename": "ValueSet-KGL1PredicatesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.schema.json",
+        "title": "Knowledge graph L1: predicates Schema",
+        "description": "JSON Schema for Knowledge graph L1: predicates ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGL1PredicatesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGL1PredicatesVS",
+        "codeCount": 21
+      },
+      {
+        "filename": "ValueSet-KGGrcStatusVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGGrcStatusVS.schema.json",
+        "title": "Knowledge graph L1: grc status Schema",
+        "description": "JSON Schema for Knowledge graph L1: grc status ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGGrcStatusVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGGrcStatusVS",
+        "codeCount": 3
+      },
+      {
+        "filename": "ValueSet-KGInterventionTypeVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGInterventionTypeVS.schema.json",
+        "title": "Knowledge graph L1: intervention type Schema",
+        "description": "JSON Schema for Knowledge graph L1: intervention type ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGInterventionTypeVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGInterventionTypeVS",
+        "codeCount": 10
+      },
+      {
+        "filename": "ValueSet-CoreDataElementTypeVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CoreDataElementTypeVS.schema.json",
+        "title": "Core Data Element Type Value Set Schema",
+        "description": "JSON Schema for Core Data Element Type Value Set ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CoreDataElementTypeVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CoreDataElementTypeVS",
+        "codeCount": 4
+      },
+      {
+        "filename": "ValueSet-KGTerminologySystemVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGTerminologySystemVS.schema.json",
+        "title": "Knowledge graph L1: terminology system Schema",
+        "description": "JSON Schema for Knowledge graph L1: terminology system ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGTerminologySystemVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGTerminologySystemVS",
+        "codeCount": 8
+      },
+      {
+        "filename": "ValueSet-KGPublicationTypeVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.schema.json",
+        "title": "Knowledge graph L1: publication type Schema",
+        "description": "JSON Schema for Knowledge graph L1: publication type ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGPublicationTypeVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGPublicationTypeVS",
+        "codeCount": 14
+      },
+      {
+        "filename": "ValueSet-KGIdentifierTypeVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGIdentifierTypeVS.schema.json",
+        "title": "Knowledge graph L1: identifier type Schema",
+        "description": "JSON Schema for Knowledge graph L1: identifier type ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGIdentifierTypeVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGIdentifierTypeVS",
+        "codeCount": 6
+      },
+      {
+        "filename": "ValueSet-KGL2BPMNClassesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGL2BPMNClassesVS.schema.json",
+        "title": "Knowledge graph L2BPMN: classes Schema",
+        "description": "JSON Schema for Knowledge graph L2BPMN: classes ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGL2BPMNClassesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGL2BPMNClassesVS",
+        "codeCount": 6
+      },
+      {
+        "filename": "ValueSet-CDSCv2.C.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDSCv2.C.schema.json",
+        "title": "Services and Application Types: Registries and Directories Schema",
+        "description": "JSON Schema for Services and Application Types: Registries and Directories ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDSCv2.C.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDSCv2.C",
+        "codeCount": 55
+      },
+      {
+        "filename": "ValueSet-KGConformanceExpectationVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGConformanceExpectationVS.schema.json",
+        "title": "Knowledge graph L2: conformance expectation Schema",
+        "description": "JSON Schema for Knowledge graph L2: conformance expectation ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGConformanceExpectationVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGConformanceExpectationVS",
+        "codeCount": 4
+      },
+      {
+        "filename": "ValueSet-KGRecommendationStatusVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGRecommendationStatusVS.schema.json",
+        "title": "Knowledge graph L1: recommendation status Schema",
+        "description": "JSON Schema for Knowledge graph L1: recommendation status ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGRecommendationStatusVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGRecommendationStatusVS",
+        "codeCount": 4
+      },
+      {
+        "filename": "ValueSet-KGStructureDefinitionKindVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGStructureDefinitionKindVS.schema.json",
+        "title": "Knowledge graph L3: structure definition kind Schema",
+        "description": "JSON Schema for Knowledge graph L3: structure definition kind ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGStructureDefinitionKindVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGStructureDefinitionKindVS",
+        "codeCount": 4
+      },
+      {
+        "filename": "ValueSet-CDHIv1.2.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDHIv1.2.schema.json",
+        "title": "Digital Health Interventions for Health Workers Schema",
+        "description": "JSON Schema for Digital Health Interventions for Health Workers ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDHIv1.2.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv1.2",
+        "codeCount": 162
+      },
+      {
+        "filename": "ValueSet-KGChangeStatusVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGChangeStatusVS.schema.json",
+        "title": "Knowledge graph L1: change status Schema",
+        "description": "JSON Schema for Knowledge graph L1: change status ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGChangeStatusVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGChangeStatusVS",
+        "codeCount": 3
+      },
+      {
+        "filename": "ValueSet-KGEvidenceTypeVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGEvidenceTypeVS.schema.json",
+        "title": "Knowledge graph L1: evidence type Schema",
+        "description": "JSON Schema for Knowledge graph L1: evidence type ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGEvidenceTypeVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGEvidenceTypeVS",
+        "codeCount": 4
+      },
+      {
+        "filename": "ValueSet-CDHIv2.1.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDHIv2.1.schema.json",
+        "title": "Digital Health Interventions for Persons Schema",
+        "description": "JSON Schema for Digital Health Interventions for Persons ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDHIv2.1.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv2.1",
+        "codeCount": 166
+      },
+      {
+        "filename": "ValueSet-CDHIv2.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDHIv2.schema.json",
+        "title": "Classification of Digital Health Interventions v2 Schema",
+        "description": "JSON Schema for Classification of Digital Health Interventions v2 ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDHIv2.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv2",
+        "codeCount": 138
+      },
+      {
+        "filename": "ValueSet-SGPersonaTypesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-SGPersonaTypesVS.schema.json",
+        "title": "Smart Guidelines Persona Types Value Set Schema",
+        "description": "JSON Schema for Smart Guidelines Persona Types Value Set ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-SGPersonaTypesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/SGPersonaTypesVS",
+        "codeCount": 4
+      },
+      {
+        "filename": "ValueSet-CDSCv2.E.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDSCv2.E.schema.json",
+        "title": "Services and Application Types: Surveillance and Response Schema",
+        "description": "JSON Schema for Services and Application Types: Surveillance and Response ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDSCv2.E.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDSCv2.E",
+        "codeCount": 46
+      },
+      {
+        "filename": "ValueSet-CDHIv1.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDHIv1.schema.json",
+        "title": "Classification of Digital Health Interventions v1 Schema",
+        "description": "JSON Schema for Classification of Digital Health Interventions v1 ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDHIv1.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv1",
+        "codeCount": 119
+      },
+      {
+        "filename": "ValueSet-CDSCv2.B.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDSCv2.B.schema.json",
+        "title": "Services and Application Types: Health System/Provider Administration Schema",
+        "description": "JSON Schema for Services and Application Types: Health System/Provider Administration ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDSCv2.B.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDSCv2.B",
+        "codeCount": 52
+      },
+      {
+        "filename": "ValueSet-CDHIv1.3.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDHIv1.3.schema.json",
+        "title": "Digital Health Interventions for Health System Managers Schema",
+        "description": "JSON Schema for Digital Health Interventions for Health System Managers ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDHIv1.3.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv1.3",
+        "codeCount": 154
+      },
+      {
+        "filename": "ValueSet-KGL2ClassesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.schema.json",
+        "title": "Knowledge graph L2: classes Schema",
+        "description": "JSON Schema for Knowledge graph L2: classes ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGL2ClassesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGL2ClassesVS",
+        "codeCount": 14
+      },
+      {
+        "filename": "ValueSet-KGDerivationVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGDerivationVS.schema.json",
+        "title": "Knowledge graph: derivation Schema",
+        "description": "JSON Schema for Knowledge graph: derivation ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGDerivationVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGDerivationVS",
+        "codeCount": 3
+      },
+      {
+        "filename": "ValueSet-KGVerificationMethodVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGVerificationMethodVS.schema.json",
+        "title": "Knowledge graph L2: verification method Schema",
+        "description": "JSON Schema for Knowledge graph L2: verification method ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGVerificationMethodVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGVerificationMethodVS",
+        "codeCount": 4
+      },
+      {
+        "filename": "ValueSet-CDSCv1.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDSCv1.schema.json",
+        "title": "Health System Challenges Schema",
+        "description": "JSON Schema for Health System Challenges ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDSCv1.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDSCv1",
+        "codeCount": 25
+      },
+      {
+        "filename": "ValueSet-KGL1LibraryPredicatesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGL1LibraryPredicatesVS.schema.json",
+        "title": "Knowledge graph L1Library: predicates Schema",
+        "description": "JSON Schema for Knowledge graph L1Library: predicates ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGL1LibraryPredicatesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGL1LibraryPredicatesVS",
+        "codeCount": 1
+      },
+      {
+        "filename": "ValueSet-KGPublicationStatusVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGPublicationStatusVS.schema.json",
+        "title": "Knowledge graph L2: publication status Schema",
+        "description": "JSON Schema for Knowledge graph L2: publication status ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGPublicationStatusVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGPublicationStatusVS",
+        "codeCount": 4
+      },
+      {
+        "filename": "ValueSet-CDHIv2.4.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDHIv2.4.schema.json",
+        "title": "Digital Health Interventions: Data Services Schema",
+        "description": "JSON Schema for Digital Health Interventions: Data Services ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDHIv2.4.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv2.4",
+        "codeCount": 163
+      },
+      {
+        "filename": "ValueSet-KGL2DMNPredicatesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGL2DMNPredicatesVS.schema.json",
+        "title": "Knowledge graph L2DMN: predicates Schema",
+        "description": "JSON Schema for Knowledge graph L2DMN: predicates ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGL2DMNPredicatesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGL2DMNPredicatesVS",
+        "codeCount": 3
+      },
+      {
+        "filename": "ValueSet-CDSCv2.D.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDSCv2.D.schema.json",
+        "title": "Services and Application Types: Data Management Services Schema",
+        "description": "JSON Schema for Services and Application Types: Data Management Services ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDSCv2.D.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDSCv2.D",
+        "codeCount": 52
+      },
+      {
+        "filename": "ValueSet-DecisionTableActions.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-DecisionTableActions.schema.json",
+        "title": "Smart Guidelines Decision Table Actions Schema",
+        "description": "JSON Schema for Smart Guidelines Decision Table Actions ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-DecisionTableActions.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/DecisionTableActions",
+        "codeCount": 3
+      },
+      {
+        "filename": "ValueSet-KGRecommendationStrengthVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGRecommendationStrengthVS.schema.json",
+        "title": "Knowledge graph L1: recommendation strength Schema",
+        "description": "JSON Schema for Knowledge graph L1: recommendation strength ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGRecommendationStrengthVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGRecommendationStrengthVS",
+        "codeCount": 2
+      },
+      {
+        "filename": "ValueSet-KGRecommendationKindVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGRecommendationKindVS.schema.json",
+        "title": "Knowledge graph L1: recommendation kind Schema",
+        "description": "JSON Schema for Knowledge graph L1: recommendation kind ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGRecommendationKindVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGRecommendationKindVS",
+        "codeCount": 5
+      },
+      {
+        "filename": "ValueSet-KGResolutionStatusVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGResolutionStatusVS.schema.json",
+        "title": "Knowledge graph L1: resolution status Schema",
+        "description": "JSON Schema for Knowledge graph L1: resolution status ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGResolutionStatusVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGResolutionStatusVS",
+        "codeCount": 3
+      },
+      {
+        "filename": "ValueSet-CDHIv2.2.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-CDHIv2.2.schema.json",
+        "title": "Digital Health Interventions for Healthcare Providers Schema",
+        "description": "JSON Schema for Digital Health Interventions for Healthcare Providers ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-CDHIv2.2.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/CDHIv2.2",
+        "codeCount": 185
+      },
+      {
+        "filename": "ValueSet-KGL2BPMNPredicatesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGL2BPMNPredicatesVS.schema.json",
+        "title": "Knowledge graph L2BPMN: predicates Schema",
+        "description": "JSON Schema for Knowledge graph L2BPMN: predicates ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGL2BPMNPredicatesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGL2BPMNPredicatesVS",
+        "codeCount": 3
+      },
+      {
+        "filename": "ValueSet-KGL3PredicatesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGL3PredicatesVS.schema.json",
+        "title": "Knowledge graph L3: predicates Schema",
+        "description": "JSON Schema for Knowledge graph L3: predicates ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGL3PredicatesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGL3PredicatesVS",
+        "codeCount": 3
+      },
+      {
+        "filename": "ValueSet-KGL2PredicatesVS.schema.json",
+        "id": "http://smart.who.int/base/ValueSet-KGL2PredicatesVS.schema.json",
+        "title": "Knowledge graph L2: predicates Schema",
+        "description": "JSON Schema for Knowledge graph L2: predicates ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "url": "./ValueSet-KGL2PredicatesVS.schema.json",
+        "valueSetUrl": "http://smart.who.int/base/ValueSet/KGL2PredicatesVS",
+        "codeCount": 16
+      }
+    ]
+  }
+}

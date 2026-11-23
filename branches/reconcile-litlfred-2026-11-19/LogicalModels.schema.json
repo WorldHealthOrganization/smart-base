@@ -1,0 +1,741 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/LogicalModels.schema.json",
+  "title": "Logical Model Enumeration Schema",
+  "description": "JSON Schema defining the structure of the Logical Model enumeration endpoint response",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "logical_model"
+    },
+    "count": {
+      "type": "integer"
+    },
+    "schemas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "logicalModelUrl": {
+            "type": "string"
+          },
+          "propertyCount": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "filename",
+          "title",
+          "url"
+        ]
+      }
+    }
+  },
+  "required": [
+    "type",
+    "count",
+    "schemas"
+  ],
+  "example": {
+    "type": "logical_model",
+    "count": 85,
+    "schemas": [
+      {
+        "filename": "StructureDefinition-KGDmnDefinitions.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGDmnDefinitions.schema.json",
+        "title": "Knowledge graph L2-DMN: DMN File",
+        "description": "One DMN file as a unit -- the `dmn:definitions` root. Shares its IRI with the l1:external-artifact for the same file, so the l2:decision-support-logic component that points at it and this subgraph name one resource. Class IRI: http://smart.who.int/kg/dmn-definitions.",
+        "url": "./StructureDefinition-KGDmnDefinitions.schema.json",
+        "propertyCount": 6
+      },
+      {
+        "filename": "StructureDefinition-KGEdge.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGEdge.schema.json",
+        "title": "Knowledge graph: edge",
+        "description": "One reified statement: a predicate from a source node to a target node, with its derivation and evidence.",
+        "url": "./StructureDefinition-KGEdge.schema.json",
+        "propertyCount": 18
+      },
+      {
+        "filename": "StructureDefinition-DAK.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-DAK.schema.json",
+        "title": "Digital Adaptation Kit (DAK)",
+        "description": "Logical Model for representing a complete Digital Adaptation Kit (DAK) with metadata and all 9 DAK components",
+        "url": "./StructureDefinition-DAK.schema.json",
+        "propertyCount": 24
+      },
+      {
+        "filename": "StructureDefinition-KGPlanDefinition.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGPlanDefinition.schema.json",
+        "title": "Knowledge graph L3: Plan Definition",
+        "description": "A FHIR PlanDefinition. The published mapping gives it two sources -- Processes and Decision Tables -- so a PlanDefinition alone does not say which it came from; the implementedBy edge does. 138 in the immunizations IG, all declaring cpg-recommendationdefinition, all decision tables. Shares its IRI with the l1:external-artifact for the same canonical. Class IRI: http://smart.who.int/kg/plan-definition.",
+        "url": "./StructureDefinition-KGPlanDefinition.schema.json",
+        "propertyCount": 13
+      },
+      {
+        "filename": "StructureDefinition-KGProvenanceSource.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGProvenanceSource.schema.json",
+        "title": "Knowledge graph: provenance source",
+        "description": "A source a graph document was extracted from, pinned by hash.",
+        "url": "./StructureDefinition-KGProvenanceSource.schema.json",
+        "propertyCount": 6
+      },
+      {
+        "filename": "StructureDefinition-KGBpmnGateway.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGBpmnGateway.schema.json",
+        "title": "Knowledge graph L2-BPMN: BPMN Gateway",
+        "description": "A branch or merge. Included for connectivity rather than for a cross-model edge: a flow through a gateway with no node would point at nothing, and every reachability question over the process would break at the first decision point. Class IRI: http://smart.who.int/kg/bpmn-gateway.",
+        "url": "./StructureDefinition-KGBpmnGateway.schema.json",
+        "propertyCount": 8
+      },
+      {
+        "filename": "StructureDefinition-GenericPersonaSource.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-GenericPersonaSource.schema.json",
+        "title": "Generic Persona Source",
+        "description": "Source reference for Generic Persona - exactly one of the following must be provided:\n- url (url data type): URL to retrieve GenericPersona definition from input/ or external source\n- canonical (canonical data type): Canonical URI pointing to the GenericPersona definition\n- instance: Inline GenericPersona instance data",
+        "url": "./StructureDefinition-GenericPersonaSource.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-RequirementsSource.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-RequirementsSource.schema.json",
+        "title": "Requirements Source",
+        "description": "Source reference for Requirements - exactly one of the following must be provided:\n- url (url data type): URL to retrieve Requirements definition from input/ or external source\n- canonical (canonical data type): Canonical URI pointing to the Requirements definition\n- instance: Inline Requirements instance data",
+        "url": "./StructureDefinition-RequirementsSource.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGLibraryNode.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGLibraryNode.schema.json",
+        "title": "Knowledge graph L1-LIBRARY: Library node",
+        "description": "A node in the ingested library L1 is read from: a source document, a section or a block, addressed by the library's own IRI. Opaque, as L1 asserts nothing about the library's internal model; the library is upstream, so pointing at it keeps the layering rule. Class IRI: http://smart.who.int/kg/library-node.",
+        "url": "./StructureDefinition-KGLibraryNode.schema.json",
+        "propertyCount": 5
+      },
+      {
+        "filename": "StructureDefinition-KGCqlLibrary.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGCqlLibrary.schema.json",
+        "title": "Knowledge graph L3: CQL File",
+        "description": "A .cql file on disk, as opposed to the FHIR Library resource that wraps it. A node so that the mapping table's four CQL rows -- CQL Concepts and CQL Data Elements under Elements, CQL under Decision Tables, CQL IndicatorLogic under Indicators -- do not dead-end. It carries a name, a path and a hash and NOTHING about the logic: no expressions, no comment tags, no data requirements. 279 in the immunizations IG. The l3-cql subgraph is where that content belongs, and it is not built yet. No canonical, because a .cql file is not a FHIR resource and has no canonical URL. It is reached through the Library that wraps it. Class IRI: http://smart.who.int/kg/cql-library.",
+        "url": "./StructureDefinition-KGCqlLibrary.schema.json",
+        "propertyCount": 6
+      },
+      {
+        "filename": "StructureDefinition-KGDak.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGDak.schema.json",
+        "title": "Knowledge graph L2: Digital Adaptation Kit",
+        "description": "The kit itself. Properties are exactly the metadata fields DAK.fsh declares and dak.json carries -- no more, so that a dak node can be produced from a real file without anything being invented. canonicalUrl equals publicationUrl on a release branch and previewUrl on a development branch, per DAK.fsh. Both are kept because which one canonicalUrl currently equals is what says whether a graph describes a release or a build. Class IRI: http://smart.who.int/kg/dak.",
+        "url": "./StructureDefinition-KGDak.schema.json",
+        "propertyCount": 16
+      },
+      {
+        "filename": "StructureDefinition-HealthInterventions.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-HealthInterventions.schema.json",
+        "title": "Health Interventions and Recommendations (DAK)",
+        "description": "Logical Model for representing Health Interventions and Recommendations from a DAK. Overview of the health interventions and WHO, regional or national recommendations included within the DAK.",
+        "url": "./StructureDefinition-HealthInterventions.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGValueSet.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGValueSet.schema.json",
+        "title": "Knowledge graph L3: Value Set",
+        "description": "A FHIR ValueSet. 192 in the immunizations IG -- the most numerous artefact of all. Indexed by canonical; its expansion, its compose rules and the codes it contains are terminology, which docs/SCOPE.md keeps at arm's length as firmly here as at L1. Class IRI: http://smart.who.int/kg/value-set.",
+        "url": "./StructureDefinition-KGValueSet.schema.json",
+        "propertyCount": 13
+      },
+      {
+        "filename": "StructureDefinition-DecisionSupportLogicSource.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-DecisionSupportLogicSource.schema.json",
+        "title": "Decision Support Logic Source",
+        "description": "Source reference for Decision Support Logic - exactly one of the following must be provided:\n- url (url data type): URL to retrieve DecisionSupportLogic definition from input/ or external source\n- canonical (canonical data type): Canonical URI pointing to the DecisionSupportLogic definition\n- instance: Inline DecisionSupportLogic instance data",
+        "url": "./StructureDefinition-DecisionSupportLogicSource.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGCitation.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGCitation.schema.json",
+        "title": "Knowledge graph L1: Citation",
+        "description": "One citation string exactly as written in a DAK artefact. A cell holding several citations yields several nodes. Content-addressed in the DAK's namespace, so one string is one node across artefacts. Where a citation was found is recorded by appearsIn (L2) and by each use edge (L2-DMN, L3 citesSource), not on the node. Class IRI: http://smart.who.int/kg/citation.",
+        "url": "./StructureDefinition-KGCitation.schema.json",
+        "propertyCount": 7
+      },
+      {
+        "filename": "StructureDefinition-CoreDataElement.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-CoreDataElement.schema.json",
+        "title": "Core Data Element (DAK)",
+        "description": "Logical Model for representing Core Data Elements from a DAK. A core data element can be one of: a ValueSet, a CodeSystem, a ConceptMap, or a Logical Model adherent to SGLogicalModel. This is the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs.",
+        "url": "./StructureDefinition-CoreDataElement.schema.json",
+        "propertyCount": 7
+      },
+      {
+        "filename": "StructureDefinition-NonFunctionalRequirement.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-NonFunctionalRequirement.schema.json",
+        "title": "Non-Functional Requirement (DAK)",
+        "description": "Logical Model for representing non-functional requirement from a DAK",
+        "url": "./StructureDefinition-NonFunctionalRequirement.schema.json",
+        "propertyCount": 5
+      },
+      {
+        "filename": "StructureDefinition-BusinessProcessWorkflowSource.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-BusinessProcessWorkflowSource.schema.json",
+        "title": "Business Process Workflow Source",
+        "description": "Source reference for Business Process Workflow - exactly one of the following must be provided:\n- url (url data type): URL to retrieve BusinessProcessWorkflow definition from input/ or external source\n- canonical (canonical data type): Canonical URI pointing to the BusinessProcessWorkflow definition\n- instance: Inline BusinessProcessWorkflow instance data",
+        "url": "./StructureDefinition-BusinessProcessWorkflowSource.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGNonFunctionalRequirement.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGNonFunctionalRequirement.schema.json",
+        "title": "Knowledge graph L2: Non-Functional Requirement",
+        "description": "DAK component 8, second half. `requirement 1..1 markdown`, an optional category and classification codings. Kept separate from the functional half because the fields genuinely differ -- a non-functional requirement has no actor and no benefit. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/non-functional-requirement.",
+        "url": "./StructureDefinition-KGNonFunctionalRequirement.schema.json",
+        "propertyCount": 13
+      },
+      {
+        "filename": "StructureDefinition-KGMeasure.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGMeasure.schema.json",
+        "title": "Knowledge graph L3: Measure",
+        "description": "A FHIR Measure -- an indicator made computable. 41 in the immunizations IG, all declaring proportion-measure-cqfm; the SOP makes the profile depend on scoring type, which is why the profile is read rather than assumed. Joined to its L2 indicator by id convention (IMMZ.IND.08 -> IMMZIND08). Class IRI: http://smart.who.int/kg/measure.",
+        "url": "./StructureDefinition-KGMeasure.schema.json",
+        "propertyCount": 14
+      },
+      {
+        "filename": "StructureDefinition-KGDmnDecision.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGDmnDecision.schema.json",
+        "title": "Knowledge graph L2-DMN: DMN Decision",
+        "description": "A `dmn:decision` -- the question being answered, and the node that carries the link back to the BPMN task invoking it. A file may hold several; the BCG file holds one. Class IRI: http://smart.who.int/kg/dmn-decision.",
+        "url": "./StructureDefinition-KGDmnDecision.schema.json",
+        "propertyCount": 5
+      },
+      {
+        "filename": "StructureDefinition-KGRemark.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGRemark.schema.json",
+        "title": "Knowledge graph L1: Remark",
+        "description": "A remark attached to a recommendation (handbook §10.6). May also be printed as a table footnote. Class IRI: http://smart.who.int/kg/remark.",
+        "url": "./StructureDefinition-KGRemark.schema.json",
+        "propertyCount": 7
+      },
+      {
+        "filename": "StructureDefinition-KGBpmnParticipant.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGBpmnParticipant.schema.json",
+        "title": "Knowledge graph L2-BPMN: BPMN Participant",
+        "description": "A pool: a role that owns part of the collaboration. The lifecycle BPMN has 8 and declares no laneSet at all, so the pool is the only unit of role assignment present and its @name is the sole link to a persona. Class IRI: http://smart.who.int/kg/bpmn-participant.",
+        "url": "./StructureDefinition-KGBpmnParticipant.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGActorDefinition.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGActorDefinition.schema.json",
+        "title": "Knowledge graph L3: Actor Definition",
+        "description": "A FHIR ActorDefinition -- an L2 persona made a FHIR resource. ZERO in the immunizations IG and 22 in smart-base, which is itself worth a coverage query. The SOP names no profile for it and says one is not currently possible because SUSHI cannot profile an R5 resource in an R4 IG, and it tells authors not to assign an identifier -- so expect a bare resource and do not infer more. Class IRI: http://smart.who.int/kg/actor-definition.",
+        "url": "./StructureDefinition-KGActorDefinition.schema.json",
+        "propertyCount": 14
+      },
+      {
+        "filename": "StructureDefinition-KGBpmnDefinitions.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGBpmnDefinitions.schema.json",
+        "title": "Knowledge graph L2-BPMN: BPMN File",
+        "description": "One BPMN file as a unit -- the `bpmn:definitions` root. Shares its IRI with the l1:external-artifact for the same file, so the component that points at it and the subgraph that opens it name one resource. Class IRI: http://smart.who.int/kg/bpmn-definitions.",
+        "url": "./StructureDefinition-KGBpmnDefinitions.schema.json",
+        "propertyCount": 7
+      },
+      {
+        "filename": "StructureDefinition-KGBpmnTask.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGBpmnTask.schema.json",
+        "title": "Knowledge graph L2-BPMN: BPMN Task",
+        "description": "A task or sub-process. It is what a DMN usingTask href points at, what sequence flows connect, and what a DAK-level task entry describes. Sub-processes carry isSubProcess rather than getting a class of their own -- the lifecycle BPMN has exactly one. Class IRI: http://smart.who.int/kg/bpmn-task.",
+        "url": "./StructureDefinition-KGBpmnTask.schema.json",
+        "propertyCount": 6
+      },
+      {
+        "filename": "StructureDefinition-ProgramIndicatorSource.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-ProgramIndicatorSource.schema.json",
+        "title": "Program Indicator Source",
+        "description": "Source reference for Program Indicator - exactly one of the following must be provided:\n- url (url data type): URL to retrieve ProgramIndicator definition from input/ or external source\n- canonical (canonical data type): Canonical URI pointing to the ProgramIndicator definition\n- instance: Inline ProgramIndicator instance data",
+        "url": "./StructureDefinition-ProgramIndicatorSource.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGProfile.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGProfile.schema.json",
+        "title": "Knowledge graph L3: Profile",
+        "description": "A StructureDefinition constraining a FHIR resource. Separate from structure-definition for the reason above. 5 in the immunizations IG. Its internals -- differentials, element definitions, bindings -- are the clearest case of what this layer refuses to re-represent. Class IRI: http://smart.who.int/kg/profile.",
+        "url": "./StructureDefinition-KGProfile.schema.json",
+        "propertyCount": 14
+      },
+      {
+        "filename": "StructureDefinition-KGTerminologyCode.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGTerminologyCode.schema.json",
+        "title": "Knowledge graph L1: Terminology code",
+        "description": "A code in an external terminology — ICD-10, ICD-11, SNOMED CT, ATC, or a WHO classification such as CDHI. CROSS-REFERENCE ONLY. It records system, code and display, and asserts NOTHING about the terminology: no hierarchy, no subsumption, no synonyms, no post-coordination. The terminology has its own authority, its own release cycle and its own tooling, and a partial copy here would be wrong within one release. Resolve meaning against the terminology server, not against this graph. Derives from Coding (FHIR R4 core datatype); system, code, display, version are its elements. Class IRI: http://smart.who.int/kg/terminology-code.",
+        "url": "./StructureDefinition-KGTerminologyCode.schema.json",
+        "propertyCount": 7
+      },
+      {
+        "filename": "StructureDefinition-KGRequirementStatement.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGRequirementStatement.schema.json",
+        "title": "Knowledge graph L2: Requirement Statement",
+        "description": "One numbered, labelled statement inside a requirement, with a conformance verb. A node rather than a property because conformance is queried across a whole DAK -- 'every SHALL in this kit, and what fulfils it' is the question requirements exist to answer. It also carries its own success criteria, so 'what would show this SHALL is met' is answerable per statement rather than per requirement. conformance is the FHIR ConformanceExpectation verb: SHALL, SHOULD, MAY or SHOULD-NOT. Across the 41 committed instances it is 155 SHALL and 15 SHOULD. successCriteria is a LIST of objects, each {key, criterion, verification}: `key` is unique within the statement (e.g. SC-1), `criterion` is a checkable sentence, and `verification` is one of test | inspection | review | analysis -- the same field name and enum as folio-assistant's requirement.ts `successCriteria`, so the two map 1:1. smart-base types it, so the shape is enforced by the schema; a statement with no successCriteria is still valid (the 170 statements committed in smart-base carry none). Class IRI: http://smart.who.int/kg/requirement-statement.",
+        "url": "./StructureDefinition-KGRequirementStatement.schema.json",
+        "propertyCount": 12
+      },
+      {
+        "filename": "StructureDefinition-KGTestScenario.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGTestScenario.schema.json",
+        "title": "Knowledge graph L2: Test Scenario",
+        "description": "DAK component 9. `feature 1..1 uri` to a Gherkin feature file, plus an optional description. The feature file's interior is not modelled: no DAK in this estate ships one yet, so a subgraph for it would have no instance to check it against. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/test-scenario.",
+        "url": "./StructureDefinition-KGTestScenario.schema.json",
+        "propertyCount": 9
+      },
+      {
+        "filename": "StructureDefinition-KGIndicator.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGIndicator.schema.json",
+        "title": "Knowledge graph L1: Indicator",
+        "description": "A WHO indicator, identified by its published reference number. Printed in several places (HIV SI 2022: summary list, Table 2.3, reference sheet) and stored once. variants is a list of {population, definition, numerator, denominator} for population-specific or level-specific forms (PRV.17, PRV.3). Corresponds to ProgramIndicator: definition, numerator, denominator and disaggregation are ProgramIndicator's elements and types (markdown); not a Parent because ProgramIndicator makes them 1..1 and an L1 indicator is recorded with what its source prints. Class IRI: http://smart.who.int/kg/indicator.",
+        "url": "./StructureDefinition-KGIndicator.schema.json",
+        "propertyCount": 21
+      },
+      {
+        "filename": "StructureDefinition-UserScenario.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-UserScenario.schema.json",
+        "title": "User Scenario (DAK)",
+        "description": "Logical Model for representing User Scenarios from a DAK. Narratives that describe how the different personas may interact with each other.",
+        "url": "./StructureDefinition-UserScenario.schema.json",
+        "propertyCount": 5
+      },
+      {
+        "filename": "StructureDefinition-KGImplementationPractice.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGImplementationPractice.schema.json",
+        "title": "Knowledge graph L1-LIBRARY: Implementation practice",
+        "description": "A statement of how to put guidance into practice, printed in a publication whose publicationType is implementation-guidance or methodology: the handbook's \"products that are not guidelines\" (§1.9), a \"how to\" document that makes no recommendations of its own. Not a recommendation, and not a good practice statement — both are made by a guideline and approved by the GRC; this is neither. It carries no kind, direction, strength or certainty, because nothing graded it. A handbook's own \"Best practices\" lists are the typical source. Owner ruling 1b, 2026-10-12: model these as their own class, not as recommendation nodes of a new kind. statement is verbatim and is the only stored copy, as recommendation's is. identifier is used in the IRI. There is no remark: L1 3.0's remark is minted under a recommendation (its iriPattern) and hasRemark starts at one, so a remark of a practice needs L1 itself to change — proposed upstream, not patched here. Class IRI: http://smart.who.int/kg/implementation-practice.",
+        "url": "./StructureDefinition-KGImplementationPractice.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGUserScenario.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGUserScenario.schema.json",
+        "title": "Knowledge graph L2: User Scenario",
+        "description": "DAK component 3. A narrative describing how personas interact. Carries `personas 0..* id`, which is the only structured link between the narrative layer and the personas it names. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/user-scenario.",
+        "url": "./StructureDefinition-KGUserScenario.schema.json",
+        "propertyCount": 9
+      },
+      {
+        "filename": "StructureDefinition-KGHealthIntervention.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGHealthIntervention.schema.json",
+        "title": "Knowledge graph L1: Health intervention",
+        "description": "An intervention identified in a WHO catalogue or classification (UHC Compendium, ICHI, CDHI), digital interventions included. A peer of recommendation, not a recommendation. A DAK may draw on both. Corresponds to HealthInterventions: identifier and description correspond to HealthInterventions.id and description[x]; not a Parent because HealthInterventions requires reference 1..* DublinCore, which here is an edge (definedIn) rather than a field. Class IRI: http://smart.who.int/kg/health-intervention.",
+        "url": "./StructureDefinition-KGHealthIntervention.schema.json",
+        "propertyCount": 7
+      },
+      {
+        "filename": "StructureDefinition-UserScenarioSource.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-UserScenarioSource.schema.json",
+        "title": "User Scenario Source",
+        "description": "Source reference for User Scenario - exactly one of the following must be provided:\n- url (url data type): URL to retrieve UserScenario definition from input/ or external source\n- canonical (canonical data type): Canonical URI pointing to the UserScenario definition\n- instance: Inline UserScenario instance data",
+        "url": "./StructureDefinition-UserScenarioSource.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGActivityDefinition.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGActivityDefinition.schema.json",
+        "title": "Knowledge graph L3: Activity Definition",
+        "description": "A FHIR ActivityDefinition -- the concrete act a plan's action invokes. Reached from a PlanDefinition action's `definitionCanonical`, which is a real reference rather than a convention. 3 in the immunizations IG: two cpg-immunizationactivity, one cpg-communicationactivity. Class IRI: http://smart.who.int/kg/activity-definition.",
+        "url": "./StructureDefinition-KGActivityDefinition.schema.json",
+        "propertyCount": 13
+      },
+      {
+        "filename": "StructureDefinition-KGPublicationSection.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGPublicationSection.schema.json",
+        "title": "Knowledge graph L1: Publication section",
+        "description": "A chapter, annex or numbered section, at any depth. Class IRI: http://smart.who.int/kg/publication-section.",
+        "url": "./StructureDefinition-KGPublicationSection.schema.json",
+        "propertyCount": 5
+      },
+      {
+        "filename": "StructureDefinition-KGCodeSystem.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGCodeSystem.schema.json",
+        "title": "Knowledge graph L3: Code System",
+        "description": "A FHIR CodeSystem. The SOP says each guideline defines one guideline-level code system holding a concept for every data dictionary element -- which is what makes `code[WHO] = IMMZ.DE9` on a logical model element resolvable. 6 in the immunizations IG. The codes themselves are not copied here. Class IRI: http://smart.who.int/kg/code-system.",
+        "url": "./StructureDefinition-KGCodeSystem.schema.json",
+        "propertyCount": 13
+      },
+      {
+        "filename": "StructureDefinition-KGDecisionSupportLogic.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGDecisionSupportLogic.schema.json",
+        "title": "Knowledge graph L2: Decision-Support Logic",
+        "description": "DAK component 6. The whole model is an id, an optional description and `source 1..1 uri` to a DMN file. Nothing about the decision itself -- which is the gap the l2-dmn subgraph fills. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/decision-support-logic.",
+        "url": "./StructureDefinition-KGDecisionSupportLogic.schema.json",
+        "propertyCount": 8
+      },
+      {
+        "filename": "StructureDefinition-KGKeyQuestion.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGKeyQuestion.schema.json",
+        "title": "Knowledge graph L1: Key question",
+        "description": "A question in PICO format, framed before the evidence search (handbook §7.1–7.4). P and C are verbatim text with codes through crossReferences; I is also joined to a catalogued intervention; O is the outcome node. Class IRI: http://smart.who.int/kg/key-question.",
+        "url": "./StructureDefinition-KGKeyQuestion.schema.json",
+        "propertyCount": 8
+      },
+      {
+        "filename": "StructureDefinition-Persona.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-Persona.schema.json",
+        "title": "Persona (DAK)",
+        "description": "Logical Model for representing Personas from a DAK",
+        "url": "./StructureDefinition-Persona.schema.json",
+        "propertyCount": 8
+      },
+      {
+        "filename": "StructureDefinition-KGDakTask.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGDakTask.schema.json",
+        "title": "Knowledge graph L2: Task Entry",
+        "description": "One task of a DAK business process, as the DAK document's \"notes and annotations\" describe it: identifier, name, description, and the personas, data elements, requirements and decision tables it links to. A node rather than a property because the same task is also drawn in the BPMN file, and the two have to be joinable to be checkable against each other (`describes`). Read from a BPMN file's `dak-task-annotations/v1` sidecar (smart-base/L2-bpmn/schemas/task-annotations.ts); BusinessProcessWorkflow's `task 0..*` backbone carries the first three fields of the same thing. Class IRI: http://smart.who.int/kg/dak-task.",
+        "url": "./StructureDefinition-KGDakTask.schema.json",
+        "propertyCount": 9
+      },
+      {
+        "filename": "StructureDefinition-KGLibrary.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGLibrary.schema.json",
+        "title": "Knowledge graph L3: Library",
+        "description": "A FHIR Library -- the resource that carries CQL. Indexed by canonical and status only. Its CONTENTS are deliberately out of scope: a future l3-cql subgraph will elaborate this same IRI, exactly as l2-bpmn elaborates a BPMN file. 279 in the immunizations IG, joined to their PlanDefinition by the `{id}Logic` suffix. Class IRI: http://smart.who.int/kg/library.",
+        "url": "./StructureDefinition-KGLibrary.schema.json",
+        "propertyCount": 14
+      },
+      {
+        "filename": "StructureDefinition-KGRecommendation.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGRecommendation.schema.json",
+        "title": "Knowledge graph L1: Recommendation",
+        "description": "A normative statement from a WHO guideline. Kinds other than a graded recommendation (context-specific, research-only, good practice statement, no-recommendation) are the same node with a different kind. statement is verbatim and is the only stored copy. intervention, population, setting, provider and timing are verbatim slots taken from the statement, its remarks, or the enclosing caption or heading. setting absorbs the former conditionality. identifier is the published number (e.g. A.1.1), used in the IRI; sub-recommendations append their letter. Class IRI: http://smart.who.int/kg/recommendation.",
+        "url": "./StructureDefinition-KGRecommendation.schema.json",
+        "propertyCount": 19
+      },
+      {
+        "filename": "StructureDefinition-KGPersona.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGPersona.schema.json",
+        "title": "Knowledge graph L2: Generic Persona",
+        "description": "DAK component 2. Grounded in GenericPersona.fsh -- title, id, description, otherNames, iscoCode bound to ISCO08ValueSet -- and in the 22 committed ActorDefinition instances that carry name, title, type and description. The two disagree about where ISCO lives, which the properties record rather than smooth over. `title` is the human-readable label a BPMN pool matches on; `name` is the CamelCase identifier a Canonical() reference matches on. They are different strings for the same persona and conflating them is precisely how the pool join breaks. GenericPersona.fsh declares `iscoCode 0..* code`, but the committed ActorDefinitions record ISCO in prose inside description, so iscoCode is usually empty and is not authoritative. Class IRI: http://smart.who.int/kg/persona.",
+        "url": "./StructureDefinition-KGPersona.schema.json",
+        "propertyCount": 13
+      },
+      {
+        "filename": "StructureDefinition-KGNode.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGNode.schema.json",
+        "title": "Knowledge graph: node",
+        "description": "One typed node of a knowledge-graph document. Its instance fields are an instance of the logical model of its class (see definedBy), e.g. KGPublication for a publication.",
+        "url": "./StructureDefinition-KGNode.schema.json",
+        "propertyCount": 13
+      },
+      {
+        "filename": "StructureDefinition-KGBpmnProcess.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGBpmnProcess.schema.json",
+        "title": "Knowledge graph L2-BPMN: BPMN Process",
+        "description": "One `bpmn:process`. Present as a node because a participant references it by processRef, and without it the pool-to-element attribution has nothing to travel through. Class IRI: http://smart.who.int/kg/bpmn-process.",
+        "url": "./StructureDefinition-KGBpmnProcess.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGDataElement.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGDataElement.schema.json",
+        "title": "Knowledge graph L2: Core Data Element",
+        "description": "DAK component 5. CoreDataElement.fsh calls itself \"the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs\": `type` is one of valueset | codesystem | conceptmap | logicalmodel and `canonical 1..1 uri` points at it. The canonical is recorded; nothing inside it is copied, because FHIR is its own query layer. `name`, `resolutionStatus` and `extractionRule` are for elements recovered from DMN input expressions rather than declared in a dictionary. A recovered element is a name that was REFERENCED, not a definition that was found, and only a resolved one may carry a canonical. Class IRI: http://smart.who.int/kg/data-element.",
+        "url": "./StructureDefinition-KGDataElement.schema.json",
+        "propertyCount": 12
+      },
+      {
+        "filename": "StructureDefinition-FHIRSchemaBase.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-FHIRSchemaBase.schema.json",
+        "title": "FHIR Schema Base (SMART Guidelines)",
+        "description": "Base logical model providing the common schema metadata interface inherited by all SMART Guidelines logical models. Every SMART Guidelines logical model schema derives from this base, which documents the shared FHIR and JSON-LD metadata properties used by the JSON Schema generation pipeline.",
+        "url": "./StructureDefinition-FHIRSchemaBase.schema.json",
+        "propertyCount": 5
+      },
+      {
+        "filename": "StructureDefinition-KGDmnInputClause.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGDmnInputClause.schema.json",
+        "title": "Knowledge graph L2-DMN: DMN Input Clause",
+        "description": "An input column. Its expression text is where data element names are embedded, which is the only reason this is a node rather than a property of the table. Class IRI: http://smart.who.int/kg/dmn-input-clause.",
+        "url": "./StructureDefinition-KGDmnInputClause.schema.json",
+        "propertyCount": 6
+      },
+      {
+        "filename": "StructureDefinition-DublinCore.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-DublinCore.schema.json",
+        "title": "Dublin Core Metadata Element Set",
+        "description": "Logical Model representing Dublin Core metadata elements as defined at https://www.dublincore.org/specifications/dublin-core/dcmi-terms/",
+        "url": "./StructureDefinition-DublinCore.schema.json",
+        "propertyCount": 16
+      },
+      {
+        "filename": "StructureDefinition-GenericPersona.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-GenericPersona.schema.json",
+        "title": "Generic Persona (DAK)",
+        "description": "Logical Model for representing Generic Personas from a DAK. Depiction of the human and system actors. Human actors are end users, supervisors and related stakeholders who would be interacting with the digital system or involved in the clinical care, public health or health system pathway.",
+        "url": "./StructureDefinition-GenericPersona.schema.json",
+        "propertyCount": 8
+      },
+      {
+        "filename": "StructureDefinition-ProgramIndicator.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-ProgramIndicator.schema.json",
+        "title": "Program Indicator (DAK)",
+        "description": "Logical Model for representing Program Indicators from a DAK. Core set of indicators that need to be aggregated for decision-making, performance metrics and subnational and national reporting.",
+        "url": "./StructureDefinition-ProgramIndicator.schema.json",
+        "propertyCount": 9
+      },
+      {
+        "filename": "StructureDefinition-KGDmnDecisionTable.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGDmnDecisionTable.schema.json",
+        "title": "Knowledge graph L2-DMN: DMN Decision Table",
+        "description": "The table realising a decision. Separate from dmn-decision because DMN permits other expression kinds -- a literal expression, an invocation -- and collapsing the two would make the graph unable to say which was used. hitPolicy is optional and recorded as null when absent, which it is in the BCG table. DMN's default is UNIQUE, but asserting it here would put words in the author's mouth. Class IRI: http://smart.who.int/kg/dmn-decision-table.",
+        "url": "./StructureDefinition-KGDmnDecisionTable.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-FunctionalRequirement.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-FunctionalRequirement.schema.json",
+        "title": "Functional Requirement (DAK)",
+        "description": "Logical Model for representing functional requirement from a DAK",
+        "url": "./StructureDefinition-FunctionalRequirement.schema.json",
+        "propertyCount": 7
+      },
+      {
+        "filename": "StructureDefinition-KGBpmnEvent.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGBpmnEvent.schema.json",
+        "title": "Knowledge graph L2-BPMN: BPMN Event",
+        "description": "A start, end or intermediate event (WHO's DAK BPMN draw intermediate throw and catch events inside sub-processes). Same connectivity argument as gateway, plus one of its own: entry and exit points are what make 'is this task reachable' and 'does this path terminate' answerable at all. Class IRI: http://smart.who.int/kg/bpmn-event.",
+        "url": "./StructureDefinition-KGBpmnEvent.schema.json",
+        "propertyCount": 5
+      },
+      {
+        "filename": "StructureDefinition-KGFunctionalRequirement.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGFunctionalRequirement.schema.json",
+        "title": "Knowledge graph L2: Functional Requirement",
+        "description": "DAK component 8, first half. The as-a/I-want/so-that shape: `activity`, `capability[x]`, `benefit[x]`, and `actor 0..* Reference(SGActor)`. The 41 committed instances use the R5 SGRequirements profile rather than this logical model, so a real instance carries `statement` entries and a userstory extension; both shapes are accommodated and `profile` records which was read. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/functional-requirement.",
+        "url": "./StructureDefinition-KGFunctionalRequirement.schema.json",
+        "propertyCount": 14
+      },
+      {
+        "filename": "StructureDefinition-KGDmnRule.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGDmnRule.schema.json",
+        "title": "Knowledge graph L2-DMN: DMN Rule",
+        "description": "One row. Its input and output cells are carried as properties, not nodes: 250 of them in the BCG table alone, none the target of a cross-model edge. What the rule needs a node for is its citation edge into L1. conditions and outputs are arrays of {clause, description, text}. DMN puts the formal expression in description and the human-readable gloss in text, and both are worth keeping -- the gloss is what a reviewer reads and the expression is what an implementer builds. Class IRI: http://smart.who.int/kg/dmn-rule.",
+        "url": "./StructureDefinition-KGDmnRule.schema.json",
+        "propertyCount": 10
+      },
+      {
+        "filename": "StructureDefinition-TestScenario.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-TestScenario.schema.json",
+        "title": "Test Scenario (DAK)",
+        "description": "Logical Model for representing Test Scenarios from a DAK. A set of test scenarios to validate an implementation of the DAK.",
+        "url": "./StructureDefinition-TestScenario.schema.json",
+        "propertyCount": 3
+      },
+      {
+        "filename": "StructureDefinition-TestScenarioSource.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-TestScenarioSource.schema.json",
+        "title": "Test Scenario Source",
+        "description": "Source reference for Test Scenario - exactly one of the following must be provided:\n- url (url data type): URL to retrieve TestScenario definition from input/ or external source\n- canonical (canonical data type): Canonical URI pointing to the TestScenario definition\n- instance: Inline TestScenario instance data",
+        "url": "./StructureDefinition-TestScenarioSource.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGReferenceEntry.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGReferenceEntry.schema.json",
+        "title": "Knowledge graph L1: Reference entry",
+        "description": "One row of a DAK artefact's own reference list: '(1)' and the full bibliographic text and URL it stands for. Resolved once; every citation numbered to it shares the result. Class IRI: http://smart.who.int/kg/reference-entry.",
+        "url": "./StructureDefinition-KGReferenceEntry.schema.json",
+        "propertyCount": 7
+      },
+      {
+        "filename": "StructureDefinition-SushiConfigLogicalModel.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-SushiConfigLogicalModel.schema.json",
+        "title": "SUSHI Configuration Logical Model",
+        "description": "Logical model defining the structure of sushi-config.yaml files used for FHIR Implementation Guide configuration. This model captures the essential metadata and configuration parameters needed for IG publishing.",
+        "url": "./StructureDefinition-SushiConfigLogicalModel.schema.json",
+        "propertyCount": 43
+      },
+      {
+        "filename": "StructureDefinition-BusinessProcessWorkflow.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-BusinessProcessWorkflow.schema.json",
+        "title": "Business Process Workflow (DAK)",
+        "description": "Logical Model for representing Generic Business Processes and Workflows from a DAK. A business process is a set of related activities or tasks performed together to achieve the objectives of the health programme area.",
+        "url": "./StructureDefinition-BusinessProcessWorkflow.schema.json",
+        "propertyCount": 11
+      },
+      {
+        "filename": "StructureDefinition-KGExternalArtifact.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGExternalArtifact.schema.json",
+        "title": "Knowledge graph L2: External artefact",
+        "description": "A DAK file addressed by canonical URL: a BPMN process, a DMN decision table, a FHIR resource, a workbook. Deliberately opaque: it carries an IRI and a kind, and nothing about its interior. The L2-BPMN, L2-DMN and L3 classes that describe a file's interior elaborate this class at the same IRI. Moved here from L1 in 3.0 unchanged: a DAK file is the DAK's material, not WHO content. Class IRI: http://smart.who.int/kg/external-artifact.",
+        "url": "./StructureDefinition-KGExternalArtifact.schema.json",
+        "propertyCount": 6
+      },
+      {
+        "filename": "StructureDefinition-CoreDataElementSource.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-CoreDataElementSource.schema.json",
+        "title": "Core Data Element Source",
+        "description": "Source reference for Core Data Element - exactly one of the following must be provided:\n- url (url data type): URL to retrieve CoreDataElement definition from input/ or external source\n- canonical (canonical data type): Canonical URI pointing to the CoreDataElement definition\n- instance: Inline CoreDataElement instance data",
+        "url": "./StructureDefinition-CoreDataElementSource.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGQuestionnaire.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGQuestionnaire.schema.json",
+        "title": "Knowledge graph L3: Questionnaire",
+        "description": "A FHIR Questionnaire -- a data-collection form over a logical model. 10 in the immunizations IG. Its `sdc-questionnaire-targetStructureMap` extension names the StructureMap that extracts it, which is a real canonical reference. The SOP states no linkId convention and none exists in the estate, so no edge is licensed on linkId. Class IRI: http://smart.who.int/kg/questionnaire.",
+        "url": "./StructureDefinition-KGQuestionnaire.schema.json",
+        "propertyCount": 13
+      },
+      {
+        "filename": "StructureDefinition-KGProgramIndicator.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGProgramIndicator.schema.json",
+        "title": "Knowledge graph L2: Program Indicator",
+        "description": "DAK component 7. Named program-indicator and not `indicator` because L1 already declares an `indicator` -- one normatively defined in a publication. They are different things: this is the DAK's operational measure, and `derivedFrom` is how it points at the normative one. Collapsing them would silently merge a WHO definition with a country's implementation of it. numerator, denominator and disaggregation are all `1..1 markdown` -- prose, not a computable expression. Nothing here should be read as a calculable measure; the L3 FHIR Measure is where that would live. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/program-indicator.",
+        "url": "./StructureDefinition-KGProgramIndicator.schema.json",
+        "propertyCount": 13
+      },
+      {
+        "filename": "StructureDefinition-KGSchedulingLogic.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGSchedulingLogic.schema.json",
+        "title": "Knowledge graph L2: Scheduling Logic",
+        "description": "When an intervention is due, as a DAK component. NOT declared by DAK.fsh -- it is added here because the published SOP lists Scheduling Logic as an active L2 input (spreadsheets under input/scheduling-logic), WHO's ArchiMate model declares it a BusinessObject realised by PlanDefinition, and L1's schedules needed an L2 component to reach (since L1 3.0, a recommendation's timing slot). Note that the SOP's own L3 row for scheduling is present but HTML-commented-out and there is no l3_schedulinglogic.md page, so WHO has drafted the mapping and not activated it; the L3 edge is licensed here as a deliberate departure, recorded rather than hidden. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/scheduling-logic.",
+        "url": "./StructureDefinition-KGSchedulingLogic.schema.json",
+        "propertyCount": 8
+      },
+      {
+        "filename": "StructureDefinition-KGStructureMap.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGStructureMap.schema.json",
+        "title": "Knowledge graph L3: Structure Map",
+        "description": "A FHIR StructureMap. The SOP requires them in threes -- QuestionnaireResponse to logical model, logical model to resource, and a grouping map -- so a count that is not a multiple of three is worth a look. 16 .fml files in the immunizations IG. Class IRI: http://smart.who.int/kg/structure-map.",
+        "url": "./StructureDefinition-KGStructureMap.schema.json",
+        "propertyCount": 13
+      },
+      {
+        "filename": "StructureDefinition-KGOutcome.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGOutcome.schema.json",
+        "title": "Knowledge graph L1: Outcome",
+        "description": "An outcome a guideline group chose to judge a key question by, with its importance in this guideline (handbook §7.6). A node because evidence attaches to it and one list is shared by several questions (ANC Web annex 1). Flat: one node per specific outcome. name as first printed; aliases are the other printed forms (e.g. 'EGWG'); category is the printed group heading (e.g. 'Fetal/newborn morbidity'). Class IRI: http://smart.who.int/kg/outcome.",
+        "url": "./StructureDefinition-KGOutcome.schema.json",
+        "propertyCount": 7
+      },
+      {
+        "filename": "StructureDefinition-DecisionSupportLogic.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-DecisionSupportLogic.schema.json",
+        "title": "Decision-Support Logic (DAK)",
+        "description": "Logical Model for representing Decision-Support Logic from a DAK. Decision-support logic and algorithms to support appropriate service delivery in accordance with WHO clinical, public health and data use guidelines.",
+        "url": "./StructureDefinition-DecisionSupportLogic.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGStructureDefinition.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGStructureDefinition.schema.json",
+        "title": "Knowledge graph L3: Logical Model",
+        "description": "A StructureDefinition with kind `logical` -- one data dictionary tab as a data structure. Distinct from `profile`, which constrains a FHIR resource: WHO's ArchiMate model has Logical Model realising Data Object while Profile realises Data Element, and the two are not interchangeable. 15 in the immunizations IG. Class IRI: http://smart.who.int/kg/structure-definition.",
+        "url": "./StructureDefinition-KGStructureDefinition.schema.json",
+        "propertyCount": 14
+      },
+      {
+        "filename": "StructureDefinition-KGDmnOutputClause.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGDmnOutputClause.schema.json",
+        "title": "Knowledge graph L2-DMN: DMN Output Clause",
+        "description": "An output column. The BCG table's four are Care Plan, Guidance displayed to health worker, Annotations and Reference(s). These are column DEFINITIONS in a decision table, not clinical records: no edge from this class reaches an execution artefact, and none may. serialisedAs is outputEntry or annotationEntry -- DMN splits the columns across two element types and the split is positional, so recording it is what lets a rule's cells be matched back to their columns. isReferenceColumn marks the L1 column, found by its description rather than its index. Class IRI: http://smart.who.int/kg/dmn-output-clause.",
+        "url": "./StructureDefinition-KGDmnOutputClause.schema.json",
+        "propertyCount": 9
+      },
+      {
+        "filename": "StructureDefinition-Requirements.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-Requirements.schema.json",
+        "title": "Functional and Non-Functional Requirements (DAK)",
+        "description": "Logical Model for representing Functional and Non-Functional Requirements from a DAK. A high-level list of core functions and capabilities that the system must have to meet the end users' needs.",
+        "url": "./StructureDefinition-Requirements.schema.json",
+        "propertyCount": 8
+      },
+      {
+        "filename": "StructureDefinition-KGEvidenceLocation.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGEvidenceLocation.schema.json",
+        "title": "Knowledge graph: evidence location",
+        "description": "Where a node or edge came from in its source. Required on anything not mechanically derived.",
+        "url": "./StructureDefinition-KGEvidenceLocation.schema.json",
+        "propertyCount": 6
+      },
+      {
+        "filename": "StructureDefinition-KGPublicationElement.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGPublicationElement.schema.json",
+        "title": "Knowledge graph L1: Publication element",
+        "description": "One printed block: a table, a table row, a footnote, a figure, a chart, an image, a flowchart, a box or a list. It records where something is printed and exactly what is printed that no content node holds. It carries no meaning of its own; meaning lives in content nodes, joined by presentedIn. columns is the header text, verbatim. columnMap names, per column, the content field that fills it when the table is re-rendered (e.g. 'Recommendation' -> statement). cells holds only text no content node holds; a cell filled through columnMap is null. text is for unmodelled printed text such as a footnote that is not a remark. sha256 is for images. Class IRI: http://smart.who.int/kg/publication-element.",
+        "url": "./StructureDefinition-KGPublicationElement.schema.json",
+        "propertyCount": 18
+      },
+      {
+        "filename": "StructureDefinition-KGPublication.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGPublication.schema.json",
+        "title": "Knowledge graph L1: Publication",
+        "description": "A WHO publication: a guideline of any of the handbook's types, a position paper, a summary table, a classification, implementation guidance, or a supplement. Metadata follows Dublin Core. identifiers is a list of {type, value}; type is from identifier-type, and the first of isbn, iris-handle, doi, issn, url builds the IRI, so an edition change is a new publication. issued and modified are Dublin Core. reviewBy is the handbook's review-by date (§12.5.1). sha256 pins the PDF. Derives from DublinCore (smart-base input/fsh/models/DublinCore.fsh); title, creator, publisher, language, rights are its elements. Class IRI: http://smart.who.int/kg/publication.",
+        "url": "./StructureDefinition-KGPublication.schema.json",
+        "propertyCount": 30
+      },
+      {
+        "filename": "StructureDefinition-KGGraphDocument.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGGraphDocument.schema.json",
+        "title": "Knowledge graph L1: graph document",
+        "description": "One L1 knowledge-graph document: typed nodes and reified edges, provenance-pinned to the sources it was extracted from. In JSON the context element is written @context.",
+        "url": "./StructureDefinition-KGGraphDocument.schema.json",
+        "propertyCount": 10
+      },
+      {
+        "filename": "StructureDefinition-HealthInterventionsSource.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-HealthInterventionsSource.schema.json",
+        "title": "Health Interventions Source",
+        "description": "Source reference for Health Interventions - exactly one of the following must be provided:\n- url (url data type): URL to retrieve HealthInterventions definition from input/ or external source\n- canonical (canonical data type): Canonical URI pointing to the HealthInterventions definition\n- instance: Inline HealthInterventions instance data",
+        "url": "./StructureDefinition-HealthInterventionsSource.schema.json",
+        "propertyCount": 4
+      },
+      {
+        "filename": "StructureDefinition-KGBusinessProcess.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGBusinessProcess.schema.json",
+        "title": "Knowledge graph L2: Business Process Workflow",
+        "description": "DAK component 4. NOT the BPMN file -- the component that points at one. `source 1..1 uri` is that pointer, and the BPMN's interior is the l2-bpmn subgraph, reached through the external-artifact this sourcedFrom targets. `objectives 1..1 markdown` is required by BusinessProcessWorkflow.fsh and has no counterpart anywhere in BPMN XML, so it can only ever come from the FSH instance. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/business-process.",
+        "url": "./StructureDefinition-KGBusinessProcess.schema.json",
+        "propertyCount": 9
+      },
+      {
+        "filename": "StructureDefinition-KGConceptMap.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGConceptMap.schema.json",
+        "title": "Knowledge graph L3: Concept Map",
+        "description": "A FHIR ConceptMap -- one per target code system in the dictionary's terminology mappings. 8 in the immunizations IG. Records that a mapping exists; the mappings themselves belong to terminology. Class IRI: http://smart.who.int/kg/concept-map.",
+        "url": "./StructureDefinition-KGConceptMap.schema.json",
+        "propertyCount": 15
+      },
+      {
+        "filename": "StructureDefinition-KGEvidence.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGEvidence.schema.json",
+        "title": "Knowledge graph L1: Evidence",
+        "description": "One row of an evidence profile: the evidence for one outcome of one key question, with its certainty (handbook §9.2). Class IRI: http://smart.who.int/kg/evidence.",
+        "url": "./StructureDefinition-KGEvidence.schema.json",
+        "propertyCount": 9
+      },
+      {
+        "filename": "StructureDefinition-KGRequirements.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-KGRequirements.schema.json",
+        "title": "Knowledge graph L3: Requirements",
+        "description": "A FHIR Requirements resource. The ONE place the published SOP names an SG profile -- SGRequirements -- and the grain is one resource per business process holding many statements, not one per requirement. ZERO in the immunizations IG and 41 in smart-base. Class IRI: http://smart.who.int/kg/requirements.",
+        "url": "./StructureDefinition-KGRequirements.schema.json",
+        "propertyCount": 14
+      }
+    ]
+  }
+}

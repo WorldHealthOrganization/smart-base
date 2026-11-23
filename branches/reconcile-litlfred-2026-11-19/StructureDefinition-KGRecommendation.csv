@@ -1,0 +1,35 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGRecommendation","KGRecommendation","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L1: Recommendation","A normative statement from a WHO guideline. Kinds other than a graded recommendation (context-specific, research-only, good practice statement, no-recommendation) are the same node with a different kind. statement is verbatim and is the only stored copy. intervention, population, setting, provider and timing are verbatim slots taken from the statement, its remarks, or the enclosing caption or heading. setting absorbs the former conditionality. identifier is the published number (e.g. A.1.1), used in the IRI; sub-recommendations append their letter. Class IRI: http://smart.who.int/kg/recommendation.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGRecommendation.identifier","KGRecommendation.identifier","","","",0,1,"","","","string {[]} {[]}
+","Identifier","The published number (e.g. A.1.1); sub-recommendations append their letter.","","","","","","","","","",,,,,"",,,,"KGRecommendation.identifier",0,1,"",""
+"KGRecommendation.statement","KGRecommendation.statement","","","",0,1,"","","","markdown {[]} {[]}
+","Statement","The recommendation, VERBATIM; the only stored copy.","","","","","","","","","",,,,,"",,,,"KGRecommendation.statement",0,1,"",""
+"KGRecommendation.kind","KGRecommendation.kind","","","",0,1,"","","","code {[]} {[]}
+","Kind","What sort of normative statement this is.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGRecommendationKindVS","",,,,"KGRecommendation.kind",0,1,"",""
+"KGRecommendation.direction","KGRecommendation.direction","","","",0,1,"","","","code {[]} {[]}
+","Direction","For or against.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGRecommendationDirectionVS","",,,,"KGRecommendation.direction",0,1,"",""
+"KGRecommendation.strength","KGRecommendation.strength","","","",0,1,"","","","code {[]} {[]}
+","Strength","GRADE strength.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGRecommendationStrengthVS","",,,,"KGRecommendation.strength",0,1,"",""
+"KGRecommendation.overallCertainty","KGRecommendation.overallCertainty","","","",0,1,"","","","code {[]} {[]}
+","Overall certainty","GRADE certainty of evidence.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGCertaintyVS","",,,,"KGRecommendation.overallCertainty",0,1,"",""
+"KGRecommendation.justification","KGRecommendation.justification","","","",0,1,"","","","markdown {[]} {[]}
+","Justification","The printed justification, verbatim.","","","","","","","","","",,,,,"",,,,"KGRecommendation.justification",0,1,"",""
+"KGRecommendation.status","KGRecommendation.status","","","",0,1,"","","","code {[]} {[]}
+","Status","Whether a recommendation is still in force.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGRecommendationStatusVS","",,,,"KGRecommendation.status",0,1,"",""
+"KGRecommendation.changeStatus","KGRecommendation.changeStatus","","","",0,1,"","","","code {[]} {[]}
+","Change status","Whether this edition of a consolidated guideline introduces, updates or carries a recommendation or indicator unchanged.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGChangeStatusVS","",,,,"KGRecommendation.changeStatus",0,1,"",""
+"KGRecommendation.intervention","KGRecommendation.intervention","","","",0,1,"","","","string {[]} {[]}
+","Intervention","Verbatim slot: the intervention, quoted from the statement, a remark, caption or heading.","","","","","","","","","",,,,,"",,,,"KGRecommendation.intervention",0,1,"",""
+"KGRecommendation.interventionType","KGRecommendation.interventionType","","","",0,1,"","","","code {[]} {[]}
+","Intervention type","DRAFT.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGInterventionTypeVS","",,,,"KGRecommendation.interventionType",0,1,"",""
+"KGRecommendation.population","KGRecommendation.population","","","",0,1,"","","","string {[]} {[]}
+","Population","Verbatim slot: the population.","","","","","","","","","",,,,,"",,,,"KGRecommendation.population",0,1,"",""
+"KGRecommendation.setting","KGRecommendation.setting","","","",0,1,"","","","string {[]} {[]}
+","Setting","Verbatim slot: the setting (absorbs the former conditionality).","","","","","","","","","",,,,,"",,,,"KGRecommendation.setting",0,1,"",""
+"KGRecommendation.provider","KGRecommendation.provider","","","",0,1,"","","","string {[]} {[]}
+","Provider","Verbatim slot: who provides it.","","","","","","","","","",,,,,"",,,,"KGRecommendation.provider",0,1,"",""
+"KGRecommendation.timing","KGRecommendation.timing","","","",0,1,"","","","string {[]} {[]}
+","Timing","Verbatim slot: when.","","","","","","","","","",,,,,"",,,,"KGRecommendation.timing",0,1,"",""
+"KGRecommendation.contentHash","KGRecommendation.contentHash","","","",0,1,"","","","string {[]} {[]}
+","Content hash","sha256 of the normalised statement; unchanged on re-extraction means current.","","","","","","","","","",,,,,"",,,,"KGRecommendation.contentHash",0,1,"",""

@@ -1,0 +1,50 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/DecisionTableActions> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "DecisionTableActions"] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem DecisionTableActions</b></p><a name=\"DecisionTableActions\"> </a><a name=\"hcDecisionTableActions\"> </a><p>This case-insensitive code system <code>http://smart.who.int/base/CodeSystem/DecisionTableActions</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td style=\"white-space:nowrap\">output<a name=\"DecisionTableActions-output\"> </a></td><td>Output</td></tr><tr><td style=\"white-space:nowrap\">guidance<a name=\"DecisionTableActions-guidance\"> </a></td><td>Guidance</td></tr><tr><td style=\"white-space:nowrap\">annotation<a name=\"DecisionTableActions-annotation\"> </a></td><td>Annotation</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem DecisionTableActions</b></p><a name=\"fr-DecisionTableActions\"> </a><a name=\"fr-hcDecisionTableActions\"> </a><p>This case-insensitive code system <code>http://smart.who.int/base/CodeSystem/DecisionTableActions</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td></tr><tr><td style=\"white-space:nowrap\">output<a name=\"fr-DecisionTableActions-output\"> </a></td><td>Output</td></tr><tr><td style=\"white-space:nowrap\">guidance<a name=\"fr-DecisionTableActions-guidance\"> </a></td><td>Guidance</td></tr><tr><td style=\"white-space:nowrap\">annotation<a name=\"fr-DecisionTableActions-annotation\"> </a></td><td>Annotation</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem DecisionTableActions</b></p><a name=\"ar-DecisionTableActions\"> </a><a name=\"ar-hcDecisionTableActions\"> </a><p>يُعرّف هذا case-insensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/DecisionTableActions</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td></tr><tr><td style=\"white-space:nowrap\">output<a name=\"ar-DecisionTableActions-output\"> </a></td><td>Output</td></tr><tr><td style=\"white-space:nowrap\">guidance<a name=\"ar-DecisionTableActions-guidance\"> </a></td><td>Guidance</td></tr><tr><td style=\"white-space:nowrap\">annotation<a name=\"ar-DecisionTableActions-annotation\"> </a></td><td>Annotation</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 DecisionTableActions</b></p><a name=\"zh-DecisionTableActions\"> </a><a name=\"zh-hcDecisionTableActions\"> </a><p>This case-insensitive code system <code>http://smart.who.int/base/CodeSystem/DecisionTableActions</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td style=\"white-space:nowrap\">output<a name=\"zh-DecisionTableActions-output\"> </a></td><td>Output</td></tr><tr><td style=\"white-space:nowrap\">guidance<a name=\"zh-DecisionTableActions-guidance\"> </a></td><td>Guidance</td></tr><tr><td style=\"white-space:nowrap\">annotation<a name=\"zh-DecisionTableActions-annotation\"> </a></td><td>Annotation</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem DecisionTableActions</b></p><a name=\"ru-DecisionTableActions\"> </a><a name=\"ru-hcDecisionTableActions\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/DecisionTableActions</code> case-insensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td></tr><tr><td style=\"white-space:nowrap\">output<a name=\"ru-DecisionTableActions-output\"> </a></td><td>Output</td></tr><tr><td style=\"white-space:nowrap\">guidance<a name=\"ru-DecisionTableActions-guidance\"> </a></td><td>Guidance</td></tr><tr><td style=\"white-space:nowrap\">annotation<a name=\"ru-DecisionTableActions-annotation\"> </a></td><td>Annotation</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos DecisionTableActions</b></p><a name=\"es-DecisionTableActions\"> </a><a name=\"es-hcDecisionTableActions\"> </a><p>This case-insensitive code system <code>http://smart.who.int/base/CodeSystem/DecisionTableActions</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td style=\"white-space:nowrap\">output<a name=\"es-DecisionTableActions-output\"> </a></td><td>Output</td></tr><tr><td style=\"white-space:nowrap\">guidance<a name=\"es-DecisionTableActions-guidance\"> </a></td><td>Guidance</td></tr><tr><td style=\"white-space:nowrap\">annotation<a name=\"es-DecisionTableActions-annotation\"> </a></td><td>Annotation</td></tr></table></div></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:url [
+     fhir:v "http://smart.who.int/base/CodeSystem/DecisionTableActions"^^xsd:anyURI ;
+     fhir:l <http://smart.who.int/base/CodeSystem/DecisionTableActions>
+  ] ; # 
+  fhir:version [ fhir:v "0.2.0"] ; # 
+  fhir:name [ fhir:v "DecisionTableActions"] ; # 
+  fhir:title [ fhir:v "Smart Guidelines Actions (columns) for Decision Tables"] ; # 
+  fhir:status [ fhir:v "active"] ; # 
+  fhir:experimental [ fhir:v false] ; # 
+  fhir:date [ fhir:v "2026-03-11T15:57:21+00:00"^^xsd:dateTime] ; # 
+  fhir:publisher [ fhir:v "WHO"] ; # 
+  fhir:contact ( [
+     fhir:name [ fhir:v "WHO" ] ;
+     fhir:telecom ( [
+       fhir:system [ fhir:v "url" ] ;
+       fhir:value [ fhir:v "http://who.int" ]
+     ] )
+  ] ) ; # 
+  fhir:description [ fhir:v "CodeSystem for Smart Guidelines Documentation Actions for Decision Tables\""] ; # 
+  fhir:caseSensitive [ fhir:v false] ; # 
+  fhir:content [ fhir:v "complete"] ; # 
+  fhir:count [ fhir:v "3"^^xsd:nonNegativeInteger] ; # 
+  fhir:concept ( [
+     fhir:code [ fhir:v "output" ] ;
+     fhir:display [ fhir:v "Output" ]
+  ] [
+     fhir:code [ fhir:v "guidance" ] ;
+     fhir:display [ fhir:v "Guidance" ]
+  ] [
+     fhir:code [ fhir:v "annotation" ] ;
+     fhir:display [ fhir:v "Annotation" ]
+  ] ) . # 
+
+# -------------------------------------------------------------------------------------
+

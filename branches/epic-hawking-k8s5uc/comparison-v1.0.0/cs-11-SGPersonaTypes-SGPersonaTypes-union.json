@@ -1,0 +1,29 @@
+{
+  "resourceType" : "CodeSystem",
+  "id" : "c71fe6a5-d069-4a17-a77f-eedde2074e63-32",
+  "url" : "http://hl7.org/fhir/comparison/CodeSystem/c71fe6a5-d069-4a17-a77f-eedde2074e63-32",
+  "name" : "UnionSGPersonaTypesAndSGPersonaTypes",
+  "title" : "Union of SMART Guidelines Persona Types And SMART Guidelines Persona Types",
+  "status" : "active",
+  "date" : "2026-10-26T09:18:28+00:00",
+  "concept" : [{
+    "code" : "key",
+    "display" : "Key Persona",
+    "definition" : "Key Persona for workflows in this DAK"
+  },
+  {
+    "code" : "related",
+    "display" : "Related Persona",
+    "definition" : "Related Personas that don't directly enact in any workflow in this DAK"
+  },
+  {
+    "code" : "system",
+    "display" : "System",
+    "definition" : "Digital Systems that interact in this DAK"
+  },
+  {
+    "code" : "hardware",
+    "display" : "Hardware Device",
+    "definition" : "Hardware devices required to perform workflows in the DAK"
+  }]
+}

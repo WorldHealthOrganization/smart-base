@@ -1,0 +1,13 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGBpmnGateway","KGBpmnGateway","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L2-BPMN: BPMN Gateway","A branch or merge. Included for connectivity rather than for a cross-model edge: a flow through a gateway with no node would point at nothing, and every reachability question over the process would break at the first decision point. Class IRI: http://smart.who.int/kg/bpmn-gateway.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGBpmnGateway.id","KGBpmnGateway.id","","","",0,1,"","","","string {[]} {[]}
+","Id","The identifier the source declares (an FSH instance id, a BPMN or DMN element id).","","","","","","","","","",,,,,"",,,,"KGBpmnGateway.id",0,1,"",""
+"KGBpmnGateway.name","KGBpmnGateway.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The computable name: the CamelCase identifier a Canonical() reference matches on.","","","","","","","","","",,,,,"",,,,"KGBpmnGateway.name",0,1,"",""
+"KGBpmnGateway.gatewayType","KGBpmnGateway.gatewayType","","","",0,1,"","","","string {[]} {[]}
+","Gateway type","The BPMN gateway element type (exclusiveGateway, parallelGateway, …).","","","","","","","","","",,,,,"",,,,"KGBpmnGateway.gatewayType",0,1,"",""
+"KGBpmnGateway.direction","KGBpmnGateway.direction","","","",0,1,"","","","code {[]} {[]}
+","Direction","The gateway's gatewayDirection.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGGatewayDirectionVS","",,,,"KGBpmnGateway.direction",0,1,"",""
+"KGBpmnGateway.parent","KGBpmnGateway.parent","","","",0,1,"","","","string {[]} {[]}
+","Parent","The id of the sub-process that contains it, when nested.","","","","","","","","","",,,,,"",,,,"KGBpmnGateway.parent",0,1,"",""

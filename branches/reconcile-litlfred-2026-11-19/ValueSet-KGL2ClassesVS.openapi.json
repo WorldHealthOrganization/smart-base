@@ -1,0 +1,74 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Knowledge graph L2: classes Schema API",
+    "description": "JSON Schema for Knowledge graph L2: classes ValueSet codes. Values are represented as Coding objects with 'system' and 'code' properties.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSet-KGL2ClassesVS.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the enumeration ValueSet-KGL2ClassesVS",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSet-KGL2ClassesVS.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for ValueSet-KGL2ClassesVS",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./ValueSet-KGL2ClassesVS.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValueSet-KGL2ClassesVS": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.schema.json",
+        "title": "Knowledge graph L2: classes Schema",
+        "description": "JSON Schema for Knowledge graph L2: classes ValueSet codes. Values are represented as Coding objects with 'system' and 'code' properties.",
+        "type": "object",
+        "required": [
+          "system",
+          "code"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "system": {
+            "type": "string",
+            "const": "http://smart.who.int/base/CodeSystem/KGL2Classes"
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "dak",
+              "persona",
+              "user-scenario",
+              "business-process",
+              "dak-task",
+              "data-element",
+              "decision-support-logic",
+              "scheduling-logic",
+              "program-indicator",
+              "functional-requirement",
+              "non-functional-requirement",
+              "requirement-statement",
+              "test-scenario",
+              "external-artifact"
+            ]
+          }
+        },
+        "narrative": "This schema validates Coding-shaped objects for the Knowledge graph L2: classes ValueSet. Each value must be an object with 'system' (CodeSystem URI) and 'code' (fragment after '#') properties. Display values are available at http://smart.who.int/base/ValueSet-KGL2ClassesVS.displays.json. The canonical IRI for a code can be reconstructed as system + '#' + code. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+        "fhir:displays": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.displays.json",
+        "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGL2ClassesVS",
+        "fhir:version": "0.3.0",
+        "fhir:expansionTimestamp": "2026-11-23T18:46:01+00:00"
+      }
+    }
+  }
+}

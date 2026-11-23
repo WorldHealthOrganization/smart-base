@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-KGDmnDecision.schema.json",
+  "title": "Knowledge graph L2-DMN: DMN Decision",
+  "description": "A `dmn:decision` -- the question being answered, and the node that carries the link back to the BPMN task invoking it. A file may hold several; the BCG file holds one. Class IRI: http://smart.who.int/kg/dmn-decision.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "KGDmnDecision",
+      "description": "Resource type identifier for KGDmnDecision logical model"
+    },
+    "id": {
+      "type": "string",
+      "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+    },
+    "label": {
+      "type": "string",
+      "description": "The label, as declared."
+    },
+    "question": {
+      "type": "string",
+      "description": "The decision's question, as the DMN states it."
+    },
+    "allowedAnswers": {
+      "type": "string",
+      "description": "The decision's allowed answers, as the DMN states them."
+    }
+  },
+  "required": [
+    "resourceType"
+  ],
+  "allOf": [
+    {
+      "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "resourceDefinition": {
+          "type": "string",
+          "format": "uri",
+          "const": "http://smart.who.int/base/StructureDefinition/KGDmnDecision"
+        },
+        "fhir:parent": {
+          "type": "string",
+          "const": "http://hl7.org/fhir/StructureDefinition/Base"
+        }
+      }
+    }
+  ]
+}

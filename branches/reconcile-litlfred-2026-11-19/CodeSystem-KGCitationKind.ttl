@@ -1,0 +1,54 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGCitationKind> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "KGCitationKind"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem KGCitationKind</b></p><a name=\"KGCitationKind\"> </a><a name=\"hcKGCitationKind\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGCitationKind</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">reference<a name=\"KGCitationKind-reference\"> </a></td><td>Reference</td><td>Names a source.</td></tr><tr><td style=\"white-space:nowrap\">placeholder<a name=\"KGCitationKind-placeholder\"> </a></td><td>Placeholder</td><td>The author's marker that a source is still to be added. Never resolves; counted as a coverage gap.</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem KGCitationKind</b></p><a name=\"fr-KGCitationKind\"> </a><a name=\"fr-hcKGCitationKind\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGCitationKind</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style=\"white-space:nowrap\">reference<a name=\"fr-KGCitationKind-reference\"> </a></td><td>Reference</td><td>Names a source.</td></tr><tr><td style=\"white-space:nowrap\">placeholder<a name=\"fr-KGCitationKind-placeholder\"> </a></td><td>Placeholder</td><td>The author's marker that a source is still to be added. Never resolves; counted as a coverage gap.</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem KGCitationKind</b></p><a name=\"ar-KGCitationKind\"> </a><a name=\"ar-hcKGCitationKind\"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/KGCitationKind</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style=\"white-space:nowrap\">reference<a name=\"ar-KGCitationKind-reference\"> </a></td><td>Reference</td><td>Names a source.</td></tr><tr><td style=\"white-space:nowrap\">placeholder<a name=\"ar-KGCitationKind-placeholder\"> </a></td><td>Placeholder</td><td>The author's marker that a source is still to be added. Never resolves; counted as a coverage gap.</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 KGCitationKind</b></p><a name=\"zh-KGCitationKind\"> </a><a name=\"zh-hcKGCitationKind\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGCitationKind</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">reference<a name=\"zh-KGCitationKind-reference\"> </a></td><td>Reference</td><td>Names a source.</td></tr><tr><td style=\"white-space:nowrap\">placeholder<a name=\"zh-KGCitationKind-placeholder\"> </a></td><td>Placeholder</td><td>The author's marker that a source is still to be added. Never resolves; counted as a coverage gap.</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem KGCitationKind</b></p><a name=\"ru-KGCitationKind\"> </a><a name=\"ru-hcKGCitationKind\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/KGCitationKind</code> case-sensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style=\"white-space:nowrap\">reference<a name=\"ru-KGCitationKind-reference\"> </a></td><td>Reference</td><td>Names a source.</td></tr><tr><td style=\"white-space:nowrap\">placeholder<a name=\"ru-KGCitationKind-placeholder\"> </a></td><td>Placeholder</td><td>The author's marker that a source is still to be added. Never resolves; counted as a coverage gap.</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos KGCitationKind</b></p><a name=\"es-KGCitationKind\"> </a><a name=\"es-hcKGCitationKind\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGCitationKind</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">reference<a name=\"es-KGCitationKind-reference\"> </a></td><td>Reference</td><td>Names a source.</td></tr><tr><td style=\"white-space:nowrap\">placeholder<a name=\"es-KGCitationKind-placeholder\"> </a></td><td>Placeholder</td><td>The author's marker that a source is still to be added. Never resolves; counted as a coverage gap.</td></tr></table></div></div>"
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://smart.who.int/base/CodeSystem/KGCitationKind"] ;
+  fhir:CodeSystem.version [ fhir:value "0.3.0"] ;
+  fhir:CodeSystem.name [ fhir:value "KGCitationKind"] ;
+  fhir:CodeSystem.title [ fhir:value "Knowledge graph L1: citation kind"] ;
+  fhir:CodeSystem.status [ fhir:value "active"] ;
+  fhir:CodeSystem.experimental [ fhir:value "false"^^xsd:boolean] ;
+  fhir:CodeSystem.date [ fhir:value "2026-11-23T18:43:32+00:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "WHO"] ;
+  fhir:CodeSystem.contact [
+     fhir:index 0 ;
+     fhir:ContactDetail.name [ fhir:value "WHO" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index 0 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://who.int" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "Whether a citation string names a source, or stands in for one that is missing. Source: smart-kg ontology/l1/l1.json valueSets \"citation-kind\"; IMMZ DAK indicators workbook: '[Add appropriate reference]'."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "2"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index 0 ;
+     fhir:CodeSystem.concept.code [ fhir:value "reference" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Reference" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Names a source." ]
+  ], [
+     fhir:index 1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "placeholder" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Placeholder" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "The author's marker that a source is still to be added. Never resolves; counted as a coverage gap." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGCitationKind.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl .
+
+# -------------------------------------------------------------------------------------
+

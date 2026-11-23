@@ -1,0 +1,155 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Knowledge graph L2-BPMN: BPMN Gateway API",
+    "description": "A branch or merge. Included for connectivity rather than for a cross-model edge: a flow through a gateway with no node would point at nothing, and every reachability question over the process would break at the first decision point. Class IRI: http://smart.who.int/kg/bpmn-gateway.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-KGBpmnGateway.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-KGBpmnGateway",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-KGBpmnGateway.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-KGBpmnGateway",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-KGBpmnGateway.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-KGBpmnGateway": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-KGBpmnGateway.schema.json",
+        "title": "Knowledge graph L2-BPMN: BPMN Gateway",
+        "description": "A branch or merge. Included for connectivity rather than for a cross-model edge: a flow through a gateway with no node would point at nothing, and every reachability question over the process would break at the first decision point. Class IRI: http://smart.who.int/kg/bpmn-gateway.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "KGBpmnGateway",
+            "description": "Resource type identifier for KGBpmnGateway logical model"
+          },
+          "@context": {
+            "description": "JSON-LD context for this logical model with ValueSet vocabularies",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri",
+                "description": "URI reference to external JSON-LD context"
+              },
+              {
+                "type": "object",
+                "description": "Inline JSON-LD context",
+                "properties": {
+                  "@version": {
+                    "type": "number",
+                    "const": 1.1
+                  },
+                  "fhir": {
+                    "type": "string",
+                    "const": "http://hl7.org/fhir/"
+                  }
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              {
+                "type": "array",
+                "description": "Array of JSON-LD context objects/URIs",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "@type": {
+            "type": "string",
+            "description": "JSON-LD type identifier for KGBpmnGateway logical model",
+            "examples": [
+              "LogicalModel-KGBpmnGateway"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+          },
+          "name": {
+            "type": "string",
+            "description": "The computable name: the CamelCase identifier a Canonical() reference matches on."
+          },
+          "gatewayType": {
+            "type": "string",
+            "description": "The BPMN gateway element type (exclusiveGateway, parallelGateway, …)."
+          },
+          "direction": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "Code from ValueSet KGGatewayDirectionVS (plain string)"
+              },
+              {
+                "type": "object",
+                "description": "Code from ValueSet KGGatewayDirectionVS (JSON-LD structure)",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "const": "http://smart.who.int/base/ValueSet-KGGatewayDirectionVS.jsonld",
+                    "description": "JSON-LD type reference to ValueSet KGGatewayDirectionVS"
+                  },
+                  "@id": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "Full IRI of the code from ValueSet KGGatewayDirectionVS"
+                  }
+                },
+                "required": [
+                  "@type",
+                  "@id"
+                ],
+                "additionalProperties": false
+              }
+            ],
+            "description": "The gateway's gatewayDirection."
+          },
+          "parent": {
+            "type": "string",
+            "description": "The id of the sub-process that contains it, when nested."
+          }
+        },
+        "required": [
+          "resourceType"
+        ],
+        "resourceDefinition": "http://smart.who.int/base/StructureDefinition/KGBpmnGateway",
+        "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base",
+        "jsonld:valuesets": [
+          "KGGatewayDirectionVS"
+        ],
+        "jsonld:contextTemplate": {
+          "@version": 1.1,
+          "fhir": "http://hl7.org/fhir/",
+          "KGGatewayDirectionVS": "http://smart.who.int/base/ValueSet-KGGatewayDirectionVS.jsonld"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGActorDefinition","KGActorDefinition","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L3: Actor Definition","A FHIR ActorDefinition -- an L2 persona made a FHIR resource. ZERO in the immunizations IG and 22 in smart-base, which is itself worth a coverage query. The SOP names no profile for it and says one is not currently possible because SUSHI cannot profile an R5 resource in an R4 IG, and it tells authors not to assign an identifier -- so expect a bare resource and do not infer more. Class IRI: http://smart.who.int/kg/actor-definition.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGActorDefinition.canonical","KGActorDefinition.canonical","","","",0,1,"","","","uri {[]} {[]}
+","Canonical","The canonical URL. Only a resolved component carries one.","","","","","","","","","",,,,,"",,,,"KGActorDefinition.canonical",0,1,"",""
+"KGActorDefinition.resourceType","KGActorDefinition.resourceType","","","",0,1,"","","","string {[]} {[]}
+","Resource type","The FHIR resource type.","","","","","","","","","",,,,,"",,,,"KGActorDefinition.resourceType",0,1,"",""
+"KGActorDefinition.profile","KGActorDefinition.profile","","","",0,*,"","","","uri {[]} {[]}
+","Profile","A profile canonical the artefact declares (meta.profile or the requirement's profile).","","","","","","","","","",,,,,"",,,,"KGActorDefinition.profile",0,*,"",""
+"KGActorDefinition.status","KGActorDefinition.status","","","",0,1,"","","","code {[]} {[]}
+","Status","The resource's status (FHIR PublicationStatus).","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGPublicationStatusVS","",,,,"KGActorDefinition.status",0,1,"",""
+"KGActorDefinition.version","KGActorDefinition.version","","","",0,1,"","","","string {[]} {[]}
+","Version","The business version, as declared.","","","","","","","","","",,,,,"",,,,"KGActorDefinition.version",0,1,"",""
+"KGActorDefinition.title","KGActorDefinition.title","","","",0,1,"","","","string {[]} {[]}
+","Title","The human-readable title.","","","","","","","","","",,,,,"",,,,"KGActorDefinition.title",0,1,"",""
+"KGActorDefinition.name","KGActorDefinition.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The computable name: the CamelCase identifier a Canonical() reference matches on.","","","","","","","","","",,,,,"",,,,"KGActorDefinition.name",0,1,"",""
+"KGActorDefinition.publisher","KGActorDefinition.publisher","","","",0,1,"","","","string {[]} {[]}
+","Publisher","The publisher, as declared.","","","","","","","","","",,,,,"",,,,"KGActorDefinition.publisher",0,1,"",""
+"KGActorDefinition.experimental","KGActorDefinition.experimental","","","",0,1,"","","","boolean {[]} {[]}
+","Experimental","The resource's experimental flag.","","","","","","","","","",,,,,"",,,,"KGActorDefinition.experimental",0,1,"",""
+"KGActorDefinition.actorType","KGActorDefinition.actorType","","","",0,1,"","","","string {[]} {[]}
+","Actor type","The ActorDefinition's type (person, system).","","","","","","","","","",,,,,"",,,,"KGActorDefinition.actorType",0,1,"",""
+"KGActorDefinition.source","KGActorDefinition.source","","","",0,1,"","","","string {[]} {[]}
+","Source","Where the node was read from: a repository path or URL.","","","","","","","","","",,,,,"",,,,"KGActorDefinition.source",0,1,"",""
+"KGActorDefinition.sha256","KGActorDefinition.sha256","","","",0,1,"","","","string {[]} {[]}
+","SHA-256","Hash of the file the node was read from; pins the source.","","","","","","","","","",,,,,"",,,,"KGActorDefinition.sha256",0,1,"",""

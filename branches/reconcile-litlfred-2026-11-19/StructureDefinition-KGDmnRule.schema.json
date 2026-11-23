@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-KGDmnRule.schema.json",
+  "title": "Knowledge graph L2-DMN: DMN Rule",
+  "description": "One row. Its input and output cells are carried as properties, not nodes: 250 of them in the BCG table alone, none the target of a cross-model edge. What the rule needs a node for is its citation edge into L1. conditions and outputs are arrays of {clause, description, text}. DMN puts the formal expression in description and the human-readable gloss in text, and both are worth keeping -- the gloss is what a reviewer reads and the expression is what an implementer builds. Class IRI: http://smart.who.int/kg/dmn-rule.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "KGDmnRule",
+      "description": "Resource type identifier for KGDmnRule logical model"
+    },
+    "id": {
+      "type": "object",
+      "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces."
+    },
+    "ordinal": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Position, counted from 0, in the order the source lists it."
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "The rule's input entries, by clause."
+    },
+    "modifierExtension": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Extension"
+      },
+      "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."
+    },
+    "clause": {
+      "type": "string",
+      "description": "The id of the clause (column) the cell belongs to."
+    },
+    "description": {
+      "type": "string",
+      "description": "The cell's formal expression."
+    },
+    "text": {
+      "type": "string",
+      "description": "The cell's human-readable gloss."
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "The rule's output entries, by clause."
+    },
+    "annotations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "The rule's annotation entries, by clause."
+    }
+  },
+  "required": [
+    "resourceType"
+  ],
+  "allOf": [
+    {
+      "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "resourceDefinition": {
+          "type": "string",
+          "format": "uri",
+          "const": "http://smart.who.int/base/StructureDefinition/KGDmnRule"
+        },
+        "fhir:parent": {
+          "type": "string",
+          "const": "http://hl7.org/fhir/StructureDefinition/Base"
+        }
+      }
+    }
+  ]
+}

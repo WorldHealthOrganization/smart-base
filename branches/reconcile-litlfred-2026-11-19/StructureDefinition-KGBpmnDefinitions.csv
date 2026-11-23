@@ -1,0 +1,15 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGBpmnDefinitions","KGBpmnDefinitions","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L2-BPMN: BPMN File","One BPMN file as a unit -- the `bpmn:definitions` root. Shares its IRI with the l1:external-artifact for the same file, so the component that points at it and the subgraph that opens it name one resource. Class IRI: http://smart.who.int/kg/bpmn-definitions.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGBpmnDefinitions.id","KGBpmnDefinitions.id","","","",0,1,"","","","string {[]} {[]}
+","Id","The identifier the source declares (an FSH instance id, a BPMN or DMN element id).","","","","","","","","","",,,,,"",,,,"KGBpmnDefinitions.id",0,1,"",""
+"KGBpmnDefinitions.targetNamespace","KGBpmnDefinitions.targetNamespace","","","",0,1,"","","","uri {[]} {[]}
+","Target namespace","The BPMN definitions' targetNamespace.","","","","","","","","","",,,,,"",,,,"KGBpmnDefinitions.targetNamespace",0,1,"",""
+"KGBpmnDefinitions.exporter","KGBpmnDefinitions.exporter","","","",0,1,"","","","string {[]} {[]}
+","Exporter","The tool that wrote the file.","","","","","","","","","",,,,,"",,,,"KGBpmnDefinitions.exporter",0,1,"",""
+"KGBpmnDefinitions.exporterVersion","KGBpmnDefinitions.exporterVersion","","","",0,1,"","","","string {[]} {[]}
+","Exporter version","The version of that tool.","","","","","","","","","",,,,,"",,,,"KGBpmnDefinitions.exporterVersion",0,1,"",""
+"KGBpmnDefinitions.source","KGBpmnDefinitions.source","","","",0,1,"","","","string {[]} {[]}
+","Source","Where the node was read from: a repository path or URL.","","","","","","","","","",,,,,"",,,,"KGBpmnDefinitions.source",0,1,"",""
+"KGBpmnDefinitions.sha256","KGBpmnDefinitions.sha256","","","",0,1,"","","","string {[]} {[]}
+","SHA-256","Hash of the file the node was read from; pins the source.","","","","","","","","","",,,,,"",,,,"KGBpmnDefinitions.sha256",0,1,"",""

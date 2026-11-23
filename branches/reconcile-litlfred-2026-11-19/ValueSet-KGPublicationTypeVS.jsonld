@@ -1,0 +1,101 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-11-23T18:46:49.275867Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#standard-guideline",
+      "name": "Standard guideline",
+      "fhir:code": "standard-guideline",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#consolidated-guideline",
+      "name": "Consolidated guideline",
+      "fhir:code": "consolidated-guideline",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#interim-guideline",
+      "name": "Interim guideline",
+      "fhir:code": "interim-guideline",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#rapid-advice-guideline",
+      "name": "Rapid advice guideline",
+      "fhir:code": "rapid-advice-guideline",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#emergency-guideline",
+      "name": "Emergency guideline",
+      "fhir:code": "emergency-guideline",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#collaborative-guideline",
+      "name": "Collaborative guideline",
+      "fhir:code": "collaborative-guideline",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#external-guideline",
+      "name": "External guideline",
+      "fhir:code": "external-guideline",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#adapted-guideline",
+      "name": "Adapted guideline",
+      "fhir:code": "adapted-guideline",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#position-paper",
+      "name": "Position paper",
+      "fhir:code": "position-paper",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#summary-table",
+      "name": "Summary table",
+      "fhir:code": "summary-table",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#classification",
+      "name": "Classification",
+      "fhir:code": "classification",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#implementation-guidance",
+      "name": "Implementation guidance",
+      "fhir:code": "implementation-guidance",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#methodology",
+      "name": "Methodology",
+      "fhir:code": "methodology",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGPublicationTypeVS.jsonld#supplement",
+      "name": "Supplement",
+      "fhir:code": "supplement",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGPublicationType"
+    }
+  ]
+}

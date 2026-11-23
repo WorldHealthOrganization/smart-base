@@ -1,0 +1,55 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGIndicator","KGIndicator","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L1: Indicator","A WHO indicator, identified by its published reference number. Printed in several places (HIV SI 2022: summary list, Table 2.3, reference sheet) and stored once. variants is a list of {population, definition, numerator, denominator} for population-specific or level-specific forms (PRV.17, PRV.3). Corresponds to ProgramIndicator: definition, numerator, denominator and disaggregation are ProgramIndicator's elements and types (markdown); not a Parent because ProgramIndicator makes them 1..1 and an L1 indicator is recorded with what its source prints. Class IRI: http://smart.who.int/kg/indicator.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGIndicator.refNo","KGIndicator.refNo","","","",0,1,"","","","string {[]} {[]}
+","Reference number","The indicator's printed reference number (e.g. PRV.3).","","","","","","","","","",,,,,"",,,,"KGIndicator.refNo",0,1,"",""
+"KGIndicator.shortName","KGIndicator.shortName","","","",0,1,"","","","string {[]} {[]}
+","Short name","Short name, as printed.","","","","","","","","","",,,,,"",,,,"KGIndicator.shortName",0,1,"",""
+"KGIndicator.definition","KGIndicator.definition","","","",0,1,"","","","markdown {[]} {[]}
+","Definition","Definition, verbatim.","","","","","","","","","",,,,,"",,,,"KGIndicator.definition",0,1,"",""
+"KGIndicator.numerator","KGIndicator.numerator","","","",0,1,"","","","markdown {[]} {[]}
+","Numerator","Numerator, verbatim.","","","","","","","","","",,,,,"",,,,"KGIndicator.numerator",0,1,"",""
+"KGIndicator.denominator","KGIndicator.denominator","","","",0,1,"","","","markdown {[]} {[]}
+","Denominator","Denominator, verbatim.","","","","","","","","","",,,,,"",,,,"KGIndicator.denominator",0,1,"",""
+"KGIndicator.variants","KGIndicator.variants","","","",0,*,"","","","BackboneElement {[]} {[]}
+","Variants","Population- or level-specific forms (PRV.17, PRV.3).","","","","","","","","","",,,,,"",,,,"KGIndicator.variants",0,*,"","ele-1:All FHIR elements must have a @value or children {hasValue() or (children().count() > id.count())}
+"
+"KGIndicator.variants.id","KGIndicator.variants.id","","","",0,1,"","","","string {[]} {[]}
+","Unique id for inter-element referencing","Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.","","","","","","","","","",,,,,"",,,,"Element.id",0,1,"",""
+"KGIndicator.variants.extension","KGIndicator.variants.extension","","extensions
+user content","",0,*,"","","","Extension {[]} {[]}
+","Additional content defined by implementations","May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.","There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.","","","","","","","","",,,,,"","value:url}
+","Extensions are always sliced by (at least) url",,"open","Element.extension",0,*,"","ele-1:All FHIR elements must have a @value or children {hasValue() or (children().count() > id.count())}
+ext-1:Must have either extensions or value[x], not both {extension.exists() != value.exists()}"
+"KGIndicator.variants.modifierExtension","KGIndicator.variants.modifierExtension","","extensions
+user contentmodifiers","",0,*,"","Y","Y","Extension {[]} {[]}
+","Extensions that cannot be ignored even if unrecognized","May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.
+
+Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).","There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.","Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/R4/extensibility.html#modifierExtension).","","","","","","","",,,,,"",,,,"BackboneElement.modifierExtension",0,*,"","ele-1:All FHIR elements must have a @value or children {hasValue() or (children().count() > id.count())}
+ext-1:Must have either extensions or value[x], not both {extension.exists() != value.exists()}"
+"KGIndicator.variants.population","KGIndicator.variants.population","","","",0,1,"","","","string {[]} {[]}
+","Population","The population this variant is for.","","","","","","","","","",,,,,"",,,,"KGIndicator.variants.population",0,1,"",""
+"KGIndicator.variants.definition","KGIndicator.variants.definition","","","",0,1,"","","","markdown {[]} {[]}
+","Definition","Definition, verbatim.","","","","","","","","","",,,,,"",,,,"KGIndicator.variants.definition",0,1,"",""
+"KGIndicator.variants.numerator","KGIndicator.variants.numerator","","","",0,1,"","","","markdown {[]} {[]}
+","Numerator","Numerator, verbatim.","","","","","","","","","",,,,,"",,,,"KGIndicator.variants.numerator",0,1,"",""
+"KGIndicator.variants.denominator","KGIndicator.variants.denominator","","","",0,1,"","","","markdown {[]} {[]}
+","Denominator","Denominator, verbatim.","","","","","","","","","",,,,,"",,,,"KGIndicator.variants.denominator",0,1,"",""
+"KGIndicator.whatItMeasures","KGIndicator.whatItMeasures","","","",0,1,"","","","markdown {[]} {[]}
+","What it measures","As printed.","","","","","","","","","",,,,,"",,,,"KGIndicator.whatItMeasures",0,1,"",""
+"KGIndicator.rationale","KGIndicator.rationale","","","",0,1,"","","","markdown {[]} {[]}
+","Rationale","As printed.","","","","","","","","","",,,,,"",,,,"KGIndicator.rationale",0,1,"",""
+"KGIndicator.methodOfMeasurement","KGIndicator.methodOfMeasurement","","","",0,1,"","","","markdown {[]} {[]}
+","Method of measurement","As printed.","","","","","","","","","",,,,,"",,,,"KGIndicator.methodOfMeasurement",0,1,"",""
+"KGIndicator.disaggregation","KGIndicator.disaggregation","","","",0,1,"","","","markdown {[]} {[]}
+","Disaggregation","As printed.","","","","","","","","","",,,,,"",,,,"KGIndicator.disaggregation",0,1,"",""
+"KGIndicator.programmeArea","KGIndicator.programmeArea","","","",0,1,"","","","string {[]} {[]}
+","Programme area","As printed.","","","","","","","","","",,,,,"",,,,"KGIndicator.programmeArea",0,1,"",""
+"KGIndicator.isCore","KGIndicator.isCore","","","",0,1,"","","","boolean {[]} {[]}
+","Is core","Whether the publication marks it a core indicator.","","","","","","","","","",,,,,"",,,,"KGIndicator.isCore",0,1,"",""
+"KGIndicator.isSurveyBased","KGIndicator.isSurveyBased","","","",0,1,"","","","boolean {[]} {[]}
+","Is survey-based","Whether it is measured by survey.","","","","","","","","","",,,,,"",,,,"KGIndicator.isSurveyBased",0,1,"",""
+"KGIndicator.changeStatus","KGIndicator.changeStatus","","","",0,1,"","","","code {[]} {[]}
+","Change status","Whether this edition of a consolidated guideline introduces, updates or carries a recommendation or indicator unchanged.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGChangeStatusVS","",,,,"KGIndicator.changeStatus",0,1,"",""
+"KGIndicator.contentHash","KGIndicator.contentHash","","","",0,1,"","","","string {[]} {[]}
+","Content hash","sha256 of the normalised definition, numerator and denominator.","","","","","","","","","",,,,,"",,,,"KGIndicator.contentHash",0,1,"",""

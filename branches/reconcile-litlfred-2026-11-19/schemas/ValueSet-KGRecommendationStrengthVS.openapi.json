@@ -1,0 +1,48 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Knowledge graph L1: recommendation strength Schema API",
+    "description": "JSON Schema for Knowledge graph L1: recommendation strength ValueSet codes. Generated from FHIR expansions using IRI format.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSet-KGRecommendationStrengthVS.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the enumeration ValueSet-KGRecommendationStrengthVS",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSet-KGRecommendationStrengthVS.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for ValueSet-KGRecommendationStrengthVS",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./ValueSet-KGRecommendationStrengthVS.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValueSet-KGRecommendationStrengthVS": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/ValueSet-KGRecommendationStrengthVS.schema.json",
+        "title": "Knowledge graph L1: recommendation strength Schema",
+        "description": "JSON Schema for Knowledge graph L1: recommendation strength ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "type": "string",
+        "enum": [
+          "http://smart.who.int/base/CodeSystem/KGRecommendationStrength#strong",
+          "http://smart.who.int/base/CodeSystem/KGRecommendationStrength#conditional"
+        ],
+        "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L1: recommendation strength ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGRecommendationStrengthVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+        "fhir:displays": "http://smart.who.int/base/ValueSet-KGRecommendationStrengthVS.displays.json",
+        "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGRecommendationStrengthVS",
+        "fhir:version": "0.3.0",
+        "fhir:expansionTimestamp": "2026-11-23T18:46:48.940619"
+      }
+    }
+  }
+}

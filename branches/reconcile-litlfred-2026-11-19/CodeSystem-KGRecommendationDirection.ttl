@@ -1,0 +1,54 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGRecommendationDirection> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "KGRecommendationDirection"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem KGRecommendationDirection</b></p><a name=\"KGRecommendationDirection\"> </a><a name=\"hcKGRecommendationDirection\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGRecommendationDirection</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">for<a name=\"KGRecommendationDirection-for\"> </a></td><td>For</td><td>The recommendation is in favour of the intervention.</td></tr><tr><td style=\"white-space:nowrap\">against<a name=\"KGRecommendationDirection-against\"> </a></td><td>Against</td><td>The recommendation is against the intervention.</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem KGRecommendationDirection</b></p><a name=\"fr-KGRecommendationDirection\"> </a><a name=\"fr-hcKGRecommendationDirection\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGRecommendationDirection</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style=\"white-space:nowrap\">for<a name=\"fr-KGRecommendationDirection-for\"> </a></td><td>For</td><td>The recommendation is in favour of the intervention.</td></tr><tr><td style=\"white-space:nowrap\">against<a name=\"fr-KGRecommendationDirection-against\"> </a></td><td>Against</td><td>The recommendation is against the intervention.</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem KGRecommendationDirection</b></p><a name=\"ar-KGRecommendationDirection\"> </a><a name=\"ar-hcKGRecommendationDirection\"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/KGRecommendationDirection</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style=\"white-space:nowrap\">for<a name=\"ar-KGRecommendationDirection-for\"> </a></td><td>For</td><td>The recommendation is in favour of the intervention.</td></tr><tr><td style=\"white-space:nowrap\">against<a name=\"ar-KGRecommendationDirection-against\"> </a></td><td>Against</td><td>The recommendation is against the intervention.</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 KGRecommendationDirection</b></p><a name=\"zh-KGRecommendationDirection\"> </a><a name=\"zh-hcKGRecommendationDirection\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGRecommendationDirection</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">for<a name=\"zh-KGRecommendationDirection-for\"> </a></td><td>For</td><td>The recommendation is in favour of the intervention.</td></tr><tr><td style=\"white-space:nowrap\">against<a name=\"zh-KGRecommendationDirection-against\"> </a></td><td>Against</td><td>The recommendation is against the intervention.</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem KGRecommendationDirection</b></p><a name=\"ru-KGRecommendationDirection\"> </a><a name=\"ru-hcKGRecommendationDirection\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/KGRecommendationDirection</code> case-sensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style=\"white-space:nowrap\">for<a name=\"ru-KGRecommendationDirection-for\"> </a></td><td>For</td><td>The recommendation is in favour of the intervention.</td></tr><tr><td style=\"white-space:nowrap\">against<a name=\"ru-KGRecommendationDirection-against\"> </a></td><td>Against</td><td>The recommendation is against the intervention.</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos KGRecommendationDirection</b></p><a name=\"es-KGRecommendationDirection\"> </a><a name=\"es-hcKGRecommendationDirection\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGRecommendationDirection</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">for<a name=\"es-KGRecommendationDirection-for\"> </a></td><td>For</td><td>The recommendation is in favour of the intervention.</td></tr><tr><td style=\"white-space:nowrap\">against<a name=\"es-KGRecommendationDirection-against\"> </a></td><td>Against</td><td>The recommendation is against the intervention.</td></tr></table></div></div>"
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://smart.who.int/base/CodeSystem/KGRecommendationDirection"] ;
+  fhir:CodeSystem.version [ fhir:value "0.3.0"] ;
+  fhir:CodeSystem.name [ fhir:value "KGRecommendationDirection"] ;
+  fhir:CodeSystem.title [ fhir:value "Knowledge graph L1: recommendation direction"] ;
+  fhir:CodeSystem.status [ fhir:value "active"] ;
+  fhir:CodeSystem.experimental [ fhir:value "false"^^xsd:boolean] ;
+  fhir:CodeSystem.date [ fhir:value "2026-11-23T18:43:32+00:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "WHO"] ;
+  fhir:CodeSystem.contact [
+     fhir:index 0 ;
+     fhir:ContactDetail.name [ fhir:value "WHO" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index 0 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://who.int" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "For or against. The handbook prefers \"we recommend against X\" to \"X is not recommended\", which is ambiguous between against and no recommendation (§10.6). Source: smart-kg ontology/l1/l1.json valueSets \"recommendation-direction\"; WHO handbook for guideline development (2014) §10.1, §10.6."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "2"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index 0 ;
+     fhir:CodeSystem.concept.code [ fhir:value "for" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "For" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "The recommendation is in favour of the intervention." ]
+  ], [
+     fhir:index 1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "against" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Against" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "The recommendation is against the intervention." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGRecommendationDirection.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl .
+
+# -------------------------------------------------------------------------------------
+

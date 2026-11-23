@@ -1,0 +1,19 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGDakTask","KGDakTask","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L2: Task Entry","One task of a DAK business process, as the DAK document's ""notes and annotations"" describe it: identifier, name, description, and the personas, data elements, requirements and decision tables it links to. A node rather than a property because the same task is also drawn in the BPMN file, and the two have to be joinable to be checkable against each other (`describes`). Read from a BPMN file's `dak-task-annotations/v1` sidecar (smart-base/L2-bpmn/schemas/task-annotations.ts); BusinessProcessWorkflow's `task 0..*` backbone carries the first three fields of the same thing. Class IRI: http://smart.who.int/kg/dak-task.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGDakTask.identifier","KGDakTask.identifier","","","",0,1,"","","","string {[]} {[]}
+","Identifier","The identifier, as declared.","","","","","","","","","",,,,,"",,,,"KGDakTask.identifier",0,1,"",""
+"KGDakTask.name","KGDakTask.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The computable name: the CamelCase identifier a Canonical() reference matches on.","","","","","","","","","",,,,,"",,,,"KGDakTask.name",0,1,"",""
+"KGDakTask.description","KGDakTask.description","","","",0,1,"","","","markdown {[]} {[]}
+","Description","A description, as the source gives it.","","","","","","","","","",,,,,"",,,,"KGDakTask.description",0,1,"",""
+"KGDakTask.activityId","KGDakTask.activityId","","","",0,1,"","","","string {[]} {[]}
+","Activity id","The DAK activity id (`IMMZ.B1`, `TB.A5`): the process id and the step number, the key the DAK spreadsheets use.","","","","","","","","","",,,,,"",,,,"KGDakTask.activityId",0,1,"",""
+"KGDakTask.matchedBy","KGDakTask.matchedBy","","","",0,1,"","","","string {[]} {[]}
+","Matched by","How the annotation was joined to its BPMN task: `id`, `step-number`, `name` or `adjudicated` by a person.","","","","","","","","","",,,,,"",,,,"KGDakTask.matchedBy",0,1,"",""
+"KGDakTask.sourceDocument","KGDakTask.sourceDocument","","","",0,1,"","","","string {[]} {[]}
+","Source document","The L1 library document the annotation was read from.","","","","","","","","","",,,,,"",,,,"KGDakTask.sourceDocument",0,1,"",""
+"KGDakTask.sourceItem","KGDakTask.sourceItem","","","",0,1,"","","","string {[]} {[]}
+","Source item","The annotation's item number as printed (`1`, `2.3`).","","","","","","","","","",,,,,"",,,,"KGDakTask.sourceItem",0,1,"",""
+"KGDakTask.source","KGDakTask.source","","","",0,1,"","","","string {[]} {[]}
+","Source","Where the node was read from: a repository path or URL.","","","","","","","","","",,,,,"",,,,"KGDakTask.source",0,1,"",""

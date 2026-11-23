@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.schema.json",
+  "title": "Knowledge graph L2: classes Schema",
+  "description": "JSON Schema for Knowledge graph L2: classes ValueSet codes. Generated from FHIR expansions using IRI format.",
+  "type": "string",
+  "enum": [
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#dak",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#persona",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#user-scenario",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#business-process",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#dak-task",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#data-element",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#decision-support-logic",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#scheduling-logic",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#program-indicator",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#functional-requirement",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#non-functional-requirement",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#requirement-statement",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#test-scenario",
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#external-artifact"
+  ],
+  "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L2: classes ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGL2ClassesVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+  "fhir:displays": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.displays.json",
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGL2ClassesVS",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-11-23T18:46:48.943006"
+}

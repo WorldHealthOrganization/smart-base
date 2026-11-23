@@ -1,0 +1,25 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGFunctionalRequirement","KGFunctionalRequirement","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L2: Functional Requirement","DAK component 8, first half. The as-a/I-want/so-that shape: `activity`, `capability[x]`, `benefit[x]`, and `actor 0..* Reference(SGActor)`. The 41 committed instances use the R5 SGRequirements profile rather than this logical model, so a real instance carries `statement` entries and a userstory extension; both shapes are accommodated and `profile` records which was read. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/functional-requirement.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGFunctionalRequirement.id","KGFunctionalRequirement.id","","","",0,1,"","","","string {[]} {[]}
+","Id","The identifier the source declares (an FSH instance id, a BPMN or DMN element id).","","","","","","","","","",,,,,"",,,,"KGFunctionalRequirement.id",0,1,"",""
+"KGFunctionalRequirement.activity","KGFunctionalRequirement.activity","","","",0,1,"","","","markdown {[]} {[]}
+","Activity","The activity the requirement supports.","","","","","","","","","",,,,,"",,,,"KGFunctionalRequirement.activity",0,1,"",""
+"KGFunctionalRequirement.capability","KGFunctionalRequirement.capability","","","",0,1,"","","","markdown {[]} {[]}
+","Capability","The capability required (""As a … I want …"").","","","","","","","","","",,,,,"",,,,"KGFunctionalRequirement.capability",0,1,"",""
+"KGFunctionalRequirement.benefit","KGFunctionalRequirement.benefit","","","",0,1,"","","","markdown {[]} {[]}
+","Benefit","The benefit (""so that …"").","","","","","","","","","",,,,,"",,,,"KGFunctionalRequirement.benefit",0,1,"",""
+"KGFunctionalRequirement.classification","KGFunctionalRequirement.classification","","","",0,1,"","","","string {[]} {[]}
+","Classification","The classification, as declared.","","","","","","","","","",,,,,"",,,,"KGFunctionalRequirement.classification",0,1,"",""
+"KGFunctionalRequirement.title","KGFunctionalRequirement.title","","","",0,1,"","","","string {[]} {[]}
+","Title","The human-readable title.","","","","","","","","","",,,,,"",,,,"KGFunctionalRequirement.title",0,1,"",""
+"KGFunctionalRequirement.description","KGFunctionalRequirement.description","","","",0,1,"","","","markdown {[]} {[]}
+","Description","A description, as the source gives it.","","","","","","","","","",,,,,"",,,,"KGFunctionalRequirement.description",0,1,"",""
+"KGFunctionalRequirement.profile","KGFunctionalRequirement.profile","","","",0,*,"","","","uri {[]} {[]}
+","Profile","A profile canonical the artefact declares (meta.profile or the requirement's profile).","","","","","","","","","",,,,,"",,,,"KGFunctionalRequirement.profile",0,*,"",""
+"KGFunctionalRequirement.sourceKind","KGFunctionalRequirement.sourceKind","","","",0,1,"","","","string {[]} {[]}
+","Source kind","What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file).","","","","","","","","","",,,,,"",,,,"KGFunctionalRequirement.sourceKind",0,1,"",""
+"KGFunctionalRequirement.source","KGFunctionalRequirement.source","","","",0,1,"","","","string {[]} {[]}
+","Source","Where the node was read from: a repository path or URL.","","","","","","","","","",,,,,"",,,,"KGFunctionalRequirement.source",0,1,"",""
+"KGFunctionalRequirement.resolutionStatus","KGFunctionalRequirement.resolutionStatus","","","",0,1,"","","","code {[]} {[]}
+","Resolution status","Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGResolutionStatusVS","",,,,"KGFunctionalRequirement.resolutionStatus",0,1,"",""

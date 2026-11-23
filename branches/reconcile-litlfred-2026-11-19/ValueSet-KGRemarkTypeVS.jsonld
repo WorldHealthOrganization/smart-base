@@ -1,0 +1,59 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-KGRemarkTypeVS.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-11-23T18:46:49.263991Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGRemarkTypeVS.jsonld#definition",
+      "name": "Definition",
+      "fhir:code": "definition",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGRemarkType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGRemarkTypeVS.jsonld#implementation",
+      "name": "Implementation",
+      "fhir:code": "implementation",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGRemarkType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGRemarkTypeVS.jsonld#precaution",
+      "name": "Precaution",
+      "fhir:code": "precaution",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGRemarkType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGRemarkTypeVS.jsonld#contraindication",
+      "name": "Contraindication",
+      "fhir:code": "contraindication",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGRemarkType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGRemarkTypeVS.jsonld#subgroup",
+      "name": "Subgroup",
+      "fhir:code": "subgroup",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGRemarkType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGRemarkTypeVS.jsonld#research-gap",
+      "name": "Research gap",
+      "fhir:code": "research-gap",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGRemarkType"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGRemarkTypeVS.jsonld#training",
+      "name": "Training",
+      "fhir:code": "training",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGRemarkType"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-KGConformanceExpectationVS.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-11-23T18:46:49.277789Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGConformanceExpectationVS.jsonld#SHALL",
+      "name": "SHALL",
+      "fhir:code": "SHALL",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGConformanceExpectation"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGConformanceExpectationVS.jsonld#SHOULD",
+      "name": "SHOULD",
+      "fhir:code": "SHOULD",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGConformanceExpectation"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGConformanceExpectationVS.jsonld#MAY",
+      "name": "MAY",
+      "fhir:code": "MAY",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGConformanceExpectation"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGConformanceExpectationVS.jsonld#SHOULD-NOT",
+      "name": "SHOULD NOT",
+      "fhir:code": "SHOULD-NOT",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGConformanceExpectation"
+    }
+  ]
+}

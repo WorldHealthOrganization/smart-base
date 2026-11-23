@@ -1,0 +1,15 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGTestScenario","KGTestScenario","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L2: Test Scenario","DAK component 9. `feature 1..1 uri` to a Gherkin feature file, plus an optional description. The feature file's interior is not modelled: no DAK in this estate ships one yet, so a subgraph for it would have no instance to check it against. resolutionStatus is `unresolved` on a component that something else names but no DAK declares -- an L3 artefact whose title carries the component id, for instance. The node exists so the gap is queryable and carries the referenced id and nothing else. Class IRI: http://smart.who.int/kg/test-scenario.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGTestScenario.id","KGTestScenario.id","","","",0,1,"","","","string {[]} {[]}
+","Id","The identifier the source declares (an FSH instance id, a BPMN or DMN element id).","","","","","","","","","",,,,,"",,,,"KGTestScenario.id",0,1,"",""
+"KGTestScenario.feature","KGTestScenario.feature","","","",0,1,"","","","string {[]} {[]}
+","Feature","The Gherkin feature file the scenario is in.","","","","","","","","","",,,,,"",,,,"KGTestScenario.feature",0,1,"",""
+"KGTestScenario.description","KGTestScenario.description","","","",0,1,"","","","markdown {[]} {[]}
+","Description","A description, as the source gives it.","","","","","","","","","",,,,,"",,,,"KGTestScenario.description",0,1,"",""
+"KGTestScenario.sourceKind","KGTestScenario.sourceKind","","","",0,1,"","","","string {[]} {[]}
+","Source kind","What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file).","","","","","","","","","",,,,,"",,,,"KGTestScenario.sourceKind",0,1,"",""
+"KGTestScenario.source","KGTestScenario.source","","","",0,1,"","","","string {[]} {[]}
+","Source","Where the node was read from: a repository path or URL.","","","","","","","","","",,,,,"",,,,"KGTestScenario.source",0,1,"",""
+"KGTestScenario.resolutionStatus","KGTestScenario.resolutionStatus","","","",0,1,"","","","code {[]} {[]}
+","Resolution status","Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGResolutionStatusVS","",,,,"KGTestScenario.resolutionStatus",0,1,"",""

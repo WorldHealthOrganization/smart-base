@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.displays.json",
+  "title": "Knowledge graph L2: classes Display Values",
+  "description": "Display values for Knowledge graph L2: classes ValueSet codes. Generated from FHIR expansions.",
+  "type": "object",
+  "properties": {
+    "fhir:displays": {
+      "type": "object",
+      "description": "Multilingual display values for ValueSet codes using IRI format to match JSON schema enum values",
+      "patternProperties": {
+        "^https?://.*": {
+          "type": "object",
+          "description": "Display values for a specific IRI-formatted code by language",
+          "properties": {
+            "en": {
+              "type": "string",
+              "description": "English display value"
+            }
+          },
+          "patternProperties": {
+            "^[a-z]{2}(-[A-Z]{2})?$": {
+              "type": "string",
+              "description": "Display value in the specified language (ISO 639-1 code)"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "fhir:displays"
+  ],
+  "additionalProperties": true,
+  "fhir:displays": {
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#dak": {
+      "en": "Digital Adaptation Kit"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#persona": {
+      "en": "Generic Persona"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#user-scenario": {
+      "en": "User Scenario"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#business-process": {
+      "en": "Business Process Workflow"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#dak-task": {
+      "en": "Task Entry"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#data-element": {
+      "en": "Core Data Element"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#decision-support-logic": {
+      "en": "Decision-Support Logic"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#scheduling-logic": {
+      "en": "Scheduling Logic"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#program-indicator": {
+      "en": "Program Indicator"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#functional-requirement": {
+      "en": "Functional Requirement"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#non-functional-requirement": {
+      "en": "Non-Functional Requirement"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#requirement-statement": {
+      "en": "Requirement Statement"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#test-scenario": {
+      "en": "Test Scenario"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL2Classes#external-artifact": {
+      "en": "External artefact"
+    }
+  },
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGL2ClassesVS",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-11-23T18:46:48.943006"
+}

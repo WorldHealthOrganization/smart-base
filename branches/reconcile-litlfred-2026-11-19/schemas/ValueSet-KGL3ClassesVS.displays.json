@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-KGL3ClassesVS.displays.json",
+  "title": "Knowledge graph L3: classes Display Values",
+  "description": "Display values for Knowledge graph L3: classes ValueSet codes. Generated from FHIR expansions.",
+  "type": "object",
+  "properties": {
+    "fhir:displays": {
+      "type": "object",
+      "description": "Multilingual display values for ValueSet codes using IRI format to match JSON schema enum values",
+      "patternProperties": {
+        "^https?://.*": {
+          "type": "object",
+          "description": "Display values for a specific IRI-formatted code by language",
+          "properties": {
+            "en": {
+              "type": "string",
+              "description": "English display value"
+            }
+          },
+          "patternProperties": {
+            "^[a-z]{2}(-[A-Z]{2})?$": {
+              "type": "string",
+              "description": "Display value in the specified language (ISO 639-1 code)"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "fhir:displays"
+  ],
+  "additionalProperties": true,
+  "fhir:displays": {
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#plan-definition": {
+      "en": "Plan Definition"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#activity-definition": {
+      "en": "Activity Definition"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#library": {
+      "en": "Library"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#cql-library": {
+      "en": "CQL File"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#measure": {
+      "en": "Measure"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#questionnaire": {
+      "en": "Questionnaire"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#structure-map": {
+      "en": "Structure Map"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#structure-definition": {
+      "en": "Logical Model"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#profile": {
+      "en": "Profile"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#value-set": {
+      "en": "Value Set"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#code-system": {
+      "en": "Code System"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#concept-map": {
+      "en": "Concept Map"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#actor-definition": {
+      "en": "Actor Definition"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL3Classes#requirements": {
+      "en": "Requirements"
+    }
+  },
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGL3ClassesVS",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-11-23T18:46:48.944690"
+}

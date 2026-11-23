@@ -1,0 +1,14 @@
+<html lang="en"><body>
+<div id="smart-ci-build-banner" style="background:#fff3cd;color:#664d03;border-bottom:1px solid #ffda6a;padding:.5rem 1rem;font-size:.9rem;"><p style="margin:0;">CI build for version <strong>0.3.0</strong>. <br/><span  style="font-size:.85em;">Built from commit <a href="https://github.com/WorldHealthOrganization/smart-base/commit/9612d5ddc5a38fb45dd65bb9848d825c5323e474"><code>9612d5dd</code></a>. &nbsp; Branch: <a href="https://github.com/WorldHealthOrganization/smart-base/tree/claude/reconcile-litlfred-2026-11-19"><code>claude/reconcile-litlfred-2026-11-19</code></a>.</span></p></div>
+<pre>org.hl7.fhir.exceptions.DefinitionException: StructureDefinition is not for an profile - can't be compared (left: RequirementsSource)
+	at org.hl7.fhir.services.comparison.StructureDefinitionComparer.check(StructureDefinitionComparer.java:183)
+	at org.hl7.fhir.services.comparison.StructureDefinitionComparer.compare(StructureDefinitionComparer.java:112)
+	at org.hl7.fhir.services.comparison.ComparisonSession.compare(ComparisonSession.java:93)
+	at org.hl7.fhir.igtools.publisher.comparators.PreviousVersionComparator.finishChecks(PreviousVersionComparator.java:272)
+	at org.hl7.fhir.igtools.publisher.PublisherProcessor.checkConformanceResources(PublisherProcessor.java:1603)
+	at org.hl7.fhir.igtools.publisher.PublisherProcessor.loadConformance2(PublisherProcessor.java:109)
+	at org.hl7.fhir.igtools.publisher.Publisher.createIg(Publisher.java:584)
+	at org.hl7.fhir.igtools.publisher.Publisher.build(Publisher.java:348)
+	at org.hl7.fhir.igtools.publisher.Publisher.execute(Publisher.java:257)
+	at org.hl7.fhir.igtools.publisher.Publisher.main(Publisher.java:1824)
+</pre></body></html>

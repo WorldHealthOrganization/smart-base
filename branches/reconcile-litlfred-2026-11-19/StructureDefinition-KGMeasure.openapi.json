@@ -1,0 +1,183 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Knowledge graph L3: Measure API",
+    "description": "A FHIR Measure -- an indicator made computable. 41 in the immunizations IG, all declaring proportion-measure-cqfm; the SOP makes the profile depend on scoring type, which is why the profile is read rather than assumed. Joined to its L2 indicator by id convention (IMMZ.IND.08 -> IMMZIND08). Class IRI: http://smart.who.int/kg/measure.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-KGMeasure.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-KGMeasure",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-KGMeasure.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-KGMeasure",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-KGMeasure.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-KGMeasure": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-KGMeasure.schema.json",
+        "title": "Knowledge graph L3: Measure",
+        "description": "A FHIR Measure -- an indicator made computable. 41 in the immunizations IG, all declaring proportion-measure-cqfm; the SOP makes the profile depend on scoring type, which is why the profile is read rather than assumed. Joined to its L2 indicator by id convention (IMMZ.IND.08 -> IMMZIND08). Class IRI: http://smart.who.int/kg/measure.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "description": "The FHIR resource type."
+          },
+          "@context": {
+            "description": "JSON-LD context for this logical model with ValueSet vocabularies",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri",
+                "description": "URI reference to external JSON-LD context"
+              },
+              {
+                "type": "object",
+                "description": "Inline JSON-LD context",
+                "properties": {
+                  "@version": {
+                    "type": "number",
+                    "const": 1.1
+                  },
+                  "fhir": {
+                    "type": "string",
+                    "const": "http://hl7.org/fhir/"
+                  }
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              {
+                "type": "array",
+                "description": "Array of JSON-LD context objects/URIs",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "@type": {
+            "type": "string",
+            "description": "JSON-LD type identifier for KGMeasure logical model",
+            "examples": [
+              "LogicalModel-KGMeasure"
+            ]
+          },
+          "canonical": {
+            "type": "string",
+            "format": "uri",
+            "description": "The canonical URL. Only a resolved component carries one."
+          },
+          "profile": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "A profile canonical the artefact declares (meta.profile or the requirement's profile)."
+          },
+          "status": {
+            "$ref": "./ValueSet-KGPublicationStatusVS.schema.json",
+            "description": "The resource's status (FHIR PublicationStatus)."
+          },
+          "version": {
+            "type": "string",
+            "description": "The business version, as declared."
+          },
+          "title": {
+            "type": "string",
+            "description": "The human-readable title."
+          },
+          "name": {
+            "type": "string",
+            "description": "The computable name: the CamelCase identifier a Canonical() reference matches on."
+          },
+          "publisher": {
+            "type": "string",
+            "description": "The publisher, as declared."
+          },
+          "experimental": {
+            "type": "boolean",
+            "description": "The resource's experimental flag."
+          },
+          "scoring": {
+            "type": "string",
+            "description": "The Measure's scoring (proportion, ratio, cohort, continuous-variable)."
+          },
+          "source": {
+            "type": "string",
+            "description": "Where the node was read from: a repository path or URL."
+          },
+          "sha256": {
+            "type": "string",
+            "description": "Hash of the file the node was read from; pins the source."
+          }
+        },
+        "required": [
+          "resourceType"
+        ],
+        "allOf": [
+          {
+            "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "resourceDefinition": {
+                "type": "string",
+                "format": "uri",
+                "const": "http://smart.who.int/base/StructureDefinition/KGMeasure"
+              },
+              "fhir:parent": {
+                "type": "string",
+                "const": "http://hl7.org/fhir/StructureDefinition/Base"
+              },
+              "jsonld:valuesets": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "const": [
+                  "KGPublicationStatusVS"
+                ]
+              },
+              "jsonld:contextTemplate": {
+                "type": "object",
+                "const": {
+                  "@version": 1.1,
+                  "fhir": "http://hl7.org/fhir/",
+                  "KGPublicationStatusVS": "http://smart.who.int/base/ValueSet-KGPublicationStatusVS.jsonld"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

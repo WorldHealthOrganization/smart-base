@@ -1,0 +1,11 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGHealthIntervention","KGHealthIntervention","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L1: Health intervention","An intervention identified in a WHO catalogue or classification (UHC Compendium, ICHI, CDHI), digital interventions included. A peer of recommendation, not a recommendation. A DAK may draw on both. Corresponds to HealthInterventions: identifier and description correspond to HealthInterventions.id and description[x]; not a Parent because HealthInterventions requires reference 1..* DublinCore, which here is an edge (definedIn) rather than a field. Class IRI: http://smart.who.int/kg/health-intervention.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGHealthIntervention.identifier","KGHealthIntervention.identifier","","","",0,1,"","","","string {[]} {[]}
+","Identifier","The catalogue code (UHC, ICHI, CDHI).","","","","","","","","","",,,,,"",,,,"KGHealthIntervention.identifier",0,1,"",""
+"KGHealthIntervention.name","KGHealthIntervention.name","","","",0,1,"","","","string {[]} {[]}
+","Name","Name, as catalogued.","","","","","","","","","",,,,,"",,,,"KGHealthIntervention.name",0,1,"",""
+"KGHealthIntervention.description","KGHealthIntervention.description","","","",0,1,"","","","markdown {[]} {[]}
+","Description","Description, as catalogued.","","","","","","","","","",,,,,"",,,,"KGHealthIntervention.description",0,1,"",""
+"KGHealthIntervention.interventionType","KGHealthIntervention.interventionType","","","",0,1,"","","","code {[]} {[]}
+","Intervention type","DRAFT.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGInterventionTypeVS","",,,,"KGHealthIntervention.interventionType",0,1,"",""

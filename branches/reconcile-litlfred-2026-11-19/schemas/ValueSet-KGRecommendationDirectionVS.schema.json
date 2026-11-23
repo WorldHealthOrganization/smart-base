@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-KGRecommendationDirectionVS.schema.json",
+  "title": "Knowledge graph L1: recommendation direction Schema",
+  "description": "JSON Schema for Knowledge graph L1: recommendation direction ValueSet codes. Generated from FHIR expansions using IRI format.",
+  "type": "string",
+  "enum": [
+    "http://smart.who.int/base/CodeSystem/KGRecommendationDirection#for",
+    "http://smart.who.int/base/CodeSystem/KGRecommendationDirection#against"
+  ],
+  "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L1: recommendation direction ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGRecommendationDirectionVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+  "fhir:displays": "http://smart.who.int/base/ValueSet-KGRecommendationDirectionVS.displays.json",
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGRecommendationDirectionVS",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-11-23T18:46:48.930379"
+}

@@ -1,0 +1,172 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Knowledge graph L2: Core Data Element API",
+    "description": "DAK component 5. CoreDataElement.fsh calls itself \"the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs\": `type` is one of valueset | codesystem | conceptmap | logicalmodel and `canonical 1..1 uri` points at it. The canonical is recorded; nothing inside it is copied, because FHIR is its own query layer. `name`, `resolutionStatus` and `extractionRule` are for elements recovered from DMN input expressions rather than declared in a dictionary. A recovered element is a name that was REFERENCED, not a definition that was found, and only a resolved one may carry a canonical. Class IRI: http://smart.who.int/kg/data-element.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-KGDataElement.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-KGDataElement",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-KGDataElement.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-KGDataElement",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-KGDataElement.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-KGDataElement": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-KGDataElement.schema.json",
+        "title": "Knowledge graph L2: Core Data Element",
+        "description": "DAK component 5. CoreDataElement.fsh calls itself \"the ONE EXCEPTION to allowing FHIR R4 models into the DAK LMs\": `type` is one of valueset | codesystem | conceptmap | logicalmodel and `canonical 1..1 uri` points at it. The canonical is recorded; nothing inside it is copied, because FHIR is its own query layer. `name`, `resolutionStatus` and `extractionRule` are for elements recovered from DMN input expressions rather than declared in a dictionary. A recovered element is a name that was REFERENCED, not a definition that was found, and only a resolved one may carry a canonical. Class IRI: http://smart.who.int/kg/data-element.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "KGDataElement",
+            "description": "Resource type identifier for KGDataElement logical model"
+          },
+          "@context": {
+            "description": "JSON-LD context for this logical model with ValueSet vocabularies",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri",
+                "description": "URI reference to external JSON-LD context"
+              },
+              {
+                "type": "object",
+                "description": "Inline JSON-LD context",
+                "properties": {
+                  "@version": {
+                    "type": "number",
+                    "const": 1.1
+                  },
+                  "fhir": {
+                    "type": "string",
+                    "const": "http://hl7.org/fhir/"
+                  }
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              {
+                "type": "array",
+                "description": "Array of JSON-LD context objects/URIs",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "@type": {
+            "type": "string",
+            "description": "JSON-LD type identifier for KGDataElement logical model",
+            "examples": [
+              "LogicalModel-KGDataElement"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name a DMN input expression referenced, for a recovered element."
+          },
+          "type": {
+            "type": "string",
+            "description": "The data type, as the data dictionary declares it."
+          },
+          "canonical": {
+            "type": "string",
+            "format": "uri",
+            "description": "The canonical URL. Only a resolved component carries one."
+          },
+          "description": {
+            "type": "string",
+            "description": "A description, as the source gives it."
+          },
+          "sourceKind": {
+            "type": "string",
+            "description": "What kind of artefact the component was read from (an FSH instance, a spreadsheet, a BPMN file)."
+          },
+          "source": {
+            "type": "string",
+            "description": "Where the node was read from: a repository path or URL."
+          },
+          "resolutionStatus": {
+            "$ref": "./ValueSet-KGResolutionStatusVS.schema.json",
+            "description": "Whether the component something names was found: `unresolved` when nothing declares it, so the gap is queryable."
+          },
+          "extractionRule": {
+            "type": "string",
+            "description": "How a data element recovered from a DMN input expression was found."
+          }
+        },
+        "required": [
+          "resourceType"
+        ],
+        "allOf": [
+          {
+            "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "resourceDefinition": {
+                "type": "string",
+                "format": "uri",
+                "const": "http://smart.who.int/base/StructureDefinition/KGDataElement"
+              },
+              "fhir:parent": {
+                "type": "string",
+                "const": "http://hl7.org/fhir/StructureDefinition/Base"
+              },
+              "jsonld:valuesets": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "const": [
+                  "KGResolutionStatusVS"
+                ]
+              },
+              "jsonld:contextTemplate": {
+                "type": "object",
+                "const": {
+                  "@version": 1.1,
+                  "fhir": "http://hl7.org/fhir/",
+                  "KGResolutionStatusVS": "http://smart.who.int/base/ValueSet-KGResolutionStatusVS.jsonld"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Transport Protocol Schema API",
+    "description": "JSON Schema for Transport Protocol ValueSet codes. Generated from FHIR expansions using IRI format.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSet-transport-protocol.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the enumeration ValueSet-transport-protocol",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSet-transport-protocol.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for ValueSet-transport-protocol",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./ValueSet-transport-protocol.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValueSet-transport-protocol": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/ValueSet-transport-protocol.schema.json",
+        "title": "Transport Protocol Schema",
+        "description": "JSON Schema for Transport Protocol ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "type": "string",
+        "enum": [
+          "http://smart.who.int/base/CodeSystem/transport-protocol#http",
+          "http://smart.who.int/base/CodeSystem/transport-protocol#soap",
+          "http://smart.who.int/base/CodeSystem/transport-protocol#mllp",
+          "http://smart.who.int/base/CodeSystem/transport-protocol#smtp",
+          "http://smart.who.int/base/CodeSystem/transport-protocol#ftp",
+          "http://smart.who.int/base/CodeSystem/transport-protocol#dicom",
+          "http://smart.who.int/base/CodeSystem/transport-protocol#websocket",
+          "http://smart.who.int/base/CodeSystem/transport-protocol#amqp",
+          "http://smart.who.int/base/CodeSystem/transport-protocol#kafka",
+          "http://smart.who.int/base/CodeSystem/transport-protocol#filesystem"
+        ],
+        "narrative": "This schema validates IRI-formatted codes for the Transport Protocol ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-transport-protocol.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+        "fhir:displays": "http://smart.who.int/base/ValueSet-transport-protocol.displays.json",
+        "fhir:valueSet": "http://smart.who.int/base/ValueSet/transport-protocol",
+        "fhir:version": "0.3.0",
+        "fhir:expansionTimestamp": "2026-09-07T06:15:33.116223"
+      }
+    }
+  }
+}

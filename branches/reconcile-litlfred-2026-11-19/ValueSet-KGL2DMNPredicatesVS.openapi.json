@@ -1,0 +1,63 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Knowledge graph L2DMN: predicates Schema API",
+    "description": "JSON Schema for Knowledge graph L2DMN: predicates ValueSet codes. Values are represented as Coding objects with 'system' and 'code' properties.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSet-KGL2DMNPredicatesVS.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the enumeration ValueSet-KGL2DMNPredicatesVS",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSet-KGL2DMNPredicatesVS.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for ValueSet-KGL2DMNPredicatesVS",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./ValueSet-KGL2DMNPredicatesVS.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValueSet-KGL2DMNPredicatesVS": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/ValueSet-KGL2DMNPredicatesVS.schema.json",
+        "title": "Knowledge graph L2DMN: predicates Schema",
+        "description": "JSON Schema for Knowledge graph L2DMN: predicates ValueSet codes. Values are represented as Coding objects with 'system' and 'code' properties.",
+        "type": "object",
+        "required": [
+          "system",
+          "code"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "system": {
+            "type": "string",
+            "const": "http://smart.who.int/base/CodeSystem/KGL2DMNPredicates"
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "invokedBy",
+              "reads",
+              "citesSource"
+            ]
+          }
+        },
+        "narrative": "This schema validates Coding-shaped objects for the Knowledge graph L2DMN: predicates ValueSet. Each value must be an object with 'system' (CodeSystem URI) and 'code' (fragment after '#') properties. Display values are available at http://smart.who.int/base/ValueSet-KGL2DMNPredicatesVS.displays.json. The canonical IRI for a code can be reconstructed as system + '#' + code. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+        "fhir:displays": "http://smart.who.int/base/ValueSet-KGL2DMNPredicatesVS.displays.json",
+        "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGL2DMNPredicatesVS",
+        "fhir:version": "0.3.0",
+        "fhir:expansionTimestamp": "2026-11-23T18:46:01+00:00"
+      }
+    }
+  }
+}

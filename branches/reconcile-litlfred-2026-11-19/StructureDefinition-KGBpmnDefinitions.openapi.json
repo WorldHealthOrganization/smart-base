@@ -1,0 +1,93 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Knowledge graph L2-BPMN: BPMN File API",
+    "description": "One BPMN file as a unit -- the `bpmn:definitions` root. Shares its IRI with the l1:external-artifact for the same file, so the component that points at it and the subgraph that opens it name one resource. Class IRI: http://smart.who.int/kg/bpmn-definitions.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-KGBpmnDefinitions.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-KGBpmnDefinitions",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-KGBpmnDefinitions.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-KGBpmnDefinitions",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-KGBpmnDefinitions.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-KGBpmnDefinitions": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-KGBpmnDefinitions.schema.json",
+        "title": "Knowledge graph L2-BPMN: BPMN File",
+        "description": "One BPMN file as a unit -- the `bpmn:definitions` root. Shares its IRI with the l1:external-artifact for the same file, so the component that points at it and the subgraph that opens it name one resource. Class IRI: http://smart.who.int/kg/bpmn-definitions.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "KGBpmnDefinitions",
+            "description": "Resource type identifier for KGBpmnDefinitions logical model"
+          },
+          "id": {
+            "type": "string",
+            "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+          },
+          "targetNamespace": {
+            "type": "string",
+            "format": "uri",
+            "description": "The BPMN definitions' targetNamespace."
+          },
+          "exporter": {
+            "type": "string",
+            "description": "The tool that wrote the file."
+          },
+          "exporterVersion": {
+            "type": "string",
+            "description": "The version of that tool."
+          },
+          "source": {
+            "type": "string",
+            "description": "Where the node was read from: a repository path or URL."
+          },
+          "sha256": {
+            "type": "string",
+            "description": "Hash of the file the node was read from; pins the source."
+          }
+        },
+        "required": [
+          "resourceType"
+        ],
+        "allOf": [
+          {
+            "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "resourceDefinition": {
+                "type": "string",
+                "format": "uri",
+                "const": "http://smart.who.int/base/StructureDefinition/KGBpmnDefinitions"
+              },
+              "fhir:parent": {
+                "type": "string",
+                "const": "http://hl7.org/fhir/StructureDefinition/Base"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

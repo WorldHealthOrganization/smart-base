@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.schema.json",
+  "title": "Knowledge graph L2DMN: classes Schema",
+  "description": "JSON Schema for Knowledge graph L2DMN: classes ValueSet codes. Generated from FHIR expansions using IRI format.",
+  "type": "string",
+  "enum": [
+    "http://smart.who.int/base/CodeSystem/KGL2DMNClasses#dmn-definitions",
+    "http://smart.who.int/base/CodeSystem/KGL2DMNClasses#dmn-decision",
+    "http://smart.who.int/base/CodeSystem/KGL2DMNClasses#dmn-decision-table",
+    "http://smart.who.int/base/CodeSystem/KGL2DMNClasses#dmn-input-clause",
+    "http://smart.who.int/base/CodeSystem/KGL2DMNClasses#dmn-output-clause",
+    "http://smart.who.int/base/CodeSystem/KGL2DMNClasses#dmn-rule"
+  ],
+  "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L2DMN: classes ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+  "fhir:displays": "http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.displays.json",
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGL2DMNClassesVS",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-11-23T18:46:48.942565"
+}

@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>Authoring Skills - SMART Base v0.3.0</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link href="fhir.css" rel="stylesheet"/>
+    <link href="assets/css/fa-all.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+
+    <!-- Project extras -->
+    <link href="assets/css/project.css" rel="stylesheet"/>
+    <link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+    <link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+  	<link href="assets/css/prism.css" rel="stylesheet" />
+    <!-- Placeholder for child template CSS declarations -->
+    <link href="assets/css/who.css" rel="stylesheet"/>
+    <link href="assets/css/lforms.min.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript" src="fhir-table-scripts.js"> </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="fhir-logo" sizes="144x144" href="assets/ico/icon-fhir-144.png"/>
+    <link rel="fhir-logo" sizes="114x114" href="assets/ico/icon-fhir-114.png"/>
+    <link rel="fhir-logo" sizes="72x72" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script src="assets/js/prism.js"></script>
+
+    <style type="text/css">h2{--heading-prefix:"4"}
+    h3,h4,h5,h6{--heading-prefix:"4"}</style>
+    <div id="segment-header" class="segment">  <!-- segment-header -->
+
+      <div id="segment-navbar" class="segment">  <!-- segment-navbar -->
+        <div id="stripe"> </div>
+        <div class="container">  <!-- container -->
+          <!-- HEADER CONTENT -->
+  
+          <nav class="navbar navbar-inverse">
+            <!--status-bar-->
+            <div class="container">
+              <button data-target=".navbar-inverse-collapse" class="navbar-toggle" data-toggle="collapse" type="button">
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+              </button>
+              <a class="navbar-brand hidden" href="http://hl7.org/fhir/R4/index.html">FHIR</a>
+              <div class="nav-collapse collapse navbar-inverse-collapse">
+                <!-- menu.xml  -->
+
+<ul xmlns="http://www.w3.org/1999/xhtml" class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="index.html" class="dropdown-toggle">Authoring
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="authoring-process.html">Process</a>
+      </li>
+      <li>
+        <a href="authoring-personas.html">Personas</a>
+      </li>
+      <li>
+        <a href="authoring-skills.html">Skills</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="index.html" class="dropdown-toggle">Indices
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="artifacts.html">Artifact Index</a>
+      </li>
+      <li>
+        <a href="dak-api.html">DAK API</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+              </div>  <!-- /.nav-collapse -->
+
+              <div class="sf_colsIn col-md-8  navbar-right-container" data-sf-element="LanguageSelectorSearch" data-placeholder-label="Language Selector and Search" style="display: flex; justify-content: flex-end; align-items: center;">
+                <!-- This div will be pushed to the right -->
+                <div class="language-selector" style="margin-left: auto; background-color: #00477d; color: white;">
+                  <i class="fa fa-language fa-lg"></i>
+                  <label for="language-selector"> </label>
+                  <select onChange="openLink(value)" id="language-selector" name="language-selector">
+                    <option disabled selected>Select language</option>
+                    <option value="en" class="selected">English</option>
+                  </select>
+                  <i class="fas fa-angle-down"></i>
+                </div>
+                <!-- Search Content -->
+              </div>
+            </div>  <!-- /.container -->
+          </nav>  <!-- /.navbar -->
+        <!-- /HEADER CONTENT -->
+        </div>  <!-- /container -->
+      </div>  <!-- /segment-navbar -->
+      
+
+      <div class="container" style=" justify-content: space-between; align-items: left;">
+
+        <!-- Placeholder for child template header declarations -->
+<div id="project-nav">
+    <a id="who-logo" no-external="true" href="index.html">
+        
+    </a>
+</div>
+
+ <div id="family-nav">
+  <a id="fhir-logo" no-external="true" href="http://hl7.org/fhir">  </a>
+</div> 
+
+
+        <div id="ig-status" class="ig-status-draft">
+          <p><span style="font-size:12pt;font-weight:bold">SMART Base</span>
+            <br/>
+            <span style="display:inline-block;">0.3.0 - ci-build
+
+
+            </span>
+          </p>
+        </div>
+      </div> <!-- /container -->
+    </div>  <!-- /segment-header -->
+
+
+    <!--status-bar-->
+
+    <div id="segment-breadcrumb" class="segment">  <!-- segment-breadcrumb -->
+      <div class="container">  <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href='toc.html'><b>Table of Contents</b></a></li><li><b>Authoring Skills</b></li>
+
+        </ul>
+      </div>  <!-- /container -->
+    </div>  <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">  <!-- segment-content -->
+      <div class="container">  <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12">
+  <!--ReleaseHeader--><p id="publish-box">SMART Base, published by WHO. This guide is not an authorized publication; it is the continuous build for version 0.3.0  built by the FHIR (HL7&reg; FHIR&reg; Standard) CI Build. This version is based on the current content of <a href='https://github.com/WorldHealthOrganization/smart-base/tree/claude/reconcile-litlfred-2026-11-19'>https://github.com/WorldHealthOrganization/smart-base/tree/claude/reconcile-litlfred-2026-11-19</a> and changes regularly. See the <a href='history.html'>Directory of published versions</a><br/><span data-smart-ci-extra="1" style="font-size:.85em;">Built from commit <a href="https://github.com/WorldHealthOrganization/smart-base/commit/9612d5ddc5a38fb45dd65bb9848d825c5323e474"><code>9612d5dd</code></a>. &nbsp; Branch: <a href="https://github.com/WorldHealthOrganization/smart-base/tree/claude/reconcile-litlfred-2026-11-19"><code>claude/reconcile-litlfred-2026-11-19</code></a>.</span></p><!--EndReleaseHeader-->
+  <h2>Authoring Skills</h2>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+    <p><!-- white space is critical inside of capture --></p>
+<div>
+<!-- do not remove - needed to prevent Jekyll from adding a p tag to any non block level element in the markdown.-->
+</div>
+<h3 id="authoring-skills">Authoring Skills</h3>
+
+<p>Each authoring skill is modeled as a <a href="https://hl7.org/fhir/R5/requirements.html">FHIR Requirements</a> resource conforming to the <a href="StructureDefinition-SGRequirements.html">SGRequirements</a> profile. Each skill states a capability (e.g. "Can review terminology") and contains checklist statements that define the criteria for demonstrating that capability.</p>
+
+<p>Skills are organized by domain and assigned to <a href="authoring-personas.html">authoring personas</a> to define each persona's skill package.</p>
+
+<h4 id="skill-inventory">Skill Inventory</h4>
+
+<h5 id="content-review-skills">Content Review Skills</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>Skill</th>
+      <th>Description</th>
+      <th>Personas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ReviewAndApproveContent.html">Can review and approve content</a></td>
+      <td>Review and formally approve content at decision gates</td>
+      <td>Content Reviewer</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="project-management-skills">Project Management Skills</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>Skill</th>
+      <th>Description</th>
+      <th>Personas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ScopeDAK.html">Can scope DAK</a></td>
+      <td>Define DAK scope, source documents, and development process</td>
+      <td>Programme Manager</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ManageStakeholders.html">Can manage stakeholders</a></td>
+      <td>Engage SMEs, coordinate consultations, manage RASCI</td>
+      <td>Programme Manager, Technical Officer</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.PlanIterations.html">Can plan iterations</a></td>
+      <td>Plan sprints, maintain backlog, facilitate retrospectives</td>
+      <td>Programme Manager</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="l1-review-skills">L1 Review Skills</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>Skill</th>
+      <th>Description</th>
+      <th>Personas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ReviewL1Guidelines.html">Can review L1 guidelines</a></td>
+      <td>Review WHO L1 guidelines for accuracy and completeness</td>
+      <td>Technical Officer, Clinical SME, Business Analyst, QC Reviewer</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.InterpretClinicalRecommendations.html">Can interpret clinical recommendations</a></td>
+      <td>Interpret clinical recommendations with domain expertise</td>
+      <td>Clinical SME, Technical Officer</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="l2-dak-authoring-skills">L2 DAK Authoring Skills</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>Skill</th>
+      <th>Description</th>
+      <th>Personas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorPersonas.html">Can author personas</a></td>
+      <td>Define generic personas from guidelines and ground-truthing</td>
+      <td>Business Analyst, Clinical SME</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorUserScenarios.html">Can author user scenarios</a></td>
+      <td>Create user scenario narratives</td>
+      <td>Business Analyst</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorBusinessProcesses.html">Can author business processes</a></td>
+      <td>Create BPMN 2.0 business process diagrams</td>
+      <td>Business Analyst</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorDataDictionary.html">Can author data dictionary</a></td>
+      <td>Define core data elements with terminology mappings</td>
+      <td>Business Analyst</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorDecisionLogic.html">Can author decision-support logic</a></td>
+      <td>Develop DMN decision-support logic tables</td>
+      <td>Business Analyst</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorSchedulingLogic.html">Can author scheduling logic</a></td>
+      <td>Develop DMN scheduling logic tables</td>
+      <td>Business Analyst</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorIndicators.html">Can author indicators</a></td>
+      <td>Define indicators with numerator/denominator</td>
+      <td>Business Analyst</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorFunctionalRequirements.html">Can author functional requirements</a></td>
+      <td>Define functional and non-functional requirements</td>
+      <td>Business Analyst</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ValidateDAKContent.html">Can validate DAK content</a></td>
+      <td>Review DAK for L1 accuracy and cross-component consistency</td>
+      <td>Technical Officer, Clinical SME, Business Analyst, QC Reviewer</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="l3-fhir-authoring-skills">L3 FHIR Authoring Skills</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>Skill</th>
+      <th>Description</th>
+      <th>Personas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorLogicalModels.html">Can author logical models</a></td>
+      <td>Create FHIR logical models from L2 data dictionaries</td>
+      <td>FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorFHIRProfiles.html">Can author FHIR profiles</a></td>
+      <td>Create FHIR profiles constraining base resources</td>
+      <td>FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorQuestionnaires.html">Can author questionnaires</a></td>
+      <td>Create FHIR Questionnaire resources</td>
+      <td>FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorCQL.html">Can author CQL</a></td>
+      <td>Write CQL for decision logic, scheduling, and indicators</td>
+      <td>FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorStructureMaps.html">Can author structure maps</a></td>
+      <td>Create FHIR StructureMaps for data extraction</td>
+      <td>FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorPlanDefinitions.html">Can author plan definitions</a></td>
+      <td>Create PlanDefinitions for processes and decision tables</td>
+      <td>FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorActorDefinitions.html">Can author actor definitions</a></td>
+      <td>Create ActorDefinitions, reusing Commons repository</td>
+      <td>FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorExampleScenarios.html">Can author example scenarios</a></td>
+      <td>Create ExampleScenario resources</td>
+      <td>FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorMeasures.html">Can author measures</a></td>
+      <td>Create FHIR Measure resources from L2 indicators</td>
+      <td>FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorFHIRRequirements.html">Can author FHIR requirements</a></td>
+      <td>Create FHIR Requirements resources</td>
+      <td>FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorTestCases.html">Can author test cases</a></td>
+      <td>Create TestPlan, TestScript, and example instances</td>
+      <td>FHIR Modeller</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="terminology-skills">Terminology Skills</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>Skill</th>
+      <th>Description</th>
+      <th>Personas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ReviewTerminology.html">Can review terminology</a></td>
+      <td>Review terminology bindings, code systems, and value sets</td>
+      <td>Terminologist, QC Reviewer</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.MapConcepts.html">Can map concepts</a></td>
+      <td>Map to WHO Commons, ICD-11, SNOMED CT, LOINC</td>
+      <td>Terminologist</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorCodeSystems.html">Can author code systems</a></td>
+      <td>Create and maintain FHIR CodeSystem resources</td>
+      <td>Terminologist, FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorValueSets.html">Can author value sets</a></td>
+      <td>Create and maintain FHIR ValueSet resources</td>
+      <td>Terminologist, FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.AuthorConceptMaps.html">Can author concept maps</a></td>
+      <td>Create FHIR ConceptMap resources</td>
+      <td>Terminologist, FHIR Modeller</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="quality-control-skills">Quality Control Skills</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>Skill</th>
+      <th>Description</th>
+      <th>Personas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.RunQAChecks.html">Can run QA checks</a></td>
+      <td>Run and interpret IG Publisher QA reports</td>
+      <td>QC Reviewer, FHIR Modeller, Publication Manager, Terminologist</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ReviewChecklist.html">Can review checklist</a></td>
+      <td>Review publication checklist across L1-L4</td>
+      <td>QC Reviewer, Publication Manager</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ValidateArtifactConformance.html">Can validate artifact conformance</a></td>
+      <td>Verify CRMI profile conformance</td>
+      <td>QC Reviewer</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ValidateL3Functionality.html">Can validate L3 functionality</a></td>
+      <td>Test StructureMaps, CQL, and Measures</td>
+      <td>QC Reviewer</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="publication-skills">Publication Skills</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>Skill</th>
+      <th>Description</th>
+      <th>Personas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ConfigureIG.html">Can configure IG</a></td>
+      <td>Set up IG repository and sushi-config</td>
+      <td>Publication Manager, FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.BuildIG.html">Can build IG</a></td>
+      <td>Run IG Publisher build process</td>
+      <td>Publication Manager, FHIR Modeller</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ManageReleases.html">Can manage releases</a></td>
+      <td>Manage versioning, tags, and publication workflow</td>
+      <td>Publication Manager</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ManageGovernance.html">Can manage governance</a></td>
+      <td>Manage cross-IG shared artifacts and governance</td>
+      <td>Publication Manager, Terminologist</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="translation-skills">Translation Skills</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>Skill</th>
+      <th>Description</th>
+      <th>Personas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.TranslateContent.html">Can translate content</a></td>
+      <td>Translate IG content across UN languages</td>
+      <td>Translator</td>
+    </tr>
+    <tr>
+      <td><a href="Requirements-SGAuthoring.Skills.ReviewTranslations.html">Can review translations</a></td>
+      <td>Review translated content for accuracy</td>
+      <td>Translator, QC Reviewer</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="persona-skill-packages">Persona Skill Packages</h4>
+
+<p>Each persona has a defined package of skills. The full set of skills for each persona is available on the persona's Requirements resource page:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Persona</th>
+      <th style="text-align: center">Skill Count</th>
+      <th>Key Domains</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Programme Manager</td>
+      <td style="text-align: center">3</td>
+      <td>Project Management</td>
+    </tr>
+    <tr>
+      <td>Technical Officer</td>
+      <td style="text-align: center">4</td>
+      <td>L1 Review, Stakeholder Management, DAK Validation</td>
+    </tr>
+    <tr>
+      <td>Clinical SME</td>
+      <td style="text-align: center">4</td>
+      <td>L1 Review, Clinical Interpretation, DAK Validation</td>
+    </tr>
+    <tr>
+      <td>Business Analyst</td>
+      <td style="text-align: center">11</td>
+      <td>L2 DAK Authoring (all 9 components), L1 Review</td>
+    </tr>
+    <tr>
+      <td>FHIR Modeller</td>
+      <td style="text-align: center">17</td>
+      <td>L3 FHIR Authoring, Terminology, QA, IG Build</td>
+    </tr>
+    <tr>
+      <td>Terminologist</td>
+      <td style="text-align: center">7</td>
+      <td>Terminology Management, Governance</td>
+    </tr>
+    <tr>
+      <td>QC Reviewer</td>
+      <td style="text-align: center">7</td>
+      <td>QA, Checklists, Conformance, Functionality Testing</td>
+    </tr>
+    <tr>
+      <td>Content Reviewer</td>
+      <td style="text-align: center">1</td>
+      <td>Content Approval at decision gates</td>
+    </tr>
+    <tr>
+      <td>Publication Manager</td>
+      <td style="text-align: center">6</td>
+      <td>IG Configuration, Build, Release, Governance</td>
+    </tr>
+    <tr>
+      <td>Translator</td>
+      <td style="text-align: center">2</td>
+      <td>Translation, Review</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="bpmn-swimlane-validation">BPMN Swimlane Validation</h4>
+
+<p>As part of the BPMN authoring and review process, every innermost swimlane in a BPMN diagram <strong>SHALL</strong> correspond to an ActorDefinition resource. A lane names its ActorDefinition by id: its <code class="language-plaintext highlighter-rouge">partitionElementRef</code> (a top-level <code class="language-plaintext highlighter-rouge">&lt;bpmn:resource&gt;</code> whose <code class="language-plaintext highlighter-rouge">id</code> is the ActorDefinition's FSH <code class="language-plaintext highlighter-rouge">Instance:</code> id), or else its own <code class="language-plaintext highlighter-rouge">id</code>. A lane is never matched by its display name or by a file name. The <a href="https://litlfred.github.io/folio-assistant/smart-base/L2-bpmn/tools/"><code class="language-plaintext highlighter-rouge">bpmn-validate</code></a> tool in the smart-base knowledge graph checks this, together with the diagram's structure and the absence of Camunda or Zeebe extensions, on every pull request that changes a <code class="language-plaintext highlighter-rouge">.bpmn</code>.</p>
+
+<p>When a swimlane has no matching ActorDefinition, the author must resolve by:</p>
+<ol>
+  <li><strong>Referencing</strong> an ActorDefinition from a dependency IG</li>
+  <li><strong>Creating</strong> a new ActorDefinition in this IG</li>
+  <li><strong>Correcting</strong> the lane's binding (its <code class="language-plaintext highlighter-rouge">partitionElementRef</code> or id)</li>
+</ol>
+
+
+
+
+</div>
+</div>  <!-- /inner-wrapper -->
+</div>  <!-- /row -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-content -->
+
+<script type="text/javascript" src="assets/js/jquery.js"> </script>     <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+<script type="text/javascript" src="assets/js/jquery-ui.min.js"> </script>
+
+<script type="text/javascript" src="assets/js/window-hash.js"> </script>
+<a name="bottom"> </a>
+<div id="segment-footer" igtool="footer" class="segment">  <!-- segment-footer -->
+<div class="container">  <!-- container -->
+
+<div class="inner-wrapper">
+  <p>
+    IG &#169; 2023+ <a style="color:var(--footer-hyperlink-text-color)" href="http://who.int">WHO</a>.  Package smart.who.int.base#0.3.0 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>. Generated <span title="Mon, Nov 23, 2026 18:43+0000">2026-11-23</span>
+    <br/>
+    <span style="color: var(--footer-highlight-text-color)">
+                Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="qa.html">QA Report</a>
+                 
+                
+| <a style="color: #81BEF7" target="_blank" href="history.html">Version History</a> | <a style="color: #81BEF7" rel="license" href="license.html">License</a>
+    </span>
+  </p>
+</div>  <!-- /inner-wrapper -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-footer -->
+
+<div id="segment-post-footer" class="segment hidden">  <!-- segment-post-footer -->
+<div class="container">  <!-- container -->
+</div>  <!-- /container -->
+</div>  <!-- /segment-post-footer -->
+
+<!-- JS and analytics only. -->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="assets/js/bootstrap.min.js"> </script>
+<script type="text/javascript" src="assets/js/respond.min.js"> </script>
+<script type="text/javascript" src="assets/js/anchor.min.js"> </script>
+<script type="text/javascript" src="assets/js/clipboard.min.js"> </script>
+<script type="text/javascript" src="assets/js/clipboard-btn.js"> </script>
+<script type="text/javascript" src="assets/js/anchor-hover.js"> </script>
+<!-- Analytics Below
+================================================== -->
+
+
+
+

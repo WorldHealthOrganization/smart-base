@@ -1,0 +1,29 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-KGL1LibraryClassesVS.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-11-23T18:46:49.258389Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1LibraryClassesVS.jsonld#implementation-practice",
+      "name": "Implementation practice",
+      "fhir:code": "implementation-practice",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1LibraryClasses"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1LibraryClassesVS.jsonld#library-node",
+      "name": "Library node",
+      "fhir:code": "library-node",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1LibraryClasses"
+    }
+  ]
+}

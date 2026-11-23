@@ -1,0 +1,65 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-KGTerminologySystemVS.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-11-23T18:46:49.268418Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGTerminologySystemVS.jsonld#SMART",
+      "name": "SMART",
+      "fhir:code": "SMART",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGTerminologySystem"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGTerminologySystemVS.jsonld#ICD-11",
+      "name": "ICD 11",
+      "fhir:code": "ICD-11",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGTerminologySystem"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGTerminologySystemVS.jsonld#ICF",
+      "name": "ICF",
+      "fhir:code": "ICF",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGTerminologySystem"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGTerminologySystemVS.jsonld#ICHI",
+      "name": "ICHI",
+      "fhir:code": "ICHI",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGTerminologySystem"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGTerminologySystemVS.jsonld#SNOMED-GPS",
+      "name": "SNOMED GPS",
+      "fhir:code": "SNOMED-GPS",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGTerminologySystem"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGTerminologySystemVS.jsonld#ATC",
+      "name": "ATC",
+      "fhir:code": "ATC",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGTerminologySystem"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGTerminologySystemVS.jsonld#UHC",
+      "name": "UHC",
+      "fhir:code": "UHC",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGTerminologySystem"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGTerminologySystemVS.jsonld#CDHI",
+      "name": "CDHI",
+      "fhir:code": "CDHI",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGTerminologySystem"
+    }
+  ]
+}

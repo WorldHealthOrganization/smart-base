@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-KGL1PredicatesVS.displays.json",
+  "title": "Knowledge graph L1: predicates Display Values",
+  "description": "Display values for Knowledge graph L1: predicates ValueSet codes. Generated from FHIR expansions.",
+  "type": "object",
+  "properties": {
+    "fhir:displays": {
+      "type": "object",
+      "description": "Multilingual display values for ValueSet codes using IRI format to match JSON schema enum values",
+      "patternProperties": {
+        "^https?://.*": {
+          "type": "object",
+          "description": "Display values for a specific IRI-formatted code by language",
+          "properties": {
+            "en": {
+              "type": "string",
+              "description": "English display value"
+            }
+          },
+          "patternProperties": {
+            "^[a-z]{2}(-[A-Z]{2})?$": {
+              "type": "string",
+              "description": "Display value in the specified language (ISO 639-1 code)"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "fhir:displays"
+  ],
+  "additionalProperties": true,
+  "fhir:displays": {
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#contains": {
+      "en": "contains"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#hasSupplement": {
+      "en": "hasSupplement"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#supersedes": {
+      "en": "supersedes"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#refines": {
+      "en": "refines"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#partOf": {
+      "en": "partOf"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#definedIn": {
+      "en": "definedIn"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#presentedIn": {
+      "en": "presentedIn"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#answers": {
+      "en": "answers"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#addresses": {
+      "en": "addresses"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#hasOutcome": {
+      "en": "hasOutcome"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#forOutcome": {
+      "en": "forOutcome"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#aboutIntervention": {
+      "en": "aboutIntervention"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#supportedBy": {
+      "en": "supportedBy"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#hasRemark": {
+      "en": "hasRemark"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#recommends": {
+      "en": "recommends"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#measures": {
+      "en": "measures"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#justifiedBy": {
+      "en": "justifiedBy"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#crossReferences": {
+      "en": "crossReferences"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#classifiedAs": {
+      "en": "classifiedAs"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#numberedAs": {
+      "en": "numberedAs"
+    },
+    "http://smart.who.int/base/CodeSystem/KGL1Predicates#resolvesTo": {
+      "en": "resolvesTo"
+    }
+  },
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGL1PredicatesVS",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-11-23T18:46:48.940975"
+}

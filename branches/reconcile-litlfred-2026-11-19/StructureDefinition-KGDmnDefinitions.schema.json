@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-KGDmnDefinitions.schema.json",
+  "title": "Knowledge graph L2-DMN: DMN File",
+  "description": "One DMN file as a unit -- the `dmn:definitions` root. Shares its IRI with the l1:external-artifact for the same file, so the l2:decision-support-logic component that points at it and this subgraph name one resource. Class IRI: http://smart.who.int/kg/dmn-definitions.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "KGDmnDefinitions",
+      "description": "Resource type identifier for KGDmnDefinitions logical model"
+    },
+    "id": {
+      "type": "string",
+      "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+    },
+    "namespace": {
+      "type": "string",
+      "format": "uri",
+      "description": "The DMN definitions' namespace."
+    },
+    "label": {
+      "type": "string",
+      "description": "The label, as declared."
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the node was read from: a repository path or URL."
+    },
+    "sha256": {
+      "type": "string",
+      "description": "Hash of the file the node was read from; pins the source."
+    }
+  },
+  "required": [
+    "resourceType"
+  ],
+  "allOf": [
+    {
+      "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "resourceDefinition": {
+          "type": "string",
+          "format": "uri",
+          "const": "http://smart.who.int/base/StructureDefinition/KGDmnDefinitions"
+        },
+        "fhir:parent": {
+          "type": "string",
+          "const": "http://hl7.org/fhir/StructureDefinition/Base"
+        }
+      }
+    }
+  ]
+}

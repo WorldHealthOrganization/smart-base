@@ -1,0 +1,50 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Knowledge graph L1: evidence type Schema API",
+    "description": "JSON Schema for Knowledge graph L1: evidence type ValueSet codes. Generated from FHIR expansions using IRI format.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSet-KGEvidenceTypeVS.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the enumeration ValueSet-KGEvidenceTypeVS",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSet-KGEvidenceTypeVS.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for ValueSet-KGEvidenceTypeVS",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./ValueSet-KGEvidenceTypeVS.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValueSet-KGEvidenceTypeVS": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/ValueSet-KGEvidenceTypeVS.schema.json",
+        "title": "Knowledge graph L1: evidence type Schema",
+        "description": "JSON Schema for Knowledge graph L1: evidence type ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "type": "string",
+        "enum": [
+          "http://smart.who.int/base/CodeSystem/KGEvidenceType#effect",
+          "http://smart.who.int/base/CodeSystem/KGEvidenceType#qualitative",
+          "http://smart.who.int/base/CodeSystem/KGEvidenceType#resource-use",
+          "http://smart.who.int/base/CodeSystem/KGEvidenceType#other"
+        ],
+        "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L1: evidence type ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGEvidenceTypeVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+        "fhir:displays": "http://smart.who.int/base/ValueSet-KGEvidenceTypeVS.displays.json",
+        "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGEvidenceTypeVS",
+        "fhir:version": "0.3.0",
+        "fhir:expansionTimestamp": "2026-11-23T18:46:48.935177"
+      }
+    }
+  }
+}

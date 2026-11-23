@@ -1,0 +1,95 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-11-23T18:46:49.275255Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#publication",
+      "name": "Publication",
+      "fhir:code": "publication",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#publication-section",
+      "name": "Publication section",
+      "fhir:code": "publication-section",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#publication-element",
+      "name": "Publication element",
+      "fhir:code": "publication-element",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#recommendation",
+      "name": "Recommendation",
+      "fhir:code": "recommendation",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#remark",
+      "name": "Remark",
+      "fhir:code": "remark",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#key-question",
+      "name": "Key question",
+      "fhir:code": "key-question",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#outcome",
+      "name": "Outcome",
+      "fhir:code": "outcome",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#evidence",
+      "name": "Evidence",
+      "fhir:code": "evidence",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#health-intervention",
+      "name": "Health intervention",
+      "fhir:code": "health-intervention",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#indicator",
+      "name": "Indicator",
+      "fhir:code": "indicator",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#citation",
+      "name": "Citation",
+      "fhir:code": "citation",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#reference-entry",
+      "name": "Reference entry",
+      "fhir:code": "reference-entry",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL1ClassesVS.jsonld#terminology-code",
+      "name": "Terminology code",
+      "fhir:code": "terminology-code",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL1Classes"
+    }
+  ]
+}

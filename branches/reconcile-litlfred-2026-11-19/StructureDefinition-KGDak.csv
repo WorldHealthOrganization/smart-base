@@ -1,0 +1,29 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGDak","KGDak","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L2: Digital Adaptation Kit","The kit itself. Properties are exactly the metadata fields DAK.fsh declares and dak.json carries -- no more, so that a dak node can be produced from a real file without anything being invented. canonicalUrl equals publicationUrl on a release branch and previewUrl on a development branch, per DAK.fsh. Both are kept because which one canonicalUrl currently equals is what says whether a graph describes a release or a build. Class IRI: http://smart.who.int/kg/dak.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGDak.id","KGDak.id","","","",0,1,"","","","string {[]} {[]}
+","Id","The identifier the source declares (an FSH instance id, a BPMN or DMN element id).","","","","","","","","","",,,,,"",,,,"KGDak.id",0,1,"",""
+"KGDak.name","KGDak.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The computable name: the CamelCase identifier a Canonical() reference matches on.","","","","","","","","","",,,,,"",,,,"KGDak.name",0,1,"",""
+"KGDak.title","KGDak.title","","","",0,1,"","","","string {[]} {[]}
+","Title","The human-readable title.","","","","","","","","","",,,,,"",,,,"KGDak.title",0,1,"",""
+"KGDak.description","KGDak.description","","","",0,1,"","","","markdown {[]} {[]}
+","Description","A description, as the source gives it.","","","","","","","","","",,,,,"",,,,"KGDak.description",0,1,"",""
+"KGDak.version","KGDak.version","","","",0,1,"","","","string {[]} {[]}
+","Version","The business version, as declared.","","","","","","","","","",,,,,"",,,,"KGDak.version",0,1,"",""
+"KGDak.status","KGDak.status","","","",0,1,"","","","code {[]} {[]}
+","Status","The DAK's publication status (DAK.fsh, FHIR PublicationStatus).","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGPublicationStatusVS","",,,,"KGDak.status",0,1,"",""
+"KGDak.publicationUrl","KGDak.publicationUrl","","","",0,1,"","","","uri {[]} {[]}
+","Publication URL","Where the DAK is published (DAK.fsh).","","","","","","","","","",,,,,"",,,,"KGDak.publicationUrl",0,1,"",""
+"KGDak.previewUrl","KGDak.previewUrl","","","",0,1,"","","","uri {[]} {[]}
+","Preview URL","Where the development build is previewed (DAK.fsh).","","","","","","","","","",,,,,"",,,,"KGDak.previewUrl",0,1,"",""
+"KGDak.canonicalUrl","KGDak.canonicalUrl","","","",0,1,"","","","uri {[]} {[]}
+","Canonical URL","The canonical base; equals publicationUrl on a release branch and previewUrl on a development branch.","","","","","","","","","",,,,,"",,,,"KGDak.canonicalUrl",0,1,"",""
+"KGDak.license","KGDak.license","","","",0,1,"","","","string {[]} {[]}
+","License","The licence, as DAK.fsh declares it (an SPDX code).","","","","","","","","","",,,,,"",,,,"KGDak.license",0,1,"",""
+"KGDak.copyrightYear","KGDak.copyrightYear","","","",0,1,"","","","string {[]} {[]}
+","Copyright year","The copyright year or range, as declared.","","","","","","","","","",,,,,"",,,,"KGDak.copyrightYear",0,1,"",""
+"KGDak.publisherName","KGDak.publisherName","","","",0,1,"","","","string {[]} {[]}
+","Publisher name","The publisher's name.","","","","","","","","","",,,,,"",,,,"KGDak.publisherName",0,1,"",""
+"KGDak.publisherUrl","KGDak.publisherUrl","","","",0,1,"","","","uri {[]} {[]}
+","Publisher URL","The publisher's web address.","","","","","","","","","",,,,,"",,,,"KGDak.publisherUrl",0,1,"",""

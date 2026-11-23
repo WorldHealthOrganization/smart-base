@@ -1,0 +1,56 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Knowledge graph L1: intervention type Schema API",
+    "description": "JSON Schema for Knowledge graph L1: intervention type ValueSet codes. Generated from FHIR expansions using IRI format.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSet-KGInterventionTypeVS.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the enumeration ValueSet-KGInterventionTypeVS",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSet-KGInterventionTypeVS.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for ValueSet-KGInterventionTypeVS",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./ValueSet-KGInterventionTypeVS.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValueSet-KGInterventionTypeVS": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/ValueSet-KGInterventionTypeVS.schema.json",
+        "title": "Knowledge graph L1: intervention type Schema",
+        "description": "JSON Schema for Knowledge graph L1: intervention type ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "type": "string",
+        "enum": [
+          "http://smart.who.int/base/CodeSystem/KGInterventionType#medicine",
+          "http://smart.who.int/base/CodeSystem/KGInterventionType#vaccine",
+          "http://smart.who.int/base/CodeSystem/KGInterventionType#diagnostic",
+          "http://smart.who.int/base/CodeSystem/KGInterventionType#procedure",
+          "http://smart.who.int/base/CodeSystem/KGInterventionType#device-product",
+          "http://smart.who.int/base/CodeSystem/KGInterventionType#behavioural",
+          "http://smart.who.int/base/CodeSystem/KGInterventionType#public-health",
+          "http://smart.who.int/base/CodeSystem/KGInterventionType#health-system",
+          "http://smart.who.int/base/CodeSystem/KGInterventionType#health-information",
+          "http://smart.who.int/base/CodeSystem/KGInterventionType#digital"
+        ],
+        "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L1: intervention type ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGInterventionTypeVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+        "fhir:displays": "http://smart.who.int/base/ValueSet-KGInterventionTypeVS.displays.json",
+        "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGInterventionTypeVS",
+        "fhir:version": "0.3.0",
+        "fhir:expansionTimestamp": "2026-11-23T18:46:48.934526"
+      }
+    }
+  }
+}

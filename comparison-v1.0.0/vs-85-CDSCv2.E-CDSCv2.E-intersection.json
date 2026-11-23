@@ -1,0 +1,22 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "dfc82086-d358-4095-837b-b7bf63c2fbdc-180",
+  "url" : "http://hl7.org/fhir/comparison/ValueSet/dfc82086-d358-4095-837b-b7bf63c2fbdc-180",
+  "name" : "IntersectionCDSCv2.EAndCDSCv2.E",
+  "title" : "Intersection of Services and Application Types: Surveillance and Response And Services and Application Types: Surveillance and Response",
+  "status" : "active",
+  "date" : "2026-11-19T07:48:05+00:00",
+  "compose" : {
+    "include" : [{
+      "concept" : [{
+        "code" : "E"
+      },
+      {
+        "code" : "E1"
+      },
+      {
+        "code" : "E2"
+      }]
+    }]
+  }
+}

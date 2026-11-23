@@ -1,0 +1,25 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGStructureMap","KGStructureMap","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L3: Structure Map","A FHIR StructureMap. The SOP requires them in threes -- QuestionnaireResponse to logical model, logical model to resource, and a grouping map -- so a count that is not a multiple of three is worth a look. 16 .fml files in the immunizations IG. Class IRI: http://smart.who.int/kg/structure-map.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGStructureMap.canonical","KGStructureMap.canonical","","","",0,1,"","","","uri {[]} {[]}
+","Canonical","The canonical URL. Only a resolved component carries one.","","","","","","","","","",,,,,"",,,,"KGStructureMap.canonical",0,1,"",""
+"KGStructureMap.resourceType","KGStructureMap.resourceType","","","",0,1,"","","","string {[]} {[]}
+","Resource type","The FHIR resource type.","","","","","","","","","",,,,,"",,,,"KGStructureMap.resourceType",0,1,"",""
+"KGStructureMap.profile","KGStructureMap.profile","","","",0,*,"","","","uri {[]} {[]}
+","Profile","A profile canonical the artefact declares (meta.profile or the requirement's profile).","","","","","","","","","",,,,,"",,,,"KGStructureMap.profile",0,*,"",""
+"KGStructureMap.status","KGStructureMap.status","","","",0,1,"","","","code {[]} {[]}
+","Status","The resource's status (FHIR PublicationStatus).","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGPublicationStatusVS","",,,,"KGStructureMap.status",0,1,"",""
+"KGStructureMap.version","KGStructureMap.version","","","",0,1,"","","","string {[]} {[]}
+","Version","The business version, as declared.","","","","","","","","","",,,,,"",,,,"KGStructureMap.version",0,1,"",""
+"KGStructureMap.title","KGStructureMap.title","","","",0,1,"","","","string {[]} {[]}
+","Title","The human-readable title.","","","","","","","","","",,,,,"",,,,"KGStructureMap.title",0,1,"",""
+"KGStructureMap.name","KGStructureMap.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The computable name: the CamelCase identifier a Canonical() reference matches on.","","","","","","","","","",,,,,"",,,,"KGStructureMap.name",0,1,"",""
+"KGStructureMap.publisher","KGStructureMap.publisher","","","",0,1,"","","","string {[]} {[]}
+","Publisher","The publisher, as declared.","","","","","","","","","",,,,,"",,,,"KGStructureMap.publisher",0,1,"",""
+"KGStructureMap.experimental","KGStructureMap.experimental","","","",0,1,"","","","boolean {[]} {[]}
+","Experimental","The resource's experimental flag.","","","","","","","","","",,,,,"",,,,"KGStructureMap.experimental",0,1,"",""
+"KGStructureMap.source","KGStructureMap.source","","","",0,1,"","","","string {[]} {[]}
+","Source","Where the node was read from: a repository path or URL.","","","","","","","","","",,,,,"",,,,"KGStructureMap.source",0,1,"",""
+"KGStructureMap.sha256","KGStructureMap.sha256","","","",0,1,"","","","string {[]} {[]}
+","SHA-256","Hash of the file the node was read from; pins the source.","","","","","","","","","",,,,,"",,,,"KGStructureMap.sha256",0,1,"",""

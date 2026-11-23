@@ -1,0 +1,11 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGOutcome","KGOutcome","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L1: Outcome","An outcome a guideline group chose to judge a key question by, with its importance in this guideline (handbook §7.6). A node because evidence attaches to it and one list is shared by several questions (ANC Web annex 1). Flat: one node per specific outcome. name as first printed; aliases are the other printed forms (e.g. 'EGWG'); category is the printed group heading (e.g. 'Fetal/newborn morbidity'). Class IRI: http://smart.who.int/kg/outcome.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGOutcome.name","KGOutcome.name","","","",0,1,"","","","string {[]} {[]}
+","Name","The outcome as first printed.","","","","","","","","","",,,,,"",,,,"KGOutcome.name",0,1,"",""
+"KGOutcome.importance","KGOutcome.importance","","","",0,1,"","","","code {[]} {[]}
+","Importance","How the guideline development group rated an outcome on the 1–9 scale: 7–9 critical, 4–6 important.","","","","","","","","","",,"required","","http://smart.who.int/base/ValueSet/KGOutcomeImportanceVS","",,,,"KGOutcome.importance",0,1,"",""
+"KGOutcome.aliases","KGOutcome.aliases","","","",0,*,"","","","string {[]} {[]}
+","Aliases","Other printed forms of the outcome (e.g. 'EGWG').","","","","","","","","","",,,,,"",,,,"KGOutcome.aliases",0,*,"",""
+"KGOutcome.category","KGOutcome.category","","","",0,1,"","","","string {[]} {[]}
+","Category","The printed group heading (e.g. 'Fetal/newborn morbidity').","","","","","","","","","",,,,,"",,,,"KGOutcome.category",0,1,"",""

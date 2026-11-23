@@ -1,0 +1,13 @@
+"Id","Path","Slice Name","Alias(s)","Label","Min","Max","Must Support?","Is Modifier?","Is Summary?","Type(s)","Short","Definition","Comments","Requirements","Default Value","Meaning When Missing","Fixed Value","Pattern","Example","Minimum Value","Maximum Value","Maximum Length","Binding Strength","Binding Description","Binding Value Set","Code","Slicing Discriminator","Slicing Description","Slicing Ordered","Slicing Rules","Base Path","Base Min","Base Max","Condition(s)","Constraint(s)"
+"KGDmnInputClause","KGDmnInputClause","","","",0,*,"","","","null {[]} {[]}
+","Knowledge graph L2-DMN: DMN Input Clause","An input column. Its expression text is where data element names are embedded, which is the only reason this is a node rather than a property of the table. Class IRI: http://smart.who.int/kg/dmn-input-clause.","","","","","","","","","",,,,,"",,,,"Base",0,*,"",""
+"KGDmnInputClause.id","KGDmnInputClause.id","","","",0,1,"","","","string {[]} {[]}
+","Id","The identifier the source declares (an FSH instance id, a BPMN or DMN element id).","","","","","","","","","",,,,,"",,,,"KGDmnInputClause.id",0,1,"",""
+"KGDmnInputClause.label","KGDmnInputClause.label","","","",0,1,"","","","string {[]} {[]}
+","Label","The label, as declared.","","","","","","","","","",,,,,"",,,,"KGDmnInputClause.label",0,1,"",""
+"KGDmnInputClause.expression","KGDmnInputClause.expression","","","",0,1,"","","","string {[]} {[]}
+","Expression","The input expression, in FEEL or the DAK's convention.","","","","","","","","","",,,,,"",,,,"KGDmnInputClause.expression",0,1,"",""
+"KGDmnInputClause.typeRef","KGDmnInputClause.typeRef","","","",0,1,"","","","string {[]} {[]}
+","Type ref","The input's typeRef.","","","","","","","","","",,,,,"",,,,"KGDmnInputClause.typeRef",0,1,"",""
+"KGDmnInputClause.ordinal","KGDmnInputClause.ordinal","","","",0,1,"","","","unsignedInt {[]} {[]}
+","Ordinal","Position, counted from 0, in the order the source lists it.","","","","","","","","","",,,,,"",,,,"KGDmnInputClause.ordinal",0,1,"",""

@@ -1,0 +1,60 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Knowledge graph L3: classes Schema API",
+    "description": "JSON Schema for Knowledge graph L3: classes ValueSet codes. Generated from FHIR expansions using IRI format.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ValueSet-KGL3ClassesVS.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the enumeration ValueSet-KGL3ClassesVS",
+        "description": "This endpoint serves the JSON Schema definition for the enumeration ValueSet-KGL3ClassesVS.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for ValueSet-KGL3ClassesVS",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./ValueSet-KGL3ClassesVS.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValueSet-KGL3ClassesVS": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/ValueSet-KGL3ClassesVS.schema.json",
+        "title": "Knowledge graph L3: classes Schema",
+        "description": "JSON Schema for Knowledge graph L3: classes ValueSet codes. Generated from FHIR expansions using IRI format.",
+        "type": "string",
+        "enum": [
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#plan-definition",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#activity-definition",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#library",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#cql-library",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#measure",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#questionnaire",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#structure-map",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#structure-definition",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#profile",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#value-set",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#code-system",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#concept-map",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#actor-definition",
+          "http://smart.who.int/base/CodeSystem/KGL3Classes#requirements"
+        ],
+        "narrative": "This schema validates IRI-formatted codes for the Knowledge graph L3: classes ValueSet. Each enum value includes the system URI in the format {systemuri}#{code} to match JSON-LD enumeration IRIs. Display values are available at http://smart.who.int/base/ValueSet-KGL3ClassesVS.displays.json. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+        "fhir:displays": "http://smart.who.int/base/ValueSet-KGL3ClassesVS.displays.json",
+        "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGL3ClassesVS",
+        "fhir:version": "0.3.0",
+        "fhir:expansionTimestamp": "2026-11-23T18:46:48.944690"
+      }
+    }
+  }
+}

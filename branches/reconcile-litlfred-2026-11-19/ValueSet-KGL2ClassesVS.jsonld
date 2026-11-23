@@ -1,0 +1,101 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "name": "http://www.w3.org/2000/01/rdf-schema#label",
+    "fhir": "https://smart.who.int/base/DataTypes.jsonld#",
+    "id": "@id",
+    "generatedAt": {
+      "@id": "http://www.w3.org/ns/prov#generatedAtTime",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  },
+  "@id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld",
+  "@type": "http://www.w3.org/ns/prov#Entity",
+  "generatedAt": "2026-11-23T18:46:49.271750Z",
+  "@graph": [
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#dak",
+      "name": "Digital Adaptation Kit",
+      "fhir:code": "dak",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#persona",
+      "name": "Generic Persona",
+      "fhir:code": "persona",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#user-scenario",
+      "name": "User Scenario",
+      "fhir:code": "user-scenario",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#business-process",
+      "name": "Business Process Workflow",
+      "fhir:code": "business-process",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#dak-task",
+      "name": "Task Entry",
+      "fhir:code": "dak-task",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#data-element",
+      "name": "Core Data Element",
+      "fhir:code": "data-element",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#decision-support-logic",
+      "name": "Decision-Support Logic",
+      "fhir:code": "decision-support-logic",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#scheduling-logic",
+      "name": "Scheduling Logic",
+      "fhir:code": "scheduling-logic",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#program-indicator",
+      "name": "Program Indicator",
+      "fhir:code": "program-indicator",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#functional-requirement",
+      "name": "Functional Requirement",
+      "fhir:code": "functional-requirement",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#non-functional-requirement",
+      "name": "Non-Functional Requirement",
+      "fhir:code": "non-functional-requirement",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#requirement-statement",
+      "name": "Requirement Statement",
+      "fhir:code": "requirement-statement",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#test-scenario",
+      "name": "Test Scenario",
+      "fhir:code": "test-scenario",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    },
+    {
+      "id": "http://smart.who.int/base/ValueSet-KGL2ClassesVS.jsonld#external-artifact",
+      "name": "External artefact",
+      "fhir:code": "external-artifact",
+      "fhir:CodeSystem": "http://smart.who.int/base/CodeSystem-KGL2Classes"
+    }
+  ]
+}

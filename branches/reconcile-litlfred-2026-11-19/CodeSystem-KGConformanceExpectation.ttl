@@ -1,0 +1,64 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGConformanceExpectation> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "KGConformanceExpectation"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem KGConformanceExpectation</b></p><a name=\"KGConformanceExpectation\"> </a><a name=\"hcKGConformanceExpectation\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGConformanceExpectation</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">SHALL<a name=\"KGConformanceExpectation-SHALL\"> </a></td><td>SHALL</td><td>Support for the specified capability is required to be considered conformant.</td></tr><tr><td style=\"white-space:nowrap\">SHOULD<a name=\"KGConformanceExpectation-SHOULD\"> </a></td><td>SHOULD</td><td>Support for the specified capability is strongly encouraged.</td></tr><tr><td style=\"white-space:nowrap\">MAY<a name=\"KGConformanceExpectation-MAY\"> </a></td><td>MAY</td><td>Support for the specified capability is not necessary to be considered conformant.</td></tr><tr><td style=\"white-space:nowrap\">SHOULD-NOT<a name=\"KGConformanceExpectation-SHOULD-NOT\"> </a></td><td>SHOULD NOT</td><td>Support for the specified capability is strongly discouraged.</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem KGConformanceExpectation</b></p><a name=\"fr-KGConformanceExpectation\"> </a><a name=\"fr-hcKGConformanceExpectation\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGConformanceExpectation</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style=\"white-space:nowrap\">SHALL<a name=\"fr-KGConformanceExpectation-SHALL\"> </a></td><td>SHALL</td><td>Support for the specified capability is required to be considered conformant.</td></tr><tr><td style=\"white-space:nowrap\">SHOULD<a name=\"fr-KGConformanceExpectation-SHOULD\"> </a></td><td>SHOULD</td><td>Support for the specified capability is strongly encouraged.</td></tr><tr><td style=\"white-space:nowrap\">MAY<a name=\"fr-KGConformanceExpectation-MAY\"> </a></td><td>MAY</td><td>Support for the specified capability is not necessary to be considered conformant.</td></tr><tr><td style=\"white-space:nowrap\">SHOULD-NOT<a name=\"fr-KGConformanceExpectation-SHOULD-NOT\"> </a></td><td>SHOULD NOT</td><td>Support for the specified capability is strongly discouraged.</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem KGConformanceExpectation</b></p><a name=\"ar-KGConformanceExpectation\"> </a><a name=\"ar-hcKGConformanceExpectation\"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/KGConformanceExpectation</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style=\"white-space:nowrap\">SHALL<a name=\"ar-KGConformanceExpectation-SHALL\"> </a></td><td>SHALL</td><td>Support for the specified capability is required to be considered conformant.</td></tr><tr><td style=\"white-space:nowrap\">SHOULD<a name=\"ar-KGConformanceExpectation-SHOULD\"> </a></td><td>SHOULD</td><td>Support for the specified capability is strongly encouraged.</td></tr><tr><td style=\"white-space:nowrap\">MAY<a name=\"ar-KGConformanceExpectation-MAY\"> </a></td><td>MAY</td><td>Support for the specified capability is not necessary to be considered conformant.</td></tr><tr><td style=\"white-space:nowrap\">SHOULD-NOT<a name=\"ar-KGConformanceExpectation-SHOULD-NOT\"> </a></td><td>SHOULD NOT</td><td>Support for the specified capability is strongly discouraged.</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 KGConformanceExpectation</b></p><a name=\"zh-KGConformanceExpectation\"> </a><a name=\"zh-hcKGConformanceExpectation\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGConformanceExpectation</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">SHALL<a name=\"zh-KGConformanceExpectation-SHALL\"> </a></td><td>SHALL</td><td>Support for the specified capability is required to be considered conformant.</td></tr><tr><td style=\"white-space:nowrap\">SHOULD<a name=\"zh-KGConformanceExpectation-SHOULD\"> </a></td><td>SHOULD</td><td>Support for the specified capability is strongly encouraged.</td></tr><tr><td style=\"white-space:nowrap\">MAY<a name=\"zh-KGConformanceExpectation-MAY\"> </a></td><td>MAY</td><td>Support for the specified capability is not necessary to be considered conformant.</td></tr><tr><td style=\"white-space:nowrap\">SHOULD-NOT<a name=\"zh-KGConformanceExpectation-SHOULD-NOT\"> </a></td><td>SHOULD NOT</td><td>Support for the specified capability is strongly discouraged.</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem KGConformanceExpectation</b></p><a name=\"ru-KGConformanceExpectation\"> </a><a name=\"ru-hcKGConformanceExpectation\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/KGConformanceExpectation</code> case-sensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style=\"white-space:nowrap\">SHALL<a name=\"ru-KGConformanceExpectation-SHALL\"> </a></td><td>SHALL</td><td>Support for the specified capability is required to be considered conformant.</td></tr><tr><td style=\"white-space:nowrap\">SHOULD<a name=\"ru-KGConformanceExpectation-SHOULD\"> </a></td><td>SHOULD</td><td>Support for the specified capability is strongly encouraged.</td></tr><tr><td style=\"white-space:nowrap\">MAY<a name=\"ru-KGConformanceExpectation-MAY\"> </a></td><td>MAY</td><td>Support for the specified capability is not necessary to be considered conformant.</td></tr><tr><td style=\"white-space:nowrap\">SHOULD-NOT<a name=\"ru-KGConformanceExpectation-SHOULD-NOT\"> </a></td><td>SHOULD NOT</td><td>Support for the specified capability is strongly discouraged.</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos KGConformanceExpectation</b></p><a name=\"es-KGConformanceExpectation\"> </a><a name=\"es-hcKGConformanceExpectation\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGConformanceExpectation</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">SHALL<a name=\"es-KGConformanceExpectation-SHALL\"> </a></td><td>SHALL</td><td>Support for the specified capability is required to be considered conformant.</td></tr><tr><td style=\"white-space:nowrap\">SHOULD<a name=\"es-KGConformanceExpectation-SHOULD\"> </a></td><td>SHOULD</td><td>Support for the specified capability is strongly encouraged.</td></tr><tr><td style=\"white-space:nowrap\">MAY<a name=\"es-KGConformanceExpectation-MAY\"> </a></td><td>MAY</td><td>Support for the specified capability is not necessary to be considered conformant.</td></tr><tr><td style=\"white-space:nowrap\">SHOULD-NOT<a name=\"es-KGConformanceExpectation-SHOULD-NOT\"> </a></td><td>SHOULD NOT</td><td>Support for the specified capability is strongly discouraged.</td></tr></table></div></div>"
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://smart.who.int/base/CodeSystem/KGConformanceExpectation"] ;
+  fhir:CodeSystem.version [ fhir:value "0.3.0"] ;
+  fhir:CodeSystem.name [ fhir:value "KGConformanceExpectation"] ;
+  fhir:CodeSystem.title [ fhir:value "Knowledge graph L2: conformance expectation"] ;
+  fhir:CodeSystem.status [ fhir:value "active"] ;
+  fhir:CodeSystem.experimental [ fhir:value "false"^^xsd:boolean] ;
+  fhir:CodeSystem.date [ fhir:value "2026-11-23T18:43:32+00:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "WHO"] ;
+  fhir:CodeSystem.contact [
+     fhir:index 0 ;
+     fhir:ContactDetail.name [ fhir:value "WHO" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index 0 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://who.int" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "The conformance verb of a requirement statement. Added by the smart-base migration from smart-kg's propertyNote, which named the four values in prose. Source: smart-kg ontology/l2/l2.json valueSets \"conformance-expectation\"; http://hl7.org/fhir/ValueSet/conformance-expectation."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "4"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index 0 ;
+     fhir:CodeSystem.concept.code [ fhir:value "SHALL" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "SHALL" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Support for the specified capability is required to be considered conformant." ]
+  ], [
+     fhir:index 1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "SHOULD" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "SHOULD" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Support for the specified capability is strongly encouraged." ]
+  ], [
+     fhir:index 2 ;
+     fhir:CodeSystem.concept.code [ fhir:value "MAY" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "MAY" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Support for the specified capability is not necessary to be considered conformant." ]
+  ], [
+     fhir:index 3 ;
+     fhir:CodeSystem.concept.code [ fhir:value "SHOULD-NOT" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "SHOULD NOT" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "Support for the specified capability is strongly discouraged." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGConformanceExpectation.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl .
+
+# -------------------------------------------------------------------------------------
+

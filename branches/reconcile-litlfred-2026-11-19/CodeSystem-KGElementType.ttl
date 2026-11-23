@@ -1,0 +1,89 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGElementType> a fhir:CodeSystem ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:Resource.id [ fhir:value "KGElementType"] ;
+  fhir:DomainResource.text [
+     fhir:Narrative.status [ fhir:value "generated" ] ;
+     fhir:Narrative.div "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div xml:lang=\"en\" lang=\"en\"><hr/><p><b>English</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem KGElementType</b></p><a name=\"KGElementType\"> </a><a name=\"hcKGElementType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGElementType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">table<a name=\"KGElementType-table\"> </a></td><td>Table</td><td>A table, with columns and rows.</td></tr><tr><td style=\"white-space:nowrap\">table-row<a name=\"KGElementType-table-row\"> </a></td><td>Table row</td><td>One row of a table.</td></tr><tr><td style=\"white-space:nowrap\">footnote<a name=\"KGElementType-footnote\"> </a></td><td>Footnote</td><td>A footnote attached to a row or a block.</td></tr><tr><td style=\"white-space:nowrap\">figure<a name=\"KGElementType-figure\"> </a></td><td>Figure</td><td>A figure.</td></tr><tr><td style=\"white-space:nowrap\">chart<a name=\"KGElementType-chart\"> </a></td><td>Chart</td><td>A chart; its data stays with its source.</td></tr><tr><td style=\"white-space:nowrap\">image<a name=\"KGElementType-image\"> </a></td><td>Image</td><td>An image.</td></tr><tr><td style=\"white-space:nowrap\">flowchart<a name=\"KGElementType-flowchart\"> </a></td><td>Flowchart</td><td>A flowchart or algorithm; its steps are modelled at L2, not here.</td></tr><tr><td style=\"white-space:nowrap\">box<a name=\"KGElementType-box\"> </a></td><td>Box</td><td>A boxed panel.</td></tr><tr><td style=\"white-space:nowrap\">list<a name=\"KGElementType-list\"> </a></td><td>List</td><td>A list set apart on the page.</td></tr></table></div><div xml:lang=\"fr\" lang=\"fr\"><hr/><p><b>French</b></p><hr/><p class=\"res-header-id\"><b>Narratif généré : CodeSystem KGElementType</b></p><a name=\"fr-KGElementType\"> </a><a name=\"fr-hcKGElementType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGElementType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Affichage</b></td><td><b>Définition</b></td></tr><tr><td style=\"white-space:nowrap\">table<a name=\"fr-KGElementType-table\"> </a></td><td>Table</td><td>A table, with columns and rows.</td></tr><tr><td style=\"white-space:nowrap\">table-row<a name=\"fr-KGElementType-table-row\"> </a></td><td>Table row</td><td>One row of a table.</td></tr><tr><td style=\"white-space:nowrap\">footnote<a name=\"fr-KGElementType-footnote\"> </a></td><td>Footnote</td><td>A footnote attached to a row or a block.</td></tr><tr><td style=\"white-space:nowrap\">figure<a name=\"fr-KGElementType-figure\"> </a></td><td>Figure</td><td>A figure.</td></tr><tr><td style=\"white-space:nowrap\">chart<a name=\"fr-KGElementType-chart\"> </a></td><td>Chart</td><td>A chart; its data stays with its source.</td></tr><tr><td style=\"white-space:nowrap\">image<a name=\"fr-KGElementType-image\"> </a></td><td>Image</td><td>An image.</td></tr><tr><td style=\"white-space:nowrap\">flowchart<a name=\"fr-KGElementType-flowchart\"> </a></td><td>Flowchart</td><td>A flowchart or algorithm; its steps are modelled at L2, not here.</td></tr><tr><td style=\"white-space:nowrap\">box<a name=\"fr-KGElementType-box\"> </a></td><td>Box</td><td>A boxed panel.</td></tr><tr><td style=\"white-space:nowrap\">list<a name=\"fr-KGElementType-list\"> </a></td><td>List</td><td>A list set apart on the page.</td></tr></table></div><div xml:lang=\"ar\" lang=\"ar\"><hr/><p><b>Arabic</b></p><hr/><p class=\"res-header-id\"><b>السرد المُنشأ: CodeSystem KGElementType</b></p><a name=\"ar-KGElementType\"> </a><a name=\"ar-hcKGElementType\"> </a><p>يُعرّف هذا case-sensitive نظام الشيفرة <code>http://smart.who.int/base/CodeSystem/KGElementType</code> الرمز التالي<f test=\"code-count != 1\">s</f>:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>الكود</b></td><td><b>العرض</b></td><td><b>التعريف</b></td></tr><tr><td style=\"white-space:nowrap\">table<a name=\"ar-KGElementType-table\"> </a></td><td>Table</td><td>A table, with columns and rows.</td></tr><tr><td style=\"white-space:nowrap\">table-row<a name=\"ar-KGElementType-table-row\"> </a></td><td>Table row</td><td>One row of a table.</td></tr><tr><td style=\"white-space:nowrap\">footnote<a name=\"ar-KGElementType-footnote\"> </a></td><td>Footnote</td><td>A footnote attached to a row or a block.</td></tr><tr><td style=\"white-space:nowrap\">figure<a name=\"ar-KGElementType-figure\"> </a></td><td>Figure</td><td>A figure.</td></tr><tr><td style=\"white-space:nowrap\">chart<a name=\"ar-KGElementType-chart\"> </a></td><td>Chart</td><td>A chart; its data stays with its source.</td></tr><tr><td style=\"white-space:nowrap\">image<a name=\"ar-KGElementType-image\"> </a></td><td>Image</td><td>An image.</td></tr><tr><td style=\"white-space:nowrap\">flowchart<a name=\"ar-KGElementType-flowchart\"> </a></td><td>Flowchart</td><td>A flowchart or algorithm; its steps are modelled at L2, not here.</td></tr><tr><td style=\"white-space:nowrap\">box<a name=\"ar-KGElementType-box\"> </a></td><td>Box</td><td>A boxed panel.</td></tr><tr><td style=\"white-space:nowrap\">list<a name=\"ar-KGElementType-list\"> </a></td><td>List</td><td>A list set apart on the page.</td></tr></table></div><div xml:lang=\"zh\" lang=\"zh\"><hr/><p><b>Chinese</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: 代码系统 KGElementType</b></p><a name=\"zh-KGElementType\"> </a><a name=\"zh-hcKGElementType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGElementType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">table<a name=\"zh-KGElementType-table\"> </a></td><td>Table</td><td>A table, with columns and rows.</td></tr><tr><td style=\"white-space:nowrap\">table-row<a name=\"zh-KGElementType-table-row\"> </a></td><td>Table row</td><td>One row of a table.</td></tr><tr><td style=\"white-space:nowrap\">footnote<a name=\"zh-KGElementType-footnote\"> </a></td><td>Footnote</td><td>A footnote attached to a row or a block.</td></tr><tr><td style=\"white-space:nowrap\">figure<a name=\"zh-KGElementType-figure\"> </a></td><td>Figure</td><td>A figure.</td></tr><tr><td style=\"white-space:nowrap\">chart<a name=\"zh-KGElementType-chart\"> </a></td><td>Chart</td><td>A chart; its data stays with its source.</td></tr><tr><td style=\"white-space:nowrap\">image<a name=\"zh-KGElementType-image\"> </a></td><td>Image</td><td>An image.</td></tr><tr><td style=\"white-space:nowrap\">flowchart<a name=\"zh-KGElementType-flowchart\"> </a></td><td>Flowchart</td><td>A flowchart or algorithm; its steps are modelled at L2, not here.</td></tr><tr><td style=\"white-space:nowrap\">box<a name=\"zh-KGElementType-box\"> </a></td><td>Box</td><td>A boxed panel.</td></tr><tr><td style=\"white-space:nowrap\">list<a name=\"zh-KGElementType-list\"> </a></td><td>List</td><td>A list set apart on the page.</td></tr></table></div><div xml:lang=\"ru\" lang=\"ru\"><hr/><p><b>Russian</b></p><hr/><p class=\"res-header-id\"><b>Сгенерированный нарратив: CodeSystem KGElementType</b></p><a name=\"ru-KGElementType\"> </a><a name=\"ru-hcKGElementType\"> </a><p>Данная система кодов <code>http://smart.who.int/base/CodeSystem/KGElementType</code> case-sensitive определяет следующие коды:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Код</b></td><td><b>Отображение</b></td><td><b>Определение</b></td></tr><tr><td style=\"white-space:nowrap\">table<a name=\"ru-KGElementType-table\"> </a></td><td>Table</td><td>A table, with columns and rows.</td></tr><tr><td style=\"white-space:nowrap\">table-row<a name=\"ru-KGElementType-table-row\"> </a></td><td>Table row</td><td>One row of a table.</td></tr><tr><td style=\"white-space:nowrap\">footnote<a name=\"ru-KGElementType-footnote\"> </a></td><td>Footnote</td><td>A footnote attached to a row or a block.</td></tr><tr><td style=\"white-space:nowrap\">figure<a name=\"ru-KGElementType-figure\"> </a></td><td>Figure</td><td>A figure.</td></tr><tr><td style=\"white-space:nowrap\">chart<a name=\"ru-KGElementType-chart\"> </a></td><td>Chart</td><td>A chart; its data stays with its source.</td></tr><tr><td style=\"white-space:nowrap\">image<a name=\"ru-KGElementType-image\"> </a></td><td>Image</td><td>An image.</td></tr><tr><td style=\"white-space:nowrap\">flowchart<a name=\"ru-KGElementType-flowchart\"> </a></td><td>Flowchart</td><td>A flowchart or algorithm; its steps are modelled at L2, not here.</td></tr><tr><td style=\"white-space:nowrap\">box<a name=\"ru-KGElementType-box\"> </a></td><td>Box</td><td>A boxed panel.</td></tr><tr><td style=\"white-space:nowrap\">list<a name=\"ru-KGElementType-list\"> </a></td><td>List</td><td>A list set apart on the page.</td></tr></table></div><div xml:lang=\"es\" lang=\"es\"><hr/><p><b>Spanish</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: SistemaDeCodigos KGElementType</b></p><a name=\"es-KGElementType\"> </a><a name=\"es-hcKGElementType\"> </a><p>This case-sensitive code system <code>http://smart.who.int/base/CodeSystem/KGElementType</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">table<a name=\"es-KGElementType-table\"> </a></td><td>Table</td><td>A table, with columns and rows.</td></tr><tr><td style=\"white-space:nowrap\">table-row<a name=\"es-KGElementType-table-row\"> </a></td><td>Table row</td><td>One row of a table.</td></tr><tr><td style=\"white-space:nowrap\">footnote<a name=\"es-KGElementType-footnote\"> </a></td><td>Footnote</td><td>A footnote attached to a row or a block.</td></tr><tr><td style=\"white-space:nowrap\">figure<a name=\"es-KGElementType-figure\"> </a></td><td>Figure</td><td>A figure.</td></tr><tr><td style=\"white-space:nowrap\">chart<a name=\"es-KGElementType-chart\"> </a></td><td>Chart</td><td>A chart; its data stays with its source.</td></tr><tr><td style=\"white-space:nowrap\">image<a name=\"es-KGElementType-image\"> </a></td><td>Image</td><td>An image.</td></tr><tr><td style=\"white-space:nowrap\">flowchart<a name=\"es-KGElementType-flowchart\"> </a></td><td>Flowchart</td><td>A flowchart or algorithm; its steps are modelled at L2, not here.</td></tr><tr><td style=\"white-space:nowrap\">box<a name=\"es-KGElementType-box\"> </a></td><td>Box</td><td>A boxed panel.</td></tr><tr><td style=\"white-space:nowrap\">list<a name=\"es-KGElementType-list\"> </a></td><td>List</td><td>A list set apart on the page.</td></tr></table></div></div>"
+  ] ;
+  fhir:CodeSystem.url [ fhir:value "http://smart.who.int/base/CodeSystem/KGElementType"] ;
+  fhir:CodeSystem.version [ fhir:value "0.3.0"] ;
+  fhir:CodeSystem.name [ fhir:value "KGElementType"] ;
+  fhir:CodeSystem.title [ fhir:value "Knowledge graph L1: element type"] ;
+  fhir:CodeSystem.status [ fhir:value "active"] ;
+  fhir:CodeSystem.experimental [ fhir:value "false"^^xsd:boolean] ;
+  fhir:CodeSystem.date [ fhir:value "2026-11-23T18:43:32+00:00"^^xsd:dateTime] ;
+  fhir:CodeSystem.publisher [ fhir:value "WHO"] ;
+  fhir:CodeSystem.contact [
+     fhir:index 0 ;
+     fhir:ContactDetail.name [ fhir:value "WHO" ] ;
+     fhir:ContactDetail.telecom [
+       fhir:index 0 ;
+       fhir:ContactPoint.system [ fhir:value "url" ] ;
+       fhir:ContactPoint.value [ fhir:value "http://who.int" ]
+     ]
+  ] ;
+  fhir:CodeSystem.description [ fhir:value "What kind of printed block a publication element is. Source: smart-kg ontology/l1/l1.json valueSets \"element-type\"; Observed in the ANC and HIV SI guidelines and the immunization summary tables."] ;
+  fhir:CodeSystem.caseSensitive [ fhir:value "true"^^xsd:boolean] ;
+  fhir:CodeSystem.content [ fhir:value "complete"] ;
+  fhir:CodeSystem.count [ fhir:value "9"^^xsd:nonNegativeInteger] ;
+  fhir:CodeSystem.concept [
+     fhir:index 0 ;
+     fhir:CodeSystem.concept.code [ fhir:value "table" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Table" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A table, with columns and rows." ]
+  ], [
+     fhir:index 1 ;
+     fhir:CodeSystem.concept.code [ fhir:value "table-row" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Table row" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "One row of a table." ]
+  ], [
+     fhir:index 2 ;
+     fhir:CodeSystem.concept.code [ fhir:value "footnote" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Footnote" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A footnote attached to a row or a block." ]
+  ], [
+     fhir:index 3 ;
+     fhir:CodeSystem.concept.code [ fhir:value "figure" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Figure" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A figure." ]
+  ], [
+     fhir:index 4 ;
+     fhir:CodeSystem.concept.code [ fhir:value "chart" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Chart" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A chart; its data stays with its source." ]
+  ], [
+     fhir:index 5 ;
+     fhir:CodeSystem.concept.code [ fhir:value "image" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Image" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "An image." ]
+  ], [
+     fhir:index 6 ;
+     fhir:CodeSystem.concept.code [ fhir:value "flowchart" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Flowchart" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A flowchart or algorithm; its steps are modelled at L2, not here." ]
+  ], [
+     fhir:index 7 ;
+     fhir:CodeSystem.concept.code [ fhir:value "box" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "Box" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A boxed panel." ]
+  ], [
+     fhir:index 8 ;
+     fhir:CodeSystem.concept.code [ fhir:value "list" ] ;
+     fhir:CodeSystem.concept.display [ fhir:value "List" ] ;
+     fhir:CodeSystem.concept.definition [ fhir:value "A list set apart on the page." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+<http://smart.who.int/base/CodeSystem/KGElementType.ttl> a owl:Ontology ;
+  owl:imports fhir:fhir.ttl .
+
+# -------------------------------------------------------------------------------------
+

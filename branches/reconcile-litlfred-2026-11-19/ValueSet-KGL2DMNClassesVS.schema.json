@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.schema.json",
+  "title": "Knowledge graph L2DMN: classes Schema",
+  "description": "JSON Schema for Knowledge graph L2DMN: classes ValueSet codes. Values are represented as Coding objects with 'system' and 'code' properties.",
+  "type": "object",
+  "required": [
+    "system",
+    "code"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "system": {
+      "type": "string",
+      "const": "http://smart.who.int/base/CodeSystem/KGL2DMNClasses"
+    },
+    "code": {
+      "type": "string",
+      "enum": [
+        "dmn-definitions",
+        "dmn-decision",
+        "dmn-decision-table",
+        "dmn-input-clause",
+        "dmn-output-clause",
+        "dmn-rule"
+      ]
+    }
+  },
+  "narrative": "This schema validates Coding-shaped objects for the Knowledge graph L2DMN: classes ValueSet. Each value must be an object with 'system' (CodeSystem URI) and 'code' (fragment after '#') properties. Display values are available at http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.displays.json. The canonical IRI for a code can be reconstructed as system + '#' + code. For a complete listing of all ValueSets, see artifacts.html#terminology-value-sets.",
+  "fhir:displays": "http://smart.who.int/base/ValueSet-KGL2DMNClassesVS.displays.json",
+  "fhir:valueSet": "http://smart.who.int/base/ValueSet/KGL2DMNClassesVS",
+  "fhir:version": "0.3.0",
+  "fhir:expansionTimestamp": "2026-11-23T18:46:01+00:00"
+}

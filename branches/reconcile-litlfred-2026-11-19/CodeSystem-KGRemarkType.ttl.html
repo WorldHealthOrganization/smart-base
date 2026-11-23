@@ -1,0 +1,380 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>Knowledge graph L1: remark type - TTL Representation - SMART Base v0.3.0</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="http://hl7.org/fhir"/>
+
+    <link rel="stylesheet" href="fhir.css"/>
+    <link rel="stylesheet" href="assets/css/fa-all.css" type="text/css"/>
+      <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap-fhir.css"/>
+
+      <!-- Project extras -->
+    <link rel="stylesheet" href="assets/css/project.css"/>
+    <link rel="stylesheet" href="assets/css/pygments-manni.css"/>
+    <link rel="stylesheet" href="assets/css/jquery-ui.css"/>
+  	<link rel="stylesheet" href="assets/css/prism.css"/>
+      <!-- Placeholder for child template CSS declarations -->
+    <link rel="stylesheet" href="assets/css/who.css"/>
+    <link rel="stylesheet" href="assets/css/lforms.min.css"/>
+
+
+    <script src="fhir-table-scripts.js" type="text/javascript"> </script>
+
+      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!-- [if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif] -->
+
+      <!-- Favicons -->
+    <link sizes="144x144" rel="fhir-logo" href="assets/ico/icon-fhir-144.png"/>
+    <link sizes="114x114" rel="fhir-logo" href="assets/ico/icon-fhir-114.png"/>
+    <link sizes="72x72" rel="fhir-logo" href="assets/ico/icon-fhir-72.png"/>
+    <link rel="fhir-logo" href="assets/ico/icon-fhir-57.png"/>
+    <link rel="shortcut icon" href="assets/ico/favicon.png"/>
+  </head>
+  <body onload="document.body.style.opacity='1'">
+
+	  <script src="assets/js/prism.js"></script>
+
+    <style type="text/css">h2{--heading-prefix:"9.261"}
+    h3,h4,h5,h6{--heading-prefix:"9.261"}</style>
+    <div id="segment-header" class="segment">    <!-- segment-header -->
+
+      <div id="segment-navbar" class="segment">    <!-- segment-navbar -->
+        <div id="stripe"> </div>
+        <div class="container">    <!-- container -->
+            <!-- HEADER CONTENT -->
+  
+          <nav class="navbar navbar-inverse">
+              <!-- status-bar -->
+            <div class="container">
+              <button data-target=".navbar-inverse-collapse" data-toggle="collapse" type="button" class="navbar-toggle">
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+                <span class="icon-bar"> </span>
+              </button>
+              <a href="http://hl7.org/fhir/R4/index.html" class="navbar-brand hidden">FHIR</a>
+              <div class="nav-collapse collapse navbar-inverse-collapse">
+                  <!-- menu.xml -->
+
+<ul class="nav navbar-nav">
+  <li>
+    <a href="index.html">Home</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="index.html" class="dropdown-toggle">Authoring
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="authoring-process.html">Process</a>
+      </li>
+      <li>
+        <a href="authoring-personas.html">Personas</a>
+      </li>
+      <li>
+        <a href="authoring-skills.html">Skills</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a href="downloads.html">Downloads</a>
+  </li>
+  <li class="dropdown">
+    <a data-toggle="dropdown" href="index.html" class="dropdown-toggle">Indices
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="artifacts.html">Artifact Index</a>
+      </li>
+      <li>
+        <a href="dak-api.html">DAK API</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+              </div>    <!-- /.nav-collapse -->
+
+              <div data-placeholder-label="Language Selector and Search" style="display: flex; justify-content: flex-end; align-items: center;" class="sf_colsIn col-md-8  navbar-right-container" data-sf-element="LanguageSelectorSearch">
+                  <!-- This div will be pushed to the right -->
+                <div style="margin-left: auto; background-color: #00477d; color: white;" class="language-selector">
+                  <i class="fa fa-language fa-lg"></i>
+                  <label for="language-selector"> </label>
+                  <select onChange="openLink(value)" name="language-selector" id="language-selector">
+                    <option>Select language</option>
+                    <option value="en" class="selected">English</option>
+                  </select>
+                  <i class="fas fa-angle-down"></i>
+                </div>
+                  <!-- Search Content -->
+              </div>
+            </div>    <!-- /.container -->
+          </nav>    <!-- /.navbar -->
+          <!-- /HEADER CONTENT -->
+        </div>    <!-- /container -->
+      </div>    <!-- /segment-navbar -->
+      
+
+      <div style=" justify-content: space-between; align-items: left;" class="container">
+
+          <!-- Placeholder for child template header declarations -->
+<div id="project-nav">
+    <a no-external="true" id="who-logo" href="index.html">
+        
+    </a>
+</div>
+
+ <div id="family-nav">
+  <a no-external="true" id="fhir-logo" href="http://hl7.org/fhir">  </a>
+</div> 
+
+
+        <div id="ig-status" class="ig-status-draft">
+          <p><span style="font-size:12pt;font-weight:bold">SMART Base</span>
+            <br/>
+            <span style="display:inline-block;">0.3.0 - ci-build
+
+
+            </span>
+          </p>
+        </div>
+      </div>   <!-- /container -->
+    </div>    <!-- /segment-header -->
+
+
+      <!-- status-bar -->
+
+    <div id="segment-breadcrumb" class="segment">    <!-- segment-breadcrumb -->
+      <div class="container">    <!-- container -->
+        <ul class="breadcrumb">
+          <li><a href="toc.html"><b>Table of Contents</b></a></li><li><a href="artifacts.html"><b>Artifacts Summary</b></a></li><li><b>Knowledge graph L1: remark type</b></li>
+
+        </ul>
+      </div>    <!-- /container -->
+    </div>    <!-- /segment-breadcrumb -->
+
+    <a name="top"> </a>
+    <div id="segment-content" class="segment">    <!-- segment-content -->
+      <div class="container">    <!-- container -->
+        <div class="row">
+          <div class="inner-wrapper">
+
+<div style="counter-reset: section 9" class="col-12">
+  <!-- ReleaseHeader --><p id="publish-box">SMART Base, published by WHO. This guide is not an authorized publication; it is the continuous build for version 0.3.0  built by the FHIR (HL7&reg; FHIR&reg; Standard) CI Build. This version is based on the current content of <a href="https://github.com/WorldHealthOrganization/smart-base/tree/claude/reconcile-litlfred-2026-11-19">https://github.com/WorldHealthOrganization/smart-base/tree/claude/reconcile-litlfred-2026-11-19</a> and changes regularly. See the <a href="history.html">Directory of published versions</a><br/><span data-smart-ci-extra="1" style="font-size:.85em;">Built from commit <a href="https://github.com/WorldHealthOrganization/smart-base/commit/9612d5ddc5a38fb45dd65bb9848d825c5323e474"><code>9612d5dd</code></a>. &nbsp; Branch: <a href="https://github.com/WorldHealthOrganization/smart-base/tree/claude/reconcile-litlfred-2026-11-19"><code>claude/reconcile-litlfred-2026-11-19</code></a>.</span></p>  <!-- EndReleaseHeader -->
+
+
+
+
+
+
+
+
+
+<ul class="nav nav-tabs">
+
+  <li>
+    <a href="CodeSystem-KGRemarkType.html">Narrative Content</a>
+  </li>
+
+
+
+  
+    <li>
+      <a href="CodeSystem-KGRemarkType.xml.html">XML</a>
+    </li>
+  
+
+
+  
+    <li>
+      <a href="CodeSystem-KGRemarkType.json.html">JSON</a>
+    </li>
+  
+
+
+  
+    <li class="active">
+      <a href="#">TTL</a>
+    </li>
+  
+
+
+
+</ul>
+
+
+<a name="root"> </a>
+
+
+<h2 id="root">: Knowledge graph L1: remark type - TTL Representation</h2>
+
+  <table class="colsi">
+    <tr>
+
+      <td colspan="2">
+        
+          Active
+          
+            as of 2026-11-23
+          
+        
+      </td>
+
+    </tr>
+  </table>
+
+
+<p><a href="CodeSystem-KGRemarkType.ttl" no-download="true">Raw ttl</a> | <a href="CodeSystem-KGRemarkType.ttl">Download</a></p>
+
+    <!-- insert intro if present -->
+  
+
+
+
+  <pre style="white-space: pre; overflow: hidden" class="rdf" data-fhir="generated"><code class="language-turtle">
+@prefix fhir: &lt;http://hl7.org/fhir/&gt; .
+@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+# - resource -------------------------------------------------------------------
+
+&lt;http://hl7.org/fhir/CodeSystem/KGRemarkType&gt; a fhir:CodeSystem ;
+  <a href="http://hl7.org/fhir/R4/rdf.html#tree-root">fhir:nodeRole</a> fhir:treeRoot ;
+  <a href="http://hl7.org/fhir/R4/resource.html#CodeSystem.id">fhir:Resource.id</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#id">fhir:value</a> "KGRemarkType"] ;
+  <a href="http://hl7.org/fhir/R4/domainresource.html#CodeSystem.text">fhir:DomainResource.text</a> [
+     <a href="http://hl7.org/fhir/R4/datatypes.html#Narrative#Narrative.status">fhir:Narrative.status</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#code">fhir:value</a> "generated" ] ;
+     fhir:Narrative.div "&lt;div xmlns=\"http://www.w3.org/1999/xhtml\"&gt;&lt;div xml:lang=\"en\" lang=\"en\"&gt;&lt;hr/&gt;&lt;p&gt;&lt;b&gt;English&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p class=\"res-header-id\"&gt;&lt;b&gt;Generated Narrative: CodeSystem KGRemarkType&lt;/b&gt;&lt;/p&gt;&lt;a name=\"KGRemarkType\"&gt; &lt;/a&gt;&lt;a name=\"hcKGRemarkType\"&gt; &lt;/a&gt;&lt;p&gt;This case-sensitive code system &lt;code&gt;http://smart.who.int/base/CodeSystem/KGRemarkType&lt;/code&gt; defines the following codes:&lt;/p&gt;&lt;table class=\"codes\"&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;&lt;b&gt;Code&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Display&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Definition&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;definition&lt;a name=\"KGRemarkType-definition\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Definition&lt;/td&gt;&lt;td&gt;Defines a term used in the recommendation.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;implementation&lt;a name=\"KGRemarkType-implementation\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Implementation&lt;/td&gt;&lt;td&gt;How to put the recommendation into practice.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;precaution&lt;a name=\"KGRemarkType-precaution\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Precaution&lt;/td&gt;&lt;td&gt;A caution to observe when applying it.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;contraindication&lt;a name=\"KGRemarkType-contraindication\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Contraindication&lt;/td&gt;&lt;td&gt;When the intervention must not be given.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;subgroup&lt;a name=\"KGRemarkType-subgroup\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Subgroup&lt;/td&gt;&lt;td&gt;Guidance specific to a subgroup.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;research-gap&lt;a name=\"KGRemarkType-research-gap\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Research gap&lt;/td&gt;&lt;td&gt;Evidence the guideline group says is still needed (handbook <span class="fhir-conformance">10.8).&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;training&lt;a name=\"KGRemarkType-training\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Training&lt;/td&gt;&lt;td&gt;A training or capacity need.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;div xml:lang=\"fr\" lang=\"fr\"&gt;&lt;hr/&gt;&lt;p&gt;&lt;b&gt;French&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p class=\"res-header-id\"&gt;&lt;b&gt;Narratif généré : CodeSystem KGRemarkType&lt;/b&gt;&lt;/p&gt;&lt;a name=\"fr-KGRemarkType\"&gt; &lt;/a&gt;&lt;a name=\"fr-hcKGRemarkType\"&gt; &lt;/a&gt;&lt;p&gt;This case-sensitive code system &lt;code&gt;http://smart.who.int/base/CodeSystem/KGRemarkType&lt;/code&gt; defines the following codes:&lt;/p&gt;&lt;table class=\"codes\"&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;&lt;b&gt;Code&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Affichage&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Définition&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;definition&lt;a name=\"fr-KGRemarkType-definition\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Definition&lt;/td&gt;&lt;td&gt;Defines a term used in the recommendation.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;implementation&lt;a name=\"fr-KGRemarkType-implementation\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Implementation&lt;/td&gt;&lt;td&gt;How to put the recommendation into practice.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;precaution&lt;a name=\"fr-KGRemarkType-precaution\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Precaution&lt;/td&gt;&lt;td&gt;A caution to observe when applying it.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;contraindication&lt;a name=\"fr-KGRemarkType-contraindication\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Contraindication&lt;/td&gt;&lt;td&gt;When the intervention must not be given.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;subgroup&lt;a name=\"fr-KGRemarkType-subgroup\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Subgroup&lt;/td&gt;&lt;td&gt;Guidance specific to a subgroup.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;research-gap&lt;a name=\"fr-KGRemarkType-research-gap\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Research gap&lt;/td&gt;&lt;td&gt;Evidence the guideline group says is still needed (handbook </span>10.8).&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;training&lt;a name=\"fr-KGRemarkType-training\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Training&lt;/td&gt;&lt;td&gt;A training or capacity need.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;div xml:lang=\"ar\" lang=\"ar\"&gt;&lt;hr/&gt;&lt;p&gt;&lt;b&gt;Arabic&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p class=\"res-header-id\"&gt;&lt;b&gt;السرد المُنشأ: CodeSystem KGRemarkType&lt;/b&gt;&lt;/p&gt;&lt;a name=\"ar-KGRemarkType\"&gt; &lt;/a&gt;&lt;a name=\"ar-hcKGRemarkType\"&gt; &lt;/a&gt;&lt;p&gt;يُعرّف هذا case-sensitive نظام الشيفرة &lt;code&gt;http://smart.who.int/base/CodeSystem/KGRemarkType&lt;/code&gt; الرمز التالي&lt;f test=\"code-count != 1\"&gt;s&lt;/f&gt;:&lt;/p&gt;&lt;table class=\"codes\"&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;&lt;b&gt;الكود&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;العرض&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;التعريف&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;definition&lt;a name=\"ar-KGRemarkType-definition\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Definition&lt;/td&gt;&lt;td&gt;Defines a term used in the recommendation.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;implementation&lt;a name=\"ar-KGRemarkType-implementation\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Implementation&lt;/td&gt;&lt;td&gt;How to put the recommendation into practice.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;precaution&lt;a name=\"ar-KGRemarkType-precaution\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Precaution&lt;/td&gt;&lt;td&gt;A caution to observe when applying it.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;contraindication&lt;a name=\"ar-KGRemarkType-contraindication\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Contraindication&lt;/td&gt;&lt;td&gt;When the intervention must not be given.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;subgroup&lt;a name=\"ar-KGRemarkType-subgroup\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Subgroup&lt;/td&gt;&lt;td&gt;Guidance specific to a subgroup.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;research-gap&lt;a name=\"ar-KGRemarkType-research-gap\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Research gap&lt;/td&gt;&lt;td&gt;Evidence the guideline group says is still needed (handbook <span class="fhir-conformance">10.8).&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;training&lt;a name=\"ar-KGRemarkType-training\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Training&lt;/td&gt;&lt;td&gt;A training or capacity need.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;div xml:lang=\"zh\" lang=\"zh\"&gt;&lt;hr/&gt;&lt;p&gt;&lt;b&gt;Chinese&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p class=\"res-header-id\"&gt;&lt;b&gt;Generated Narrative: 代码系统 KGRemarkType&lt;/b&gt;&lt;/p&gt;&lt;a name=\"zh-KGRemarkType\"&gt; &lt;/a&gt;&lt;a name=\"zh-hcKGRemarkType\"&gt; &lt;/a&gt;&lt;p&gt;This case-sensitive code system &lt;code&gt;http://smart.who.int/base/CodeSystem/KGRemarkType&lt;/code&gt; defines the following codes:&lt;/p&gt;&lt;table class=\"codes\"&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;&lt;b&gt;Code&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Display&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Definition&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;definition&lt;a name=\"zh-KGRemarkType-definition\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Definition&lt;/td&gt;&lt;td&gt;Defines a term used in the recommendation.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;implementation&lt;a name=\"zh-KGRemarkType-implementation\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Implementation&lt;/td&gt;&lt;td&gt;How to put the recommendation into practice.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;precaution&lt;a name=\"zh-KGRemarkType-precaution\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Precaution&lt;/td&gt;&lt;td&gt;A caution to observe when applying it.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;contraindication&lt;a name=\"zh-KGRemarkType-contraindication\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Contraindication&lt;/td&gt;&lt;td&gt;When the intervention must not be given.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;subgroup&lt;a name=\"zh-KGRemarkType-subgroup\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Subgroup&lt;/td&gt;&lt;td&gt;Guidance specific to a subgroup.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;research-gap&lt;a name=\"zh-KGRemarkType-research-gap\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Research gap&lt;/td&gt;&lt;td&gt;Evidence the guideline group says is still needed (handbook </span>10.8).&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;training&lt;a name=\"zh-KGRemarkType-training\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Training&lt;/td&gt;&lt;td&gt;A training or capacity need.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;div xml:lang=\"ru\" lang=\"ru\"&gt;&lt;hr/&gt;&lt;p&gt;&lt;b&gt;Russian&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p class=\"res-header-id\"&gt;&lt;b&gt;Сгенерированный нарратив: CodeSystem KGRemarkType&lt;/b&gt;&lt;/p&gt;&lt;a name=\"ru-KGRemarkType\"&gt; &lt;/a&gt;&lt;a name=\"ru-hcKGRemarkType\"&gt; &lt;/a&gt;&lt;p&gt;Данная система кодов &lt;code&gt;http://smart.who.int/base/CodeSystem/KGRemarkType&lt;/code&gt; case-sensitive определяет следующие коды:&lt;/p&gt;&lt;table class=\"codes\"&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;&lt;b&gt;Код&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Отображение&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Определение&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;definition&lt;a name=\"ru-KGRemarkType-definition\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Definition&lt;/td&gt;&lt;td&gt;Defines a term used in the recommendation.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;implementation&lt;a name=\"ru-KGRemarkType-implementation\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Implementation&lt;/td&gt;&lt;td&gt;How to put the recommendation into practice.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;precaution&lt;a name=\"ru-KGRemarkType-precaution\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Precaution&lt;/td&gt;&lt;td&gt;A caution to observe when applying it.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;contraindication&lt;a name=\"ru-KGRemarkType-contraindication\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Contraindication&lt;/td&gt;&lt;td&gt;When the intervention must not be given.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;subgroup&lt;a name=\"ru-KGRemarkType-subgroup\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Subgroup&lt;/td&gt;&lt;td&gt;Guidance specific to a subgroup.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;research-gap&lt;a name=\"ru-KGRemarkType-research-gap\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Research gap&lt;/td&gt;&lt;td&gt;Evidence the guideline group says is still needed (handbook <span class="fhir-conformance">10.8).&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;training&lt;a name=\"ru-KGRemarkType-training\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Training&lt;/td&gt;&lt;td&gt;A training or capacity need.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;div xml:lang=\"es\" lang=\"es\"&gt;&lt;hr/&gt;&lt;p&gt;&lt;b&gt;Spanish&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p class=\"res-header-id\"&gt;&lt;b&gt;Generated Narrative: SistemaDeCodigos KGRemarkType&lt;/b&gt;&lt;/p&gt;&lt;a name=\"es-KGRemarkType\"&gt; &lt;/a&gt;&lt;a name=\"es-hcKGRemarkType\"&gt; &lt;/a&gt;&lt;p&gt;This case-sensitive code system &lt;code&gt;http://smart.who.int/base/CodeSystem/KGRemarkType&lt;/code&gt; defines the following codes:&lt;/p&gt;&lt;table class=\"codes\"&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;&lt;b&gt;Code&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Display&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Definition&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;definition&lt;a name=\"es-KGRemarkType-definition\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Definition&lt;/td&gt;&lt;td&gt;Defines a term used in the recommendation.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;implementation&lt;a name=\"es-KGRemarkType-implementation\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Implementation&lt;/td&gt;&lt;td&gt;How to put the recommendation into practice.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;precaution&lt;a name=\"es-KGRemarkType-precaution\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Precaution&lt;/td&gt;&lt;td&gt;A caution to observe when applying it.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;contraindication&lt;a name=\"es-KGRemarkType-contraindication\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Contraindication&lt;/td&gt;&lt;td&gt;When the intervention must not be given.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;subgroup&lt;a name=\"es-KGRemarkType-subgroup\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Subgroup&lt;/td&gt;&lt;td&gt;Guidance specific to a subgroup.&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;research-gap&lt;a name=\"es-KGRemarkType-research-gap\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Research gap&lt;/td&gt;&lt;td&gt;Evidence the guideline group says is still needed (handbook </span>10.8).&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=\"white-space:nowrap\"&gt;training&lt;a name=\"es-KGRemarkType-training\"&gt; &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Training&lt;/td&gt;&lt;td&gt;A training or capacity need.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/div&gt;"
+  ] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.url">fhir:CodeSystem.url</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#uri">fhir:value</a> "http://smart.who.int/base/CodeSystem/KGRemarkType"] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.version">fhir:CodeSystem.version</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "0.3.0"] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.name">fhir:CodeSystem.name</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "KGRemarkType"] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.title">fhir:CodeSystem.title</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "Knowledge graph L1: remark type"] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.status">fhir:CodeSystem.status</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#code">fhir:value</a> "active"] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.experimental">fhir:CodeSystem.experimental</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#boolean">fhir:value</a> "false"^^xsd:boolean] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.date">fhir:CodeSystem.date</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#dateTime">fhir:value</a> "2026-11-23T18:43:32+00:00"^^xsd:dateTime] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.publisher">fhir:CodeSystem.publisher</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "WHO"] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.contact">fhir:CodeSystem.contact</a> [
+     <a href="http://hl7.org/fhir/R4/rdf.html#index">fhir:index</a> 0 ;
+     <a href="http://hl7.org/fhir/R4/metadatatypes.html#ContactDetail#ContactDetail.name">fhir:ContactDetail.name</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "WHO" ] ;
+     <a href="http://hl7.org/fhir/R4/metadatatypes.html#ContactDetail#ContactDetail.telecom">fhir:ContactDetail.telecom</a> [
+       <a href="http://hl7.org/fhir/R4/rdf.html#index">fhir:index</a> 0 ;
+       <a href="http://hl7.org/fhir/R4/datatypes.html#ContactPoint#ContactPoint.system">fhir:ContactPoint.system</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#code">fhir:value</a> "url" ] ;
+       <a href="http://hl7.org/fhir/R4/datatypes.html#ContactPoint#ContactPoint.value">fhir:ContactPoint.value</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "http://who.int" ]
+     ]
+  ] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.description">fhir:CodeSystem.description</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#markdown">fhir:value</a> "What a remark is for. Grounded in the six remarks attached to ANC recommendation A.1.1. Source: smart-kg ontology/l1/l1.json valueSets \"remark-type\"; ANC guideline (2016) p. 15; handbook <span class="fhir-conformance">10.6, </span>10.8."] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.caseSensitive">fhir:CodeSystem.caseSensitive</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#boolean">fhir:value</a> "true"^^xsd:boolean] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.content">fhir:CodeSystem.content</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#code">fhir:value</a> "complete"] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.count">fhir:CodeSystem.count</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#unsignedInt">fhir:value</a> "7"^^xsd:nonNegativeInteger] ;
+  <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept">fhir:CodeSystem.concept</a> [
+     <a href="http://hl7.org/fhir/R4/rdf.html#index">fhir:index</a> 0 ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.code">fhir:CodeSystem.concept.code</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#code">fhir:value</a> "definition" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.display">fhir:CodeSystem.concept.display</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "Definition" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.definition">fhir:CodeSystem.concept.definition</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "Defines a term used in the recommendation." ]
+  ], [
+     <a href="http://hl7.org/fhir/R4/rdf.html#index">fhir:index</a> 1 ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.code">fhir:CodeSystem.concept.code</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#code">fhir:value</a> "implementation" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.display">fhir:CodeSystem.concept.display</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "Implementation" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.definition">fhir:CodeSystem.concept.definition</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "How to put the recommendation into practice." ]
+  ], [
+     <a href="http://hl7.org/fhir/R4/rdf.html#index">fhir:index</a> 2 ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.code">fhir:CodeSystem.concept.code</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#code">fhir:value</a> "precaution" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.display">fhir:CodeSystem.concept.display</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "Precaution" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.definition">fhir:CodeSystem.concept.definition</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "A caution to observe when applying it." ]
+  ], [
+     <a href="http://hl7.org/fhir/R4/rdf.html#index">fhir:index</a> 3 ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.code">fhir:CodeSystem.concept.code</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#code">fhir:value</a> "contraindication" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.display">fhir:CodeSystem.concept.display</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "Contraindication" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.definition">fhir:CodeSystem.concept.definition</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "When the intervention must not be given." ]
+  ], [
+     <a href="http://hl7.org/fhir/R4/rdf.html#index">fhir:index</a> 4 ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.code">fhir:CodeSystem.concept.code</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#code">fhir:value</a> "subgroup" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.display">fhir:CodeSystem.concept.display</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "Subgroup" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.definition">fhir:CodeSystem.concept.definition</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "Guidance specific to a subgroup." ]
+  ], [
+     <a href="http://hl7.org/fhir/R4/rdf.html#index">fhir:index</a> 5 ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.code">fhir:CodeSystem.concept.code</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#code">fhir:value</a> "research-gap" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.display">fhir:CodeSystem.concept.display</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "Research gap" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.definition">fhir:CodeSystem.concept.definition</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "Evidence the guideline group says is still needed (handbook &sect;10.8)." ]
+  ], [
+     <a href="http://hl7.org/fhir/R4/rdf.html#index">fhir:index</a> 6 ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.code">fhir:CodeSystem.concept.code</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#code">fhir:value</a> "training" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.display">fhir:CodeSystem.concept.display</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "Training" ] ;
+     <a href="http://hl7.org/fhir/R4/codesystem.html#CodeSystem.concept.definition">fhir:CodeSystem.concept.definition</a> [ <a href="http://hl7.org/fhir/R4/datatypes.html#string">fhir:value</a> "A training or capacity need." ]
+  ] .
+
+# - ontology header ------------------------------------------------------------
+
+&lt;http://hl7.org/fhir/CodeSystem/KGRemarkType.ttl&gt; a owl:Ontology ;
+  owl:imports fhir:fhir.ttl ;
+  owl:versionIRI &lt;http://build.fhir.org/CodeSystem/KGRemarkType.ttl&gt; .
+
+</code></pre>
+
+
+
+    <!-- insert notes if present -->
+  
+
+
+
+</div>
+</div>    <!-- /inner-wrapper -->
+</div>    <!-- /row -->
+</div>    <!-- /container -->
+</div>    <!-- /segment-content -->
+
+<script src="assets/js/jquery.js" type="text/javascript"> </script>       <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+<script src="assets/js/jquery-ui.min.js" type="text/javascript"> </script>
+
+<script src="assets/js/window-hash.js" type="text/javascript"> </script>
+<a name="bottom"> </a>
+<div igtool="footer" id="segment-footer" class="segment">    <!-- segment-footer -->
+<div class="container">    <!-- container -->
+
+<div class="inner-wrapper">
+  <p>
+    IG &copy; 2023+ <a style="color:var(--footer-hyperlink-text-color)" href="http://who.int">WHO</a>.  Package smart.who.int.base#0.3.0 based on <a style="color: var(--footer-hyperlink-text-color)" href="http://hl7.org/fhir/R4/">FHIR 4.0.1</a>. Generated <span title="Mon, Nov 23, 2026 18:43+0000">2026-11-23</span>
+    <br/>
+    <span style="color: var(--footer-highlight-text-color)">
+                Links: <a style="color: var(--footer-hyperlink-text-color)" href="toc.html">Table of Contents</a> |
+                 <a style="color: var(--footer-hyperlink-text-color)" href="qa.html">QA Report</a>
+                 
+                
+| <a style="color: #81BEF7" href="history.html" target="_blank">Version History</a> | <a rel="license" style="color: #81BEF7" href="license.html">License</a>
+    </span>
+  </p>
+</div>    <!-- /inner-wrapper -->
+</div>    <!-- /container -->
+</div>    <!-- /segment-footer -->
+
+<div id="segment-post-footer" class="segment hidden">    <!-- segment-post-footer -->
+<div class="container">    <!-- container -->
+</div>    <!-- /container -->
+</div>    <!-- /segment-post-footer -->
+
+  <!-- JS and analytics only. -->
+  <!-- Bootstrap core JavaScript
+================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+<script src="assets/js/bootstrap.min.js" type="text/javascript"> </script>
+<script src="assets/js/respond.min.js" type="text/javascript"> </script>
+<script src="assets/js/anchor.min.js" type="text/javascript"> </script>
+<script src="assets/js/clipboard.min.js" type="text/javascript"> </script>
+<script src="assets/js/clipboard-btn.js" type="text/javascript"> </script>
+<script src="assets/js/anchor-hover.js" type="text/javascript"> </script>
+  <!-- Analytics Below
+================================================== -->
+
+
+
+
+</body></html>

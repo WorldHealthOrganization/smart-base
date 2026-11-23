@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-KGDmnInputClause.schema.json",
+  "title": "Knowledge graph L2-DMN: DMN Input Clause",
+  "description": "An input column. Its expression text is where data element names are embedded, which is the only reason this is a node rather than a property of the table. Class IRI: http://smart.who.int/kg/dmn-input-clause.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "KGDmnInputClause",
+      "description": "Resource type identifier for KGDmnInputClause logical model"
+    },
+    "id": {
+      "type": "string",
+      "description": "The identifier the source declares (an FSH instance id, a BPMN or DMN element id)."
+    },
+    "label": {
+      "type": "string",
+      "description": "The label, as declared."
+    },
+    "expression": {
+      "type": "string",
+      "description": "The input expression, in FEEL or the DAK's convention."
+    },
+    "typeRef": {
+      "type": "string",
+      "description": "The input's typeRef."
+    },
+    "ordinal": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Position, counted from 0, in the order the source lists it."
+    }
+  },
+  "required": [
+    "resourceType"
+  ],
+  "resourceDefinition": "http://smart.who.int/base/StructureDefinition/KGDmnInputClause",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}
