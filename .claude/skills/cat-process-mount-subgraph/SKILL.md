@@ -31,7 +31,7 @@ Making a declared subgraph's content available at its declared path, whatever it
 - The resolved source's `kind`: `directory`, `branch`, `remote`, `npm`, or a kind this diagram has no flow for.
 - Call `workflow_complete` with `node: "GW_SourceKind"` and `outcome` set to the label that holds:
   - «directory» → `Task_UseCheckoutPath` (Use the checkout path in place)
-  - «branch» → `Task_MountBranchTip` (Mount the branch tip at the declared path)
+  - «branch» → `Task_CreateStateBranch` (Create the declared state branch if missing)
   - «any other kind» → `Task_RefuseUnknownKind` (Refuse: no flow for this source kind)
   - «remote» → `Task_MountRemotePin` (Mount the remote tree at its pin)
   - «npm» → `Task_RetrieveNpmPackage` (Retrieve the npm package or tarball)
@@ -44,13 +44,13 @@ Making a declared subgraph's content available at its declared path, whatever it
 - Record it: `workflow_complete` with `node: "Task_UseCheckoutPath"`.
 - next: → `GW_Join`
 
-### 3. Mount the branch tip at the declared path (`Task_MountBranchTip`)
+### 3. Create the declared state branch if missing (`Task_CreateStateBranch`)
 
 - Who: the `Build pipeline` lane (role `build-pipeline`).
 - Skill: `sub-kg-lifecycle`.
-- What: A `branch` source keyed by `tip`: `branch-store mount --id <dir-id>` writes the tip's files at the declared path, so every reader finds the directory where it always was; `push` splices edits back onto the tip, never forcing, and a same-file race is a conflict.
-- Record it: `workflow_complete` with `node: "Task_MountBranchTip"`.
-- next: → `GW_Join`
+- What: A state branch the root layer declares and its own remote lacks is created by `bun run cat state:seed --init`, seeded empty with the standard layout.
+- Record it: `workflow_complete` with `node: "Task_CreateStateBranch"`.
+- next: → `Task_MountBranchTip` (Mount the branch tip at the declared path)
 
 ### 4. Refuse: no flow for this source kind (`Task_RefuseUnknownKind`)
 
@@ -80,6 +80,14 @@ Making a declared subgraph's content available at its declared path, whatever it
 
 - Nothing to do or decide: the paths meet here and the engine passes through.
 - next: → `End_Mounted` (Subgraph content at its declared path)
+
+### 7. Mount the branch tip at the declared path (`Task_MountBranchTip`)
+
+- Who: the `Build pipeline` lane (role `build-pipeline`).
+- Skill: `sub-kg-lifecycle`.
+- What: A `branch` source keyed by `tip`: `branch-store mount --id <dir-id>` writes the tip's files at the declared path, so every reader finds the directory where it always was; `push` splices edits back onto the tip, never forcing, and a same-file race is a conflict.
+- Record it: `workflow_complete` with `node: "Task_MountBranchTip"`.
+- next: → `GW_Join`
 
 ## Done — Refused, with the reason (`End_Refused`)
 

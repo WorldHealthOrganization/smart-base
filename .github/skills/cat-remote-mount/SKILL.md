@@ -35,6 +35,7 @@ How a downstream folio gets the layers it is built on:
 | the schema | `cat-harness/schemas/kg/remote-mount.ts`, plus the `remote`, `npm` and `hydrated` members of `SubgraphSource` (`schemas/kg/subgraph-source.ts`); the per-pin index package is `subgraphIndexPackage` in `schemas/kg/subgraph-manifest.ts` |
 | the tool | `bun run cat mount:remote` (`--plan` to resolve without writing), and `bun run cat mount:remote:check` (offline) |
 | the entry point | `bun run cat state:mount`, which the session-start hook already runs |
+| a mounted layer's missing state branch | never created here: the mount names the layer's repository and `bun run cat state:seed --init`, which the declaring layer runs at its own initialization |
 
 ## Mount, subscribe or associate: choose first
 
